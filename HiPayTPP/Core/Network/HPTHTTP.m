@@ -10,4 +10,9 @@
 
 @implementation HPTHTTP
 
+- (instancetype)initWithBaseURL:(NSURL *)URL login:(NSString *)login password:(NSString *)password
+{
+    
+}
+
 @end

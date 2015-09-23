@@ -29,12 +29,24 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'HiPayTPP' => ['Pod/Assets/*.png']
-  }
+#  s.source_files = 'HiPayTPP/**/*'
+#  s.resource_bundles = {
+#    'HiPayTPP' => ['Pod/Assets/*.png']
+#  }
+
+  s.default_subspecs = %w[Core]
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
+
+  s.subspec "Core" do |s|
+    s.source_files  = "HiPayTPP/Core/**/*.{h,m}"
+  end
+
+  s.subspec "Payment-Screen" do |s|
+    s.source_files  = "HiPayTPP/Payment-Screen/**/*.{h,m}"
+    s.dependency "HiPayTPP/Core"
+  end
+
 end

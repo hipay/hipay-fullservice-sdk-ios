@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayTPP/HPTHTTP.h>
+#import <HiPayTPP/HPTHTTPClient.h>
 #import <HiPayTPP/HPTHTTPResponse.h>
 
 #import <HiPayTPP/HPTPaymentCardToken.h>

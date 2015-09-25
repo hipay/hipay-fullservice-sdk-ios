@@ -11,6 +11,7 @@ describe(@"HPTHTTPResponse init", ^{
         
         HPTHTTPResponse *response = [[HPTHTTPResponse alloc] initWithStatusCode:200 body:@{@"key":@"value"}];
         
+        expect(response).to.beAKindOf([HPTHTTPResponse class]);
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.equal(@{@"key":@"value"});
     });

@@ -10,4 +10,14 @@
 
 @implementation HPTHTTPResponse
 
+- (instancetype)initWithStatusCode:(NSInteger)statusCode body:(NSDictionary *)body
+{
+    self = [super init];
+    if (self) {
+        _statusCode = statusCode;
+        _body = [body copy];
+    }
+    return self;
+}
+
 @end

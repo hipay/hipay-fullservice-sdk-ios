@@ -13,4 +13,6 @@
 @property (nonatomic, readonly) NSInteger statusCode;
 @property (nonatomic, readonly) NSDictionary *body;
 
+- (instancetype)initWithStatusCode:(NSInteger)statusCode body:(NSDictionary *)body;
+
 @end

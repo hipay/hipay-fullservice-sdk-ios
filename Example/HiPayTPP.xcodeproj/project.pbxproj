@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F3705712555B4B6AB529201 /* Pods_HiPayTPP_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCDFA784C2DD192B3F0BE2F3 /* Pods_HiPayTPP_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5CC77E80BC74E66864DB59B1 /* libPods-HiPayTPP_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C52BE85DC8E696AE8D22AF1 /* libPods-HiPayTPP_Tests.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -22,7 +22,7 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
-		D81887E6BA76E5D3EBF608EB /* Pods_HiPayTPP_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D157B1D6C7C5D9D11D1747 /* Pods_HiPayTPP_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		DD5FAAADAF4C5D7A1C4AFC32 /* libPods-HiPayTPP_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5016EEE8815276908E32380 /* libPods-HiPayTPP_Example.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +39,7 @@
 		1BCCDB71367D2362CE4675C3 /* Pods-HiPayTPP_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example.release.xcconfig"; sourceTree = "<group>"; };
 		1FB39614B33B04B898162649 /* Pods-HiPayTPP_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		39BEBD4EC0BC4099960FF4ED /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		51D157B1D6C7C5D9D11D1747 /* Pods_HiPayTPP_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HiPayTPP_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C52BE85DC8E696AE8D22AF1 /* libPods-HiPayTPP_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayTPP_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* HiPayTPP_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPayTPP_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -63,8 +63,8 @@
 		A286DBFF34568FC4BA19F022 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A6DE32B74EAABE271832F022 /* Pods-HiPayTPP_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A7FE2CBCD3A3CCF6C20228C9 /* Pods-HiPayTPP_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		B936D89B6AB94FC4D1FE6E95 /* HiPayTPP.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayTPP.podspec; path = ../HiPayTPP.podspec; sourceTree = "<group>"; };
-		BCDFA784C2DD192B3F0BE2F3 /* Pods_HiPayTPP_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HiPayTPP_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B936D89B6AB94FC4D1FE6E95 /* HiPayTPP.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayTPP.podspec; path = ../HiPayTPP.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E5016EEE8815276908E32380 /* libPods-HiPayTPP_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayTPP_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +75,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				4F3705712555B4B6AB529201 /* Pods_HiPayTPP_Example.framework in Frameworks */,
+				DD5FAAADAF4C5D7A1C4AFC32 /* libPods-HiPayTPP_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,7 +86,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				D81887E6BA76E5D3EBF608EB /* Pods_HiPayTPP_Tests.framework in Frameworks */,
+				5CC77E80BC74E66864DB59B1 /* libPods-HiPayTPP_Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,8 +121,8 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				BCDFA784C2DD192B3F0BE2F3 /* Pods_HiPayTPP_Example.framework */,
-				51D157B1D6C7C5D9D11D1747 /* Pods_HiPayTPP_Tests.framework */,
+				E5016EEE8815276908E32380 /* libPods-HiPayTPP_Example.a */,
+				3C52BE85DC8E696AE8D22AF1 /* libPods-HiPayTPP_Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -204,7 +204,6 @@
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				5D5BC173D8DB979BF1688326 /* Embed Pods Frameworks */,
 				8B85A950FD28ADE74DE49A15 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -224,7 +223,6 @@
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				26F536DFB80B6B043BFC4BA4 /* Embed Pods Frameworks */,
 				64C2B8D9D35FB1B2D4102369 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -293,21 +291,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		26F536DFB80B6B043BFC4BA4 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		530BDFEE4B970F16E1E49D25 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -321,21 +304,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		5D5BC173D8DB979BF1688326 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		64C2B8D9D35FB1B2D4102369 /* Copy Pods Resources */ = {

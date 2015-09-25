@@ -39,15 +39,14 @@ Pod::Spec.new do |s|
 
   s.default_subspecs = %w[Core]
 
-s.public_header_files = 'HiPayTPP/HiPayTPP.h'
+  s.public_header_files = 'HiPayTPP/*.h'
 
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
 
   s.subspec "Core" do |s|
     s.source_files  = "HiPayTPP/Core/**/*.{h,m}"
-    s.public_header_files = "HiPayTPP/Core/Core.h"
-    s.private_header_files = "HiPayTPP/Core/Network/*.h", "HiPayTPP/Core/Secure Vault/*.h"
+    s.public_header_files = "HiPayTPP/Core/**/*.h"
   end
 
 #  s.subspec "Payment-Screen" do |s|

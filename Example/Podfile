@@ -1,5 +1,4 @@
 source 'https://github.com/CocoaPods/Specs.git'
-use_frameworks!
 
 target 'HiPayTPP_Example', :exclusive => true do
   pod "HiPayTPP", :path => "../"
@@ -11,4 +10,6 @@ target 'HiPayTPP_Tests', :exclusive => true do
   pod 'Specta'
   pod 'Expecta'
   pod 'Expecta+Snapshots'
+  pod 'OCMock'
+  pod 'OHHTTPStubs'
 end

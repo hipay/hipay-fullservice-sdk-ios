@@ -22,9 +22,10 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		631308FA94450C1088C86EC9 /* libPods-HiPayTPP_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5385339AE4D60949DC28E6 /* libPods-HiPayTPP_Tests.a */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; settings = {ASSET_TAGS = (); }; };
 		A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; settings = {ASSET_TAGS = (); }; };
-		A5A6EEA31BB97C8400825B19 /* example.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example.json */; settings = {ASSET_TAGS = (); }; };
+		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,9 +63,10 @@
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9D5385339AE4D60949DC28E6 /* libPods-HiPayTPP_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayTPP_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A286DBFF34568FC4BA19F022 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		A51546371BBA83510077296E /* example_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_array.json; sourceTree = "<group>"; };
 		A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPClientTests.m; sourceTree = "<group>"; };
 		A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponseTests.m; sourceTree = "<group>"; };
-		A5A6EEA21BB97C8400825B19 /* example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example.json; sourceTree = "<group>"; };
+		A5A6EEA21BB97C8400825B19 /* example_dictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_dictionary.json; sourceTree = "<group>"; };
 		A5F335311BB9238E0082463F /* HPTHTTPClient+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPTHTTPClient+Testing.h"; sourceTree = "<group>"; };
 		A6DE32B74EAABE271832F022 /* Pods-HiPayTPP_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A7FE2CBCD3A3CCF6C20228C9 /* Pods-HiPayTPP_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -201,7 +203,8 @@
 		A5A6EEA11BB97C8400825B19 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
-				A5A6EEA21BB97C8400825B19 /* example.json */,
+				A5A6EEA21BB97C8400825B19 /* example_dictionary.json */,
+				A51546371BBA83510077296E /* example_array.json */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -340,7 +343,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5A6EEA31BB97C8400825B19 /* example.json in Resources */,
+				A51546381BBA83510077296E /* example_array.json in Resources */,
+				A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */,
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

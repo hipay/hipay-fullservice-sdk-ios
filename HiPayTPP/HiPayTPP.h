@@ -7,4 +7,5 @@
 //
 
 #import <HiPayTPP/Core.h>
+#import <HiPayTPP/HPTErrors.h>
 

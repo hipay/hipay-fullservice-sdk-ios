@@ -106,19 +106,19 @@
     XCTAssertEqualObjects(URLRequest.HTTPBody, [@"param=value&param2=value2" dataUsingEncoding:NSUTF8StringEncoding]);
 }
 
-- (void)testPerformRequest
+- (void)testPerformRequestDictionary
 {
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.example.org/items/1?param=value&param2=value2"]];
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [URLRequest setValue:[self authHeaderValue] forHTTPHeaderField:@"Authorisation"];
-
+    
     [[[mockedClient expect] andReturn:URLRequest] createURLRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"}];
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
-        NSString* fixture = OHPathForFile(@"example.json", self.class);
+        NSString* fixture = OHPathForFile(@"example_dictionary.json", self.class);
         return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
@@ -146,5 +146,53 @@
     [self waitForExpectationsWithTimeout:0.1 handler:nil];
     [mockedClient verify];
 }
+
+- (void)testPerformRequestArray
+{
+    NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.example.org/items/1?param=value&param2=value2"]];
+    [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [URLRequest setValue:[self authHeaderValue] forHTTPHeaderField:@"Authorisation"];
+    
+    [[[mockedClient expect] andReturn:URLRequest] createURLRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"}];
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
+        NSString* fixture = OHPathForFile(@"example_array.json", self.class);
+        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
+    
+    [client performRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+        
+        NSArray *body = @[
+                              @{
+                                  @"boolean": @YES,
+                                  @"number": @123
+                              },
+                              @{
+                                  @"boolean": @NO,
+                                  @"number": @124
+                              },
+                              @{
+                                  @"boolean": @YES,
+                                  @"number": @125
+                              }
+                              ];
+        
+        XCTAssertEqualObjects(response.body, body);
+        XCTAssertNil(error);
+        XCTAssertTrue(response.statusCode == 200);
+        
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [mockedClient verify];
+}
+
+
 
 @end

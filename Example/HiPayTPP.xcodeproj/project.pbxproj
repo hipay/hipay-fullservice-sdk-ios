@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4545F5ABEB528BB27F85F95B /* Pods_HiPayTPP_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F9347715F17C0E5C1618B2 /* Pods_HiPayTPP_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		37A10361D7F4F96732FF97C8 /* libPods-HiPayTPP_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D271450D432140C3F897A37D /* libPods-HiPayTPP_Example.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -20,10 +20,11 @@
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
+		631308FA94450C1088C86EC9 /* libPods-HiPayTPP_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5385339AE4D60949DC28E6 /* libPods-HiPayTPP_Tests.a */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
-		8931C81588761B2B6CFBB951 /* Pods_HiPayTPP_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D60B0BFFA1092DD955CFBB /* Pods_HiPayTPP_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		A5F3352C1BB58CF40082463F /* HPTHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F3352A1BB58C6A0082463F /* HPTHTTPResponse.m */; settings = {ASSET_TAGS = (); }; };
-		A5F3352E1BB59F8B0082463F /* HPTHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F3352D1BB59F8B0082463F /* HPTHTTPClient.m */; settings = {ASSET_TAGS = (); }; };
+		A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */; settings = {ASSET_TAGS = (); }; };
+		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; settings = {ASSET_TAGS = (); }; };
+		A5A6EEA31BB97C8400825B19 /* example.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example.json */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,10 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		16F9347715F17C0E5C1618B2 /* Pods_HiPayTPP_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HiPayTPP_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BCCDB71367D2362CE4675C3 /* Pods-HiPayTPP_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example.release.xcconfig"; sourceTree = "<group>"; };
 		1FB39614B33B04B898162649 /* Pods-HiPayTPP_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		25D60B0BFFA1092DD955CFBB /* Pods_HiPayTPP_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HiPayTPP_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39BEBD4EC0BC4099960FF4ED /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* HiPayTPP_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPayTPP_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -61,13 +60,16 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		9D5385339AE4D60949DC28E6 /* libPods-HiPayTPP_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayTPP_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A286DBFF34568FC4BA19F022 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		A5F3352A1BB58C6A0082463F /* HPTHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponse.m; sourceTree = "<group>"; };
-		A5F3352D1BB59F8B0082463F /* HPTHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPClient.m; sourceTree = "<group>"; };
-		A5F3352F1BB5AC4F0082463F /* HPTHTTPClient+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPTHTTPClient+Testing.h"; sourceTree = "<group>"; };
+		A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPClientTests.m; sourceTree = "<group>"; };
+		A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponseTests.m; sourceTree = "<group>"; };
+		A5A6EEA21BB97C8400825B19 /* example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example.json; sourceTree = "<group>"; };
+		A5F335311BB9238E0082463F /* HPTHTTPClient+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPTHTTPClient+Testing.h"; sourceTree = "<group>"; };
 		A6DE32B74EAABE271832F022 /* Pods-HiPayTPP_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A7FE2CBCD3A3CCF6C20228C9 /* Pods-HiPayTPP_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B936D89B6AB94FC4D1FE6E95 /* HiPayTPP.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayTPP.podspec; path = ../HiPayTPP.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		D271450D432140C3F897A37D /* libPods-HiPayTPP_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayTPP_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +80,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				4545F5ABEB528BB27F85F95B /* Pods_HiPayTPP_Example.framework in Frameworks */,
+				37A10361D7F4F96732FF97C8 /* libPods-HiPayTPP_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +91,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				8931C81588761B2B6CFBB951 /* Pods_HiPayTPP_Tests.framework in Frameworks */,
+				631308FA94450C1088C86EC9 /* libPods-HiPayTPP_Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,8 +126,8 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				16F9347715F17C0E5C1618B2 /* Pods_HiPayTPP_Example.framework */,
-				25D60B0BFFA1092DD955CFBB /* Pods_HiPayTPP_Tests.framework */,
+				D271450D432140C3F897A37D /* libPods-HiPayTPP_Example.a */,
+				9D5385339AE4D60949DC28E6 /* libPods-HiPayTPP_Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -196,6 +198,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A5A6EEA11BB97C8400825B19 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				A5A6EEA21BB97C8400825B19 /* example.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
 		A5F335261BB58ABB0082463F /* HiPayTPP */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,9 +226,10 @@
 		A5F335281BB58ABB0082463F /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				A5F3352A1BB58C6A0082463F /* HPTHTTPResponse.m */,
-				A5F3352D1BB59F8B0082463F /* HPTHTTPClient.m */,
-				A5F3352F1BB5AC4F0082463F /* HPTHTTPClient+Testing.h */,
+				A5A6EEA11BB97C8400825B19 /* Fixtures */,
+				A5F335301BB9238E0082463F /* Categories */,
+				A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */,
+				A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -228,6 +239,14 @@
 			children = (
 			);
 			path = "Secure Vault";
+			sourceTree = "<group>";
+		};
+		A5F335301BB9238E0082463F /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				A5F335311BB9238E0082463F /* HPTHTTPClient+Testing.h */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,7 +261,6 @@
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
 				8B85A950FD28ADE74DE49A15 /* Copy Pods Resources */,
-				419DC004408065D775F04FEA /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -262,7 +280,6 @@
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
 				64C2B8D9D35FB1B2D4102369 /* Copy Pods Resources */,
-				9B915662144F245D936FC066 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -323,6 +340,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5A6EEA31BB97C8400825B19 /* example.json in Resources */,
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,21 +348,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		419DC004408065D775F04FEA /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		530BDFEE4B970F16E1E49D25 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -405,21 +408,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		9B915662144F245D936FC066 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -437,8 +425,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5F3352C1BB58CF40082463F /* HPTHTTPResponse.m in Sources */,
-				A5F3352E1BB59F8B0082463F /* HPTHTTPClient.m in Sources */,
+				A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */,
+				A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

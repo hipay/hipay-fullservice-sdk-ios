@@ -12,4 +12,10 @@
 
 - (NSURLRequest *)createURLRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters;
 
+- (NSString *)queryStringForDictionary:(NSDictionary *)dictionary;
+
+- (NSString *)createAuthHeader;
+
+//- (NSDictionary *)parsedData:(NSString *)
+
 @end

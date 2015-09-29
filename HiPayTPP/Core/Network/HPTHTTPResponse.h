@@ -11,8 +11,8 @@
 @interface HPTHTTPResponse : NSObject
 
 @property (nonatomic, readonly) NSInteger statusCode;
-@property (nonatomic, readonly) NSDictionary *body;
+@property (nonatomic, readonly) id body;
 
-- (instancetype)initWithStatusCode:(NSInteger)statusCode body:(NSDictionary *)body;
+- (instancetype)initWithStatusCode:(NSInteger)statusCode body:(id)body;
 
 @end

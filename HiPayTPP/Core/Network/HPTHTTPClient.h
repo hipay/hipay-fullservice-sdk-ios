@@ -13,9 +13,7 @@ typedef void (^HPTHTTPClientCompletionBlock)(HPTHTTPResponse *response, NSError 
 
 typedef NS_ENUM(NSInteger, HPTHTTPMethod) {
     HPTHTTPMethodGet,
-    HPTHTTPMethodPost,
-    HPTHTTPMethodPut,
-    HPTHTTPMethodDelete
+    HPTHTTPMethodPost
 };
 
 @interface HPTHTTPClient : NSObject

@@ -10,7 +10,7 @@
 
 @implementation HPTHTTPResponse
 
-- (instancetype)initWithStatusCode:(NSInteger)statusCode body:(NSDictionary *)body
+- (instancetype)initWithStatusCode:(NSInteger)statusCode body:(id)body
 {
     self = [super init];
     if (self) {

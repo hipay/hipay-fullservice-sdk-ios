@@ -7,6 +7,7 @@
 //
 
 #import "HPTHTTPClient.h"
+#import "HPTErrors.h"
 
 @implementation HPTHTTPClient
 
@@ -100,6 +101,60 @@
     }];
     
     [sessionDataTask resume];
+}
+
+- (NSError *)errorFromURLConnectionError:(NSError *)error
+{
+    NSInteger code = HPTHTTPErrorOther;
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:error forKey:NSUnderlyingErrorKey];
+    
+    if (error.domain == NSURLErrorDomain) {
+        switch (error.code) {
+            case NSURLErrorNotConnectedToInternet:
+            case NSURLErrorInternationalRoamingOff:
+            case NSURLErrorCallIsActive:
+            case NSURLErrorDataNotAllowed:
+                code = HPTHTTPErrorNetworkUnavailable;
+                break;
+                
+            case NSURLErrorTimedOut:
+            case NSURLErrorCancelled:
+            case NSURLErrorNetworkConnectionLost:
+            case NSURLErrorHTTPTooManyRedirects:
+            case NSURLErrorCannotDecodeRawData:
+            case NSURLErrorCannotDecodeContentData:
+            case NSURLErrorDataLengthExceedsMaximum:
+            case NSURLErrorRedirectToNonExistentLocation:
+            case NSURLErrorUserAuthenticationRequired:
+            case NSURLErrorUserCancelledAuthentication:
+            case NSURLErrorBadServerResponse:
+            case NSURLErrorCannotParseResponse:
+            case NSURLErrorResourceUnavailable:
+            case NSURLErrorZeroByteResource:
+            case NSURLErrorCannotLoadFromNetwork:
+                code = HPTHTTPErrorConnectionFailed;
+                break;
+                
+            case NSURLErrorSecureConnectionFailed:
+            case NSURLErrorServerCertificateHasBadDate:
+            case NSURLErrorServerCertificateUntrusted:
+            case NSURLErrorServerCertificateHasUnknownRoot:
+            case NSURLErrorServerCertificateNotYetValid:
+            case NSURLErrorClientCertificateRejected:
+            case NSURLErrorClientCertificateRequired:
+            case NSURLErrorUnsupportedURL:
+            case NSURLErrorCannotFindHost:
+            case NSURLErrorBadURL:
+            case NSURLErrorCannotConnectToHost:
+            case NSURLErrorDNSLookupFailed:
+            case NSURLErrorAppTransportSecurityRequiresSecureConnection:
+            case NSURLErrorBackgroundSessionRequiresSharedContainer:
+                code = HPTHTTPErrorConfig;
+                break;
+        }
+    }
+    
+    return [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:code userInfo:userInfo];
 }
 
 @end

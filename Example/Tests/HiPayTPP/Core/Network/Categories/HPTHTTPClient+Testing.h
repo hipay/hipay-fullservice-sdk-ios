@@ -16,6 +16,6 @@
 
 - (NSString *)createAuthHeader;
 
-//- (NSDictionary *)parsedData:(NSString *)
+- (NSError *)errorFromURLConnectionError:(NSError *)error;
 
 @end

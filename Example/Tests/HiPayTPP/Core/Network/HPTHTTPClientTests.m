@@ -106,18 +106,32 @@
     XCTAssertEqualObjects(URLRequest.HTTPBody, [@"param=value&param2=value2" dataUsingEncoding:NSUTF8StringEncoding]);
 }
 
-- (void)testPerformRequestDictionary
+- (NSURLRequest *)createRequestAndExpectItsCreationWithStubResponse:(OHHTTPStubsResponseBlock)stubResponse
 {
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.example.org/items/1?param=value&param2=value2"]];
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [URLRequest setValue:[self authHeaderValue] forHTTPHeaderField:@"Authorisation"];
-    
+
     [[[mockedClient expect] andReturn:URLRequest] createURLRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"}];
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.absoluteString isEqualToString:URLRequest.URL.absoluteString] && [request.HTTPMethod isEqualToString:request.HTTPMethod];
+    } withStubResponse:stubResponse];
+    
+    return URLRequest;
+}
+
+- (void)testPerformRequestDictionary
+{
+    
+    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        NSString* fixture = OHPathForFile(@"example_dictionary.json", self.class);
+        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
         NSString* fixture = OHPathForFile(@"example_dictionary.json", self.class);
         return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
@@ -149,18 +163,10 @@
 
 - (void)testPerformRequestArray
 {
-    NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.example.org/items/1?param=value&param2=value2"]];
-    [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [URLRequest setValue:[self authHeaderValue] forHTTPHeaderField:@"Authorisation"];
-    
-    [[[mockedClient expect] andReturn:URLRequest] createURLRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"}];
-    
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return YES;
-    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
-        NSString* fixture = OHPathForFile(@"example_array.json", self.class);
+    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        NSString *fixture = OHPathForFile(@"example_array.json", self.class);
         return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        
     }];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
@@ -168,19 +174,19 @@
     [client performRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         NSArray *body = @[
-                              @{
-                                  @"boolean": @YES,
-                                  @"number": @123
+                          @{
+                              @"boolean": @YES,
+                              @"number": @123
                               },
-                              @{
-                                  @"boolean": @NO,
-                                  @"number": @124
+                          @{
+                              @"boolean": @NO,
+                              @"number": @124
                               },
-                              @{
-                                  @"boolean": @YES,
-                                  @"number": @125
+                          @{
+                              @"boolean": @YES,
+                              @"number": @125
                               }
-                              ];
+                          ];
         
         XCTAssertEqualObjects(response.body, body);
         XCTAssertNil(error);
@@ -193,6 +199,74 @@
     [mockedClient verify];
 }
 
+- (void)doTestErrorFromURLConnectionErrorWithCode:(NSInteger)code  expectedCode:(NSInteger)expectedCode
+{
+    NSError *underlyingError = [NSError errorWithDomain:NSURLErrorDomain code:code userInfo:@{}];
+    NSError *error = [client errorFromURLConnectionError:underlyingError];
+    
+    XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
+    XCTAssertTrue([error isKindOfClass:[NSError class]]);
+    XCTAssertEqual(error.code, expectedCode);
+    XCTAssertEqualObjects(error.userInfo, @{NSUnderlyingErrorKey: underlyingError});
+}
 
+- (void)testErrorFromURLConnectionError
+{
+    NSDictionary *errors = @{
+                             @(HPTHTTPErrorNetworkUnavailable): @[
+                                     @(NSURLErrorNotConnectedToInternet),
+                                     @(NSURLErrorInternationalRoamingOff),
+                                     @(NSURLErrorCallIsActive),
+                                     @(NSURLErrorDataNotAllowed),
+                                     ],
+                             
+                             @(HPTHTTPErrorConnectionFailed): @[
+                                     @(NSURLErrorTimedOut),
+                                     @(NSURLErrorCancelled),
+                                     @(NSURLErrorNetworkConnectionLost),
+                                     @(NSURLErrorHTTPTooManyRedirects),
+                                     @(NSURLErrorCannotDecodeRawData),
+                                     @(NSURLErrorCannotDecodeContentData),
+                                     @(NSURLErrorDataLengthExceedsMaximum),
+                                     @(NSURLErrorRedirectToNonExistentLocation),
+                                     @(NSURLErrorUserAuthenticationRequired),
+                                     @(NSURLErrorUserCancelledAuthentication),
+                                     @(NSURLErrorBadServerResponse),
+                                     @(NSURLErrorCannotParseResponse),
+                                     @(NSURLErrorResourceUnavailable),
+                                     @(NSURLErrorZeroByteResource),
+                                     @(NSURLErrorCannotLoadFromNetwork),
+                                     ],
+
+                             @(HPTHTTPErrorConfig): @[
+                                     @(NSURLErrorSecureConnectionFailed),
+                                     @(NSURLErrorServerCertificateHasBadDate),
+                                     @(NSURLErrorServerCertificateUntrusted),
+                                     @(NSURLErrorServerCertificateHasUnknownRoot),
+                                     @(NSURLErrorServerCertificateNotYetValid),
+                                     @(NSURLErrorClientCertificateRejected),
+                                     @(NSURLErrorClientCertificateRequired),
+                                     @(NSURLErrorUnsupportedURL),
+                                     @(NSURLErrorCannotFindHost),
+                                     @(NSURLErrorBadURL),
+                                     @(NSURLErrorCannotConnectToHost),
+                                     @(NSURLErrorDNSLookupFailed),
+                                     @(NSURLErrorAppTransportSecurityRequiresSecureConnection),
+                                     @(NSURLErrorBackgroundSessionRequiresSharedContainer),
+                                     ],
+                             
+                             @(HPTHTTPErrorOther): @[
+                                     @(NSURLErrorCannotOpenFile),
+                                     @(NSURLErrorCannotRemoveFile),
+                                     @(NSURLErrorCannotMoveFile),
+                                     ],
+                             };
+    
+    for (NSNumber *finalErrorCode in [errors allKeys]) {
+        for (NSNumber *code in [errors objectForKey:finalErrorCode]) {
+            [self doTestErrorFromURLConnectionErrorWithCode:[code integerValue] expectedCode:finalErrorCode.integerValue];
+        }
+    }
+}
 
 @end

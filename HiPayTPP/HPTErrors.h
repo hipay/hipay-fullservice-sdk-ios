@@ -19,6 +19,9 @@ typedef NS_ENUM(NSInteger, HPTErrorCode) {
     // Network is unavailable, the request did not reach the server
     HPTHTTPErrorNetworkUnavailable,
     
+    // Config error (such as SSL, bad URL, etc.)
+    HPTHTTPErrorConfig,
+    
     // The connection has been interupted, the data possibly reached the server
     HPTHTTPErrorConnectionFailed,
     

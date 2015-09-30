@@ -16,11 +16,11 @@
 {
     // Override point for customization after application launch.
     
-    HPTHTTPClient *client = [[HPTHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.foursquare.com/v2/venues/search"] login:@"" password:@""];
-    
-    [client performRequestWithMethod:HPTHTTPMethodGet path:@"" parameters:nil completionHandler:^(HPTHTTPResponse *response, NSError *error) {
-        
-    }];
+//    HPTHTTPClient *client = [[HPTHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.foursquare.com/v2/venues/search"] login:@"" password:@""];
+//    
+//    [client performRequestWithMethod:HPTHTTPMethodGet path:@"" parameters:nil completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+//        
+//    }];
     
     return YES;
 }

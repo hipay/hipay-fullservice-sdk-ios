@@ -10,6 +10,12 @@
 #define HPTErrors_h
 
 NSString * const HPTHiPayTPPErrorDomain;
+NSString * const HPTHTTPErrorOtherDescription;
+NSString * const HPTHTTPErrorNetworkUnavailableDescription;
+NSString * const HPTHTTPErrorConfigDescription;
+NSString * const HPTHTTPErrorConnectionFailedDescription;
+NSString * const HPTHTTPErrorClientDescription;
+NSString * const HPTHTTPErrorServerDescription;
 
 typedef NS_ENUM(NSInteger, HPTErrorCode) {
 
@@ -28,8 +34,9 @@ typedef NS_ENUM(NSInteger, HPTErrorCode) {
     // HTTP client error (400)
     HPTHTTPErrorClient,
 
-    // HTTP client error (500)
+    // HTTP client error (typically a 500 error)
     HPTHTTPErrorServer,
+    
 };
 
 

@@ -23,6 +23,8 @@
 		631308FA94450C1088C86EC9 /* libPods-HiPayTPP_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5385339AE4D60949DC28E6 /* libPods-HiPayTPP_Tests.a */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; settings = {ASSET_TAGS = (); }; };
+		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; settings = {ASSET_TAGS = (); }; };
+		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; settings = {ASSET_TAGS = (); }; };
 		A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; settings = {ASSET_TAGS = (); }; };
@@ -64,6 +66,8 @@
 		9D5385339AE4D60949DC28E6 /* libPods-HiPayTPP_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayTPP_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A286DBFF34568FC4BA19F022 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A51546371BBA83510077296E /* example_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_array.json; sourceTree = "<group>"; };
+		A515463C1BBBCD6D0077296E /* plain_text_response.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plain_text_response.txt; sourceTree = "<group>"; };
+		A515463E1BBBDD1F0077296E /* example_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_error.json; sourceTree = "<group>"; };
 		A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPClientTests.m; sourceTree = "<group>"; };
 		A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponseTests.m; sourceTree = "<group>"; };
 		A5A6EEA21BB97C8400825B19 /* example_dictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_dictionary.json; sourceTree = "<group>"; };
@@ -205,6 +209,8 @@
 			children = (
 				A5A6EEA21BB97C8400825B19 /* example_dictionary.json */,
 				A51546371BBA83510077296E /* example_array.json */,
+				A515463E1BBBDD1F0077296E /* example_error.json */,
+				A515463C1BBBCD6D0077296E /* plain_text_response.txt */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -345,7 +351,9 @@
 			files = (
 				A51546381BBA83510077296E /* example_array.json in Resources */,
 				A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */,
+				A515463F1BBBDD1F0077296E /* example_error.json in Resources */,
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
+				A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

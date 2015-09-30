@@ -212,7 +212,7 @@
     XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
     XCTAssertTrue([error isKindOfClass:[NSError class]]);
     XCTAssertEqual(error.code, expectedCode);
-    XCTAssertEqualObjects(error.userInfo, @{NSUnderlyingErrorKey: underlyingError});
+    XCTAssertEqualObjects([error.userInfo objectForKey:NSUnderlyingErrorKey], underlyingError);
 }
 
 - (NSDictionary *)generatedErrorCodesForConnectionErrors
@@ -314,7 +314,54 @@
             [self doTestPerformRequestWithError:[NSError errorWithDomain:NSURLErrorDomain code:[code integerValue] userInfo:@{}] expectedCode:finalErrorCode.integerValue];
         }
     }
+}
+
+- (void)testPerformRequestWithMalformedJSONResponse
+{
+    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        return [OHHTTPStubsResponse responseWithFileAtPath:@"plain_text_response.txt" statusCode:200 headers:@{}];
+    }];
     
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
+    
+    [client performRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+        
+        XCTAssertNil(response);
+        XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
+        XCTAssertEqual(error.code, HPTHTTPErrorServer);
+        XCTAssertEqualObjects([error.userInfo objectForKey:NSLocalizedFailureReasonErrorKey], HPTHTTPErrorServerDescription);
+        
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [mockedClient verify];
+}
+
+- (void)testPerformRequestWithClientError
+{
+    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        NSString* fixture = OHPathForFile(@"example_error.json", self.class);
+        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:400 headers:@{}];
+    }];
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
+    
+    [client performRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+        
+        NSDictionary *body = @{@"error": @"error_key", @"description": @"Something bad."};
+        
+        XCTAssertEqualObjects(response.body, body);
+        XCTAssertEqual(response.statusCode, 400);
+        XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
+        XCTAssertEqual(error.code, HPTHTTPErrorClient);
+        XCTAssertEqual([error.userInfo objectForKey:NSLocalizedFailureReasonErrorKey], HPTHTTPErrorClientDescription);
+        
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [mockedClient verify];
 }
 
 @end

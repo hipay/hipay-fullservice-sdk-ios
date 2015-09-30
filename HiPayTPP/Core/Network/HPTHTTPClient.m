@@ -89,17 +89,41 @@
     
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
+        // Connection error
         if (error != nil) {
             completionBlock(nil, [self errorFromURLConnectionError:error]);
         }
         
         else if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
             
-            id body = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSError *JSONError = nil;
             
-            HPTHTTPResponse *clientResponse = [[HPTHTTPResponse alloc] initWithStatusCode:[(NSHTTPURLResponse *)response statusCode] body:body];
+            id body = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
             
-            completionBlock(clientResponse, nil);
+            if (JSONError == nil) {
+                HPTHTTPResponse *clientResponse = [[HPTHTTPResponse alloc] initWithStatusCode:[(NSHTTPURLResponse *)response statusCode] body:body];
+                
+                NSError *responseError = nil;
+                
+                if (clientResponse.statusCode == 400) {
+                    responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTHTTPErrorClient userInfo:@{NSLocalizedFailureReasonErrorKey: HPTHTTPErrorClientDescription}];
+                }
+                
+                else if (clientResponse.statusCode == 500) {
+                    responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTHTTPErrorServer userInfo:@{NSLocalizedFailureReasonErrorKey: HPTHTTPErrorServerDescription}];
+                }
+                
+                completionBlock(clientResponse, responseError);
+            }
+            
+            // Content not parsable, server error
+            else {
+                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTHTTPErrorServer userInfo:@{NSUnderlyingErrorKey: JSONError, NSLocalizedFailureReasonErrorKey: HPTHTTPErrorServerDescription}]);
+            }
+        }
+        
+        else {
+            completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTHTTPErrorOther userInfo:@{NSLocalizedFailureReasonErrorKey: HPTHTTPErrorOtherDescription}]);
         }
         
     }];
@@ -110,7 +134,7 @@
 - (NSError *)errorFromURLConnectionError:(NSError *)error
 {
     NSInteger code = HPTHTTPErrorOther;
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:error forKey:NSUnderlyingErrorKey];
+    NSString *description = HPTHTTPErrorOtherDescription;
     
     if (error.domain == NSURLErrorDomain) {
         switch (error.code) {
@@ -119,6 +143,7 @@
             case NSURLErrorCallIsActive:
             case NSURLErrorDataNotAllowed:
                 code = HPTHTTPErrorNetworkUnavailable;
+                description = HPTHTTPErrorNetworkUnavailableDescription;
                 break;
                 
             case NSURLErrorTimedOut:
@@ -137,6 +162,7 @@
             case NSURLErrorZeroByteResource:
             case NSURLErrorCannotLoadFromNetwork:
                 code = HPTHTTPErrorConnectionFailed;
+                description = HPTHTTPErrorConnectionFailedDescription;
                 break;
                 
             case NSURLErrorSecureConnectionFailed:
@@ -154,9 +180,12 @@
             case NSURLErrorAppTransportSecurityRequiresSecureConnection:
             case NSURLErrorBackgroundSessionRequiresSharedContainer:
                 code = HPTHTTPErrorConfig;
+                description = HPTHTTPErrorConfigDescription;
                 break;
         }
     }
+    
+    NSDictionary *userInfo = @{NSUnderlyingErrorKey: error, NSLocalizedFailureReasonErrorKey: description};
     
     return [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:code userInfo:userInfo];
 }

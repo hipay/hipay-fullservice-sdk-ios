@@ -7,12 +7,21 @@
 //
 
 #import "HPTAppDelegate.h"
+#import <HiPayTPP/HiPayTPP.h>
+#import "HPTHTTPClient+Testing.h"
 
 @implementation HPTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+//    HPTHTTPClient *client = [[HPTHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.foursquare.com/v2/venues/search"] login:@"" password:@""];
+//    
+//    [client performRequestWithMethod:HPTHTTPMethodGet path:@"" parameters:nil completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+//        
+//    }];
+    
     return YES;
 }
 

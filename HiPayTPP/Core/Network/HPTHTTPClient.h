@@ -7,15 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HPTHTTPResponse.h"
+
+typedef void (^HPTHTTPClientCompletionBlock)(HPTHTTPResponse *response, NSError *error);
 
 typedef NS_ENUM(NSInteger, HPTHTTPMethod) {
     HPTHTTPMethodGet,
-    HPTHTTPMethodPost,
-    HPTHTTPMethodPut,
-    HPTHTTPMethodDelete
+    HPTHTTPMethodPost
 };
 
-@interface HPTHTTP : NSObject
+@interface HPTHTTPClient : NSObject
 {
     @private
     NSString *login;
@@ -25,7 +26,5 @@ typedef NS_ENUM(NSInteger, HPTHTTPMethod) {
 @property (nonatomic) NSURL *baseURL;
 
 - (instancetype)initWithBaseURL:(NSURL *)URL login:(NSString *)login password:(NSString *)password;
-
-- (void)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters;
 
 @end

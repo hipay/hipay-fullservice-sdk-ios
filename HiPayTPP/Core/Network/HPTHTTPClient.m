@@ -89,7 +89,11 @@
     
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+        if (error != nil) {
+            completionBlock(nil, [self errorFromURLConnectionError:error]);
+        }
+        
+        else if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
             
             id body = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
             

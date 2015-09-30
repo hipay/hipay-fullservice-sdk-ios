@@ -25,8 +25,13 @@
 
 - (void)setUp {
     [super setUp];
-
+    
     baseURL = [NSURL URLWithString:@"https://api.example.org/"];
+    [self resetClient];
+}
+
+- (void)resetClient
+{
     client = [[HPTHTTPClient alloc] initWithBaseURL:baseURL login:@"api_login" password:@"api_passwd"];
     mockedClient = [OCMockObject partialMockForObject:client];
 }
@@ -210,7 +215,7 @@
     XCTAssertEqualObjects(error.userInfo, @{NSUnderlyingErrorKey: underlyingError});
 }
 
-- (void)testErrorFromURLConnectionError
+- (NSDictionary *)generatedErrorCodesForConnectionErrors
 {
     NSDictionary *errors = @{
                              @(HPTHTTPErrorNetworkUnavailable): @[
@@ -237,7 +242,7 @@
                                      @(NSURLErrorZeroByteResource),
                                      @(NSURLErrorCannotLoadFromNetwork),
                                      ],
-
+                             
                              @(HPTHTTPErrorConfig): @[
                                      @(NSURLErrorSecureConnectionFailed),
                                      @(NSURLErrorServerCertificateHasBadDate),
@@ -262,11 +267,54 @@
                                      ],
                              };
     
+    return errors;
+}
+
+- (void)testErrorFromURLConnectionError
+{
+    NSDictionary *errors = [self generatedErrorCodesForConnectionErrors];
+    
     for (NSNumber *finalErrorCode in [errors allKeys]) {
         for (NSNumber *code in [errors objectForKey:finalErrorCode]) {
             [self doTestErrorFromURLConnectionErrorWithCode:[code integerValue] expectedCode:finalErrorCode.integerValue];
         }
     }
+}
+
+- (void)doTestPerformRequestWithError:(NSError *)error expectedCode:(HPTErrorCode)code
+{
+    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        return [OHHTTPStubsResponse responseWithError:error];
+    }];
+    
+    NSError *TPPError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:code userInfo:@{NSUnderlyingErrorKey: error}];
+    
+    [[[mockedClient expect] andReturn:TPPError] errorFromURLConnectionError:error];
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
+    
+    [client performRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+        
+        XCTAssertNil(response);
+        XCTAssertEqualObjects(error, TPPError);
+        
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [mockedClient verify];
+}
+
+- (void)testPerformRequestError
+{
+    NSDictionary *errors = [self generatedErrorCodesForConnectionErrors];
+    
+    for (NSNumber *finalErrorCode in [errors allKeys]) {
+        for (NSNumber *code in [errors objectForKey:finalErrorCode]) {
+            [self doTestPerformRequestWithError:[NSError errorWithDomain:NSURLErrorDomain code:[code integerValue] userInfo:@{}] expectedCode:finalErrorCode.integerValue];
+        }
+    }
+    
 }
 
 @end

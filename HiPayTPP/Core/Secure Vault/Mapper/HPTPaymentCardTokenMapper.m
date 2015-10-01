@@ -13,9 +13,8 @@
 
 - (id _Nullable)mappedObject
 {
-    
     HPTPaymentCardToken *object = [[HPTPaymentCardToken alloc] init];
-        
+    
     [object setValue:[self getObjectForKey:@"token"] forKey:@"token"];
     [object setValue:[self getObjectForKey:@"brand"] forKey:@"brand"];
     [object setValue:[self getObjectForKey:@"pan"] forKey:@"pan"];

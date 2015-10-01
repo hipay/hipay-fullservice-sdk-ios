@@ -9,4 +9,6 @@
 #import <HiPayTPP/HPTHTTPClient.h>
 #import <HiPayTPP/HPTHTTPResponse.h>
 
+#import <HiPayTPP/HPTAbstractMapper.h>
 #import <HiPayTPP/HPTPaymentCardToken.h>
+#import <HiPayTPP/HPTPaymentCardTokenMapper.h>

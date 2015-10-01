@@ -22,6 +22,8 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		631308FA94450C1088C86EC9 /* libPods-HiPayTPP_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5385339AE4D60949DC28E6 /* libPods-HiPayTPP_Tests.a */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		A51004B51BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004B41BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m */; settings = {ASSET_TAGS = (); }; };
+		A51004BF1BBD67EF002BD3C1 /* HPTMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004BE1BBD67EF002BD3C1 /* HPTMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; settings = {ASSET_TAGS = (); }; };
 		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; settings = {ASSET_TAGS = (); }; };
 		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; settings = {ASSET_TAGS = (); }; };
@@ -65,6 +67,8 @@
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9D5385339AE4D60949DC28E6 /* libPods-HiPayTPP_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayTPP_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A286DBFF34568FC4BA19F022 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		A51004B41BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPaymentCardTokenMapperTests.m; sourceTree = "<group>"; };
+		A51004BE1BBD67EF002BD3C1 /* HPTMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTMapperTests.m; sourceTree = "<group>"; };
 		A51546371BBA83510077296E /* example_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_array.json; sourceTree = "<group>"; };
 		A515463C1BBBCD6D0077296E /* plain_text_response.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plain_text_response.txt; sourceTree = "<group>"; };
 		A515463E1BBBDD1F0077296E /* example_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_error.json; sourceTree = "<group>"; };
@@ -204,6 +208,22 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A51004B31BBD3E9C002BD3C1 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				A51004B41BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
+		A51004BD1BBD67DF002BD3C1 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				A51004BE1BBD67EF002BD3C1 /* HPTMapperTests.m */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
 		A5A6EEA11BB97C8400825B19 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +246,7 @@
 		A5F335271BB58ABB0082463F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				A51004BD1BBD67DF002BD3C1 /* Mapper */,
 				A5F335281BB58ABB0082463F /* Network */,
 				A5F335291BB58ABB0082463F /* Secure Vault */,
 			);
@@ -246,6 +267,7 @@
 		A5F335291BB58ABB0082463F /* Secure Vault */ = {
 			isa = PBXGroup;
 			children = (
+				A51004B31BBD3E9C002BD3C1 /* Mapper */,
 			);
 			path = "Secure Vault";
 			sourceTree = "<group>";
@@ -438,7 +460,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */,
+				A51004B51BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m in Sources */,
 				A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */,
+				A51004BF1BBD67EF002BD3C1 /* HPTMapperTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

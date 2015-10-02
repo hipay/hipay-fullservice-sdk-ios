@@ -44,7 +44,7 @@
 {
     NSString *authString = [NSString stringWithFormat:@"%@:%@", username, password];
     NSData *authData = [authString dataUsingEncoding:NSASCIIStringEncoding];
-    NSString *authHeaderValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength]];
+    NSString *authHeaderValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     return authHeaderValue;
 }
 

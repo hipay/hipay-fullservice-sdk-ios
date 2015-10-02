@@ -57,10 +57,7 @@
 
 - (NSString *)authHeaderValue
 {
-    NSString *authString = [NSString stringWithFormat:@"%@:%@", @"api_login", @"api_passwd"];
-    NSData *authData = [authString dataUsingEncoding:NSASCIIStringEncoding];
-    NSString *authHeaderValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength]];
-    return authHeaderValue;
+    return @"Basic YXBpX2xvZ2luOmFwaV9wYXNzd2Q=";
 }
 
 - (void)testAuthHeaderCreation

@@ -11,12 +11,12 @@
 
 @implementation HPTHTTPClient
 
-- (instancetype)initWithBaseURL:(NSURL *)URL login:(NSString *)theLogin password:(NSString *)thePassword
+- (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)thePassword
 {
     self = [super init];
     if (self) {
         _baseURL = URL;
-        login = theLogin;
+        username = theUsername;
         password = thePassword;
     }
     return self;
@@ -42,7 +42,7 @@
 
 - (NSString *)createAuthHeader
 {
-    NSString *authString = [NSString stringWithFormat:@"%@:%@", login, password];
+    NSString *authString = [NSString stringWithFormat:@"%@:%@", username, password];
     NSData *authData = [authString dataUsingEncoding:NSASCIIStringEncoding];
     NSString *authHeaderValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength]];
     return authHeaderValue;

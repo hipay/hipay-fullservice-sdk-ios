@@ -8,8 +8,6 @@
 
 @interface HPTHTTPClient (Testing)
 
-- (void)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock;
-
 - (NSURLRequest *)createURLRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters;
 
 - (NSString *)queryStringForDictionary:(NSDictionary *)dictionary;

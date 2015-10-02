@@ -8,10 +8,22 @@
 
 #import <Foundation/Foundation.h>
 #import "HPTPaymentCardToken.h"
+#import "HPTPaymentCardTokenMapper.h"
+#import "HPTHTTPClient.h"
+#import "HPTClientConfig.h"
+
+#define HPTSecureVaultClientBaseURLStage        @"https://stage-secure-vault.hipay-tpp.com/rest/v1/"
+#define HPTSecureVaultClientBaseURLProduction   @"https://secure-vault.hipay-tpp.com/rest/v1/"
 
 typedef void (^HPTSecureVaultClientCompletionBlock)(HPTPaymentCardToken *cardToken, NSError *error);
 
 @interface HPTSecureVaultClient : NSObject
+{
+    HPTHTTPClient *HTTPClient;
+    HPTClientConfig *clientConfig;
+}
+
+- (instancetype)initWithHTTPClient:(HPTHTTPClient *)HTTPClient clientConfig:(HPTClientConfig *)theClientConfig;
 
 - (void)generateTokenWithCardNumber:(NSString *)cardNumber cardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder securityCode:(NSString *)securityCode multiUse:(BOOL)multiUse andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock;
 

@@ -19,12 +19,13 @@ typedef NS_ENUM(NSInteger, HPTHTTPMethod) {
 @interface HPTHTTPClient : NSObject
 {
     @private
-    NSString *login;
+    NSString *username;
     NSString *password;
 }
 
 @property (nonatomic) NSURL *baseURL;
 
-- (instancetype)initWithBaseURL:(NSURL *)URL login:(NSString *)login password:(NSString *)password;
+- (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)password;
+- (void)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock;
 
 @end

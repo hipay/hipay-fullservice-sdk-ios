@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HPTAbstractMapper ()
+@interface HPTAbstractMapper (Decode)
 
 - (id)getObjectForKey:(NSString *)key;
 

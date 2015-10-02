@@ -32,7 +32,7 @@
 
 - (void)resetClient
 {
-    client = [[HPTHTTPClient alloc] initWithBaseURL:baseURL login:@"api_login" password:@"api_passwd"];
+    client = [[HPTHTTPClient alloc] initWithBaseURL:baseURL username:@"api_login" password:@"api_passwd"];
     mockedClient = [OCMockObject partialMockForObject:client];
 }
 

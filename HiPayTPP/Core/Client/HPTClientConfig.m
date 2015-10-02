@@ -8,17 +8,17 @@
 
 #import "HPTClientConfig.h"
 
-HPTClientConfig *HPTClientConfigSharedInstace = nil;
+HPTClientConfig *HPTClientConfigSharedInstance = nil;
 
 @implementation HPTClientConfig
 
 + (instancetype _Nonnull)sharedClientConfig
 {
-    if (HPTClientConfigSharedInstace == nil) {
-        HPTClientConfigSharedInstace = [[self alloc] init];
+    if (HPTClientConfigSharedInstance == nil) {
+        HPTClientConfigSharedInstance = [[self alloc] init];
     }
     
-    return HPTClientConfigSharedInstace;
+    return HPTClientConfigSharedInstance;
 }
 
 - (void)setEnvironment:(HPTEnvironment)environment username:(NSString *)username password:(NSString *)password

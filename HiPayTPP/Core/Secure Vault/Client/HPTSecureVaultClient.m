@@ -56,7 +56,7 @@
                                  @"card_expiry_year": cardExpiryYear,
                                  @"card_holder": cardHolder,
                                  @"cvc": securityCode,
-                                 @"multi_use": [@(multiUse) stringValue],
+                                 @"multi_use": @(multiUse).stringValue,
                                  };
     
     [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {

@@ -56,6 +56,7 @@ typedef NS_ENUM(NSInteger, HPTErrorCode) {
 
 typedef NS_ENUM(NSInteger, HPTErrorAPIReason) {
     
+    // Configuration errors
     HPTErrorAPIIncorrectCredentials = 1000001,
     HPTErrorAPIIncorrectSignature = 1000002,
     HPTErrorAPIAccountNotActive = 1000003,
@@ -80,6 +81,8 @@ typedef NS_ENUM(NSInteger, HPTErrorAPIReason) {
     HPTErrorAPINoRoutetoAcquirer = 1020001,
     HPTErrorAPIUnsupportedECIDescription = 1020002,
     HPTErrorAPIUnsupported = 1020003,
+    
+    // Validation errors
     HPTErrorAPIUnknownOrder = 3000001,
     HPTErrorAPIUnknownTransaction = 3000002,
     HPTErrorAPIUnknownMerchant = 3000003,
@@ -88,6 +91,8 @@ typedef NS_ENUM(NSInteger, HPTErrorAPIReason) {
     HPTErrorAPISuspicionOfFraud = 3000201,
     HPTErrorAPIFraudSuspicion = 3040001,
     HPTErrorAPIUnknownToken = 3030001,
+    
+    // Error codes relating to the Checkout Process
     HPTErrorAPIUnsupportedCurrency = 3010001,
     HPTErrorAPIAmountLimitExceeded = 3010002,
     HPTErrorAPIMaxAttemptsExceeded = 3010003,
@@ -96,6 +101,8 @@ typedef NS_ENUM(NSInteger, HPTErrorAPIReason) {
     HPTErrorAPIOrderCompleted = 3010006,
     HPTErrorAPIOrderExpired = 3010007,
     HPTErrorAPIOrderVoided = 3010008,
+    
+    // Error codes relating to Maintenance Operations
     HPTErrorAPIAuthorizationExpired = 3020001,
     HPTErrorAPIAllowableAmountLimitExceeded = 3020002,
     HPTErrorAPINotEnabled = 3020101,
@@ -129,6 +136,8 @@ typedef NS_ENUM(NSInteger, HPTErrorAPIReason) {
     HPTErrorAPIVoidNotAllowed = 3020401,
     HPTErrorAPICannotVoid = 3020402,
     HPTErrorAPIAuthorizationVoided = 3020403,
+    
+    // Acquirer Reason Codes
     HPTErrorAPIDeclinedAcquirer = 4000001,
     HPTErrorAPIDeclinedFinancialInstituion = 4000002,
     HPTErrorAPIInsufficientFundsAccount = 4000003,

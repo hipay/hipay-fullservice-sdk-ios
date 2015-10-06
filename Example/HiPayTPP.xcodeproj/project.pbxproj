@@ -26,6 +26,7 @@
 		A51004BF1BBD67EF002BD3C1 /* HPTMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004BE1BBD67EF002BD3C1 /* HPTMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A51004DA1BBD8F4F002BD3C1 /* HPTClientConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004D91BBD8F4F002BD3C1 /* HPTClientConfigTests.m */; settings = {ASSET_TAGS = (); }; };
 		A51004DC1BBE893D002BD3C1 /* HPTSecureVaultClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004DB1BBE893D002BD3C1 /* HPTSecureVaultClientTests.m */; settings = {ASSET_TAGS = (); }; };
+		A51004E51BC28714002BD3C1 /* HPTAbstractClientTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004E41BC28714002BD3C1 /* HPTAbstractClientTest.m */; settings = {ASSET_TAGS = (); }; };
 		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; settings = {ASSET_TAGS = (); }; };
 		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; settings = {ASSET_TAGS = (); }; };
 		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; settings = {ASSET_TAGS = (); }; };
@@ -75,6 +76,7 @@
 		A51004DB1BBE893D002BD3C1 /* HPTSecureVaultClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTSecureVaultClientTests.m; sourceTree = "<group>"; };
 		A51004DD1BBE8D7C002BD3C1 /* HPTHTTPClient+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HPTHTTPClient+Testing.h"; path = "Tests/HiPayTPP/Core/Network/Extensions/HPTHTTPClient+Testing.h"; sourceTree = SOURCE_ROOT; };
 		A51004DF1BBE8DCD002BD3C1 /* HPTSecureVaultClient+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPTSecureVaultClient+Testing.h"; sourceTree = "<group>"; };
+		A51004E41BC28714002BD3C1 /* HPTAbstractClientTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTAbstractClientTest.m; sourceTree = "<group>"; };
 		A51546371BBA83510077296E /* example_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_array.json; sourceTree = "<group>"; };
 		A515463C1BBBCD6D0077296E /* plain_text_response.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plain_text_response.txt; sourceTree = "<group>"; };
 		A515463E1BBBDD1F0077296E /* example_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_error.json; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				A51004D91BBD8F4F002BD3C1 /* HPTClientConfigTests.m */,
+				A51004E41BC28714002BD3C1 /* HPTAbstractClientTest.m */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */,
+				A51004E51BC28714002BD3C1 /* HPTAbstractClientTest.m in Sources */,
 				A51004DA1BBD8F4F002BD3C1 /* HPTClientConfigTests.m in Sources */,
 				A51004B51BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m in Sources */,
 				A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */,

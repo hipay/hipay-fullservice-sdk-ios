@@ -10,12 +10,16 @@
 #define HPTErrors_h
 
 NSString * const HPTHiPayTPPErrorDomain;
-NSString * const HPTErrorHTTPOtherDescription;
-NSString * const HPTErrorHTTPNetworkUnavailableDescription;
-NSString * const HPTErrorHTTPConfigDescription;
-NSString * const HPTErrorHTTPConnectionFailedDescription;
-NSString * const HPTErrorHTTPClientDescription;
-NSString * const HPTErrorHTTPServerDescription;
+NSString * const HPTErrorCodeHTTPOtherDescription;
+NSString * const HPTErrorCodeHTTPNetworkUnavailableDescription;
+NSString * const HPTErrorCodeHTTPConfigDescription;
+NSString * const HPTErrorCodeHTTPConnectionFailedDescription;
+NSString * const HPTErrorCodeHTTPClientDescription;
+NSString * const HPTErrorCodeHTTPServerDescription;
+
+NSString * const HPTErrorCodeAPIMessageKey;
+NSString * const HPTErrorCodeAPICodeKey;
+
 
 typedef NS_ENUM(NSInteger, HPTErrorCode) {
     
@@ -51,6 +55,9 @@ typedef NS_ENUM(NSInteger, HPTErrorCode) {
     
     // Acquirer Reason Codes (refer to the TPP API documentation appendix)
     HPTErrorCodeAPIAcquirer,
+    
+    // Unknown error
+    HPTErrorCodeAPIOther,
     
 };
 
@@ -162,13 +169,14 @@ typedef NS_ENUM(NSInteger, HPTErrorAPIReason) {
     HPTErrorAPICVCError = 4010207,
     HPTErrorAPIAVSFailed = 4010301,
     HPTErrorAPIRetainCard = 4010302,
-    HPTErrorAPILostorStolenCard = 4010303,
+    HPTErrorAPILostOrStolenCard = 4010303,
     HPTErrorAPIRestrictedCard = 4010304,
     HPTErrorAPICardLimitExceeded = 4010305,
     HPTErrorAPICardBlacklisted = 4010306,
     HPTErrorAPIUnauthorisedIPAddressCountry = 4010307,
     HPTErrorAPICardnotInAuthorisersDatabase = 4010309,
 };
+
 
 
 #endif /* HPTErrors_h */

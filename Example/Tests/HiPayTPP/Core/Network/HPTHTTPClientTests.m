@@ -215,14 +215,14 @@
 - (NSDictionary *)generatedErrorCodesForConnectionErrors
 {
     NSDictionary *errors = @{
-                             @(HPTHTTPErrorNetworkUnavailable): @[
+                             @(HPTErrorCodeHTTPNetworkUnavailable): @[
                                      @(NSURLErrorNotConnectedToInternet),
                                      @(NSURLErrorInternationalRoamingOff),
                                      @(NSURLErrorCallIsActive),
                                      @(NSURLErrorDataNotAllowed),
                                      ],
                              
-                             @(HPTHTTPErrorConnectionFailed): @[
+                             @(HPTErrorCodeHTTPConnectionFailed): @[
                                      @(NSURLErrorTimedOut),
                                      @(NSURLErrorCancelled),
                                      @(NSURLErrorNetworkConnectionLost),
@@ -240,7 +240,7 @@
                                      @(NSURLErrorCannotLoadFromNetwork),
                                      ],
                              
-                             @(HPTHTTPErrorConfig): @[
+                             @(HPTErrorCodeHTTPConfig): @[
                                      @(NSURLErrorSecureConnectionFailed),
                                      @(NSURLErrorServerCertificateHasBadDate),
                                      @(NSURLErrorServerCertificateUntrusted),
@@ -257,7 +257,7 @@
                                      @(NSURLErrorBackgroundSessionRequiresSharedContainer),
                                      ],
                              
-                             @(HPTHTTPErrorOther): @[
+                             @(HPTErrorCodeHTTPOther): @[
                                      @(NSURLErrorCannotOpenFile),
                                      @(NSURLErrorCannotRemoveFile),
                                      @(NSURLErrorCannotMoveFile),
@@ -325,8 +325,8 @@
         
         XCTAssertNil(response);
         XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
-        XCTAssertEqual(error.code, HPTHTTPErrorServer);
-        XCTAssertEqualObjects([error.userInfo objectForKey:NSLocalizedFailureReasonErrorKey], HPTHTTPErrorServerDescription);
+        XCTAssertEqual(error.code, HPTErrorCodeHTTPServer);
+        XCTAssertEqualObjects([error.userInfo objectForKey:NSLocalizedDescriptionKey], HPTErrorCodeHTTPServerDescription);
         
         [expectation fulfill];
     }];
@@ -351,8 +351,8 @@
         XCTAssertEqualObjects(response.body, body);
         XCTAssertEqual(response.statusCode, 400);
         XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
-        XCTAssertEqual(error.code, HPTHTTPErrorClient);
-        XCTAssertEqual([error.userInfo objectForKey:NSLocalizedFailureReasonErrorKey], HPTHTTPErrorClientDescription);
+        XCTAssertEqual(error.code, HPTErrorCodeHTTPClient);
+        XCTAssertEqual([error.userInfo objectForKey:NSLocalizedDescriptionKey], HPTErrorCodeHTTPClientDescription);
         
         [expectation fulfill];
     }];

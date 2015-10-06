@@ -106,11 +106,11 @@
                 NSError *responseError = nil;
                 
                 if (clientResponse.statusCode == 400) {
-                    responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTHTTPErrorClient userInfo:@{NSLocalizedFailureReasonErrorKey: HPTHTTPErrorClientDescription}];
+                    responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPClientDescription}];
                 }
                 
                 else if (clientResponse.statusCode == 500) {
-                    responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTHTTPErrorServer userInfo:@{NSLocalizedFailureReasonErrorKey: HPTHTTPErrorServerDescription}];
+                    responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription}];
                 }
                 
                 completionBlock(clientResponse, responseError);
@@ -118,12 +118,12 @@
             
             // Content not parsable, server error
             else {
-                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTHTTPErrorServer userInfo:@{NSUnderlyingErrorKey: JSONError, NSLocalizedFailureReasonErrorKey: HPTHTTPErrorServerDescription}]);
+                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSUnderlyingErrorKey: JSONError, NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription}]);
             }
         }
         
         else {
-            completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTHTTPErrorOther userInfo:@{NSLocalizedFailureReasonErrorKey: HPTHTTPErrorOtherDescription}]);
+            completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPOther userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPOtherDescription}]);
         }
         
     }];
@@ -133,8 +133,8 @@
 
 - (NSError *)errorFromURLConnectionError:(NSError *)error
 {
-    NSInteger code = HPTHTTPErrorOther;
-    NSString *description = HPTHTTPErrorOtherDescription;
+    NSInteger code = HPTErrorCodeHTTPOther;
+    NSString *description = HPTErrorCodeHTTPOtherDescription;
     
     if (error.domain == NSURLErrorDomain) {
         switch (error.code) {
@@ -142,8 +142,8 @@
             case NSURLErrorInternationalRoamingOff:
             case NSURLErrorCallIsActive:
             case NSURLErrorDataNotAllowed:
-                code = HPTHTTPErrorNetworkUnavailable;
-                description = HPTHTTPErrorNetworkUnavailableDescription;
+                code = HPTErrorCodeHTTPNetworkUnavailable;
+                description = HPTErrorCodeHTTPNetworkUnavailableDescription;
                 break;
                 
             case NSURLErrorTimedOut:
@@ -161,8 +161,8 @@
             case NSURLErrorResourceUnavailable:
             case NSURLErrorZeroByteResource:
             case NSURLErrorCannotLoadFromNetwork:
-                code = HPTHTTPErrorConnectionFailed;
-                description = HPTHTTPErrorConnectionFailedDescription;
+                code = HPTErrorCodeHTTPConnectionFailed;
+                description = HPTErrorCodeHTTPConnectionFailedDescription;
                 break;
                 
             case NSURLErrorSecureConnectionFailed:
@@ -179,13 +179,13 @@
             case NSURLErrorDNSLookupFailed:
             case NSURLErrorAppTransportSecurityRequiresSecureConnection:
             case NSURLErrorBackgroundSessionRequiresSharedContainer:
-                code = HPTHTTPErrorConfig;
-                description = HPTHTTPErrorConfigDescription;
+                code = HPTErrorCodeHTTPConfig;
+                description = HPTErrorCodeHTTPConfigDescription;
                 break;
         }
     }
     
-    NSDictionary *userInfo = @{NSUnderlyingErrorKey: error, NSLocalizedFailureReasonErrorKey: description};
+    NSDictionary *userInfo = @{NSUnderlyingErrorKey: error, NSLocalizedDescriptionKey: description};
     
     return [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:code userInfo:userInfo];
 }

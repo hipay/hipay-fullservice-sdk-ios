@@ -11,13 +11,14 @@
 #import "HPTPaymentCardTokenMapper.h"
 #import "HPTHTTPClient.h"
 #import "HPTClientConfig.h"
+#import "HPTAbstractClient.h"
 
 #define HPTSecureVaultClientBaseURLStage        @"https://stage-secure-vault.hipay-tpp.com/rest/v1/"
 #define HPTSecureVaultClientBaseURLProduction   @"https://secure-vault.hipay-tpp.com/rest/v1/"
 
 typedef void (^HPTSecureVaultClientCompletionBlock)(HPTPaymentCardToken *cardToken, NSError *error);
 
-@interface HPTSecureVaultClient : NSObject
+@interface HPTSecureVaultClient : HPTAbstractClient
 {
     HPTHTTPClient *HTTPClient;
     HPTClientConfig *clientConfig;

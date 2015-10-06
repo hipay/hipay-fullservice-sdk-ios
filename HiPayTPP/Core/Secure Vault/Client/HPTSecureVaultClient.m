@@ -7,6 +7,7 @@
 //
 
 #import "HPTSecureVaultClient.h"
+#import "HPTAbstractClient+Private.h"
 
 @implementation HPTSecureVaultClient
 
@@ -61,7 +62,17 @@
     
     [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
-        completionBlock([self paymentCardTokenWithData:response.body], nil);
+        if (error == nil) {
+            HPTPaymentCardToken *newToken = [self paymentCardTokenWithData:response.body];
+            
+            if (newToken != nil) {
+                completionBlock(newToken, nil);
+            } else {
+                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+            }
+        } else {
+            completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
+        }
         
     }];
 }

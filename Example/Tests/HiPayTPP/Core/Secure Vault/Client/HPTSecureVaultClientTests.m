@@ -10,6 +10,17 @@
 #import "HPTSecureVaultClient+Testing.h"
 
 @interface HPTSecureVaultClientTests : XCTestCase
+{
+    HPTHTTPClient *mockedHTTPClient;
+    HPTSecureVaultClient *secureVaultClient;
+    NSDictionary *parameters;
+    NSString *cardNumber;
+    NSString *month;
+    NSString *year;
+    NSString *holder;
+    NSString *code;
+    BOOL multiUse;
+}
 
 @end
 
@@ -17,7 +28,26 @@
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    mockedHTTPClient = [OCMockObject mockForClass:[HPTHTTPClient class]];
+    
+    secureVaultClient = [OCMockObject partialMockForObject:[[HPTSecureVaultClient alloc] initWithHTTPClient:mockedHTTPClient clientConfig:[HPTClientConfig sharedClientConfig]]];
+
+    cardNumber = @"4111111111111111";
+    month = @"12";
+    year = @"2016";
+    holder = @"John Doe";
+    code = @"456";
+    multiUse = NO;
+    
+    parameters = @{
+                   @"card_number": cardNumber,
+                   @"card_expiry_month": month,
+                   @"card_expiry_year": year,
+                   @"card_holder": holder,
+                   @"cvc": code,
+                   @"multi_use": @(multiUse).stringValue,
+                   };
 }
 
 - (void)tearDown {
@@ -51,14 +81,7 @@
 
 - (void)testGenerateToken
 {
-    HPTHTTPClient *mockedHTTPClient = [OCMockObject mockForClass:[HPTHTTPClient class]];
 
-    NSString *cardNumber = @"4111111111111111";
-    NSString *month = @"12";
-    NSString *year = @"2016";
-    NSString *holder = @"John Doe";
-    NSString *code = @"456";
-    BOOL multiUse = NO;
     
     NSDictionary *rawData = @{@"token":@"b57dad30b32a0026bd036b359cf70a80436a3b10",
                               @"requestId":@"2U6YRQAWTGDXTAG6RZQ4RQX",
@@ -78,16 +101,6 @@
         passedCompletionBlock([[HPTHTTPResponse alloc] initWithStatusCode:200 body:rawData], nil);
     };
     
-    HPTSecureVaultClient *secureVaultClient = [OCMockObject partialMockForObject:[[HPTSecureVaultClient alloc] initWithHTTPClient:mockedHTTPClient clientConfig:[HPTClientConfig sharedClientConfig]]];
-    
-    NSDictionary *parameters = @{
-                                 @"card_number": cardNumber,
-                                 @"card_expiry_month": month,
-                                 @"card_expiry_year": year,
-                                 @"card_holder": holder,
-                                 @"cvc": code,
-                                 @"multi_use": @(multiUse).stringValue,
-                                 };
     
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo: proxyBlock] performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:OCMOCK_ANY];
     
@@ -109,6 +122,68 @@
 
 - (void)testError
 {
+    NSDictionary *rawData = @{@"whatever": @"anything"};
+    
+    NSError *HTTPError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{}];
+    NSError *secureVaultError = [[NSError alloc] init];
+    
+    
+    [[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
+        
+        HPTHTTPClientCompletionBlock passedCompletionBlock;
+        [invocation getArgument: &passedCompletionBlock atIndex:5];
+        
+        passedCompletionBlock([[HPTHTTPResponse alloc] initWithStatusCode:400 body:rawData], HTTPError);
+        
+    }] performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:OCMOCK_ANY];
+    
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
+    
+    [[[((OCMockObject *)secureVaultClient) expect] andReturn:secureVaultError] errorForResponseBody:rawData andError:HTTPError];
+    
+    [secureVaultClient generateTokenWithCardNumber:cardNumber cardExpiryMonth:month cardExpiryYear:year cardHolder:holder securityCode:code multiUse:multiUse andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
+        
+        XCTAssertNil(cardToken);
+        XCTAssertEqualObjects(error, secureVaultError);
+        [expectation fulfill];
+        
+    }];
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    
+    
+}
+
+- (void)testErrorMalformedResponse
+{
+    NSDictionary *rawData = @{@"whatever": @"anything"};
+    
+    
+    [[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
+        
+        HPTHTTPClientCompletionBlock passedCompletionBlock;
+        [invocation getArgument: &passedCompletionBlock atIndex:5];
+        
+        passedCompletionBlock([[HPTHTTPResponse alloc] initWithStatusCode:200 body:rawData], nil);
+        
+    }] performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:OCMOCK_ANY];
+    
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
+    
+    [secureVaultClient generateTokenWithCardNumber:cardNumber cardExpiryMonth:month cardExpiryYear:year cardHolder:holder securityCode:code multiUse:multiUse andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
+        
+        XCTAssertNil(cardToken);
+        XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
+        XCTAssertEqual(error.code, HPTErrorCodeAPIOther);
+        XCTAssertEqualObjects([error.userInfo objectForKey:NSLocalizedFailureReasonErrorKey], @"Malformed server response");
+        [expectation fulfill];
+        
+    }];
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    
     
 }
 

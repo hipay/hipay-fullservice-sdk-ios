@@ -14,7 +14,9 @@
 {
     self = [super init];
     if (self) {
-        _rawData = rawData;
+        if ([rawData isKindOfClass:[NSDictionary class]]) {
+            _rawData = rawData;
+        }
     }
     return self;
 }

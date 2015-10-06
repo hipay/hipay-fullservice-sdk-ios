@@ -13,6 +13,10 @@
 
 - (id _Nullable)mappedObject
 {
+    if (![self.rawData isKindOfClass:[NSDictionary class]] || [self.rawData objectForKey:@"token"] == nil) {
+        return nil;
+    }
+    
     HPTPaymentCardToken *object = [[HPTPaymentCardToken alloc] init];
     
     [object setValue:[self getObjectForKey:@"token"] forKey:@"token"];

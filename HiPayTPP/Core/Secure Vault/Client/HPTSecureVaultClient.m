@@ -62,19 +62,35 @@
     
     [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
-        if (error == nil) {
-            HPTPaymentCardToken *newToken = [self paymentCardTokenWithData:response.body];
-            
-            if (newToken != nil) {
-                completionBlock(newToken, nil);
-            } else {
-                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
-            }
-        } else {
-            completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
-        }
+        [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
     }];
+}
+
+- (void)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
+{
+    NSDictionary *parameters = @{@"request_id": requestID};
+    
+    [HTTPClient performRequestWithMethod:HPTHTTPMethodGet path:[@"token/" stringByAppendingString:token] parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+        
+        [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
+        
+    }];
+}
+
+- (void)manageRequestWithHTTPResponse:(HPTHTTPResponse *)response error:(NSError *)error andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
+{
+    if (error == nil) {
+        HPTPaymentCardToken *newToken = [self paymentCardTokenWithData:response.body];
+        
+        if (newToken != nil) {
+            completionBlock(newToken, nil);
+        } else {
+            completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+        }
+    } else {
+        completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
+    }
 }
 
 @end

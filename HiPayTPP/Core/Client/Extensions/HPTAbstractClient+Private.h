@@ -15,6 +15,7 @@
 
 - (NSError *)errorForResponseBody:(NSDictionary *)body andError:(NSError *)error;
 - (HPTErrorCode)errorCodeForNumber:(NSString *)codeNumber;
+- (void)manageRequestWithHTTPResponse:(HPTHTTPResponse *)response error:(NSError *)error andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock;
 
 @end
 

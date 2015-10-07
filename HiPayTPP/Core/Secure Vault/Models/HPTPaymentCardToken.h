@@ -12,6 +12,7 @@
 
 @property (nonatomic, readonly, nonnull) NSString *token;
 @property (nonatomic, readonly, nonnull) NSString *brand;
+@property (nonatomic, readonly, nonnull) NSString *requestID;
 @property (nonatomic, readonly, nonnull) NSString *pan;
 @property (nonatomic, readonly, nonnull) NSString *cardHolder;
 @property (nonatomic, readonly, nonnull) NSString *cardExpiryMonth;

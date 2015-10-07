@@ -32,6 +32,7 @@
     NSDictionary *rawData = @{
                               @"token": @"mqlakjgbag985654apskamqpakfjf8bbloaproi",
                               @"brand": @"American Express",
+                              @"request_id":@"2U6YRQAWTGDXTAG6RZQ4RQX",
                               @"pan": @"549619******4769",
                               @"card_holder": @"John Doe",
                               @"card_expiry_month": @"05",
@@ -52,6 +53,7 @@
     XCTAssertEqualObjects([rawData objectForKey:@"token"], paymentCardToken.token);
     XCTAssertEqualObjects([rawData objectForKey:@"brand"], paymentCardToken.brand);
     XCTAssertEqualObjects([rawData objectForKey:@"pan"], paymentCardToken.pan);
+    XCTAssertEqualObjects([rawData objectForKey:@"request_id"], paymentCardToken.requestID);
     XCTAssertEqualObjects([rawData objectForKey:@"card_holder"], paymentCardToken.cardHolder);
     XCTAssertEqualObjects([rawData objectForKey:@"card_expiry_month"], paymentCardToken.cardExpiryMonth);
     XCTAssertEqualObjects([rawData objectForKey:@"card_expiry_year"], paymentCardToken.cardExpiryYear);

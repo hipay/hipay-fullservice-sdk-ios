@@ -20,8 +20,9 @@
     HPTPaymentCardToken *object = [[HPTPaymentCardToken alloc] init];
     
     [object setValue:[self getObjectForKey:@"token"] forKey:@"token"];
-    [object setValue:[self getObjectForKey:@"brand"] forKey:@"brand"];
+    [object setValue:[self getObjectForKey:@"request_id"] forKey:@"requestID"];
     [object setValue:[self getObjectForKey:@"pan"] forKey:@"pan"];
+    [object setValue:[self getObjectForKey:@"brand"] forKey:@"brand"];
     [object setValue:[self getObjectForKey:@"card_holder"] forKey:@"cardHolder"];
     [object setValue:[self getObjectForKey:@"card_expiry_month"] forKey:@"cardExpiryMonth"];
     [object setValue:[self getObjectForKey:@"card_expiry_year"] forKey:@"cardExpiryYear"];

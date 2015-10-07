@@ -14,8 +14,12 @@
 @interface HPTAbstractClient (Private)
 
 - (NSError *)errorForResponseBody:(NSDictionary *)body andError:(NSError *)error;
+
 - (HPTErrorCode)errorCodeForNumber:(NSString *)codeNumber;
+
 - (void)manageRequestWithHTTPResponse:(HPTHTTPResponse *)response error:(NSError *)error andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock;
+
+- (instancetype)initWithHTTPClient:(HPTHTTPClient *)HTTPClient clientConfig:(HPTClientConfig *)theClientConfig;
 
 @end
 

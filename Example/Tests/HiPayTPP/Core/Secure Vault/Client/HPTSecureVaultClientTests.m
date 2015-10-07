@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "HPTSecureVaultClient+Testing.h"
+#import <HiPayTPP/HPTAbstractClient+Private.h>
 
 @interface HPTSecureVaultClientTests : XCTestCase
 {

@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-
+#import <HiPayTPP/HPTAbstractClient+Private.h>
 
 @interface HPTAbstractClientTest : XCTestCase
 {

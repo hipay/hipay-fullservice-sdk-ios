@@ -16,6 +16,5 @@
 
 #import <HiPayTPP/HPTSecureVaultClient.h>
 #import <HiPayTPP/HPTAbstractClient.h>
-#import <HiPayTPP/HPTAbstractClient+Private.h>
 
 

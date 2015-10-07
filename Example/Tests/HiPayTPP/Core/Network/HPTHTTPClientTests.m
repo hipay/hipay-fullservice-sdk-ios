@@ -32,7 +32,7 @@
 
 - (void)resetClient
 {
-    client = [[HPTHTTPClient alloc] initWithBaseURL:baseURL login:@"api_login" password:@"api_passwd"];
+    client = [[HPTHTTPClient alloc] initWithBaseURL:baseURL username:@"api_login" password:@"api_passwd"];
     mockedClient = [OCMockObject partialMockForObject:client];
 }
 
@@ -57,10 +57,7 @@
 
 - (NSString *)authHeaderValue
 {
-    NSString *authString = [NSString stringWithFormat:@"%@:%@", @"api_login", @"api_passwd"];
-    NSData *authData = [authString dataUsingEncoding:NSASCIIStringEncoding];
-    NSString *authHeaderValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength]];
-    return authHeaderValue;
+    return @"Basic YXBpX2xvZ2luOmFwaV9wYXNzd2Q=";
 }
 
 - (void)testAuthHeaderCreation
@@ -218,14 +215,14 @@
 - (NSDictionary *)generatedErrorCodesForConnectionErrors
 {
     NSDictionary *errors = @{
-                             @(HPTHTTPErrorNetworkUnavailable): @[
+                             @(HPTErrorCodeHTTPNetworkUnavailable): @[
                                      @(NSURLErrorNotConnectedToInternet),
                                      @(NSURLErrorInternationalRoamingOff),
                                      @(NSURLErrorCallIsActive),
                                      @(NSURLErrorDataNotAllowed),
                                      ],
                              
-                             @(HPTHTTPErrorConnectionFailed): @[
+                             @(HPTErrorCodeHTTPConnectionFailed): @[
                                      @(NSURLErrorTimedOut),
                                      @(NSURLErrorCancelled),
                                      @(NSURLErrorNetworkConnectionLost),
@@ -243,7 +240,7 @@
                                      @(NSURLErrorCannotLoadFromNetwork),
                                      ],
                              
-                             @(HPTHTTPErrorConfig): @[
+                             @(HPTErrorCodeHTTPConfig): @[
                                      @(NSURLErrorSecureConnectionFailed),
                                      @(NSURLErrorServerCertificateHasBadDate),
                                      @(NSURLErrorServerCertificateUntrusted),
@@ -260,7 +257,7 @@
                                      @(NSURLErrorBackgroundSessionRequiresSharedContainer),
                                      ],
                              
-                             @(HPTHTTPErrorOther): @[
+                             @(HPTErrorCodeHTTPOther): @[
                                      @(NSURLErrorCannotOpenFile),
                                      @(NSURLErrorCannotRemoveFile),
                                      @(NSURLErrorCannotMoveFile),
@@ -328,8 +325,8 @@
         
         XCTAssertNil(response);
         XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
-        XCTAssertEqual(error.code, HPTHTTPErrorServer);
-        XCTAssertEqualObjects([error.userInfo objectForKey:NSLocalizedFailureReasonErrorKey], HPTHTTPErrorServerDescription);
+        XCTAssertEqual(error.code, HPTErrorCodeHTTPServer);
+        XCTAssertEqualObjects([error.userInfo objectForKey:NSLocalizedDescriptionKey], HPTErrorCodeHTTPServerDescription);
         
         [expectation fulfill];
     }];
@@ -354,8 +351,8 @@
         XCTAssertEqualObjects(response.body, body);
         XCTAssertEqual(response.statusCode, 400);
         XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
-        XCTAssertEqual(error.code, HPTHTTPErrorClient);
-        XCTAssertEqual([error.userInfo objectForKey:NSLocalizedFailureReasonErrorKey], HPTHTTPErrorClientDescription);
+        XCTAssertEqual(error.code, HPTErrorCodeHTTPClient);
+        XCTAssertEqual([error.userInfo objectForKey:NSLocalizedDescriptionKey], HPTErrorCodeHTTPClientDescription);
         
         [expectation fulfill];
     }];

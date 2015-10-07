@@ -79,21 +79,24 @@
                                          andError:underlyingError];
     
     XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
-    XCTAssertEqual(error.code, HPTErrorCodeAPIOther);
+    XCTAssertEqual(error.code, HPTErrorCodeAPIConfiguration);
     XCTAssertEqualObjects([error.userInfo objectForKey:NSUnderlyingErrorKey], underlyingError);
+    XCTAssertNil([error.userInfo objectForKey:NSLocalizedDescriptionKey]);
 }
 
 - (void)testErrorMalformedResponse2
 {
     NSError *underlyingError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{}];
     
-    NSError *error = [client errorForResponseBody:@{@"code": @11111111,
+    NSError *error = [client errorForResponseBody:@{@"code": @1000001,
                                                     @"message": @"Incorrect Credentials",
                                                     @"description": @"Username and/or password is incorrect."}
                                          andError:underlyingError];
     
     XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
-    XCTAssertEqual(error.code, HPTErrorCodeAPIOther);
+    XCTAssertEqual(error.code, HPTErrorCodeAPIConfiguration);
+    XCTAssertEqualObjects([error.userInfo objectForKey:NSLocalizedDescriptionKey], @"Username and/or password is incorrect.");
+    XCTAssertEqual([[error.userInfo objectForKey:HPTErrorCodeAPICodeKey] integerValue], HPTErrorAPIIncorrectCredentials);
     XCTAssertEqualObjects([error.userInfo objectForKey:NSUnderlyingErrorKey], underlyingError);
 }
 

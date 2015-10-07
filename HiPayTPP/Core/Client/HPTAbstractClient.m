@@ -68,20 +68,31 @@
     NSMutableDictionary *userInfo = @{NSUnderlyingErrorKey: error}.mutableCopy;
     NSInteger code;
     
-    if (error.domain == HPTHiPayTPPErrorDomain && error.code == HPTErrorCodeHTTPClient && [[body objectForKey:@"code"] isKindOfClass:[NSString class]] && [[body objectForKey:@"message"] isKindOfClass:[NSString class]] && [[body objectForKey:@"description"] isKindOfClass:[NSString class]]) {
+    if (error.domain == HPTHiPayTPPErrorDomain && error.code == HPTErrorCodeHTTPClient && ([[body objectForKey:@"code"] isKindOfClass:[NSString class]] || [[body objectForKey:@"code"] isKindOfClass:[NSNumber class]]) && [[body objectForKey:@"message"] isKindOfClass:[NSString class]]) {
         
-        code = [self errorCodeForNumber:[body objectForKey:@"code"]];
+        NSString *stringCode;
+        
+        if ([[body objectForKey:@"code"] isKindOfClass:[NSString class]]) {
+            stringCode = [body objectForKey:@"code"];
+        } else {
+            stringCode = ((NSNumber *)[body objectForKey:@"code"]).stringValue;
+        }
+        
+        code = [self errorCodeForNumber:stringCode];
         
         if (code != HPTErrorCodeAPIOther) {
 
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
             formatter.numberStyle = NSNumberFormatterRoundFloor;
-            NSNumber *codeNumber = [formatter numberFromString:[body objectForKey:@"code"]];
+            NSNumber *codeNumber = [formatter numberFromString:stringCode];
             
             if (codeNumber != nil) {
                 [userInfo setObject:codeNumber forKey:HPTErrorCodeAPICodeKey];
                 [userInfo setObject:[body objectForKey:@"message"] forKey:HPTErrorCodeAPIMessageKey];
-                [userInfo setObject:[body objectForKey:@"description"] forKey:NSLocalizedDescriptionKey];
+                
+                if ([[body objectForKey:@"description"] isKindOfClass:[NSString class]]) {
+                    [userInfo setObject:[body objectForKey:@"description"] forKey:NSLocalizedDescriptionKey];
+                }
             }
         }
     }

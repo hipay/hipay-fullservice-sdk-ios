@@ -7,22 +7,29 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HPTPersonalInformation.h"
 
-@interface HPTOrder : NSObject
+typedef NS_ENUM(NSInteger, HPTGender) {
+    
+    HPTGenderUnknown,
+    HPTGenderMale,
+    HPTGenderFemale,
+    
+};
+
+@interface HPTOrder : HPTPersonalInformation
 
 @property (nonatomic, readonly) NSString *orderId;
 @property (nonatomic, readonly) NSDate *dateCreated;
-@property (nonatomic, readonly) NSString *attempts;
-@property (nonatomic, readonly) NSString *amount;
-@property (nonatomic, readonly) NSString *shipping;
-@property (nonatomic, readonly) NSString *tax;
-@property (nonatomic, readonly) NSString *decimals;
+@property (nonatomic, readonly) NSInteger attempts;
+@property (nonatomic, readonly) NSNumber *amount;
+@property (nonatomic, readonly) NSNumber *shipping;
+@property (nonatomic, readonly) NSNumber *tax;
+@property (nonatomic, readonly) NSNumber *decimals;
 @property (nonatomic, readonly) NSString *currency;
 @property (nonatomic, readonly) NSString *customerId;
 @property (nonatomic, readonly) NSString *language;
-@property (nonatomic, readonly) NSString *msisdn;
-@property (nonatomic, readonly) NSString *phone;
-@property (nonatomic, readonly) NSString *phoneOperator;
-@property (nonatomic, readonly) NSString *email;
+@property (nonatomic, readonly) HPTGender gender;
+@property (nonatomic, readonly) HPTPersonalInformation *shippingAddress;
 
 @end

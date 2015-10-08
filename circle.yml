@@ -1,5 +1,5 @@
 machine:
   environment: 
-    XCODE_SCHEME: "HiPayTPP-Example"
+    XCODE_SCHEME: "HiPayTPP_Example"
   xcode:
     version: "7.0"

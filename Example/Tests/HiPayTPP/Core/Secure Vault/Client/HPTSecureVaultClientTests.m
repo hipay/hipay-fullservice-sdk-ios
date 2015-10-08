@@ -242,7 +242,7 @@
     NSDictionary *rawData = @{@"whatever": @"anything"};
     
     NSError *HTTPError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{}];
-    NSError *secureVaultError = [[NSError alloc] init];
+    NSError *secureVaultError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{}];
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     

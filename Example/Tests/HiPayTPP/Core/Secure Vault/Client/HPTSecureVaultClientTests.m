@@ -107,6 +107,36 @@
     [((OCMockObject *)secureVaultClient) verify];
 }
 
+- (void)testGenerateTokenWithoutSecurityCode
+{
+    // We create dummy response and error, just to check these info are passed to the proper methods
+    HPTHTTPResponse *HTTPResponse = [[HPTHTTPResponse alloc] init];
+    NSError *error = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPOther userInfo:@{}];
+    
+    // We don't do anything in this completion block, we just make sure the block is passed to the manageRequest method
+    HPTSecureVaultClientCompletionBlock tokenCompletionBlock = ^(HPTPaymentCardToken *cardToken, NSError *error) {};
+    
+    NSMutableDictionary *paramtersNoCVC = [parameters mutableCopy];
+    [paramtersNoCVC setObject:@"" forKey:@"cvc"];
+    
+    // Generate token method should perform HTTP request
+    [[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
+        
+        HPTHTTPClientCompletionBlock passedCompletionBlock;
+        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        
+        passedCompletionBlock(HTTPResponse, error);
+        
+    }] performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:paramtersNoCVC completionHandler:OCMOCK_ANY];
+    
+    // Once the method gets the HTTP response, it should call the manage request method
+    [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
+    
+    [secureVaultClient generateTokenWithCardNumber:cardNumber cardExpiryMonth:month cardExpiryYear:year cardHolder:holder securityCode:nil multiUse:multiUse andCompletionHandler:tokenCompletionBlock];
+    
+    [((OCMockObject *)secureVaultClient) verify];
+}
+
 - (void)testUpdateToken
 {
     // We create dummy response and error, just to check these info are passed to the proper methods

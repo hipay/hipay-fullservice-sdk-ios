@@ -51,6 +51,10 @@
 
 - (void)generateTokenWithCardNumber:(NSString *)cardNumber cardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder securityCode:(NSString *)securityCode multiUse:(BOOL)multiUse andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
+    if (securityCode == nil) {
+        securityCode = @"";
+    }
+    
     NSDictionary *parameters = @{
                                  @"card_number": cardNumber,
                                  @"card_expiry_month": cardExpiryMonth,

@@ -101,6 +101,7 @@ typedef NS_ENUM(NSInteger, HPTErrorAPIReason) {
     HPTErrorAPISuspicionOfFraud = 3000201,
     HPTErrorAPIFraudSuspicion = 3040001,
     HPTErrorAPIUnknownToken = 3030001,
+    HPTErrorAPILuhnCheckFailed = 409,
     
     // Error codes relating to the Checkout Process
     HPTErrorAPIUnsupportedCurrency = 3010001,

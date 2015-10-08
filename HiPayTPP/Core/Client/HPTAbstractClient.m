@@ -14,7 +14,7 @@
 - (HPTErrorCode)errorCodeForNumber:(NSString *)codeNumber
 {
     
-    if (codeNumber.length != 7) {
+    if (codeNumber.length < 3 || codeNumber.length > 7) {
         return HPTErrorCodeAPIOther;
     }
     
@@ -58,6 +58,11 @@
     
     else if ([range isEqualToString:@"401"]) {
         return HPTErrorCodeAPIAcquirer;
+    }
+    
+    // Luhn check
+    if ([codeNumber isEqualToString:@"409"]) {
+        return HPTErrorCodeAPIValidation;
     }
     
     return HPTErrorCodeAPIOther;

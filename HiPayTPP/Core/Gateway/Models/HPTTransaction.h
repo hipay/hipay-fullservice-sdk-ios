@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HPTTransactionRelatedItem.h"
 
-@interface HPTTransaction : NSObject
+@interface HPTTransaction : HPTTransactionRelatedItem
 
 @end

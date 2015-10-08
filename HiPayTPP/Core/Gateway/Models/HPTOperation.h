@@ -7,9 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HPTTransactionRelatedItem.h"
 
-@interface HPTOperation : NSObject
+typedef NS_ENUM(NSInteger, HPTOperationType) {
+    
+    HPTOperationTypeUnknown,
+    HPTOperationTypeCapture,
+    HPTOperationTypeRefund,
+    HPTOperationTypeCancel,
+    HPTOperationTypeAcceptChallenge,
+    HPTOperationTypeDenyChallenge
+    
+};
 
-@property (nonatomic, readonly) NSString *operation;
+@interface HPTOperation : HPTTransactionRelatedItem
+
+@property (nonatomic, readonly) HPTOperationType operation;
 
 @end

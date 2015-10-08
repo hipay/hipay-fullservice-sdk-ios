@@ -14,7 +14,7 @@
 - (HPTErrorCode)errorCodeForNumber:(NSString *)codeNumber
 {
     
-    if (codeNumber.length < 3 || codeNumber.length > 7) {
+    if (codeNumber.length != 3 && codeNumber.length != 7) {
         return HPTErrorCodeAPIOther;
     }
     

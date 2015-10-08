@@ -23,7 +23,12 @@
 
 - (instancetype)init
 {
-    return [self initWithHTTPClient:[HPTSecureVaultClient createClient] clientConfig:[HPTClientConfig sharedClientConfig]];
+    self = [super init];
+    if (self) {
+        HTTPClient = [HPTSecureVaultClient createClient];
+        clientConfig = [HPTClientConfig sharedClientConfig];
+    }
+    return self;
 }
 
 + (HPTHTTPClient *)createClient

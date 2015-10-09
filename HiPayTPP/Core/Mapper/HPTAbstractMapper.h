@@ -13,6 +13,6 @@
 @property (nonatomic, readonly, nullable) NSDictionary *rawData;
 
 - (instancetype _Nonnull)initWithRawData:(NSDictionary * _Nullable)rawData;
-- (id _Nullable)mappedObject;
+- (id _Nonnull)mappedObject;
 
 @end

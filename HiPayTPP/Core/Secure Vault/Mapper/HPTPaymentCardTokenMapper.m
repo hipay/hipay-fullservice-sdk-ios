@@ -11,12 +11,9 @@
 
 @implementation HPTPaymentCardTokenMapper
 
-- (id _Nullable)mappedObject
+- (id _Nonnull)mappedObject
 {
-    if ([self.rawData objectForKey:@"token"] == nil) {
-        return nil;
-    }
-    
+
     HPTPaymentCardToken *object = [[HPTPaymentCardToken alloc] init];
     
     [object setValue:[self getStringForKey:@"token"] forKey:@"token"];
@@ -32,6 +29,11 @@
     
     return object;
     
+}
+
+- (BOOL)isValid
+{
+    return [self.rawData objectForKey:@"token"] != nil;
 }
 
 @end

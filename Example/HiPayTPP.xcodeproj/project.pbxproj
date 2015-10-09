@@ -30,6 +30,11 @@
 		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; settings = {ASSET_TAGS = (); }; };
 		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; settings = {ASSET_TAGS = (); }; };
 		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; settings = {ASSET_TAGS = (); }; };
+		A595C44C1BC800310076AF07 /* HPTFraudScreeningMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C44B1BC800310076AF07 /* HPTFraudScreeningMapperTests.m */; settings = {ASSET_TAGS = (); }; };
+		A595C44E1BC800430076AF07 /* HPTOperationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C44D1BC800430076AF07 /* HPTOperationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
+		A595C4501BC800510076AF07 /* HPTPersonalInformationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C44F1BC800510076AF07 /* HPTPersonalInformationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
+		A595C4521BC800600076AF07 /* HPTTransactionMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C4511BC800600076AF07 /* HPTTransactionMapperTests.m */; settings = {ASSET_TAGS = (); }; };
+		A595C4541BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C4531BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; settings = {ASSET_TAGS = (); }; };
@@ -81,6 +86,11 @@
 		A51546371BBA83510077296E /* example_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_array.json; sourceTree = "<group>"; };
 		A515463C1BBBCD6D0077296E /* plain_text_response.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plain_text_response.txt; sourceTree = "<group>"; };
 		A515463E1BBBDD1F0077296E /* example_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_error.json; sourceTree = "<group>"; };
+		A595C44B1BC800310076AF07 /* HPTFraudScreeningMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTFraudScreeningMapperTests.m; sourceTree = "<group>"; };
+		A595C44D1BC800430076AF07 /* HPTOperationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTOperationMapperTests.m; sourceTree = "<group>"; };
+		A595C44F1BC800510076AF07 /* HPTPersonalInformationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPersonalInformationMapperTests.m; sourceTree = "<group>"; };
+		A595C4511BC800600076AF07 /* HPTTransactionMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTTransactionMapperTests.m; sourceTree = "<group>"; };
+		A595C4531BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTTransactionRelatedItemMapperTests.m; sourceTree = "<group>"; };
 		A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPClientTests.m; sourceTree = "<group>"; };
 		A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponseTests.m; sourceTree = "<group>"; };
 		A5A6EEA21BB97C8400825B19 /* example_dictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_dictionary.json; sourceTree = "<group>"; };
@@ -282,6 +292,11 @@
 			isa = PBXGroup;
 			children = (
 				A5C6F2971BC7F0CA00DEC43E /* HPTThreeDSecureTests.m */,
+				A595C44B1BC800310076AF07 /* HPTFraudScreeningMapperTests.m */,
+				A595C44D1BC800430076AF07 /* HPTOperationMapperTests.m */,
+				A595C44F1BC800510076AF07 /* HPTPersonalInformationMapperTests.m */,
+				A595C4511BC800600076AF07 /* HPTTransactionMapperTests.m */,
+				A595C4531BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -514,13 +529,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A595C4521BC800600076AF07 /* HPTTransactionMapperTests.m in Sources */,
 				A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */,
 				A51004E51BC28714002BD3C1 /* HPTAbstractClientTest.m in Sources */,
 				A51004DA1BBD8F4F002BD3C1 /* HPTClientConfigTests.m in Sources */,
 				A5C6F2981BC7F0CA00DEC43E /* HPTThreeDSecureTests.m in Sources */,
+				A595C44C1BC800310076AF07 /* HPTFraudScreeningMapperTests.m in Sources */,
 				A51004B51BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m in Sources */,
+				A595C4501BC800510076AF07 /* HPTPersonalInformationMapperTests.m in Sources */,
 				A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */,
+				A595C44E1BC800430076AF07 /* HPTOperationMapperTests.m in Sources */,
 				A51004BF1BBD67EF002BD3C1 /* HPTMapperTests.m in Sources */,
+				A595C4541BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m in Sources */,
 				A51004DC1BBE893D002BD3C1 /* HPTSecureVaultClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -17,6 +17,11 @@
     if (self) {
         if ([rawData isKindOfClass:[NSDictionary class]]) {
             _rawData = rawData;
+            
+            if (![self isValid]) {
+                return nil;
+            }
+            
         } else {
             return nil;
         }
@@ -24,9 +29,14 @@
     return self;
 }
 
-- (id _Nullable)mappedObject
+- (id _Nonnull)mappedObject
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"The method %@ should be overridden in a subclass.", NSStringFromSelector(_cmd)] userInfo:nil];
+}
+
+- (BOOL)isValid
+{
+    return YES;
 }
 
 - (id)getObjectForKey:(NSString *)key

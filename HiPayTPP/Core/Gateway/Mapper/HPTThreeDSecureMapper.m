@@ -12,11 +12,8 @@
 
 @implementation HPTThreeDSecureMapper
 
-- (id _Nullable)mappedObject
+- (id _Nonnull)mappedObject
 {
-    if ([self.rawData objectForKey:@"enrollmentStatus"] == nil) {
-        return nil;
-    }
     
     HPTThreeDSecure *object = [[HPTThreeDSecure alloc] init];
     
@@ -25,6 +22,11 @@
 
     
     return object;
+}
+
+- (BOOL)isValid
+{
+    return [self.rawData objectForKey:@"enrollmentStatus"] != nil;
 }
 
 @end

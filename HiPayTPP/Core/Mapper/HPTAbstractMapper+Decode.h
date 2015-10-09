@@ -14,4 +14,6 @@
 - (NSString *)getStringForKey:(NSString *)key;
 - (NSNumber *)getEnumCharForKey:(NSString *)key;
 
+- (BOOL)isValid;
+
 @end

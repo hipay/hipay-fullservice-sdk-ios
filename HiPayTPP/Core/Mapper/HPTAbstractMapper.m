@@ -75,7 +75,35 @@
     }
     
     
-    return [NSNumber numberWithChar:-1];
+    return [NSNumber numberWithChar:' '];
+}
+
+- (NSNumber *)getNumberForKey:(NSString *)key
+{
+    id object = [self getObjectForKey:key];
+    
+    if (![object isKindOfClass:[NSNumber class]]) {
+        if ([object isKindOfClass:[NSString class]]) {
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            formatter.numberStyle = NSNumberFormatterDecimalStyle;
+            return [formatter numberFromString:object];
+        }
+        
+        return nil;
+    }
+    
+    return object;
+}
+
+- (NSInteger)getIntegerFromKey:(NSString *)key
+{
+    NSNumber *object = [self getNumberForKey:key];
+    
+    if (object == nil) {
+        return 0;
+    }
+    
+    return [object integerValue];
 }
 
 @end

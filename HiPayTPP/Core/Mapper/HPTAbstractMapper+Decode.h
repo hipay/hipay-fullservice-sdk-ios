@@ -14,7 +14,8 @@
 - (NSString *)getStringForKey:(NSString *)key;
 - (NSNumber *)getEnumCharForKey:(NSString *)key;
 - (NSString *)getLowercaseStringForKey:(NSString *)key;
-
+- (NSNumber *)getNumberForKey:(NSString *)key;
+- (NSInteger)getIntegerFromKey:(NSString *)key;
 - (BOOL)isValid;
 
 @end

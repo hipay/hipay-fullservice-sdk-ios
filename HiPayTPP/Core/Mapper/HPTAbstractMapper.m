@@ -61,6 +61,11 @@
     return object;
 }
 
+- (NSString *)getLowercaseStringForKey:(NSString *)key
+{
+    return [[self getStringForKey:key] lowercaseString];
+}
+
 - (NSNumber *)getEnumCharForKey:(NSString *)key
 {
     NSString *object = [self getStringForKey:key];

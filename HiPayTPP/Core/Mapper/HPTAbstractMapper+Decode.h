@@ -13,6 +13,7 @@
 - (id)getObjectForKey:(NSString *)key;
 - (NSString *)getStringForKey:(NSString *)key;
 - (NSNumber *)getEnumCharForKey:(NSString *)key;
+- (NSString *)getLowercaseStringForKey:(NSString *)key;
 
 - (BOOL)isValid;
 

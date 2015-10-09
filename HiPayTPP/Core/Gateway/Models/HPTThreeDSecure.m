@@ -1,5 +1,5 @@
 //
-//  ThreeDSecure.m
+//  HPTThreeDSecure.m
 //  Pods
 //
 //  Created by Jonathan TIRET on 09/10/2015.

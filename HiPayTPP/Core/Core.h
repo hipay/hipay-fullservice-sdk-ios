@@ -18,3 +18,18 @@
 #import <HiPayTPP/HPTAbstractClient.h>
 
 
+
+#import <HiPayTPP/HPTFraudScreening.h>
+#import <HiPayTPP/HPTOperation.h>
+#import <HiPayTPP/HPTOrder.h>
+#import <HiPayTPP/HPTPersonalInformation.h>
+#import <HiPayTPP/HPTThreeDSecure.h>
+#import <HiPayTPP/HPTTransaction.h>
+#import <HiPayTPP/HPTTransactionRelatedItem.h>
+
+#import <HiPayTPP/HPTThreeDSecureMapper.h>
+
+
+
+
+

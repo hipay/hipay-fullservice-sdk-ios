@@ -7,7 +7,8 @@
 //
 
 #import "HPTAbstractMapper.h"
+#import "HPTTransactionRelatedItemMapper.h"
 
-@interface HPTOperationMapper : HPTAbstractMapper
+@interface HPTOperationMapper : HPTTransactionRelatedItemMapper
 
 @end

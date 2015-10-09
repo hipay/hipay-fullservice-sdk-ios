@@ -27,6 +27,16 @@
     [super tearDown];
 }
 
+- (void)testInitWithWrongData
+{
+    NSDictionary *rawData = @{
+                              @"wrongData": @"anything",
+                              };
+    
+    XCTAssertNil([[HPTPaymentCardTokenMapper alloc] initWithRawData:rawData]);
+    
+}
+
 - (void)testMapping
 {
     NSDictionary *rawData = @{

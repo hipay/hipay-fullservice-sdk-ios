@@ -26,11 +26,6 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // Use recording to get started writing UI tests.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-}
-
 - (void)testMapping
 {
     NSDictionary *rawData = @{
@@ -50,6 +45,16 @@
     XCTAssertEqual(threeDSecure.enrollmentStatus, HPTThreeDSecureEnrollmentStatusAuthenticationAvailable);
     
     [mockedMapper verify];
+}
+
+- (void)testInitWithWrongData
+{
+    NSDictionary *rawData = @{
+                              @"wrongData": @"anything",
+                              };
+    
+    XCTAssertNil([[HPTThreeDSecureMapper alloc] initWithRawData:rawData]);
+    
 }
 
 - (void)testEnrollmentStatus

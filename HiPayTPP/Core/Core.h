@@ -28,6 +28,14 @@
 #import <HiPayTPP/HPTTransactionRelatedItem.h>
 
 #import <HiPayTPP/HPTThreeDSecureMapper.h>
+#import <HiPayTPP/HPTFraudScreeningMapper.h>
+#import <HiPayTPP/HPTOperationMapper.h>
+#import <HiPayTPP/HPTOrderMapper.h>
+#import <HiPayTPP/HPTPersonalInformationMapper.h>
+#import <HiPayTPP/HPTTransactionMapper.h>
+#import <HiPayTPP/HPTTransactionRelatedItemMapper.h>
+
+
 
 
 

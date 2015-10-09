@@ -53,6 +53,7 @@ typedef NS_ENUM(char, HPTCVCResult) {
 typedef NS_ENUM(NSInteger, HPTTransactionState) {
     
     HPTTransactionStateCompleted,
+    HPTTransactionStateForwarding,
     HPTTransactionStatePending,
     HPTTransactionStateDeclined,
     HPTTransactionStateError,

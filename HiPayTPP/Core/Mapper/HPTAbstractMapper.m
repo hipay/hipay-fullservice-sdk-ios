@@ -106,4 +106,20 @@
     return [object integerValue];
 }
 
+- (NSInteger)getIntegerEnumValueWithKey:(NSString *)key defaultEnumValue:(NSInteger)defaultValue allValues:(NSDictionary *)allValues
+{
+    NSString *stringValue = [self getLowercaseStringForKey:key];
+    
+    if (stringValue != nil) {
+        NSNumber *enumValue = [allValues objectForKey:stringValue];
+        
+        if (enumValue != nil) {
+            return enumValue.integerValue;
+        }
+    }
+    
+    return defaultValue;
+    
+}
+
 @end

@@ -16,6 +16,8 @@
 - (NSString *)getLowercaseStringForKey:(NSString *)key;
 - (NSNumber *)getNumberForKey:(NSString *)key;
 - (NSInteger)getIntegerFromKey:(NSString *)key;
+- (NSInteger)getIntegerEnumValueWithKey:(NSString *)key defaultEnumValue:(NSInteger)defaultValue allValues:(NSDictionary *)allValues;
+
 - (BOOL)isValid;
 
 @end

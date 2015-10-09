@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, HPTFraudScreeningResult) {
 
 typedef NS_ENUM(NSInteger, HPTFraudScreeningReview) {
     
+    HPTFraudScreeningReviewNone,
     HPTFraudScreeningReviewPending,
     HPTFraudScreeningReviewAllowed,
     HPTFraudScreeningReviewDenied,

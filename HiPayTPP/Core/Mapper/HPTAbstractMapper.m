@@ -7,6 +7,7 @@
 //
 
 #import "HPTAbstractMapper.h"
+#import "HPTAbstractMapper+Decode.h"
 
 @implementation HPTAbstractMapper
 
@@ -16,6 +17,8 @@
     if (self) {
         if ([rawData isKindOfClass:[NSDictionary class]]) {
             _rawData = rawData;
+        } else {
+            return nil;
         }
     }
     return self;
@@ -35,6 +38,29 @@
     }
     
     return object;
+}
+
+- (NSString *)getStringForKey:(NSString *)key
+{
+    id object = [self getObjectForKey:key];
+    
+    if (![object isKindOfClass:[NSString class]]) {
+        return nil;
+    }
+    
+    return object;
+}
+
+- (NSNumber *)getEnumCharForKey:(NSString *)key
+{
+    NSString *object = [self getStringForKey:key];
+    
+    if ((object != nil) && (object.length == 1)) {
+        return [NSNumber numberWithChar:[object characterAtIndex:0]];
+    }
+    
+    
+    return [NSNumber numberWithChar:-1];
 }
 
 @end

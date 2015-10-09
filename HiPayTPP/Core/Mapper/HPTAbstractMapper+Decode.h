@@ -11,5 +11,7 @@
 @interface HPTAbstractMapper (Decode)
 
 - (id)getObjectForKey:(NSString *)key;
+- (NSString *)getStringForKey:(NSString *)key;
+- (NSNumber *)getEnumCharForKey:(NSString *)key;
 
 @end

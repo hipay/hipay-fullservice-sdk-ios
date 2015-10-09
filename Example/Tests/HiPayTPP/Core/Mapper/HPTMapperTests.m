@@ -38,6 +38,27 @@
     
     HPTAbstractMapper *mapper = [[HPTAbstractMapper alloc] initWithRawData:nil];
     
+    XCTAssertNil(mapper);
+    XCTAssertNil(mapper.rawData);
+}
+
+- (void)testInitArrayData {
+    
+    id rawData = @[];
+    
+    HPTAbstractMapper *mapper = [[HPTAbstractMapper alloc] initWithRawData:rawData];
+    
+    XCTAssertNil(mapper);
+    XCTAssertNil(mapper.rawData);
+}
+
+- (void)testInitStringData {
+    
+    id rawData = @"";
+    
+    HPTAbstractMapper *mapper = [[HPTAbstractMapper alloc] initWithRawData:rawData];
+    
+    XCTAssertNil(mapper);
     XCTAssertNil(mapper.rawData);
 }
 
@@ -50,6 +71,10 @@
 
 - (void)testValues {
     NSDictionary *rawData = @{
+                              @"charValue": @"U",
+                              @"wrongCharValue": @"UO",
+                              @"stringNumber": @"25.89",
+                              @"number": @(25.89),
                               @"test": @"Hello World",
                               @"null": [NSNull null]
                               };
@@ -58,9 +83,21 @@
     
     [((HPTAbstractMapper *)[[(OCMockObject *)mapper expect] andReturn:rawData]) rawData];
     
+    // Strings
     XCTAssertEqualObjects([mapper getObjectForKey:@"test"], @"Hello World");
+    XCTAssertEqualObjects([mapper getStringForKey:@"test"], @"Hello World");
+    XCTAssertNil([mapper getStringForKey:@"number"]);
+    
+    // Undefined values
     XCTAssertNil([mapper getObjectForKey:@"null"]);
     XCTAssertNil([mapper getObjectForKey:@"unknwon_value"]);
+
+    // Chars
+    XCTAssertEqualObjects([mapper getEnumCharForKey:@"charValue"], @('U'));
+    XCTAssertEqualObjects([mapper getEnumCharForKey:@"wrongCharValue"], @(-1));
+    XCTAssertEqualObjects([mapper getEnumCharForKey:@"number"], @(-1));
+    XCTAssertEqualObjects([mapper getEnumCharForKey:@"test"], @(-1));
+    XCTAssertEqualObjects([mapper getEnumCharForKey:@"null"], @(-1));
 }
 
 @end

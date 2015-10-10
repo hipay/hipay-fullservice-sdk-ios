@@ -11,4 +11,6 @@
 
 @interface HPTOperationMapper : HPTTransactionRelatedItemMapper
 
++ (NSDictionary *)operationTypeMapping;
+
 @end

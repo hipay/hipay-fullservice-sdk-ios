@@ -12,4 +12,13 @@
 
 @implementation HPTOperationMapper
 
++ (NSDictionary *)operationTypeMapping
+{
+    return @{@"capture": @(HPTOperationTypeCapture),
+             @"refund": @(HPTOperationTypeRefund),
+             @"cancel": @(HPTOperationTypeCancel),
+             @"acceptChallenge": @(HPTOperationTypeAcceptChallenge),
+             @"denyChallenge": @(HPTOperationTypeDenyChallenge)};
+}
+
 @end

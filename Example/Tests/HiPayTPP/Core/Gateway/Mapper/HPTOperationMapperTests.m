@@ -35,4 +35,17 @@
     
 }
 
+- (void)testEnumMapping
+{
+
+    NSDictionary *operationMapping = @{@"capture": @(HPTOperationTypeCapture),
+                                       @"refund": @(HPTOperationTypeRefund),
+                                       @"cancel": @(HPTOperationTypeCancel),
+                                       @"acceptChallenge": @(HPTOperationTypeAcceptChallenge),
+                                       @"denyChallenge": @(HPTOperationTypeDenyChallenge)};
+    
+    
+    XCTAssertEqualObjects([HPTOperationMapper operationTypeMapping], operationMapping);
+}
+
 @end

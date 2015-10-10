@@ -15,7 +15,7 @@
 
 typedef NS_ENUM(char, HPTAVSResult) {
     
-    HPTAVSResultNotApplicable = -1,
+    HPTAVSResultNotApplicable = ' ',
     HPTAVSResultExactMatch = 'Y',
     HPTAVSResultAddressMatch = 'A',
     HPTAVSResultPostalCodeMatch = 'P',
@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, HPTECI) {
 
 typedef NS_ENUM(char, HPTCVCResult) {
 
-    HPTCVCResultNotApplicable = -1,
+    HPTCVCResultNotApplicable = ' ',
     HPTCVCResultMatch = 'M',
     HPTCVCResultNoMatch = 'N',
     HPTCVCResultNotProcessed = 'P',

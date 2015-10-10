@@ -10,6 +10,7 @@
 
 typedef NS_ENUM(NSInteger, HPTFraudScreeningResult) {
     
+    HPTFraudScreeningResultUnknown,
     HPTFraudScreeningResultPending,
     HPTFraudScreeningResultAccepted,
     HPTFraudScreeningResultBlocked,

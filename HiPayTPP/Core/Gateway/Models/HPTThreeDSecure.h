@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(char, HPTThreeDSecureEnrollmentStatus) {
     
-    HPTThreeDSecureEnrollmentStatusUnknown = -1,
+    HPTThreeDSecureEnrollmentStatusUnknown = ' ',
     HPTThreeDSecureEnrollmentStatusAuthenticationAvailable = 'Y',
     HPTThreeDSecureEnrollmentStatusCardholderNotEnrolled = 'N',
     HPTThreeDSecureEnrollmentStatusUnableToAuthenticate = 'U',

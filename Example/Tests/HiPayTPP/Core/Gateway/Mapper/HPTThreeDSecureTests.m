@@ -59,7 +59,7 @@
 
 - (void)testEnrollmentStatus
 {
-    XCTAssertEqual(-1, HPTThreeDSecureEnrollmentStatusUnknown);
+    XCTAssertEqual(' ', HPTThreeDSecureEnrollmentStatusUnknown);
     XCTAssertEqual('Y', HPTThreeDSecureEnrollmentStatusAuthenticationAvailable);
     XCTAssertEqual('N', HPTThreeDSecureEnrollmentStatusCardholderNotEnrolled);
     XCTAssertEqual('U', HPTThreeDSecureEnrollmentStatusUnableToAuthenticate);

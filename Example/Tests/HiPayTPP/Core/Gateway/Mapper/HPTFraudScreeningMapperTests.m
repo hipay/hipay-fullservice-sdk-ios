@@ -27,12 +27,60 @@
 
 - (void)testInitWithWrongData
 {
-    NSDictionary *rawData = @{
+    NSDictionary *rawData1 = @{
                               @"wrongData": @"anything",
                               };
     
-    XCTAssertNil([[HPTFraudScreeningMapper alloc] initWithRawData:rawData]);
+    NSDictionary *rawData2 = @{
+                              @"scoring": @(200),
+                              };
     
+    NSDictionary *rawData3 = @{
+                              @"result": @"ACCEPTED",
+                              };
+    
+    XCTAssertNil([[HPTFraudScreeningMapper alloc] initWithRawData:rawData1]);
+    XCTAssertNil([[HPTFraudScreeningMapper alloc] initWithRawData:rawData2]);
+    XCTAssertNil([[HPTFraudScreeningMapper alloc] initWithRawData:rawData3]);
+    
+}
+
+- (void)testEnumMapping
+{
+    NSDictionary *resultMapping = @{@"pending": @(HPTFraudScreeningReviewPending),
+                                    @"accepted": @(HPTFraudScreeningResultAccepted),
+                                    @"challenged": @(HPTFraudScreeningResultChallenged),
+                                    @"blocked": @(HPTFraudScreeningResultBlocked)};
+    
+    NSDictionary *reviewMapping = @{@"pending": @(HPTFraudScreeningReviewPending),
+                                    @"allowed": @(HPTFraudScreeningReviewAllowed),
+                                    @"denied": @(HPTFraudScreeningReviewDenied)};
+    
+    XCTAssertEqualObjects([HPTFraudScreeningMapper resultMapping], resultMapping);
+    XCTAssertEqualObjects([HPTFraudScreeningMapper reviewMapping], reviewMapping);
+}
+
+- (void)testMapping
+{
+    NSDictionary *rawData = @{@"scoring": @(200),
+                              @"result": @"CHALLENGED",
+                              @"review": @"PENDING"
+                              };
+    
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTFraudScreeningMapper alloc] initWithRawData:rawData]];
+    HPTFraudScreeningMapper *mapper = (HPTFraudScreeningMapper *)mockedMapper;
+    
+    [[[mockedMapper expect] andReturnValue:@(200)] getIntegerFromKey:@"scoring"];
+    [[[mockedMapper expect] andReturnValue:@(HPTFraudScreeningResultChallenged)] getIntegerEnumValueWithKey:@"result" defaultEnumValue:HPTFraudScreeningResultUnknown allValues:[HPTFraudScreeningMapper resultMapping]];
+    [[[mockedMapper expect] andReturnValue:@(HPTFraudScreeningReviewPending)] getIntegerEnumValueWithKey:@"review" defaultEnumValue:HPTFraudScreeningResultUnknown allValues:[HPTFraudScreeningMapper reviewMapping]];
+    
+    HPTFraudScreening *fraudScreening = mapper.mappedObject;
+    
+    XCTAssertEqual(fraudScreening.scoring, 200);
+    XCTAssertEqual(fraudScreening.result, HPTFraudScreeningResultChallenged);
+    XCTAssertEqual(fraudScreening.review, HPTFraudScreeningReviewPending);
+    
+    [mockedMapper verify];
 }
 
 @end

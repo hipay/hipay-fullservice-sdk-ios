@@ -8,6 +8,7 @@
 
 #import "HPTFraudScreeningMapper.h"
 #import "HPTAbstractMapper+Decode.h"
+#import "HPTFraudScreening.h"
 
 @implementation HPTFraudScreeningMapper
 

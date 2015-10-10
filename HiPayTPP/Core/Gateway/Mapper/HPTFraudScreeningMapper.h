@@ -7,7 +7,6 @@
 //
 
 #import "HPTAbstractMapper.h"
-#import "HPTFraudScreening.h"
 
 @interface HPTFraudScreeningMapper : HPTAbstractMapper
 

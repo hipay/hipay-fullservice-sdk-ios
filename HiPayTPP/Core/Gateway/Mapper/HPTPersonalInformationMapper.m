@@ -7,6 +7,8 @@
 //
 
 #import "HPTPersonalInformationMapper.h"
+#import "HPTAbstractMapper+Decode.h"
+#import "HPTPersonalInformation.h"
 
 @implementation HPTPersonalInformationMapper
 

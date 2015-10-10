@@ -7,6 +7,8 @@
 //
 
 #import "HPTOrderMapper.h"
+#import "HPTAbstractMapper+Decode.h"
+#import "HPTOrder.h"
 
 @implementation HPTOrderMapper
 

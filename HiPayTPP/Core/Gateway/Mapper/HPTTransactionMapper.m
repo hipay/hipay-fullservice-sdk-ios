@@ -7,6 +7,8 @@
 //
 
 #import "HPTTransactionMapper.h"
+#import "HPTAbstractMapper+Decode.h"
+#import "HPTTransaction.h"
 
 @implementation HPTTransactionMapper
 

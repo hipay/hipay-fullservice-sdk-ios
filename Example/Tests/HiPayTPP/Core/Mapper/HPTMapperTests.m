@@ -75,6 +75,7 @@
                               @"wrongCharValue": @"UO",
                               @"stringNumber": @"25.89",
                               @"number": @(25.89),
+                              @"code": @(1597561245),
                               @"test": @"Hello World",
                               @"null": [NSNull null]
                               };
@@ -86,7 +87,8 @@
     // Strings
     XCTAssertEqualObjects([mapper getObjectForKey:@"test"], @"Hello World");
     XCTAssertEqualObjects([mapper getStringForKey:@"test"], @"Hello World");
-    XCTAssertNil([mapper getStringForKey:@"number"]);
+    XCTAssertEqualObjects([mapper getStringForKey:@"code"], @"1597561245");
+    XCTAssertEqualObjects([mapper getStringForKey:@"number"], @"25.89");
     
     // Undefined values
     XCTAssertNil([mapper getObjectForKey:@"null"]);
@@ -271,6 +273,55 @@
     
     [mockedMapper verify];
     
+}
+
+- (void)testBoolNumberValues
+{
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTAbstractMapper alloc] initWithRawData:@{}]];
+    HPTAbstractMapper *mapper = (HPTAbstractMapper *)mockedMapper;
+    
+    
+    [[[mockedMapper expect] andReturn:@"true"] getObjectForKey:@"string_test1"];
+    [[[mockedMapper expect] andReturn:@"false"] getObjectForKey:@"string_test2"];
+    [[[mockedMapper expect] andReturn:@"whatever"] getObjectForKey:@"string_test3"];
+    
+    [[[mockedMapper expect] andReturn:@(YES)] getObjectForKey:@"string_number1"];
+    [[[mockedMapper expect] andReturn:@(NO)] getObjectForKey:@"string_number2"];
+    [[[mockedMapper expect] andReturn:@(1)] getObjectForKey:@"string_number3"];
+    [[[mockedMapper expect] andReturn:@(2)] getObjectForKey:@"string_number4"];
+    [[[mockedMapper expect] andReturn:@(-1)] getObjectForKey:@"string_number5"];
+    [[[mockedMapper expect] andReturn:@(0)] getObjectForKey:@"string_number6"];
+    
+    XCTAssertEqualObjects([mapper getBoolNumberForKey:@"string_test1"], @(YES));
+    XCTAssertEqualObjects([mapper getBoolNumberForKey:@"string_test2"], @(NO));
+    XCTAssertNil([mapper getBoolNumberForKey:@"string_test3"]);
+    
+    XCTAssertEqualObjects([mapper getBoolNumberForKey:@"string_number1"], @(YES));
+    XCTAssertEqualObjects([mapper getBoolNumberForKey:@"string_number2"], @(NO));
+    XCTAssertEqualObjects([mapper getBoolNumberForKey:@"string_number3"], @(YES));
+    XCTAssertEqualObjects([mapper getBoolNumberForKey:@"string_number4"], @(YES));
+    XCTAssertEqualObjects([mapper getBoolNumberForKey:@"string_number5"], @(YES));
+    XCTAssertEqualObjects([mapper getBoolNumberForKey:@"string_number6"], @(NO));
+    
+    
+    [mockedMapper verify];
+}
+
+- (void)testBoolValues
+{
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTAbstractMapper alloc] initWithRawData:@{}]];
+    HPTAbstractMapper *mapper = (HPTAbstractMapper *)mockedMapper;
+    
+    [[[mockedMapper expect] andReturn:@(YES)] getBoolNumberForKey:@"test1"];
+    [[[mockedMapper expect] andReturn:@(NO)] getObjectForKey:@"test2"];
+    [[[mockedMapper expect] andReturn:nil] getObjectForKey:@"test3"];
+    
+    XCTAssertEqual([mapper getBoolForKey:@"test1"], YES);
+    XCTAssertEqual([mapper getBoolForKey:@"test2"], NO);
+    XCTAssertEqual([mapper getBoolForKey:@"test3"], NO);
+
+    
+    [mockedMapper verify];
 }
 
 @end

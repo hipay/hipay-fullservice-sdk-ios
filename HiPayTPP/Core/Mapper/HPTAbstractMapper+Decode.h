@@ -20,6 +20,8 @@
 - (NSDate *)getDateISO8601ForKey:(NSString *)key;
 - (NSDate *)getDateBasicForKey:(NSString *)key;
 - (NSDate *)getDateForKey:(NSString *)key;
+- (NSNumber *)getBoolNumberForKey:(NSString *)key;
+- (BOOL)getBoolForKey:(NSString *)key;
 
 - (BOOL)isValid;
 

@@ -55,6 +55,11 @@
     id object = [self getObjectForKey:key];
     
     if (![object isKindOfClass:[NSString class]]) {
+        
+        if ([object isKindOfClass:[NSNumber class]]) {
+            return [object stringValue];
+        }
+        
         return nil;
     }
     
@@ -155,6 +160,37 @@
     }
     
     return [self getDateISO8601ForKey:key];
+}
+
+- (NSNumber *)getBoolNumberForKey:(NSString *)key
+{
+    id object = [self getObjectForKey:key];
+    
+    if ([object isKindOfClass:[NSString class]]) {
+        if ([object isEqualToString:@"true"]) {
+            return @(YES);
+        }
+        else if ([object isEqualToString:@"false"]) {
+            return @(NO);
+        }
+    }
+    
+    else if ([object isKindOfClass:[NSNumber class]]) {
+        return @([object boolValue]);
+    }
+    
+    return nil;
+}
+
+- (BOOL)getBoolForKey:(NSString *)key
+{
+    NSNumber *number = [self getBoolNumberForKey:key];
+    
+    if (number != nil) {
+        return number.boolValue;
+    }
+    
+    return NO;
 }
 
 @end

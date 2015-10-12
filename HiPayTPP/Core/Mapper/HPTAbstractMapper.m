@@ -95,7 +95,7 @@
     return object;
 }
 
-- (NSInteger)getIntegerFromKey:(NSString *)key
+- (NSInteger)getIntegerForKey:(NSString *)key
 {
     NSNumber *object = [self getNumberForKey:key];
     
@@ -120,6 +120,41 @@
     
     return defaultValue;
     
+}
+
+- (NSDate *)getDateISO8601ForKey:(NSString *)key
+{
+    NSString *stringDate = [self getStringForKey:key];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [dateFormatter setLocale:enUSPOSIXLocale];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+    
+    return [dateFormatter dateFromString:stringDate];
+}
+
+- (NSDate *)getDateBasicForKey:(NSString *)key
+{
+    NSString *stringDate = [self getStringForKey:key];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [dateFormatter setLocale:enUSPOSIXLocale];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ssZZZ"];
+    
+    return [dateFormatter dateFromString:stringDate];
+}
+
+- (NSDate *)getDateForKey:(NSString *)key
+{
+    NSDate *date = [self getDateBasicForKey:key];
+    
+    if (date != nil) {
+        return date;
+    }
+    
+    return [self getDateISO8601ForKey:key];
 }
 
 @end

@@ -15,8 +15,11 @@
 - (NSNumber *)getEnumCharForKey:(NSString *)key;
 - (NSString *)getLowercaseStringForKey:(NSString *)key;
 - (NSNumber *)getNumberForKey:(NSString *)key;
-- (NSInteger)getIntegerFromKey:(NSString *)key;
+- (NSInteger)getIntegerForKey:(NSString *)key;
 - (NSInteger)getIntegerEnumValueWithKey:(NSString *)key defaultEnumValue:(NSInteger)defaultValue allValues:(NSDictionary *)allValues;
+- (NSDate *)getDateISO8601ForKey:(NSString *)key;
+- (NSDate *)getDateBasicForKey:(NSString *)key;
+- (NSDate *)getDateForKey:(NSString *)key;
 
 - (BOOL)isValid;
 

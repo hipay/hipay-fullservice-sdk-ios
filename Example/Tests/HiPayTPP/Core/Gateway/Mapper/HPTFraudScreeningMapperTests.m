@@ -70,7 +70,7 @@
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTFraudScreeningMapper alloc] initWithRawData:rawData]];
     HPTFraudScreeningMapper *mapper = (HPTFraudScreeningMapper *)mockedMapper;
     
-    [[[mockedMapper expect] andReturnValue:@(200)] getIntegerFromKey:@"scoring"];
+    [[[mockedMapper expect] andReturnValue:@(200)] getIntegerForKey:@"scoring"];
     [[[mockedMapper expect] andReturnValue:@(HPTFraudScreeningResultChallenged)] getIntegerEnumValueWithKey:@"result" defaultEnumValue:HPTFraudScreeningResultUnknown allValues:[HPTFraudScreeningMapper resultMapping]];
     [[[mockedMapper expect] andReturnValue:@(HPTFraudScreeningReviewPending)] getIntegerEnumValueWithKey:@"review" defaultEnumValue:HPTFraudScreeningResultUnknown allValues:[HPTFraudScreeningMapper reviewMapping]];
     

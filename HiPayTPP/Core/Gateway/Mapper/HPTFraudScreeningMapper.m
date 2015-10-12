@@ -17,7 +17,7 @@
     
     HPTFraudScreening *object = [[HPTFraudScreening alloc] init];
     
-    [object setValue:@([self getIntegerFromKey:@"scoring"]) forKey:@"scoring"];
+    [object setValue:@([self getIntegerForKey:@"scoring"]) forKey:@"scoring"];
     [object setValue:@([self getIntegerEnumValueWithKey:@"result" defaultEnumValue:HPTFraudScreeningResultUnknown allValues:[HPTFraudScreeningMapper resultMapping]]) forKey:@"result"];
     [object setValue:@([self getIntegerEnumValueWithKey:@"review" defaultEnumValue:HPTFraudScreeningReviewNone allValues:[HPTFraudScreeningMapper reviewMapping]]) forKey:@"review"];
     

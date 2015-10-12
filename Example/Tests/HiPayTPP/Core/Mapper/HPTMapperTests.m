@@ -157,16 +157,84 @@
     [[[mapper expect] andReturn:@(0.19989)] getNumberForKey:@"test7"];
     [[[mapper expect] andReturn:@(0)] getNumberForKey:@"test8"];
 
-    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerFromKey:@"test1"], 11);
-    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerFromKey:@"test2"], 11);
-    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerFromKey:@"test3"], 1898981);
-    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerFromKey:@"test4"], 1898981);
-    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerFromKey:@"test5"], 0);
-    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerFromKey:@"test6"], 0);
-    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerFromKey:@"test7"], 0);
-    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerFromKey:@"test8"], 0);
+    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerForKey:@"test1"], 11);
+    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerForKey:@"test2"], 11);
+    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerForKey:@"test3"], 1898981);
+    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerForKey:@"test4"], 1898981);
+    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerForKey:@"test5"], 0);
+    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerForKey:@"test6"], 0);
+    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerForKey:@"test7"], 0);
+    XCTAssertEqual([((HPTAbstractMapper *) mapper) getIntegerForKey:@"test8"], 0);
     
     [mapper verify];
+}
+
+- (void)testDateISO8601
+{
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTAbstractMapper alloc] initWithRawData:@{}]];
+    HPTAbstractMapper *mapper = (HPTAbstractMapper *)mockedMapper;
+    
+    [[[mockedMapper expect] andReturn:@"2015-10-08T08:49:31+0000"] getStringForKey:@"test1"];
+    [[[mockedMapper expect] andReturn:@"2015-10-08T08:16:20+0200"] getStringForKey:@"test2"];
+    [[[mockedMapper expect] andReturn:nil] getStringForKey:@"test3"];
+    [[[mockedMapper expect] andReturn:@"201a5-1-8T08:6:20+0200"] getStringForKey:@"test4"];
+    [[[mockedMapper expect] andReturn:@"15-10-08T:16:20+02000"] getStringForKey:@"test5"];
+    [[[mockedMapper expect] andReturn:@"whatevr"] getStringForKey:@"test6"];
+    [[[mockedMapper expect] andReturn:@"2015-10-08T08:49:31-0400"] getStringForKey:@"test7"];
+    [[[mockedMapper expect] andReturn:@"2015-12-31T08:49:31+0000"] getStringForKey:@"test8"];
+    
+    XCTAssertEqualObjects([mapper getDateISO8601ForKey:@"test1"], [NSDate dateWithTimeIntervalSince1970:1444294171]);
+    XCTAssertEqualObjects([mapper getDateISO8601ForKey:@"test2"], [NSDate dateWithTimeIntervalSince1970:1444284980]);
+    XCTAssertNil([mapper getDateISO8601ForKey:@"test3"]);
+    XCTAssertNil([mapper getDateISO8601ForKey:@"test4"]);
+    XCTAssertNil([mapper getDateISO8601ForKey:@"test5"]);
+    XCTAssertNil([mapper getDateISO8601ForKey:@"test6"]);
+    XCTAssertEqualObjects([mapper getDateISO8601ForKey:@"test7"], [NSDate dateWithTimeIntervalSince1970:1444308571]);
+    XCTAssertEqualObjects([mapper getDateISO8601ForKey:@"test8"], [NSDate dateWithTimeIntervalSince1970:1451551771]);
+
+    [mockedMapper verify];
+}
+
+- (void)testDateBasic
+{
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTAbstractMapper alloc] initWithRawData:@{}]];
+    HPTAbstractMapper *mapper = (HPTAbstractMapper *)mockedMapper;
+    
+    [[[mockedMapper expect] andReturn:@"2015-10-08 10:49:43+02"] getStringForKey:@"test1"];
+    [[[mockedMapper expect] andReturn:@"2015-10-08 10:49:20+00"] getStringForKey:@"test2"];
+    [[[mockedMapper expect] andReturn:@"2015-10-08 10:49:43-02"] getStringForKey:@"test3"];
+    [[[mockedMapper expect] andReturn:@"2015-12-31 10:49:20+02"] getStringForKey:@"test4"];
+    
+    XCTAssertEqualObjects([mapper getDateBasicForKey:@"test1"], [NSDate dateWithTimeIntervalSince1970:1444294183]);
+    XCTAssertEqualObjects([mapper getDateBasicForKey:@"test2"], [NSDate dateWithTimeIntervalSince1970:1444301360]);
+    XCTAssertEqualObjects([mapper getDateBasicForKey:@"test3"], [NSDate dateWithTimeIntervalSince1970:1444308583]);
+    XCTAssertEqualObjects([mapper getDateBasicForKey:@"test4"], [NSDate dateWithTimeIntervalSince1970:1451551760]);
+
+    [mockedMapper verify];
+}
+
+- (void)testDate
+{
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTAbstractMapper alloc] initWithRawData:@{}]];
+    HPTAbstractMapper *mapper = (HPTAbstractMapper *)mockedMapper;
+    
+    NSDate *test1 = [NSDate dateWithTimeIntervalSince1970:1444301360];
+    NSDate *test2 = [NSDate dateWithTimeIntervalSince1970:1444301361];
+    
+    [[[mockedMapper expect] andReturn:test1] getDateBasicForKey:@"test1"];
+    
+    [[[mockedMapper expect] andReturn:nil] getDateBasicForKey:@"test2"];
+    [[[mockedMapper expect] andReturn:test2] getDateISO8601ForKey:@"test2"];
+
+    [[[mockedMapper expect] andReturn:nil] getDateBasicForKey:@"test3"];
+    [[[mockedMapper expect] andReturn:nil] getDateISO8601ForKey:@"test3"];
+    
+    
+    XCTAssertEqualObjects([mapper getDateForKey:@"test1"], test1);
+    XCTAssertEqualObjects([mapper getDateForKey:@"test2"], test2);
+    XCTAssertNil([mapper getDateForKey:@"test3"]);
+    
+    [mockedMapper verify];
 }
 
 - (void)testEnumValues

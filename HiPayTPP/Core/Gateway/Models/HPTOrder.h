@@ -9,11 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "HPTPersonalInformation.h"
 
-typedef NS_ENUM(NSInteger, HPTGender) {
+typedef NS_ENUM(char, HPTGender) {
     
-    HPTGenderUnknown,
-    HPTGenderMale,
-    HPTGenderFemale,
+    HPTGenderUndefined = ' ',
+    HPTGenderUnknown = 'U',
+    HPTGenderMale = 'M',
+    HPTGenderFemale = 'F',
     
 };
 

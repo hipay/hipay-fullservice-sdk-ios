@@ -11,6 +11,11 @@
 
 @implementation HPTAbstractMapper
 
++ (instancetype)mapperWithRawData:(NSDictionary *)rawData
+{
+    return [[HPTAbstractMapper alloc] initWithRawData:rawData];
+}
+
 - (instancetype)initWithRawData:(NSDictionary *)rawData
 {
     self = [super init];

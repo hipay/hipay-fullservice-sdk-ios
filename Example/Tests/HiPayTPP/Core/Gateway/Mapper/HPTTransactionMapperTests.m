@@ -20,6 +20,11 @@
     HPTOrder *order;
     NSDictionary *paymentMethodPayload;
     HPTPaymentCardToken *paymentMethod;
+    
+    id threeDSecureClassMock;
+    id fraudScreeningClassMock;
+    id orderClassMock;
+    id paymentMethodClassMock;
 }
 
 @end
@@ -65,7 +70,7 @@
     OCMockObject *threeDSecureMockedMapper = [OCMockObject mockForClass:[HPTThreeDSecureMapper class]];
     [[[threeDSecureMockedMapper expect] andReturn:threeDSecure] mappedObject];
     
-    id threeDSecureClassMock = OCMClassMock([HPTThreeDSecureMapper class]);
+    threeDSecureClassMock = OCMClassMock([HPTThreeDSecureMapper class]);
     OCMStub([threeDSecureClassMock mapperWithRawData:threeDSecurePayload]).andReturn(threeDSecureMockedMapper);
 }
 
@@ -77,7 +82,7 @@
     OCMockObject *fraudScreeningMockedMapper = [OCMockObject mockForClass:[HPTFraudScreeningMapper class]];
     [[[fraudScreeningMockedMapper expect] andReturn:fraudScreening] mappedObject];
     
-    id fraudScreeningClassMock = OCMClassMock([HPTFraudScreeningMapper class]);
+    fraudScreeningClassMock = OCMClassMock([HPTFraudScreeningMapper class]);
     OCMStub([fraudScreeningClassMock mapperWithRawData:fraudScreeningPayload]).andReturn(fraudScreeningMockedMapper);
 }
 
@@ -89,7 +94,7 @@
     OCMockObject *orderMockedMapper = [OCMockObject mockForClass:[HPTOrderMapper class]];
     [[[orderMockedMapper expect] andReturn:order] mappedObject];
     
-    id orderClassMock = OCMClassMock([HPTOrderMapper class]);
+    orderClassMock = OCMClassMock([HPTOrderMapper class]);
     OCMStub([orderClassMock mapperWithRawData:orderPayload]).andReturn(orderMockedMapper);
 }
 
@@ -101,7 +106,7 @@
     OCMockObject *paymentMethodMockedMapper = [OCMockObject mockForClass:[HPTPaymentCardTokenMapper class]];
     [[[paymentMethodMockedMapper expect] andReturn:paymentMethod] mappedObject];
     
-    id paymentMethodClassMock = OCMClassMock([HPTPaymentCardTokenMapper class]);
+    paymentMethodClassMock = OCMClassMock([HPTPaymentCardTokenMapper class]);
     OCMStub([paymentMethodClassMock mapperWithRawData:paymentMethodPayload]).andReturn(paymentMethodMockedMapper);
 }
 
@@ -201,6 +206,10 @@
     XCTAssertEqualObjects(object.debitAgreement, debitAgreement);
     
     [mockedMapper verify];
+    [threeDSecureClassMock verify];
+    [fraudScreeningClassMock verify];
+    [orderClassMock verify];
+    [paymentMethodClassMock verify];
 }
 
 @end

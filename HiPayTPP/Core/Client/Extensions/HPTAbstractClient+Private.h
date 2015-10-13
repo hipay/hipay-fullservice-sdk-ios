@@ -8,9 +8,6 @@
 
 #import "HPTErrors.h"
 
-#ifndef HPTAbstractClient_Private_h
-#define HPTAbstractClient_Private_h
-
 @interface HPTAbstractClient (Private)
 
 - (NSError *)errorForResponseBody:(NSDictionary *)body andError:(NSError *)error;
@@ -22,6 +19,3 @@
 - (instancetype)initWithHTTPClient:(HPTHTTPClient *)HTTPClient clientConfig:(HPTClientConfig *)theClientConfig;
 
 @end
-
-
-#endif /* HPTAbstractClient_Private_h */

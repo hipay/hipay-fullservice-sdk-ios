@@ -40,6 +40,7 @@
 		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; settings = {ASSET_TAGS = (); }; };
 		A5C6F2981BC7F0CA00DEC43E /* HPTThreeDSecureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C6F2971BC7F0CA00DEC43E /* HPTThreeDSecureTests.m */; settings = {ASSET_TAGS = (); }; };
+		A5F605921BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F605911BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponseTests.m; sourceTree = "<group>"; };
 		A5A6EEA21BB97C8400825B19 /* example_dictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_dictionary.json; sourceTree = "<group>"; };
 		A5C6F2971BC7F0CA00DEC43E /* HPTThreeDSecureTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTThreeDSecureTests.m; sourceTree = "<group>"; };
+		A5F605911BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHostedPaymentPageMapperTests.m; sourceTree = "<group>"; };
 		A6DE32B74EAABE271832F022 /* Pods-HiPayTPP_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A7FE2CBCD3A3CCF6C20228C9 /* Pods-HiPayTPP_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B936D89B6AB94FC4D1FE6E95 /* HiPayTPP.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayTPP.podspec; path = ../HiPayTPP.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -300,6 +302,7 @@
 				A595C4511BC800600076AF07 /* HPTTransactionMapperTests.m */,
 				A595C4531BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m */,
 				A595C4591BC802DA0076AF07 /* HPTOrderMapperTests.m */,
+				A5F605911BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -534,6 +537,7 @@
 			files = (
 				A595C4521BC800600076AF07 /* HPTTransactionMapperTests.m in Sources */,
 				A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */,
+				A5F605921BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m in Sources */,
 				A51004E51BC28714002BD3C1 /* HPTAbstractClientTest.m in Sources */,
 				A51004DA1BBD8F4F002BD3C1 /* HPTClientConfigTests.m in Sources */,
 				A5C6F2981BC7F0CA00DEC43E /* HPTThreeDSecureTests.m in Sources */,

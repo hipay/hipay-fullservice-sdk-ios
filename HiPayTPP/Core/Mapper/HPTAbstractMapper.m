@@ -208,4 +208,15 @@
     return nil;
 }
 
+- (NSURL *)getURLForKey:(NSString *)key
+{
+    id object = [self getStringForKey:key];
+    
+    if (object != nil) {
+        return [NSURL URLWithString:object];
+    }
+    
+    return nil;
+}
+
 @end

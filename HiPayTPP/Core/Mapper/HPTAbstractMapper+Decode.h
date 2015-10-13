@@ -23,6 +23,7 @@
 - (NSNumber *)getBoolNumberForKey:(NSString *)key;
 - (BOOL)getBoolForKey:(NSString *)key;
 - (NSDictionary *)getDictionaryForKey:(NSString *)key;
+- (NSURL *)getURLForKey:(NSString *)key;
 
 - (BOOL)isValid;
 

@@ -28,7 +28,8 @@
 - (void)testInitWithWrongData
 {
     NSDictionary *rawData = @{
-                              @"wrongData": @"anything",
+                              @"firstname": @"John",
+                              @"lastname": @"Doe",
                               };
     
     XCTAssertNil([[HPTOrderMapper alloc] initWithRawData:rawData]);

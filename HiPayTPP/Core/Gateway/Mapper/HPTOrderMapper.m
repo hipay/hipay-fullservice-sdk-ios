@@ -12,4 +12,9 @@
 
 @implementation HPTOrderMapper
 
+- (BOOL)isValid
+{
+    return [super isValid] && [self.rawData objectForKey:@"id"] != nil;
+}
+
 @end

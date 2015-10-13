@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTAbstractMapper+Decode.h>
+#import <HiPayTPP/HPTTransactionRelatedItemMapper+Private.h>
 
 @interface HPTOperationMapperTests : XCTestCase
 
@@ -46,6 +47,24 @@
     
     
     XCTAssertEqualObjects([HPTOperationMapper operationTypeMapping], operationMapping);
+}
+
+- (void)testMapping
+{
+    NSDictionary *rawData = @{@"transactionReference": @"446780277416", @"operation": @"capture"};
+    
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTOperationMapper alloc] initWithRawData:rawData]];
+    HPTOperationMapper *mapper = (HPTOperationMapper *)mockedMapper;
+    
+    HPTOperation *operation = [[HPTOperation alloc] init];
+    
+    [[[mockedMapper expect] andReturn:operation] mappedObjectWithTransactionRelatedItem:[OCMArg isKindOfClass:[HPTOperation class]]];
+    [[[mockedMapper expect] andReturnValue:@(HPTOperationTypeCapture)] getIntegerEnumValueWithKey:@"operation" defaultEnumValue:HPTOperationTypeUnknown allValues:[HPTOperationMapper operationTypeMapping]];
+
+    XCTAssertEqualObjects(mapper.mappedObject, operation);
+    XCTAssertEqual(operation.operation, HPTOperationTypeCapture);
+    
+    [mockedMapper verify];
 }
 
 @end

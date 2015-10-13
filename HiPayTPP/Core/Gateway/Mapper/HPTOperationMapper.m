@@ -9,6 +9,7 @@
 #import "HPTOperationMapper.h"
 #import "HPTAbstractMapper+Decode.h"
 #import "HPTOperation.h"
+#import "HPTTransactionRelatedItemMapper+Private.h"
 
 @implementation HPTOperationMapper
 
@@ -19,6 +20,15 @@
              @"cancel": @(HPTOperationTypeCancel),
              @"acceptChallenge": @(HPTOperationTypeAcceptChallenge),
              @"denyChallenge": @(HPTOperationTypeDenyChallenge)};
+}
+
+- (id)mappedObject
+{
+    HPTOperation *object = [self mappedObjectWithTransactionRelatedItem:[[HPTOperation alloc] init]];
+
+    [object setValue:@([self getIntegerEnumValueWithKey:@"operation" defaultEnumValue:HPTOperationTypeUnknown allValues:[HPTOperationMapper operationTypeMapping]]) forKey:@"operation"];
+    
+    return object;
 }
 
 - (BOOL)isValid

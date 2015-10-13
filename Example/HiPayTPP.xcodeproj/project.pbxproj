@@ -365,7 +365,6 @@
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
 				8B85A950FD28ADE74DE49A15 /* Copy Pods Resources */,
-				65F220C6C2E49A482C871C4F /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -484,21 +483,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		65F220C6C2E49A482C871C4F /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8B85A950FD28ADE74DE49A15 /* Copy Pods Resources */ = {

@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTAbstractMapper+Decode.h>
+#import <HiPayTPP/HPTTransactionRelatedItemMapper+Private.h>
 
 @interface HPTTransactionRelatedItemMapperTests : XCTestCase
 
@@ -35,6 +36,21 @@
     
 }
 
+- (void)testMappinHighLevel
+{
+    NSDictionary *rawData = @{@"transactionReference": @"446780277416"};
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTTransactionRelatedItemMapper alloc] initWithRawData:rawData]];
+    HPTTransactionRelatedItemMapper *mapper = (HPTTransactionRelatedItemMapper *)mockedMapper;
+    
+    __block HPTTransactionRelatedItem *transaction = [[HPTTransactionRelatedItem alloc] init];
+    
+    [[[mockedMapper expect] andReturn:transaction] mappedObjectWithTransactionRelatedItem:[OCMArg isKindOfClass:[HPTTransactionRelatedItem class]]];
+    
+    XCTAssertEqualObjects(mapper.mappedObject, transaction);
+    
+    [mockedMapper verify];
+}
+
 - (void)testMapping
 {
     NSDictionary *rawData = @{@"transactionReference": @"446780277416"};
@@ -57,8 +73,10 @@
     [[[mockedMapper expect] andReturn:@(2)] getNumberForKey:@"decimals"];
     [[[mockedMapper expect] andReturn:@"EUR"] getStringForKey:@"currency"];
     
-    HPTTransactionRelatedItem *transaction = mapper.mappedObject;
+    HPTTransactionRelatedItem *object = [[HPTTransactionRelatedItem alloc] init];
+    HPTTransactionRelatedItem *transaction = [mapper mappedObjectWithTransactionRelatedItem:object];
     
+    XCTAssertEqualObjects(transaction, object);
     XCTAssertEqual(transaction.test, NO);
     XCTAssertEqualObjects(transaction.mid, @"00009546321");
     XCTAssertEqualObjects(transaction.authorizationCode, @"654789");

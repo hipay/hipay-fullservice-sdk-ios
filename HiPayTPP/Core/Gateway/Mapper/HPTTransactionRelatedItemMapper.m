@@ -9,13 +9,17 @@
 #import "HPTTransactionRelatedItemMapper.h"
 #import "HPTAbstractMapper+Decode.h"
 #import "HPTTransactionRelatedItem.h"
+#import "HPTTransactionRelatedItemMapper+Private.h"
 
 @implementation HPTTransactionRelatedItemMapper
 
 - (id)mappedObject
 {
-    HPTTransactionRelatedItem *object = [[HPTTransactionRelatedItem alloc] init];
-    
+    return [self mappedObjectWithTransactionRelatedItem:[[HPTTransactionRelatedItem alloc] init]];
+}
+
+- (id)mappedObjectWithTransactionRelatedItem:(HPTTransactionRelatedItem *)object
+{
     [object setValue:@([self getBoolForKey:@"test"]) forKey:@"test"];
     [object setValue:[self getStringForKey:@"mid"] forKey:@"mid"];
     [object setValue:[self getStringForKey:@"authorizationCode"] forKey:@"authorizationCode"];

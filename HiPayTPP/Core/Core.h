@@ -14,10 +14,9 @@
 #import <HiPayTPP/HPTPaymentCardToken.h>
 #import <HiPayTPP/HPTPaymentCardTokenMapper.h>
 
-#import <HiPayTPP/HPTSecureVaultClient.h>
 #import <HiPayTPP/HPTAbstractClient.h>
-
-
+#import <HiPayTPP/HPTSecureVaultClient.h>
+#import <HiPayTPP/HPTGatewayClient.h>
 
 #import <HiPayTPP/HPTFraudScreening.h>
 #import <HiPayTPP/HPTOperation.h>

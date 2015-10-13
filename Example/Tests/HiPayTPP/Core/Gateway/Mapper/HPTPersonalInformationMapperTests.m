@@ -27,12 +27,9 @@
 
 - (void)testInitWithWrongData
 {
-    NSDictionary *rawData = @{
-                              @"wrongData": @"anything",
-                              };
+    NSDictionary *rawData = @{@"transactionReference": @"446780277416"};
     
-    XCTAssertNil([[HPTPersonalInformationMapper alloc] initWithRawData:rawData]);
-    
+    XCTAssertNil([[HPTOperationMapper alloc] initWithRawData:rawData]);
 }
 
 - (void)testMapping

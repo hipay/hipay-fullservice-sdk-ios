@@ -25,7 +25,7 @@
     [super tearDown];
 }
 
-- (void)disabled_testInitWithWrongData
+- (void)testInitWithWrongData
 {
     NSDictionary *rawData = @{
                               @"wrongData": @"anything",

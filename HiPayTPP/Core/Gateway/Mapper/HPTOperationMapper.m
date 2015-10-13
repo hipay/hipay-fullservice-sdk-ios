@@ -21,4 +21,9 @@
              @"denyChallenge": @(HPTOperationTypeDenyChallenge)};
 }
 
+- (BOOL)isValid
+{
+    return [super isValid] && [self.rawData objectForKey:@"operation"] != nil;
+}
+
 @end

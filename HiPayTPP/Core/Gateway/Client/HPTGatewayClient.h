@@ -11,10 +11,16 @@
 #import "HPTClientConfig.h"
 #import "HPTAbstractClient.h"
 
+#import "HPTHostedPaymentPage.h"
+#import "HPTOperation.h"
+#import "HPTTransaction.h"
+
 #define HPTGatewayClientBaseURLStage        @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/"
 #define HPTGatewayClientBaseURLProduction   @"https://secure-gateway.hipay-tpp.com/rest/v1/"
 
-typedef void (^HPTSecureVaultClientCompletionBlock)(HPTPaymentCardToken *cardToken, NSError *error);
+typedef void (^HPTHostedPaymentPageCompletionBlock)(HPTHostedPaymentPage *hostedPaymentPage, NSError *error);
+typedef void (^HPTOperationCompletionBlock)(HPTOperation *operation, NSError *error);
+typedef void (^HPTTransactionCompletionBlock)(HPTTransaction *transaction, NSError *error);
 
 @interface HPTGatewayClient : HPTAbstractClient
 {

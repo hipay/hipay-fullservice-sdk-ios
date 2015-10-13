@@ -12,4 +12,9 @@
 
 @implementation HPTTransactionMapper
 
+- (BOOL)isValid
+{
+    return [super isValid] && [self.rawData objectForKey:@"state"] != nil;
+}
+
 @end

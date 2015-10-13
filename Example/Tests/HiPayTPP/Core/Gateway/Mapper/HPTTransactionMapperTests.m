@@ -25,10 +25,10 @@
     [super tearDown];
 }
 
-- (void)disabled_testInitWithWrongData
+- (void)testInitWithWrongData
 {
     NSDictionary *rawData = @{
-                              @"wrongData": @"anything",
+                              @"transactionReference": @"546748976",
                               };
     
     XCTAssertNil([[HPTTransactionMapper alloc] initWithRawData:rawData]);

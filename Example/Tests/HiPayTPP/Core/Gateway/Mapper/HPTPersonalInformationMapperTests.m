@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTAbstractMapper+Decode.h>
+#import <HiPayTPP/HPTPersonalInformationMapper+Private.h>
 
 @interface HPTPersonalInformationMapperTests : XCTestCase
 
@@ -32,6 +33,24 @@
     XCTAssertNil([[HPTOperationMapper alloc] initWithRawData:rawData]);
 }
 
+- (void)testMappinHighLevel
+{
+    NSDictionary *rawData = @{@"firstname": @"John",
+                              @"lastname": @"Doe"
+                              };
+    
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTPersonalInformationMapper alloc] initWithRawData:rawData]];
+    HPTPersonalInformationMapper *mapper = (HPTPersonalInformationMapper *)mockedMapper;
+    
+    __block HPTPersonalInformationMapper *object = [[HPTPersonalInformationMapper alloc] init];
+    
+    [[[mockedMapper expect] andReturn:object] mappedObjectWithPersonalInformation:[OCMArg isKindOfClass:[HPTPersonalInformation class]]];
+    
+    XCTAssertEqualObjects(mapper.mappedObject, object);
+    
+    [mockedMapper verify];
+}
+
 - (void)testMapping
 {
     NSDictionary *rawData = @{@"firstname": @"John",
@@ -53,8 +72,9 @@
         [[[mockedMapper expect] andReturn:[rawData objectForKey:key]] getStringForKey:key];
     }
     
-    HPTPersonalInformation *personalInfo = mapper.mappedObject;
+    HPTPersonalInformation *personalInfo = [[HPTPersonalInformation alloc] init];
     
+    XCTAssertEqualObjects([mapper mappedObjectWithPersonalInformation:personalInfo], personalInfo);
     XCTAssertEqualObjects(personalInfo.firstname, [rawData objectForKey:@"firstname"]);
     XCTAssertEqualObjects(personalInfo.lastname, [rawData objectForKey:@"lastname"]);
     XCTAssertEqualObjects(personalInfo.streetAddress, [rawData objectForKey:@"streetAddress"]);

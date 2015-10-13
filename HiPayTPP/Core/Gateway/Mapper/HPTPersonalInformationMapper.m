@@ -14,9 +14,11 @@
 
 - (id _Nonnull)mappedObject
 {
-    
-    HPTPersonalInformation *object = [[HPTPersonalInformation alloc] init];
-    
+    return [self mappedObjectWithPersonalInformation:[[HPTPersonalInformation alloc] init]];
+}
+
+- (id _Nonnull)mappedObjectWithPersonalInformation:(HPTPersonalInformation *)object
+{
     [object setValue:[self getStringForKey:@"firstname"] forKey:@"firstname"];
     [object setValue:[self getStringForKey:@"lastname"] forKey:@"lastname"];
     [object setValue:[self getStringForKey:@"streetAddress"] forKey:@"streetAddress"];

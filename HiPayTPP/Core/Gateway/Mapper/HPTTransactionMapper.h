@@ -11,4 +11,6 @@
 
 @interface HPTTransactionMapper : HPTTransactionRelatedItemMapper
 
++ (NSDictionary *)transactionStateMapping;
+
 @end

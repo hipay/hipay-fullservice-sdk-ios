@@ -37,4 +37,13 @@
     return [super isValid] && [self.rawData objectForKey:@"state"] != nil;
 }
 
++ (NSDictionary *)transactionStateMapping
+{
+    return @{@"completed": @(HPTTransactionStateCompleted),
+             @"forwarding": @(HPTTransactionStateForwarding),
+             @"pending": @(HPTTransactionStatePending),
+             @"declined": @(HPTTransactionStateDeclined),
+             @"error": @(HPTTransactionStateError)};
+}
+
 @end

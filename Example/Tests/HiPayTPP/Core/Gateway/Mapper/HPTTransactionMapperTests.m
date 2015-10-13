@@ -36,6 +36,17 @@
     
 }
 
+- (void)testTransactionStateMapping
+{
+    NSDictionary *mapping = @{@"completed": @(HPTTransactionStateCompleted),
+                              @"forwarding": @(HPTTransactionStateForwarding),
+                              @"pending": @(HPTTransactionStatePending),
+                              @"declined": @(HPTTransactionStateDeclined),
+                              @"error": @(HPTTransactionStateError)};
+    
+    XCTAssertEqualObjects([HPTTransactionMapper transactionStateMapping], mapping);
+}
+
 - (void)testMapping
 {
     NSDictionary *rawData = @{

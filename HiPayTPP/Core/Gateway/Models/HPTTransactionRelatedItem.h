@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, HPTTransactionStatus) {
 @property (nonatomic, readonly) NSDate *dateCreated;
 @property (nonatomic, readonly) NSDate *dateUpdated;
 @property (nonatomic, readonly) NSDate *dateAuthorized;
-@property (nonatomic, readonly) HPTTransactionStatus *status;
+@property (nonatomic, readonly) HPTTransactionStatus status;
 @property (nonatomic, readonly) NSString *message;
 @property (nonatomic, readonly) NSNumber *authorizedAmount;
 @property (nonatomic, readonly) NSNumber *capturedAmount;

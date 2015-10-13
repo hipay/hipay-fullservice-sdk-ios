@@ -30,12 +30,12 @@ typedef NS_ENUM(char, HPTAVSResult) {
 
 typedef NS_ENUM(NSInteger, HPTECI) {
     
-    HPTMOTO = 1,
-    HPTRecurringMOTO = 2,
-    HPTInstallmentPayment = 3,
-    HPTManuallyKeyedCardPresent = 4,
-    HPTSecureECommerce = 7,
-    HPTRecurringECommerce = 9,
+    HPTECIMOTO = 1,
+    HPTECIRecurringMOTO = 2,
+    HPTECIInstallmentPayment = 3,
+    HPTECIManuallyKeyedCardPresent = 4,
+    HPTECISecureECommerce = 7,
+    HPTECIRecurringECommerce = 9,
     
 };
 

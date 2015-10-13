@@ -43,8 +43,8 @@
 
 - (void)testEndpoints
 {
-    XCTAssertEqualObjects(HPTSecureVaultClientBaseURLStage, @"https://stage-secure-vault.hipay-tpp.com/rest/v1/");
-    XCTAssertEqualObjects(HPTSecureVaultClientBaseURLProduction, @"https://secure-vault.hipay-tpp.com/rest/v1/");
+    XCTAssertEqualObjects(HPTGatewayClientBaseURLStage, @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/");
+    XCTAssertEqualObjects(HPTGatewayClientBaseURLProduction, @"https://secure-gateway.hipay-tpp.com/rest/v1/");
 }
 
 @end

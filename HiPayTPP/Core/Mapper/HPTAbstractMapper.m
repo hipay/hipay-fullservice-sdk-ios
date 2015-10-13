@@ -79,7 +79,6 @@
         return [NSNumber numberWithChar:[object characterAtIndex:0]];
     }
     
-    
     return [NSNumber numberWithChar:' '];
 }
 
@@ -191,6 +190,17 @@
     }
     
     return NO;
+}
+
+- (NSDictionary *)getDictionaryForKey:(NSString *)key
+{
+    id object = [self getObjectForKey:key];
+    
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        return object;
+    }
+    
+    return nil;
 }
 
 @end

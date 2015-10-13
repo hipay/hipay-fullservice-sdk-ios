@@ -324,4 +324,25 @@
     [mockedMapper verify];
 }
 
+- (void)testDictionaryValues
+{
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTAbstractMapper alloc] initWithRawData:@{}]];
+    HPTAbstractMapper *mapper = (HPTAbstractMapper *)mockedMapper;
+    
+    NSDictionary *dict = @{@"key1": @"val1", @"param": @{@"key2": @"val2"}};
+    NSDictionary *dict2 = [NSMutableDictionary dictionaryWithDictionary:@{@"key1": @"val1", @"param": @{@"key2": @"val2"}}];
+    
+    [[[mockedMapper expect] andReturn:dict] getObjectForKey:@"test1"];
+    [[[mockedMapper expect] andReturn:dict2] getObjectForKey:@"test2"];
+    [[[mockedMapper expect] andReturn:@[@(4), @"hello"]] getObjectForKey:@"test3"];
+    [[[mockedMapper expect] andReturn:@"hello"] getObjectForKey:@"test4"];
+    
+    XCTAssertEqual([mapper getDictionaryForKey:@"test1"], dict);
+    XCTAssertEqual([mapper getDictionaryForKey:@"test2"], dict2);
+    XCTAssertNil([mapper getDictionaryForKey:@"test3"]);
+    XCTAssertNil([mapper getDictionaryForKey:@"test4"]);
+    
+    [mockedMapper verify];
+}
+
 @end

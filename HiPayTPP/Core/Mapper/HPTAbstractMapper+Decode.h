@@ -22,6 +22,7 @@
 - (NSDate *)getDateForKey:(NSString *)key;
 - (NSNumber *)getBoolNumberForKey:(NSString *)key;
 - (BOOL)getBoolForKey:(NSString *)key;
+- (NSDictionary *)getDictionaryForKey:(NSString *)key;
 
 - (BOOL)isValid;
 

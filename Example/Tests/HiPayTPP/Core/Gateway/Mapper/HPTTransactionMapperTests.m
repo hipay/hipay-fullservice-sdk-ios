@@ -106,7 +106,18 @@
     HPTTransaction *object = [[HPTTransaction alloc] init];
     
     [[[mockedMapper expect] andReturn:object] mappedObjectWithTransactionRelatedItem:[OCMArg isKindOfClass:[HPTTransaction class]]];
+    [[[mockedMapper expect] andReturnValue:@(HPTTransactionStateCompleted)] getIntegerEnumValueWithKey:@"state" defaultEnumValue:HPTTransactionStateError allValues:[HPTTransactionMapper transactionStateMapping]];
     
+    [[[mockedMapper expect] andReturn:@"cdata1 example"] getStringForKey:@"cdata1"];
+    [[[mockedMapper expect] andReturn:@"cdata2 example"] getStringForKey:@"cdata2"];
+    [[[mockedMapper expect] andReturn:@"cdata3 example"] getStringForKey:@"cdata3"];
+    [[[mockedMapper expect] andReturn:@"cdata4 example"] getStringForKey:@"cdata4"];
+    [[[mockedMapper expect] andReturn:@"cdata5 example"] getStringForKey:@"cdata5"];
+    [[[mockedMapper expect] andReturn:@"cdata6 example"] getStringForKey:@"cdata6"];
+    [[[mockedMapper expect] andReturn:@"cdata7 example"] getStringForKey:@"cdata7"];
+    [[[mockedMapper expect] andReturn:@"cdata8 example"] getStringForKey:@"cdata8"];
+    [[[mockedMapper expect] andReturn:@"cdata9 example"] getStringForKey:@"cdata9"];
+    [[[mockedMapper expect] andReturn:@"cdata10 example"] getStringForKey:@"cdata10"];
 
     
     
@@ -115,8 +126,10 @@
     XCTAssertEqualObjects(object.fraudScreening, fraudScreening);
     XCTAssertEqualObjects(object.order, order);
     XCTAssertEqualObjects(object.paymentMethod, paymentMethod);
+    XCTAssertEqual(object.state, HPTTransactionStateCompleted);
     
     [mockedMapper verify];
 }
+
 
 @end

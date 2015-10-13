@@ -13,12 +13,12 @@
 
 @implementation HPTTransactionRelatedItemMapper
 
-- (id)mappedObject
+- (id _Nonnull)mappedObject
 {
     return [self mappedObjectWithTransactionRelatedItem:[[HPTTransactionRelatedItem alloc] init]];
 }
 
-- (id)mappedObjectWithTransactionRelatedItem:(HPTTransactionRelatedItem *)object
+- (id _Nonnull)mappedObjectWithTransactionRelatedItem:(HPTTransactionRelatedItem *)object
 {
     [object setValue:@([self getBoolForKey:@"test"]) forKey:@"test"];
     [object setValue:[self getStringForKey:@"mid"] forKey:@"mid"];

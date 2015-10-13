@@ -38,9 +38,4 @@
     return object;
 }
 
-- (HPTPersonalInformation *)getShippingAddress
-{
-//    return [[[HPTPersonalInformationMapper alloc] initWithRawData:[self getDictionaryForKey:@"shippingAddress"]] mappedObjectWithPersonalInformation:shippingAddress];
-}
-
 @end

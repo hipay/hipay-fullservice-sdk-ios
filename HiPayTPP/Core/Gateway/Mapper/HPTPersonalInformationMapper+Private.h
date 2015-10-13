@@ -9,6 +9,5 @@
 @interface HPTPersonalInformationMapper (Private)
 
 - (id _Nonnull)mappedObjectWithPersonalInformation:(HPTPersonalInformation  * _Nonnull)object;
-- (HPTPersonalInformation *)populateShippingAddress:(HPTPersonalInformation * _Nonnull)shippingAddress withRawData:(NSDictionary * _Nullable)rawData;
 
 @end

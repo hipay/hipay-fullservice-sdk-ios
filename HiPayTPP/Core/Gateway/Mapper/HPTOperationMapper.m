@@ -22,7 +22,7 @@
              @"denyChallenge": @(HPTOperationTypeDenyChallenge)};
 }
 
-- (id)mappedObject
+- (id _Nonnull)mappedObject
 {
     HPTOperation *object = [self mappedObjectWithTransactionRelatedItem:[[HPTOperation alloc] init]];
 

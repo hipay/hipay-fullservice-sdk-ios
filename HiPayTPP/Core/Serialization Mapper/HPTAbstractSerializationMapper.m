@@ -45,4 +45,20 @@
     return nil;
 }
 
+- (NSString *)getIntegerForKeyPath:(NSString *)keyPath
+{
+    id object = [self.request valueForKey:keyPath];
+    
+    if ([object isKindOfClass:[NSNumber class]]) {
+
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        formatter.numberStyle = NSNumberFormatterNoStyle;
+        formatter.roundingMode = NSNumberFormatterRoundDown;
+        
+        return [formatter stringFromNumber:object];
+    }
+    
+    return nil;
+}
+
 @end

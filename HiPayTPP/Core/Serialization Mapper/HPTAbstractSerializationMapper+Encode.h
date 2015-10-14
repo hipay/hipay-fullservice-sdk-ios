@@ -11,5 +11,6 @@
 @interface HPTAbstractSerializationMapper (Encode)
 
 - (NSString *)getURLForKeyPath:(NSString *)keyPath;
+- (NSString *)getIntegerForKeyPath:(NSString *)keyPath;
 
 @end

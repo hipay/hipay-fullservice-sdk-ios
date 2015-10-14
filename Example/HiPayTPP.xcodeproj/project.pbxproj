@@ -303,6 +303,13 @@
 			path = "Serialization Mapper";
 			sourceTree = "<group>";
 		};
+		A57BA7B51BCEA2B500F154E2 /* Serialization Mapper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Serialization Mapper";
+			sourceTree = "<group>";
+		};
 		A5A6EEA11BB97C8400825B19 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +324,7 @@
 		A5C6F2951BC7F08D00DEC43E /* Gateway */ = {
 			isa = PBXGroup;
 			children = (
+				A57BA7B51BCEA2B500F154E2 /* Serialization Mapper */,
 				A57BA74D1BCD66E200F154E2 /* Client */,
 				A5C6F2961BC7F08D00DEC43E /* Mapper */,
 			);

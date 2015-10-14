@@ -1,6 +1,6 @@
 machine:
   xcode:
-    version: "7.0.1"
+    version: "7.0"
   environment:
     XCODE_SCHEME: "HiPayTPP-Example"
     # CocoaPods versions greater than 0.34 require

@@ -31,6 +31,7 @@
 		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; settings = {ASSET_TAGS = (); }; };
 		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; settings = {ASSET_TAGS = (); }; };
 		A57BA74F1BCD66F000F154E2 /* HPTGatewayClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA74E1BCD66F000F154E2 /* HPTGatewayClientTests.m */; settings = {ASSET_TAGS = (); }; };
+		A57BA78C1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA78B1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A595C44C1BC800310076AF07 /* HPTFraudScreeningMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C44B1BC800310076AF07 /* HPTFraudScreeningMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A595C44E1BC800430076AF07 /* HPTOperationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C44D1BC800430076AF07 /* HPTOperationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A595C4501BC800510076AF07 /* HPTPersonalInformationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C44F1BC800510076AF07 /* HPTPersonalInformationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
@@ -91,6 +92,7 @@
 		A515463E1BBBDD1F0077296E /* example_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_error.json; sourceTree = "<group>"; };
 		A57BA74E1BCD66F000F154E2 /* HPTGatewayClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTGatewayClientTests.m; sourceTree = "<group>"; };
 		A57BA7511BCD676100F154E2 /* HPTGatewayClient+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPTGatewayClient+Testing.h"; sourceTree = "<group>"; };
+		A57BA78B1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTAbstractSerializationMapperTests.m; sourceTree = "<group>"; };
 		A595C44B1BC800310076AF07 /* HPTFraudScreeningMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTFraudScreeningMapperTests.m; sourceTree = "<group>"; };
 		A595C44D1BC800430076AF07 /* HPTOperationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTOperationMapperTests.m; sourceTree = "<group>"; };
 		A595C44F1BC800510076AF07 /* HPTPersonalInformationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPersonalInformationMapperTests.m; sourceTree = "<group>"; };
@@ -293,6 +295,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		A57BA78A1BCE506B00F154E2 /* Serialization Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				A57BA78B1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m */,
+			);
+			path = "Serialization Mapper";
+			sourceTree = "<group>";
+		};
 		A5A6EEA11BB97C8400825B19 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +351,7 @@
 			children = (
 				A51004D81BBD8F43002BD3C1 /* Client */,
 				A51004BD1BBD67DF002BD3C1 /* Mapper */,
+				A57BA78A1BCE506B00F154E2 /* Serialization Mapper */,
 				A5F335281BB58ABB0082463F /* Network */,
 				A5C6F2951BC7F08D00DEC43E /* Gateway */,
 				A5F335291BB58ABB0082463F /* Secure Vault */,
@@ -560,6 +571,7 @@
 				A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */,
 				A57BA74F1BCD66F000F154E2 /* HPTGatewayClientTests.m in Sources */,
 				A5F605921BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m in Sources */,
+				A57BA78C1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m in Sources */,
 				A51004E51BC28714002BD3C1 /* HPTAbstractClientTest.m in Sources */,
 				A51004DA1BBD8F4F002BD3C1 /* HPTClientConfigTests.m in Sources */,
 				A5C6F2981BC7F0CA00DEC43E /* HPTThreeDSecureTests.m in Sources */,

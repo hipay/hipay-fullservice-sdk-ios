@@ -7,6 +7,7 @@
 //
 
 #import "HPTAbstractSerializationMapper.h"
+#import "HPTAbstractSerializationMapper+Encode.h"
 
 @implementation HPTAbstractSerializationMapper
 
@@ -31,6 +32,17 @@
 - (NSDictionary *)serializedRequest
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"The method %@ should be overridden in a subclass.", NSStringFromSelector(_cmd)] userInfo:nil];
+}
+
+- (NSString *)getURLForKeyPath:(NSString *)keyPath
+{
+    id object = [self.request valueForKey:keyPath];
+    
+    if ([object isKindOfClass:[NSURL class]]) {
+        return [object absoluteString];
+    }
+    
+    return nil;
 }
 
 @end

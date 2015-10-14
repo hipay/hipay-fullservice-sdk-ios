@@ -7,8 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <HiPayTPP/HPTAbstractSerializationMapper+Encode.h>
 
 @interface HPTAbstractSerializationMapperTests : XCTestCase
+{
+    OCMockObject *mockedRequest;
+    HPTAbstractSerializationMapper *mapper;
+}
 
 @end
 
@@ -16,7 +21,9 @@
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    mockedRequest = [OCMockObject mockForClass:[NSObject class]];
+    mapper = [HPTAbstractSerializationMapper mapperWithRequest:mockedRequest];
 }
 
 - (void)tearDown {
@@ -25,18 +32,26 @@
 }
 
 - (void)testInit {
-    id request = [[NSObject alloc] init];
+    XCTAssertEqual(mapper.request, mockedRequest);
+}
 
-    HPTAbstractSerializationMapper *mapper = [HPTAbstractSerializationMapper mapperWithRequest:request];
-    
-    XCTAssertEqual(mapper.request, request);
+- (void)testInitNil {
+    XCTAssertNil([HPTAbstractSerializationMapper mapperWithRequest:nil]);
 }
 
 - (void)testShouldSuclass {
-
-    HPTAbstractSerializationMapper *mapper = [HPTAbstractSerializationMapper mapperWithRequest:[[NSObject alloc] init]];
-    
     XCTAssertThrows(mapper.serializedRequest);
+}
+
+- (void)testGetURLValues
+{
+    [[[mockedRequest expect] andReturn:[NSURL URLWithString:@"http://www.example.com/forward/ok"]] valueForKey:@"test1"];
+    [[[mockedRequest expect] andReturn:nil] valueForKey:@"test2"];
+    [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test3"];
+
+    XCTAssertEqualObjects([mapper getURLForKeyPath:@"test1"], @"http://www.example.com/forward/ok");
+    XCTAssertNil([mapper getURLForKeyPath:@"test2"]);
+    XCTAssertNil([mapper getURLForKeyPath:@"test3"]);
 }
 
 @end

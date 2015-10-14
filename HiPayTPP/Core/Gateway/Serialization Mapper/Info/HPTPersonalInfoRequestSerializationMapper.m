@@ -7,6 +7,7 @@
 //
 
 #import "HPTPersonalInfoRequestSerializationMapper.h"
+#import "HPTPersonalInfoRequest.h"
 
 @implementation HPTPersonalInfoRequestSerializationMapper
 

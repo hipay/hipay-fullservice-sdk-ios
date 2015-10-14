@@ -7,6 +7,7 @@
 //
 
 #import "HPTCardTokenPaymentMethodRequestSerializationMapper.h"
+#import "HPTCardTokenPaymentMethodRequest.h"
 
 @implementation HPTCardTokenPaymentMethodRequestSerializationMapper
 

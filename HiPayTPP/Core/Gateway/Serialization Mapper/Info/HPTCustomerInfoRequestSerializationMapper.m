@@ -7,6 +7,7 @@
 //
 
 #import "HPTCustomerInfoRequestSerializationMapper.h"
+#import "HPTCustomerInfoRequest.h"
 
 @implementation HPTCustomerInfoRequestSerializationMapper
 

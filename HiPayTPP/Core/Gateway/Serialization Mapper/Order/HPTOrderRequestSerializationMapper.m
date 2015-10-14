@@ -7,6 +7,7 @@
 //
 
 #import "HPTOrderRequestSerializationMapper.h"
+#import "HPTOrderRequest.h"
 
 @implementation HPTOrderRequestSerializationMapper
 

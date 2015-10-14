@@ -7,6 +7,7 @@
 //
 
 #import "HPTHostedPaymentPageRequestSerializationMapper.h"
+#import "HPTHostedPaymentPageRequest.h"
 
 @implementation HPTHostedPaymentPageRequestSerializationMapper
 

@@ -10,4 +10,11 @@
 
 @interface HPTAbstractSerializationMapper : NSObject
 
+@property (nonatomic, readonly) id request;
+
++ (instancetype)mapperWithRequest:(id)request;
+
+- (instancetype)initWithRequest:(id)request;
+- (NSDictionary *)serializedRequest;
+
 @end

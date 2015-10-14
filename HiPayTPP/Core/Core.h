@@ -36,9 +36,9 @@
 #import <HiPayTPP/HPTTransactionRelatedItemMapper.h>
 #import <HiPayTPP/HPTHostedPaymentPageMapper.h>
 
+#import <HiPayTPP/HPTCustomerInfoRequest.h>
+#import <HiPayTPP/HPTHostedPaymentPageRequest.h>
+#import <HiPayTPP/HPTOrderRequest.h>
+#import <HiPayTPP/HPTCardTokenPaymentMethodRequest.h>
 
-
-
-
-
-
+#import <HiPayTPP/HPTAbstractSerializationMapper.h>

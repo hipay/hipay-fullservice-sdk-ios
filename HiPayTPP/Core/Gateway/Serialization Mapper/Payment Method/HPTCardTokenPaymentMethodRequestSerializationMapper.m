@@ -8,6 +8,8 @@
 
 #import "HPTCardTokenPaymentMethodRequestSerializationMapper.h"
 #import "HPTCardTokenPaymentMethodRequest.h"
+#import "NSMutableDictionary+Serialization.h"
+#import "HPTAbstractSerializationMapper+Encode.h"
 
 @implementation HPTCardTokenPaymentMethodRequestSerializationMapper
 

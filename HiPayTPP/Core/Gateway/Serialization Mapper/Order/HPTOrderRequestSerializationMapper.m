@@ -8,6 +8,8 @@
 
 #import "HPTOrderRequestSerializationMapper.h"
 #import "HPTOrderRequest.h"
+#import "NSMutableDictionary+Serialization.h"
+#import "HPTAbstractSerializationMapper+Encode.h"
 
 @implementation HPTOrderRequestSerializationMapper
 

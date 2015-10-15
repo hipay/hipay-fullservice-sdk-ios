@@ -8,6 +8,8 @@
 
 #import "HPTCustomerInfoRequestSerializationMapper.h"
 #import "HPTCustomerInfoRequest.h"
+#import "NSMutableDictionary+Serialization.h"
+#import "HPTAbstractSerializationMapper+Encode.h"
 
 @implementation HPTCustomerInfoRequestSerializationMapper
 

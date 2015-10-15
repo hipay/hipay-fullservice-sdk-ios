@@ -26,7 +26,27 @@
 
 - (void)testKeyPaths
 {
+    HPTPersonalInfoRequest *object = [[HPTPersonalInfoRequest alloc] init];
     
+    object.firstname = @"test1";
+    object.lastname = @"test2";
+    object.streetAddress = @"test3";
+    object.streetAddress2 = @"test4";
+    object.recipientInfo = @"test5";
+    object.city = @"test6";
+    object.state = @"test7";
+    object.zipCode = @"test8";
+    object.country = @"test9";
+
+    XCTAssertEqualObjects([object valueForKey:@"firstname"], @"test1");
+    XCTAssertEqualObjects([object valueForKey:@"lastname"], @"test2");
+    XCTAssertEqualObjects([object valueForKey:@"streetAddress"], @"test3");
+    XCTAssertEqualObjects([object valueForKey:@"streetAddress2"], @"test4");
+    XCTAssertEqualObjects([object valueForKey:@"recipientInfo"], @"test5");
+    XCTAssertEqualObjects([object valueForKey:@"city"], @"test6");
+    XCTAssertEqualObjects([object valueForKey:@"state"], @"test7");
+    XCTAssertEqualObjects([object valueForKey:@"zipCode"], @"test8");
+    XCTAssertEqualObjects([object valueForKey:@"country"], @"test9");
 }
 
 @end

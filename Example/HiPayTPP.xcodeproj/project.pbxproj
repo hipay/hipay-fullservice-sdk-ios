@@ -37,7 +37,6 @@
 		A57BA7D71BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D61BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7D91BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D81BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7DB1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7DA1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
-		A57BA7DD1BCEAD5700F154E2 /* HPTAbstractPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7DC1BCEAD5700F154E2 /* HPTAbstractPaymentMethodRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7DF1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7DE1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7EA1BCF8F2B00F154E2 /* HPTPersonalInfoRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7E91BCF8F2B00F154E2 /* HPTPersonalInfoRequestTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7EC1BCF8F4800F154E2 /* HPTCustomerInfoRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7EB1BCF8F4800F154E2 /* HPTCustomerInfoRequestTests.m */; settings = {ASSET_TAGS = (); }; };
@@ -111,7 +110,6 @@
 		A57BA7D61BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTOrderRelatedRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA7D81BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTOrderRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA7DA1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHostedPaymentPageRequestSerializationMapperTests.m; sourceTree = "<group>"; };
-		A57BA7DC1BCEAD5700F154E2 /* HPTAbstractPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTAbstractPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA7DE1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTCardTokenPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA7E91BCF8F2B00F154E2 /* HPTPersonalInfoRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPersonalInfoRequestTests.m; sourceTree = "<group>"; };
 		A57BA7EB1BCF8F4800F154E2 /* HPTCustomerInfoRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTCustomerInfoRequestTests.m; sourceTree = "<group>"; };
@@ -337,7 +335,6 @@
 				A57BA7D61BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m */,
 				A57BA7D81BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m */,
 				A57BA7DA1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m */,
-				A57BA7DC1BCEAD5700F154E2 /* HPTAbstractPaymentMethodRequestSerializationMapperTests.m */,
 				A57BA7DE1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m */,
 			);
 			path = "Serialization Mapper";
@@ -674,7 +671,6 @@
 				A595C45A1BC802DA0076AF07 /* HPTOrderMapperTests.m in Sources */,
 				A51004B51BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m in Sources */,
 				A595C4501BC800510076AF07 /* HPTPersonalInformationMapperTests.m in Sources */,
-				A57BA7DD1BCEAD5700F154E2 /* HPTAbstractPaymentMethodRequestSerializationMapperTests.m in Sources */,
 				A57BA7D51BCEAD1D00F154E2 /* HPTCustomerInfoRequestSerializationMapperTests.m in Sources */,
 				A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */,
 				A57BA7D71BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m in Sources */,

@@ -13,4 +13,15 @@
 
 @implementation HPTCardTokenPaymentMethodRequestSerializationMapper
 
+- (NSDictionary *)serializedRequest
+{
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    
+    [result setNullableObject:[self getStringForKey:@"cardToken"] forKey:@"cardtoken"];
+    [result setNullableObject:[self getIntegerEnumValueForKey:@"eci"] forKey:@"eci"];
+    [result setNullableObject:[self getIntegerEnumValueForKey:@"authenticationIndicator"] forKey:@"authentication_indicator"];
+
+    return [NSDictionary dictionaryWithDictionary:result];
+}
+
 @end

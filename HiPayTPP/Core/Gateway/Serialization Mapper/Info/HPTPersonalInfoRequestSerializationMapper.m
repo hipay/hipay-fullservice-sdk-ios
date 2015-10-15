@@ -17,15 +17,15 @@
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     
-    [result setNullableObject:[self getStringForKeyPath:@"firstname"] forKey:@"firstname"];
-    [result setNullableObject:[self getStringForKeyPath:@"lastname"] forKey:@"lastname"];
-    [result setNullableObject:[self getStringForKeyPath:@"streetAddress"] forKey:@"streetaddress"];
-    [result setNullableObject:[self getStringForKeyPath:@"streetAddress2"] forKey:@"streetaddress2"];
-    [result setNullableObject:[self getStringForKeyPath:@"recipientInfo"] forKey:@"recipientinfo"];
-    [result setNullableObject:[self getStringForKeyPath:@"city"] forKey:@"city"];
-    [result setNullableObject:[self getStringForKeyPath:@"state"] forKey:@"state"];
-    [result setNullableObject:[self getStringForKeyPath:@"zipCode"] forKey:@"zipcode"];
-    [result setNullableObject:[self getStringForKeyPath:@"country"] forKey:@"country"];
+    [result setNullableObject:[self getStringForKey:@"firstname"] forKey:@"firstname"];
+    [result setNullableObject:[self getStringForKey:@"lastname"] forKey:@"lastname"];
+    [result setNullableObject:[self getStringForKey:@"streetAddress"] forKey:@"streetaddress"];
+    [result setNullableObject:[self getStringForKey:@"streetAddress2"] forKey:@"streetaddress2"];
+    [result setNullableObject:[self getStringForKey:@"recipientInfo"] forKey:@"recipientinfo"];
+    [result setNullableObject:[self getStringForKey:@"city"] forKey:@"city"];
+    [result setNullableObject:[self getStringForKey:@"state"] forKey:@"state"];
+    [result setNullableObject:[self getStringForKey:@"zipCode"] forKey:@"zipcode"];
+    [result setNullableObject:[self getStringForKey:@"country"] forKey:@"country"];
     
     return [NSDictionary dictionaryWithDictionary:result];
 }

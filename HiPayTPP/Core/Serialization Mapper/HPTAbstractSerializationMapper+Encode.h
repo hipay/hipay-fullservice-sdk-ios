@@ -10,12 +10,14 @@
 
 @interface HPTAbstractSerializationMapper (Encode)
 
-- (NSString *)getURLForKeyPath:(NSString *)keyPath;
-- (NSString *)getIntegerForKeyPath:(NSString *)keyPath;
-- (NSString *)getFloatForKeyPath:(NSString *)keyPath;
-- (NSString *)getDateForKeyPath:(NSString *)keyPath;
-- (NSString *)getDateForKeyPath:(NSString *)keyPath timeZone:(NSTimeZone *)timeZone;
-- (NSString *)getStringValuesListForKeyPath:(NSString *)keyPath;
-- (NSString *)getStringForKeyPath:(NSString *)keyPath;
+- (NSString *)getURLForKey:(NSString *)keyPath;
+- (NSString *)getIntegerForKey:(NSString *)keyPath;
+- (NSString *)getFloatForKey:(NSString *)keyPath;
+- (NSString *)getDateForKey:(NSString *)keyPath;
+- (NSString *)getDateForKey:(NSString *)keyPath timeZone:(NSTimeZone *)timeZone;
+- (NSString *)getStringValuesListForKey:(NSString *)keyPath;
+- (NSString *)getStringForKey:(NSString *)keyPath;
+- (NSString *)getCharEnumValueForKey:(NSString *)key;
+- (NSString *)getIntegerEnumValueForKey:(NSString *)key;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <HiPayTPP/HPTPersonalInfoRequestSerializationMapper.h>
+#import <HiPayTPP/HPTCardTokenPaymentMethodRequestSerializationMapper.h>
 #import <HiPayTPP/HPTAbstractSerializationMapper+Encode.h>
 
 @interface HPTCardTokenPaymentMethodRequestSerializationMapperTests : XCTestCase
@@ -26,16 +26,24 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testSerialization
+{
+    HPTCardTokenPaymentMethodRequest *request = [[HPTCardTokenPaymentMethodRequest alloc] init];
+    
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTCardTokenPaymentMethodRequestSerializationMapper alloc] initWithRequest:request]];
+    HPTCardTokenPaymentMethodRequestSerializationMapper *mapper = (HPTCardTokenPaymentMethodRequestSerializationMapper *)mockedMapper;
+    
+    [[[mockedMapper expect] andReturn:@"test1"] getStringForKey:@"cardToken"];
+    [[[mockedMapper expect] andReturn:@"1"] getIntegerEnumValueForKey:@"eci"];
+    [[[mockedMapper expect] andReturn:@"2"] getIntegerEnumValueForKey:@"authenticationIndicator"];
+    
+    NSDictionary *result = mapper.serializedRequest;
+    
+    XCTAssertEqualObjects([result objectForKey:@"cardtoken"], @"test1");
+    XCTAssertEqualObjects([result objectForKey:@"eci"], @"1");
+    XCTAssertEqualObjects([result objectForKey:@"authentication_indicator"], @"2");
+    
+    [mockedMapper verify];
 }
 
 @end

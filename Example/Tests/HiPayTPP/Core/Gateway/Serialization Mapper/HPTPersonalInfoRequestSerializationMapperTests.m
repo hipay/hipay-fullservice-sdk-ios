@@ -33,15 +33,15 @@
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTPersonalInfoRequestSerializationMapper alloc] initWithRequest:personalInfo]];
     HPTPersonalInfoRequestSerializationMapper *mapper = (HPTPersonalInfoRequestSerializationMapper *)mockedMapper;
 
-    [[[mockedMapper expect] andReturn:@"John"] getStringForKeyPath:@"firstname"];
-    [[[mockedMapper expect] andReturn:@"Doe"] getStringForKeyPath:@"lastname"];
-    [[[mockedMapper expect] andReturn:@"14 Boulevard Arago"] getStringForKeyPath:@"streetAddress"];
-    [[[mockedMapper expect] andReturn:@"Bâtiment B"] getStringForKeyPath:@"streetAddress2"];
-    [[[mockedMapper expect] andReturn:@"Dr Doe"] getStringForKeyPath:@"recipientInfo"];
-    [[[mockedMapper expect] andReturn:@"Paris"] getStringForKeyPath:@"city"];
-    [[[mockedMapper expect] andReturn:@"Île-de-France"] getStringForKeyPath:@"state"];
-    [[[mockedMapper expect] andReturn:@"75013"] getStringForKeyPath:@"zipCode"];
-    [[[mockedMapper expect] andReturn:@"France"] getStringForKeyPath:@"country"];
+    [[[mockedMapper expect] andReturn:@"John"] getStringForKey:@"firstname"];
+    [[[mockedMapper expect] andReturn:@"Doe"] getStringForKey:@"lastname"];
+    [[[mockedMapper expect] andReturn:@"14 Boulevard Arago"] getStringForKey:@"streetAddress"];
+    [[[mockedMapper expect] andReturn:@"Bâtiment B"] getStringForKey:@"streetAddress2"];
+    [[[mockedMapper expect] andReturn:@"Dr Doe"] getStringForKey:@"recipientInfo"];
+    [[[mockedMapper expect] andReturn:@"Paris"] getStringForKey:@"city"];
+    [[[mockedMapper expect] andReturn:@"Île-de-France"] getStringForKey:@"state"];
+    [[[mockedMapper expect] andReturn:@"75013"] getStringForKey:@"zipCode"];
+    [[[mockedMapper expect] andReturn:@"France"] getStringForKey:@"country"];
     
     NSDictionary *result = mapper.serializedRequest;
     

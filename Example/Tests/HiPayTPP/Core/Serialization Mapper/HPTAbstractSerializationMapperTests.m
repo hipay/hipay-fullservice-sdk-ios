@@ -51,9 +51,9 @@
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test2"];
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test3"];
     
-    XCTAssertEqualObjects([mapper getURLForKeyPath:@"test1"], @"http://www.example.com/forward/ok");
-    XCTAssertNil([mapper getURLForKeyPath:@"test2"]);
-    XCTAssertNil([mapper getURLForKeyPath:@"test3"]);
+    XCTAssertEqualObjects([mapper getURLForKey:@"test1"], @"http://www.example.com/forward/ok");
+    XCTAssertNil([mapper getURLForKey:@"test2"]);
+    XCTAssertNil([mapper getURLForKey:@"test3"]);
     
     [mockedRequest verify];
 }
@@ -66,11 +66,11 @@
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test4"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test5"];
     
-    XCTAssertEqualObjects([mapper getIntegerForKeyPath:@"test1"], @"45");
-    XCTAssertEqualObjects([mapper getIntegerForKeyPath:@"test2"], @"45");
-    XCTAssertEqualObjects([mapper getIntegerForKeyPath:@"test3"], @"45");
-    XCTAssertNil([mapper getIntegerForKeyPath:@"test4"]);
-    XCTAssertNil([mapper getIntegerForKeyPath:@"test5"]);
+    XCTAssertEqualObjects([mapper getIntegerForKey:@"test1"], @"45");
+    XCTAssertEqualObjects([mapper getIntegerForKey:@"test2"], @"45");
+    XCTAssertEqualObjects([mapper getIntegerForKey:@"test3"], @"45");
+    XCTAssertNil([mapper getIntegerForKey:@"test4"]);
+    XCTAssertNil([mapper getIntegerForKey:@"test5"]);
 
     [mockedRequest verify];
 }
@@ -83,11 +83,11 @@
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test4"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test5"];
     
-    XCTAssertEqualObjects([mapper getFloatForKeyPath:@"test1"], @"45.00");
-    XCTAssertEqualObjects([mapper getFloatForKeyPath:@"test2"], @"45.12");
-    XCTAssertEqualObjects([mapper getFloatForKeyPath:@"test3"], @"45.1254");
-    XCTAssertNil([mapper getFloatForKeyPath:@"test4"]);
-    XCTAssertNil([mapper getFloatForKeyPath:@"test5"]);
+    XCTAssertEqualObjects([mapper getFloatForKey:@"test1"], @"45.00");
+    XCTAssertEqualObjects([mapper getFloatForKey:@"test2"], @"45.12");
+    XCTAssertEqualObjects([mapper getFloatForKey:@"test3"], @"45.1254");
+    XCTAssertNil([mapper getFloatForKey:@"test4"]);
+    XCTAssertNil([mapper getFloatForKey:@"test5"]);
 
     [mockedRequest verify];
 }
@@ -99,16 +99,16 @@
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test3"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test4"];
     
-    XCTAssertEqualObjects([mapper getDateForKeyPath:@"test1" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]], @"2015-12-31");
-    XCTAssertEqualObjects([mapper getDateForKeyPath:@"test2" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]], @"2015-02-09");
-    XCTAssertNil([mapper getDateForKeyPath:@"test3" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]]);
-    XCTAssertNil([mapper getDateForKeyPath:@"test4" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]]);
+    XCTAssertEqualObjects([mapper getDateForKey:@"test1" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]], @"2015-12-31");
+    XCTAssertEqualObjects([mapper getDateForKey:@"test2" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]], @"2015-02-09");
+    XCTAssertNil([mapper getDateForKey:@"test3" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]]);
+    XCTAssertNil([mapper getDateForKey:@"test4" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]]);
     
     NSString *result = @"2015-11-12";
     
-    [[[mockedMapper expect] andReturn:result] getDateForKeyPath:@"test_final" timeZone:[NSTimeZone systemTimeZone]];
+    [[[mockedMapper expect] andReturn:result] getDateForKey:@"test_final" timeZone:[NSTimeZone systemTimeZone]];
     
-    XCTAssertEqual([mapper getDateForKeyPath:@"test_final"], result);
+    XCTAssertEqual([mapper getDateForKey:@"test_final"], result);
     
     [mockedMapper verify];
     [mockedRequest verify];
@@ -122,11 +122,11 @@
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test4"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test5"];
     
-    XCTAssertEqualObjects([mapper getStringValuesListForKeyPath:@"test1"], @"hello,world,ok");
-    XCTAssertEqualObjects([mapper getStringValuesListForKeyPath:@"test2"], @"hello");
-    XCTAssertEqualObjects([mapper getStringValuesListForKeyPath:@"test3"], @"");
-    XCTAssertNil([mapper getStringValuesListForKeyPath:@"test4"]);
-    XCTAssertNil([mapper getStringValuesListForKeyPath:@"test5"]);
+    XCTAssertEqualObjects([mapper getStringValuesListForKey:@"test1"], @"hello,world,ok");
+    XCTAssertEqualObjects([mapper getStringValuesListForKey:@"test2"], @"hello");
+    XCTAssertEqualObjects([mapper getStringValuesListForKey:@"test3"], @"");
+    XCTAssertNil([mapper getStringValuesListForKey:@"test4"]);
+    XCTAssertNil([mapper getStringValuesListForKey:@"test5"]);
     
     [mockedRequest verify];
 }
@@ -137,10 +137,48 @@
     [[[mockedRequest expect] andReturn:@(2)] valueForKey:@"test2"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test3"];
     
-    XCTAssertEqualObjects([mapper getStringForKeyPath:@"test1"], @"Hello");
-    XCTAssertNil([mapper getStringForKeyPath:@"test2"]);
-    XCTAssertNil([mapper getStringForKeyPath:@"test3"]);
+    XCTAssertEqualObjects([mapper getStringForKey:@"test1"], @"Hello");
+    XCTAssertNil([mapper getStringForKey:@"test2"]);
+    XCTAssertNil([mapper getStringForKey:@"test3"]);
 
+    [mockedRequest verify];
+}
+
+- (void)testCharEnumValues
+{
+    [[[mockedRequest expect] andReturn:@('A')] valueForKey:@"test1"];
+    [[[mockedRequest expect] andReturn:@('H')] valueForKey:@"test2"];
+    [[[mockedRequest expect] andReturn:@('Z')] valueForKey:@"test3"];
+    [[[mockedRequest expect] andReturn:@(' ')] valueForKey:@"test4"];
+    [[[mockedRequest expect] andReturn:nil] valueForKey:@"test5"];
+    [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test6"];
+    
+    XCTAssertEqualObjects([mapper getCharEnumValueForKey:@"test1"], @"A");
+    XCTAssertEqualObjects([mapper getCharEnumValueForKey:@"test2"], @"H");
+    XCTAssertEqualObjects([mapper getCharEnumValueForKey:@"test3"], @"Z");
+    XCTAssertNil([mapper getCharEnumValueForKey:@"test4"]);
+    XCTAssertNil([mapper getCharEnumValueForKey:@"test5"]);
+    XCTAssertNil([mapper getCharEnumValueForKey:@"test6"]);
+    
+    [mockedRequest verify];
+}
+
+- (void)testIntegerEnumValues
+{
+    [[[mockedRequest expect] andReturn:@(12)] valueForKey:@"test1"];
+    [[[mockedRequest expect] andReturn:@(0)] valueForKey:@"test2"];
+    [[[mockedRequest expect] andReturn:@(546445)] valueForKey:@"test3"];
+    [[[mockedRequest expect] andReturn:@(NSIntegerMax)] valueForKey:@"test4"];
+    [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test5"];
+    [[[mockedRequest expect] andReturn:nil] valueForKey:@"test6"];
+    
+    XCTAssertEqualObjects([mapper getIntegerEnumValueForKey:@"test1"], @"12");
+    XCTAssertEqualObjects([mapper getIntegerEnumValueForKey:@"test2"], @"0");
+    XCTAssertEqualObjects([mapper getIntegerEnumValueForKey:@"test3"], @"546445");
+    XCTAssertNil([mapper getIntegerEnumValueForKey:@"test4"]);
+    XCTAssertNil([mapper getIntegerEnumValueForKey:@"test5"]);
+    XCTAssertNil([mapper getIntegerEnumValueForKey:@"test6"]);
+    
     [mockedRequest verify];
 }
 

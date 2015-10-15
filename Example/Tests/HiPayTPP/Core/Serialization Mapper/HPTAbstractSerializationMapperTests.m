@@ -131,4 +131,17 @@
     [mockedRequest verify];
 }
 
+- (void)testStringValues
+{
+    [[[mockedRequest expect] andReturn:@"Hello"] valueForKey:@"test1"];
+    [[[mockedRequest expect] andReturn:@(2)] valueForKey:@"test2"];
+    [[[mockedRequest expect] andReturn:nil] valueForKey:@"test3"];
+    
+    XCTAssertEqualObjects([mapper getStringForKeyPath:@"test1"], @"Hello");
+    XCTAssertNil([mapper getStringForKeyPath:@"test2"]);
+    XCTAssertNil([mapper getStringForKeyPath:@"test3"]);
+
+    [mockedRequest verify];
+}
+
 @end

@@ -7,6 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <HiPayTPP/HPTPersonalInfoRequestSerializationMapper.h>
+#import <HiPayTPP/HPTAbstractSerializationMapper+Encode.h>
 
 @interface HPTPersonalInfoRequestSerializationMapperTests : XCTestCase
 
@@ -24,16 +26,36 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-}
+- (void)testSerialization
+{
+    HPTPersonalInfoRequest *personalInfo = [[HPTPersonalInfoRequest alloc] init];
+    
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTPersonalInfoRequestSerializationMapper alloc] initWithRequest:personalInfo]];
+    HPTPersonalInfoRequestSerializationMapper *mapper = (HPTPersonalInfoRequestSerializationMapper *)mockedMapper;
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+    [[[mockedMapper expect] andReturn:@"John"] getStringForKeyPath:@"firstname"];
+    [[[mockedMapper expect] andReturn:@"Doe"] getStringForKeyPath:@"lastname"];
+    [[[mockedMapper expect] andReturn:@"14 Boulevard Arago"] getStringForKeyPath:@"streetAddress"];
+    [[[mockedMapper expect] andReturn:@"Bâtiment B"] getStringForKeyPath:@"streetAddress2"];
+    [[[mockedMapper expect] andReturn:@"Dr Doe"] getStringForKeyPath:@"recipientInfo"];
+    [[[mockedMapper expect] andReturn:@"Paris"] getStringForKeyPath:@"city"];
+    [[[mockedMapper expect] andReturn:@"Île-de-France"] getStringForKeyPath:@"state"];
+    [[[mockedMapper expect] andReturn:@"75013"] getStringForKeyPath:@"zipCode"];
+    [[[mockedMapper expect] andReturn:@"France"] getStringForKeyPath:@"country"];
+    
+    NSDictionary *result = mapper.serializedRequest;
+    
+    XCTAssertEqualObjects([result objectForKey:@"firstname"], @"John");
+    XCTAssertEqualObjects([result objectForKey:@"lastname"], @"Doe");
+    XCTAssertEqualObjects([result objectForKey:@"streetaddress"], @"14 Boulevard Arago");
+    XCTAssertEqualObjects([result objectForKey:@"streetaddress2"], @"Bâtiment B");
+    XCTAssertEqualObjects([result objectForKey:@"recipientinfo"], @"Dr Doe");
+    XCTAssertEqualObjects([result objectForKey:@"city"], @"Paris");
+    XCTAssertEqualObjects([result objectForKey:@"state"], @"Île-de-France");
+    XCTAssertEqualObjects([result objectForKey:@"zipcode"], @"75013");
+    XCTAssertEqualObjects([result objectForKey:@"country"], @"France");
+    
+    [mockedMapper verify];
 }
 
 @end

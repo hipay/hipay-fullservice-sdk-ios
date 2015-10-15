@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayTPP/HiPayTPP.h>
+#import "HPTAbstractSerializationMapper.h"
 
 @interface HPTPersonalInfoRequestSerializationMapper : HPTAbstractSerializationMapper
 

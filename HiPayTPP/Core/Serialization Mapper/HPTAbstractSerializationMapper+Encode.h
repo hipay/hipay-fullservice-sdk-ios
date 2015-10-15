@@ -16,5 +16,6 @@
 - (NSString *)getDateForKeyPath:(NSString *)keyPath;
 - (NSString *)getDateForKeyPath:(NSString *)keyPath timeZone:(NSTimeZone *)timeZone;
 - (NSString *)getStringValuesListForKeyPath:(NSString *)keyPath;
+- (NSString *)getStringForKeyPath:(NSString *)keyPath;
 
 @end

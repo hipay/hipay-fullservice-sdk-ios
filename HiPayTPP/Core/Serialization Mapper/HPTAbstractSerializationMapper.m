@@ -112,4 +112,15 @@
     return nil;
 }
 
+- (NSString *)getStringForKeyPath:(NSString *)keyPath
+{
+    id object = [self.request valueForKey:keyPath];
+    
+    if ([object isKindOfClass:[NSString class]]) {
+        return object;
+    }
+    
+    return nil;
+}
+
 @end

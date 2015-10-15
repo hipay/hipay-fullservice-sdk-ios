@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTOrderRequestSerializationMapper.h>
+#import <HiPayTPP/HPTAbstractSerializationMapper+Encode.h>
 
 @interface HPTOrderRequestSerializationMapperTests : XCTestCase
 

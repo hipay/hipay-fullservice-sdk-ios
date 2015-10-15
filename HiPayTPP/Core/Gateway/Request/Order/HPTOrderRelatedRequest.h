@@ -9,9 +9,9 @@
 #import "HPTCustomerInfoRequest.h"
 
 typedef NS_ENUM(NSInteger, HPTOrderRequestOperation) {
-    HPTOrderRequestUndefined,
-    HPTOrderRequestAuthorization,
-    HPTOrderRequestSale,
+    HPTOrderRequestOperationUndefined,
+    HPTOrderRequestOperationAuthorization,
+    HPTOrderRequestOperationSale,
 };
 
 @interface HPTOrderRelatedRequest : NSObject
@@ -25,14 +25,14 @@ typedef NS_ENUM(NSInteger, HPTOrderRequestOperation) {
 @property (nonatomic, copy) NSNumber *shipping;
 @property (nonatomic, copy) NSNumber *tax;
 @property (nonatomic, copy) NSString *cid;
-@property (nonatomic, copy) NSString *ipaddr;
+@property (nonatomic, copy) NSString *ipAddress;
 @property (nonatomic, copy) NSURL *acceptURL;
 @property (nonatomic, copy) NSURL *declineURL;
 @property (nonatomic, copy) NSURL *pendingURL;
 @property (nonatomic, copy) NSURL *exceptionURL;
 @property (nonatomic, copy) NSURL *cancelURL;
-@property (nonatomic, copy) NSString *httpAccept;
-@property (nonatomic, copy) NSString *httpUserAgent;
+@property (nonatomic, copy) NSString *HTTPAccept;
+@property (nonatomic, copy) NSString *HTTPUserAgent;
 @property (nonatomic, copy) NSString *deviceFingerprint;
 @property (nonatomic, copy) NSString *language;
 

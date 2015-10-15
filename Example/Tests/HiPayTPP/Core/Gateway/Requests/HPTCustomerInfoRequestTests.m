@@ -24,6 +24,13 @@
     [super tearDown];
 }
 
+- (void)testDefaultValues
+{
+    HPTCustomerInfoRequest *object = [[HPTCustomerInfoRequest alloc] init];
+    
+    XCTAssertEqualObjects([object valueForKey:@"gender"], @(HPTGenderUndefined));
+}
+
 - (void)testKeyPaths
 {
     HPTCustomerInfoRequest *object = [[HPTCustomerInfoRequest alloc] init];

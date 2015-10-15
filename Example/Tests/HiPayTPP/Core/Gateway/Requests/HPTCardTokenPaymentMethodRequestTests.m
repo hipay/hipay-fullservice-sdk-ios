@@ -24,16 +24,25 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testDefaultValues
+{
+    HPTCardTokenPaymentMethodRequest *object = [[HPTCardTokenPaymentMethodRequest alloc] init];
+    
+    XCTAssertEqualObjects([object valueForKey:@"eci"], @(HPTECIUndefined));
+    XCTAssertEqualObjects([object valueForKey:@"authenticationIndicator"], @(HPTAuthenticationIndicatorUndefined));
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testKeyPaths
+{
+    HPTCardTokenPaymentMethodRequest *object = [[HPTCardTokenPaymentMethodRequest alloc] init];
+    
+    object.cardToken = @"test1";
+    object.eci = HPTECIMOTO;
+    object.authenticationIndicator = HPTAuthenticationIndicatorIfAvailable;
+    
+    XCTAssertEqualObjects([object valueForKey:@"cardToken"], @"test1");
+    XCTAssertEqualObjects([object valueForKey:@"eci"], @(HPTECIMOTO));
+    XCTAssertEqualObjects([object valueForKey:@"authenticationIndicator"], @(HPTAuthenticationIndicatorIfAvailable));
 }
 
 @end

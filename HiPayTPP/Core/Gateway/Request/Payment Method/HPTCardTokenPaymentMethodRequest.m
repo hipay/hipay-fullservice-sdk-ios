@@ -10,4 +10,14 @@
 
 @implementation HPTCardTokenPaymentMethodRequest
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _authenticationIndicator = HPTAuthenticationIndicatorUndefined;
+        _eci = HPTECIUndefined;
+    }
+    return self;
+}
+
 @end

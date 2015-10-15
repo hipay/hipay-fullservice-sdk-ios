@@ -30,6 +30,7 @@ typedef NS_ENUM(char, HPTAVSResult) {
 
 typedef NS_ENUM(NSInteger, HPTECI) {
     
+    HPTECIUndefined = NSIntegerMax,
     HPTECIMOTO = 1,
     HPTECIRecurringMOTO = 2,
     HPTECIInstallmentPayment = 3,

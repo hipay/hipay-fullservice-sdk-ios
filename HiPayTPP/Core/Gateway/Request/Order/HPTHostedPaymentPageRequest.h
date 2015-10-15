@@ -10,4 +10,7 @@
 
 @interface HPTHostedPaymentPageRequest : HPTOrderRelatedRequest
 
+@property (nonatomic, copy) NSArray *paymentProductList;
+@property (nonatomic, copy) NSArray *paymentProductCategoryList;
+
 @end

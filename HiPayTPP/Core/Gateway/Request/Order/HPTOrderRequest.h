@@ -7,7 +7,11 @@
 //
 
 #import "HPTOrderRelatedRequest.h"
+#import "HPTAbstractPaymentMethodRequest.h"
 
 @interface HPTOrderRequest : HPTOrderRelatedRequest
+
+@property (nonatomic, copy) NSString *paymentProduct;
+@property (nonatomic) HPTAbstractPaymentMethodRequest *paymentMethod;
 
 @end

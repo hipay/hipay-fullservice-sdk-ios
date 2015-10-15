@@ -10,4 +10,13 @@
 
 @implementation HPTCustomerInfoRequest
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _gender = HPTGenderUndefined;
+    }
+    return self;
+}
+
 @end

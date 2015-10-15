@@ -24,16 +24,17 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testKeyPaths
+{
+    HPTHostedPaymentPageRequest *object = [[HPTHostedPaymentPageRequest alloc] init];
+    
+    NSArray *test1 = @[@"test1", @"test2"], *test2 = @[@"cattest1", @"cattest2"];
+    
+    object.paymentProductList = test1;
+    object.paymentProductCategoryList = test2;
+    
+    XCTAssertEqualObjects([object valueForKey:@"paymentProductList"], test1);
+    XCTAssertEqualObjects([object valueForKey:@"paymentProductCategoryList"], test2);
 }
 
 @end

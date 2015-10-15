@@ -49,4 +49,5 @@
     XCTAssertEqualObjects([object valueForKey:@"birthDateYear"], @(1980));
     XCTAssertEqualObjects([object valueForKey:@"gender"], @(HPTGenderFemale));
 }
+
 @end

@@ -35,8 +35,7 @@
 
 - (void)testMappinHighLevel
 {
-    NSDictionary *rawData = @{@"firstname": @"John",
-                              @"lastname": @"Doe"
+    NSDictionary *rawData = @{@"email": @"john@doe.com",
                               };
     
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTPersonalInformationMapper alloc] initWithRawData:rawData]];

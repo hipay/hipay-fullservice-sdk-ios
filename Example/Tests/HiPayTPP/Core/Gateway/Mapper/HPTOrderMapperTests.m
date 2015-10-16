@@ -39,8 +39,7 @@
 - (void)testMapping
 {
     NSDictionary *rawData = @{
-                              @"firstname": @"John",
-                              @"lastname": @"Doe",
+                              @"email": @"test@example.com",
                               @"id": @"ORDERWE_1444293883_714",
                               };
     

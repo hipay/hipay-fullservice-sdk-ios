@@ -7,6 +7,9 @@
 //
 
 #import "HPTGatewayClient.h"
+#import "HPTAbstractClient+Private.h"
+#import "HPTHostedPaymentPageRequestSerializationMapper.h"
+#import "HPTOrderRequestSerializationMapper.h"
 
 @implementation HPTGatewayClient
 
@@ -36,16 +39,37 @@
     
     switch ([HPTClientConfig sharedClientConfig].environment) {
         case HPTEnvironmentProduction:
-            baseURL = HPTSecureVaultClientBaseURLProduction;
+            baseURL = HPTGatewayClientBaseURLProduction;
             break;
             
         case HPTEnvironmentStage:
-            baseURL = HPTSecureVaultClientBaseURLStage;
+            baseURL = HPTGatewayClientBaseURLStage;
             break;
     }
     
     return [[HPTHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL] username:[HPTClientConfig sharedClientConfig].username password:[HPTClientConfig sharedClientConfig].password];
     
+}
+
+- (void)initiateHostedPaymentPageRequest:(HPTHostedPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock
+{
+    NSDictionary *parameters = [HPTHostedPaymentPageRequestSerializationMapper mapperWithRequest:hostedPaymentPageRequest].serializedRequest;
+    
+    [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"hpayment" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+        
+        if (error == nil) {
+            HPTHostedPaymentPage *result = [HPTHostedPaymentPageMapper mapperWithRawData:response.body].mappedObject;
+            
+            if (result != nil) {
+                completionBlock(result, nil);
+            } else {
+                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+            }
+            
+        } else {
+            completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
+        }
+    }];
 }
 
 @end

@@ -17,6 +17,9 @@ NSString * const HPTErrorCodeHTTPConnectionFailedDescription;
 NSString * const HPTErrorCodeHTTPClientDescription;
 NSString * const HPTErrorCodeHTTPServerDescription;
 
+NSString * const HPTErrorCodeHTTPPlainResponseKey;
+NSString * const HPTErrorCodeHTTPParsedResponseKey;
+
 NSString * const HPTErrorCodeAPIMessageKey;
 NSString * const HPTErrorCodeAPICodeKey;
 

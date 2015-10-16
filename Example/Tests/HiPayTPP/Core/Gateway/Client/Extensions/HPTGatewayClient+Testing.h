@@ -9,5 +9,6 @@
 @interface HPTGatewayClient (Testing)
 
 + (HPTHTTPClient *)createClient;
+- (instancetype)initWithHTTPClient:(HPTHTTPClient *)theHTTPClient clientConfig:(HPTClientConfig *)theClientConfig;
 
 @end

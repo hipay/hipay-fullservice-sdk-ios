@@ -16,4 +16,6 @@
 
 - (NSError *)errorFromURLConnectionError:(NSError *)error;
 
+- (NSString *)URLEncodeString:(NSString *)string usingEncoding:(NSStringEncoding)encoding;
+
 @end

@@ -13,7 +13,7 @@
 
 + (instancetype)mapperWithRawData:(NSDictionary *)rawData
 {
-    return [[HPTAbstractMapper alloc] initWithRawData:rawData];
+    return [[[self class] alloc] initWithRawData:rawData];
 }
 
 - (instancetype)initWithRawData:(NSDictionary *)rawData

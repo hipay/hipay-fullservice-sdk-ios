@@ -106,6 +106,10 @@
         code = HPTErrorCodeAPIOther;
     }
     
+    if (code == HPTErrorCodeAPIOther) {
+        [userInfo setObject:body forKey:HPTErrorCodeHTTPParsedResponseKey];
+    }
+    
     return [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:code userInfo:userInfo];
 }
 

@@ -13,7 +13,7 @@
 
 + (instancetype)mapperWithRequest:(id)request
 {
-    return [[HPTAbstractSerializationMapper alloc] initWithRequest:request];
+    return [[[self class] alloc] initWithRequest:request];
 }
 
 - (instancetype)initWithRequest:(id)request

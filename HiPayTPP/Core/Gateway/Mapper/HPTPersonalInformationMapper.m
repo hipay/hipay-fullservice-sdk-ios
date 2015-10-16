@@ -35,7 +35,7 @@
 
 - (BOOL)isValid
 {
-    return [self.rawData objectForKey:@"firstname"] != nil && [self.rawData objectForKey:@"lastname"] != nil;
+    return [self.rawData objectForKey:@"email"] != nil;
 }
 
 @end

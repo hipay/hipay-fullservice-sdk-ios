@@ -49,6 +49,8 @@
 - (void)testQueryString
 {
     NSDictionary *params = @{@"param": @"value", @"param2": @"value2"};
+    [[[mockedClient expect] andReturn:@"value"] URLEncodeString:@"value" usingEncoding:NSUTF8StringEncoding];
+    [[[mockedClient expect] andReturn:@"value2"] URLEncodeString:@"value2" usingEncoding:NSUTF8StringEncoding];
     [[[mockedClient expect] andForwardToRealObject] queryStringForDictionary:params];
     NSString *queryString = [client queryStringForDictionary:params];
     XCTAssertEqualObjects(queryString, @"param=value&param2=value2");
@@ -121,6 +123,11 @@
     } withStubResponse:stubResponse];
     
     return URLRequest;
+}
+
+- (void)testURLEncodeString
+{
+    XCTAssertEqualObjects([((HPTHTTPClient *)mockedClient) URLEncodeString:@"Hello + World" usingEncoding:NSUTF8StringEncoding], @"Hello%20%2B%20World");
 }
 
 - (void)testPerformRequestDictionary

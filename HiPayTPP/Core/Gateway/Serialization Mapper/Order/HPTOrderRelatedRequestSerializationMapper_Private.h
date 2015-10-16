@@ -11,5 +11,6 @@
 @interface HPTOrderRelatedRequestSerializationMapper ()
 
 - (NSString *)getOperation;
+- (NSMutableDictionary *)orderRelatedSerializedRequest;
 
 @end

@@ -16,6 +16,11 @@
 
 - (NSDictionary *)serializedRequest
 {
+    return [self createImmutableDictionary:[self orderRelatedSerializedRequest]];
+}
+
+- (NSMutableDictionary *)orderRelatedSerializedRequest
+{
     NSMutableDictionary *result = [self createResponseDictionary];
     
     [result setNullableObject:[self getStringForKey:@"orderId"] forKey:@"orderid"];
@@ -33,7 +38,7 @@
     [result setNullableObject:[self getStringForKey:@"HTTPUserAgent"] forKey:@"http_user_agent"];
     [result setNullableObject:[self getStringForKey:@"deviceFingerprint"] forKey:@"device_fingerprint"];
     [result setNullableObject:[self getStringForKey:@"language"] forKey:@"language"];
-
+    
     [result setNullableObject:[self getURLForKey:@"acceptURL"] forKey:@"accept_url"];
     [result setNullableObject:[self getURLForKey:@"declineURL"] forKey:@"decline_url"];
     [result setNullableObject:[self getURLForKey:@"pendingURL"] forKey:@"pending_url"];
@@ -55,7 +60,7 @@
     
     [result mergeDictionary:[[HPTPersonalInfoRequestSerializationMapper mapperWithRequest:[self.request valueForKey:@"shippingAddress"]] serializedRequest] withPrefix:@"shipto_"];
     
-    return [self createImmutableDictionary:result];
+    return result;
 }
 
 - (NSString *)getOperation

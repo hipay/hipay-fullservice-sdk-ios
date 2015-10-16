@@ -66,6 +66,18 @@
     [mockedMapper verify];
 }
 
+- (void)testSerializationImmutable
+{
+    [[[mockedMapper expect] andReturn:serializedRequest] orderRelatedSerializedRequest];
+    [[[mockedMapper expect] andReturn:serializedRequest] createImmutableDictionary:serializedRequest];
+
+    XCTAssertEqual(mapper.serializedRequest, serializedRequest);
+    
+    [mockedMapper verify];
+
+
+}
+
 - (void)testSerialization
 {
     [[[mockedMapper expect] andReturn:serializedRequest] createResponseDictionary];
@@ -135,11 +147,8 @@
     
     [[mockedSerializedRequest expect] mergeDictionary:addressSerializedRequest withPrefix:@"shipto_"];
     
-    
-    
-    [[[mockedMapper expect] andReturn:serializedRequest] createImmutableDictionary:serializedRequest];
 
-    NSDictionary *result = mapper.serializedRequest;
+    NSDictionary *result = [mapper orderRelatedSerializedRequest];
     
     XCTAssertEqualObjects([result objectForKey:@"orderid"], @"test1");
     XCTAssertEqualObjects([result objectForKey:@"operation"], @"Sale");

@@ -75,7 +75,6 @@
     
     [mockedMapper verify];
 
-
 }
 
 - (void)testSerialization

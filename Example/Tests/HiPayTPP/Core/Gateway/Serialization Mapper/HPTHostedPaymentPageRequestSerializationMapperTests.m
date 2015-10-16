@@ -9,6 +9,9 @@
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTHostedPaymentPageRequestSerializationMapper.h>
 #import <HiPayTPP/HPTAbstractSerializationMapper+Encode.h>
+#import <HiPayTPP/HPTAbstractSerializationMapper.h>
+#import <HiPayTPP/NSMutableDictionary+Serialization.h>
+#import <HiPayTPP/HPTOrderRelatedRequestSerializationMapper_Private.h>
 
 @interface HPTHostedPaymentPageRequestSerializationMapperTests : XCTestCase
 
@@ -26,20 +29,33 @@
     [super tearDown];
 }
 
-//- (void)testSerialization
-//{
-//    HPTHostedPaymentPageRequest *request = [[HPTHostedPaymentPageRequest alloc] init];
-//    
-//    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTHostedPaymentPageRequestSerializationMapper alloc] initWithRequest:request]];
-//    HPTHostedPaymentPageRequestSerializationMapper *mapper = (HPTHostedPaymentPageRequestSerializationMapper *)mockedMapper;
-//    
-//    [[[mockedMapper expect] andReturn:@"test"] getStringForKey:@"firstname"];
-//    
-//    NSDictionary *result = mapper.serializedRequest;
-//    
-//    XCTAssertEqualObjects([result objectForKey:@"firstname"], @"John");
-//    
-//    [mockedMapper verify];
-//}
+- (void)testSerialization
+{
+    OCMockObject *mockedRequest = [OCMockObject partialMockForObject:[[HPTHostedPaymentPageRequest alloc] init]];
+    HPTHostedPaymentPageRequest *request = (HPTHostedPaymentPageRequest *)mockedRequest;
+    
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTHostedPaymentPageRequestSerializationMapper alloc] initWithRequest:request]];
+    HPTHostedPaymentPageRequestSerializationMapper *mapper = (HPTHostedPaymentPageRequestSerializationMapper *)mockedMapper;
+    
+    OCMockObject *mockedInitialSerializedRequest = [OCMockObject partialMockForObject:[NSMutableDictionary dictionary]];
+    NSMutableDictionary *initialSerializedRequest = (NSMutableDictionary *)mockedInitialSerializedRequest;
+    
+    [[[mockedMapper expect] andReturn:initialSerializedRequest] orderRelatedSerializedRequest];
+    [[[mockedMapper expect] andReturn:initialSerializedRequest] createImmutableDictionary:initialSerializedRequest];
+    
+    [[[mockedMapper expect] andReturn:@"hello,ok,test"] getStringValuesListForKey:@"paymentProductList"];
+    [[[mockedMapper expect] andReturn:@"hello2,ok2,test2"] getStringValuesListForKey:@"paymentProductCategoryList"];
+
+    [[mockedInitialSerializedRequest expect] setNullableObject:[OCMArg isEqual:@"hello,ok,test"] forKey:@"payment_product_list"];
+    [[mockedInitialSerializedRequest expect] setNullableObject:[OCMArg isEqual:@"hello2,ok2,test2"] forKey:@"payment_product_category_list"];
+    
+    NSDictionary *result = mapper.serializedRequest;
+    
+    XCTAssertEqual(result, initialSerializedRequest);
+    
+    [mockedMapper verify];
+    [mockedInitialSerializedRequest verify];
+}
+
 
 @end

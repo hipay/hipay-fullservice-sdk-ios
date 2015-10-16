@@ -17,4 +17,17 @@
     }
 }
 
+- (void)mergeDictionary:(NSDictionary *)dictionary withPrefix:(NSString *)prefix
+{
+    if (dictionary != nil) {
+        if (prefix == nil) {
+            prefix = @"";
+        }
+        
+        for (NSString *key in [dictionary allKeys]) {
+            [self setObject:[dictionary objectForKey:key] forKey:[prefix stringByAppendingString:key]];
+        }        
+    }
+}
+
 @end

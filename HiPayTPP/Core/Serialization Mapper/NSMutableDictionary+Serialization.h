@@ -11,5 +11,6 @@
 @interface NSMutableDictionary (Serialization)
 
 - (void)setNullableObject:(id)anObject forKey:(id<NSCopying>)aKey;
+- (void)mergeDictionary:(NSDictionary *)dictionary withPrefix:(NSString *)prefix;
 
 @end

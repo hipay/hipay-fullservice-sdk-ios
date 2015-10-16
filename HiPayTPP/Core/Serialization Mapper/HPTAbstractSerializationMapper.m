@@ -29,9 +29,19 @@
     return self;
 }
 
+- (NSDictionary *)createImmutableDictionary:(NSMutableDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithDictionary:dictionary];
+}
+
 - (NSDictionary *)serializedRequest
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"The method %@ should be overridden in a subclass.", NSStringFromSelector(_cmd)] userInfo:nil];
+}
+
+- (NSMutableDictionary *)createResponseDictionary
+{
+    return [NSMutableDictionary dictionary];
 }
 
 - (NSString *)getURLForKey:(NSString *)key

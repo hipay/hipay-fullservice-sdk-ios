@@ -20,4 +20,7 @@
 - (NSString *)getCharEnumValueForKey:(NSString *)key;
 - (NSString *)getIntegerEnumValueForKey:(NSString *)key;
 
+- (NSMutableDictionary *)createResponseDictionary;
+- (NSDictionary *)createImmutableDictionary:(NSMutableDictionary *)dictionary;
+
 @end

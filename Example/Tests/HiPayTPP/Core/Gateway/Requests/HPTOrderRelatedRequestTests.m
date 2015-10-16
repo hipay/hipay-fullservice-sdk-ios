@@ -39,7 +39,7 @@
     object.shortDescription = @"test2";
     object.longDescription = @"test3";
     object.currency = @"test4";
-    object.cid = @"test5";
+    object.clientId = @"test5";
     object.ipAddress = @"test6";
     object.HTTPAccept = @"test7";
     object.HTTPUserAgent = @"test8";
@@ -72,7 +72,7 @@
     XCTAssertEqualObjects([object valueForKey:@"shortDescription"], @"test2");
     XCTAssertEqualObjects([object valueForKey:@"longDescription"], @"test3");
     XCTAssertEqualObjects([object valueForKey:@"currency"], @"test4");
-    XCTAssertEqualObjects([object valueForKey:@"cid"], @"test5");
+    XCTAssertEqualObjects([object valueForKey:@"clientId"], @"test5");
     XCTAssertEqualObjects([object valueForKey:@"ipAddress"], @"test6");
     XCTAssertEqualObjects([object valueForKey:@"HTTPAccept"], @"test7");
     XCTAssertEqualObjects([object valueForKey:@"HTTPUserAgent"], @"test8");

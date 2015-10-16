@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, HPTOrderRequestOperation) {
 @property (nonatomic, copy) NSNumber *amount;
 @property (nonatomic, copy) NSNumber *shipping;
 @property (nonatomic, copy) NSNumber *tax;
-@property (nonatomic, copy) NSString *cid;
+@property (nonatomic, copy) NSString *clientId;
 @property (nonatomic, copy) NSString *ipAddress;
 @property (nonatomic, copy) NSURL *acceptURL;
 @property (nonatomic, copy) NSURL *declineURL;

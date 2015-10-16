@@ -45,6 +45,20 @@
     XCTAssertThrows(mapper.serializedRequest);
 }
 
+- (void)testResponseDictionaryCreation
+{
+    XCTAssertTrue([[mapper createResponseDictionary] isKindOfClass:[NSMutableDictionary class]]);
+}
+
+- (void)testImmutableDictionaryCreation
+{
+    NSMutableDictionary *initialDictionary = [NSMutableDictionary dictionaryWithDictionary:@{@"key": @"val", @"key2": @"val2"}];
+    NSDictionary *result = [mapper createImmutableDictionary:initialDictionary];
+    
+    XCTAssertEqualObjects(result, initialDictionary);
+    XCTAssertFalse([result isKindOfClass:[NSMutableDictionary class]]);
+}
+
 - (void)testGetURLValues
 {
     [[[mockedRequest expect] andReturn:[NSURL URLWithString:@"http://www.example.com/forward/ok"]] valueForKey:@"test1"];

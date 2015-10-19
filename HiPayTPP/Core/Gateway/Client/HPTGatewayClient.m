@@ -51,14 +51,12 @@
     
 }
 
-- (void)initiateHostedPaymentPageRequest:(HPTHostedPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock
+- (void)handleRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters responseMapperClass:(Class)responseMapperClass completionHandler:(void (^)(id result, NSError *error))completionBlock
 {
-    NSDictionary *parameters = [HPTHostedPaymentPageRequestSerializationMapper mapperWithRequest:hostedPaymentPageRequest].serializedRequest;
-    
-    [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"hpayment" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+    [HTTPClient performRequestWithMethod:method path:path parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         if (error == nil) {
-            HPTHostedPaymentPage *result = [HPTHostedPaymentPageMapper mapperWithRawData:response.body].mappedObject;
+            id result = ((HPTAbstractMapper *)[responseMapperClass mapperWithRawData:response.body]).mappedObject;
             
             if (result != nil) {
                 completionBlock(result, nil);
@@ -70,6 +68,13 @@
             completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
         }
     }];
+}
+
+- (void)initiateHostedPaymentPageRequest:(HPTHostedPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock
+{
+    NSDictionary *parameters = [HPTHostedPaymentPageRequestSerializationMapper mapperWithRequest:hostedPaymentPageRequest].serializedRequest;
+    
+    [self handleRequestWithMethod:HPTHTTPMethodPost path:@"hpayment" parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] completionHandler:completionBlock];
 }
 
 @end

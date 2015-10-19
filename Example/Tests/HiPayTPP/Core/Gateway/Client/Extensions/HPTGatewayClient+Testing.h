@@ -9,6 +9,9 @@
 @interface HPTGatewayClient (Testing)
 
 + (HPTHTTPClient *)createClient;
+
 - (instancetype)initWithHTTPClient:(HPTHTTPClient *)theHTTPClient clientConfig:(HPTClientConfig *)theClientConfig;
+
+- (void)handleRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters responseMapperClass:(Class)responseMapperClass completionHandler:(void (^)(id result, NSError *error))completionBlock;
 
 @end

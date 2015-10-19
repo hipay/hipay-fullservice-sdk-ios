@@ -77,4 +77,11 @@
     [self handleRequestWithMethod:HPTHTTPMethodPost path:@"hpayment" parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] completionHandler:completionBlock];
 }
 
+- (void)requestNewOrder:(HPTOrderRequest *)orderRequest withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock
+{
+    NSDictionary *parameters = [HPTOrderRequestSerializationMapper mapperWithRequest:orderRequest].serializedRequest;
+    
+    [self handleRequestWithMethod:HPTHTTPMethodPost path:@"order" parameters:parameters responseMapperClass:[HPTTransactionMapper class] completionHandler:completionBlock];
+}
+
 @end

@@ -10,6 +10,7 @@
 #import "HPTGatewayClient+Testing.h"
 #import <HiPayTPP/HPTAbstractClient+Private.h>
 #import <HiPayTPP/HPTHostedPaymentPageRequestSerializationMapper.h>
+#import <HiPayTPP/HPTOrderRequestSerializationMapper.h>
 
 @interface HPTGatewayClientTests : XCTestCase
 {
@@ -192,6 +193,27 @@
     [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"hpayment"] parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] completionHandler:completionBlock];
     
     [gatewayClient initializeHostedPaymentPageRequest:request withCompletionHandler:completionBlock];
+    
+    OCMVerify([mapperClassMock mapperWithRequest:request]);
+    [(OCMockObject *)gatewayClient verify];
+}
+
+- (void)testRequestNewOrder
+{
+    id request = [[NSObject alloc] init];
+    OCMockObject *mockedSerializationMapper = [OCMockObject mockForClass:[HPTAbstractSerializationMapper class]];
+    
+    NSDictionary *parameters = @{};
+    [[[mockedSerializationMapper expect] andReturn:parameters] serializedRequest];
+    
+    id mapperClassMock = OCMClassMock([HPTOrderRequestSerializationMapper class]);
+    OCMStub([mapperClassMock mapperWithRequest:request]).andReturn(mockedSerializationMapper);
+    
+    void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
+    
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"order"] parameters:parameters responseMapperClass:[HPTTransactionMapper class] completionHandler:completionBlock];
+    
+    [gatewayClient requestNewOrder:request withCompletionHandler:completionBlock];
     
     OCMVerify([mapperClassMock mapperWithRequest:request]);
     [(OCMockObject *)gatewayClient verify];

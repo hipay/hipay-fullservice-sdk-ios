@@ -33,5 +33,7 @@ typedef void (^HPTTransactionCompletionBlock)(HPTTransaction *transaction, NSErr
 
 - (void)initializeHostedPaymentPageRequest:(HPTHostedPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock;
 
+- (void)requestNewOrder:(HPTOrderRequest *)orderRequest withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock;
+
 
 @end

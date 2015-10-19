@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "HPTGatewayClient+Testing.h"
 #import <HiPayTPP/HPTAbstractClient+Private.h>
+#import <HiPayTPP/HPTHostedPaymentPageRequestSerializationMapper.h>
 
 @interface HPTGatewayClientTests : XCTestCase
 {
@@ -176,43 +177,25 @@
     [mapperClassMock verify];
 }
 
-//- (void)testInitiateHostedPaymentPage
-//{
-//    // We create dummy response and error, just to check these info are passed to the proper methods
-//    HPTHTTPResponse *HTTPResponse = [[HPTHTTPResponse alloc] init];
-//    NSError *error = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPOther userInfo:@{}];
-//    
-//    NSString *token = @"b57dad30b32a0026bd036b359cf70a80436a3b10";
-//    NSString *requestID = @"2U6YRQAWTGDXTAG6RZQ4RQX";
-//    
-//    NSDictionary *HTTPParameters = @{
-//                                     @"request_id": requestID,
-//                                     @"token": token,
-//                                     @"card_expiry_month": month,
-//                                     @"card_expiry_year": year,
-//                                     @"card_holder": holder,
-//                                     };
-//    
-//    // We don't do anything in this completion block, we just make sure the block is passed to the manageRequest method
-//    HPTSecureVaultClientCompletionBlock tokenCompletionBlock = ^(HPTPaymentCardToken *cardToken, NSError *error) {};
-//    
-//    // Generate token method should perform HTTP request
-//    [[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
-//        
-//        HPTHTTPClientCompletionBlock passedCompletionBlock;
-//        [invocation getArgument: &passedCompletionBlock atIndex: 5];
-//        
-//        passedCompletionBlock(HTTPResponse, error);
-//        
-//    }] performRequestWithMethod:HPTHTTPMethodPost path:@"token/update" parameters:HTTPParameters completionHandler:OCMOCK_ANY];
-//    
-//    // Once the method gets the HTTP response, it should call the manage request method
-//    [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
-//    
-//    [secureVaultClient updatePaymentCardWithToken:token requestID:requestID setCardExpiryMonth:month cardExpiryYear:year cardHolder:holder completionHandler:tokenCompletionBlock];
-//    
-//    [((OCMockObject *)secureVaultClient) verify];
-//}
+- (void)testInitiateHostedPaymentPage
+{
+    id request = [[NSObject alloc] init];
+    OCMockObject *mockedSerializationMapper = [OCMockObject mockForClass:[HPTAbstractSerializationMapper class]];
+    
+    NSDictionary *parameters = @{};
+    [[[mockedSerializationMapper expect] andReturn:parameters] serializedRequest];
+    
+    id mapperClassMock = OCMClassMock([HPTHostedPaymentPageRequestSerializationMapper class]);
+    OCMStub([mapperClassMock mapperWithRequest:request]).andReturn(mockedSerializationMapper);
 
+    void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
+    
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"hpayment"] parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] completionHandler:completionBlock];
+    
+    [gatewayClient initiateHostedPaymentPageRequest:request withCompletionHandler:completionBlock];
+
+    OCMVerify([mapperClassMock mapperWithRequest:request]);
+    [(OCMockObject *)gatewayClient verify];
+}
 
 @end

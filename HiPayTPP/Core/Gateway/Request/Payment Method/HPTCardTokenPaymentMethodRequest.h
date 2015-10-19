@@ -22,4 +22,6 @@ typedef NS_ENUM(NSInteger, HPTAuthenticationIndicator) {
 @property (nonatomic) HPTECI eci;
 @property (nonatomic) HPTAuthenticationIndicator authenticationIndicator;
 
++ (instancetype)cardTokenPaymentMethodRequestWithToken:(NSString *)token eci:(HPTECI)eci authenticationIndicator:(HPTAuthenticationIndicator)authenticationIndicator;
+
 @end

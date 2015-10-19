@@ -45,4 +45,13 @@
     XCTAssertEqualObjects([object valueForKey:@"authenticationIndicator"], @(HPTAuthenticationIndicatorIfAvailable));
 }
 
+- (void)testInit
+{
+    HPTCardTokenPaymentMethodRequest *result = [HPTCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:@"testtoken" eci:HPTECIMOTO authenticationIndicator:HPTAuthenticationIndicatorIfAvailable];
+    
+    XCTAssertEqualObjects(result.cardToken, @"testtoken");
+    XCTAssertEqual(result.eci, HPTECIMOTO);
+    XCTAssertEqual(result.authenticationIndicator, HPTAuthenticationIndicatorIfAvailable);
+}
+
 @end

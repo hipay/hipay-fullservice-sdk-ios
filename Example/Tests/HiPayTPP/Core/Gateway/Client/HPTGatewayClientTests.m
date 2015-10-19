@@ -186,13 +186,13 @@
     
     id mapperClassMock = OCMClassMock([HPTHostedPaymentPageRequestSerializationMapper class]);
     OCMStub([mapperClassMock mapperWithRequest:request]).andReturn(mockedSerializationMapper);
-
+    
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
     [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"hpayment"] parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] completionHandler:completionBlock];
     
-    [gatewayClient initiateHostedPaymentPageRequest:request withCompletionHandler:completionBlock];
-
+    [gatewayClient initializeHostedPaymentPageRequest:request withCompletionHandler:completionBlock];
+    
     OCMVerify([mapperClassMock mapperWithRequest:request]);
     [(OCMockObject *)gatewayClient verify];
 }

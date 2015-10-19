@@ -70,7 +70,7 @@
     [HPTSecureVaultClient createClient];
     
     [clientConfigMock verify];
-    [clientConfigClassMock verify];
+    OCMVerify([clientConfigClassMock sharedClientConfig]);
     
 }
 

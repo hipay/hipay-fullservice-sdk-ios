@@ -47,8 +47,7 @@
     [HPTGatewayClient createClient];
     
     [clientConfigMock verify];
-    [clientConfigClassMock verify];
-    
+    OCMVerify([clientConfigClassMock sharedClientConfig]);
 }
 
 - (void)testEndpoints
@@ -133,7 +132,7 @@
     [(OCMockObject *)gatewayClient verify];
     [(OCMockObject *)mockedHTTPClient verify];
     [mockedMapper verify];
-    [mapperClassMock verify];
+    OCMVerify([mapperClassMock mapperWithRawData:body]);
 }
 
 - (void)testPerformRequestProperResponse
@@ -174,7 +173,7 @@
     [(OCMockObject *)gatewayClient verify];
     [(OCMockObject *)mockedHTTPClient verify];
     [mockedMapper verify];
-    [mapperClassMock verify];
+    OCMVerify([mapperClassMock mapperWithRawData:body]);
 }
 
 - (void)testInitiateHostedPaymentPage

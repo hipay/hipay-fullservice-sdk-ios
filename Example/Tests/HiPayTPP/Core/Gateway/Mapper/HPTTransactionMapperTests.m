@@ -206,10 +206,10 @@
     XCTAssertEqualObjects(object.debitAgreement, debitAgreement);
     
     [mockedMapper verify];
-    [threeDSecureClassMock verify];
-    [fraudScreeningClassMock verify];
-    [orderClassMock verify];
-    [paymentMethodClassMock verify];
+    OCMVerify([threeDSecureClassMock mapperWithRawData:threeDSecurePayload]);
+    OCMVerify([fraudScreeningClassMock mapperWithRawData:fraudScreeningPayload]);
+    OCMVerify([orderClassMock mapperWithRawData:orderPayload]);
+    OCMVerify([paymentMethodClassMock mapperWithRawData:paymentMethodPayload]);
 }
 
 @end

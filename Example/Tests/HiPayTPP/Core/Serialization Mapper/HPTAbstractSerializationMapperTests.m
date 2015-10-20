@@ -91,19 +91,26 @@
 
 - (void)testFloatValues
 {
-    [[[mockedRequest expect] andReturn:@(45)] valueForKey:@"test1"];
-    [[[mockedRequest expect] andReturn:@(45.12)] valueForKey:@"test2"];
-    [[[mockedRequest expect] andReturn:@(45.125457)] valueForKey:@"test3"];
-    [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test4"];
-    [[[mockedRequest expect] andReturn:nil] valueForKey:@"test5"];
+    [[[mockedRequest expect] andReturn:@45] valueForKey:@"test1"];
+    [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test2"];
+    [[[mockedRequest expect] andReturn:nil] valueForKey:@"test3"];
     
-    XCTAssertEqualObjects([mapper getFloatForKey:@"test1"], @"45.00");
-    XCTAssertEqualObjects([mapper getFloatForKey:@"test2"], @"45.12");
-    XCTAssertEqualObjects([mapper getFloatForKey:@"test3"], @"45.1254");
-    XCTAssertNil([mapper getFloatForKey:@"test4"]);
-    XCTAssertNil([mapper getFloatForKey:@"test5"]);
+    id classMock = OCMClassMock([HPTAbstractSerializationMapper class]);
+    OCMStub([classMock formatAmountNumber:@45]).andReturn(@"45");
+    
+    XCTAssertEqualObjects([mapper getFloatForKey:@"test1"], @"45");
+    XCTAssertNil([mapper getFloatForKey:@"test2"]);
+    XCTAssertNil([mapper getFloatForKey:@"test3"]);
 
+    OCMVerify([classMock formatAmountNumber:@45]);
     [mockedRequest verify];
+}
+
+- (void)testAmountNumberFormat
+{
+    XCTAssertEqualObjects([HPTAbstractSerializationMapper formatAmountNumber:@45], @"45.00");
+    XCTAssertEqualObjects([HPTAbstractSerializationMapper formatAmountNumber:@45.12], @"45.12");
+    XCTAssertEqualObjects([HPTAbstractSerializationMapper formatAmountNumber:@45.125457], @"45.1254");
 }
 
 - (void)testDateValues

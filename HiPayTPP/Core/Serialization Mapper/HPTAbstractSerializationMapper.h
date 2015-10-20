@@ -16,5 +16,6 @@
 
 - (instancetype)initWithRequest:(id)request;
 - (NSDictionary *)serializedRequest;
++ (NSString *)formatAmountNumber:(NSNumber *)amountNumber;
 
 @end

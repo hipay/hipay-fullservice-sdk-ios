@@ -71,20 +71,25 @@
     return nil;
 }
 
++ (NSString *)formatAmountNumber:(NSNumber *)amountNumber
+{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    formatter.numberStyle = NSNumberFormatterDecimalStyle;
+    formatter.minimumFractionDigits = 2;
+    formatter.maximumFractionDigits = 4;
+    formatter.roundingMode = NSNumberFormatterRoundFloor;
+    formatter.decimalSeparator = @".";
+    
+    return [formatter stringFromNumber:amountNumber];
+}
+
 - (NSString *)getFloatForKey:(NSString *)key
 {
     id object = [self.request valueForKey:key];
     
     if ([object isKindOfClass:[NSNumber class]]) {
         
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        formatter.numberStyle = NSNumberFormatterDecimalStyle;
-        formatter.minimumFractionDigits = 2;
-        formatter.maximumFractionDigits = 4;
-        formatter.roundingMode = NSNumberFormatterRoundFloor;
-        formatter.decimalSeparator = @".";
-
-        return [formatter stringFromNumber:object];
+        return [HPTAbstractSerializationMapper formatAmountNumber:object];
     }
     
     return nil;

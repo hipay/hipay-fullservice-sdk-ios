@@ -26,6 +26,7 @@
 #import <HiPayTPP/HPTTransaction.h>
 #import <HiPayTPP/HPTTransactionRelatedItem.h>
 #import <HiPayTPP/HPTHostedPaymentPage.h>
+#import <HiPayTPP/HPTPaymentProduct.h>
 
 #import <HiPayTPP/HPTThreeDSecureMapper.h>
 #import <HiPayTPP/HPTFraudScreeningMapper.h>
@@ -36,6 +37,7 @@
 #import <HiPayTPP/HPTTransactionDetailsMapper.h>
 #import <HiPayTPP/HPTTransactionRelatedItemMapper.h>
 #import <HiPayTPP/HPTHostedPaymentPageMapper.h>
+#import <HiPayTPP/HPTPaymentProductMapper.h>
 
 #import <HiPayTPP/HPTCustomerInfoRequest.h>
 #import <HiPayTPP/HPTHostedPaymentPageRequest.h>

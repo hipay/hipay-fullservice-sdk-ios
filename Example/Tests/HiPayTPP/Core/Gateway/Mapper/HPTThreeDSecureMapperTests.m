@@ -39,9 +39,14 @@
     
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTThreeDSecureMapper alloc] initWithRawData:rawData]];
     
-    [((HPTPaymentCardTokenMapper *)[[mockedMapper expect] andReturn:[rawData objectForKey:@"enrollmentMessage"]]) getStringForKey:@"enrollmentMessage"];
+    [([[mockedMapper expect] andReturn:[rawData objectForKey:@"enrollmentMessage"]]) getStringForKey:@"enrollmentMessage"];
+    [([[mockedMapper expect] andReturn:[rawData objectForKey:@"authenticationMessage"]]) getStringForKey:@"authenticationMessage"];
+    [([[mockedMapper expect] andReturn:[rawData objectForKey:@"authenticationToken"]]) getStringForKey:@"authenticationToken"];
+    [([[mockedMapper expect] andReturn:[rawData objectForKey:@"xid"]]) getStringForKey:@"xid"];
     
-    [((HPTPaymentCardTokenMapper *)[[mockedMapper expect] andReturn:[NSNumber numberWithChar:HPTThreeDSecureEnrollmentStatusAuthenticationAvailable]]) getEnumCharForKey:@"enrollmentStatus"];
+    [([[mockedMapper expect] andReturn:[NSNumber numberWithChar:HPTThreeDSecureEnrollmentStatusAuthenticationAvailable]]) getEnumCharForKey:@"enrollmentStatus"];
+    
+    [([[mockedMapper expect] andReturn:[NSNumber numberWithChar:HPTThreeDSecureAuthenticationStatusSuccessful]]) getEnumCharForKey:@"authenticationStatus"];
     
     HPTThreeDSecure *threeDSecure = ((HPTThreeDSecureMapper *)mockedMapper).mappedObject;
     

@@ -18,9 +18,25 @@ typedef NS_ENUM(char, HPTThreeDSecureEnrollmentStatus) {
     
 };
 
+typedef NS_ENUM(char, HPTThreeDSecureAuthenticationStatus) {
+    
+    HPTThreeDSecureAuthenticationStatusUnknown = ' ',
+    HPTThreeDSecureAuthenticationStatusSuccessful = 'Y',
+    HPTThreeDSecureAuthenticationStatusAttempted = 'A',
+    HPTThreeDSecureAuthenticationStatusCouldNotBePerformed = 'U',
+    HPTThreeDSecureAuthenticationStatusAuthenticationFailed = 'N',
+    HPTThreeDSecureAuthenticationStatusOther = 'E',
+
+    
+};
+
 @interface HPTThreeDSecure : NSObject
 
 @property (nonatomic, readonly) HPTThreeDSecureEnrollmentStatus enrollmentStatus;
 @property (nonatomic, readonly) NSString *enrollmentMessage;
+@property (nonatomic, readonly) HPTThreeDSecureAuthenticationStatus authenticationStatus;
+@property (nonatomic, readonly) NSString *authenticationMessage;
+@property (nonatomic, readonly) NSString *authenticationToken;
+@property (nonatomic, readonly) NSString *xid;
 
 @end

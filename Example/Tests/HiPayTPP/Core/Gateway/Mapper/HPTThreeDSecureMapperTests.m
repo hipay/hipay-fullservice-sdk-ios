@@ -9,11 +9,11 @@
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTAbstractMapper+Decode.h>
 
-@interface HPTThreeDSecureTests : XCTestCase
+@interface HPTThreeDSecureMapperTests : XCTestCase
 
 @end
 
-@implementation HPTThreeDSecureTests
+@implementation HPTThreeDSecureMapperTests
 
 - (void)setUp {
     [super setUp];
@@ -31,6 +31,10 @@
     NSDictionary *rawData = @{
                               @"enrollmentStatus": @"Y",
                               @"enrollmentMessage": @"Authentication Available",
+                              @"authenticationMessage": @"Authentication Successful",
+                              @"authenticationStatus": @"Y",
+                              @"authenticationToken": @"thetoken",
+                              @"xid": @"thexid",
                               };
     
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTThreeDSecureMapper alloc] initWithRawData:rawData]];
@@ -42,7 +46,11 @@
     HPTThreeDSecure *threeDSecure = ((HPTThreeDSecureMapper *)mockedMapper).mappedObject;
     
     XCTAssertEqualObjects(threeDSecure.enrollmentMessage, [rawData objectForKey:@"enrollmentMessage"]);
+    XCTAssertEqualObjects(threeDSecure.authenticationMessage, [rawData objectForKey:@"authenticationMessage"]);
     XCTAssertEqual(threeDSecure.enrollmentStatus, HPTThreeDSecureEnrollmentStatusAuthenticationAvailable);
+    XCTAssertEqual(threeDSecure.authenticationStatus, HPTThreeDSecureAuthenticationStatusSuccessful);
+    XCTAssertEqualObjects(threeDSecure.xid, [rawData objectForKey:@"xid"]);
+    XCTAssertEqualObjects(threeDSecure.authenticationToken, [rawData objectForKey:@"authenticationToken"]);
     
     [mockedMapper verify];
 }

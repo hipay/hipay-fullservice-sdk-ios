@@ -19,6 +19,10 @@
     
     [object setValue:[self getStringForKey:@"enrollmentMessage"] forKey:@"enrollmentMessage"];
     [object setValue:[self getEnumCharForKey:@"enrollmentStatus"] forKey:@"enrollmentStatus"];
+    [object setValue:[self getEnumCharForKey:@"authenticationStatus"] forKey:@"authenticationStatus"];
+    [object setValue:[self getStringForKey:@"authenticationMessage"] forKey:@"authenticationMessage"];
+    [object setValue:[self getStringForKey:@"authenticationToken"] forKey:@"authenticationToken"];
+    [object setValue:[self getStringForKey:@"xid"] forKey:@"xid"];
 
     
     return object;

@@ -243,11 +243,11 @@
     
     NSError *HTTPError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{}];
     NSError *secureVaultError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{}];
-
+    
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
     [[[((OCMockObject *)secureVaultClient) expect] andReturn:secureVaultError] errorForResponseBody:rawData andError:HTTPError];
-
+    
     [secureVaultClient manageRequestWithHTTPResponse:[[HPTHTTPResponse alloc] initWithStatusCode:400 body:rawData] error:HTTPError andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
         
         XCTAssertNil(cardToken);
@@ -259,6 +259,15 @@
     [self waitForExpectationsWithTimeout:0.1 handler:nil];
     
     [((OCMockObject *)secureVaultClient) verify];
+}
+
+- (void)testManageRequestWithoutCompletionHandler
+{
+    NSDictionary *rawData = @{@"whatever": @"anything"};
+    
+    NSError *HTTPError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{}];
+
+    [secureVaultClient manageRequestWithHTTPResponse:[[HPTHTTPResponse alloc] initWithStatusCode:400 body:rawData] error:HTTPError andCompletionHandler:nil];
 }
 
 - (void)testManageRequestErrorMalformedResponse

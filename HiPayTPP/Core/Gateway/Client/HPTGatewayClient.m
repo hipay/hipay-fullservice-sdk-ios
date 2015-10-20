@@ -134,11 +134,16 @@
     }
 }
 
-- (void)performMaintenanceOperation:(HPTOperationType)operation onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock
+- (void)performMaintenanceOperation:(HPTOperationType)operation amount:(NSNumber *)amount onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock
 {
     NSString *operationName = [self operationValueForOperationType:operation];
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"operation": operationName}];
     
-    [self handleRequestWithMethod:HPTHTTPMethodPost path:[@"maintenance/transaction/" stringByAppendingString:transactionReference] parameters:@{@"operation": operationName} responseMapperClass:[HPTOperationMapper class] completionHandler:completionBlock];
+    if (amount != nil) {
+        parameters[@"amount"] = [HPTAbstractSerializationMapper formatAmountNumber:amount];
+    }
+    
+    [self handleRequestWithMethod:HPTHTTPMethodPost path:[@"maintenance/transaction/" stringByAppendingString:transactionReference] parameters:parameters responseMapperClass:[HPTOperationMapper class] completionHandler:completionBlock];
 }
 
 @end

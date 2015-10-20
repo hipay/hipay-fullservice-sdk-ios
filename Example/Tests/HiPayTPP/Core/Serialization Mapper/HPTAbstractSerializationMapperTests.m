@@ -96,9 +96,9 @@
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test3"];
     
     id classMock = OCMClassMock([HPTAbstractSerializationMapper class]);
-    OCMStub([classMock formatAmountNumber:@45]).andReturn(@"45");
+    OCMStub([classMock formatAmountNumber:@45]).andReturn(@"45.00");
     
-    XCTAssertEqualObjects([mapper getFloatForKey:@"test1"], @"45");
+    XCTAssertEqualObjects([mapper getFloatForKey:@"test1"], @"45.00");
     XCTAssertNil([mapper getFloatForKey:@"test2"]);
     XCTAssertNil([mapper getFloatForKey:@"test3"]);
 

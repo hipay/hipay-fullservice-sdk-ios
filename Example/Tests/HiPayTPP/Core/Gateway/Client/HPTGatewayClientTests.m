@@ -313,7 +313,7 @@
     XCTAssertEqualObjects([gatewayClient operationValueForOperationType:HPTOperationTypeCancel], @"cancel");
 }
 
-- (void)testPerformOperation
+- (void)testPerformOperationWithoutAmount
 {
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
@@ -321,7 +321,25 @@
     
     [[[(OCMockObject *)gatewayClient expect] andReturn:@"capture"] operationValueForOperationType:HPTOperationTypeCapture];
     
-    [gatewayClient performMaintenanceOperation:HPTOperationTypeCapture onTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+    [gatewayClient performMaintenanceOperation:HPTOperationTypeCapture amount:nil onTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+    
+    [(OCMockObject *)gatewayClient verify];
+}
+
+- (void)testPerformOperationWithAmount
+{
+    void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
+    
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture", @"amount": @"15.00"} responseMapperClass:[HPTOperationMapper class] completionHandler:completionBlock];
+    
+    [[[(OCMockObject *)gatewayClient expect] andReturn:@"capture"] operationValueForOperationType:HPTOperationTypeCapture];
+
+    id classMock = OCMClassMock([HPTAbstractSerializationMapper class]);
+    OCMStub([classMock formatAmountNumber:@15]).andReturn(@"15.00");
+    
+    [gatewayClient performMaintenanceOperation:HPTOperationTypeCapture amount:@15 onTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+
+    OCMVerify([classMock formatAmountNumber:@15]);
     
     [(OCMockObject *)gatewayClient verify];
 }

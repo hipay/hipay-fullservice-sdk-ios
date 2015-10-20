@@ -40,6 +40,6 @@ typedef void (^HPTTransactionsCompletionBlock)(NSArray *transactions, NSError *e
 
 - (void)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPTTransactionsCompletionBlock)completionBlock;
 
-- (void)performMaintenanceOperation:(HPTOperationType)operation onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock;
+- (void)performMaintenanceOperation:(HPTOperationType)operation amount:(NSNumber *)amount onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock;
 
 @end

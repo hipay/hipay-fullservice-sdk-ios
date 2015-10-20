@@ -39,6 +39,8 @@ typedef NS_ENUM(NSInteger, HPTOrderRequestOperation) {
 @property (nonatomic) HPTCustomerInfoRequest *customer;
 @property (nonatomic) HPTPersonalInfoRequest *shippingAddress;
 
+@property (nonatomic, copy) NSDictionary *customData;
+
 @property (nonatomic, copy) NSString *cdata1;
 @property (nonatomic, copy) NSString *cdata2;
 @property (nonatomic, copy) NSString *cdata3;

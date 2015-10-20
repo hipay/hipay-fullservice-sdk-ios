@@ -57,6 +57,8 @@
     object.exceptionURL = [NSURL URLWithString:@"http://www.example.com/test4"];
     object.cancelURL = [NSURL URLWithString:@"http://www.example.com/test5"];
     
+    object.customData = @{@"hello": @"world"};
+    
     object.cdata1 = @"test11";
     object.cdata2 = @"test12";
     object.cdata3 = @"test13";
@@ -88,6 +90,8 @@
     XCTAssertEqualObjects([object valueForKey:@"exceptionURL"], [NSURL URLWithString:@"http://www.example.com/test4"]);
     XCTAssertEqualObjects([object valueForKey:@"cancelURL"], [NSURL URLWithString:@"http://www.example.com/test5"]);
     
+    XCTAssertEqualObjects([object valueForKey:@"customData"], @{@"hello": @"world"});
+
     XCTAssertEqualObjects([object valueForKey:@"cdata1"], @"test11");
     XCTAssertEqualObjects([object valueForKey:@"cdata2"], @"test12");
     XCTAssertEqualObjects([object valueForKey:@"cdata3"], @"test13");

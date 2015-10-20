@@ -45,6 +45,8 @@
     [result setNullableObject:[self getURLForKey:@"exceptionURL"] forKey:@"exception_url"];
     [result setNullableObject:[self getURLForKey:@"cancelURL"] forKey:@"cancel_url"];
     
+    [result setNullableObject:[self getSerializedJSONForKey:@"customData"] forKey:@"custom_data"];
+    
     [result setNullableObject:[self getStringForKey:@"cdata1"] forKey:@"cdata1"];
     [result setNullableObject:[self getStringForKey:@"cdata2"] forKey:@"cdata2"];
     [result setNullableObject:[self getStringForKey:@"cdata3"] forKey:@"cdata3"];

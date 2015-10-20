@@ -15,7 +15,7 @@
 #import "HPTOperation.h"
 #import "HPTTransaction.h"
 
-#import "HPTHostedPaymentPageRequest.h"
+#import "HPTPaymentPageRequest.h"
 #import "HPTOrderRequest.h"
 
 #define HPTGatewayClientBaseURLStage        @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/"
@@ -34,7 +34,7 @@ typedef void (^HPTTransactionsCompletionBlock)(NSArray *transactions, NSError *e
 
 + (instancetype)sharedClient;
 
-- (void)initializeHostedPaymentPageRequest:(HPTHostedPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock;
+- (void)initializeHostedPaymentPageRequest:(HPTPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock;
 
 - (void)requestNewOrder:(HPTOrderRequest *)orderRequest withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock;
 

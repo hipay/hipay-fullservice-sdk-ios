@@ -8,7 +8,7 @@
 
 #import "HPTGatewayClient.h"
 #import "HPTAbstractClient+Private.h"
-#import "HPTHostedPaymentPageRequestSerializationMapper.h"
+#import "HPTPaymentPageRequestSerializationMapper.h"
 #import "HPTOrderRequestSerializationMapper.h"
 
 HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
@@ -83,9 +83,9 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
     }];
 }
 
-- (void)initializeHostedPaymentPageRequest:(HPTHostedPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock
+- (void)initializeHostedPaymentPageRequest:(HPTPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock
 {
-    NSDictionary *parameters = [HPTHostedPaymentPageRequestSerializationMapper mapperWithRequest:hostedPaymentPageRequest].serializedRequest;
+    NSDictionary *parameters = [HPTPaymentPageRequestSerializationMapper mapperWithRequest:hostedPaymentPageRequest].serializedRequest;
     
     [self handleRequestWithMethod:HPTHTTPMethodPost path:@"hpayment" parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] completionHandler:completionBlock];
 }

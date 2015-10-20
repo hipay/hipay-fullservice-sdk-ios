@@ -6,8 +6,8 @@
 //
 //
 
-#import "HPTHostedPaymentPageRequest.h"
+#import "HPTPaymentPageRequest.h"
 
-@implementation HPTHostedPaymentPageRequest
+@implementation HPTPaymentPageRequest
 
 @end

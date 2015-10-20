@@ -8,6 +8,6 @@
 
 #import "HPTOrderRelatedRequestSerializationMapper.h"
 
-@interface HPTHostedPaymentPageRequestSerializationMapper : HPTOrderRelatedRequestSerializationMapper
+@interface HPTPaymentPageRequestSerializationMapper : HPTOrderRelatedRequestSerializationMapper
 
 @end

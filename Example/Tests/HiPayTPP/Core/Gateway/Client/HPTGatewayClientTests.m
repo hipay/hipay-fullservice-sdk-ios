@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "HPTGatewayClient+Testing.h"
 #import <HiPayTPP/HPTAbstractClient+Private.h>
-#import <HiPayTPP/HPTHostedPaymentPageRequestSerializationMapper.h>
+#import <HiPayTPP/HPTPaymentPageRequestSerializationMapper.h>
 #import <HiPayTPP/HPTOrderRequestSerializationMapper.h>
 
 @interface HPTGatewayClientTests : XCTestCase
@@ -211,7 +211,7 @@
     NSDictionary *parameters = @{};
     [[[mockedSerializationMapper expect] andReturn:parameters] serializedRequest];
     
-    id mapperClassMock = OCMClassMock([HPTHostedPaymentPageRequestSerializationMapper class]);
+    id mapperClassMock = OCMClassMock([HPTPaymentPageRequestSerializationMapper class]);
     OCMStub([mapperClassMock mapperWithRequest:request]).andReturn(mockedSerializationMapper);
     
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};

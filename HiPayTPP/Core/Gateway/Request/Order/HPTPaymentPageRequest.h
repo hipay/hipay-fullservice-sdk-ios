@@ -8,7 +8,7 @@
 
 #import "HPTOrderRelatedRequest.h"
 
-@interface HPTHostedPaymentPageRequest : HPTOrderRelatedRequest
+@interface HPTPaymentPageRequest : HPTOrderRelatedRequest
 
 @property (nonatomic, copy) NSArray *paymentProductList;
 @property (nonatomic, copy) NSArray *paymentProductCategoryList;

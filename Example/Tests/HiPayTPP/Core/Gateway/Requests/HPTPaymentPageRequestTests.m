@@ -8,11 +8,11 @@
 
 #import <XCTest/XCTest.h>
 
-@interface HPTHostedPaymentPageRequestTests : XCTestCase
+@interface HPTPaymentPageRequestTests : XCTestCase
 
 @end
 
-@implementation HPTHostedPaymentPageRequestTests
+@implementation HPTPaymentPageRequestTests
 
 - (void)setUp {
     [super setUp];
@@ -26,7 +26,7 @@
 
 - (void)testKeyPaths
 {
-    HPTHostedPaymentPageRequest *object = [[HPTHostedPaymentPageRequest alloc] init];
+    HPTPaymentPageRequest *object = [[HPTPaymentPageRequest alloc] init];
     
     NSArray *test1 = @[@"test1", @"test2"], *test2 = @[@"cattest1", @"cattest2"];
     

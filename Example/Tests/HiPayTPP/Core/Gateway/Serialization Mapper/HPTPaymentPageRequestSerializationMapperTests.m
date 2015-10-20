@@ -7,17 +7,17 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <HiPayTPP/HPTHostedPaymentPageRequestSerializationMapper.h>
+#import <HiPayTPP/HPTPaymentPageRequestSerializationMapper.h>
 #import <HiPayTPP/HPTAbstractSerializationMapper+Encode.h>
 #import <HiPayTPP/HPTAbstractSerializationMapper.h>
 #import <HiPayTPP/NSMutableDictionary+Serialization.h>
 #import <HiPayTPP/HPTOrderRelatedRequestSerializationMapper_Private.h>
 
-@interface HPTHostedPaymentPageRequestSerializationMapperTests : XCTestCase
+@interface HPTPaymentPageRequestSerializationMapperTests : XCTestCase
 
 @end
 
-@implementation HPTHostedPaymentPageRequestSerializationMapperTests
+@implementation HPTPaymentPageRequestSerializationMapperTests
 
 - (void)setUp {
     [super setUp];
@@ -31,11 +31,11 @@
 
 - (void)testSerialization
 {
-    OCMockObject *mockedRequest = [OCMockObject partialMockForObject:[[HPTHostedPaymentPageRequest alloc] init]];
-    HPTHostedPaymentPageRequest *request = (HPTHostedPaymentPageRequest *)mockedRequest;
+    OCMockObject *mockedRequest = [OCMockObject partialMockForObject:[[HPTPaymentPageRequest alloc] init]];
+    HPTPaymentPageRequest *request = (HPTPaymentPageRequest *)mockedRequest;
     
-    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTHostedPaymentPageRequestSerializationMapper alloc] initWithRequest:request]];
-    HPTHostedPaymentPageRequestSerializationMapper *mapper = (HPTHostedPaymentPageRequestSerializationMapper *)mockedMapper;
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTPaymentPageRequestSerializationMapper alloc] initWithRequest:request]];
+    HPTPaymentPageRequestSerializationMapper *mapper = (HPTPaymentPageRequestSerializationMapper *)mockedMapper;
     
     OCMockObject *mockedInitialSerializedRequest = [OCMockObject partialMockForObject:[NSMutableDictionary dictionary]];
     NSMutableDictionary *initialSerializedRequest = (NSMutableDictionary *)mockedInitialSerializedRequest;

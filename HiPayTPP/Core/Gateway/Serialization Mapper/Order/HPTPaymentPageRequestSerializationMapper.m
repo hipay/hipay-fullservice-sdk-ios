@@ -6,13 +6,13 @@
 //
 //
 
-#import "HPTHostedPaymentPageRequestSerializationMapper.h"
-#import "HPTHostedPaymentPageRequest.h"
+#import "HPTPaymentPageRequestSerializationMapper.h"
+#import "HPTPaymentPageRequest.h"
 #import "NSMutableDictionary+Serialization.h"
 #import "HPTAbstractSerializationMapper+Encode.h"
 #import "HPTOrderRelatedRequestSerializationMapper_Private.h"
 
-@implementation HPTHostedPaymentPageRequestSerializationMapper
+@implementation HPTPaymentPageRequestSerializationMapper
 
 - (NSDictionary *)serializedRequest
 {

@@ -40,7 +40,7 @@
 #import <HiPayTPP/HPTPaymentProductMapper.h>
 
 #import <HiPayTPP/HPTCustomerInfoRequest.h>
-#import <HiPayTPP/HPTHostedPaymentPageRequest.h>
+#import <HiPayTPP/HPTPaymentPageRequest.h>
 #import <HiPayTPP/HPTOrderRequest.h>
 #import <HiPayTPP/HPTCardTokenPaymentMethodRequest.h>
 

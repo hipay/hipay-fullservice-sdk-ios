@@ -36,11 +36,11 @@
 		A57BA7D51BCEAD1D00F154E2 /* HPTCustomerInfoRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D41BCEAD1D00F154E2 /* HPTCustomerInfoRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7D71BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D61BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7D91BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D81BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
-		A57BA7DB1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7DA1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
+		A57BA7DB1BCEAD4800F154E2 /* HPTPaymentPageRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7DA1BCEAD4800F154E2 /* HPTPaymentPageRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7DF1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7DE1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7EA1BCF8F2B00F154E2 /* HPTPersonalInfoRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7E91BCF8F2B00F154E2 /* HPTPersonalInfoRequestTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7EC1BCF8F4800F154E2 /* HPTCustomerInfoRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7EB1BCF8F4800F154E2 /* HPTCustomerInfoRequestTests.m */; settings = {ASSET_TAGS = (); }; };
-		A57BA7EE1BCF8F5A00F154E2 /* HPTHostedPaymentPageRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7ED1BCF8F5A00F154E2 /* HPTHostedPaymentPageRequestTests.m */; settings = {ASSET_TAGS = (); }; };
+		A57BA7EE1BCF8F5A00F154E2 /* HPTPaymentPageRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7ED1BCF8F5A00F154E2 /* HPTPaymentPageRequestTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7F01BCF8F6500F154E2 /* HPTOrderRelatedRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7EF1BCF8F6500F154E2 /* HPTOrderRelatedRequestTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7F21BCF8F7000F154E2 /* HPTOrderRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7F11BCF8F7000F154E2 /* HPTOrderRequestTests.m */; settings = {ASSET_TAGS = (); }; };
 		A57BA7F81BCF8FB200F154E2 /* HPTCardTokenPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7F71BCF8FB200F154E2 /* HPTCardTokenPaymentMethodRequestTests.m */; settings = {ASSET_TAGS = (); }; };
@@ -112,11 +112,11 @@
 		A57BA7D41BCEAD1D00F154E2 /* HPTCustomerInfoRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTCustomerInfoRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA7D61BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTOrderRelatedRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA7D81BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTOrderRequestSerializationMapperTests.m; sourceTree = "<group>"; };
-		A57BA7DA1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHostedPaymentPageRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A57BA7DA1BCEAD4800F154E2 /* HPTPaymentPageRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPaymentPageRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA7DE1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTCardTokenPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA7E91BCF8F2B00F154E2 /* HPTPersonalInfoRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPersonalInfoRequestTests.m; sourceTree = "<group>"; };
 		A57BA7EB1BCF8F4800F154E2 /* HPTCustomerInfoRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTCustomerInfoRequestTests.m; sourceTree = "<group>"; };
-		A57BA7ED1BCF8F5A00F154E2 /* HPTHostedPaymentPageRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHostedPaymentPageRequestTests.m; sourceTree = "<group>"; };
+		A57BA7ED1BCF8F5A00F154E2 /* HPTPaymentPageRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPaymentPageRequestTests.m; sourceTree = "<group>"; };
 		A57BA7EF1BCF8F6500F154E2 /* HPTOrderRelatedRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTOrderRelatedRequestTests.m; sourceTree = "<group>"; };
 		A57BA7F11BCF8F7000F154E2 /* HPTOrderRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTOrderRequestTests.m; sourceTree = "<group>"; };
 		A57BA7F71BCF8FB200F154E2 /* HPTCardTokenPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTCardTokenPaymentMethodRequestTests.m; sourceTree = "<group>"; };
@@ -341,7 +341,7 @@
 				A57BA7D41BCEAD1D00F154E2 /* HPTCustomerInfoRequestSerializationMapperTests.m */,
 				A57BA7D61BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m */,
 				A57BA7D81BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m */,
-				A57BA7DA1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m */,
+				A57BA7DA1BCEAD4800F154E2 /* HPTPaymentPageRequestSerializationMapperTests.m */,
 				A57BA7DE1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m */,
 			);
 			path = "Serialization Mapper";
@@ -352,7 +352,7 @@
 			children = (
 				A57BA7E91BCF8F2B00F154E2 /* HPTPersonalInfoRequestTests.m */,
 				A57BA7EB1BCF8F4800F154E2 /* HPTCustomerInfoRequestTests.m */,
-				A57BA7ED1BCF8F5A00F154E2 /* HPTHostedPaymentPageRequestTests.m */,
+				A57BA7ED1BCF8F5A00F154E2 /* HPTPaymentPageRequestTests.m */,
 				A57BA7EF1BCF8F6500F154E2 /* HPTOrderRelatedRequestTests.m */,
 				A57BA7F11BCF8F7000F154E2 /* HPTOrderRequestTests.m */,
 				A57BA7F71BCF8FB200F154E2 /* HPTCardTokenPaymentMethodRequestTests.m */,
@@ -664,9 +664,9 @@
 				A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */,
 				A57BA7DF1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m in Sources */,
 				A5B9A6E41BD54A060014B27F /* HPTTransactionDetailsMapperTests.m in Sources */,
-				A57BA7EE1BCF8F5A00F154E2 /* HPTHostedPaymentPageRequestTests.m in Sources */,
+				A57BA7EE1BCF8F5A00F154E2 /* HPTPaymentPageRequestTests.m in Sources */,
 				A57BA74F1BCD66F000F154E2 /* HPTGatewayClientTests.m in Sources */,
-				A57BA7DB1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m in Sources */,
+				A57BA7DB1BCEAD4800F154E2 /* HPTPaymentPageRequestSerializationMapperTests.m in Sources */,
 				A57BA7EA1BCF8F2B00F154E2 /* HPTPersonalInfoRequestTests.m in Sources */,
 				A57BA7EC1BCF8F4800F154E2 /* HPTCustomerInfoRequestTests.m in Sources */,
 				A5F605921BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m in Sources */,

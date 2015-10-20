@@ -53,6 +53,7 @@
 		A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; settings = {ASSET_TAGS = (); }; };
+		A5B9A6E41BD54A060014B27F /* HPTTransactionDetailsMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B9A6E31BD54A060014B27F /* HPTTransactionDetailsMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5C657DC1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C657DB1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m */; settings = {ASSET_TAGS = (); }; };
 		A5C6F2981BC7F0CA00DEC43E /* HPTThreeDSecureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C6F2971BC7F0CA00DEC43E /* HPTThreeDSecureTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5F605921BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F605911BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m */; settings = {ASSET_TAGS = (); }; };
@@ -127,6 +128,7 @@
 		A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPClientTests.m; sourceTree = "<group>"; };
 		A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponseTests.m; sourceTree = "<group>"; };
 		A5A6EEA21BB97C8400825B19 /* example_dictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_dictionary.json; sourceTree = "<group>"; };
+		A5B9A6E31BD54A060014B27F /* HPTTransactionDetailsMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTTransactionDetailsMapperTests.m; sourceTree = "<group>"; };
 		A5C657DB1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTMutableDictionarySerialization.m; sourceTree = "<group>"; };
 		A5C6F2971BC7F0CA00DEC43E /* HPTThreeDSecureTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTThreeDSecureTests.m; sourceTree = "<group>"; };
 		A5F605911BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHostedPaymentPageMapperTests.m; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 			isa = PBXGroup;
 			children = (
 				A5C6F2971BC7F0CA00DEC43E /* HPTThreeDSecureTests.m */,
+				A5B9A6E31BD54A060014B27F /* HPTTransactionDetailsMapperTests.m */,
 				A595C44B1BC800310076AF07 /* HPTFraudScreeningMapperTests.m */,
 				A595C44D1BC800430076AF07 /* HPTOperationMapperTests.m */,
 				A595C44F1BC800510076AF07 /* HPTPersonalInformationMapperTests.m */,
@@ -657,6 +660,7 @@
 				A595C4521BC800600076AF07 /* HPTTransactionMapperTests.m in Sources */,
 				A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */,
 				A57BA7DF1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m in Sources */,
+				A5B9A6E41BD54A060014B27F /* HPTTransactionDetailsMapperTests.m in Sources */,
 				A57BA7EE1BCF8F5A00F154E2 /* HPTHostedPaymentPageRequestTests.m in Sources */,
 				A57BA74F1BCD66F000F154E2 /* HPTGatewayClientTests.m in Sources */,
 				A57BA7DB1BCEAD4800F154E2 /* HPTHostedPaymentPageRequestSerializationMapperTests.m in Sources */,

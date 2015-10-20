@@ -10,11 +10,11 @@
 
 @interface HPTAbstractMapper : NSObject
 
-@property (nonatomic, readonly, nullable) NSDictionary *rawData;
+@property (nonatomic, readonly, nullable) id rawData;
 
-+ (instancetype _Nullable)mapperWithRawData:(NSDictionary * _Nullable)rawData;
++ (instancetype _Nullable)mapperWithRawData:(id _Nullable)rawData;
 
-- (instancetype _Nullable)initWithRawData:(NSDictionary * _Nullable)rawData;
+- (instancetype _Nullable)initWithRawData:(id _Nullable)rawData;
 - (id _Nonnull)mappedObject;
 
 @end

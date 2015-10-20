@@ -61,7 +61,6 @@ typedef NS_ENUM(NSInteger, HPTTransactionState) {
     
 };
 
-
 @interface HPTTransaction : HPTTransactionRelatedItem
 
 @property (nonatomic, readonly) HPTTransactionState state;

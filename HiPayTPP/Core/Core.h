@@ -33,6 +33,7 @@
 #import <HiPayTPP/HPTOrderMapper.h>
 #import <HiPayTPP/HPTPersonalInformationMapper.h>
 #import <HiPayTPP/HPTTransactionMapper.h>
+#import <HiPayTPP/HPTTransactionDetailsMapper.h>
 #import <HiPayTPP/HPTTransactionRelatedItemMapper.h>
 #import <HiPayTPP/HPTHostedPaymentPageMapper.h>
 

@@ -84,4 +84,26 @@
     [self handleRequestWithMethod:HPTHTTPMethodPost path:@"order" parameters:parameters responseMapperClass:[HPTTransactionMapper class] completionHandler:completionBlock];
 }
 
+- (void)getTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock
+{
+    [self handleRequestWithMethod:HPTHTTPMethodGet path:[@"transaction/" stringByAppendingString:transactionReference] parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] completionHandler:^(id result, NSError *error) {
+        
+        if (error == nil) {
+            if (result[0] != nil) {
+                completionBlock(result[0], nil);
+            } else {
+                completionBlock(nil, nil);
+            }
+        } else {
+            completionBlock(nil, error);
+        }
+        
+    }];
+}
+
+- (void)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPTTransactionsCompletionBlock)completionBlock
+{
+    [self handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction" parameters:@{@"orderid": orderId} responseMapperClass:[HPTTransactionDetailsMapper class] completionHandler:completionBlock];
+}
+
 @end

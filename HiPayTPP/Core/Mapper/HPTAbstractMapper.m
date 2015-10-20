@@ -11,23 +11,18 @@
 
 @implementation HPTAbstractMapper
 
-+ (instancetype)mapperWithRawData:(NSDictionary *)rawData
++ (instancetype)mapperWithRawData:(id)rawData
 {
     return [[[self class] alloc] initWithRawData:rawData];
 }
 
-- (instancetype)initWithRawData:(NSDictionary *)rawData
+- (instancetype)initWithRawData:(id)rawData
 {
     self = [super init];
     if (self) {
-        if ([rawData isKindOfClass:[NSDictionary class]]) {
-            _rawData = rawData;
-            
-            if (![self isValid]) {
-                return nil;
-            }
-            
-        } else {
+        _rawData = rawData;
+        
+        if (![self isClassValid] || ![self isValid]) {
             return nil;
         }
     }
@@ -37,6 +32,11 @@
 - (id _Nonnull)mappedObject
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"The method %@ should be overridden in a subclass.", NSStringFromSelector(_cmd)] userInfo:nil];
+}
+
+- (BOOL)isClassValid
+{
+    return [_rawData isKindOfClass:[NSDictionary class]];
 }
 
 - (BOOL)isValid

@@ -26,5 +26,6 @@
 - (NSURL *)getURLForKey:(NSString *)key;
 
 - (BOOL)isValid;
+- (BOOL)isClassValid;
 
 @end

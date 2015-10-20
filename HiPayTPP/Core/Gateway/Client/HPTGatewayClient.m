@@ -55,17 +55,19 @@
 {
     [HTTPClient performRequestWithMethod:method path:path parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
-        if (error == nil) {
-            id result = ((HPTAbstractMapper *)[responseMapperClass mapperWithRawData:response.body]).mappedObject;
-            
-            if (result != nil) {
-                completionBlock(result, nil);
+        if (completionBlock != nil) {
+            if (error == nil) {
+                id result = ((HPTAbstractMapper *)[responseMapperClass mapperWithRawData:response.body]).mappedObject;
+                
+                if (result != nil) {
+                    completionBlock(result, nil);
+                } else {
+                    completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+                }
+                
             } else {
-                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+                completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
             }
-            
-        } else {
-            completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
         }
     }];
 }
@@ -104,6 +106,39 @@
 - (void)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPTTransactionsCompletionBlock)completionBlock
 {
     [self handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction" parameters:@{@"orderid": orderId} responseMapperClass:[HPTTransactionDetailsMapper class] completionHandler:completionBlock];
+}
+
+- (NSString *)operationValueForOperationType:(HPTOperationType)operationType
+{
+    switch (operationType) {
+            
+        case HPTOperationTypeCapture:
+            return @"capture";
+            
+        case HPTOperationTypeCancel:
+            return @"cancel";
+            
+        case HPTOperationTypeAcceptChallenge:
+            return @"acceptChallenge";
+            
+        case HPTOperationTypeDenyChallenge:
+            return @"denyChallenge";
+            
+        case HPTOperationTypeRefund:
+            return @"refund";
+            
+        default:
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Unknown operation %ld, please refer to HPTOperationType to get the full list of available operation types.", (long)operationType] userInfo:nil];
+            
+            break;
+    }
+}
+
+- (void)performMaintenanceOperation:(HPTOperationType)operation onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock
+{
+    NSString *operationName = [self operationValueForOperationType:operation];
+    
+    [self handleRequestWithMethod:HPTHTTPMethodPost path:[@"maintenance/transaction/" stringByAppendingString:transactionReference] parameters:@{@"operation": operationName} responseMapperClass:[HPTOperationMapper class] completionHandler:completionBlock];
 }
 
 @end

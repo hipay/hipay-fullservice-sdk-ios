@@ -57,6 +57,26 @@
     XCTAssertEqualObjects(HPTGatewayClientBaseURLProduction, @"https://secure-gateway.hipay-tpp.com/rest/v1/");
 }
 
+- (void)testPerformRequestWihoutCompletionHandler
+{
+    NSError *HTTPError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{}];
+    OCMockObject *HTTPResponse = [OCMockObject mockForClass:[HPTHTTPResponse class]];
+    
+    [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
+        
+        HPTHTTPClientCompletionBlock passedCompletionBlock;
+        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        
+        passedCompletionBlock((HPTHTTPResponse *) HTTPResponse, HTTPError);
+        
+    }] performRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    
+    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] completionHandler:nil];
+    
+    [(OCMockObject *)gatewayClient verify];
+    [(OCMockObject *)mockedHTTPClient verify];
+}
+
 - (void)testPerformRequestHTTPError
 {
     NSError *HTTPError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{}];
@@ -278,6 +298,30 @@
     [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction" parameters:@{@"orderid":@"orderId"} responseMapperClass:[HPTTransactionDetailsMapper class] completionHandler:completionBlock];
     
     [gatewayClient getTransactionsWithOrderId:@"orderId" withCompletionHandler:completionBlock];
+    
+    [(OCMockObject *)gatewayClient verify];
+}
+
+- (void)testOperationTypeValues
+{
+    XCTAssertThrowsSpecificNamed([gatewayClient operationValueForOperationType:HPTOperationTypeUnknown], NSException, NSInvalidArgumentException);
+    
+    XCTAssertEqualObjects([gatewayClient operationValueForOperationType:HPTOperationTypeCapture], @"capture");
+    XCTAssertEqualObjects([gatewayClient operationValueForOperationType:HPTOperationTypeRefund], @"refund");
+    XCTAssertEqualObjects([gatewayClient operationValueForOperationType:HPTOperationTypeAcceptChallenge], @"acceptChallenge");
+    XCTAssertEqualObjects([gatewayClient operationValueForOperationType:HPTOperationTypeDenyChallenge], @"denyChallenge");
+    XCTAssertEqualObjects([gatewayClient operationValueForOperationType:HPTOperationTypeCancel], @"cancel");
+}
+
+- (void)testPerformOperation
+{
+    void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
+    
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture"} responseMapperClass:[HPTOperationMapper class] completionHandler:completionBlock];
+    
+    [[[(OCMockObject *)gatewayClient expect] andReturn:@"capture"] operationValueForOperationType:HPTOperationTypeCapture];
+    
+    [gatewayClient performMaintenanceOperation:HPTOperationTypeCapture onTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
     
     [(OCMockObject *)gatewayClient verify];
 }

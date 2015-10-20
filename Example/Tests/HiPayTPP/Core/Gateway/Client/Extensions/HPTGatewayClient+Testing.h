@@ -14,4 +14,6 @@
 
 - (void)handleRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters responseMapperClass:(Class)responseMapperClass completionHandler:(void (^)(id result, NSError *error))completionBlock;
 
+- (NSString *)operationValueForOperationType:(HPTOperationType)operationType;
+
 @end

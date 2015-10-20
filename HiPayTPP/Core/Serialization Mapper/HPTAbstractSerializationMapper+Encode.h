@@ -19,6 +19,7 @@
 - (NSString *)getStringForKey:(NSString *)keyPath;
 - (NSString *)getCharEnumValueForKey:(NSString *)key;
 - (NSString *)getIntegerEnumValueForKey:(NSString *)key;
+- (NSString *)getSerializedJSONForKey:(NSString *)key;
 
 - (NSMutableDictionary *)createResponseDictionary;
 - (NSDictionary *)createImmutableDictionary:(NSMutableDictionary *)dictionary;

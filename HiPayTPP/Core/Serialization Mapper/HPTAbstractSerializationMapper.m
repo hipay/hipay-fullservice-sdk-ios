@@ -171,4 +171,29 @@
     return nil;
 }
 
+- (NSString *)getSerializedJSONForKey:(NSString *)key
+{
+    id object = [self.request valueForKey:key];
+    
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        
+        // Dictionary convertable to JSON ?
+        if ([NSJSONSerialization isValidJSONObject:object])
+        {
+            // Serialize the dictionary
+            NSError *error = nil;
+            NSData * JSONData = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:&error];
+            
+            // If no errors, let's view the JSON
+            if (JSONData != nil && error == nil)
+            {
+                return [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
+            }
+        }
+        
+    }
+    
+    return nil;
+}
+
 @end

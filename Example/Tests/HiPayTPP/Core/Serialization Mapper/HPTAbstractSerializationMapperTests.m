@@ -203,4 +203,27 @@
     [mockedRequest verify];
 }
 
+- (NSString *)removeLineBreakFromString:(NSString *)string
+{
+    return [[string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsJoinedByString:@""];
+}
+
+- (void)testJSONSerializedValues
+{
+    [[[mockedRequest expect] andReturn:@"not a valid object"] valueForKey:@"test1"];
+    [[[mockedRequest expect] andReturn:@[@"array not supported"]] valueForKey:@"test2"];
+    [[[mockedRequest expect] andReturn:@{}] valueForKey:@"test3"];
+    [[[mockedRequest expect] andReturn:@{@"hello":@"world"}] valueForKey:@"test4"];
+    [[[mockedRequest expect] andReturn:@{@"hello":@1}] valueForKey:@"test5"];
+
+    XCTAssertNil([mapper getSerializedJSONForKey:@"test1"]);
+    XCTAssertNil([mapper getSerializedJSONForKey:@"test2"]);
+    
+    XCTAssertEqualObjects([self removeLineBreakFromString:[mapper getSerializedJSONForKey:@"test3"]], @"{}");
+    XCTAssertEqualObjects([self removeLineBreakFromString:[mapper getSerializedJSONForKey:@"test4"]], @"{\"hello\":\"world\"}");
+    XCTAssertEqualObjects([self removeLineBreakFromString:[mapper getSerializedJSONForKey:@"test5"]], @"{\"hello\":1}");
+    
+    
+}
+
 @end

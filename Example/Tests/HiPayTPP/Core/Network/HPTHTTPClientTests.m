@@ -342,11 +342,11 @@
     [mockedClient verify];
 }
 
-- (void)testPerformRequestWithClientError
+- (void)doTestPerformRequestWithClientError:(NSInteger)errorCode
 {
     [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
         NSString* fixture = OHPathForFile(@"example_error.json", self.class);
-        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:400 headers:@{}];
+        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:(int)errorCode headers:@{}];
     }];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
@@ -356,7 +356,7 @@
         NSDictionary *body = @{@"error": @"error_key", @"description": @"Something bad."};
         
         XCTAssertEqualObjects(response.body, body);
-        XCTAssertEqual(response.statusCode, 400);
+        XCTAssertEqual(response.statusCode, errorCode);
         XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
         XCTAssertEqual(error.code, HPTErrorCodeHTTPClient);
         XCTAssertEqual([error.userInfo objectForKey:NSLocalizedDescriptionKey], HPTErrorCodeHTTPClientDescription);
@@ -366,6 +366,15 @@
     
     [self waitForExpectationsWithTimeout:0.1 handler:nil];
     [mockedClient verify];
+}
+
+- (void)testPerformRequestWithClientError
+{
+    [self doTestPerformRequestWithClientError:400];
+    [self doTestPerformRequestWithClientError:401];
+    [self doTestPerformRequestWithClientError:402];
+    [self doTestPerformRequestWithClientError:403];
+    [self doTestPerformRequestWithClientError:404];
 }
 
 @end

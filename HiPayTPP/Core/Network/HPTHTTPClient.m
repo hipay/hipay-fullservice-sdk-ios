@@ -109,11 +109,11 @@
                 
                 NSError *responseError = nil;
                 
-                if (clientResponse.statusCode == 400) {
+                if (NSLocationInRange(clientResponse.statusCode, NSMakeRange(400, 499))) {
                     responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPClientDescription}];
                 }
                 
-                else if (clientResponse.statusCode == 500) {
+                else if (NSLocationInRange(clientResponse.statusCode, NSMakeRange(500, 599))) {
                     responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription}];
                 }
                 

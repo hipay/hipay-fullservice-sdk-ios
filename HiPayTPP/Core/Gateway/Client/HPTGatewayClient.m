@@ -11,7 +11,18 @@
 #import "HPTHostedPaymentPageRequestSerializationMapper.h"
 #import "HPTOrderRequestSerializationMapper.h"
 
+HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
+
 @implementation HPTGatewayClient
+
++ (instancetype)sharedClient
+{
+    if (HPTGatewayClientSharedInstance == nil) {
+        HPTGatewayClientSharedInstance = [[HPTGatewayClient alloc] init];
+    }
+    
+    return HPTGatewayClientSharedInstance;
+}
 
 - (instancetype)initWithHTTPClient:(HPTHTTPClient *)theHTTPClient clientConfig:(HPTClientConfig *)theClientConfig
 {

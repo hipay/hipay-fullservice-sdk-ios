@@ -32,6 +32,8 @@ typedef void (^HPTTransactionsCompletionBlock)(NSArray *transactions, NSError *e
     HPTClientConfig *clientConfig;
 }
 
++ (instancetype)sharedClient;
+
 - (void)initializeHostedPaymentPageRequest:(HPTHostedPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock;
 
 - (void)requestNewOrder:(HPTOrderRequest *)orderRequest withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock;

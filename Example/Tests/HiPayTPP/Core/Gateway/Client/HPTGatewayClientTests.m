@@ -34,6 +34,12 @@
     [super tearDown];
 }
 
+- (void)testSharedClient
+{
+    XCTAssertTrue([[HPTGatewayClient sharedClient] isKindOfClass:[HPTGatewayClient class]]);
+    XCTAssertEqual([HPTGatewayClient sharedClient], [HPTGatewayClient sharedClient]);
+}
+
 - (void)testClientConfig
 {
     OCMockObject *clientConfigMock = [OCMockObject mockForClass:[HPTClientConfig class]];

@@ -9,7 +9,18 @@
 #import "HPTSecureVaultClient.h"
 #import "HPTAbstractClient+Private.h"
 
+HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
+
 @implementation HPTSecureVaultClient
+
++ (instancetype)sharedClient
+{
+    if (HPTSecureVaultClientSharedInstance == nil) {
+        HPTSecureVaultClientSharedInstance = [[HPTSecureVaultClient alloc] init];
+    }
+    
+    return HPTSecureVaultClientSharedInstance;
+}
 
 - (instancetype)initWithHTTPClient:(HPTHTTPClient *)theHTTPClient clientConfig:(HPTClientConfig *)theClientConfig
 {

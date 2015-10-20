@@ -56,6 +56,12 @@
     [super tearDown];
 }
 
+- (void)testSharedClient
+{
+    XCTAssertTrue([[HPTSecureVaultClient sharedClient] isKindOfClass:[HPTSecureVaultClient class]]);
+    XCTAssertEqual([HPTSecureVaultClient sharedClient], [HPTSecureVaultClient sharedClient]);
+}
+
 - (void)testClientConfig
 {
     OCMockObject *clientConfigMock = [OCMockObject mockForClass:[HPTClientConfig class]];

@@ -11,6 +11,7 @@
 #import <HiPayTPP/HPTAbstractClient+Private.h>
 #import <HiPayTPP/HPTPaymentPageRequestSerializationMapper.h>
 #import <HiPayTPP/HPTOrderRequestSerializationMapper.h>
+#import <HiPayTPP/HPTArrayMapper.h>
 
 @interface HPTGatewayClientTests : XCTestCase
 {
@@ -77,7 +78,7 @@
         
     }] performRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] completionHandler:nil];
+    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:nil];
     
     [(OCMockObject *)gatewayClient verify];
     [(OCMockObject *)mockedHTTPClient verify];
@@ -112,7 +113,7 @@
         
     }] performRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] completionHandler:completionBlock];
+    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.1 handler:nil];
     
@@ -151,7 +152,7 @@
         
     }] performRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] completionHandler:completionBlock];
+    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.1 handler:nil];
     
@@ -192,7 +193,7 @@
         
     }] performRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] completionHandler:completionBlock];
+    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.1 handler:nil];
     
@@ -201,6 +202,47 @@
     [(OCMockObject *)mockedHTTPClient verify];
     [mockedMapper verify];
     OCMVerify([mapperClassMock mapperWithRawData:body]);
+}
+
+- (void)testPerformRequestProperResponseWithArray
+{
+    NSDictionary *body = @{@"response": @(1)};
+    OCMockObject *HTTPResponse = [OCMockObject mockForClass:[HPTHTTPResponse class]];
+    OCMockObject *mockedMapper = [OCMockObject mockForClass:[HPTAbstractMapper class]];
+    id mappedObject = [[NSObject alloc] init];
+    [[[mockedMapper expect] andReturn:mappedObject] mappedObject];
+    
+    id mapperClassMock = OCMClassMock([HPTArrayMapper class]);
+    OCMStub([mapperClassMock mapperWithRawData:body objectMapperClass:([HPTAbstractMapper class])]).andReturn(mockedMapper);
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
+    
+    void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {
+        XCTAssertNil(error);
+        XCTAssertEqual(object, mappedObject);
+        [expectation fulfill];
+    };
+    
+    [[[HTTPResponse expect] andReturn:body] body];
+    
+    [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
+        
+        HPTHTTPClientCompletionBlock passedCompletionBlock;
+        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        
+        passedCompletionBlock((HPTHTTPResponse *) HTTPResponse, nil);
+        
+    }] performRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    
+    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:YES completionHandler:completionBlock];
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    
+    [HTTPResponse verify];
+    [(OCMockObject *)gatewayClient verify];
+    [(OCMockObject *)mockedHTTPClient verify];
+    [mockedMapper verify];
+    OCMVerify([mapperClassMock mapperWithRawData:body objectMapperClass:([HPTAbstractMapper class])]);
 }
 
 - (void)testInitiateHostedPaymentPage
@@ -216,7 +258,7 @@
     
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"hpayment"] parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] completionHandler:completionBlock];
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"hpayment"] parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] isArray:NO completionHandler:completionBlock];
     
     [gatewayClient initializeHostedPaymentPageRequest:request withCompletionHandler:completionBlock];
     
@@ -237,7 +279,7 @@
     
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"order"] parameters:parameters responseMapperClass:[HPTTransactionMapper class] completionHandler:completionBlock];
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"order"] parameters:parameters responseMapperClass:[HPTTransactionMapper class] isArray:NO completionHandler:completionBlock];
     
     [gatewayClient requestNewOrder:request withCompletionHandler:completionBlock];
     
@@ -260,11 +302,11 @@
     [[[(OCMockObject *)gatewayClient expect] andDo:^(NSInvocation *invocation) {
         
         HPTTransactionsCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 6];
+        [invocation getArgument: &passedCompletionBlock atIndex: 7];
         
         passedCompletionBlock(mappedArray, nil);
         
-    }] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction/trId" parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] completionHandler:OCMOCK_ANY];
+    }] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction/trId" parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:OCMOCK_ANY];
     
     [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
     
@@ -285,11 +327,11 @@
     [[[(OCMockObject *)gatewayClient expect] andDo:^(NSInvocation *invocation) {
         
         HPTTransactionsCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 6];
+        [invocation getArgument: &passedCompletionBlock atIndex: 7];
         
         passedCompletionBlock(nil, theError);
         
-    }] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction/trId" parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] completionHandler:OCMOCK_ANY];
+    }] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction/trId" parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:OCMOCK_ANY];
     
     [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
     
@@ -301,7 +343,7 @@
 {
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction" parameters:@{@"orderid":@"orderId"} responseMapperClass:[HPTTransactionDetailsMapper class] completionHandler:completionBlock];
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction" parameters:@{@"orderid":@"orderId"} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:completionBlock];
     
     [gatewayClient getTransactionsWithOrderId:@"orderId" withCompletionHandler:completionBlock];
     
@@ -323,7 +365,7 @@
 {
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture"} responseMapperClass:[HPTOperationMapper class] completionHandler:completionBlock];
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture"} responseMapperClass:[HPTOperationMapper class] isArray:NO completionHandler:completionBlock];
     
     [[[(OCMockObject *)gatewayClient expect] andReturn:@"capture"] operationValueForOperationType:HPTOperationTypeCapture];
     
@@ -336,7 +378,7 @@
 {
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture", @"amount": @"15.00"} responseMapperClass:[HPTOperationMapper class] completionHandler:completionBlock];
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture", @"amount": @"15.00"} responseMapperClass:[HPTOperationMapper class] isArray:NO completionHandler:completionBlock];
     
     [[[(OCMockObject *)gatewayClient expect] andReturn:@"capture"] operationValueForOperationType:HPTOperationTypeCapture];
 

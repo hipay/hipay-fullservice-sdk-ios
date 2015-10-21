@@ -24,6 +24,11 @@
     return self;
 }
 
++ (instancetype)mapperWithRawData:(id)rawData objectMapperClass:(Class)objectMapperClass
+{
+    return [[HPTArrayMapper alloc] initWithRawData:rawData objectMapperClass:objectMapperClass];
+}
+
 - (id _Nonnull)mappedObject
 {
     NSMutableArray *result = [NSMutableArray array];

@@ -31,6 +31,7 @@
     XCTAssertNil([[HPTArrayMapper alloc] initWithRawData:@{} objectMapperClass:[NSObject class]]);
     XCTAssertNil([[HPTArrayMapper alloc] initWithRawData:@"" objectMapperClass:[HPTThreeDSecureMapper class]]);
     XCTAssertNotNil([[HPTArrayMapper alloc] initWithRawData:@{} objectMapperClass:[HPTThreeDSecureMapper class]]);
+    XCTAssertTrue([[HPTArrayMapper mapperWithRawData:@[] objectMapperClass:[HPTAbstractMapper class]] isKindOfClass:[HPTArrayMapper class]]);
 }
 
 - (void)testMapping

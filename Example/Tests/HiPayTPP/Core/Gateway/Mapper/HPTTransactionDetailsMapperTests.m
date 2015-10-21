@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <HiPayTPP/HPTAbstractMapper+Decode.h>
 
 @interface HPTTransactionDetailsMapper ()
 
@@ -87,28 +88,17 @@
     NSDictionary *transactionData3 = @{@"0": @{@"state": @"completed"}, @"1": @{@"state": @"pending"}};
     
     [[[mockedMapper expect] andReturn:transactionData1] transactionData];
-    [[[mockedMapper expect] andReturn:transactionData1] transactionData];
-    [[[mockedMapper expect] andReturn:transactionData1] transactionData];
     XCTAssertTrue([mapper isRawDataSingleObject]);
-    XCTAssertFalse([mapper isRawDataArray]);
-    XCTAssertFalse([mapper isRawDataDictionaryArray]);
     [mockedMapper verify];
     
     [[[mockedMapper expect] andReturn:transactionData2] transactionData];
-    [[[mockedMapper expect] andReturn:transactionData2] transactionData];
-    [[[mockedMapper expect] andReturn:transactionData2] transactionData];
     XCTAssertFalse([mapper isRawDataSingleObject]);
-    XCTAssertTrue([mapper isRawDataArray]);
-    XCTAssertFalse([mapper isRawDataDictionaryArray]);
     [mockedMapper verify];
     
     [[[mockedMapper expect] andReturn:transactionData3] transactionData];
-    [[[mockedMapper expect] andReturn:transactionData3] transactionData];
-    [[[mockedMapper expect] andReturn:transactionData3] transactionData];
     XCTAssertFalse([mapper isRawDataSingleObject]);
-    XCTAssertFalse([mapper isRawDataArray]);
-    XCTAssertTrue([mapper isRawDataDictionaryArray]);
     [mockedMapper verify];
+
 }
 
 - (void)testMappedObjectSingle
@@ -117,8 +107,6 @@
     id mappedTransaction = [[NSObject alloc] init];
     
     [[[mockedMapper stub] andReturnValue:@(YES)] isRawDataSingleObject];
-    [[[mockedMapper stub] andReturnValue:@(NO)] isRawDataArray];
-    [[[mockedMapper stub] andReturnValue:@(NO)] isRawDataDictionaryArray];
     
     [[[mockedMapper expect] andReturn:transactionData] transactionData];
     
@@ -139,12 +127,11 @@
     NSArray *transactionData = @[@{@"state": @"completed"}, @{@"state": @"pending"}];
     id mappedTransaction1 = [[NSObject alloc] init];
     id mappedTransaction2 = [[NSObject alloc] init];
+    NSArray *response = @[mappedTransaction1, mappedTransaction2];
     
     [[[mockedMapper stub] andReturnValue:@(NO)] isRawDataSingleObject];
-    [[[mockedMapper stub] andReturnValue:@(YES)] isRawDataArray];
-    [[[mockedMapper stub] andReturnValue:@(NO)] isRawDataDictionaryArray];
-    
     [[[mockedMapper expect] andReturn:transactionData] transactionData];
+    [[[mockedMapper expect] andReturn:transactionData] getObjectsArrayForObject:transactionData];
     
     id transactionMapperClassMock = OCMClassMock([HPTTransactionMapper class]);
     OCMStub([transactionMapperClassMock mapperWithRawData:@{@"state": @"completed"}]).andReturn(mockedTransactionMapper1);
@@ -153,37 +140,6 @@
     [[[mockedTransactionMapper1 expect] andReturn:mappedTransaction1] mappedObject];
     [[[mockedTransactionMapper2 expect] andReturn:mappedTransaction2] mappedObject];
     
-    NSArray *response = @[mappedTransaction1, mappedTransaction2];
-    XCTAssertEqualObjects(mapper.mappedObject, response);
-    
-    OCMVerify([transactionMapperClassMock mapperWithRawData:@{@"state": @"completed"}]);
-    OCMVerify([transactionMapperClassMock mapperWithRawData:@{@"state": @"pending"}]);
-    
-    [mockedTransactionMapper1 verify];
-    [mockedTransactionMapper2 verify];
-    [mockedMapper verify];
-}
-
-- (void)testMappedObjectDictionaryArray
-{
-    NSDictionary *transactionData = @{@"0": @{@"state": @"completed"}, @"1": @{@"state": @"pending"}};
-    id mappedTransaction1 = [[NSObject alloc] init];
-    id mappedTransaction2 = [[NSObject alloc] init];
-    
-    [[[mockedMapper stub] andReturnValue:@(NO)] isRawDataSingleObject];
-    [[[mockedMapper stub] andReturnValue:@(NO)] isRawDataArray];
-    [[[mockedMapper stub] andReturnValue:@(YES)] isRawDataDictionaryArray];
-    
-    [[[mockedMapper expect] andReturn:transactionData] transactionData];
-    
-    id transactionMapperClassMock = OCMClassMock([HPTTransactionMapper class]);
-    OCMStub([transactionMapperClassMock mapperWithRawData:@{@"state": @"completed"}]).andReturn(mockedTransactionMapper1);
-    OCMStub([transactionMapperClassMock mapperWithRawData:@{@"state": @"pending"}]).andReturn(mockedTransactionMapper2);
-    
-    [[[mockedTransactionMapper1 expect] andReturn:mappedTransaction1] mappedObject];
-    [[[mockedTransactionMapper2 expect] andReturn:mappedTransaction2] mappedObject];
-    
-    NSArray *response = @[mappedTransaction1, mappedTransaction2];
     XCTAssertEqualObjects(mapper.mappedObject, response);
     
     OCMVerify([transactionMapperClassMock mapperWithRawData:@{@"state": @"completed"}]);

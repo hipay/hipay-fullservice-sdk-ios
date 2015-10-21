@@ -15,6 +15,7 @@
 + (instancetype _Nullable)mapperWithRawData:(id _Nullable)rawData;
 
 - (instancetype _Nullable)initWithRawData:(id _Nullable)rawData;
+
 - (id _Nonnull)mappedObject;
 
 @end

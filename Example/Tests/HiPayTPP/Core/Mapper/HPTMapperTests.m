@@ -363,4 +363,18 @@
     [mockedMapper verify];
 }
 
+- (void)testObjectsArrayValues
+{
+    HPTAbstractMapper *mapper = [[HPTAbstractMapper alloc] initWithRawData:@{}];
+
+    NSArray *test1 = @[@{@"state": @"completed"}, @{@"state": @"pending"}];
+    NSDictionary *test2 = @{@"0": @{@"state": @"completed"}, @"1": @{@"state": @"pending"}};
+
+    XCTAssertEqualObjects([mapper getObjectsArrayForObject:test1], test1);
+    XCTAssertEqualObjects([mapper getObjectsArrayForObject:test2], test1);
+    XCTAssertNil([mapper getObjectsArrayForObject:nil]);
+    XCTAssertNil([mapper getObjectsArrayForObject:@"test"]);
+    
+}
+
 @end

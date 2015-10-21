@@ -25,6 +25,8 @@
 - (NSDictionary *)getDictionaryForKey:(NSString *)key;
 - (NSURL *)getURLForKey:(NSString *)key;
 
+- (NSArray *)getObjectsArrayForObject:(id)object;
+
 - (BOOL)isValid;
 - (BOOL)isClassValid;
 

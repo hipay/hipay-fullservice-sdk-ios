@@ -219,4 +219,34 @@
     return nil;
 }
 
+- (NSArray *)getObjectsArrayForObject:(id)object
+{
+    if ([object isKindOfClass:[NSArray class]]) {
+        if ([object indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            return [obj isKindOfClass:[NSDictionary class]];
+        }].count == [object count]) {
+            return object;
+        }
+    }
+    
+    else if ([object isKindOfClass:[NSDictionary class]]) {
+        if ([[object allKeys] indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if (![obj isKindOfClass:[NSString class]]) {
+                return NO;
+            }
+            
+            NSCharacterSet* nonNumbers = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+            NSRange r = [obj rangeOfCharacterFromSet:nonNumbers];
+            
+            return r.location == NSNotFound && [[object objectForKey:obj] isKindOfClass:[NSDictionary class]];
+            
+        }].count == [object count]) {
+            return [object allValues];
+        }
+    }
+    
+    return nil;
+}
+
 @end

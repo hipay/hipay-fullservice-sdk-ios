@@ -51,6 +51,7 @@
 		A595C4541BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C4531BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A595C45A1BC802DA0076AF07 /* HPTOrderMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C4591BC802DA0076AF07 /* HPTOrderMapperTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A375581BD7E0DC00CEA434 /* HPTArrayMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A375571BD7E0DC00CEA434 /* HPTArrayMapperTests.m */; settings = {ASSET_TAGS = (); }; };
+		A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A3755B1BD8E6A600CEA434 /* payment_products.json */; settings = {ASSET_TAGS = (); }; };
 		A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; settings = {ASSET_TAGS = (); }; };
 		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; settings = {ASSET_TAGS = (); }; };
@@ -128,6 +129,7 @@
 		A595C4531BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTTransactionRelatedItemMapperTests.m; sourceTree = "<group>"; };
 		A595C4591BC802DA0076AF07 /* HPTOrderMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTOrderMapperTests.m; sourceTree = "<group>"; };
 		A5A375571BD7E0DC00CEA434 /* HPTArrayMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTArrayMapperTests.m; sourceTree = "<group>"; };
+		A5A3755B1BD8E6A600CEA434 /* payment_products.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = payment_products.json; sourceTree = "<group>"; };
 		A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPClientTests.m; sourceTree = "<group>"; };
 		A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponseTests.m; sourceTree = "<group>"; };
 		A5A6EEA21BB97C8400825B19 /* example_dictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_dictionary.json; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				6003F5A5195388D20070C39A /* HPTViewController.h */,
 				6003F5A6195388D20070C39A /* HPTViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
+				A5A375591BD8E6A600CEA434 /* Resources */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
 			name = "Example for HiPayTPP";
@@ -361,6 +364,22 @@
 				A57BA7F71BCF8FB200F154E2 /* HPTCardTokenPaymentMethodRequestTests.m */,
 			);
 			path = Requests;
+			sourceTree = "<group>";
+		};
+		A5A375591BD8E6A600CEA434 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A5A3755A1BD8E6A600CEA434 /* Fixtures */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A5A3755A1BD8E6A600CEA434 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				A5A3755B1BD8E6A600CEA434 /* payment_products.json */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 		A5A6EEA11BB97C8400825B19 /* Fixtures */ = {
@@ -537,6 +556,7 @@
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

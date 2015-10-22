@@ -1,0 +1,121 @@
+[
+   {
+      "id":"52DY02WM",
+      "code":"visa",
+      "description":"VISA",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":true
+   },
+   {
+      "id":"GUQ4NAIJ",
+      "code":"mastercard",
+      "description":"MasterCard",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":true
+   },
+   {
+      "id":"F7PQ8VAI",
+      "code":"cb",
+      "description":"Carte Bancaire",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":true
+   },
+   {
+      "id":"JRTEL7NY",
+      "code":"diners",
+      "description":"Diners Club International",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":true
+   },
+   {
+      "id":"PL2SFXZ0",
+      "code":"jcb",
+      "description":"JCB",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":true
+   },
+   {
+      "id":"MRU9TJFH",
+      "code":"american-express",
+      "description":"American Express",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":true
+   },
+   {
+      "id":"BLMQ0VNG",
+      "code":"3xcb",
+      "description":"3x Carte Bancaire",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":false
+   },
+   {
+      "id":"GSI0TKIH",
+      "code":"4xcb-no-fees",
+      "description":"4x Carte Bancaire sans frais",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":false
+   },
+   {
+      "id":"0J9LFS1O",
+      "code":"bcmc",
+      "description":"Bancontact / Mister Cash",
+      "paymentProductCategoryCode":"debit-card",
+      "tokenizable":true
+   },
+   {
+      "id":"339KCZTQ",
+      "code":"maestro",
+      "description":"Maestro",
+      "paymentProductCategoryCode":"debit-card",
+      "tokenizable":true
+   },
+   {
+      "id":"8YXAZS5Y",
+      "code":"dankort",
+      "description":"Dankort",
+      "paymentProductCategoryCode":"debit-card",
+      "tokenizable":false
+   },
+   {
+      "id":"XZWIGL27",
+      "code":"ideal",
+      "description":"iDEAL",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },
+   {
+      "id":"ICOD9CQU",
+      "code":"sofort-uberweisung",
+      "description":"Sofort Ãœberweisung",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },
+   {
+      "id":"C6RXY2KR",
+      "code":"ing-homepay",
+      "description":"ING Home'Pay",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },
+   {
+      "id":"RAXLNESP",
+      "code":"qiwi-wallet",
+      "description":"VISA QIWI Wallet",
+      "paymentProductCategoryCode":"ewallet",
+      "tokenizable":false
+   },
+   {
+      "id":"HY0ORGG3",
+      "code":"paypal",
+      "description":"PayPal",
+      "paymentProductCategoryCode":"ewallet",
+      "tokenizable":false
+   },
+   {
+      "id":"72L8SV1M",
+      "code":"yandex",
+      "description":"Yandex",
+      "paymentProductCategoryCode":"ewallet",
+      "tokenizable":false
+   }
+]

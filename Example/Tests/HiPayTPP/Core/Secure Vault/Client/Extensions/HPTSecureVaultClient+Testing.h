@@ -12,4 +12,6 @@
 + (HPTHTTPClient *)createClient;
 - (HPTPaymentCardToken *)paymentCardTokenWithData:(NSDictionary *)rawData;
 
+- (void)manageRequestWithHTTPResponse:(HPTHTTPResponse *)response error:(NSError *)error andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock;
+
 @end

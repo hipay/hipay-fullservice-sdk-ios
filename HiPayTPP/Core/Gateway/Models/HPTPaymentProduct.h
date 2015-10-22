@@ -10,9 +10,10 @@
 
 @interface HPTPaymentProduct : NSObject
 
-@property (nonatomic, readonly) NSString *resource;
-@property (nonatomic, readonly) NSString *paymentProductDescription;
+@property (nonatomic, readonly) NSString *code;
 @property (nonatomic, readonly) NSString *paymentProductId;
+@property (nonatomic, readonly) NSString *paymentProductDescription;
+@property (nonatomic, readonly) NSString *paymentProductCategoryCode;
 @property (nonatomic, readonly) BOOL tokenizable;
 
 @end

@@ -33,16 +33,18 @@
     
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTPaymentProductMapper alloc] initWithRawData:rawData]];
     
-    [[[mockedMapper expect] andReturn:@"visa"] getStringForKey:@"resource"];
-    [[[mockedMapper expect] andReturn:@"VISA"] getStringForKey:@"paymentProductDescription"];
-    [[[mockedMapper expect] andReturn:@"9874POAL"] getStringForKey:@"paymentProductId"];
+    [[[mockedMapper expect] andReturn:@"visa"] getStringForKey:@"code"];
+    [[[mockedMapper expect] andReturn:@"VISA"] getStringForKey:@"description"];
+    [[[mockedMapper expect] andReturn:@"9874POAL"] getStringForKey:@"id"];
+    [[[mockedMapper expect] andReturn:@"credit-card"] getStringForKey:@"paymentProductCategoryCode"];
     [[[mockedMapper expect] andReturnValue:@YES] getBoolForKey:@"tokenizable"];
     
     HPTPaymentProduct *paymentProduct = ((HPTPaymentProductMapper *)mockedMapper).mappedObject;
-
-    XCTAssertEqualObjects(paymentProduct.resource, @"visa");
+    
+    XCTAssertEqualObjects(paymentProduct.code, @"visa");
     XCTAssertEqualObjects(paymentProduct.paymentProductDescription, @"VISA");
     XCTAssertEqualObjects(paymentProduct.paymentProductId, @"9874POAL");
+    XCTAssertEqualObjects(paymentProduct.paymentProductCategoryCode, @"credit-card");
     XCTAssertEqual(paymentProduct.tokenizable, YES);
     
     [mockedMapper verify];

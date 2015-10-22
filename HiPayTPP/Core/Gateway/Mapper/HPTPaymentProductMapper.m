@@ -16,9 +16,10 @@
 {
     HPTPaymentProduct *object = [[HPTPaymentProduct alloc] init];
     
-    [object setValue:[self getStringForKey:@"resource"] forKey:@"resource"];
-    [object setValue:[self getStringForKey:@"paymentProductDescription"] forKey:@"paymentProductDescription"];
-    [object setValue:[self getStringForKey:@"paymentProductId"] forKey:@"paymentProductId"];
+    [object setValue:[self getStringForKey:@"code"] forKey:@"code"];
+    [object setValue:[self getStringForKey:@"description"] forKey:@"paymentProductDescription"];
+    [object setValue:[self getStringForKey:@"id"] forKey:@"paymentProductId"];
+    [object setValue:[self getStringForKey:@"paymentProductCategoryCode"] forKey:@"paymentProductCategoryCode"];
     [object setValue:@([self getBoolForKey:@"tokenizable"]) forKey:@"tokenizable"];
     
     return object;
@@ -26,7 +27,7 @@
 
 - (BOOL)isValid
 {
-    return [self.rawData objectForKey:@"resource"] != nil;
+    return [self.rawData objectForKey:@"code"] != nil;
 }
 
 @end

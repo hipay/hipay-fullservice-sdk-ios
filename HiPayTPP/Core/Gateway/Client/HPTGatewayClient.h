@@ -25,6 +25,7 @@ typedef void (^HPTHostedPaymentPageCompletionBlock)(HPTHostedPaymentPage *hosted
 typedef void (^HPTOperationCompletionBlock)(HPTOperation *operation, NSError *error);
 typedef void (^HPTTransactionCompletionBlock)(HPTTransaction *transaction, NSError *error);
 typedef void (^HPTTransactionsCompletionBlock)(NSArray *transactions, NSError *error);
+typedef void (^HPTPaymentProductsCompletionBlock)(NSArray *paymentProducts, NSError *error);
 
 @interface HPTGatewayClient : HPTAbstractClient
 {
@@ -43,5 +44,7 @@ typedef void (^HPTTransactionsCompletionBlock)(NSArray *transactions, NSError *e
 - (void)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPTTransactionsCompletionBlock)completionBlock;
 
 - (void)performMaintenanceOperation:(HPTOperationType)operation amount:(NSNumber *)amount onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock;
+
+- (void)getPaymentProductsForRequest:(HPTPaymentPageRequest *)paymentPageRequest withCompletionHandler:(HPTPaymentProductsCompletionBlock)completionBlock;
 
 @end

@@ -392,4 +392,25 @@
     [(OCMockObject *)gatewayClient verify];
 }
 
+- (void)testGetPaymentProducts
+{
+    id request = [[NSObject alloc] init];
+    OCMockObject *mockedSerializationMapper = [OCMockObject mockForClass:[HPTAbstractSerializationMapper class]];
+    
+    NSDictionary *parameters = @{};
+    [[[mockedSerializationMapper expect] andReturn:parameters] serializedRequest];
+    
+    id mapperClassMock = OCMClassMock([HPTPaymentPageRequestSerializationMapper class]);
+    OCMStub([mapperClassMock mapperWithRequest:request]).andReturn(mockedSerializationMapper);
+    
+    void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
+    
+    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodGet path:@"payment_products" parameters:parameters responseMapperClass:[HPTPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
+    
+    [gatewayClient getPaymentProductsForRequest:request withCompletionHandler:completionBlock];
+    
+    OCMVerify([mapperClassMock mapperWithRequest:request]);
+    [(OCMockObject *)gatewayClient verify];
+}
+
 @end

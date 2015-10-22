@@ -28,7 +28,7 @@
 - (void)testMapping
 {
     NSDictionary *rawData = @{
-                              @"resource": @"visa",
+                              @"code": @"visa",
                               };
     
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTPaymentProductMapper alloc] initWithRawData:rawData]];

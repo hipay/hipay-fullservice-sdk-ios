@@ -19,5 +19,8 @@ NSString * const HPTErrorCodeHTTPConnectionFailedDescription = @"The request has
 NSString * const HPTErrorCodeHTTPClientDescription = @"Wrong parameters have been sent to the server.";
 NSString * const HPTErrorCodeHTTPServerDescription = @"There's a server side error.";
 
+NSString * const HPTErrorCodeHTTPPlainResponseKey = @"HPTErrorCodeHTTPPlainResponseKey";
+NSString * const HPTErrorCodeHTTPParsedResponseKey = @"HPTErrorCodeHTTPParsedResponseKey";
+
 NSString * const HPTErrorCodeAPIMessageKey = @"HPTErrorCodeAPIMessageKey";
 NSString * const HPTErrorCodeAPICodeKey = @"HPTErrorCodeAPICodeKey";

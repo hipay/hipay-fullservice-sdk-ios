@@ -22,6 +22,10 @@
     return self;
 }
 
+- (NSString *)URLEncodeString:(NSString *)string usingEncoding:(NSStringEncoding)encoding {
+    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)string, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding(encoding)));
+}
+
 - (NSString *)queryStringForDictionary:(NSDictionary *)dictionary {
     
     NSMutableArray *parameters = [NSMutableArray array];
@@ -30,8 +34,8 @@
 
         NSString *encodedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
-        NSString *encodedValue = [[dictionary objectForKey:key] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
+        NSString *encodedValue = [self URLEncodeString:[dictionary objectForKey:key] usingEncoding:NSUTF8StringEncoding];
+
         NSString *part = [NSString stringWithFormat: @"%@=%@", encodedKey, encodedValue];
         
         [parameters addObject: part];
@@ -105,11 +109,11 @@
                 
                 NSError *responseError = nil;
                 
-                if (clientResponse.statusCode == 400) {
+                if (NSLocationInRange(clientResponse.statusCode, NSMakeRange(400, 499))) {
                     responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPClientDescription}];
                 }
                 
-                else if (clientResponse.statusCode == 500) {
+                else if (NSLocationInRange(clientResponse.statusCode, NSMakeRange(500, 599))) {
                     responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription}];
                 }
                 
@@ -118,7 +122,7 @@
             
             // Content not parsable, server error
             else {
-                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSUnderlyingErrorKey: JSONError, NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription}]);
+                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSUnderlyingErrorKey: JSONError, NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription, HPTErrorCodeHTTPPlainResponseKey: [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]}]);
             }
         }
         

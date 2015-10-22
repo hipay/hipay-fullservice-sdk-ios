@@ -11,27 +11,29 @@
 
 @implementation HPTPaymentCardTokenMapper
 
-- (id _Nullable)mappedObject
+- (id _Nonnull)mappedObject
 {
-    if (![self.rawData isKindOfClass:[NSDictionary class]] || [self.rawData objectForKey:@"token"] == nil) {
-        return nil;
-    }
-    
+
     HPTPaymentCardToken *object = [[HPTPaymentCardToken alloc] init];
     
-    [object setValue:[self getObjectForKey:@"token"] forKey:@"token"];
-    [object setValue:[self getObjectForKey:@"request_id"] forKey:@"requestID"];
-    [object setValue:[self getObjectForKey:@"pan"] forKey:@"pan"];
-    [object setValue:[self getObjectForKey:@"brand"] forKey:@"brand"];
-    [object setValue:[self getObjectForKey:@"card_holder"] forKey:@"cardHolder"];
-    [object setValue:[self getObjectForKey:@"card_expiry_month"] forKey:@"cardExpiryMonth"];
-    [object setValue:[self getObjectForKey:@"card_expiry_year"] forKey:@"cardExpiryYear"];
-    [object setValue:[self getObjectForKey:@"issuer"] forKey:@"issuer"];
-    [object setValue:[self getObjectForKey:@"country"] forKey:@"country"];
-    [object setValue:[self getObjectForKey:@"domesticNetwork"] forKey:@"domesticNetwork"];
+    [object setValue:[self getStringForKey:@"token"] forKey:@"token"];
+    [object setValue:[self getStringForKey:@"request_id"] forKey:@"requestID"];
+    [object setValue:[self getStringForKey:@"pan"] forKey:@"pan"];
+    [object setValue:[self getStringForKey:@"brand"] forKey:@"brand"];
+    [object setValue:[self getStringForKey:@"card_holder"] forKey:@"cardHolder"];
+    [object setValue:[self getStringForKey:@"card_expiry_month"] forKey:@"cardExpiryMonth"];
+    [object setValue:[self getStringForKey:@"card_expiry_year"] forKey:@"cardExpiryYear"];
+    [object setValue:[self getStringForKey:@"issuer"] forKey:@"issuer"];
+    [object setValue:[self getStringForKey:@"country"] forKey:@"country"];
+    [object setValue:[self getStringForKey:@"domesticNetwork"] forKey:@"domesticNetwork"];
     
     return object;
     
+}
+
+- (BOOL)isValid
+{
+    return [self.rawData objectForKey:@"token"] != nil;
 }
 
 @end

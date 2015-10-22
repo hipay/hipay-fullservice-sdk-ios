@@ -27,6 +27,16 @@
     [super tearDown];
 }
 
+- (void)testInitWithWrongData
+{
+    NSDictionary *rawData = @{
+                              @"wrongData": @"anything",
+                              };
+    
+    XCTAssertNil([[HPTPaymentCardTokenMapper alloc] initWithRawData:rawData]);
+    
+}
+
 - (void)testMapping
 {
     NSDictionary *rawData = @{
@@ -45,7 +55,7 @@
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTPaymentCardTokenMapper alloc] initWithRawData:rawData]];
     
     for (id key in [rawData allKeys]) {
-        [((HPTPaymentCardTokenMapper *)[[mockedMapper expect] andReturn:[rawData objectForKey:key]]) getObjectForKey:key];
+        [((HPTPaymentCardTokenMapper *)[[mockedMapper expect] andReturn:[rawData objectForKey:key]]) getStringForKey:key];
     }
     
     HPTPaymentCardToken *paymentCardToken = ((HPTPaymentCardTokenMapper *)mockedMapper).mappedObject;

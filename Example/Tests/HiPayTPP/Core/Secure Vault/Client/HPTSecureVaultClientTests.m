@@ -56,6 +56,12 @@
     [super tearDown];
 }
 
+- (void)testSharedClient
+{
+    XCTAssertTrue([[HPTSecureVaultClient sharedClient] isKindOfClass:[HPTSecureVaultClient class]]);
+    XCTAssertEqual([HPTSecureVaultClient sharedClient], [HPTSecureVaultClient sharedClient]);
+}
+
 - (void)testClientConfig
 {
     OCMockObject *clientConfigMock = [OCMockObject mockForClass:[HPTClientConfig class]];
@@ -70,7 +76,7 @@
     [HPTSecureVaultClient createClient];
     
     [clientConfigMock verify];
-    [clientConfigClassMock verify];
+    OCMVerify([clientConfigClassMock sharedClientConfig]);
     
 }
 
@@ -103,6 +109,36 @@
     [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
     
     [secureVaultClient generateTokenWithCardNumber:cardNumber cardExpiryMonth:month cardExpiryYear:year cardHolder:holder securityCode:code multiUse:multiUse andCompletionHandler:tokenCompletionBlock];
+    
+    [((OCMockObject *)secureVaultClient) verify];
+}
+
+- (void)testGenerateTokenWithoutSecurityCode
+{
+    // We create dummy response and error, just to check these info are passed to the proper methods
+    HPTHTTPResponse *HTTPResponse = [[HPTHTTPResponse alloc] init];
+    NSError *error = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPOther userInfo:@{}];
+    
+    // We don't do anything in this completion block, we just make sure the block is passed to the manageRequest method
+    HPTSecureVaultClientCompletionBlock tokenCompletionBlock = ^(HPTPaymentCardToken *cardToken, NSError *error) {};
+    
+    NSMutableDictionary *paramtersNoCVC = [parameters mutableCopy];
+    [paramtersNoCVC setObject:@"" forKey:@"cvc"];
+    
+    // Generate token method should perform HTTP request
+    [[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
+        
+        HPTHTTPClientCompletionBlock passedCompletionBlock;
+        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        
+        passedCompletionBlock(HTTPResponse, error);
+        
+    }] performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:paramtersNoCVC completionHandler:OCMOCK_ANY];
+    
+    // Once the method gets the HTTP response, it should call the manage request method
+    [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
+    
+    [secureVaultClient generateTokenWithCardNumber:cardNumber cardExpiryMonth:month cardExpiryYear:year cardHolder:holder securityCode:nil multiUse:multiUse andCompletionHandler:tokenCompletionBlock];
     
     [((OCMockObject *)secureVaultClient) verify];
 }
@@ -212,12 +248,12 @@
     NSDictionary *rawData = @{@"whatever": @"anything"};
     
     NSError *HTTPError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{}];
-    NSError *secureVaultError = [[NSError alloc] init];
-
+    NSError *secureVaultError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{}];
+    
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
     [[[((OCMockObject *)secureVaultClient) expect] andReturn:secureVaultError] errorForResponseBody:rawData andError:HTTPError];
-
+    
     [secureVaultClient manageRequestWithHTTPResponse:[[HPTHTTPResponse alloc] initWithStatusCode:400 body:rawData] error:HTTPError andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
         
         XCTAssertNil(cardToken);
@@ -229,6 +265,15 @@
     [self waitForExpectationsWithTimeout:0.1 handler:nil];
     
     [((OCMockObject *)secureVaultClient) verify];
+}
+
+- (void)testManageRequestWithoutCompletionHandler
+{
+    NSDictionary *rawData = @{@"whatever": @"anything"};
+    
+    NSError *HTTPError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{}];
+
+    [secureVaultClient manageRequestWithHTTPResponse:[[HPTHTTPResponse alloc] initWithStatusCode:400 body:rawData] error:HTTPError andCompletionHandler:nil];
 }
 
 - (void)testManageRequestErrorMalformedResponse

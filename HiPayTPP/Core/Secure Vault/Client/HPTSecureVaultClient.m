@@ -9,7 +9,18 @@
 #import "HPTSecureVaultClient.h"
 #import "HPTAbstractClient+Private.h"
 
+HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
+
 @implementation HPTSecureVaultClient
+
++ (instancetype)sharedClient
+{
+    if (HPTSecureVaultClientSharedInstance == nil) {
+        HPTSecureVaultClientSharedInstance = [[HPTSecureVaultClient alloc] init];
+    }
+    
+    return HPTSecureVaultClientSharedInstance;
+}
 
 - (instancetype)initWithHTTPClient:(HPTHTTPClient *)theHTTPClient clientConfig:(HPTClientConfig *)theClientConfig
 {
@@ -23,7 +34,12 @@
 
 - (instancetype)init
 {
-    return [self initWithHTTPClient:[HPTSecureVaultClient createClient] clientConfig:[HPTClientConfig sharedClientConfig]];
+    self = [super init];
+    if (self) {
+        HTTPClient = [HPTSecureVaultClient createClient];
+        clientConfig = [HPTClientConfig sharedClientConfig];
+    }
+    return self;
 }
 
 + (HPTHTTPClient *)createClient
@@ -51,6 +67,10 @@
 
 - (void)generateTokenWithCardNumber:(NSString *)cardNumber cardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder securityCode:(NSString *)securityCode multiUse:(BOOL)multiUse andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
+    if (securityCode == nil) {
+        securityCode = @"";
+    }
+    
     NSDictionary *parameters = @{
                                  @"card_number": cardNumber,
                                  @"card_expiry_month": cardExpiryMonth,
@@ -97,16 +117,18 @@
 
 - (void)manageRequestWithHTTPResponse:(HPTHTTPResponse *)response error:(NSError *)error andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
-    if (error == nil) {
-        HPTPaymentCardToken *newToken = [self paymentCardTokenWithData:response.body];
-        
-        if (newToken != nil) {
-            completionBlock(newToken, nil);
+    if (completionBlock != nil) {
+        if (error == nil) {
+            HPTPaymentCardToken *newToken = [self paymentCardTokenWithData:response.body];
+            
+            if (newToken != nil) {
+                completionBlock(newToken, nil);
+            } else {
+                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+            }
         } else {
-            completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+            completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
         }
-    } else {
-        completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
     }
 }
 

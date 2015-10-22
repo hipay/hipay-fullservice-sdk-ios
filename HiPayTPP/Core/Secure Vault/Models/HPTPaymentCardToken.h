@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HPTPaymentMethod.h"
 
-@interface HPTPaymentCardToken : NSObject
+@interface HPTPaymentCardToken : HPTPaymentMethod
 
 @property (nonatomic, readonly, nonnull) NSString *token;
 @property (nonatomic, readonly, nonnull) NSString *brand;

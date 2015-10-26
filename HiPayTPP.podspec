@@ -52,6 +52,9 @@ Pod::Spec.new do |s|
   s.subspec "Payment-Screen" do |s|
     s.source_files  = "HiPayTPP/Payment Screen/**/*.{h,m}"
     s.public_header_files = "HiPayTPP/Payment Screen/**/*.h"
+    s.resource_bundles = {
+      'PaymentScreenViews' => ["HiPayTPP/Payment Screen/**/*.{xib,png}"]
+    }
     s.dependency "HiPayTPP/Core"
   end
 

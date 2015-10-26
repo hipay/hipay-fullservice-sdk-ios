@@ -9,12 +9,82 @@
 #import "HPTAppDelegate.h"
 #import <HiPayTPP/HiPayTPP.h>
 #import "HPTHTTPClient+Testing.h"
+#import <OHHTTPStubs/OHHTTPStubs.h>
 
 @implementation HPTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [[HPTClientConfig sharedClientConfig] setEnvironment:HPTEnvironmentStage username:@"94654727.api.hipay-tpp.com" password:@"3g4zRCgG2EY9RJHFsQ4cIqAI"];
+
+    
     // Override point for customization after application launch.
+//
+//    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+//        return [request.URL.absoluteString containsString:@"payment_products"] && [request.HTTPMethod isEqualToString:@"GET"];
+//    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+//        NSString *fixture = OHPathForFile(@"payment_products.json", self.class);
+//        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+//    }];
+//    
+//
+//    HPTPaymentPageRequest *request = [[HPTPaymentPageRequest alloc] init];
+//    request.amount = @(25.50);
+//    request.currency = @"EUR";
+//    request.orderId = @"SDK_IOS_TEST_ORDER_1234";
+//    request.shortDescription = @"Une paire de chaussures";
+//    request.paymentProductCategoryList = @[@"credit-card", @"debit-card", @"realtime-banking", @"ewallet"];
+//    request.customer = [[HPTCustomerInfoRequest alloc] init];
+//    request.customer.email = [NSString stringWithFormat:@"jtiret+%f@hipay.com", [NSDate date].timeIntervalSince1970];
+//    
+//    
+//    [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:request withCompletionHandler:^(NSArray *paymentProducts, NSError *error) {
+//       
+//        
+//        
+//        
+//        
+//    }];
+//    
+    
+    
+    //    [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:@"SDK_TEST_MULTIPLE_TRANSAC" withCompletionHandler:^(NSArray *transactions, NSError *error) {
+//       
+//        
+//        
+//        
+//        
+//        
+//    }];
+//    
+    
+    
+    
+//    [[HPTSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111113333333333" cardExpiryMonth:@"12" cardExpiryYear:@"2018" cardHolder:@"John Simpson" securityCode:@"458" multiUse:YES andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
+//       
+//        
+//        
+//        HPTOrderRequest *order = [[HPTOrderRequest alloc] init];
+//        order.amount = @(25.50);
+//        order.currency = @"EUR";
+////        order.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%f", [NSDate date].timeIntervalSince1970];
+//        order.orderId = @"SDK_TEST_MULTIPLE_TRANSAC";
+//        order.shortDescription = @"Une paire de chaussures";
+//        order.paymentProduct = @"cb";
+//        order.customer = [[HPTCustomerInfoRequest alloc] init];
+//        order.customer.email = [NSString stringWithFormat:@"jtiret+%f@hipay.com", [NSDate date].timeIntervalSince1970];
+//        
+//        order.paymentMethod = [HPTCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:HPTECISecureECommerce authenticationIndicator:HPTAuthenticationIndicatorIfAvailable];
+//        
+//        [[HPTGatewayClient sharedClient] requestNewOrder:order withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
+//            
+//            
+//            
+//        }];
+//        
+//    }];
+    
     
 //    HPTHTTPClient *client = [[HPTHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.foursquare.com/v2/venues/search"] login:@"" password:@""];
 //    

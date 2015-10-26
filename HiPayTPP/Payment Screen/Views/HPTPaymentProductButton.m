@@ -1,0 +1,136 @@
+//
+//  HPTPaymentProductButton.m
+//  Pods
+//
+//  Created by Jonathan TIRET on 26/10/2015.
+//
+//
+
+#import"HPTPaymentProductButton.h"
+
+NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
+
+@implementation HPTPaymentProductButton
+
+- (instancetype)initWithPaymentProductCode:(NSString *)paymentProductCode
+{
+    CGFloat width = 100.;
+    CGFloat height = 60.;
+    
+    self = [super initWithFrame:CGRectMake(0.0, 0.0, width, height)];
+    if (self) {
+        _paymentProductCode = paymentProductCode;
+
+        NSDictionary *matrixInfo = [[self paymentProductMatrix] objectForKey:paymentProductCode];
+        
+        if (matrixInfo != nil) {
+            NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"]];
+            UIImage *image = [UIImage imageNamed:@"payment_product_sprites" inBundle:bundle compatibleWithTraitCollection:nil];
+            
+            [self setImage:[self cropImage:image withRect:CGRectMake([matrixInfo[@"x"] floatValue] * width, [matrixInfo[@"y"] floatValue] * height, width, height)] forState:UIControlStateNormal];
+            
+            self.layer.borderWidth = 1.0;
+            self.layer.cornerRadius = 5.0;
+            
+            [self setDefaultStyle];
+            
+            [self addTarget:self action:@selector(enableButtonSelection) forControlEvents:UIControlEventTouchDown];
+            [self addTarget:self action:@selector(enableButtonSelection) forControlEvents:UIControlEventTouchDragInside];
+            [self addTarget:self action:@selector(disableButtonSelection) forControlEvents:UIControlEventTouchUpInside];
+            [self addTarget:self action:@selector(disableButtonSelection) forControlEvents:UIControlEventTouchUpOutside];
+            [self addTarget:self action:@selector(disableButtonSelection) forControlEvents:UIControlEventTouchDragOutside];
+        }
+        
+        else {
+            return nil;
+        }
+    }
+    return self;
+}
+
+- (void)setDefaultStyle
+{
+    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.backgroundColor = [UIColor colorWithRed:0.025 green:0.025 blue:0.025 alpha:0.025];
+}
+
+- (void)enableButtonSelection
+{
+    self.layer.borderColor = [UIColor darkGrayColor].CGColor;
+}
+
+- (void)disableButtonSelection
+{
+    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+}
+
+- (UIImage *)cropImage:(UIImage *)image withRect:(CGRect)rect {
+    
+    rect = CGRectMake(rect.origin.x * image.scale, rect.origin.y * image.scale, rect.size.width * image.scale, rect.size.height * image.scale);
+    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], rect);
+    UIImage *result = [UIImage imageWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
+    CGImageRelease(imageRef);
+    return result;
+}
+
+- (NSDictionary *)paymentProductMatrix
+{
+    if (HPTPaymentProductButtonPaymentProductMatrix == nil) {
+        HPTPaymentProductButtonPaymentProductMatrix = @{
+                                                        @"3xcb":                @{@"y": @(5), @"x": @(1)},
+                                                        @"3xcb-no-fees":        @{@"y": @(5), @"x": @(7)},
+                                                        @"4xcb":                @{@"y": @(5), @"x": @(6)},
+                                                        @"4xcb-no-fees":        @{@"y": @(5), @"x": @(8)},
+                                                        @"american-express":    @{@"y": @(0), @"x": @(3)},
+                                                        @"argencard":           @{@"y": @(3), @"x": @(8)},
+                                                        @"baloto":              @{@"y": @(4), @"x": @(5)},
+                                                        @"bank-transfer":       @{@"y": @(5), @"x": @(2)},
+                                                        @"bcmc":                @{@"y": @(1), @"x": @(5)},
+                                                        @"bcmc-mobile":         @{@"y": @(6), @"x": @(2)},
+                                                        @"bcp":                 @{@"y": @(5), @"x": @(0)},
+                                                        @"bitcoin":             @{@"y": @(5), @"x": @(4)},
+                                                        @"cabal":               @{@"y": @(3), @"x": @(4)},
+                                                        @"carte-accord":        @{@"y": @(6), @"x": @(0)},
+                                                        @"cb":                  @{@"y": @(1), @"x": @(7)},
+                                                        @"cbc-online":          @{@"y": @(0), @"x": @(7)},
+                                                        @"censosud":            @{@"y": @(4), @"x": @(2)},
+                                                        @"cobro-express":       @{@"y": @(3), @"x": @(2)},
+                                                        @"cofinoga":            @{@"y": @(2), @"x": @(5)},
+                                                        @"dexia-directnet":     @{@"y": @(1), @"x": @(4)},
+                                                        @"diners":              @{@"y": @(4), @"x": @(3)},
+                                                        @"efecty":              @{@"y": @(4), @"x": @(6)},
+                                                        @"elo":                 @{@"y": @(4), @"x": @(4)},
+                                                        @"giropay":             @{@"y": @(1), @"x": @(2)},
+                                                        @"ideal":               @{@"y": @(1), @"x": @(1)},
+                                                        @"ing-homepay":         @{@"y": @(1), @"x": @(0)},
+                                                        @"ixe":                 @{@"y": @(4), @"x": @(8)},
+                                                        @"kbc-online":          @{@"y": @(0), @"x": @(6)},
+                                                        @"klarnacheckout":      @{@"y": @(2), @"x": @(7)},
+                                                        @"klarnainvoice":       @{@"y": @(3), @"x": @(1)},
+                                                        @"maestro":             @{@"y": @(0), @"x": @(2)},
+                                                        @"mastercard":          @{@"y": @(0), @"x": @(0)},
+                                                        @"naranja":             @{@"y": @(3), @"x": @(3)},
+                                                        @"oxxo":                @{@"y": @(4), @"x": @(7)},
+                                                        @"pago-facil":          @{@"y": @(4), @"x": @(0)},
+                                                        @"paypal":              @{@"y": @(5), @"x": @(3)},
+                                                        @"paysafecard":         @{@"y": @(2), @"x": @(8)},
+                                                        @"payulatam":           @{@"y": @(2), @"x": @(6)},
+                                                        @"provincia":           @{@"y": @(3), @"x": @(6)},
+                                                        @"przelewy24":          @{@"y": @(2), @"x": @(4)},
+                                                        @"qiwi-wallet":         @{@"y": @(2), @"x": @(3)},
+                                                        @"rapipago":            @{@"y": @(4), @"x": @(1)},
+                                                        @"ripsa":               @{@"y": @(3), @"x": @(7)},
+                                                        @"sdd":                 @{@"y": @(6), @"x": @(1)},
+                                                        @"sisal":               @{@"y": @(2), @"x": @(0)},
+                                                        @"sofort-uberweisung":  @{@"y": @(0), @"x": @(8)},
+                                                        @"tarjeta-shopping":    @{@"y": @(3), @"x": @(5)},
+                                                        @"visa":                @{@"y": @(0), @"x": @(1)},
+                                                        @"webmoney-transfer":   @{@"y": @(2), @"x": @(2)},
+                                                        @"yandex":              @{@"y": @(2), @"x": @(1)},
+                                                        };
+    }
+
+    return HPTPaymentProductButtonPaymentProductMatrix;
+}
+
+@end

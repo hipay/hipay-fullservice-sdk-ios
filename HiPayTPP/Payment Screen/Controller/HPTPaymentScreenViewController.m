@@ -15,23 +15,19 @@
 
 @implementation HPTPaymentScreenViewController
 
-- (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest
+- (void)loadPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest
 {
-    HPTPaymentScreenMainViewController *mainViewController = [[HPTPaymentScreenMainViewController alloc] init];
-
-    self = [super initWithRootViewController:mainViewController];
+    _paymentPageRequest = paymentPageRequest;
     
-    if (self) {
-        _paymentPageRequest = paymentPageRequest;
+    HPTPaymentScreenMainViewController *mainViewController = self.viewControllers.firstObject;
+    
+    mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
+    
+    [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *paymentProducts, NSError *error) {
         
-        mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
+        mainViewController.paymentProducts = paymentProducts;
         
-        [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *paymentProducts, NSError *error) {
-            
-            mainViewController.paymentProducts = paymentProducts;
-        }];
-    }
-    return self;
+    }];
 }
 
 - (void)cancelPayment

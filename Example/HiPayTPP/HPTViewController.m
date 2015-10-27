@@ -48,9 +48,18 @@
             order.customer.email = [NSString stringWithFormat:@"jtiret+%f@hipay.com", [NSDate date].timeIntervalSince1970];
     
 
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
     
-    [self presentViewController:[[HPTPaymentScreenViewController alloc] initWithPaymentPageRequest:order] animated:YES completion:nil];
+    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:bundle];
+    HPTPaymentScreenViewController* vc = (HPTPaymentScreenViewController *)[sb instantiateInitialViewController];
+    [vc loadPaymentPageRequest:order];
     
+    [self presentViewController:vc animated:YES completion:nil];
+    
+//    
+//    [self presentViewController:[[HPTPaymentScreenViewController alloc] initWithPaymentPageRequest:order] animated:YES completion:nil];
+//    
     
 //            [[HPTGatewayClient sharedClient] initializeHostedPaymentPageRequest:order withCompletionHandler:^(HPTHostedPaymentPage *hostedPaymentPage, NSError *error) {
 //

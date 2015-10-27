@@ -8,9 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import "HPTPaymentProduct.h"
+#import "HPTPaymentProductButton.h"
+
+@class HPTPaymentProductCollectionViewCell;
+
+@protocol HPTPaymentProductCollectionViewCellDelegate <NSObject>
+
+@required
+
+- (void)paymentProductCollectionViewCellDidTouchButton:(HPTPaymentProductCollectionViewCell *)cell;
+
+@end
 
 @interface HPTPaymentProductCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic) HPTPaymentProduct *paymentProduct;
+@property (nonatomic, readonly) HPTPaymentProductButton *paymentProductButton;
+@property (nonatomic, weak) id<HPTPaymentProductCollectionViewCellDelegate> delegate;
 
 @end

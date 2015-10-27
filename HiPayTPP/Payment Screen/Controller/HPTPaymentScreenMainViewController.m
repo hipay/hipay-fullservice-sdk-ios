@@ -8,7 +8,6 @@
 
 #import "HPTPaymentScreenMainViewController.h"
 #import "HPTPaymentProductButton.h"
-#import "HPTPaymentProductCollectionViewCell.h"
 
 @interface HPTPaymentScreenMainViewController ()
 
@@ -16,18 +15,9 @@
 
 @implementation HPTPaymentScreenMainViewController
 
-- (instancetype)init
+- (void)awakeFromNib
 {
-    self = [super init];
-    if (self) {
-        NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"];
-        NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
-        
-        self = [super initWithNibName:@"HPTPaymentScreenMainViewController" bundle:bundle];
-        
-        self.title = @"Paiement";
-    }
-    return self;
+    self.title = @"Paiement";
 }
 
 - (void)viewDidLoad {
@@ -36,16 +26,13 @@
     [paymentProductsCollectionView registerClass:[HPTPaymentProductCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
     
     paymentProductsCollectionView.decelerationRate = 0.993;
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:amountLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20.0]];
-    
-//    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)paymentProductsCollectionView.collectionViewLayout;
 }
 
 - (void)setPaymentProducts:(NSArray *)paymentProducts
 {
     _paymentProducts = paymentProducts;
     [paymentProductsCollectionView reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,8 +50,14 @@
     HPTPaymentProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     
     cell.paymentProduct = self.paymentProducts[indexPath.row];
+    cell.delegate = self;
     
     return cell;
+}
+
+- (void)paymentProductCollectionViewCellDidTouchButton:(HPTPaymentProductCollectionViewCell *)cell
+{
+    
 }
 
 /*

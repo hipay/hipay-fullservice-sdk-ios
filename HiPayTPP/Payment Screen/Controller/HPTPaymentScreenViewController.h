@@ -11,8 +11,8 @@
 
 @interface HPTPaymentScreenViewController : UINavigationController
 
-- (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest;
-
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;
+
+- (void)loadPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest;
 
 @end

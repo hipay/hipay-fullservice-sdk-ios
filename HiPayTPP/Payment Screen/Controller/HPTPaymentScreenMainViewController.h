@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HPTPaymentPageRequest.h"
+#import "HPTPaymentProductCollectionViewCell.h"
 
-@interface HPTPaymentScreenMainViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface HPTPaymentScreenMainViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, HPTPaymentProductCollectionViewCellDelegate>
 {
     __weak IBOutlet UICollectionView *paymentProductsCollectionView;
     

@@ -28,13 +28,6 @@
       "tokenizable":true
    },
    {
-      "id":"PL2SFXZ0",
-      "code":"jcb",
-      "description":"JCB",
-      "paymentProductCategoryCode":"credit-card",
-      "tokenizable":true
-   },
-   {
       "id":"MRU9TJFH",
       "code":"american-express",
       "description":"American Express",
@@ -56,6 +49,13 @@
       "tokenizable":false
    },
    {
+      "id":"LQ09C87Y",
+      "code":"carte-accord",
+      "description":"Carte Accord",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":false
+   },
+   {
       "id":"0J9LFS1O",
       "code":"bcmc",
       "description":"Bancontact / Mister Cash",
@@ -68,13 +68,6 @@
       "description":"Maestro",
       "paymentProductCategoryCode":"debit-card",
       "tokenizable":true
-   },
-   {
-      "id":"8YXAZS5Y",
-      "code":"dankort",
-      "description":"Dankort",
-      "paymentProductCategoryCode":"debit-card",
-      "tokenizable":false
    },
    {
       "id":"XZWIGL27",

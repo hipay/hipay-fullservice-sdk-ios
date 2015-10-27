@@ -49,7 +49,7 @@
     
 
     
-    [self presentViewController:[[HPTPaymentScreenViewController alloc] init] animated:YES completion:nil];
+    [self presentViewController:[[HPTPaymentScreenViewController alloc] initWithPaymentPageRequest:order] animated:YES completion:nil];
     
     
 //            [[HPTGatewayClient sharedClient] initializeHostedPaymentPageRequest:order withCompletionHandler:^(HPTHostedPaymentPage *hostedPaymentPage, NSError *error) {

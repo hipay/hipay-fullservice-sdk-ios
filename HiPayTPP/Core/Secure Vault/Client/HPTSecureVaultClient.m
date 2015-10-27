@@ -118,16 +118,29 @@ HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
 - (void)manageRequestWithHTTPResponse:(HPTHTTPResponse *)response error:(NSError *)error andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
     if (completionBlock != nil) {
+        
+        NSError *resultError = nil;
+        HPTPaymentCardToken *resultObject = nil;
+        
         if (error == nil) {
             HPTPaymentCardToken *newToken = [self paymentCardTokenWithData:response.body];
             
             if (newToken != nil) {
-                completionBlock(newToken, nil);
+                resultObject = newToken;
             } else {
-                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+                resultError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}];
             }
         } else {
-            completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
+            resultError = [self errorForResponseBody:response.body andError:error];
+        }
+        
+        if ([NSThread isMainThread]) {
+            completionBlock(resultObject, resultError);
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(resultObject, resultError);
+            });
         }
     }
 }

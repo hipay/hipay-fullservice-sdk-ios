@@ -2,12 +2,12 @@
 //  HPTPaymentScreenViewController.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 22/10/2015.
+//  Created by Jonathan TIRET on 26/10/2015.
 //
 //
 
 #import "HPTPaymentScreenViewController.h"
-#import "HPTPaymentProductButton.h"
+#import "HPTPaymentScreenMainViewController.h"
 
 @interface HPTPaymentScreenViewController ()
 
@@ -15,18 +15,33 @@
 
 @implementation HPTPaymentScreenViewController
 
-- (instancetype)init
+- (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest
 {
-    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"];
-    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
-    return [super initWithNibName:@"HPTPaymentScreenViewController" bundle:bundle];
+    HPTPaymentScreenMainViewController *mainViewController = [[HPTPaymentScreenMainViewController alloc] init];
+
+    self = [super initWithRootViewController:mainViewController];
+    
+    if (self) {
+        _paymentPageRequest = paymentPageRequest;
+        
+        mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
+        
+        [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *paymentProducts, NSError *error) {
+            
+            mainViewController.paymentProducts = paymentProducts;
+        }];
+    }
+    return self;
+}
+
+- (void)cancelPayment
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    
-    
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {

@@ -17,7 +17,7 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
     CGFloat width = 100.;
     CGFloat height = 60.;
     
-    self = [super initWithFrame:CGRectMake(0.0, 0.0, width, height)];
+    self = [super initWithFrame:CGRectMake(0.0, 0.0, 90, height)];
     if (self) {
         _paymentProductCode = paymentProductCode;
 
@@ -27,7 +27,7 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
             NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"]];
             UIImage *image = [UIImage imageNamed:@"payment_product_sprites" inBundle:bundle compatibleWithTraitCollection:nil];
             
-            [self setImage:[self cropImage:image withRect:CGRectMake([matrixInfo[@"x"] floatValue] * width, [matrixInfo[@"y"] floatValue] * height, width, height)] forState:UIControlStateNormal];
+            [self setImage:[self cropImage:image withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100+5, [matrixInfo[@"y"] floatValue] * height, 90, height)] forState:UIControlStateNormal];
             
             self.layer.borderWidth = 1.0;
             self.layer.cornerRadius = 5.0;

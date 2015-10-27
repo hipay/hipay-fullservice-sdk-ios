@@ -68,6 +68,10 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
     [HTTPClient performRequestWithMethod:method path:path parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         if (completionBlock != nil) {
+            
+            NSError *resultError = nil;
+            id resultObject = nil;
+            
             if (error == nil) {
                 id result;
                 
@@ -78,13 +82,22 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
                 }
                 
                 if (result != nil) {
-                    completionBlock(result, nil);
+                    resultObject = result;
                 } else {
-                    completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+                    resultError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}];
                 }
                 
             } else {
-                completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
+                resultError = [self errorForResponseBody:response.body andError:error];
+            }
+            
+            if ([NSThread isMainThread]) {
+                completionBlock(resultObject, resultError);
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionBlock(resultObject, resultError);
+                });
             }
         }
     }];
@@ -108,14 +121,24 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
 {
     [self handleRequestWithMethod:HPTHTTPMethodGet path:[@"transaction/" stringByAppendingString:transactionReference] parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:^(id result, NSError *error) {
         
+        NSError *resultError = nil;
+        id resultObject = nil;
+        
         if (error == nil) {
             if (result[0] != nil) {
-                completionBlock(result[0], nil);
-            } else {
-                completionBlock(nil, nil);
+                resultObject = result[0];
             }
         } else {
-            completionBlock(nil, error);
+            resultError = error;
+        }
+        
+        if ([NSThread isMainThread]) {
+            completionBlock(resultObject, resultError);
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(resultObject, resultError);
+            });
         }
         
     }];

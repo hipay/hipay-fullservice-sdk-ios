@@ -14,10 +14,9 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
 
 - (instancetype)initWithPaymentProductCode:(NSString *)paymentProductCode
 {
-    CGFloat width = 100.;
     CGFloat height = 60.;
     
-    self = [super initWithFrame:CGRectMake(0.0, 0.0, 90, height)];
+    self = [super initWithFrame:CGRectMake(0.0, 0.0, 90., height)];
     if (self) {
         _paymentProductCode = paymentProductCode;
 
@@ -27,7 +26,7 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
             NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"]];
             UIImage *image = [UIImage imageNamed:@"payment_product_sprites" inBundle:bundle compatibleWithTraitCollection:nil];
             
-            [self setImage:[self cropImage:image withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100+5, [matrixInfo[@"y"] floatValue] * height, 90, height)] forState:UIControlStateNormal];
+            [self setImage:[self cropImage:image withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100. + 5., [matrixInfo[@"y"] floatValue] * height, 90., height)] forState:UIControlStateNormal];
             
             self.layer.borderWidth = 1.0;
             self.layer.cornerRadius = 5.0;
@@ -50,18 +49,18 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
 
 - (void)setDefaultStyle
 {
-    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.backgroundColor = [UIColor colorWithRed:0.025 green:0.025 blue:0.025 alpha:0.025];
+    self.layer.borderColor = [UIColor colorWithRed:0.86 green:0.86 blue:0.88 alpha:1.0].CGColor;
+    self.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.0];
 }
 
 - (void)enableButtonSelection
 {
-    self.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
 - (void)disableButtonSelection
 {
-    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    [self setDefaultStyle];
 }
 
 - (UIImage *)cropImage:(UIImage *)image withRect:(CGRect)rect {

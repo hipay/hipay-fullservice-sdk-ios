@@ -13,10 +13,10 @@
 - (void)awakeFromNib
 {
     self.itemSize = CGSizeMake(90., 60.);
-    self.minimumInteritemSpacing = 10.0;
-    self.minimumLineSpacing = 10.0;
+    self.minimumInteritemSpacing = 10.;
+    self.minimumLineSpacing = 10.;
     self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    self.sectionInset = UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0);
+    self.sectionInset = UIEdgeInsetsMake(0., 10., 0., 10.);
 }
 
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity

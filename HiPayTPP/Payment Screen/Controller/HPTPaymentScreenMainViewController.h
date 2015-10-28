@@ -10,11 +10,12 @@
 #import "HPTPaymentPageRequest.h"
 #import "HPTPaymentProductCollectionViewCell.h"
 
-@interface HPTPaymentScreenMainViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, HPTPaymentProductCollectionViewCellDelegate>
+@interface HPTPaymentScreenMainViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, HPTPaymentProductCollectionViewCellDelegate>
 {
-    __weak IBOutlet UICollectionView *paymentProductsCollectionView;
+    UICollectionView *paymentProductsCollectionView;
     
-    __weak IBOutlet UILabel *amountLabel;
+    __weak IBOutlet UITableView *paymentProductsTableView;
+    __weak IBOutlet NSLayoutConstraint *paymentProductsTableViewHeightConstraint;
 }
 
 @property (nonatomic) NSArray *paymentProducts;

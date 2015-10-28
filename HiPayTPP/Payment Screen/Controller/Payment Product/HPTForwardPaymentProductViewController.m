@@ -7,6 +7,7 @@
 //
 
 #import "HPTForwardPaymentProductViewController.h"
+#import "HPTGatewayClient.h"
 
 @interface HPTForwardPaymentProductViewController ()
 
@@ -36,6 +37,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Payment workflow
+
+- (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell
+{
+    HPTOrder *orderRequest = [[HPTOrderRequest alloc] initWithOrderRelatedRequest:self.paymentPageRequest];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -57,6 +65,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PaymentButton" forIndexPath:indexPath];
+    
+    ((HPTPaymentButtonTableViewCell *)cell).delegate = self;
     
     return cell;
 }

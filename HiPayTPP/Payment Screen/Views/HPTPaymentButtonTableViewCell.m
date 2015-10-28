@@ -10,13 +10,7 @@
 
 @implementation HPTPaymentButtonTableViewCell
 
-- (void)awakeFromNib
-{
-    [button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)buttonTouched:(id)button
-{
+- (IBAction)buttonTouched:(id)sender {
     if (self.delegate != nil) {
         [self.delegate paymentButtonTableViewCellDidTouchButton:self];
     }

@@ -19,9 +19,6 @@
 @end
 
 @interface HPTPaymentButtonTableViewCell : UITableViewCell
-{
-    __weak IBOutlet UIButton *button;
-}
 
 @property (nonatomic, weak) id<HPTPaymentButtonTableViewCellDelegate> delegate;
 

@@ -6,11 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPTPaymentButtonTableViewCell">
-            <connections>
-                <outlet property="button" destination="1jj-02-YXU" id="Jid-NJ-3nc"/>
-            </connections>
-        </placeholder>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" rowHeight="65" id="qT9-jZ-VAF" customClass="HPTPaymentButtonTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="327" height="65"/>
@@ -24,6 +20,9 @@
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <state key="normal" title="Payer"/>
+                        <connections>
+                            <action selector="buttonTouched:" destination="qT9-jZ-VAF" eventType="touchUpInside" id="wXI-Ap-2Se"/>
+                        </connections>
                     </button>
                 </subviews>
                 <animations/>
@@ -35,7 +34,7 @@
                 </constraints>
             </tableViewCellContentView>
             <animations/>
-            <point key="canvasLocation" x="465.5" y="411.5"/>
+            <point key="canvasLocation" x="551.5" y="529.5"/>
         </tableViewCell>
     </objects>
 </document>

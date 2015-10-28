@@ -10,10 +10,16 @@
 
 @implementation HPTPaymentButtonTableViewCell
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
+- (void)awakeFromNib
+{
+    [button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
+}
 
-    // Configure the view for the selected state
+- (void)buttonTouched:(id)button
+{
+    if (self.delegate != nil) {
+        [self.delegate paymentButtonTableViewCellDidTouchButton:self];
+    }
 }
 
 @end

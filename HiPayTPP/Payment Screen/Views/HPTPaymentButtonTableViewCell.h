@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@class HPTPaymentButtonTableViewCell;
+
+@protocol HPTPaymentButtonTableViewCellDelegate <NSObject>
+
+@required
+
+- (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell;
+
+@end
+
 @interface HPTPaymentButtonTableViewCell : UITableViewCell
+{
+    __weak IBOutlet UIButton *button;
+}
+
+@property (nonatomic, weak) id<HPTPaymentButtonTableViewCellDelegate> delegate;
 
 @end

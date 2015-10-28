@@ -6,7 +6,11 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPTPaymentButtonTableViewCell"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPTPaymentButtonTableViewCell">
+            <connections>
+                <outlet property="button" destination="1jj-02-YXU" id="Jid-NJ-3nc"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" rowHeight="65" id="qT9-jZ-VAF" customClass="HPTPaymentButtonTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="327" height="65"/>

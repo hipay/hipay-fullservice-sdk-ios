@@ -34,8 +34,11 @@
 - (void)setPaymentProducts:(NSArray *)paymentProducts
 {
     _paymentProducts = paymentProducts;
-    [paymentProductsCollectionView reloadData];
+    [paymentProductsTableView reloadData];
     
+    if ([paymentProducts count] > 0) {
+        [self selectPaymentProduct:paymentProducts.firstObject];
+    }    
 }
 
 #pragma mark - Payment products collection view
@@ -55,9 +58,9 @@
     return cell;
 }
 
-- (void)paymentProductCollectionViewCellDidTouchButton:(HPTPaymentProductCollectionViewCell *)cell
+- (void)selectPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
-    HPTForwardPaymentProductViewController *paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] init];
+    HPTForwardPaymentProductViewController *paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
     
     UIViewController *currentViewController = self.childViewControllers.firstObject;
     
@@ -76,18 +79,26 @@
     } completion:^(BOOL finished) {
         
     }];
-
+    
     [paymentProductViewController didMoveToParentViewController:self];
     
     [currentViewController removeFromParentViewController];
+}
 
+- (void)paymentProductCollectionViewCellDidTouchButton:(HPTPaymentProductCollectionViewCell *)cell
+{
+    [self selectPaymentProduct:cell.paymentProduct];
 }
 
 #pragma mark - Main table view
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    if (_paymentProducts != nil) {
+        return 1;
+    }
+    
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -100,14 +111,16 @@
     HPTPaymentProductsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PaymentProductsCell"];
     
     paymentProductsCollectionView = cell.paymentProductsCollectionView;
-    
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    paymentProductsTableViewHeightConstraint.constant = paymentProductsTableView.contentSize.height;
-    [self.view layoutIfNeeded];
+    if (paymentProductsTableView.contentSize.height > 0.) {
+        paymentProductsTableViewHeightConstraint.constant = paymentProductsTableView.contentSize.height;
+        [self.view layoutIfNeeded];
+    }
 }
 
 

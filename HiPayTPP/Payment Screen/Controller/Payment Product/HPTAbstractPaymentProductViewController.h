@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPTPaymentPageRequest.h"
 
 @interface HPTAbstractPaymentProductViewController : UITableViewController
+
+@property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;
+
+- (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest;
 
 @end

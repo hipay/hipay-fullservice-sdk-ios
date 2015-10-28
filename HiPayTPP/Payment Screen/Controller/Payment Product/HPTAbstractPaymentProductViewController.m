@@ -14,6 +14,15 @@
 
 @implementation HPTAbstractPaymentProductViewController
 
+- (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest
+{
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    if (self) {
+        _paymentPageRequest = paymentPageRequest;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

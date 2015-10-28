@@ -19,5 +19,6 @@
 }
 
 @property (nonatomic) NSArray *paymentProducts;
+@property (nonatomic) HPTPaymentPageRequest *paymentPageRequest;
 
 @end

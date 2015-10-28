@@ -25,6 +25,7 @@
     
     [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *paymentProducts, NSError *error) {
         
+        mainViewController.paymentPageRequest = paymentPageRequest;
         mainViewController.paymentProducts = paymentProducts;
         
     }];

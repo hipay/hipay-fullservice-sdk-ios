@@ -14,9 +14,13 @@
 
 @implementation HPTForwardPaymentProductViewController
 
-- (instancetype)init
+- (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest andSelectedPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
-    return [super initWithStyle:UITableViewStyleGrouped];
+    self = [super initWithPaymentPageRequest:paymentPageRequest];
+    if (self) {
+        _paymentProduct = paymentProduct;
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -43,7 +47,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Payer avec PayPal";
+    return [@"Payer par " stringByAppendingString:self.paymentProduct.paymentProductDescription];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {

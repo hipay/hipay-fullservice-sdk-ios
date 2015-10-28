@@ -35,6 +35,7 @@
 {
     _paymentProducts = paymentProducts;
     [paymentProductsTableView reloadData];
+    [spinner stopAnimating];
     
     if ([paymentProducts count] > 0) {
         [self selectPaymentProduct:paymentProducts.firstObject];

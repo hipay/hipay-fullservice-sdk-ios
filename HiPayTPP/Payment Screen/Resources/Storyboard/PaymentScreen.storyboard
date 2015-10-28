@@ -89,6 +89,11 @@
                                     <outlet property="delegate" destination="qTi-Cp-vWY" id="iFH-QL-7Vc"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yfH-RL-9t5">
+                                <rect key="frame" x="142" y="266" width="37" height="37"/>
+                                <animations/>
+                                <color key="color" white="0.64859479870335579" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
@@ -98,6 +103,8 @@
                             <constraint firstItem="ZFw-rb-92n" firstAttribute="top" secondItem="ACm-0I-p5W" secondAttribute="bottom" id="JR3-Gk-iDs"/>
                             <constraint firstItem="YmN-zD-Gn1" firstAttribute="top" secondItem="ZFw-rb-92n" secondAttribute="bottom" id="Wiw-e3-SfA"/>
                             <constraint firstItem="ZFw-rb-92n" firstAttribute="leading" secondItem="LzR-BS-9hQ" secondAttribute="leading" id="fkp-c3-IcT"/>
+                            <constraint firstItem="yfH-RL-9t5" firstAttribute="centerX" secondItem="LzR-BS-9hQ" secondAttribute="centerX" id="gbW-Ia-UPg"/>
+                            <constraint firstItem="yfH-RL-9t5" firstAttribute="centerY" secondItem="LzR-BS-9hQ" secondAttribute="centerY" id="gkU-CU-HEi"/>
                             <constraint firstAttribute="trailing" secondItem="YmN-zD-Gn1" secondAttribute="trailing" id="h19-gL-mbd"/>
                             <constraint firstItem="tao-Ft-77u" firstAttribute="top" secondItem="YmN-zD-Gn1" secondAttribute="bottom" id="lA5-wZ-CZX"/>
                             <constraint firstAttribute="trailing" secondItem="ZFw-rb-92n" secondAttribute="trailing" id="nSQ-jo-AMJ"/>
@@ -113,6 +120,7 @@
                     <connections>
                         <outlet property="paymentProductsTableView" destination="ZFw-rb-92n" id="IhB-Vw-xDE"/>
                         <outlet property="paymentProductsTableViewHeightConstraint" destination="WML-2F-VZO" id="UFA-mm-rIM"/>
+                        <outlet property="spinner" destination="yfH-RL-9t5" id="DMN-SZ-j3h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Uu-Uv-VDH" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -41,6 +41,22 @@
     }    
 }
 
+- (void)updatePaymentProductsTableViewHeightConstraint
+{
+    if (paymentProductsTableView.contentSize.height > 0.) {
+        paymentProductsTableViewHeightConstraint.constant = paymentProductsTableView.contentSize.height;
+        NSLog(@"%f",  paymentProductsTableView.contentSize.height);
+        [self.view layoutIfNeeded];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self updatePaymentProductsTableViewHeightConstraint];
+}
+
 #pragma mark - Payment products collection view
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -117,12 +133,8 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (paymentProductsTableView.contentSize.height > 0.) {
-        paymentProductsTableViewHeightConstraint.constant = paymentProductsTableView.contentSize.height;
-        [self.view layoutIfNeeded];
-    }
+    [self updatePaymentProductsTableViewHeightConstraint];
 }
-
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {

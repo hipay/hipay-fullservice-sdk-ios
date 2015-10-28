@@ -19,7 +19,12 @@
 @end
 
 @interface HPTPaymentButtonTableViewCell : UITableViewCell
+{
+    __weak IBOutlet UIButton *button;
+    __weak IBOutlet UIActivityIndicatorView *spinner;
+}
 
+@property (nonatomic, getter=isLoading) BOOL loading;
 @property (nonatomic, weak) id<HPTPaymentButtonTableViewCellDelegate> delegate;
 
 @end

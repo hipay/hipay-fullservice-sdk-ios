@@ -92,7 +92,7 @@
     
     [[mockedInitialSerializedRequest expect] mergeDictionary:paymentMethodSerializedRequest withPrefix:nil];
     
-    [[[mockedMapper expect] andReturn:@"cb"] getStringForKey:@"paymentProduct"];
+    [[[mockedMapper expect] andReturn:@"cb"] getStringForKey:@"paymentProductCode"];
     
     [[mockedInitialSerializedRequest expect] setNullableObject:[OCMArg isEqual:@"cb"] forKey:@"payment_product"];
 

@@ -8,6 +8,7 @@
 
 #import "HPTForwardPaymentProductViewController.h"
 #import "HPTGatewayClient.h"
+#import <SafariServices/SafariServices.h>
 
 @interface HPTForwardPaymentProductViewController ()
 
@@ -41,7 +42,21 @@
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell
 {
-    HPTOrder *orderRequest = [[HPTOrderRequest alloc] initWithOrderRelatedRequest:self.paymentPageRequest];
+    HPTOrderRequest *orderRequest = [[HPTOrderRequest alloc] initWithOrderRelatedRequest:self.paymentPageRequest];
+    
+    orderRequest.paymentProductCode = self.paymentProduct.code;
+    
+    cell.loading = YES;
+    
+    [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
+       
+        if (transaction.forwardUrl != nil) {
+            [self presentViewController:[[SFSafariViewController alloc] initWithURL:transaction.forwardUrl] animated:YES completion:nil];            
+        }
+        
+        cell.loading = NO;
+
+    }];
 }
 
 #pragma mark - Table view data source

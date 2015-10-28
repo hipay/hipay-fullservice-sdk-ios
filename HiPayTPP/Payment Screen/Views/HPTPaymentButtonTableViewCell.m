@@ -16,4 +16,20 @@
     }
 }
 
+- (BOOL)isLoading
+{
+    return [spinner isAnimating];
+}
+
+- (void)setLoading:(BOOL)loading
+{
+    if (loading) {
+        [spinner startAnimating];
+    } else {
+        [spinner stopAnimating];
+    }
+    
+    button.hidden = loading;
+}
+
 @end

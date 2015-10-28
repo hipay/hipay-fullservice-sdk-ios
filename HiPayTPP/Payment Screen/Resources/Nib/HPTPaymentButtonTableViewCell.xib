@@ -8,7 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" rowHeight="65" id="qT9-jZ-VAF" customClass="HPTPaymentButtonTableViewCell">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="65" id="qT9-jZ-VAF" customClass="HPTPaymentButtonTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="327" height="65"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qT9-jZ-VAF" id="ksd-KA-VMG">
@@ -24,16 +24,26 @@
                             <action selector="buttonTouched:" destination="qT9-jZ-VAF" eventType="touchUpInside" id="wXI-Ap-2Se"/>
                         </connections>
                     </button>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kwI-c3-JMn">
+                        <rect key="frame" x="154" y="22" width="20" height="20"/>
+                        <animations/>
+                    </activityIndicatorView>
                 </subviews>
                 <animations/>
                 <constraints>
                     <constraint firstItem="1jj-02-YXU" firstAttribute="leading" secondItem="ksd-KA-VMG" secondAttribute="leadingMargin" constant="-8" id="2qO-it-gNE"/>
+                    <constraint firstItem="kwI-c3-JMn" firstAttribute="centerY" secondItem="ksd-KA-VMG" secondAttribute="centerY" id="Bbp-iO-xcE"/>
                     <constraint firstAttribute="bottomMargin" secondItem="1jj-02-YXU" secondAttribute="bottom" constant="-8" id="SHf-ku-F2U"/>
                     <constraint firstAttribute="trailingMargin" secondItem="1jj-02-YXU" secondAttribute="trailing" constant="-8" id="XCe-0Y-WTo"/>
                     <constraint firstItem="1jj-02-YXU" firstAttribute="top" secondItem="ksd-KA-VMG" secondAttribute="topMargin" constant="-8" id="aQO-HO-XnG"/>
+                    <constraint firstItem="kwI-c3-JMn" firstAttribute="centerX" secondItem="ksd-KA-VMG" secondAttribute="centerX" id="dqQ-l4-4lC"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="button" destination="1jj-02-YXU" id="vBZ-z4-lAs"/>
+                <outlet property="spinner" destination="kwI-c3-JMn" id="DEU-cR-6zm"/>
+            </connections>
             <point key="canvasLocation" x="551.5" y="529.5"/>
         </tableViewCell>
     </objects>

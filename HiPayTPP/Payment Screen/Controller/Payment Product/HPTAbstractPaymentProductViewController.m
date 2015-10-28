@@ -46,4 +46,11 @@
     return 30.0;
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(0., 0., 0., 0.);
+}
+
 @end

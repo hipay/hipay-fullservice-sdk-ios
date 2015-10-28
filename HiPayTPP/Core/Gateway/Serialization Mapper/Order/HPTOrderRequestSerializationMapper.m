@@ -19,7 +19,7 @@
 {
     NSMutableDictionary *result = [self orderRelatedSerializedRequest];
     
-    [result setNullableObject:[self getStringForKey:@"paymentProduct"] forKey:@"payment_product"];
+    [result setNullableObject:[self getStringForKey:@"paymentProductCode"] forKey:@"payment_product"];
     
     [result mergeDictionary:[self paymentMethodSerializedRequest] withPrefix:nil];
     

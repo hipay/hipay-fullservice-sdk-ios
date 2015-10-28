@@ -11,7 +11,7 @@
 
 @interface HPTOrderRequest : HPTOrderRelatedRequest
 
-@property (nonatomic, copy) NSString *paymentProduct;
+@property (nonatomic, copy) NSString *paymentProductCode;
 @property (nonatomic) HPTAbstractPaymentMethodRequest *paymentMethod;
 
 @end

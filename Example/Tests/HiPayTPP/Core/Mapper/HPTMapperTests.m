@@ -354,11 +354,13 @@
     [[[mockedMapper expect] andReturn:@"https://www.example2.com/page/to/redirect.php"] getStringForKey:@"test2"];
     [[[mockedMapper expect] andReturn:nil] getStringForKey:@"test3"];
     [[[mockedMapper expect] andReturn:@"invalid URL"] getStringForKey:@"test4"];
+    [[[mockedMapper expect] andReturn:@""] getStringForKey:@"test5"];
     
     XCTAssertEqualObjects([mapper getURLForKey:@"test1"], [NSURL URLWithString:@"http://www.example.com/page/to/redirect"]);
     XCTAssertEqualObjects([mapper getURLForKey:@"test2"], [NSURL URLWithString:@"https://www.example2.com/page/to/redirect.php"]);
     XCTAssertNil([mapper getURLForKey:@"test3"]);
     XCTAssertNil([mapper getURLForKey:@"test4"]);
+    XCTAssertNil([mapper getURLForKey:@"test5"]);
     
     [mockedMapper verify];
 }

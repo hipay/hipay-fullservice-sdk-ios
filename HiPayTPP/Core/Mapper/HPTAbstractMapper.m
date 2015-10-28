@@ -212,7 +212,7 @@
 {
     id object = [self getStringForKey:key];
     
-    if (object != nil) {
+    if ((object != nil) && (![object isEqualToString:@""])) {
         return [NSURL URLWithString:object];
     }
     

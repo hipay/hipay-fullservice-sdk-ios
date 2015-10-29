@@ -16,7 +16,7 @@
 {
     HPTOrderRequest *orderRequest = [super createOrderRequest];
     
-    
+    orderRequest.paymentMethod = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestUsername:@"+33678787484"];
 
     return orderRequest;
 }

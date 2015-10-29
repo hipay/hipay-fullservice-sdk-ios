@@ -60,11 +60,18 @@
 
 #pragma mark - Payment workflow
 
-- (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell
+- (HPTOrderRequest *)createOrderRequest
 {
     HPTOrderRequest *orderRequest = [[HPTOrderRequest alloc] initWithOrderRelatedRequest:self.paymentPageRequest];
     
     orderRequest.paymentProductCode = self.paymentProduct.code;
+    
+    return orderRequest;
+}
+
+- (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell
+{
+    HPTOrderRequest *orderRequest = [self createOrderRequest];
     
     cell.loading = YES;
     
@@ -107,11 +114,20 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [@"Payer par " stringByAppendingString:self.paymentProduct.paymentProductDescription];
+    if (section == 0) {
+        return [@"Payer par " stringByAppendingString:self.paymentProduct.paymentProductDescription];
+    }
+    
+    return nil;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    return @"Vous allez être redirigé afin de pouvoir procéder au paiement.";
+    
+    if (section == (self.tableView.numberOfSections - 1)) {
+        return @"Vous allez être redirigé afin de pouvoir procéder au paiement.";
+    }
+    
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

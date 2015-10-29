@@ -8,8 +8,10 @@
 
 #import "HPTPaymentScreenMainViewController.h"
 #import "HPTPaymentProductButton.h"
-#import "HPTForwardPaymentProductViewController.h"
 #import "HPTPaymentProductsTableViewCell.h"
+
+#import "HPTForwardPaymentProductViewController.h"
+#import "HPTQiwiWalletPaymentProductViewController.h"
 
 @interface HPTPaymentScreenMainViewController ()
 
@@ -76,8 +78,17 @@
         
         selectedPaymentProduct = paymentProduct;
         
-        HPTForwardPaymentProductViewController *paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+        HPTForwardPaymentProductViewController *paymentProductViewController;
         
+        // Qiwi Wallet
+        if ([paymentProduct.code isEqualToString:@"qiwi-wallet"]) {
+            paymentProductViewController = [[HPTQiwiWalletPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+        }
+        
+        // Simple payment method
+        else {
+            paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+        }
 
         id<HPTPaymentProductViewControllerDelegate> paymentProductViewDelegate = (id<HPTPaymentProductViewControllerDelegate>) self.parentViewController.parentViewController;
         

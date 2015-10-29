@@ -45,7 +45,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30.0;
+    if (section == 0) {
+        return 30.0;
+    }
+    
+    return UITableViewAutomaticDimension;
 }
 
 - (void)viewWillLayoutSubviews

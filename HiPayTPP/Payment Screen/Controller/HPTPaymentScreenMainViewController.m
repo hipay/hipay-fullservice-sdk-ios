@@ -46,16 +46,8 @@
 {
     if (paymentProductsTableView.contentSize.height > 0.) {
         paymentProductsTableViewHeightConstraint.constant = paymentProductsTableView.contentSize.height;
-        NSLog(@"%f",  paymentProductsTableView.contentSize.height);
         [self.view layoutIfNeeded];
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self updatePaymentProductsTableViewHeightConstraint];
 }
 
 #pragma mark - Payment products collection view
@@ -72,39 +64,62 @@
     cell.paymentProduct = self.paymentProducts[indexPath.row];
     cell.delegate = self;
     
+    cell.highlighted = (cell.paymentProduct == selectedPaymentProduct);
+    
     return cell;
 }
 
 - (void)selectPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
-    HPTForwardPaymentProductViewController *paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
-    
-    UIViewController *currentViewController = self.childViewControllers.firstObject;
-    
-    [self addChildViewController:paymentProductViewController];
-    [self.view addSubview:paymentProductViewController.view];
-    paymentProductViewController.view.frame = currentViewController.view.frame;
-    
-    paymentProductViewController.view.alpha = 0.;
-    currentViewController.view.alpha = 1.;
-    
-    [self transitionFromViewController:currentViewController toViewController:paymentProductViewController duration:0.2 options:0 animations:^{
+    if (selectedPaymentProduct != paymentProduct) {
         
-        paymentProductViewController.view.alpha = 1.;
-        currentViewController.view.alpha = 0.;
+        selectedPaymentProduct = paymentProduct;
         
-    } completion:^(BOOL finished) {
+        HPTForwardPaymentProductViewController *paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         
-    }];
-    
-    [paymentProductViewController didMoveToParentViewController:self];
-    
-    [currentViewController removeFromParentViewController];
+        UIViewController *currentViewController = self.childViewControllers.firstObject;
+        
+        [self addChildViewController:paymentProductViewController];
+        [self.view addSubview:paymentProductViewController.view];
+        paymentProductViewController.view.frame = currentViewController.view.frame;
+        
+        paymentProductViewController.view.alpha = 0.;
+        currentViewController.view.alpha = 1.;
+        
+        [self transitionFromViewController:currentViewController toViewController:paymentProductViewController duration:0.2 options:0 animations:^{
+            
+            paymentProductViewController.view.alpha = 1.;
+            currentViewController.view.alpha = 0.;
+            
+        } completion:nil];
+        
+        [paymentProductViewController didMoveToParentViewController:self];
+        
+        [currentViewController removeFromParentViewController];
+        
+    }
 }
 
 - (void)paymentProductCollectionViewCellDidTouchButton:(HPTPaymentProductCollectionViewCell *)cell
 {
     [self selectPaymentProduct:cell.paymentProduct];
+    
+    NSIndexPath *indexPath = [paymentProductsCollectionView indexPathForCell:cell];
+    
+    for (HPTPaymentButtonTableViewCell *aCell in paymentProductsCollectionView.visibleCells) {
+        aCell.highlighted = NO;
+    }
+    
+    cell.highlighted = YES;
+    
+    if (indexPath != nil) {
+        
+        CGPoint proposedOffset = CGPointMake(cell.frame.origin.x - cell.frame.size.width, 0.);
+        CGPoint offset = [paymentProductsCollectionView.collectionViewLayout targetContentOffsetForProposedContentOffset:proposedOffset withScrollingVelocity:CGPointMake(0., 0.)];
+        
+        [paymentProductsCollectionView setContentOffset:offset animated:YES];
+        
+    }
 }
 
 #pragma mark - Main table view

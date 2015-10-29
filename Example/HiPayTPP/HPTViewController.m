@@ -8,7 +8,6 @@
 
 #import "HPTViewController.h"
 #import <WebKit/WebKit.h>
-#import <HiPayTPP/HiPayTPP.h>
 #import <SafariServices/SafariServices.h>
 
 @interface HPTViewController ()
@@ -27,6 +26,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)paymentScreenViewController:(HPTPaymentScreenViewController *)viewController didEndWithTransaction:(HPTTransaction *)transaction
+{
+    [[[UIAlertView alloc] initWithTitle:@"Transaction" message:transaction.description delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+}
+
+- (void)paymentScreenViewController:(HPTPaymentScreenViewController *)viewController didFailWithError:(NSError *)error
+{
+    [[[UIAlertView alloc] initWithTitle:@"Error" message:error.description delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -53,6 +62,9 @@
     
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:bundle];
     HPTPaymentScreenViewController* vc = (HPTPaymentScreenViewController *)[sb instantiateInitialViewController];
+    
+//    vc.delegate = self;
+    
     [vc loadPaymentPageRequest:order];
     
     [self presentViewController:vc animated:YES completion:nil];

@@ -9,9 +9,27 @@
 #import <UIKit/UIKit.h>
 #import "HPTGatewayClient.h"
 
-@interface HPTPaymentScreenViewController : UINavigationController
+@class HPTPaymentScreenViewController;
+
+@protocol HPTPaymentScreenViewControllerDelegate <NSObject>
+
+@optional
+
+- (void)paymentScreenViewController:(HPTPaymentScreenViewController *)viewController didEndWithTransaction:(HPTTransaction *)transaction;
+
+- (void)paymentScreenViewControllerDidCancel:(HPTPaymentScreenViewController *)viewController;
+
+@end
+
+@interface HPTPaymentScreenViewController : UIViewController
+{
+    UINavigationController *embeddedNavigationController;
+    
+    NSArray *paymentProducts;
+}
 
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;
+@property (nonatomic, weak) id<HPTPaymentScreenViewControllerDelegate> paymentScreenDelegate;
 
 - (void)loadPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest;
 

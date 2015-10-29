@@ -14,6 +14,8 @@
 {
     UICollectionView *paymentProductsCollectionView;
     
+    HPTPaymentProduct *selectedPaymentProduct;
+    
     __weak IBOutlet UIActivityIndicatorView *spinner;
     __weak IBOutlet UITableView *paymentProductsTableView;
     __weak IBOutlet NSLayoutConstraint *paymentProductsTableViewHeightConstraint;

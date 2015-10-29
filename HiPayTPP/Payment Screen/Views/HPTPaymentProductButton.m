@@ -38,6 +38,7 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
             [self addTarget:self action:@selector(disableButtonSelection) forControlEvents:UIControlEventTouchUpInside];
             [self addTarget:self action:@selector(disableButtonSelection) forControlEvents:UIControlEventTouchUpOutside];
             [self addTarget:self action:@selector(disableButtonSelection) forControlEvents:UIControlEventTouchDragOutside];
+
         }
         
         else {
@@ -47,10 +48,26 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
     return self;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    if (!self.tracking) {
+        [self setDefaultStyle];
+    }
+}
+
 - (void)setDefaultStyle
 {
-    self.layer.borderColor = [UIColor colorWithRed:0.86 green:0.86 blue:0.88 alpha:1.0].CGColor;
-    self.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.0];
+    if (!self.productSelected) {
+        self.layer.borderColor = [UIColor colorWithRed:0.86 green:0.86 blue:0.88 alpha:1.0].CGColor;
+        self.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.0];
+        self.imageView.alpha = 0.7;
+    } else {
+        self.layer.borderColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1.0].CGColor;
+        self.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1.0];
+        self.imageView.alpha = 1.0;
+    }
 }
 
 - (void)enableButtonSelection
@@ -70,6 +87,12 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
     UIImage *result = [UIImage imageWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
     CGImageRelease(imageRef);
     return result;
+}
+
+- (void)setProductSelected:(BOOL)productSelected
+{
+    _productSelected = productSelected;
+    [self setDefaultStyle];
 }
 
 - (NSDictionary *)paymentProductMatrix

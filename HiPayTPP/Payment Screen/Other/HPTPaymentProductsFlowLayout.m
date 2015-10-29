@@ -21,8 +21,8 @@
 
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
 {
-    if(proposedContentOffset.x > self.collectionViewContentSize.width - [UIScreen mainScreen].bounds.size.width - self.sectionInset.right) {
-        return proposedContentOffset;
+    if ((proposedContentOffset.x + self.collectionView.frame.size.width) > (self.collectionViewContentSize.width - self.itemSize.width / 2.0)) {
+        return CGPointMake(self.collectionViewContentSize.width - self.collectionView.frame.size.width, proposedContentOffset.y);
     }
     
     CGFloat offsetAdjustment = MAXFLOAT;

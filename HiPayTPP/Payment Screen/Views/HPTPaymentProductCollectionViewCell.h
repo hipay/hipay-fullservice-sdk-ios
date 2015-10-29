@@ -25,5 +25,6 @@
 @property (nonatomic) HPTPaymentProduct *paymentProduct;
 @property (nonatomic, readonly) HPTPaymentProductButton *paymentProductButton;
 @property (nonatomic, weak) id<HPTPaymentProductCollectionViewCellDelegate> delegate;
+@property (nonatomic, getter=isHighlighted) BOOL highlighted;
 
 @end

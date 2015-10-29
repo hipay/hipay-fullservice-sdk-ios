@@ -12,6 +12,7 @@
 @interface HPTPaymentProductButton : UIButton
 
 @property (nonatomic, readonly) NSString *paymentProductCode;
+@property (nonatomic) BOOL productSelected;
 
 - (instancetype)initWithPaymentProductCode:(NSString *)paymentProductCode;
 

@@ -26,4 +26,14 @@
     }
 }
 
+- (BOOL)isHighlighted
+{
+    return self.paymentProductButton.productSelected;
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    self.paymentProductButton.productSelected = highlighted;
+}
+
 @end

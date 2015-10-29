@@ -19,21 +19,31 @@
 {
     _paymentPageRequest = paymentPageRequest;
     
-    HPTPaymentScreenMainViewController *mainViewController = self.viewControllers.firstObject;
-    
-    mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
-    
-    [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *paymentProducts, NSError *error) {
+    [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
         
-        mainViewController.paymentPageRequest = paymentPageRequest;
-        mainViewController.paymentProducts = paymentProducts;
+        paymentProducts = thePaymentProducts;
         
+        [self setPaymentProductsToMainViewController];
     }];
+}
+
+- (void)setPaymentProductsToMainViewController
+{
+    HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
+
+    if ((mainViewController != nil) && (paymentProducts != nil)) {
+        mainViewController.paymentPageRequest = _paymentPageRequest;
+        mainViewController.paymentProducts = paymentProducts;
+    }
 }
 
 - (void)cancelPayment
 {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    if ([self.paymentScreenDelegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
+        [self.paymentScreenDelegate paymentScreenViewControllerDidCancel:self];
+    }
 }
 
 - (void)viewDidLoad {
@@ -44,6 +54,20 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"contained_controller"]) {
+        
+        embeddedNavigationController = segue.destinationViewController;
+        
+        HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
+        
+        mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
+
+        [self setPaymentProductsToMainViewController];
+    }
 }
 
 @end

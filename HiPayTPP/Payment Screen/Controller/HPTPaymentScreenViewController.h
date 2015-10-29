@@ -19,6 +19,8 @@
 
 - (void)paymentScreenViewControllerDidCancel:(HPTPaymentScreenViewController *)viewController;
 
+- (void)paymentScreenViewController:(HPTPaymentScreenViewController *)viewController didFailWithError:(NSError *)error;
+
 @end
 
 @interface HPTPaymentScreenViewController : UIViewController

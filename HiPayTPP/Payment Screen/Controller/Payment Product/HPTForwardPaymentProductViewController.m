@@ -51,6 +51,7 @@
     [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
        
         if (transaction.forwardUrl != nil) {
+            
             [self presentViewController:[[SFSafariViewController alloc] initWithURL:transaction.forwardUrl] animated:YES completion:nil];            
         }
         

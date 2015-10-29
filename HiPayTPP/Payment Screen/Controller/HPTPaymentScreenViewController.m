@@ -40,7 +40,7 @@
 - (void)cancelPayment
 {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    
+
     if ([self.paymentScreenDelegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
         [self.paymentScreenDelegate paymentScreenViewControllerDidCancel:self];
     }
@@ -56,16 +56,31 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
+    
+    if ([self isModal]) {
+        mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
+    } else {
+        mainViewController.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+- (BOOL)isModal {
+    return self.presentingViewController.presentedViewController == self
+    || (self.navigationController != nil && self.navigationController.presentingViewController.presentedViewController == self.navigationController)
+    || [self.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"contained_controller"]) {
         
         embeddedNavigationController = segue.destinationViewController;
         
-        HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
-        
-        mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
-
         [self setPaymentProductsToMainViewController];
     }
 }

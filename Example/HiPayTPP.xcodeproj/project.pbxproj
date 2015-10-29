@@ -60,6 +60,8 @@
 		A5B9A6EE1BD6B2550014B27F /* HPTPaymentProductMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B9A6ED1BD6B2550014B27F /* HPTPaymentProductMapperTests.m */; };
 		A5C657DC1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C657DB1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m */; };
 		A5C6F2981BC7F0CA00DEC43E /* HPTThreeDSecureMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C6F2971BC7F0CA00DEC43E /* HPTThreeDSecureMapperTests.m */; };
+		A5C91F441BE2CD6D00FD8421 /* HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C91F431BE2CD6D00FD8421 /* HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m */; };
+		A5C91F491BE2D22300FD8421 /* HPTQiwiWalletPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C91F481BE2D22300FD8421 /* HPTQiwiWalletPaymentMethodRequestTests.m */; };
 		A5F605921BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F605911BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m */; };
 /* End PBXBuildFile section */
 
@@ -139,6 +141,8 @@
 		A5B9A6ED1BD6B2550014B27F /* HPTPaymentProductMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPaymentProductMapperTests.m; sourceTree = "<group>"; };
 		A5C657DB1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTMutableDictionarySerialization.m; sourceTree = "<group>"; };
 		A5C6F2971BC7F0CA00DEC43E /* HPTThreeDSecureMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTThreeDSecureMapperTests.m; sourceTree = "<group>"; };
+		A5C91F431BE2CD6D00FD8421 /* HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A5C91F481BE2D22300FD8421 /* HPTQiwiWalletPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTQiwiWalletPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		A5F605911BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHostedPaymentPageMapperTests.m; sourceTree = "<group>"; };
 		A6DE32B74EAABE271832F022 /* Pods-HiPayTPP_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A7FE2CBCD3A3CCF6C20228C9 /* Pods-HiPayTPP_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -353,6 +357,7 @@
 				A57BA7D81BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m */,
 				A57BA7DA1BCEAD4800F154E2 /* HPTPaymentPageRequestSerializationMapperTests.m */,
 				A57BA7DE1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m */,
+				A5C91F431BE2CD6D00FD8421 /* HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m */,
 			);
 			path = "Serialization Mapper";
 			sourceTree = "<group>";
@@ -366,6 +371,7 @@
 				A57BA7EF1BCF8F6500F154E2 /* HPTOrderRelatedRequestTests.m */,
 				A57BA7F11BCF8F7000F154E2 /* HPTOrderRequestTests.m */,
 				A57BA7F71BCF8FB200F154E2 /* HPTCardTokenPaymentMethodRequestTests.m */,
+				A5C91F481BE2D22300FD8421 /* HPTQiwiWalletPaymentMethodRequestTests.m */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -709,6 +715,7 @@
 				A5C6F2981BC7F0CA00DEC43E /* HPTThreeDSecureMapperTests.m in Sources */,
 				A595C44C1BC800310076AF07 /* HPTFraudScreeningMapperTests.m in Sources */,
 				A57BA7D91BCEAD3900F154E2 /* HPTOrderRequestSerializationMapperTests.m in Sources */,
+				A5C91F441BE2CD6D00FD8421 /* HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m in Sources */,
 				A595C45A1BC802DA0076AF07 /* HPTOrderMapperTests.m in Sources */,
 				A51004B51BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m in Sources */,
 				A595C4501BC800510076AF07 /* HPTPersonalInformationMapperTests.m in Sources */,
@@ -721,6 +728,7 @@
 				A57BA7F21BCF8F7000F154E2 /* HPTOrderRequestTests.m in Sources */,
 				A5B9A6EE1BD6B2550014B27F /* HPTPaymentProductMapperTests.m in Sources */,
 				A57BA7F81BCF8FB200F154E2 /* HPTCardTokenPaymentMethodRequestTests.m in Sources */,
+				A5C91F491BE2D22300FD8421 /* HPTQiwiWalletPaymentMethodRequestTests.m in Sources */,
 				A595C4541BC800710076AF07 /* HPTTransactionRelatedItemMapperTests.m in Sources */,
 				A51004DC1BBE893D002BD3C1 /* HPTSecureVaultClientTests.m in Sources */,
 			);

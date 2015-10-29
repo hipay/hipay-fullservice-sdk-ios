@@ -415,9 +415,9 @@
 
 - (void)testTransactionErrorIsFinal
 {
-    NSError *error1 = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPICheckout userInfo:@{HPTErrorCodeAPICodeKey: @"3010003"}];
+    NSError *error1 = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPICheckout userInfo:@{HPTErrorCodeAPICodeKey: @(3010003)}];
     
-    NSError *notFinalError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPICheckout userInfo:@{HPTErrorCodeAPICodeKey: @"3010002"}];
+    NSError *notFinalError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPICheckout userInfo:@{HPTErrorCodeAPICodeKey: @(3010002)}];
     
     XCTAssertTrue([HPTGatewayClient isTransactionErrorFinal:error1]);
     

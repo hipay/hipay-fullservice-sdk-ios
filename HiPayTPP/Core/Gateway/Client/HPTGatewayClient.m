@@ -25,6 +25,17 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
     return HPTGatewayClientSharedInstance;
 }
 
++ (BOOL)isTransactionErrorFinal:(NSError *)error
+{
+    if (error.domain == HPTHiPayTPPErrorDomain) {
+        if (error.code == HPTErrorCodeAPICheckout) {
+            return [error.userInfo[HPTErrorCodeAPICodeKey] isEqualToNumber:@(3010003)] || [error.userInfo[HPTErrorCodeAPICodeKey] isEqualToNumber:@(3010004)];
+        }
+    }
+    
+    return NO;
+}
+
 - (instancetype)initWithHTTPClient:(HPTHTTPClient *)theHTTPClient clientConfig:(HPTClientConfig *)theClientConfig
 {
     self = [super init];

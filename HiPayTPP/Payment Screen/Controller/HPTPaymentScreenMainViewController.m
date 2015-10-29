@@ -71,11 +71,17 @@
 
 - (void)selectPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
+    
     if (selectedPaymentProduct != paymentProduct) {
         
         selectedPaymentProduct = paymentProduct;
         
         HPTForwardPaymentProductViewController *paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+        
+
+        id<HPTPaymentProductViewControllerDelegate> paymentProductViewDelegate = (id<HPTPaymentProductViewControllerDelegate>) self.parentViewController.parentViewController;
+        
+        paymentProductViewController.delegate = paymentProductViewDelegate;
         
         UIViewController *currentViewController = self.childViewControllers.firstObject;
         

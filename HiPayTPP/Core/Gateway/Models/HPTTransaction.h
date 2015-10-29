@@ -92,4 +92,6 @@ typedef NS_ENUM(NSInteger, HPTTransactionState) {
 @property (nonatomic, readonly) NSString *cdata9;
 @property (nonatomic, readonly) NSString *cdata10;
 
+@property (readonly, getter=isHandled) BOOL handled;
+
 @end

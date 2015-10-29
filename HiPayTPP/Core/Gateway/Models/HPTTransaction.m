@@ -10,4 +10,13 @@
 
 @implementation HPTTransaction
 
+- (BOOL)isHandled
+{
+    if ((self.state == HPTTransactionStatePending) || (self.state == HPTTransactionStateCompleted)) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 @end

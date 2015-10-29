@@ -1,5 +1,12 @@
 [
    {
+      "id":"HY0ORGG3",
+      "code":"paypal",
+      "description":"PayPal",
+      "paymentProductCategoryCode":"ewallet",
+      "tokenizable":false
+   },
+   {
       "id":"52DY02WM",
       "code":"visa",
       "description":"VISA",
@@ -94,13 +101,6 @@
       "id":"RAXLNESP",
       "code":"qiwi-wallet",
       "description":"VISA QIWI Wallet",
-      "paymentProductCategoryCode":"ewallet",
-      "tokenizable":false
-   },
-   {
-      "id":"HY0ORGG3",
-      "code":"paypal",
-      "description":"PayPal",
       "paymentProductCategoryCode":"ewallet",
       "tokenizable":false
    },

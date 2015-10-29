@@ -8,10 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import "HPTPaymentPageRequest.h"
+#import "HPTTransaction.h"
+
+@class HPTAbstractPaymentProductViewController;
+
+@protocol HPTPaymentProductViewControllerDelegate <NSObject>
+
+@required
+
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didEndWithTransaction:(HPTTransaction *)transaction;
+
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didFailWithError:(NSError *)error;
+
+@end
 
 @interface HPTAbstractPaymentProductViewController : UITableViewController
 
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;
+@property (nonatomic, weak) id<HPTPaymentProductViewControllerDelegate> delegate;
 
 - (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest;
 

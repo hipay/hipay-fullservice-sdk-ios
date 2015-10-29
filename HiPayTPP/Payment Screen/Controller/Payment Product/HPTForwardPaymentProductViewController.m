@@ -9,6 +9,9 @@
 #import "HPTForwardPaymentProductViewController.h"
 #import "HPTGatewayClient.h"
 #import <SafariServices/SafariServices.h>
+#import <WebKit/WebKit.h>
+#import "HPTForwardViewController.h"
+#import "HPTAbstractPaymentProductViewController_Protected.h"
 
 @interface HPTForwardPaymentProductViewController ()
 
@@ -38,6 +41,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Forward controller
+
+- (void)forwardViewControllerDidCancel:(HPTForwardViewController *)viewController
+{
+    [self refreshTransactionStatus:transaction];
+}
+
+- (void)forwardViewController:(HPTForwardViewController *)viewController didEndWithTransaction:(HPTTransaction *)theTransaction
+{
+    [self checkTransactionStatus:theTransaction];
+}
+
+- (void)forwardViewController:(HPTForwardViewController *)viewController didFailWithError:(NSError *)error
+{
+    [self checkTransactionError:error];
+}
+
 #pragma mark - Payment workflow
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell
@@ -48,11 +68,27 @@
     
     cell.loading = YES;
     
-    [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
+    [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
        
-        if (transaction.forwardUrl != nil) {
+        if (theTransaction != nil) {
+            transaction = theTransaction;
             
-            [self presentViewController:[[SFSafariViewController alloc] initWithURL:transaction.forwardUrl] animated:YES completion:nil];            
+            if (transaction.forwardUrl != nil) {
+                
+                HPTForwardViewController *viewController = [HPTForwardViewController relevantForwardViewControllerWithTransaction:transaction];
+                
+                viewController.delegate = self;
+                
+                [self presentViewController:viewController animated:YES completion:nil];
+            }
+            
+            else {
+                [self checkTransactionStatus:transaction];
+            }
+        }
+        
+        else {
+            [self checkTransactionError:error];
         }
         
         cell.loading = NO;

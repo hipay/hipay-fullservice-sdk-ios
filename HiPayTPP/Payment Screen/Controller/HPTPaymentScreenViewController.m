@@ -41,8 +41,8 @@
 {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
-    if ([self.paymentScreenDelegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
-        [self.paymentScreenDelegate paymentScreenViewControllerDidCancel:self];
+    if ([self.delegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
+        [self.delegate paymentScreenViewControllerDidCancel:self];
     }
 }
 
@@ -82,6 +82,31 @@
         embeddedNavigationController = segue.destinationViewController;
         
         [self setPaymentProductsToMainViewController];
+    }
+}
+
+
+#pragma mark - Payment product view controller delegate
+
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didEndWithTransaction:(HPTTransaction *)transaction
+{
+    if ([self.delegate respondsToSelector:@selector(paymentScreenViewController:didEndWithTransaction:)]) {
+        [self.delegate paymentScreenViewController:self didEndWithTransaction:transaction];
+    }
+    
+    if ([self isModal]) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didFailWithError:(NSError *)error
+{
+    if ([self.delegate respondsToSelector:@selector(paymentScreenViewController:didFailWithError:)]) {
+        [self.delegate paymentScreenViewController:self didFailWithError:error];
+    }
+    
+    if ([self isModal]) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

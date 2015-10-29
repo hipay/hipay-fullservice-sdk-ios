@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HPTGatewayClient.h"
+#import "HPTAbstractPaymentProductViewController.h"
 
 @class HPTPaymentScreenViewController;
 
@@ -23,7 +24,7 @@
 
 @end
 
-@interface HPTPaymentScreenViewController : UIViewController
+@interface HPTPaymentScreenViewController : UIViewController <HPTPaymentProductViewControllerDelegate>
 {
     UINavigationController *embeddedNavigationController;
     
@@ -31,7 +32,7 @@
 }
 
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;
-@property (nonatomic, weak) id<HPTPaymentScreenViewControllerDelegate> paymentScreenDelegate;
+@property (nonatomic, weak) id<HPTPaymentScreenViewControllerDelegate> delegate;
 
 - (void)loadPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest;
 

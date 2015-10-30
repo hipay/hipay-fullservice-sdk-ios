@@ -16,5 +16,7 @@
 
 - (void)editingDoneButtonTouched:(id)sender;
 - (HPTInputTableViewCell *)inputCellWithIdentifier:(NSString *)identifier;
+- (HPTPaymentButtonTableViewCell *)paymentButtonCell;
+- (void)setPaymentButtonLoadingMode:(BOOL)isLoading;
 
 @end

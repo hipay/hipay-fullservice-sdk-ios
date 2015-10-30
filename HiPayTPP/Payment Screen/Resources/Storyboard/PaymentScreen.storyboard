@@ -21,7 +21,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YmN-zD-Gn1">
                                 <rect key="frame" x="0.0" y="171" width="320" height="397"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.91628196019999997" green="0.5945101143" blue="0.55703330340000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                 <connections>
                                     <segue destination="3HD-7E-Cgn" kind="embed" id="oyt-3G-Ajd"/>

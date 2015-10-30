@@ -30,58 +30,92 @@
     [super viewDidLoad];
     
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.delaysContentTouches = NO;
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-    
-    for (UIView *currentView in self.tableView.subviews) {
-        if ([currentView isKindOfClass:[UIScrollView class]]) {
-            ((UIScrollView *)currentView).delaysContentTouches = NO;
-            break;
-        }
-    }
-    
+    [self determineScrollingMode];
+
     NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"]];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTPaymentButtonTableViewCell" bundle:bundle] forCellReuseIdentifier:@"PaymentButton"];
 
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTInputTableViewCell" bundle:bundle] forCellReuseIdentifier:@"Input"];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-//    if (section == 0) {
-//        return 30.0;
-//    }
+    if (section == 0) {
+        return 30.0;
+    }
     
     return UITableViewAutomaticDimension;
-}
-
-- (void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-    
-//    self.tableView.contentInset = UIEdgeInsetsMake(0., 0., 0., 0.);
-    
-}
-
-- (void)setPaymentButtonLoadingMode:(BOOL)isLoading
-{
-    for (UITableViewCell *cell in self.tableView.visibleCells) {
-        if ([cell isKindOfClass:[HPTPaymentButtonTableViewCell class]]) {
-            ((HPTPaymentButtonTableViewCell *)cell).loading = isLoading;
-        }
-    }
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [activeTextField resignFirstResponder];
-    [self setAppropriateScrollingMode];
+}
+
+- (void)determineScrollingMode
+{
+    if ((self.tableView.contentSize.height <= self.tableView.frame.size.height) && ((activeTextField == nil) || (!activeTextField.editing))) {
+        self.tableView.scrollEnabled = NO;
+    }
     
+    else {
+        self.tableView.scrollEnabled = YES;
+    }
+}
+
+- (void)didRotate:(NSNotification *)notification
+{
+    [self determineScrollingMode];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Keyboard related methods
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    [UIView animateWithDuration:animationDuration animations:^{
+
+        if (activeTextField != nil) {
+            UITableViewCell *cell = [self cellWithTextField:activeTextField];
+            
+            if (cell != nil) {
+                self.tableView.contentOffset = CGPointMake(0.0, MAX(cell.frame.origin.y - 8.0, 0.0));
+            }
+        }
+    
+    }];
 }
 
 #pragma mark - Form
+
+
+- (void)setPaymentButtonLoadingMode:(BOOL)isLoading
+{
+    loading = isLoading;
+    
+    for (UITableViewCell *cell in self.tableView.visibleCells) {
+        if ([cell isKindOfClass:[HPTPaymentButtonTableViewCell class]]) {
+            ((HPTPaymentButtonTableViewCell *)cell).loading = isLoading;
+        }
+        
+        if ([cell isKindOfClass:[HPTInputTableViewCell class]]) {
+            ((HPTInputTableViewCell *)cell).textField.enabled = !isLoading;
+        }
+    }
+}
 
 - (void)editingDoneButtonTouched:(id)sender
 {
@@ -107,6 +141,16 @@
     
     cell.textField.delegate = self;
     cell.textField.inputAccessoryView = nil;
+    cell.textField.enabled = !loading;
+    
+    return cell;
+}
+
+- (HPTPaymentButtonTableViewCell *)paymentButtonCell
+{
+    HPTPaymentButtonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentButton"];
+
+    cell.loading = loading;
     
     return cell;
 }
@@ -115,13 +159,7 @@
 {
     activeTextField = textField;
     
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:[self cellWithTextField:textField]];
-
-    [self setAppropriateScrollingMode];
-
-    if (indexPath != nil) {
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }
+    [self determineScrollingMode];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -129,20 +167,8 @@
     if (activeTextField == textField) {
         activeTextField = nil;
     }
-    
-    [self setAppropriateScrollingMode];
-}
 
-- (void)setAppropriateScrollingMode
-{
-    if ((activeTextField != nil) || (self.tableView.contentSize.height <= self.tableView.frame.size.height)) {
-        self.tableView.scrollEnabled = NO;
-    }
-    
-    else {
-        self.tableView.scrollEnabled = YES;
-    }
-    self.tableView.scrollEnabled = YES;
+    [self determineScrollingMode];
 }
 
 #pragma mark - Transaction results, errors

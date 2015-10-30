@@ -28,12 +28,6 @@
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-        
-//    self.tableView.scrollEnabled = NO;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -71,7 +65,7 @@
 {
     HPTOrderRequest *orderRequest = [self createOrderRequest];
     
-    cell.loading = YES;
+    [super setPaymentButtonLoadingMode:YES];
     
     [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
        
@@ -96,7 +90,7 @@
             [self checkTransactionError:error];
         }
         
-        cell.loading = NO;
+        [super setPaymentButtonLoadingMode:NO];
 
     }];
 }
@@ -130,9 +124,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PaymentButton"];
+    HPTPaymentButtonTableViewCell *cell = [super paymentButtonCell];
     
-    ((HPTPaymentButtonTableViewCell *)cell).delegate = self;
+    cell.delegate = self;
     
     return cell;
 }

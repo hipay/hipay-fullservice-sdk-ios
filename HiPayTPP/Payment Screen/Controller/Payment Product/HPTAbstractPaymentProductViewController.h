@@ -26,6 +26,7 @@
 @interface HPTAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate>
 {
     UITextField *activeTextField;
+    BOOL loading;
 }
 
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;

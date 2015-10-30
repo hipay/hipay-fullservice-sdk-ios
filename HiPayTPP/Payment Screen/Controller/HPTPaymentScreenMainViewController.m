@@ -71,7 +71,13 @@
     [self.view addConstraint:keyboardContainerConstraintTop];
     [self.view addConstraint:keyboardContainerConstraintBottom];
     
-    [UIView animateWithDuration:2 animations:^{
+    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    rightBarButtonItems = self.navigationItem.rightBarButtonItems;
+    [self.navigationItem setRightBarButtonItems:nil animated:YES];
+    self.navigationItem.title = selectedPaymentProduct.paymentProductDescription;
+    
+    [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
     }];
 }
@@ -85,7 +91,15 @@
     keyboardContainerConstraintTop = nil;
     keyboardContainerConstraintBottom = nil;
     
-    [UIView animateWithDuration:2 animations:^{
+    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    self.navigationItem.title = self.title;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:YES];
+    });
+    
+    [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
     }];
 }
@@ -140,7 +154,7 @@
         UIViewController *currentViewController = self.childViewControllers.firstObject;
         
         [self addChildViewController:paymentProductViewController];
-        [self.view addSubview:paymentProductViewController.view];
+
         paymentProductViewController.view.frame = currentViewController.view.frame;
         
         paymentProductViewController.view.alpha = 0.;

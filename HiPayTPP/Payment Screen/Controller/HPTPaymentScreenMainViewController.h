@@ -15,6 +15,8 @@
     UICollectionView *paymentProductsCollectionView;
     
     HPTPaymentProduct *selectedPaymentProduct;
+    NSArray *rightBarButtonItems;
+    
     __weak IBOutlet UIView *containerView;
     
     __weak IBOutlet NSLayoutConstraint *containerBottomConstraint;

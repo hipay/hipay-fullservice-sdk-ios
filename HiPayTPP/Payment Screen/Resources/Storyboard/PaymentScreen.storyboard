@@ -18,16 +18,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YmN-zD-Gn1">
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YmN-zD-Gn1">
                                 <rect key="frame" x="0.0" y="171" width="320" height="397"/>
                                 <animations/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.91628196019999997" green="0.5945101143" blue="0.55703330340000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                 <connections>
                                     <segue destination="3HD-7E-Cgn" kind="embed" id="oyt-3G-Ajd"/>
                                 </connections>
                             </containerView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="60" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZFw-rb-92n">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="60" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZFw-rb-92n">
                                 <rect key="frame" x="0.0" y="64" width="320" height="107"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -98,26 +98,30 @@
                         <animations/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="YmN-zD-Gn1" firstAttribute="leading" secondItem="LzR-BS-9hQ" secondAttribute="leading" id="2Qe-Y0-bVQ"/>
-                            <constraint firstItem="YmN-zD-Gn1" firstAttribute="top" secondItem="ZFw-rb-92n" secondAttribute="bottom" id="ExS-PC-JJe"/>
-                            <constraint firstItem="ZFw-rb-92n" firstAttribute="top" secondItem="ACm-0I-p5W" secondAttribute="bottom" id="JR3-Gk-iDs"/>
-                            <constraint firstItem="YmN-zD-Gn1" firstAttribute="top" secondItem="ZFw-rb-92n" secondAttribute="bottom" id="Wiw-e3-SfA"/>
-                            <constraint firstItem="ZFw-rb-92n" firstAttribute="leading" secondItem="LzR-BS-9hQ" secondAttribute="leading" id="fkp-c3-IcT"/>
-                            <constraint firstItem="yfH-RL-9t5" firstAttribute="centerX" secondItem="LzR-BS-9hQ" secondAttribute="centerX" id="gbW-Ia-UPg"/>
-                            <constraint firstItem="yfH-RL-9t5" firstAttribute="centerY" secondItem="LzR-BS-9hQ" secondAttribute="centerY" id="gkU-CU-HEi"/>
-                            <constraint firstAttribute="trailing" secondItem="YmN-zD-Gn1" secondAttribute="trailing" id="h19-gL-mbd"/>
-                            <constraint firstItem="tao-Ft-77u" firstAttribute="top" secondItem="YmN-zD-Gn1" secondAttribute="bottom" id="lA5-wZ-CZX"/>
-                            <constraint firstAttribute="trailing" secondItem="ZFw-rb-92n" secondAttribute="trailing" id="nSQ-jo-AMJ"/>
+                            <constraint firstItem="YmN-zD-Gn1" firstAttribute="leading" secondItem="LzR-BS-9hQ" secondAttribute="leading" priority="750" id="2Qe-Y0-bVQ"/>
+                            <constraint firstItem="YmN-zD-Gn1" firstAttribute="top" secondItem="ZFw-rb-92n" secondAttribute="bottom" priority="750" id="ExS-PC-JJe"/>
+                            <constraint firstItem="ZFw-rb-92n" firstAttribute="top" secondItem="ACm-0I-p5W" secondAttribute="bottom" priority="750" id="JR3-Gk-iDs"/>
+                            <constraint firstItem="YmN-zD-Gn1" firstAttribute="top" secondItem="ZFw-rb-92n" secondAttribute="bottom" priority="750" id="Wiw-e3-SfA"/>
+                            <constraint firstItem="ZFw-rb-92n" firstAttribute="leading" secondItem="LzR-BS-9hQ" secondAttribute="leading" priority="750" id="fkp-c3-IcT"/>
+                            <constraint firstItem="yfH-RL-9t5" firstAttribute="centerX" secondItem="LzR-BS-9hQ" secondAttribute="centerX" priority="750" id="gbW-Ia-UPg"/>
+                            <constraint firstItem="yfH-RL-9t5" firstAttribute="centerY" secondItem="LzR-BS-9hQ" secondAttribute="centerY" priority="750" id="gkU-CU-HEi"/>
+                            <constraint firstAttribute="trailing" secondItem="YmN-zD-Gn1" secondAttribute="trailing" priority="750" id="h19-gL-mbd"/>
+                            <constraint firstItem="tao-Ft-77u" firstAttribute="top" secondItem="YmN-zD-Gn1" secondAttribute="bottom" priority="750" id="lA5-wZ-CZX"/>
+                            <constraint firstAttribute="trailing" secondItem="ZFw-rb-92n" secondAttribute="trailing" priority="750" id="nSQ-jo-AMJ"/>
+                            <constraint firstItem="tao-Ft-77u" firstAttribute="top" secondItem="YmN-zD-Gn1" secondAttribute="bottom" priority="750" id="zi4-Ib-5ds"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="ExS-PC-JJe"/>
+                                <exclude reference="zi4-Ib-5ds"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="c61-tc-cJr"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="containerBottomConstraint" destination="lA5-wZ-CZX" id="yUt-Ay-YKv"/>
+                        <outlet property="containerView" destination="YmN-zD-Gn1" id="cU1-xe-1k8"/>
                         <outlet property="paymentProductsTableView" destination="ZFw-rb-92n" id="IhB-Vw-xDE"/>
                         <outlet property="paymentProductsTableViewHeightConstraint" destination="WML-2F-VZO" id="UFA-mm-rIM"/>
                         <outlet property="spinner" destination="yfH-RL-9t5" id="DMN-SZ-j3h"/>

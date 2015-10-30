@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
         
-    self.tableView.scrollEnabled = NO;
+//    self.tableView.scrollEnabled = NO;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -9,6 +9,7 @@
 #import "HPTQiwiWalletPaymentProductViewController.h"
 #import "HPTOrderRequest.h"
 #import "HPTForwardPaymentProductViewController_Protected.h"
+#import "HPTAbstractPaymentProductViewController_Protected.h"
 
 @implementation HPTQiwiWalletPaymentProductViewController
 
@@ -35,17 +36,11 @@
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
 
-    HPTInputTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Input"];
+    HPTInputTableViewCell *cell = [self inputCellWithIdentifier:@"Input"];
     
     cell.inputLabel.text = @"N° de téléphone";
     cell.textField.placeholder = @"+79263745223";
     cell.textField.keyboardType = UIKeyboardTypePhonePad;
-    
-    UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
-    [keyboardDoneButtonView sizeToFit];
-    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(doneClicked:)];
-    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
-    cell.textField.inputAccessoryView = keyboardDoneButtonView;
     
     return cell;
 }

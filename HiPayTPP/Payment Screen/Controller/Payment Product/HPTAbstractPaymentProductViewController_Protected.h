@@ -14,4 +14,7 @@
 - (void)refreshTransactionStatus:(HPTTransaction *)transaction;
 - (void)checkTransactionError:(NSError *)transactionError;
 
+- (void)editingDoneButtonTouched:(id)sender;
+- (HPTInputTableViewCell *)inputCellWithIdentifier:(NSString *)identifier;
+
 @end

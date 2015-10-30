@@ -23,7 +23,10 @@
 
 @end
 
-@interface HPTAbstractPaymentProductViewController : UITableViewController
+@interface HPTAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate>
+{
+    UITextField *activeTextField;
+}
 
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;
 @property (nonatomic, weak) id<HPTPaymentProductViewControllerDelegate> delegate;

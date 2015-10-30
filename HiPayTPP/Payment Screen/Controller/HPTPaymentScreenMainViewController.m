@@ -26,6 +26,9 @@
     
     self.title = @"Paiement";
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,6 +53,46 @@
         paymentProductsTableViewHeightConstraint.constant = paymentProductsTableView.contentSize.height;
         [self.view layoutIfNeeded];
     }
+}
+
+#pragma mark - Keyboard related methods
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    CGRect keyboardFrame = [[notification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect endFrame = [self.view convertRect:keyboardFrame fromView:nil];
+    
+    [self.view removeConstraint:containerBottomConstraint];
+    
+    keyboardContainerConstraintTop = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:endFrame.origin.y];
+    
+    keyboardContainerConstraintBottom = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+    
+    [self.view addConstraint:keyboardContainerConstraintTop];
+    [self.view addConstraint:keyboardContainerConstraintBottom];
+    
+    [UIView animateWithDuration:2 animations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    [self.view removeConstraint:keyboardContainerConstraintTop];
+    [self.view removeConstraint:keyboardContainerConstraintBottom];
+    [self.view addConstraint:containerBottomConstraint];
+    
+    keyboardContainerConstraintTop = nil;
+    keyboardContainerConstraintBottom = nil;
+    
+    [UIView animateWithDuration:2 animations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Payment products collection view

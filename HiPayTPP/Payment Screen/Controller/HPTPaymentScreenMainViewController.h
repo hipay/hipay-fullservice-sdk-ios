@@ -15,10 +15,16 @@
     UICollectionView *paymentProductsCollectionView;
     
     HPTPaymentProduct *selectedPaymentProduct;
+    __weak IBOutlet UIView *containerView;
+    
+    __weak IBOutlet NSLayoutConstraint *containerBottomConstraint;
     
     __weak IBOutlet UIActivityIndicatorView *spinner;
     __weak IBOutlet UITableView *paymentProductsTableView;
     __weak IBOutlet NSLayoutConstraint *paymentProductsTableViewHeightConstraint;
+    
+    NSLayoutConstraint *keyboardContainerConstraintTop;
+    NSLayoutConstraint *keyboardContainerConstraintBottom;
 }
 
 @property (nonatomic) NSArray *paymentProducts;

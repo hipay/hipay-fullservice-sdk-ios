@@ -78,6 +78,7 @@
 {
     [activeTextField resignFirstResponder];
     [self setAppropriateScrollingMode];
+    
 }
 
 #pragma mark - Form

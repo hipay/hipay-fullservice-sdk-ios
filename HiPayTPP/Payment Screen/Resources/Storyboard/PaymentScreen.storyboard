@@ -9,7 +9,7 @@
         <!--Payment Screen Main View Controller-->
         <scene sceneID="Tvi-uq-4o5">
             <objects>
-                <viewController id="qTi-Cp-vWY" customClass="HPTPaymentScreenMainViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="qTi-Cp-vWY" customClass="HPTPaymentScreenMainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ACm-0I-p5W"/>
                         <viewControllerLayoutGuide type="bottom" id="tao-Ft-77u"/>
@@ -187,6 +187,7 @@
         <!--View Controller-->
         <scene sceneID="2VT-7e-3hZ">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XiF-RD-f7G" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="3HD-7E-Cgn" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FPb-Qa-dhO"/>
@@ -200,7 +201,6 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XiF-RD-f7G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-177" y="1031"/>
         </scene>

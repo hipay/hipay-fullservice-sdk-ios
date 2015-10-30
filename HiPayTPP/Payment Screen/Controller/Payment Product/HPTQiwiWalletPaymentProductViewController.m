@@ -35,7 +35,7 @@
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Input"];
     
     return cell;
 }

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HPTPaymentPageRequest.h"
 #import "HPTTransaction.h"
+#import "HPTInputTableViewCell.h"
 
 @class HPTAbstractPaymentProductViewController;
 

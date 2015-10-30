@@ -35,7 +35,17 @@
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Input"];
+    HPTInputTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Input"];
+    
+    cell.inputLabel.text = @"N° de téléphone";
+    cell.textField.placeholder = @"+79263745223";
+    cell.textField.keyboardType = UIKeyboardTypePhonePad;
+    
+    UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
+    [keyboardDoneButtonView sizeToFit];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(doneClicked:)];
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
+    cell.textField.inputAccessoryView = keyboardDoneButtonView;
     
     return cell;
 }

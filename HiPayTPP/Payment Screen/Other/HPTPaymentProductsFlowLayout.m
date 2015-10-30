@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     self.itemSize = CGSizeMake(90., 60.);
     self.minimumInteritemSpacing = 10.;
     self.minimumLineSpacing = 10.;

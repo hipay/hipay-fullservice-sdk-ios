@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -9,50 +9,44 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="lLj-mf-I6F">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="45" id="lLj-mf-I6F" customClass="HPTInputTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lLj-mf-I6F" id="u2t-NZ-XO0">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUH-13-AMA">
-                        <rect key="frame" x="15" y="8" width="137" height="27.5"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
+                        <rect key="frame" x="111" y="7" width="201" height="30"/>
                         <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="textColor" white="0.41999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" ambiguous="YES" misplaced="YES" text="Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="VaG-B8-8hX">
+                        <rect key="frame" x="15" y="11" width="88" height="21"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="+33 XX XX XX XX" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
-                        <rect key="frame" x="160" y="7" width="152" height="30"/>
-                        <animations/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <textInputTraits key="textInputTraits"/>
-                    </textField>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="bUH-13-AMA" firstAttribute="top" secondItem="u2t-NZ-XO0" secondAttribute="topMargin" id="0VE-z2-T4a"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="centerY" secondItem="u2t-NZ-XO0" secondAttribute="centerY" id="61y-PN-xRo"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="puq-qj-JZP" secondAttribute="bottom" id="Alg-hT-pGD"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="bUH-13-AMA" secondAttribute="trailing" constant="8" id="F2U-e8-0kC"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="trailing" constant="15" id="Lz3-RN-6Dj"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="top" secondItem="u2t-NZ-XO0" secondAttribute="topMargin" id="Nht-L1-tRN"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="puq-qj-JZP" secondAttribute="bottom" id="fFb-0q-CjI"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="bUH-13-AMA" secondAttribute="bottom" id="g14-yG-k5D"/>
-                    <constraint firstItem="bUH-13-AMA" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leading" constant="15" id="hom-iF-JtA"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="u2t-NZ-XO0" secondAttribute="centerX" priority="750" id="vaS-1g-6hL"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerXWithinMargins" priority="750" id="SFh-Ca-N3F"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="trailingMargin" id="hxP-ii-EhB"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VaG-B8-8hX" secondAttribute="trailing" constant="8" id="oBm-VQ-Pao"/>
+                    <constraint firstItem="VaG-B8-8hX" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leading" constant="15" id="zEI-2y-WHy"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="Alg-hT-pGD"/>
-                        <exclude reference="Nht-L1-tRN"/>
-                        <exclude reference="fFb-0q-CjI"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <animations/>
-            <point key="canvasLocation" x="642" y="186"/>
+            <connections>
+                <outlet property="inputLabel" destination="VaG-B8-8hX" id="OIF-cg-hQv"/>
+                <outlet property="textField" destination="puq-qj-JZP" id="h55-tB-NVv"/>
+            </connections>
+            <point key="canvasLocation" x="592" y="323.5"/>
         </tableViewCell>
     </objects>
 </document>

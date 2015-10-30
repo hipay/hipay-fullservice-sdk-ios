@@ -11,6 +11,9 @@
 @implementation HPTPaymentProductsTableViewCell
 
 - (void)awakeFromNib {
+    
+    [super awakeFromNib];
+    
     self.paymentProductsCollectionView.decelerationRate = 0.993;
 }
 

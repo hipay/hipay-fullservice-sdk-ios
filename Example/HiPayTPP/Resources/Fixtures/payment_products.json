@@ -1,5 +1,12 @@
 [
    {
+      "id":"RAXLNESP",
+      "code":"qiwi-wallet",
+      "description":"VISA QIWI Wallet",
+      "paymentProductCategoryCode":"ewallet",
+      "tokenizable":false
+   },
+   {
       "id":"HY0ORGG3",
       "code":"paypal",
       "description":"PayPal",
@@ -95,13 +102,6 @@
       "code":"ing-homepay",
       "description":"ING Home'Pay",
       "paymentProductCategoryCode":"realtime-banking",
-      "tokenizable":false
-   },
-   {
-      "id":"RAXLNESP",
-      "code":"qiwi-wallet",
-      "description":"VISA QIWI Wallet",
-      "paymentProductCategoryCode":"ewallet",
       "tokenizable":false
    },
    {

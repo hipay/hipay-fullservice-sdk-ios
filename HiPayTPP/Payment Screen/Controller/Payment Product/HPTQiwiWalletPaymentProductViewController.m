@@ -10,6 +10,7 @@
 #import "HPTOrderRequest.h"
 #import "HPTForwardPaymentProductViewController_Protected.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
+#import "NSString+HPTValidation.h"
 
 @implementation HPTQiwiWalletPaymentProductViewController
 
@@ -24,7 +25,7 @@
 
 - (BOOL)submitButtonEnabled
 {
-    return [self textForIdentifier:@"username"] != nil && ![[[self textForIdentifier:@"username"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""];
+    return [[self textForIdentifier:@"username"] isDefined];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

@@ -29,6 +29,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,7 +77,6 @@
     
     rightBarButtonItems = self.navigationItem.rightBarButtonItems;
     [self.navigationItem setRightBarButtonItems:nil animated:YES];
-    self.navigationItem.title = selectedPaymentProduct.paymentProductDescription;
     
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
@@ -92,9 +93,7 @@
     keyboardContainerConstraintBottom = nil;
     
     NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    
-    self.navigationItem.title = self.title;
-    
+        
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:YES];
     });

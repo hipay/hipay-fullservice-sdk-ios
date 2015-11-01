@@ -20,6 +20,7 @@
     __weak IBOutlet UIView *containerView;
     
     __weak IBOutlet NSLayoutConstraint *containerBottomConstraint;
+    __weak IBOutlet NSLayoutConstraint *containerTopConstraint;
     
     __weak IBOutlet UIActivityIndicatorView *spinner;
     __weak IBOutlet UITableView *paymentProductsTableView;
@@ -27,6 +28,8 @@
     
     NSLayoutConstraint *keyboardContainerConstraintTop;
     NSLayoutConstraint *keyboardContainerConstraintBottom;
+    
+    BOOL containerHasFullLayout;
 }
 
 @property (nonatomic) NSArray *paymentProducts;

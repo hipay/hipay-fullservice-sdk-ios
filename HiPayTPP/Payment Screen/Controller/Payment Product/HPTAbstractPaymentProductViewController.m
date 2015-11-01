@@ -45,15 +45,6 @@
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return 30.0;
-    }
-    
-    return UITableViewAutomaticDimension;
-}
-
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [activeTextField resignFirstResponder];
@@ -92,7 +83,11 @@
             UITableViewCell *cell = [self cellWithTextField:activeTextField];
             
             if (cell != nil) {
-                self.tableView.contentOffset = CGPointMake(0.0, MAX(cell.frame.origin.y - 8.0, 0.0));
+                NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+                
+                if (indexPath != nil) {
+                    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+                }
             }
         }
     

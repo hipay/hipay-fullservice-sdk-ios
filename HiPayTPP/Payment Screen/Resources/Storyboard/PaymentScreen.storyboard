@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x3v-0z-yzu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x3v-0z-yzu">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -38,7 +38,7 @@
                                 <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PaymentProductsCell" id="T3t-Vm-6UX" customClass="HPTPaymentProductsTableViewCell">
-                                        <rect key="frame" x="0.0" y="50" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T3t-Vm-6UX" id="TaL-fo-NW0">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
@@ -121,6 +121,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="containerBottomConstraint" destination="lA5-wZ-CZX" id="yUt-Ay-YKv"/>
+                        <outlet property="containerTopConstraint" destination="Wiw-e3-SfA" id="fqx-SA-VS9"/>
                         <outlet property="containerView" destination="YmN-zD-Gn1" id="cU1-xe-1k8"/>
                         <outlet property="paymentProductsTableView" destination="ZFw-rb-92n" id="IhB-Vw-xDE"/>
                         <outlet property="paymentProductsTableViewHeightConstraint" destination="WML-2F-VZO" id="UFA-mm-rIM"/>
@@ -187,7 +188,6 @@
         <!--View Controller-->
         <scene sceneID="2VT-7e-3hZ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XiF-RD-f7G" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="3HD-7E-Cgn" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FPb-Qa-dhO"/>
@@ -201,6 +201,7 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XiF-RD-f7G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-177" y="1031"/>
         </scene>

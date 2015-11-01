@@ -30,7 +30,6 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,6 +62,7 @@
 {
     CGRect keyboardFrame = [[notification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect endFrame = [self.view convertRect:keyboardFrame fromView:nil];
+    containerHasFullLayout = YES;
     
     [self.view removeConstraint:containerBottomConstraint];
     
@@ -78,6 +78,8 @@
     rightBarButtonItems = self.navigationItem.rightBarButtonItems;
     [self.navigationItem setRightBarButtonItems:nil animated:YES];
     
+    [self defineContainerTopSpacing];
+    
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -92,11 +94,15 @@
     keyboardContainerConstraintTop = nil;
     keyboardContainerConstraintBottom = nil;
     
+    containerHasFullLayout = NO;
+    
     NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
         
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:YES];
     });
+    
+    [self defineContainerTopSpacing];
     
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
@@ -158,18 +164,50 @@
         
         paymentProductViewController.view.alpha = 0.;
         currentViewController.view.alpha = 1.;
+        [self defineContainerTopSpacing];
         
         [self transitionFromViewController:currentViewController toViewController:paymentProductViewController duration:0.2 options:0 animations:^{
             
             paymentProductViewController.view.alpha = 1.;
             currentViewController.view.alpha = 0.;
             
-        } completion:nil];
+        } completion:^(BOOL finished) {
+            [self defineContainerTopSpacing];
+            
+            [UIView animateWithDuration:0.2 animations:^{
+                [self.view layoutIfNeeded];
+            }];
+        }];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self defineContainerTopSpacing];
+            [self.view layoutIfNeeded];
+        });
         
         [paymentProductViewController didMoveToParentViewController:self];
         
         [currentViewController removeFromParentViewController];
         
+    }
+}
+
+- (void)defineContainerTopSpacing
+{
+    UITableViewController *paymentProductViewController = self.childViewControllers.lastObject;
+    
+    if ([paymentProductViewController isKindOfClass:[UITableViewController class]]) {
+        
+        UITableViewHeaderFooterView *headerView = [paymentProductViewController.tableView headerViewForSection:0];
+        
+        if ([headerView isKindOfClass:[UITableViewHeaderFooterView class]]) {
+            
+            if (!containerHasFullLayout) {
+                containerTopConstraint.constant = - headerView.textLabel.frame.origin.y;
+            } else {
+                containerTopConstraint.constant = 0.;
+            }
+   
+        }
     }
 }
 

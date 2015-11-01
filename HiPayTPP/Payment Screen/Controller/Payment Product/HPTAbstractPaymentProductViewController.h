@@ -27,6 +27,7 @@
 {
     UITextField *activeTextField;
     BOOL loading;
+    NSMutableDictionary *fieldIdentifiers;
 }
 
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;

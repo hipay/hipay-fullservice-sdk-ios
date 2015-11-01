@@ -32,4 +32,14 @@
     button.hidden = loading;
 }
 
+- (BOOL)isEnabled
+{
+    return button.enabled;
+}
+
+- (void)setEnabled:(BOOL)enabled
+{
+    button.enabled = enabled;
+}
+
 @end

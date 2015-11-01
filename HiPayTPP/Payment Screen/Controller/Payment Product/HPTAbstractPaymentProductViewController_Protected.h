@@ -15,8 +15,10 @@
 - (void)checkTransactionError:(NSError *)transactionError;
 
 - (void)editingDoneButtonTouched:(id)sender;
-- (HPTInputTableViewCell *)inputCellWithIdentifier:(NSString *)identifier;
 - (HPTPaymentButtonTableViewCell *)paymentButtonCell;
 - (void)setPaymentButtonLoadingMode:(BOOL)isLoading;
+- (NSString *)textForIdentifier:(NSString *)fieldIdentifier;
+- (HPTInputTableViewCell *)inputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier;
+- (BOOL)submitButtonEnabled;
 
 @end

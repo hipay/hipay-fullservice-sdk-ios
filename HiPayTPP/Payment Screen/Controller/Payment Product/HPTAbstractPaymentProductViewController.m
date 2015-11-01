@@ -22,6 +22,7 @@
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         _paymentPageRequest = paymentPageRequest;
+        fieldIdentifiers = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -96,7 +97,6 @@
 
 #pragma mark - Form
 
-
 - (void)setPaymentButtonLoadingMode:(BOOL)isLoading
 {
     loading = isLoading;
@@ -130,13 +130,19 @@
     return nil;
 }
 
-- (HPTInputTableViewCell *)inputCellWithIdentifier:(NSString *)identifier
+- (HPTInputTableViewCell *)inputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier
 {
     HPTInputTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Input"];
     
     cell.textField.delegate = self;
     cell.textField.inputAccessoryView = nil;
     cell.textField.enabled = !loading;
+    
+    cell.textField.text = [[fieldIdentifiers objectForKey:fieldIdentifier] text];
+
+    [cell.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    
+    [fieldIdentifiers setObject:cell.textField forKey:fieldIdentifier];
     
     return cell;
 }
@@ -146,6 +152,7 @@
     HPTPaymentButtonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentButton"];
 
     cell.loading = loading;
+    cell.enabled = [self submitButtonEnabled];
     
     return cell;
 }
@@ -164,6 +171,25 @@
     }
 
     [self determineScrollingMode];
+}
+
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    for (UITableViewCell *cell in self.tableView.visibleCells) {
+        if ([cell isKindOfClass:[HPTPaymentButtonTableViewCell class]]) {
+            ((HPTPaymentButtonTableViewCell *)cell).enabled = [self submitButtonEnabled];
+        }
+    }
+}
+
+- (NSString *)textForIdentifier:(NSString *)fieldIdentifier
+{
+    return [[fieldIdentifiers objectForKey:fieldIdentifier] text];
+}
+
+- (BOOL)submitButtonEnabled
+{
+    return YES;
 }
 
 #pragma mark - Transaction results, errors

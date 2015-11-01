@@ -17,9 +17,14 @@
 {
     HPTOrderRequest *orderRequest = [super createOrderRequest];
     
-    orderRequest.paymentMethod = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestUsername:@"+33678787484"];
+    orderRequest.paymentMethod = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestUsername:[self textForIdentifier:@"username"]];
 
     return orderRequest;
+}
+
+- (BOOL)submitButtonEnabled
+{
+    return [self textForIdentifier:@"username"] != nil && ![[[self textForIdentifier:@"username"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -36,7 +41,7 @@
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
 
-    HPTInputTableViewCell *cell = [self inputCellWithIdentifier:@"Input"];
+    HPTInputTableViewCell *cell = [self inputCellWithIdentifier:@"Input" fieldIdentifier:@"username"];
     
     cell.inputLabel.text = @"N° de téléphone";
     cell.textField.placeholder = @"+79263745223";

@@ -24,6 +24,7 @@
     __weak IBOutlet UIActivityIndicatorView *spinner;
 }
 
+@property (nonatomic, getter=isEnabled) BOOL enabled;
 @property (nonatomic, getter=isLoading) BOOL loading;
 @property (nonatomic, weak) id<HPTPaymentButtonTableViewCellDelegate> delegate;
 

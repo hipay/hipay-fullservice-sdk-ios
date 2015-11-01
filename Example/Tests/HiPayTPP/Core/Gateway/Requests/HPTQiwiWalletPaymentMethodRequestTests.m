@@ -35,7 +35,7 @@
 
 - (void)testInit
 {
-    HPTQiwiWalletPaymentMethodRequest *result = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestUsername:@"+789"];
+    HPTQiwiWalletPaymentMethodRequest *result = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:@"+789"];
     
     XCTAssertEqualObjects(result.username, @"+789");
 }

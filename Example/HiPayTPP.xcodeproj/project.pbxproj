@@ -30,6 +30,8 @@
 		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; };
 		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; };
 		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; };
+		A54AF8FE1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FD1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m */; };
+		A54AF9001BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FF1BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m */; };
 		A57BA74F1BCD66F000F154E2 /* HPTGatewayClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA74E1BCD66F000F154E2 /* HPTGatewayClientTests.m */; };
 		A57BA78C1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA78B1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m */; };
 		A57BA7D31BCEAD0B00F154E2 /* HPTPersonalInfoRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D21BCEAD0B00F154E2 /* HPTPersonalInfoRequestSerializationMapperTests.m */; };
@@ -110,6 +112,8 @@
 		A51546371BBA83510077296E /* example_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_array.json; sourceTree = "<group>"; };
 		A515463C1BBBCD6D0077296E /* plain_text_response.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plain_text_response.txt; sourceTree = "<group>"; };
 		A515463E1BBBDD1F0077296E /* example_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_error.json; sourceTree = "<group>"; };
+		A54AF8FD1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTIDealPaymentMethodRequestTests.m; sourceTree = "<group>"; };
+		A54AF8FF1BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTIDealPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA74E1BCD66F000F154E2 /* HPTGatewayClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTGatewayClientTests.m; sourceTree = "<group>"; };
 		A57BA7511BCD676100F154E2 /* HPTGatewayClient+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPTGatewayClient+Testing.h"; sourceTree = "<group>"; };
 		A57BA78B1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTAbstractSerializationMapperTests.m; sourceTree = "<group>"; };
@@ -358,6 +362,7 @@
 				A57BA7DA1BCEAD4800F154E2 /* HPTPaymentPageRequestSerializationMapperTests.m */,
 				A57BA7DE1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m */,
 				A5C91F431BE2CD6D00FD8421 /* HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m */,
+				A54AF8FF1BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m */,
 			);
 			path = "Serialization Mapper";
 			sourceTree = "<group>";
@@ -372,6 +377,7 @@
 				A57BA7F11BCF8F7000F154E2 /* HPTOrderRequestTests.m */,
 				A57BA7F71BCF8FB200F154E2 /* HPTCardTokenPaymentMethodRequestTests.m */,
 				A5C91F481BE2D22300FD8421 /* HPTQiwiWalletPaymentMethodRequestTests.m */,
+				A54AF8FD1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -721,9 +727,11 @@
 				A595C4501BC800510076AF07 /* HPTPersonalInformationMapperTests.m in Sources */,
 				A57BA7D51BCEAD1D00F154E2 /* HPTCustomerInfoRequestSerializationMapperTests.m in Sources */,
 				A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */,
+				A54AF9001BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m in Sources */,
 				A5A375581BD7E0DC00CEA434 /* HPTArrayMapperTests.m in Sources */,
 				A57BA7D71BCEAD2B00F154E2 /* HPTOrderRelatedRequestSerializationMapperTests.m in Sources */,
 				A595C44E1BC800430076AF07 /* HPTOperationMapperTests.m in Sources */,
+				A54AF8FE1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m in Sources */,
 				A51004BF1BBD67EF002BD3C1 /* HPTMapperTests.m in Sources */,
 				A57BA7F21BCF8F7000F154E2 /* HPTOrderRequestTests.m in Sources */,
 				A5B9A6EE1BD6B2550014B27F /* HPTPaymentProductMapperTests.m in Sources */,

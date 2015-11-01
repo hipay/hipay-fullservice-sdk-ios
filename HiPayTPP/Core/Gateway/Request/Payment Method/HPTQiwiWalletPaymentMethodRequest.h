@@ -12,6 +12,6 @@
 
 @property (nonatomic, copy) NSString *username;
 
-+ (instancetype)qiwiWalletPaymentMethodRequestUsername:(NSString *)username;
++ (instancetype)qiwiWalletPaymentMethodRequestWithUsername:(NSString *)username;
 
 @end

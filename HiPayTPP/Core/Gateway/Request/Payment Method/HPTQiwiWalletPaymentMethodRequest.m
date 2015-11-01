@@ -10,7 +10,7 @@
 
 @implementation HPTQiwiWalletPaymentMethodRequest
 
-+ (instancetype)qiwiWalletPaymentMethodRequestUsername:(NSString *)username
++ (instancetype)qiwiWalletPaymentMethodRequestWithUsername:(NSString *)username
 {
     HPTQiwiWalletPaymentMethodRequest *result = [[HPTQiwiWalletPaymentMethodRequest alloc] init];
 

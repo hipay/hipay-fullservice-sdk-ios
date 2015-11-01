@@ -18,7 +18,7 @@
 {
     HPTOrderRequest *orderRequest = [super createOrderRequest];
     
-    orderRequest.paymentMethod = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestUsername:[self textForIdentifier:@"username"]];
+    orderRequest.paymentMethod = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:[self textForIdentifier:@"username"]];
 
     return orderRequest;
 }

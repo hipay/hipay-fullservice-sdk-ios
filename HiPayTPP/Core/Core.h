@@ -44,5 +44,6 @@
 #import <HiPayTPP/HPTOrderRequest.h>
 #import <HiPayTPP/HPTCardTokenPaymentMethodRequest.h>
 #import <HiPayTPP/HPTQiwiWalletPaymentMethodRequest.h>
+#import <HiPayTPP/HPTIDealPaymentMethodRequest.h>
 
 #import <HiPayTPP/HPTAbstractSerializationMapper.h>

@@ -1,12 +1,12 @@
 //
-//  HPTQiwiWalletPaymentProductViewController.m
+//  HPTTokenizableCardPaymentProductViewController.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 29/10/2015.
+//  Created by Jonathan TIRET on 02/11/2015.
 //
 //
 
-#import "HPTQiwiWalletPaymentProductViewController.h"
+#import "HPTTokenizableCardPaymentProductViewController.h"
 #import "HPTOrderRequest.h"
 #import "HPTForwardPaymentProductViewController_Protected.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
@@ -14,14 +14,18 @@
 #import "HPTPaymentScreenLocalization.h"
 #import "HPTQiwiWalletPaymentMethodRequest.h"
 
-@implementation HPTQiwiWalletPaymentProductViewController
+@interface HPTTokenizableCardPaymentProductViewController ()
+
+@end
+
+@implementation HPTTokenizableCardPaymentProductViewController
 
 - (HPTOrderRequest *)createOrderRequest
 {
     HPTOrderRequest *orderRequest = [super createOrderRequest];
-
+    
     orderRequest.paymentMethod = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:[self textForIdentifier:@"username"]];
-
+    
     return orderRequest;
 }
 
@@ -43,7 +47,7 @@
     if (indexPath.section == 1) {
         return [super dequeuePaymentButtonCell];
     }
-
+    
     HPTInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"username"];
     
     cell.inputLabel.text = HPTLocalizedString(@"QIWI_WALLET_USERNAME_LABEL");
@@ -52,5 +56,4 @@
     
     return cell;
 }
-
 @end

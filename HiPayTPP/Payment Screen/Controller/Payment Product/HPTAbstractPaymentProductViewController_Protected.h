@@ -20,7 +20,7 @@
 - (NSString *)textForIdentifier:(NSString *)fieldIdentifier;
 - (HPTInputTableViewCell *)dequeueInputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier;
 - (HPTLabelTableViewCell *)dequeueLabelCell;
-
+- (HPTOrderRequest *)createOrderRequest;
 - (BOOL)submitButtonEnabled;
 
 @end

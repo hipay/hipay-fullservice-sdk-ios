@@ -10,10 +10,12 @@
 #import "HPTPaymentProductButton.h"
 #import "HPTPaymentProductsTableViewCell.h"
 
+#import "HPTPaymentScreenLocalization.h"
+
 #import "HPTForwardPaymentProductViewController.h"
 #import "HPTQiwiWalletPaymentProductViewController.h"
 #import "HPTIDealPaymentProductViewController.h"
-#import "HPTPaymentScreenLocalization.h"
+#import "HPTTokenizableCardPaymentProductViewController.h"
 
 @interface HPTPaymentScreenMainViewController ()
 
@@ -144,8 +146,13 @@
         
         HPTForwardPaymentProductViewController *paymentProductViewController;
         
+        // Tokenizable card
+        if (paymentProduct.tokenizable) {
+            paymentProductViewController = [[HPTTokenizableCardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+        }
+        
         // Qiwi Wallet
-        if ([paymentProduct.code isEqualToString:@"qiwi-wallet"]) {
+        else if ([paymentProduct.code isEqualToString:@"qiwi-wallet"]) {
             paymentProductViewController = [[HPTQiwiWalletPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         

@@ -6,10 +6,8 @@
 //
 //
 
-#import <HiPayTPP/HiPayTPP.h>
+#import "HPTForwardPaymentProductViewController.h"
 
 @interface HPTForwardPaymentProductViewController ()
-
-- (HPTOrderRequest *)createOrderRequest;
 
 @end

@@ -12,13 +12,6 @@
 #import "HPTPaymentButtonTableViewCell.h"
 #import "HPTForwardViewController.h"
 
-@interface HPTForwardPaymentProductViewController : HPTAbstractPaymentProductViewController <HPTPaymentButtonTableViewCellDelegate, HPTForwardViewControllerDelegate>
-{
-    HPTTransaction *transaction;
-}
-
-@property (nonatomic, readonly) HPTPaymentProduct *paymentProduct;
-
-- (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest andSelectedPaymentProduct:(HPTPaymentProduct *)paymentProduct;
+@interface HPTForwardPaymentProductViewController : HPTAbstractPaymentProductViewController
 
 @end

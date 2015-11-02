@@ -11,6 +11,8 @@
 #import "HPTGatewayClient.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
 #import "HPTLabelTableViewCell.h"
+#import "HPTPaymentScreenLocalization.h"
+#import "HPTForwardViewController.h"
 
 @interface HPTAbstractPaymentProductViewController ()
 
@@ -18,12 +20,13 @@
 
 @implementation HPTAbstractPaymentProductViewController
 
-- (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest
+- (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest andSelectedPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         _paymentPageRequest = paymentPageRequest;
         fieldIdentifiers = [NSMutableDictionary dictionary];
+        _paymentProduct = paymentProduct;
     }
     return self;
 }
@@ -201,22 +204,25 @@
     
     cell.loading = loading;
     cell.enabled = [self submitButtonEnabled];
+    cell.delegate = self;
     
     return cell;
 }
 
 #pragma mark - Transaction results, errors
 
-- (void)checkTransactionStatus:(HPTTransaction *)transaction
+- (void)checkTransactionStatus:(HPTTransaction *)theTransaction
 {
-    if (transaction.handled) {
-        [self.delegate paymentProductViewController:self didEndWithTransaction:transaction];
+    if (theTransaction.handled) {
+        [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
     }
     
-    else if ((transaction.state == HPTTransactionStateDeclined) || (transaction.state == HPTTransactionStateError)) {
-        
-        [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Declined or Error" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
-        
+    else if (theTransaction.state == HPTTransactionStateDeclined) {
+        [[[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+    }
+    
+    else if (theTransaction.state == HPTTransactionStateError) {
+        [[[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPTLocalizedString(@"TRANSACTION_ERROR_OTHER") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
     }
 }
 
@@ -250,17 +256,90 @@
     }
 }
 
-- (void)refreshTransactionStatus:(HPTTransaction *)transaction
+- (void)refreshTransactionStatus:(HPTTransaction *)theTransaction
 {
     [self setPaymentButtonLoadingMode:YES];
     
-    [[HPTGatewayClient sharedClient] getTransactionWithReference:transaction.transactionReference withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
+    [[HPTGatewayClient sharedClient] getTransactionWithReference:theTransaction.transactionReference withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
         
-        [self checkTransactionStatus:transaction];
+        [self checkTransactionStatus:theTransaction];
         
         [self setPaymentButtonLoadingMode:NO];
 
     }];
+}
+
+#pragma mark - Forward controller
+
+- (void)forwardViewControllerDidCancel:(HPTForwardViewController *)viewController
+{
+    [self refreshTransactionStatus:transaction];
+}
+
+- (void)forwardViewController:(HPTForwardViewController *)viewController didEndWithTransaction:(HPTTransaction *)theTransaction
+{
+    [self checkTransactionStatus:theTransaction];
+}
+
+- (void)forwardViewController:(HPTForwardViewController *)viewController didFailWithError:(NSError *)error
+{
+    [self checkTransactionError:error];
+}
+
+#pragma mark - Payment workflow
+
+- (HPTOrderRequest *)createOrderRequest
+{
+    HPTOrderRequest *orderRequest = [[HPTOrderRequest alloc] initWithOrderRelatedRequest:self.paymentPageRequest];
+    
+    orderRequest.paymentProductCode = self.paymentProduct.code;
+    
+    return orderRequest;
+}
+
+- (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell
+{
+    HPTOrderRequest *orderRequest = [self createOrderRequest];
+    
+    [self setPaymentButtonLoadingMode:YES];
+    
+    [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
+        
+        if (theTransaction != nil) {
+            transaction = theTransaction;
+            
+            if (transaction.forwardUrl != nil) {
+                
+                HPTForwardViewController *viewController = [HPTForwardViewController relevantForwardViewControllerWithTransaction:transaction];
+                
+                viewController.delegate = self;
+                
+                [self presentViewController:viewController animated:YES completion:nil];
+            }
+            
+            else {
+                [self checkTransactionStatus:transaction];
+            }
+        }
+        
+        else {
+            [self checkTransactionError:error];
+        }
+        
+        [self setPaymentButtonLoadingMode:NO];
+        
+    }];
+}
+
+#pragma mark - Table view data source
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        
+        return [NSString stringWithFormat:HPTLocalizedString(@"PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
+    }
+    
+    return nil;
 }
 
 @end

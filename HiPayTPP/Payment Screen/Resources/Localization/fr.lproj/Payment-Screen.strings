@@ -13,6 +13,12 @@
 
 "PAY_BUTTON_TITLE" = "Payer";
 
+"TRANSACTION_ERROR_DECLINED_TITLE" = "Transaction refusée";
+
+"TRANSACTION_ERROR_DECLINED" = "La transaction a été refusée. Merci de bien vouloir réessayer.";
+
+"TRANSACTION_ERROR_OTHER" = "Une erreur est survenue lors de la transaction. Merci de bien vouloir réessayer.";
+
 /* iDeal */
 
 "IDEAL_BANK" = "Banque";

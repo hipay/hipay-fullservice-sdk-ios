@@ -13,6 +13,7 @@
 #import "NSString+HPTValidation.h"
 #import "HPTLabelTableViewCell.h"
 #import "HPTPaymentScreenLocalization.h"
+#import "HPTIDealPaymentMethodRequest.h"
 
 @implementation HPTIDealPaymentProductViewController
 
@@ -81,7 +82,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 1) {
-        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+        return [super dequeuePaymentButtonCell];
     }
     
     HPTLabelTableViewCell *cell = [self dequeueLabelCell];

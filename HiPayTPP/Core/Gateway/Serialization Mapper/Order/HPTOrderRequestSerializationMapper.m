@@ -13,6 +13,7 @@
 #import "HPTOrderRelatedRequestSerializationMapper_Private.h"
 #import "HPTCardTokenPaymentMethodRequestSerializationMapper.h"
 #import "HPTQiwiWalletPaymentMethodRequestSerializationMapper.h"
+#import "HPTIDealPaymentMethodRequestSerializationMapper.h"
 
 @implementation HPTOrderRequestSerializationMapper
 
@@ -37,6 +38,10 @@
     
     else if ([paymentMethodRequest isKindOfClass:[HPTQiwiWalletPaymentMethodRequest class]]) {
         return [HPTQiwiWalletPaymentMethodRequestSerializationMapper mapperWithRequest:paymentMethodRequest].serializedRequest;
+    }
+    
+    else if ([paymentMethodRequest isKindOfClass:[HPTIDealPaymentMethodRequest class]]) {
+        return [HPTIDealPaymentMethodRequestSerializationMapper mapperWithRequest:paymentMethodRequest].serializedRequest;
     }
     
     return nil;

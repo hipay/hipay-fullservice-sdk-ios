@@ -8,6 +8,10 @@
 
 #import "HPTForwardPaymentProductViewController.h"
 
-@interface HPTIDealPaymentProductViewController : HPTForwardPaymentProductViewController
+@interface HPTIDealPaymentProductViewController : HPTForwardPaymentProductViewController <UIActionSheetDelegate>
+{
+    NSDictionary *issuerBanks;
+    NSString *selectedIssuerBank;
+}
 
 @end

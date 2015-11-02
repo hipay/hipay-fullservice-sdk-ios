@@ -42,7 +42,7 @@
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
 
-    HPTInputTableViewCell *cell = [self inputCellWithIdentifier:@"Input" fieldIdentifier:@"username"];
+    HPTInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"username"];
     
     cell.inputLabel.text = @"N° de téléphone";
     cell.textField.placeholder = @"+79263745223";

@@ -9,21 +9,20 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="45" id="lLj-mf-I6F" customClass="HPTInputTableViewCell">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="45" id="lLj-mf-I6F" customClass="HPTLabelTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lLj-mf-I6F" id="u2t-NZ-XO0">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
+                    <label opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" text="Selected info" textAlignment="natural" lineBreakMode="tailTruncation" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
                         <rect key="frame" x="111" y="7" width="201" height="30"/>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="textColor" white="0.41999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <textInputTraits key="textInputTraits"/>
-                    </textField>
+                        <color key="textColor" white="0.41999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" ambiguous="YES" misplaced="YES" text="Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="VaG-B8-8hX">
                         <rect key="frame" x="15" y="11" width="88" height="21"/>
                         <animations/>
@@ -43,10 +42,10 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
-                <outlet property="inputLabel" destination="VaG-B8-8hX" id="OIF-cg-hQv"/>
-                <outlet property="textField" destination="puq-qj-JZP" id="h55-tB-NVv"/>
+                <outlet property="infoLabel" destination="puq-qj-JZP" id="WAG-ok-zc5"/>
+                <outlet property="inputLabel" destination="VaG-B8-8hX" id="7wP-ix-enL"/>
             </connections>
-            <point key="canvasLocation" x="443" y="302.5"/>
+            <point key="canvasLocation" x="510" y="362.5"/>
         </tableViewCell>
     </objects>
 </document>

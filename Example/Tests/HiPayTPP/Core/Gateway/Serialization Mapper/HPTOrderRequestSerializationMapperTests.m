@@ -15,6 +15,7 @@
 #import <HiPayTPP/HPTCardTokenPaymentMethodRequest.h>
 #import <HiPayTPP/HPTCardTokenPaymentMethodRequestSerializationMapper.h>
 #import <HiPayTPP/HPTQiwiWalletPaymentMethodRequestSerializationMapper.h>
+#import <HiPayTPP/HPTIDealPaymentMethodRequestSerializationMapper.h>
 
 @interface HPTOrderRequestSerializationMapperTests : XCTestCase
 {
@@ -90,6 +91,26 @@
     [[[paymentMethodMockedMapper expect] andReturn:paymentMethodSerializedRequest] serializedRequest];
     
     id paymentMethodMapperClassMock = OCMClassMock([HPTQiwiWalletPaymentMethodRequestSerializationMapper class]);
+    OCMStub([paymentMethodMapperClassMock mapperWithRequest:mockedPaymentMethodRequest]).andReturn(paymentMethodMockedMapper);
+    
+    [[[mockedRequest expect] andReturn:mockedPaymentMethodRequest] valueForKey:@"paymentMethod"];
+    
+    XCTAssertEqual([mapper paymentMethodSerializedRequest], paymentMethodSerializedRequest);
+    
+    OCMVerify([paymentMethodMapperClassMock mapperWithRequest:mockedPaymentMethodRequest]);
+    [mockedRequest verify];
+    [paymentMethodMockedMapper verify];
+}
+
+- (void)testPaymentMethodSerializedRequestIDealPaymentMethod
+{
+    OCMockObject *mockedPaymentMethodRequest = [OCMockObject partialMockForObject:[[HPTIDealPaymentMethodRequest alloc] init]];
+    
+    NSDictionary *paymentMethodSerializedRequest = @{};
+    OCMockObject *paymentMethodMockedMapper = [OCMockObject mockForClass:[HPTIDealPaymentMethodRequestSerializationMapper class]];
+    [[[paymentMethodMockedMapper expect] andReturn:paymentMethodSerializedRequest] serializedRequest];
+    
+    id paymentMethodMapperClassMock = OCMClassMock([HPTIDealPaymentMethodRequestSerializationMapper class]);
     OCMStub([paymentMethodMapperClassMock mapperWithRequest:mockedPaymentMethodRequest]).andReturn(paymentMethodMockedMapper);
     
     [[[mockedRequest expect] andReturn:mockedPaymentMethodRequest] valueForKey:@"paymentMethod"];

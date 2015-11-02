@@ -1,5 +1,12 @@
 [
    {
+      "id":"XZWIGL27",
+      "code":"ideal",
+      "description":"iDEAL",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },
+   {
       "id":"RAXLNESP",
       "code":"qiwi-wallet",
       "description":"VISA QIWI Wallet",
@@ -82,13 +89,6 @@
       "description":"Maestro",
       "paymentProductCategoryCode":"debit-card",
       "tokenizable":true
-   },
-   {
-      "id":"XZWIGL27",
-      "code":"ideal",
-      "description":"iDEAL",
-      "paymentProductCategoryCode":"realtime-banking",
-      "tokenizable":false
    },
    {
       "id":"ICOD9CQU",

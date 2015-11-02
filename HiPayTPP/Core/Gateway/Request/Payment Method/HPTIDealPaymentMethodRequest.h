@@ -14,4 +14,6 @@
 
 + (instancetype)iDealPaymentMethodRequestWithIssuerBankId:(NSString *)issuerBankId;
 
++ (NSDictionary *)issuerBanks;
+
 @end

@@ -10,6 +10,7 @@
 #import <HiPayTPP/HPTCustomerInfoRequestSerializationMapper.h>
 #import <HiPayTPP/HPTAbstractSerializationMapper+Encode.h>
 #import <HiPayTPP/HPTCustomerInfoRequestSerializationMapper_Private.h>
+#import <HiPayTPP/HPTPersonalInfoRequestSerializationMapper_Protected.h>
 
 @interface HPTCustomerInfoRequestSerializationMapperTests : XCTestCase
 {
@@ -99,12 +100,17 @@
     [[[mockedMapper expect] andReturn:@"M"] getCharEnumValueForKey:@"gender"];
     [[[mockedMapper expect] andReturn:@"19880506"] getBirthDate];
     
+    NSMutableDictionary *initialValues = [NSMutableDictionary dictionaryWithObject:@"value1" forKey:@"param1"];
+    
+    [[[mockedMapper expect] andReturn:initialValues] personalInformationSerializedRequest];
+    
     NSDictionary *result = mapper.serializedRequest;
     
     XCTAssertEqualObjects([result objectForKey:@"email"], @"test1");
     XCTAssertEqualObjects([result objectForKey:@"phone"], @"test2");
     XCTAssertEqualObjects([result objectForKey:@"birthdate"], @"19880506");
     XCTAssertEqualObjects([result objectForKey:@"gender"], @"M");
+    XCTAssertEqualObjects([result objectForKey:@"param1"], @"value1");
     
     [mockedMapper verify];
 }

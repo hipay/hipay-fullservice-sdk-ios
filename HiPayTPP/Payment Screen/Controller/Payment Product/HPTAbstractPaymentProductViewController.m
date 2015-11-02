@@ -10,6 +10,7 @@
 #import "HPTPaymentButtonTableViewCell.h"
 #import "HPTGatewayClient.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
+#import "HPTLabelTableViewCell.h"
 
 @interface HPTAbstractPaymentProductViewController ()
 
@@ -39,7 +40,9 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTPaymentButtonTableViewCell" bundle:bundle] forCellReuseIdentifier:@"PaymentButton"];
 
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTInputTableViewCell" bundle:bundle] forCellReuseIdentifier:@"Input"];
-
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPTLabelTableViewCell" bundle:bundle] forCellReuseIdentifier:@"Label"];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -130,33 +133,6 @@
     return nil;
 }
 
-- (HPTInputTableViewCell *)inputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier
-{
-    HPTInputTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Input"];
-    
-    cell.textField.delegate = self;
-    cell.textField.inputAccessoryView = nil;
-    cell.textField.enabled = !loading;
-    
-    cell.textField.text = [[fieldIdentifiers objectForKey:fieldIdentifier] text];
-
-    [cell.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    
-    [fieldIdentifiers setObject:cell.textField forKey:fieldIdentifier];
-    
-    return cell;
-}
-
-- (HPTPaymentButtonTableViewCell *)paymentButtonCell
-{
-    HPTPaymentButtonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentButton"];
-
-    cell.loading = loading;
-    cell.enabled = [self submitButtonEnabled];
-    
-    return cell;
-}
-
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     activeTextField = textField;
@@ -190,6 +166,43 @@
 - (BOOL)submitButtonEnabled
 {
     return YES;
+}
+
+#pragma mark - Dequeue helper
+
+
+- (HPTInputTableViewCell *)dequeueInputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier
+{
+    HPTInputTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    cell.textField.delegate = self;
+    cell.textField.inputAccessoryView = nil;
+    cell.textField.enabled = !loading;
+    
+    cell.textField.text = [[fieldIdentifiers objectForKey:fieldIdentifier] text];
+    
+    [cell.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    
+    [fieldIdentifiers setObject:cell.textField forKey:fieldIdentifier];
+    
+    return cell;
+}
+
+- (HPTLabelTableViewCell *)dequeueLabelCell
+{
+    HPTLabelTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Label"];
+    
+    return cell;
+}
+
+- (HPTPaymentButtonTableViewCell *)dequeuePaymentButtonCell
+{
+    HPTPaymentButtonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentButton"];
+    
+    cell.loading = loading;
+    cell.enabled = [self submitButtonEnabled];
+    
+    return cell;
 }
 
 #pragma mark - Transaction results, errors

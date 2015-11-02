@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayTPP/HiPayTPP.h>
+#import "HPTLabelTableViewCell.h"
 
 @interface HPTAbstractPaymentProductViewController ()
 
@@ -15,10 +15,12 @@
 - (void)checkTransactionError:(NSError *)transactionError;
 
 - (void)editingDoneButtonTouched:(id)sender;
-- (HPTPaymentButtonTableViewCell *)paymentButtonCell;
+- (HPTPaymentButtonTableViewCell *)dequeuePaymentButtonCell;
 - (void)setPaymentButtonLoadingMode:(BOOL)isLoading;
 - (NSString *)textForIdentifier:(NSString *)fieldIdentifier;
-- (HPTInputTableViewCell *)inputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier;
+- (HPTInputTableViewCell *)dequeueInputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier;
+- (HPTLabelTableViewCell *)dequeueLabelCell;
+
 - (BOOL)submitButtonEnabled;
 
 @end

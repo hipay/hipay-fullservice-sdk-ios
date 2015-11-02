@@ -12,6 +12,7 @@
 
 #import "HPTForwardPaymentProductViewController.h"
 #import "HPTQiwiWalletPaymentProductViewController.h"
+#import "HPTIDealPaymentProductViewController.h"
 
 @interface HPTPaymentScreenMainViewController ()
 
@@ -145,6 +146,11 @@
         // Qiwi Wallet
         if ([paymentProduct.code isEqualToString:@"qiwi-wallet"]) {
             paymentProductViewController = [[HPTQiwiWalletPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+        }
+        
+        // iDeal
+        else if ([paymentProduct.code isEqualToString:@"ideal"]) {
+            paymentProductViewController = [[HPTIDealPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         
         // Simple payment method

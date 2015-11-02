@@ -124,7 +124,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    HPTPaymentButtonTableViewCell *cell = [super paymentButtonCell];
+    HPTPaymentButtonTableViewCell *cell = [super dequeuePaymentButtonCell];
     
     cell.delegate = self;
     

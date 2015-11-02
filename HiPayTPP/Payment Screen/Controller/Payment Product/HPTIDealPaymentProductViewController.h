@@ -12,6 +12,8 @@
 {
     NSDictionary *issuerBanks;
     NSString *selectedIssuerBank;
+    
+    UIActionSheet *issuerBanksActionSheet;
 }
 
 @end

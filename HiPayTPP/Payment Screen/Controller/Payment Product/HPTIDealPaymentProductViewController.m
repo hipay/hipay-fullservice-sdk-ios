@@ -21,6 +21,15 @@
     self = [super initWithPaymentPageRequest:paymentPageRequest andSelectedPaymentProduct:paymentProduct];
     if (self) {
         issuerBanks = [HPTIDealPaymentMethodRequest issuerBanks];
+        
+        issuerBanksActionSheet = [[UIActionSheet alloc] initWithTitle:HPTLocalizedString(@"IDEAL_BANK") delegate:self cancelButtonTitle:HPTLocalizedString(@"CANCEL") destructiveButtonTitle:nil otherButtonTitles:nil];
+        
+        for (NSString *key in issuerBanks.allKeys) {
+            [issuerBanksActionSheet addButtonWithTitle:[issuerBanks objectForKey:key]];
+        }
+        
+        issuerBanksActionSheet.cancelButtonIndex = 0;
+
     }
     return self;
 }
@@ -50,16 +59,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ((indexPath.section) == 0 && (indexPath.row == 0)) {
-
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:HPTLocalizedString(@"IDEAL_BANK") delegate:self cancelButtonTitle:HPTLocalizedString(@"CANCEL") destructiveButtonTitle:nil otherButtonTitles:nil];
-        
-        for (NSString *key in issuerBanks.allKeys) {
-            [actionSheet addButtonWithTitle:[issuerBanks objectForKey:key]];
-        }
-        
-        actionSheet.cancelButtonIndex = 0;
-        
-        [actionSheet showInView:self.view];
+        [issuerBanksActionSheet showInView:self.view];
         
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }

@@ -16,8 +16,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" text="Selected info" textAlignment="natural" lineBreakMode="tailTruncation" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
-                        <rect key="frame" x="111" y="7" width="201" height="30"/>
+                    <label opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" text="Selected info" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
+                        <rect key="frame" x="111" y="7" width="194" height="30"/>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -35,7 +35,7 @@
                 <animations/>
                 <constraints>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerXWithinMargins" multiplier="0.85" priority="750" id="SFh-Ca-N3F"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="trailingMargin" id="hxP-ii-EhB"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="trailingMargin" constant="-7" id="hxP-ii-EhB"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VaG-B8-8hX" secondAttribute="trailing" constant="8" id="oBm-VQ-Pao"/>
                     <constraint firstItem="VaG-B8-8hX" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leading" constant="15" id="zEI-2y-WHy"/>
                 </constraints>

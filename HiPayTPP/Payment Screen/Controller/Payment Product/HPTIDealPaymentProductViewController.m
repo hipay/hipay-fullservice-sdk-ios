@@ -12,6 +12,7 @@
 #import "HPTAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPTValidation.h"
 #import "HPTLabelTableViewCell.h"
+#import "HPTPaymentScreenLocalization.h"
 
 @implementation HPTIDealPaymentProductViewController
 
@@ -50,7 +51,7 @@
 {
     if ((indexPath.section) == 0 && (indexPath.row == 0)) {
 
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Banque" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:HPTLocalizedString(@"IDEAL_BANK") delegate:self cancelButtonTitle:HPTLocalizedString(@"CANCEL") destructiveButtonTitle:nil otherButtonTitles:nil];
         
         for (NSString *key in issuerBanks.allKeys) {
             [actionSheet addButtonWithTitle:[issuerBanks objectForKey:key]];
@@ -85,14 +86,14 @@
     
     HPTLabelTableViewCell *cell = [self dequeueLabelCell];
     
-    cell.inputLabel.text = @"Banque";
+    cell.inputLabel.text = HPTLocalizedString(@"IDEAL_BANK");
     
     NSString *issuerBankName = [issuerBanks objectForKey:selectedIssuerBank];
     
     if (issuerBankName != nil) {
         cell.infoLabel.text = issuerBankName;
     } else {
-        cell.infoLabel.text = @"Touchez pour définir";
+        cell.infoLabel.text = HPTLocalizedString(@"TAP_TO_DEFINE");
     }
     
     return cell;

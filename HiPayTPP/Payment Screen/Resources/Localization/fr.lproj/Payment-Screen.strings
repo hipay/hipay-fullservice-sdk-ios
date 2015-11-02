@@ -1,0 +1,26 @@
+
+"PAY_WITH_THIS_METHOD" = "Payer avec %@";
+
+"PAYMENT_REDIRECTION_DETAILS" = "Vous allez être redirigé afin de pouvoir procéder au paiement.";
+
+"PAYMENT_SCREEN_TITLE" = "Paiement";
+
+"TOTAL_AMOUNT" = "Montant total : %@";
+
+"TAP_TO_DEFINE" = "Touchez pour définir";
+
+"CANCEL" = "Annuler";
+
+"PAY_BUTTON_TITLE" = "Payer";
+
+/* iDeal */
+
+"IDEAL_BANK" = "Banque";
+
+/* Qiwi Wallet */
+
+"QIWI_WALLET_USERNAME_LABEL" = "N° de téléphone";
+
+"QIWI_WALLET_USERNAME_PLACEHOLDER" = "+79263745223";
+
+

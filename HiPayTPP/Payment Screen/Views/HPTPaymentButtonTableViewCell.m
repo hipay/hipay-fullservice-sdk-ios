@@ -7,8 +7,14 @@
 //
 
 #import "HPTPaymentButtonTableViewCell.h"
+#import "HPTPaymentScreenLocalization.h"
 
 @implementation HPTPaymentButtonTableViewCell
+
+- (void)awakeFromNib
+{
+    [button setTitle:HPTLocalizedString(@"PAY_BUTTON_TITLE") forState:UIControlStateNormal];
+}
 
 - (IBAction)buttonTouched:(id)sender {
     if (self.delegate != nil) {

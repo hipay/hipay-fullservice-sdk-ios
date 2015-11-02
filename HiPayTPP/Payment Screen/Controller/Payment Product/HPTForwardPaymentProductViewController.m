@@ -12,6 +12,7 @@
 #import <WebKit/WebKit.h>
 #import "HPTForwardViewController.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
+#import "HPTPaymentScreenLocalization.h"
 
 @interface HPTForwardPaymentProductViewController ()
 
@@ -107,7 +108,8 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return [@"Payer par " stringByAppendingString:self.paymentProduct.paymentProductDescription];
+        
+        return [NSString stringWithFormat:HPTLocalizedString(@"PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
     }
     
     return nil;
@@ -116,7 +118,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     
     if (section == (self.tableView.numberOfSections - 1)) {
-        return @"Vous allez être redirigé afin de pouvoir procéder au paiement.";
+        return HPTLocalizedString(@"PAYMENT_REDIRECTION_DETAILS");
     }
     
     return nil;

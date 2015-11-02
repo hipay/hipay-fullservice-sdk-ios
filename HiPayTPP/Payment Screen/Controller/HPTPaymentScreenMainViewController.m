@@ -13,6 +13,7 @@
 #import "HPTForwardPaymentProductViewController.h"
 #import "HPTQiwiWalletPaymentProductViewController.h"
 #import "HPTIDealPaymentProductViewController.h"
+#import "HPTPaymentScreenLocalization.h"
 
 @interface HPTPaymentScreenMainViewController ()
 
@@ -25,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Paiement";
+    self.title = HPTLocalizedString(@"PAYMENT_SCREEN_TITLE");
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 
@@ -271,7 +272,11 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"Montant total : 99,90 €";
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
+    numberFormatter.currencyCode = self.paymentPageRequest.currency;
+     
+    return [NSString stringWithFormat:HPTLocalizedString(@"TOTAL_AMOUNT"), [numberFormatter stringFromNumber:self.paymentPageRequest.amount]];
 }
 
 @end

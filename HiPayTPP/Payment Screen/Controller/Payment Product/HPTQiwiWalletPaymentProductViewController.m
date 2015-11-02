@@ -11,6 +11,7 @@
 #import "HPTForwardPaymentProductViewController_Protected.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPTValidation.h"
+#import "HPTPaymentScreenLocalization.h"
 
 @implementation HPTQiwiWalletPaymentProductViewController
 
@@ -44,8 +45,8 @@
 
     HPTInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"username"];
     
-    cell.inputLabel.text = @"N° de téléphone";
-    cell.textField.placeholder = @"+79263745223";
+    cell.inputLabel.text = HPTLocalizedString(@"QIWI_WALLET_USERNAME_LABEL");
+    cell.textField.placeholder = HPTLocalizedString(@"QIWI_WALLET_USERNAME_PLACEHOLDER");
     cell.textField.keyboardType = UIKeyboardTypePhonePad;
     
     return cell;

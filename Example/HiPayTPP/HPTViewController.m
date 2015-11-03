@@ -20,6 +20,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,15 +40,19 @@
 - (void)test
 {
     HPTPaymentPageRequest *order = [[HPTPaymentPageRequest alloc] init];
+    
     order.amount = @(25.50);
     order.currency = @"EUR";
     order.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%f", [NSDate date].timeIntervalSince1970];
-    
     order.shortDescription = @"Une paire de chaussures";
-    
     order.customer = [[HPTCustomerInfoRequest alloc] init];
     order.customer.email = [NSString stringWithFormat:@"jtiret+%f@hipay.com", [NSDate date].timeIntervalSince1970];
     order.customer.country = @"FR";
+    
+    
+    
+    
+    
     
     NSURL *appURL = [NSURL URLWithString:@"hipaytpp://response"];
     

@@ -36,7 +36,6 @@
     
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-    [self determineScrollingMode];
 
     NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"]];
     
@@ -52,9 +51,17 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self determineScrollingMode];
+}
+
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [activeTextField resignFirstResponder];
+    [self determineScrollingMode];
 }
 
 - (void)determineScrollingMode
@@ -299,8 +306,11 @@
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell
 {
-    HPTOrderRequest *orderRequest = [self createOrderRequest];
-    
+    [self performOrderRequest:[self createOrderRequest]];
+}
+
+- (void)performOrderRequest:(HPTOrderRequest *)orderRequest
+{
     [self setPaymentButtonLoadingMode:YES];
     
     [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {

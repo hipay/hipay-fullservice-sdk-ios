@@ -19,6 +19,24 @@
 
 "TRANSACTION_ERROR_OTHER" = "Une erreur est survenue lors de la transaction. Merci de bien vouloir réessayer.";
 
+/* Tokenizable card */
+
+"CARD_HOLDER_LABEL" = "Titulaire";
+
+"CARD_HOLDER_PLACEHOLDER" = "Prénom et nom";
+
+"CARD_NUMBER_LABEL" = "Numéro";
+
+"CARD_NUMBER_PLACEHOLDER" = "4321 9876 5432 1098";
+
+"CARD_EXPIRATION_LABEL" = "Expiration";
+
+"CARD_EXPIRATION_PLACEHOLDER" = "MM / AA";
+
+"CARD_SECURITY_CODE_LABEL" = "Cryptogramme";
+
+"CARD_SECURITY_CODE_PLACEHOLDER" = "XXX";
+
 /* iDeal */
 
 "IDEAL_BANK" = "Banque";

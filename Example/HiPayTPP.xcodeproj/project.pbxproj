@@ -11,7 +11,6 @@
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
-		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
 		6003F59E195388D20070C39A /* HPTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* HPTAppDelegate.m */; };
 		6003F5A7195388D20070C39A /* HPTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* HPTViewController.m */; };
@@ -65,6 +64,9 @@
 		A5C91F441BE2CD6D00FD8421 /* HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C91F431BE2CD6D00FD8421 /* HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m */; };
 		A5C91F491BE2D22300FD8421 /* HPTQiwiWalletPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C91F481BE2D22300FD8421 /* HPTQiwiWalletPaymentMethodRequestTests.m */; };
 		A5F605921BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F605911BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m */; };
+		A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F931BE91B9500F9604F /* InfoPlist.strings */; };
+		A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F951BE91B9500F9604F /* Localizable.strings */; };
+		A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F981BE91B9500F9604F /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,7 +88,6 @@
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6003F595195388D20070C39A /* HiPayTPP-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HiPayTPP-Info.plist"; sourceTree = "<group>"; };
-		6003F597195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F599195388D20070C39A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6003F59B195388D20070C39A /* HiPayTPP-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HiPayTPP-Prefix.pch"; sourceTree = "<group>"; };
 		6003F59C195388D20070C39A /* HPTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPTAppDelegate.h; sourceTree = "<group>"; };
@@ -148,6 +149,9 @@
 		A5C91F431BE2CD6D00FD8421 /* HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTQiwiWalletPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A5C91F481BE2D22300FD8421 /* HPTQiwiWalletPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTQiwiWalletPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		A5F605911BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHostedPaymentPageMapperTests.m; sourceTree = "<group>"; };
+		A5F98F941BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		A5F98F961BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		A5F98F991BE91B9500F9604F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Localizable.strings; sourceTree = "<group>"; };
 		A6DE32B74EAABE271832F022 /* Pods-HiPayTPP_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Example/Pods-HiPayTPP_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A7FE2CBCD3A3CCF6C20228C9 /* Pods-HiPayTPP_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayTPP_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayTPP_Tests/Pods-HiPayTPP_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B936D89B6AB94FC4D1FE6E95 /* HiPayTPP.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayTPP.podspec; path = ../HiPayTPP.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -236,7 +240,6 @@
 			isa = PBXGroup;
 			children = (
 				6003F595195388D20070C39A /* HiPayTPP-Info.plist */,
-				6003F596195388D20070C39A /* InfoPlist.strings */,
 				6003F599195388D20070C39A /* main.m */,
 				6003F59B195388D20070C39A /* HiPayTPP-Prefix.pch */,
 			);
@@ -385,6 +388,7 @@
 		A5A375591BD8E6A600CEA434 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A5F98F911BE91B8700F9604F /* Localization */,
 				A5A3755A1BD8E6A600CEA434 /* Fixtures */,
 			);
 			path = Resources;
@@ -487,6 +491,34 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		A5F98F911BE91B8700F9604F /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98F921BE91B9500F9604F /* en.lproj */,
+				A5F98F971BE91B9500F9604F /* fr.lproj */,
+			);
+			name = Localization;
+			sourceTree = "<group>";
+		};
+		A5F98F921BE91B9500F9604F /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98F931BE91B9500F9604F /* InfoPlist.strings */,
+				A5F98F951BE91B9500F9604F /* Localizable.strings */,
+			);
+			name = en.lproj;
+			path = HiPayTPP/en.lproj;
+			sourceTree = SOURCE_ROOT;
+		};
+		A5F98F971BE91B9500F9604F /* fr.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98F981BE91B9500F9604F /* Localizable.strings */,
+			);
+			name = fr.lproj;
+			path = HiPayTPP/fr.lproj;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -556,6 +588,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = 6003F581195388D10070C39A;
 			productRefGroup = 6003F58B195388D20070C39A /* Products */;
@@ -574,9 +607,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */,
 				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
-				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,20 +788,36 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6003F596195388D20070C39A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6003F597195388D20070C39A /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		6003F5B8195388D20070C39A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				6003F5B9195388D20070C39A /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A5F98F931BE91B9500F9604F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5F98F941BE91B9500F9604F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A5F98F951BE91B9500F9604F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5F98F961BE91B9500F9604F /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A5F98F981BE91B9500F9604F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5F98F991BE91B9500F9604F /* fr */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

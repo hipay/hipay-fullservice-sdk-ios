@@ -22,5 +22,6 @@
 - (HPTLabelTableViewCell *)dequeueLabelCell;
 - (HPTOrderRequest *)createOrderRequest;
 - (BOOL)submitButtonEnabled;
+- (void)performOrderRequest:(HPTOrderRequest *)orderRequest;
 
 @end

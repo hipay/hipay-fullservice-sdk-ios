@@ -30,8 +30,10 @@
     
     self.title = HPTLocalizedString(@"PAYMENT_SCREEN_TITLE");
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
 }
@@ -62,7 +64,7 @@
 
 #pragma mark - Keyboard related methods
 
-- (void)keyboardWillShow:(NSNotification *)notification
+- (void)keyboardWillShowOrChangeFrame:(NSNotification *)notification
 {
     CGRect keyboardFrame = [[notification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect endFrame = [self.view convertRect:keyboardFrame fromView:nil];
@@ -70,20 +72,26 @@
     
     [self.view removeConstraint:containerBottomConstraint];
     
-    keyboardContainerConstraintTop = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:endFrame.origin.y];
+    if (keyboardContainerConstraintTop == nil) {
+        
+        keyboardContainerConstraintTop = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:endFrame.origin.y];
+        
+        keyboardContainerConstraintBottom = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+        
+        [self.view addConstraint:keyboardContainerConstraintTop];
+        [self.view addConstraint:keyboardContainerConstraintBottom];
+        
+    }
     
-    keyboardContainerConstraintBottom = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-    
-    [self.view addConstraint:keyboardContainerConstraintTop];
-    [self.view addConstraint:keyboardContainerConstraintBottom];
-    
-    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    
-    rightBarButtonItems = self.navigationItem.rightBarButtonItems;
-    [self.navigationItem setRightBarButtonItems:nil animated:YES];
+    if (self.navigationItem.rightBarButtonItems != nil) {
+        rightBarButtonItems = self.navigationItem.rightBarButtonItems;
+        [self.navigationItem setRightBarButtonItems:nil animated:YES];
+    }
     
     [self defineContainerTopSpacing];
     
+    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -144,7 +152,7 @@
         
         selectedPaymentProduct = paymentProduct;
         
-        HPTForwardPaymentProductViewController *paymentProductViewController;
+        HPTAbstractPaymentProductViewController *paymentProductViewController;
         
         // Tokenizable card
         if (paymentProduct.tokenizable) {
@@ -216,11 +224,14 @@
         if ([headerView isKindOfClass:[UITableViewHeaderFooterView class]]) {
             
             if (!containerHasFullLayout) {
-                containerTopConstraint.constant = - headerView.textLabel.frame.origin.y;
+                
+                CGFloat additionalSpace = fmax(headerView.textLabel.frame.origin.y - 10., 0.);
+                
+                containerTopConstraint.constant = - additionalSpace;
+                paymentProductViewController.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(additionalSpace, 0., 0., 0.);
             } else {
                 containerTopConstraint.constant = 0.;
             }
-   
         }
     }
 }

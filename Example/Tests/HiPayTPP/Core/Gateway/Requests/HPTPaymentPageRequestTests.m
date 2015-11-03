@@ -32,9 +32,24 @@
     
     object.paymentProductList = test1;
     object.paymentProductCategoryList = test2;
+    object.eci = HPTECIRecurringMOTO;
+    object.authenticationIndicator = HPTAuthenticationIndicatorIfAvailable;
+    object.multiUse = YES;
     
     XCTAssertEqualObjects([object valueForKey:@"paymentProductList"], test1);
     XCTAssertEqualObjects([object valueForKey:@"paymentProductCategoryList"], test2);
+    XCTAssertEqualObjects([object valueForKey:@"eci"], @(HPTECIRecurringMOTO));
+    XCTAssertEqualObjects([object valueForKey:@"authenticationIndicator"], @(HPTAuthenticationIndicatorIfAvailable));
+    XCTAssertEqualObjects([object valueForKey:@"multiUse"], @YES);
+}
+
+- (void)testDefaultValues
+{
+    HPTPaymentPageRequest *result = [[HPTPaymentPageRequest alloc] init];
+    
+    XCTAssertEqual(result.eci, HPTECIUndefined);
+    XCTAssertEqual(result.authenticationIndicator, HPTAuthenticationIndicatorUndefined);
+    XCTAssertEqual(result.multiUse, NO);
 }
 
 @end

@@ -20,6 +20,9 @@
 
     [result setNullableObject:[self getStringValuesListForKey:@"paymentProductList"] forKey:@"payment_product_list"];
     [result setNullableObject:[self getStringValuesListForKey:@"paymentProductCategoryList"] forKey:@"payment_product_category_list"];
+    [result setNullableObject:[self getIntegerEnumValueForKey:@"eci"] forKey:@"eci"];    
+    [result setNullableObject:[self getIntegerEnumValueForKey:@"authenticationIndicator"] forKey:@"authentication_indicator"];
+    [result setNullableObject:[self getIntegerForKey:@"multiUse"] forKey:@"multi_use"];
     
     return [self createImmutableDictionary:result];
 }

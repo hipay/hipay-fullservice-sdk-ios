@@ -10,4 +10,15 @@
 
 @implementation HPTPaymentPageRequest
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _authenticationIndicator = HPTAuthenticationIndicatorUndefined;
+        _eci = HPTECIUndefined;
+        _multiUse = NO;
+    }
+    return self;
+}
+
 @end

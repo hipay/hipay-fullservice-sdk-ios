@@ -53,7 +53,7 @@
 {
     [self setPaymentButtonLoadingMode:YES];
     
-    [[HPTSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:@"2019" cardHolder:[self textForIdentifier:@"holder"] securityCode:[self textForIdentifier:@"security_code"] multiUse:YES andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
+    [[HPTSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:@"2019" cardHolder:[self textForIdentifier:@"holder"] securityCode:[self textForIdentifier:@"security_code"] multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
        
         [self setPaymentButtonLoadingMode:NO];
         
@@ -61,7 +61,7 @@
             
             HPTOrderRequest *orderRequest = [self createOrderRequest];
             
-            orderRequest.paymentMethod = [HPTCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:HPTECISecureECommerce authenticationIndicator:HPTAuthenticationIndicatorIfAvailable];
+            orderRequest.paymentMethod = [HPTCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
             
             [self performOrderRequest:orderRequest];
             

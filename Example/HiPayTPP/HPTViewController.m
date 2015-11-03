@@ -51,9 +51,6 @@
     
     
     
-    
-    
-    
     NSURL *appURL = [NSURL URLWithString:@"hipaytpp://response"];
     
     order.acceptURL = order.declineURL = order.exceptionURL = order.pendingURL = order.cancelURL = appURL;

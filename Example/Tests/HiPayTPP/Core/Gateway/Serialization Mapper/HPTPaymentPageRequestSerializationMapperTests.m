@@ -45,9 +45,15 @@
     
     [[[mockedMapper expect] andReturn:@"hello,ok,test"] getStringValuesListForKey:@"paymentProductList"];
     [[[mockedMapper expect] andReturn:@"hello2,ok2,test2"] getStringValuesListForKey:@"paymentProductCategoryList"];
+    [[[mockedMapper expect] andReturn:@"2"] getIntegerEnumValueForKey:@"eci"];
+    [[[mockedMapper expect] andReturn:@"1"] getIntegerEnumValueForKey:@"authenticationIndicator"];
+    [[[mockedMapper expect] andReturn:@"1"] getIntegerForKey:@"multiUse"];
 
     [[mockedInitialSerializedRequest expect] setNullableObject:[OCMArg isEqual:@"hello,ok,test"] forKey:@"payment_product_list"];
     [[mockedInitialSerializedRequest expect] setNullableObject:[OCMArg isEqual:@"hello2,ok2,test2"] forKey:@"payment_product_category_list"];
+    [[mockedInitialSerializedRequest expect] setNullableObject:@"2" forKey:@"eci"];
+    [[mockedInitialSerializedRequest expect] setNullableObject:@"1" forKey:@"authentication_indicator"];
+    [[mockedInitialSerializedRequest expect] setNullableObject:@"1" forKey:@"multi_use"];
     
     NSDictionary *result = mapper.serializedRequest;
     

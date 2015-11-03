@@ -95,6 +95,7 @@
         if ([object isKindOfClass:[NSString class]]) {
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
             formatter.numberStyle = NSNumberFormatterDecimalStyle;
+            formatter.decimalSeparator = @".";
             return [formatter numberFromString:object];
         }
         

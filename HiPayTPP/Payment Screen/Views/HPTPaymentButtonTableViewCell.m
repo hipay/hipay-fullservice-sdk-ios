@@ -7,7 +7,7 @@
 //
 
 #import "HPTPaymentButtonTableViewCell.h"
-#import "HPTPaymentScreenLocalization.h"
+#import "HPTPaymentScreenUtils.h"
 
 @implementation HPTPaymentButtonTableViewCell
 

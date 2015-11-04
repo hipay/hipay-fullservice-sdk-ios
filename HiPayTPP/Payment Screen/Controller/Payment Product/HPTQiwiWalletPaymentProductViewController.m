@@ -11,7 +11,7 @@
 #import "HPTForwardPaymentProductViewController_Protected.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPTValidation.h"
-#import "HPTPaymentScreenLocalization.h"
+#import "HPTPaymentScreenUtils.h"
 #import "HPTQiwiWalletPaymentMethodRequest.h"
 
 @implementation HPTQiwiWalletPaymentProductViewController

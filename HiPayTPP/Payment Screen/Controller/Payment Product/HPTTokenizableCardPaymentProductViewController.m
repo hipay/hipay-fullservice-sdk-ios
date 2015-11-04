@@ -11,7 +11,7 @@
 #import "HPTForwardPaymentProductViewController_Protected.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPTValidation.h"
-#import "HPTPaymentScreenLocalization.h"
+#import "HPTPaymentScreenUtils.h"
 #import "HPTQiwiWalletPaymentMethodRequest.h"
 #import "HPTSecureVaultClient.h"
 #import "HPTCardTokenPaymentMethodRequest.h"
@@ -86,6 +86,8 @@
             cell.inputLabel.text = HPTLocalizedString(@"CARD_HOLDER_LABEL");
             cell.textField.placeholder = HPTLocalizedString(@"CARD_HOLDER_PLACEHOLDER");
             cell.textField.keyboardType = UIKeyboardTypeAlphabet;
+            cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+            cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
             break;
             
         case 1:
@@ -113,4 +115,5 @@
     
     return cell;
 }
+
 @end

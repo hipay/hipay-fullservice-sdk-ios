@@ -10,9 +10,13 @@
 #import "HPTPaymentProduct.h"
 
 @interface HPTPaymentProductButton : UIButton
+{
+    UIImage *baseImage;
+    UIImage *selectedImage;
+    UIColor *cellColor;
+}
 
 @property (nonatomic, readonly) NSString *paymentProductCode;
-@property (nonatomic) BOOL productSelected;
 
 - (instancetype)initWithPaymentProductCode:(NSString *)paymentProductCode;
 

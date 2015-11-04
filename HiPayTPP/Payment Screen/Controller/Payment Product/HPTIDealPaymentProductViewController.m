@@ -12,7 +12,7 @@
 #import "HPTAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPTValidation.h"
 #import "HPTLabelTableViewCell.h"
-#import "HPTPaymentScreenLocalization.h"
+#import "HPTPaymentScreenUtils.h"
 #import "HPTIDealPaymentMethodRequest.h"
 
 @implementation HPTIDealPaymentProductViewController

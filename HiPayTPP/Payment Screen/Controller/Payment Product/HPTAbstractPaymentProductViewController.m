@@ -11,7 +11,7 @@
 #import "HPTGatewayClient.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
 #import "HPTLabelTableViewCell.h"
-#import "HPTPaymentScreenLocalization.h"
+#import "HPTPaymentScreenUtils.h"
 #import "HPTForwardViewController.h"
 
 @interface HPTAbstractPaymentProductViewController ()
@@ -36,14 +36,12 @@
     
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-
-    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"]];
     
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPTPaymentButtonTableViewCell" bundle:bundle] forCellReuseIdentifier:@"PaymentButton"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPTPaymentButtonTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
 
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPTInputTableViewCell" bundle:bundle] forCellReuseIdentifier:@"Input"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPTInputTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Input"];
     
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPTLabelTableViewCell" bundle:bundle] forCellReuseIdentifier:@"Label"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPTLabelTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     
@@ -89,7 +87,7 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
-    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     [UIView animateWithDuration:animationDuration animations:^{
 

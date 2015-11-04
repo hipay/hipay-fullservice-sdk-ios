@@ -26,7 +26,7 @@
     } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
         NSString *fixture = OHPathForFile(@"payment_products.json", self.class);
         OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
-        response.responseTime = 1.0;
+        response.responseTime = 0.4;
         return response;
     }];
     

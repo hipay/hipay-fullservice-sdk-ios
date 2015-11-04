@@ -9,6 +9,7 @@
 #import "HPTViewController.h"
 #import <WebKit/WebKit.h>
 #import <SafariServices/SafariServices.h>
+#import <HiPayTPP/HPTPaymentScreenUtils.h>
 
 @interface HPTViewController ()
 
@@ -55,10 +56,7 @@
     
     order.acceptURL = order.declineURL = order.exceptionURL = order.pendingURL = order.cancelURL = appURL;
     
-    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"];
-    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
-    
-    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:bundle];
+    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPTPaymentScreenViewsBundle()];
     HPTPaymentScreenViewController* vc = (HPTPaymentScreenViewController *)[sb instantiateInitialViewController];
     
     vc.delegate = self;

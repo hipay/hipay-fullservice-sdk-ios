@@ -6,7 +6,8 @@
 //
 //
 
-#import"HPTPaymentProductButton.h"
+#import "HPTPaymentProductButton.h"
+#import "HPTPaymentScreenUtils.h"
 
 NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
 
@@ -23,21 +24,29 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
         NSDictionary *matrixInfo = [[self paymentProductMatrix] objectForKey:paymentProductCode];
         
         if (matrixInfo != nil) {
-            NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"]];
-            UIImage *image = [UIImage imageNamed:@"payment_product_sprites" inBundle:bundle compatibleWithTraitCollection:nil];
             
-            [self setImage:[self cropImage:image withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100. + 5., [matrixInfo[@"y"] floatValue] * height, 90., height)] forState:UIControlStateNormal];
+            UIImage *spriteImage = [UIImage imageNamed:@"payment_product_sprites" inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
+            
+            UIImage *graySpriteImage = [UIImage imageNamed:@"payment_product_sprites_gray" inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
+            
+            baseImage = [self cropImage:graySpriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100. + 5., [matrixInfo[@"y"] floatValue] * height, 90., height)];
+            
+            selectedImage = [self cropImage:spriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100. + 5., [matrixInfo[@"y"] floatValue] * height, 90., height)];
+            
+            [self setImage:baseImage forState:UIControlStateNormal];
+            [self setImage:selectedImage forState:UIControlStateHighlighted];
+            [self setImage:selectedImage forState:UIControlStateSelected];
             
             self.layer.borderWidth = 1.0;
             self.layer.cornerRadius = 5.0;
             
             [self setDefaultStyle];
             
-            [self addTarget:self action:@selector(enableButtonSelection) forControlEvents:UIControlEventTouchDown];
-            [self addTarget:self action:@selector(enableButtonSelection) forControlEvents:UIControlEventTouchDragInside];
-            [self addTarget:self action:@selector(disableButtonSelection) forControlEvents:UIControlEventTouchUpInside];
-            [self addTarget:self action:@selector(disableButtonSelection) forControlEvents:UIControlEventTouchUpOutside];
-            [self addTarget:self action:@selector(disableButtonSelection) forControlEvents:UIControlEventTouchDragOutside];
+            [self addTarget:self action:@selector(enableButtonHighlight) forControlEvents:UIControlEventTouchDown];
+            [self addTarget:self action:@selector(enableButtonHighlight) forControlEvents:UIControlEventTouchDragInside];
+            [self addTarget:self action:@selector(disableButtonHighlight) forControlEvents:UIControlEventTouchUpInside];
+            [self addTarget:self action:@selector(disableButtonHighlight) forControlEvents:UIControlEventTouchUpOutside];
+            [self addTarget:self action:@selector(disableButtonHighlight) forControlEvents:UIControlEventTouchDragOutside];
 
         }
         
@@ -59,10 +68,10 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
 
 - (void)setDefaultStyle
 {
-    if (!self.productSelected) {
+    if (!self.selected) {
         self.layer.borderColor = [UIColor colorWithRed:0.86 green:0.86 blue:0.88 alpha:1.0].CGColor;
         self.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.0];
-        self.imageView.alpha = 0.7;
+        self.imageView.alpha = 0.6;
     } else {
         self.layer.borderColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1.0].CGColor;
         self.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1.0];
@@ -70,12 +79,12 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
     }
 }
 
-- (void)enableButtonSelection
+- (void)enableButtonHighlight
 {
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
-- (void)disableButtonSelection
+- (void)disableButtonHighlight
 {
     [self setDefaultStyle];
 }
@@ -89,9 +98,9 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
     return result;
 }
 
-- (void)setProductSelected:(BOOL)productSelected
+- (void)setSelected:(BOOL)selected
 {
-    _productSelected = productSelected;
+    [super setSelected:selected];
     [self setDefaultStyle];
 }
 

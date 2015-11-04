@@ -12,7 +12,7 @@
 #import <WebKit/WebKit.h>
 #import "HPTForwardViewController.h"
 #import "HPTAbstractPaymentProductViewController_Protected.h"
-#import "HPTPaymentScreenLocalization.h"
+#import "HPTPaymentScreenUtils.h"
 
 @interface HPTForwardPaymentProductViewController ()
 

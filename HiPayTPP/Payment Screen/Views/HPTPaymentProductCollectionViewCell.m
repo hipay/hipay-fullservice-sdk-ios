@@ -28,12 +28,12 @@
 
 - (BOOL)isHighlighted
 {
-    return self.paymentProductButton.productSelected;
+    return self.paymentProductButton.selected;
 }
 
 - (void)setHighlighted:(BOOL)highlighted
 {
-    self.paymentProductButton.productSelected = highlighted;
+    self.paymentProductButton.selected = highlighted;
 }
 
 @end

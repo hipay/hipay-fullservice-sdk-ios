@@ -16,8 +16,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
-                        <rect key="frame" x="111" y="7" width="201" height="30"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
+                        <rect key="frame" x="111" y="0.0" width="201" height="44"/>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="textColor" white="0.41999999999999998" alpha="1" colorSpace="calibratedWhite"/>
@@ -35,8 +35,10 @@
                 </subviews>
                 <animations/>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="puq-qj-JZP" secondAttribute="bottom" id="AEs-xw-eAA"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerXWithinMargins" multiplier="0.85" priority="750" id="SFh-Ca-N3F"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="trailingMargin" id="hxP-ii-EhB"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="top" secondItem="u2t-NZ-XO0" secondAttribute="top" id="ipM-VQ-y5U"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VaG-B8-8hX" secondAttribute="trailing" constant="8" id="oBm-VQ-Pao"/>
                     <constraint firstItem="VaG-B8-8hX" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leading" constant="15" id="zEI-2y-WHy"/>
                 </constraints>
@@ -46,7 +48,7 @@
                 <outlet property="inputLabel" destination="VaG-B8-8hX" id="OIF-cg-hQv"/>
                 <outlet property="textField" destination="puq-qj-JZP" id="h55-tB-NVv"/>
             </connections>
-            <point key="canvasLocation" x="443" y="302.5"/>
+            <point key="canvasLocation" x="249" y="320.5"/>
         </tableViewCell>
     </objects>
 </document>

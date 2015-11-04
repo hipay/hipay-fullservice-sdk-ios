@@ -10,7 +10,7 @@
 #import "HPTPaymentProductButton.h"
 #import "HPTPaymentProductsTableViewCell.h"
 
-#import "HPTPaymentScreenLocalization.h"
+#import "HPTPaymentScreenUtils.h"
 
 #import "HPTForwardPaymentProductViewController.h"
 #import "HPTQiwiWalletPaymentProductViewController.h"
@@ -66,35 +66,42 @@
 
 - (void)keyboardWillShowOrChangeFrame:(NSNotification *)notification
 {
+
     CGRect keyboardFrame = [[notification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect endFrame = [self.view convertRect:keyboardFrame fromView:nil];
-    containerHasFullLayout = YES;
-    
-    [self.view removeConstraint:containerBottomConstraint];
-    
-    if (keyboardContainerConstraintTop == nil) {
-        
-        keyboardContainerConstraintTop = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:endFrame.origin.y];
-        
-        keyboardContainerConstraintBottom = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-        
-        [self.view addConstraint:keyboardContainerConstraintTop];
-        [self.view addConstraint:keyboardContainerConstraintBottom];
-        
-    }
-    
-    if (self.navigationItem.rightBarButtonItems != nil) {
-        rightBarButtonItems = self.navigationItem.rightBarButtonItems;
-        [self.navigationItem setRightBarButtonItems:nil animated:YES];
-    }
-    
-    [self defineContainerTopSpacing];
-    
-    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
 
-    [UIView animateWithDuration:animationDuration animations:^{
-        [self.view layoutIfNeeded];
-    }];
+    if ((keyboardContainerConstraintTop == nil) || (keyboardContainerConstraintTop.constant != endFrame.origin.y)) {
+        containerHasFullLayout = YES;
+        
+        [self.view removeConstraint:containerBottomConstraint];
+        
+        if (keyboardContainerConstraintTop == nil) {
+            
+            keyboardContainerConstraintTop = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:endFrame.origin.y];
+            
+            keyboardContainerConstraintBottom = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+            
+            [self.view addConstraint:keyboardContainerConstraintTop];
+            [self.view addConstraint:keyboardContainerConstraintBottom];
+            
+        }
+        
+        keyboardContainerConstraintTop.constant = endFrame.origin.y;
+        
+        if (self.navigationItem.rightBarButtonItems != nil) {
+            rightBarButtonItems = self.navigationItem.rightBarButtonItems;
+            [self.navigationItem setRightBarButtonItems:nil animated:YES];
+        }
+        
+        [self defineContainerTopSpacing];
+        
+        NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        
+//        [UIView animateWithDuration:animationDuration animations:^{
+            [self.view layoutIfNeeded];
+//        }];
+        
+    }
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
@@ -108,7 +115,7 @@
     
     containerHasFullLayout = NO;
     
-    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
         
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:YES];

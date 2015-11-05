@@ -29,6 +29,7 @@
 		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; };
 		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; };
 		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; };
+		A53BF59F1BEB54D100E24957 /* HPTCardNumberFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF59E1BEB54D100E24957 /* HPTCardNumberFormatterTests.m */; };
 		A54AF8FE1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FD1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m */; };
 		A54AF9001BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FF1BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m */; };
 		A57BA74F1BCD66F000F154E2 /* HPTGatewayClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA74E1BCD66F000F154E2 /* HPTGatewayClientTests.m */; };
@@ -113,6 +114,7 @@
 		A51546371BBA83510077296E /* example_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_array.json; sourceTree = "<group>"; };
 		A515463C1BBBCD6D0077296E /* plain_text_response.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plain_text_response.txt; sourceTree = "<group>"; };
 		A515463E1BBBDD1F0077296E /* example_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_error.json; sourceTree = "<group>"; };
+		A53BF59E1BEB54D100E24957 /* HPTCardNumberFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTCardNumberFormatterTests.m; sourceTree = "<group>"; };
 		A54AF8FD1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTIDealPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		A54AF8FF1BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTIDealPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A57BA74E1BCD66F000F154E2 /* HPTGatewayClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTGatewayClientTests.m; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 		A5F335261BB58ABB0082463F /* HiPayTPP */ = {
 			isa = PBXGroup;
 			children = (
+				A5F98FA81BEB541200F9604F /* Utilities */,
 				A5F335271BB58ABB0082463F /* Core */,
 			);
 			path = HiPayTPP;
@@ -518,6 +521,23 @@
 			name = fr.lproj;
 			path = HiPayTPP/fr.lproj;
 			sourceTree = SOURCE_ROOT;
+		};
+		A5F98FA81BEB541200F9604F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98FA91BEB541200F9604F /* Formatter */,
+			);
+			name = Utilities;
+			path = Core/Utilities;
+			sourceTree = "<group>";
+		};
+		A5F98FA91BEB541200F9604F /* Formatter */ = {
+			isa = PBXGroup;
+			children = (
+				A53BF59E1BEB54D100E24957 /* HPTCardNumberFormatterTests.m */,
+			);
+			path = Formatter;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -761,6 +781,7 @@
 				A51004B51BBD3EC6002BD3C1 /* HPTPaymentCardTokenMapperTests.m in Sources */,
 				A595C4501BC800510076AF07 /* HPTPersonalInformationMapperTests.m in Sources */,
 				A57BA7D51BCEAD1D00F154E2 /* HPTCustomerInfoRequestSerializationMapperTests.m in Sources */,
+				A53BF59F1BEB54D100E24957 /* HPTCardNumberFormatterTests.m in Sources */,
 				A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */,
 				A54AF9001BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m in Sources */,
 				A5A375581BD7E0DC00CEA434 /* HPTArrayMapperTests.m in Sources */,

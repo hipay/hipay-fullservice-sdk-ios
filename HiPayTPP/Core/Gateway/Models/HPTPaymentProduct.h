@@ -27,7 +27,7 @@ extern NSString *const HPTPaymentProductCodeCBCOnline;
 extern NSString *const HPTPaymentProductCodeCensosud;
 extern NSString *const HPTPaymentProductCodeCobroExpress;
 extern NSString *const HPTPaymentProductCodeCofinoga;
-extern NSString *const HPTPaymentProductCodeDexiaDirectnet;
+extern NSString *const HPTPaymentProductCodeDexiaDirectNet;
 extern NSString *const HPTPaymentProductCodeDiners;
 extern NSString *const HPTPaymentProductCodeEfecty;
 extern NSString *const HPTPaymentProductCodeElo;

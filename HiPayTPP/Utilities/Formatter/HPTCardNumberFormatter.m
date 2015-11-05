@@ -119,4 +119,15 @@
     return ((oddSum + evenSum) % 10 == 0);
 }
 
+- (BOOL)plainTextNumber:(NSString *)plainTextNumber isValidForPaymentProductCode:(NSString *)paymentProductCode
+{
+    NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
+    
+    BOOL lengthValid = [self plainTextNumber:plainTextNumber hasValidLengthForPaymentProductCode:paymentProductCode];
+    BOOL BINValid = [[self paymentProductCodeForPlainTextNumber:plainTextNumber] isEqualToString:paymentProductCode];
+    BOOL luhnCheck = [self luhnCheck:digits];
+    
+    return lengthValid && BINValid && luhnCheck;
+}
+
 @end

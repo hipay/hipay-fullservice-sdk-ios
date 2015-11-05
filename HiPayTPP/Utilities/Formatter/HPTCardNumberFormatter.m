@@ -130,4 +130,39 @@
     return lengthValid && BINValid && luhnCheck;
 }
 
+- (NSString *)formatPlainTextNumber:(NSString *)plainTextNumber forPaymentProductCode:(NSString *)paymentProductCode
+{
+    NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
+    
+    NSDictionary *groupingInfo = @{
+                                   HPTPaymentProductCodeMasterCard: @[@4, @4, @4],
+                                   HPTPaymentProductCodeVisa: @[@4, @4, @4],
+                                   HPTPaymentProductCodeMaestro: @[@4, @4, @4, @4],
+                                   HPTPaymentProductCodeAmericanExpress: @[@4, @6],
+                                   HPTPaymentProductCodeDiners: @[@4, @6],
+                                   };
+    
+    NSArray *groups = groupingInfo[paymentProductCode];
+    
+    if (groups != nil) {
+        
+        NSMutableString *formattedNumber = [NSMutableString stringWithString:digits];
+        NSUInteger currentPosition = 0;
+
+        for (NSNumber *numberOfDigits in groups) {
+            NSUInteger newPosition = (currentPosition + numberOfDigits.unsignedIntegerValue);
+            if (formattedNumber.length > newPosition) {
+                [formattedNumber insertString:@" " atIndex:newPosition];
+                currentPosition = newPosition + 1;
+            } else {
+                break;
+            }
+        }
+        
+        return formattedNumber;
+    }
+    
+    return digits;
+}
+
 @end

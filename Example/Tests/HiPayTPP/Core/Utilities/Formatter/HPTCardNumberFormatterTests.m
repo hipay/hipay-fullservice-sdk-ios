@@ -193,8 +193,51 @@
     XCTAssertFalse([formatter plainTextNumber:@"number" isValidForPaymentProductCode:HPTPaymentProductCodeVisa]);
     
     [mockedFormatter verify];
+}
 
+- (void)testFormatPlainTextNumber
+{
+    XCTAssertEqualObjects(@"5", [formatter formatPlainTextNumber:@"5" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"53", [formatter formatPlainTextNumber:@"53" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"539", [formatter formatPlainTextNumber:@"539" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399", [formatter formatPlainTextNumber:@"5399" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9", [formatter formatPlainTextNumber:@"53999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 99", [formatter formatPlainTextNumber:@"5399 99" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 999", [formatter formatPlainTextNumber:@"5399 999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9999", [formatter formatPlainTextNumber:@"5399 9999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9999 9", [formatter formatPlainTextNumber:@"5399 99999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9999 99", [formatter formatPlainTextNumber:@"5399 9999 99" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9999 999", [formatter formatPlainTextNumber:@"5399 9999 999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9999 9999", [formatter formatPlainTextNumber:@"5399 9999 9999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9999 9999 9", [formatter formatPlainTextNumber:@"5399 9999 99999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9999 9999 99", [formatter formatPlainTextNumber:@"5399 9999 9999 99" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9999 9999 999", [formatter formatPlainTextNumber:@"5399 9999 9999 999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"5399 9999 9999 9999", [formatter formatPlainTextNumber:@"5399 9999 9999 9999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    
+    XCTAssertEqualObjects(@"4111 1111 1111 1111", [formatter formatPlainTextNumber:@"4111111111111111" forPaymentProductCode:HPTPaymentProductCodeVisa]);
+    XCTAssertEqualObjects(@"411", [formatter formatPlainTextNumber:@"411" forPaymentProductCode:HPTPaymentProductCodeVisa]);
+    XCTAssertEqualObjects(@"4111 1111 1", [formatter formatPlainTextNumber:@"4111 11111" forPaymentProductCode:HPTPaymentProductCodeVisa]);
+    XCTAssertEqualObjects(@"4111 1", [formatter formatPlainTextNumber:@"41111" forPaymentProductCode:HPTPaymentProductCodeVisa]);
 
+    XCTAssertEqualObjects(@"4111 1111 1111 1111", [formatter formatPlainTextNumber:@"4111111111111111" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"411", [formatter formatPlainTextNumber:@"411" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"4111 1111 1", [formatter formatPlainTextNumber:@"4111 11111" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"4111 1111 11", [formatter formatPlainTextNumber:@"4111 111111" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(@"4111 1", [formatter formatPlainTextNumber:@"41111" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    
+    XCTAssertEqualObjects(@"3782 822463 10005", [formatter formatPlainTextNumber:@"378282246310005" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
+    XCTAssertEqualObjects(@"3782", [formatter formatPlainTextNumber:@"3782" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
+    XCTAssertEqualObjects(@"378", [formatter formatPlainTextNumber:@"378" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
+    XCTAssertEqualObjects(@"3782 8", [formatter formatPlainTextNumber:@"37828" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
+
+    XCTAssertEqualObjects(@"3056 930902 5904", [formatter formatPlainTextNumber:@"30569309025904" forPaymentProductCode:HPTPaymentProductCodeDiners]);
+    XCTAssertEqualObjects(@"3056 930902 59045", [formatter formatPlainTextNumber:@"305693090259045" forPaymentProductCode:HPTPaymentProductCodeDiners]);
+    XCTAssertEqualObjects(@"3056 9", [formatter formatPlainTextNumber:@"30569" forPaymentProductCode:HPTPaymentProductCodeDiners]);
+    
+    XCTAssertEqualObjects(@"6703 0000 0000 0000 3", [formatter formatPlainTextNumber:@"67030000000000003" forPaymentProductCode:HPTPaymentProductCodeMaestro]);
+    XCTAssertEqualObjects(@"6703 0000 0000 0000", [formatter formatPlainTextNumber:@"6703000000000000" forPaymentProductCode:HPTPaymentProductCodeMaestro]);
+    XCTAssertEqualObjects(@"6703", [formatter formatPlainTextNumber:@"6703" forPaymentProductCode:HPTPaymentProductCodeMaestro]);
+    
 }
 
 @end

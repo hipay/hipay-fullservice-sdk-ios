@@ -104,6 +104,8 @@
     XCTAssertFalse([formatter plainTextNumber:@"amex2" reachesMaxLengthForPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
     XCTAssertTrue([formatter plainTextNumber:@"diners1" reachesMaxLengthForPaymentProductCode:HPTPaymentProductCodeDiners]);
     XCTAssertFalse([formatter plainTextNumber:@"diners2" reachesMaxLengthForPaymentProductCode:HPTPaymentProductCodeDiners]);
+
+    [mockedFormatter verify];
 }
 
 - (void)testIsValidForPaymentProductCode
@@ -160,5 +162,27 @@
     XCTAssertFalse([formatter luhnCheck:@"378822463100054"]);
 }
 
+- (void)testHasValidLengthForPaymentProductCode
+{
+    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndex:16]] cardNumberLengthForPaymentProductCode:@"productCode1"];
+    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndex:16]] cardNumberLengthForPaymentProductCode:@"productCode1"];
+    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndex:16]] cardNumberLengthForPaymentProductCode:@"productCode1"];
+    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(15, 3)]] cardNumberLengthForPaymentProductCode:@"productCode2"];
+    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(15, 3)]] cardNumberLengthForPaymentProductCode:@"productCode2"];
+    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(15, 3)]] cardNumberLengthForPaymentProductCode:@"productCode2"];
+    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(15, 3)]] cardNumberLengthForPaymentProductCode:@"productCode2"];
+
+    XCTAssertTrue([formatter plainTextNumber:@"4111111111111111" hasValidLengthForPaymentProductCode:@"productCode1"]);
+    XCTAssertFalse([formatter plainTextNumber:@"41111111111111111" hasValidLengthForPaymentProductCode:@"productCode1"]);
+    XCTAssertFalse([formatter plainTextNumber:@"411111111111111" hasValidLengthForPaymentProductCode:@"productCode1"]);
+
+    XCTAssertTrue([formatter plainTextNumber:@"411111111111111" hasValidLengthForPaymentProductCode:@"productCode2"]);
+    XCTAssertTrue([formatter plainTextNumber:@"4111111111111111" hasValidLengthForPaymentProductCode:@"productCode2"]);
+    XCTAssertTrue([formatter plainTextNumber:@"41111111111111111" hasValidLengthForPaymentProductCode:@"productCode2"]);
+    XCTAssertFalse([formatter plainTextNumber:@"411111111111111111" hasValidLengthForPaymentProductCode:@"productCode2"]);
+
+    
+    [mockedFormatter verify];
+}
 
 @end

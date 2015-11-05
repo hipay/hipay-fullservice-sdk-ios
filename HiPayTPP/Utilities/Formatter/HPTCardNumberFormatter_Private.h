@@ -12,5 +12,6 @@
 
 - (NSIndexSet *)cardNumberLengthForPaymentProductCode:(NSString *)paymentProductCode;
 - (BOOL)luhnCheck:(NSString *)stringToTest;
+- (BOOL)plainTextNumber:(NSString *)plainTextNumber hasValidLengthForPaymentProductCode:(NSString *)paymentProductCode;
 
 @end

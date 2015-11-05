@@ -76,6 +76,11 @@
     return (lengthValues.count > 0) && ([lengthValues indexGreaterThanIndex:inputLength] == NSNotFound);
 }
 
+- (BOOL)plainTextNumber:(NSString *)plainTextNumber hasValidLengthForPaymentProductCode:(NSString *)paymentProductCode
+{
+    return [[self cardNumberLengthForPaymentProductCode:paymentProductCode] containsIndex:plainTextNumber.length];
+}
+
 - (NSArray *)charArrayFromString:(NSString *)string {
     
     NSMutableArray *characters = [[NSMutableArray alloc] initWithCapacity:[string length]];

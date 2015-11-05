@@ -10,6 +10,7 @@
 
 @interface HPTCardNumberFormatter ()
 
-- (NSIndexSet *)maxCardNumberLengthForPaymentProductCode:(NSString *)paymentProductCode;
+- (NSIndexSet *)cardNumberLengthForPaymentProductCode:(NSString *)paymentProductCode;
+- (BOOL)luhnCheck:(NSString *)stringToTest;
 
 @end

@@ -26,10 +26,8 @@
                                                 HPTPaymentProductCodeVisa: @"^4",
                                                 HPTPaymentProductCodeMasterCard: @"^((5[1-5])|2221|2720)",
                                                 HPTPaymentProductCodeDiners: @"^((30[0-5])|2014|2149|309|36|38|39)",
-                                                HPTPaymentProductCodeMasterCard: @"^((5[1-5])|2221|2720)",
                                                 HPTPaymentProductCodeAmericanExpress: @"^(34|37)",
                                                 HPTPaymentProductCodeMaestro: @"^(50|(5[6-9])|(6[0-9]))",
-
                                                };
     
     for (NSString *paymentProductCode in paymentProductCodeFormats.allKeys) {
@@ -42,6 +40,78 @@
     }
 
     return nil;
+}
+
+- (NSIndexSet *)cardNumberLengthForPaymentProductCode:(NSString *)paymentProductCode
+{
+    if ([paymentProductCode isEqualToString:HPTPaymentProductCodeVisa]) {
+        return [NSIndexSet indexSetWithIndex:16];
+    }
+    
+    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeMasterCard]) {
+        return [NSIndexSet indexSetWithIndex:16];
+    }
+    
+    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeAmericanExpress]) {
+        return [NSIndexSet indexSetWithIndex:15];
+    }
+    
+    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeMaestro]) {
+        return [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(12, 7)];
+    }
+    
+    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeDiners]) {
+        return [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(14, 2)];
+    }
+    
+    return [NSIndexSet indexSet];
+}
+
+- (BOOL)plainTextNumber:(NSString *)plainTextNumber reachesMaxLengthForPaymentProductCode:(NSString *)paymentProductCode
+{
+    NSUInteger inputLength = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber].length;
+    
+    NSIndexSet *lengthValues = [self cardNumberLengthForPaymentProductCode:paymentProductCode];
+    
+    return (lengthValues.count > 0) && ([lengthValues indexGreaterThanIndex:inputLength] == NSNotFound);
+}
+
+- (NSArray *)charArrayFromString:(NSString *)string {
+    
+    NSMutableArray *characters = [[NSMutableArray alloc] initWithCapacity:[string length]];
+    
+    for (int i=0; i < [string length]; i++) {
+        NSString *ichar  = [NSString stringWithFormat:@"%C", [string characterAtIndex:i]];
+        [characters addObject:ichar];
+    }
+    
+    return characters;
+}
+
+- (BOOL)luhnCheck:(NSString *)stringToTest
+{
+    // http://rosettacode.org/wiki/Luhn_test_of_credit_card_numbers#Objective-C
+    
+    NSArray *stringAsChars = [self charArrayFromString:stringToTest];
+    
+    BOOL isOdd = YES;
+    NSInteger oddSum = 0;
+    NSInteger evenSum = 0;
+    
+    for (NSInteger i = stringToTest.length - 1; i >= 0; i--) {
+        
+        NSInteger digit = [(NSString *)stringAsChars[i] integerValue];
+        
+        if (isOdd) {
+            oddSum += digit;
+        } else {
+            evenSum += digit/5. + (2 * digit) % 10;
+        }
+        
+        isOdd = !isOdd;				 
+    }
+    
+    return ((oddSum + evenSum) % 10 == 0);
 }
 
 @end

@@ -92,22 +92,27 @@
     [[[mockedFormatter expect] andReturn:@"3056930902"] digitsOnlyNumberForPlainTextNumber:@"diners1"];
     [[[mockedFormatter expect] andReturn:@"385200000"] digitsOnlyNumberForPlainTextNumber:@"diners2"];
     
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"visa1"], HPTPaymentProductCodeVisa);
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"visa2"], HPTPaymentProductCodeVisa);
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"visa3"], HPTPaymentProductCodeVisa);
+    [[[mockedFormatter expect] andReturn:@"3"] digitsOnlyNumberForPlainTextNumber:@"dinersOrAmex"];
     
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"mastercard1"], HPTPaymentProductCodeMasterCard);
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"mastercard2"], HPTPaymentProductCodeMasterCard);
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"mastercard3"], HPTPaymentProductCodeMasterCard);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa1"], @[HPTPaymentProductCodeVisa]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa2"], @[HPTPaymentProductCodeVisa]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa3"], @[HPTPaymentProductCodeVisa]);
     
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"maestro1"], HPTPaymentProductCodeMaestro);
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"maestro2"], HPTPaymentProductCodeMaestro);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"mastercard1"], @[HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"mastercard2"], @[HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"mastercard3"], @[HPTPaymentProductCodeMasterCard]);
     
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"amex1"], HPTPaymentProductCodeAmericanExpress);
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"amex2"], HPTPaymentProductCodeAmericanExpress);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"maestro1"], @[HPTPaymentProductCodeMaestro]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"maestro2"], @[HPTPaymentProductCodeMaestro]);
     
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"diners1"], HPTPaymentProductCodeDiners);
-    XCTAssertEqual([formatter paymentProductCodeForPlainTextNumber:@"diners2"], HPTPaymentProductCodeDiners);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"amex1"], @[HPTPaymentProductCodeAmericanExpress]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"amex2"], @[HPTPaymentProductCodeAmericanExpress]);
+    
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"diners1"], @[HPTPaymentProductCodeDiners]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"diners2"], @[HPTPaymentProductCodeDiners]);
+    
+    NSArray *result = @[HPTPaymentProductCodeDiners, HPTPaymentProductCodeAmericanExpress];
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"dinersOrAmex"], result);
     
     [mockedFormatter verify];
 }
@@ -156,7 +161,7 @@
     [[[mockedFormatter expect] andReturn:digits] digitsOnlyNumberForPlainTextNumber:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@YES] luhnCheck:digits];
-    [[[mockedFormatter expect] andReturn:HPTPaymentProductCodeVisa] paymentProductCodeForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
     
     XCTAssertTrue([formatter plainTextNumber:@"number" isValidForPaymentProductCode:HPTPaymentProductCodeVisa]);
     
@@ -166,7 +171,7 @@
     [[[mockedFormatter expect] andReturn:digits] digitsOnlyNumberForPlainTextNumber:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@YES] luhnCheck:digits];
-    [[[mockedFormatter expect] andReturn:HPTPaymentProductCodeMasterCard] paymentProductCodeForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeMasterCard]] paymentProductCodesForPlainTextNumber:@"number"];
     
     XCTAssertFalse([formatter plainTextNumber:@"number" isValidForPaymentProductCode:HPTPaymentProductCodeVisa]);
     
@@ -177,7 +182,7 @@
     [[[mockedFormatter expect] andReturn:digits] digitsOnlyNumberForPlainTextNumber:@"number"];
     [[[mockedFormatter expect] andReturnValue:@NO] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@YES] luhnCheck:digits];
-    [[[mockedFormatter expect] andReturn:HPTPaymentProductCodeVisa] paymentProductCodeForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
     
     XCTAssertFalse([formatter plainTextNumber:@"number" isValidForPaymentProductCode:HPTPaymentProductCodeVisa]);
     
@@ -188,7 +193,7 @@
     [[[mockedFormatter expect] andReturn:digits] digitsOnlyNumberForPlainTextNumber:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@NO] luhnCheck:digits];
-    [[[mockedFormatter expect] andReturn:HPTPaymentProductCodeVisa] paymentProductCodeForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
     
     XCTAssertFalse([formatter plainTextNumber:@"number" isValidForPaymentProductCode:HPTPaymentProductCodeVisa]);
     

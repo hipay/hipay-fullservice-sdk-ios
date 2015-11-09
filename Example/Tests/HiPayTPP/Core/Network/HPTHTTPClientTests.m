@@ -204,7 +204,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     [mockedClient verify];
 }
 

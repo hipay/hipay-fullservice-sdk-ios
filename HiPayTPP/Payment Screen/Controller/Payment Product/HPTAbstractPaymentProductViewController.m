@@ -175,6 +175,11 @@
     return [[fieldIdentifiers objectForKey:fieldIdentifier] text];
 }
 
+- (UITextField *)textFieldForIdentifier:(NSString *)fieldIdentifier
+{
+    return [fieldIdentifiers objectForKey:fieldIdentifier];
+}
+
 - (BOOL)submitButtonEnabled
 {
     return YES;

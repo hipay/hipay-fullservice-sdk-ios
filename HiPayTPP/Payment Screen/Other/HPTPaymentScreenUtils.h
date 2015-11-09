@@ -9,8 +9,8 @@
 #ifndef HPTPaymentScreenUtils_h
 #define HPTPaymentScreenUtils_h
 
-#define HPTLocalizedString(key) NSLocalizedStringFromTableInBundle(key, @"Payment-Screen", [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"PaymentScreenLocalization" ofType:@"bundle"]], nil)
+#define HPTLocalizedString(key) NSLocalizedStringFromTableInBundle(key, @"Payment-Screen", [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"HPTPaymentScreenLocalization" ofType:@"bundle"]], nil)
 
-#define HPTPaymentScreenViewsBundle() [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"PaymentScreenViews" ofType:@"bundle"]]
+#define HPTPaymentScreenViewsBundle() [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"HPTPaymentScreenViews" ofType:@"bundle"]]
 
 #endif /* HPTPaymentScreenUtils_h */

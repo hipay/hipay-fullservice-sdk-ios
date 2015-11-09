@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPTFormTableViewCell.h"
 
-@interface HPTLabelTableViewCell : UITableViewCell
+@interface HPTLabelTableViewCell : HPTFormTableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *inputLabel;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;

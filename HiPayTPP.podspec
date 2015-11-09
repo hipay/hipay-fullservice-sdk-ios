@@ -52,14 +52,17 @@ Pod::Spec.new do |s|
   s.subspec "Utilities" do |s|
     s.source_files  = "HiPayTPP/Utilities/**/*.{h,m}"
     s.public_header_files = "HiPayTPP/Utilities/**/*.h"
+    s.resource_bundles = {
+      'HPTUtilitiesResources' => ["HiPayTPP/Utilities/**/*.{plist}"],
+    }
   end
 
   s.subspec "Payment-Screen" do |s|
     s.source_files  = "HiPayTPP/Payment Screen/**/*.{h,m}"
     s.public_header_files = "HiPayTPP/Payment Screen/**/*.h"
     s.resource_bundles = {
-      'PaymentScreenViews' => ["HiPayTPP/Payment Screen/**/*.{xib,png,storyboard}"],
-      'PaymentScreenLocalization' => ["HiPayTPP/Payment Screen/**/*.lproj"]
+      'HPTPaymentScreenViews' => ["HiPayTPP/Payment Screen/**/*.{xib,png,storyboard}"],
+      'HPTPaymentScreenLocalization' => ["HiPayTPP/Payment Screen/**/*.lproj"]
     }
     s.dependency "HiPayTPP/Core"
     s.dependency "HiPayTPP/Utilities"

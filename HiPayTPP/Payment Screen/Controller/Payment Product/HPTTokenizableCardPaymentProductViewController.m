@@ -15,6 +15,7 @@
 #import "HPTQiwiWalletPaymentMethodRequest.h"
 #import "HPTSecureVaultClient.h"
 #import "HPTCardTokenPaymentMethodRequest.h"
+#import "HPTCardNumberTextField.h"
 
 @interface HPTTokenizableCardPaymentProductViewController ()
 
@@ -29,6 +30,17 @@
     orderRequest.paymentMethod = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:[self textForIdentifier:@"username"]];
     
     return orderRequest;
+}
+
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    [super textFieldDidChange:textField];
+    
+    HPTCardNumberTextField *cardNumberTextField =  (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
+    
+    if (textField == cardNumberTextField) {
+        [self cellWithTextField:cardNumberTextField].incorrectInput = !cardNumberTextField.valid;
+    }
 }
 
 - (BOOL)submitButtonEnabled
@@ -91,7 +103,7 @@
             break;
             
         case 1:
-            cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"number"];
+            cell = [self dequeueInputCellWithIdentifier:@"CardNumberInput" fieldIdentifier:@"number"];
             cell.inputLabel.text = HPTLocalizedString(@"CARD_NUMBER_LABEL");
             cell.textField.placeholder = HPTLocalizedString(@"CARD_NUMBER_PLACEHOLDER");
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;

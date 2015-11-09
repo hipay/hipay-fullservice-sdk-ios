@@ -23,5 +23,8 @@
 - (HPTOrderRequest *)createOrderRequest;
 - (BOOL)submitButtonEnabled;
 - (void)performOrderRequest:(HPTOrderRequest *)orderRequest;
+- (void)textFieldDidChange:(UITextField *)textField;
+- (UITextField *)textFieldForIdentifier:(NSString *)fieldIdentifier;
+- (HPTInputTableViewCell *)cellWithTextField:(UITextField *)textField;
 
 @end

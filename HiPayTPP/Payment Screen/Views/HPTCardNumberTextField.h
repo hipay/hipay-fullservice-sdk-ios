@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPTCardNumberFormatter.h"
+#import "HPTFormTableViewCell.h"
 
 @interface HPTCardNumberTextField : UITextField <UITextFieldDelegate>
 {
     id<UITextFieldDelegate> finalDelegate;
+    HPTCardNumberFormatter *formatter;
 }
 
-@property (nonatomic) NSMutableString *storedValue;
+@property (nonatomic, readonly) NSArray *paymentProductCodes;
+@property (nonatomic, readonly, getter=isValid) BOOL valid;
+@property (nonatomic, readonly, getter=isCompleted) BOOL completed;
 
 @end

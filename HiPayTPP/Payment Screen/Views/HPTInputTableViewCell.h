@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPTFormTableViewCell.h"
 
-@interface HPTInputTableViewCell : UITableViewCell
+@interface HPTInputTableViewCell : HPTFormTableViewCell
+{
+    UIColor *defaultBackgroundColor;
+}
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UILabel *inputLabel;

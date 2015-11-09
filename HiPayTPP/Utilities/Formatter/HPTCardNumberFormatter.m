@@ -10,7 +10,65 @@
 #import "HPTCardNumberFormatter_Private.h"
 #import "HPTPaymentProduct.h"
 
+HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
+
 @implementation HPTCardNumberFormatter
+
++ (instancetype)sharedFormatter
+{
+    if (HPTCardNumberFormatterSharedInstance == nil) {
+        HPTCardNumberFormatterSharedInstance = [[HPTCardNumberFormatter alloc] init];
+    }
+    
+    return HPTCardNumberFormatterSharedInstance;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        NSBundle *utilitiesBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"HPTUtilitiesResources" ofType:@"bundle"]];
+        
+        NSString *filePath = [utilitiesBundle pathForResource:@"card-numbers-info" ofType:@"plist"];
+        NSDictionary *cardNumbersInfo = [[NSDictionary alloc] initWithContentsOfFile:filePath];
+        
+        paymentProductsInfo = [self paymentProductInfoWithCardNumbersInfo:cardNumbersInfo];
+        
+    }
+    return self;
+}
+
+- (NSDictionary *)paymentProductInfoWithCardNumbersInfo:(NSDictionary *)cardNumbersInfo
+{
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    
+    for (NSString *paymentProduct in cardNumbersInfo.allKeys) {
+        
+        NSDictionary *rawInfo = cardNumbersInfo[paymentProduct];
+        NSMutableDictionary *info = [NSMutableDictionary dictionary];
+        
+        [info setObject:rawInfo[@"format"] forKey:@"format"];
+        [info setObject:[self indexSetForStringRanges:rawInfo[@"lengths"]] forKey:@"lengths"];
+        [info setObject:[self indexSetForStringRanges:rawInfo[@"ranges"]] forKey:@"ranges"];
+        
+        [result setObject:info forKey:paymentProduct];
+    }
+    
+    return result;
+
+}
+
+- (NSIndexSet *)indexSetForStringRanges:(NSArray *)stringRanges
+{
+    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    
+    for (NSString *stringRange in stringRanges) {
+        [indexSet addIndexesInRange:NSRangeFromString(stringRange)];
+    }
+    
+    return indexSet;
+}
 
 - (NSString *)digitsOnlyNumberForPlainTextNumber:(NSString *)plainTextNumber
 {
@@ -18,17 +76,17 @@
     return [[plainTextNumber componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
 }
 
-- (NSString *)paymentProductCodeForPlainTextNumber:(NSString *)plainTextNumber
+- (NSString *)plainTextNumberMayBeValid:(NSString *)plainTextNumber
 {
     NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
     
     NSDictionary *paymentProductCodeFormats = @{
                                                 HPTPaymentProductCodeVisa: @"^4",
-                                                HPTPaymentProductCodeMasterCard: @"^((5[1-5])|2221|2720)",
-                                                HPTPaymentProductCodeDiners: @"^((30[0-5])|2014|2149|309|36|38|39)",
+                                                HPTPaymentProductCodeMasterCard: @"^((5[1-5]?)|2(2(21?)?)?|2(7(20?)?)?)",
+                                                HPTPaymentProductCodeDiners: @"^((3(0[0-5]?)?)|2(014)?|2149|309|36|38|39)",
                                                 HPTPaymentProductCodeAmericanExpress: @"^(34|37)",
                                                 HPTPaymentProductCodeMaestro: @"^(50|(5[6-9])|(6[0-9]))",
-                                               };
+                                                };
     
     for (NSString *paymentProductCode in paymentProductCodeFormats.allKeys) {
         
@@ -38,47 +96,58 @@
             return paymentProductCode;
         }
     }
-
+    
     return nil;
 }
 
-- (NSIndexSet *)cardNumberLengthForPaymentProductCode:(NSString *)paymentProductCode
+- (NSArray *)paymentProductCodesForPlainTextNumber:(NSString *)plainTextNumber
 {
-    if ([paymentProductCode isEqualToString:HPTPaymentProductCodeVisa]) {
-        return [NSIndexSet indexSetWithIndex:16];
-    }
+    NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
     
-    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeMasterCard]) {
-        return [NSIndexSet indexSetWithIndex:16];
-    }
+    NSMutableArray *result = [NSMutableArray array];
     
-    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeAmericanExpress]) {
-        return [NSIndexSet indexSetWithIndex:15];
+    for (NSString *paymentProductCode in paymentProductsInfo.allKeys) {
+        
+        NSIndexSet *ranges = paymentProductsInfo[paymentProductCode][@"ranges"];
+            
+        NSUInteger indexFound = [ranges indexPassingTest:^BOOL(NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            NSString *stringIndex = [NSString stringWithFormat:@"%lu", (unsigned long)idx];
+            NSString *digitsSubstring = digits;
+            
+            if (digitsSubstring.length > stringIndex.length) {
+                digitsSubstring = [digits substringToIndex:stringIndex.length];
+            } else if (digitsSubstring.length < stringIndex.length) {
+                stringIndex = [stringIndex substringToIndex:digitsSubstring.length];
+            }
+            
+            BOOL result = [stringIndex containsString:digitsSubstring];
+            
+            *stop = result;
+            
+            return result;
+        }];
+        
+        if (indexFound != NSNotFound) {
+            [result addObject:paymentProductCode];
+        }
     }
-    
-    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeMaestro]) {
-        return [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(12, 7)];
-    }
-    
-    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeDiners]) {
-        return [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(14, 2)];
-    }
-    
-    return [NSIndexSet indexSet];
+
+    return result;
 }
 
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber reachesMaxLengthForPaymentProductCode:(NSString *)paymentProductCode
 {
     NSUInteger inputLength = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber].length;
     
-    NSIndexSet *lengthValues = [self cardNumberLengthForPaymentProductCode:paymentProductCode];
+    NSIndexSet *lengthValues = paymentProductsInfo[paymentProductCode][@"lengths"];
     
     return (lengthValues.count > 0) && ([lengthValues indexGreaterThanIndex:inputLength] == NSNotFound);
 }
 
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber hasValidLengthForPaymentProductCode:(NSString *)paymentProductCode
 {
-    return [[self cardNumberLengthForPaymentProductCode:paymentProductCode] containsIndex:plainTextNumber.length];
+    return [paymentProductsInfo[paymentProductCode][@"lengths"] containsIndex:[self digitsOnlyNumberForPlainTextNumber:plainTextNumber].length];
 }
 
 - (NSArray *)charArrayFromString:(NSString *)string {
@@ -124,7 +193,7 @@
     NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
     
     BOOL lengthValid = [self plainTextNumber:plainTextNumber hasValidLengthForPaymentProductCode:paymentProductCode];
-    BOOL BINValid = [[self paymentProductCodeForPlainTextNumber:plainTextNumber] isEqualToString:paymentProductCode];
+    BOOL BINValid = [[self paymentProductCodesForPlainTextNumber:plainTextNumber] containsObject:paymentProductCode];
     BOOL luhnCheck = [self luhnCheck:digits];
     
     return lengthValid && BINValid && luhnCheck;
@@ -134,15 +203,7 @@
 {
     NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
     
-    NSDictionary *groupingInfo = @{
-                                   HPTPaymentProductCodeMasterCard: @[@4, @4, @4],
-                                   HPTPaymentProductCodeVisa: @[@4, @4, @4],
-                                   HPTPaymentProductCodeMaestro: @[@4, @4, @4, @4],
-                                   HPTPaymentProductCodeAmericanExpress: @[@4, @6],
-                                   HPTPaymentProductCodeDiners: @[@4, @6],
-                                   };
-    
-    NSArray *groups = groupingInfo[paymentProductCode];
+    NSArray *groups = paymentProductsInfo[paymentProductCode][@"format"];
     
     if (groups != nil) {
         

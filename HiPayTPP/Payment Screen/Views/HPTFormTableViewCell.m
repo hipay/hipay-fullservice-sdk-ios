@@ -15,17 +15,6 @@
     defaultTextLabelColor = self.textLabel.textColor;
 }
 
-- (void)setIncorrectInput:(BOOL)incorrectInput
-{
-    _incorrectInput = incorrectInput;
-    
-    if (_incorrectInput) {
-        self.textLabel.textColor = [UIColor redColor];
-    } else {
-        self.textLabel.textColor = defaultTextLabelColor;
-    }
-}
-
 - (BOOL)isValid
 {
     return YES;

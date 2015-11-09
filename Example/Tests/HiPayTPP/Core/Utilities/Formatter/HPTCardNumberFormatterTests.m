@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTCardNumberFormatter.h>
 #import <HiPayTPP/HPTCardNumberFormatter_Private.h>
+#import <HiPayTPP/HPTFormatter_Private.h>
 
 @interface HPTCardNumberFormatterTests : XCTestCase
 {
@@ -32,31 +33,22 @@
     [super tearDown];
 }
 
-- (void)testDigitsOnlyNumberForPlainTextNumber
-{
-    XCTAssertEqualObjects([formatter digitsOnlyNumberForPlainTextNumber:@"4111 1111 1111 1111"], @"4111111111111111");
-    XCTAssertEqualObjects([formatter digitsOnlyNumberForPlainTextNumber:@"4111"], @"4111");
-    XCTAssertEqualObjects([formatter digitsOnlyNumberForPlainTextNumber:@" 4111 "], @"4111");
-    XCTAssertEqualObjects([formatter digitsOnlyNumberForPlainTextNumber:@" 41 11 "], @"4111");
-    XCTAssertEqualObjects([formatter digitsOnlyNumberForPlainTextNumber:@" 41a11 "], @"4111");
-}
-
 - (void)testReachesMaxLengthForPaymentProductCode
 {
-    [[[mockedFormatter expect] andReturn:@"4111111111111111"] digitsOnlyNumberForPlainTextNumber:@"visa1"];
-    [[[mockedFormatter expect] andReturn:@"411111111111111"] digitsOnlyNumberForPlainTextNumber:@"visa2"];
+    [[[mockedFormatter expect] andReturn:@"4111111111111111"] digitsOnlyFromPlainText:@"visa1"];
+    [[[mockedFormatter expect] andReturn:@"411111111111111"] digitsOnlyFromPlainText:@"visa2"];
     
-    [[[mockedFormatter expect] andReturn:@"4111111111111111"] digitsOnlyNumberForPlainTextNumber:@"mastercard1"];
-    [[[mockedFormatter expect] andReturn:@"411111111111111"] digitsOnlyNumberForPlainTextNumber:@"mastercard2"];
+    [[[mockedFormatter expect] andReturn:@"4111111111111111"] digitsOnlyFromPlainText:@"mastercard1"];
+    [[[mockedFormatter expect] andReturn:@"411111111111111"] digitsOnlyFromPlainText:@"mastercard2"];
     
-    [[[mockedFormatter expect] andReturn:@"6703000000000000356"] digitsOnlyNumberForPlainTextNumber:@"maestro1"];
-    [[[mockedFormatter expect] andReturn:@"67030000000000003"] digitsOnlyNumberForPlainTextNumber:@"maestro2"];
+    [[[mockedFormatter expect] andReturn:@"6703000000000000356"] digitsOnlyFromPlainText:@"maestro1"];
+    [[[mockedFormatter expect] andReturn:@"67030000000000003"] digitsOnlyFromPlainText:@"maestro2"];
     
-    [[[mockedFormatter expect] andReturn:@"411111111111111"] digitsOnlyNumberForPlainTextNumber:@"amex1"];
-    [[[mockedFormatter expect] andReturn:@"41111111111111"] digitsOnlyNumberForPlainTextNumber:@"amex2"];
+    [[[mockedFormatter expect] andReturn:@"411111111111111"] digitsOnlyFromPlainText:@"amex1"];
+    [[[mockedFormatter expect] andReturn:@"41111111111111"] digitsOnlyFromPlainText:@"amex2"];
     
-    [[[mockedFormatter expect] andReturn:@"305693090259045"] digitsOnlyNumberForPlainTextNumber:@"diners1"];
-    [[[mockedFormatter expect] andReturn:@"30569309025904"] digitsOnlyNumberForPlainTextNumber:@"diners2"];
+    [[[mockedFormatter expect] andReturn:@"305693090259045"] digitsOnlyFromPlainText:@"diners1"];
+    [[[mockedFormatter expect] andReturn:@"30569309025904"] digitsOnlyFromPlainText:@"diners2"];
     
     
     XCTAssertTrue([formatter plainTextNumber:@"visa1" reachesMaxLengthForPaymentProductCode:HPTPaymentProductCodeVisa]);
@@ -75,24 +67,24 @@
 
 - (void)testPaymentProductCodeForPlainTextNumber
 {
-    [[[mockedFormatter expect] andReturn:@"411111111111"] digitsOnlyNumberForPlainTextNumber:@"visa1"];
-    [[[mockedFormatter expect] andReturn:@"400000000000"] digitsOnlyNumberForPlainTextNumber:@"visa2"];
-    [[[mockedFormatter expect] andReturn:@"4111113333333"] digitsOnlyNumberForPlainTextNumber:@"visa3"];
+    [[[mockedFormatter expect] andReturn:@"411111111111"] digitsOnlyFromPlainText:@"visa1"];
+    [[[mockedFormatter expect] andReturn:@"400000000000"] digitsOnlyFromPlainText:@"visa2"];
+    [[[mockedFormatter expect] andReturn:@"4111113333333"] digitsOnlyFromPlainText:@"visa3"];
     
-    [[[mockedFormatter expect] andReturn:@"53999999999999"] digitsOnlyNumberForPlainTextNumber:@"mastercard1"];
-    [[[mockedFormatter expect] andReturn:@"5105105105105"] digitsOnlyNumberForPlainTextNumber:@"mastercard2"];
-    [[[mockedFormatter expect] andReturn:@"51051051051051"] digitsOnlyNumberForPlainTextNumber:@"mastercard3"];
+    [[[mockedFormatter expect] andReturn:@"53999999999999"] digitsOnlyFromPlainText:@"mastercard1"];
+    [[[mockedFormatter expect] andReturn:@"5105105105105"] digitsOnlyFromPlainText:@"mastercard2"];
+    [[[mockedFormatter expect] andReturn:@"51051051051051"] digitsOnlyFromPlainText:@"mastercard3"];
     
-    [[[mockedFormatter expect] andReturn:@"675941110000"] digitsOnlyNumberForPlainTextNumber:@"maestro1"];
-    [[[mockedFormatter expect] andReturn:@"670300000000"] digitsOnlyNumberForPlainTextNumber:@"maestro2"];
+    [[[mockedFormatter expect] andReturn:@"675941110000"] digitsOnlyFromPlainText:@"maestro1"];
+    [[[mockedFormatter expect] andReturn:@"670300000000"] digitsOnlyFromPlainText:@"maestro2"];
     
-    [[[mockedFormatter expect] andReturn:@"378282246310"] digitsOnlyNumberForPlainTextNumber:@"amex1"];
-    [[[mockedFormatter expect] andReturn:@"371449635398"] digitsOnlyNumberForPlainTextNumber:@"amex2"];
+    [[[mockedFormatter expect] andReturn:@"378282246310"] digitsOnlyFromPlainText:@"amex1"];
+    [[[mockedFormatter expect] andReturn:@"371449635398"] digitsOnlyFromPlainText:@"amex2"];
     
-    [[[mockedFormatter expect] andReturn:@"3056930902"] digitsOnlyNumberForPlainTextNumber:@"diners1"];
-    [[[mockedFormatter expect] andReturn:@"385200000"] digitsOnlyNumberForPlainTextNumber:@"diners2"];
+    [[[mockedFormatter expect] andReturn:@"3056930902"] digitsOnlyFromPlainText:@"diners1"];
+    [[[mockedFormatter expect] andReturn:@"385200000"] digitsOnlyFromPlainText:@"diners2"];
     
-    [[[mockedFormatter expect] andReturn:@"3"] digitsOnlyNumberForPlainTextNumber:@"dinersOrAmex"];
+    [[[mockedFormatter expect] andReturn:@"3"] digitsOnlyFromPlainText:@"dinersOrAmex"];
     
     XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa1"], @[HPTPaymentProductCodeVisa]);
     XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa2"], @[HPTPaymentProductCodeVisa]);
@@ -134,22 +126,14 @@
 
 - (void)testHasValidLengthForPaymentProductCode
 {
-    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndex:16]] cardNumberLengthForPaymentProductCode:@"productCode1"];
-    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndex:16]] cardNumberLengthForPaymentProductCode:@"productCode1"];
-    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndex:16]] cardNumberLengthForPaymentProductCode:@"productCode1"];
-    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(15, 3)]] cardNumberLengthForPaymentProductCode:@"productCode2"];
-    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(15, 3)]] cardNumberLengthForPaymentProductCode:@"productCode2"];
-    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(15, 3)]] cardNumberLengthForPaymentProductCode:@"productCode2"];
-    [[[mockedFormatter expect] andReturn:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(15, 3)]] cardNumberLengthForPaymentProductCode:@"productCode2"];
+    XCTAssertTrue([formatter plainTextNumber:@"4111111111111111" hasValidLengthForPaymentProductCode:@"visa"]);
+    XCTAssertFalse([formatter plainTextNumber:@"41111111111111111" hasValidLengthForPaymentProductCode:@"visa"]);
+    XCTAssertFalse([formatter plainTextNumber:@"411111111111111" hasValidLengthForPaymentProductCode:@"visa"]);
 
-    XCTAssertTrue([formatter plainTextNumber:@"4111111111111111" hasValidLengthForPaymentProductCode:@"productCode1"]);
-    XCTAssertFalse([formatter plainTextNumber:@"41111111111111111" hasValidLengthForPaymentProductCode:@"productCode1"]);
-    XCTAssertFalse([formatter plainTextNumber:@"411111111111111" hasValidLengthForPaymentProductCode:@"productCode1"]);
-
-    XCTAssertTrue([formatter plainTextNumber:@"411111111111111" hasValidLengthForPaymentProductCode:@"productCode2"]);
-    XCTAssertTrue([formatter plainTextNumber:@"4111111111111111" hasValidLengthForPaymentProductCode:@"productCode2"]);
-    XCTAssertTrue([formatter plainTextNumber:@"41111111111111111" hasValidLengthForPaymentProductCode:@"productCode2"]);
-    XCTAssertFalse([formatter plainTextNumber:@"411111111111111111" hasValidLengthForPaymentProductCode:@"productCode2"]);
+    XCTAssertTrue([formatter plainTextNumber:@"411111111111111" hasValidLengthForPaymentProductCode:@"maestro"]);
+    XCTAssertTrue([formatter plainTextNumber:@"4111111111111111" hasValidLengthForPaymentProductCode:@"maestro"]);
+    XCTAssertTrue([formatter plainTextNumber:@"41111111111111111" hasValidLengthForPaymentProductCode:@"maestro"]);
+    XCTAssertFalse([formatter plainTextNumber:@"41111111111111111111" hasValidLengthForPaymentProductCode:@"maestro"]);
     
     [mockedFormatter verify];
 }
@@ -158,7 +142,7 @@
 {
     NSString *digits = @"54645";
     
-    [[[mockedFormatter expect] andReturn:digits] digitsOnlyNumberForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:digits] digitsOnlyFromPlainText:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@YES] luhnCheck:digits];
     [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
@@ -168,7 +152,7 @@
     [mockedFormatter verify];
 
 
-    [[[mockedFormatter expect] andReturn:digits] digitsOnlyNumberForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:digits] digitsOnlyFromPlainText:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@YES] luhnCheck:digits];
     [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeMasterCard]] paymentProductCodesForPlainTextNumber:@"number"];
@@ -179,7 +163,7 @@
 
     
     
-    [[[mockedFormatter expect] andReturn:digits] digitsOnlyNumberForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:digits] digitsOnlyFromPlainText:@"number"];
     [[[mockedFormatter expect] andReturnValue:@NO] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@YES] luhnCheck:digits];
     [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
@@ -190,7 +174,7 @@
     
     
     
-    [[[mockedFormatter expect] andReturn:digits] digitsOnlyNumberForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:digits] digitsOnlyFromPlainText:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@NO] luhnCheck:digits];
     [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];

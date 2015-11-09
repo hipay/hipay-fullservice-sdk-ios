@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "HPTFormTableViewCell.h"
+#import "HPTFormattedTextField.h"
 
 @interface HPTInputTableViewCell : HPTFormTableViewCell
 {
     UIColor *defaultBackgroundColor;
+    UIColor *defaultTextfieldColor;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;

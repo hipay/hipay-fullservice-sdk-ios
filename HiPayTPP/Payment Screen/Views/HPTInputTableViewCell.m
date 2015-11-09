@@ -15,6 +15,7 @@
     [super awakeFromNib];
     
     defaultBackgroundColor = self.contentView.backgroundColor;
+    defaultTextfieldColor = self.textField.textColor;
 }
 
 - (void)setIncorrectInput:(BOOL)incorrectInput
@@ -23,8 +24,10 @@
     
     if (self.incorrectInput) {
         self.contentView.backgroundColor = [UIColor colorWithRed:1. green:0. blue:0. alpha:.15];
+        self.textField.textColor = [UIColor redColor];
     } else {
         self.contentView.backgroundColor = defaultBackgroundColor;
+        self.textField.textColor = defaultTextfieldColor;
     }
 }
 

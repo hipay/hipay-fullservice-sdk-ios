@@ -8,6 +8,7 @@
 
 #import "HPTCardNumberFormatter.h"
 #import "HPTCardNumberFormatter_Private.h"
+#import "HPTFormatter_Private.h"
 #import "HPTPaymentProduct.h"
 
 HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
@@ -70,39 +71,9 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
     return indexSet;
 }
 
-- (NSString *)digitsOnlyNumberForPlainTextNumber:(NSString *)plainTextNumber
-{
-    NSCharacterSet *nonDigitCharacterSet = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-    return [[plainTextNumber componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
-}
-
-- (NSString *)plainTextNumberMayBeValid:(NSString *)plainTextNumber
-{
-    NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
-    
-    NSDictionary *paymentProductCodeFormats = @{
-                                                HPTPaymentProductCodeVisa: @"^4",
-                                                HPTPaymentProductCodeMasterCard: @"^((5[1-5]?)|2(2(21?)?)?|2(7(20?)?)?)",
-                                                HPTPaymentProductCodeDiners: @"^((3(0[0-5]?)?)|2(014)?|2149|309|36|38|39)",
-                                                HPTPaymentProductCodeAmericanExpress: @"^(34|37)",
-                                                HPTPaymentProductCodeMaestro: @"^(50|(5[6-9])|(6[0-9]))",
-                                                };
-    
-    for (NSString *paymentProductCode in paymentProductCodeFormats.allKeys) {
-        
-        NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:paymentProductCodeFormats[paymentProductCode] options:0 error:nil];
-        
-        if ([expression numberOfMatchesInString:digits options:0 range:NSMakeRange(0, [digits length])]) {
-            return paymentProductCode;
-        }
-    }
-    
-    return nil;
-}
-
 - (NSArray *)paymentProductCodesForPlainTextNumber:(NSString *)plainTextNumber
 {
-    NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
+    NSString *digits = [self digitsOnlyFromPlainText:plainTextNumber];
     
     NSMutableArray *result = [NSMutableArray array];
     
@@ -138,7 +109,7 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
 
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber reachesMaxLengthForPaymentProductCode:(NSString *)paymentProductCode
 {
-    NSUInteger inputLength = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber].length;
+    NSUInteger inputLength = [self digitsOnlyFromPlainText:plainTextNumber].length;
     
     NSIndexSet *lengthValues = paymentProductsInfo[paymentProductCode][@"lengths"];
     
@@ -147,7 +118,7 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
 
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber hasValidLengthForPaymentProductCode:(NSString *)paymentProductCode
 {
-    return [paymentProductsInfo[paymentProductCode][@"lengths"] containsIndex:[self digitsOnlyNumberForPlainTextNumber:plainTextNumber].length];
+    return [paymentProductsInfo[paymentProductCode][@"lengths"] containsIndex:[self digitsOnlyFromPlainText:plainTextNumber].length];
 }
 
 - (NSArray *)charArrayFromString:(NSString *)string {
@@ -190,7 +161,7 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
 
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber isValidForPaymentProductCode:(NSString *)paymentProductCode
 {
-    NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
+    NSString *digits = [self digitsOnlyFromPlainText:plainTextNumber];
     
     BOOL lengthValid = [self plainTextNumber:plainTextNumber hasValidLengthForPaymentProductCode:paymentProductCode];
     BOOL BINValid = [[self paymentProductCodesForPlainTextNumber:plainTextNumber] containsObject:paymentProductCode];
@@ -201,7 +172,7 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
 
 - (NSString *)formatPlainTextNumber:(NSString *)plainTextNumber forPaymentProductCode:(NSString *)paymentProductCode
 {
-    NSString *digits = [self digitsOnlyNumberForPlainTextNumber:plainTextNumber];
+    NSString *digits = [self digitsOnlyFromPlainText:plainTextNumber];
     
     NSArray *groups = paymentProductsInfo[paymentProductCode][@"format"];
     

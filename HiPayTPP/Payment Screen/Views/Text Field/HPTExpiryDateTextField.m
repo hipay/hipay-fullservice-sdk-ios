@@ -7,37 +7,28 @@
 //
 
 #import "HPTExpiryDateTextField.h"
+#import "HPTExpiryDateFormatter.h"
 
 @implementation HPTExpiryDateTextField
 
-//- (NSString *)digitsOnlyNumberForPlainTextNumber:(NSString *)plainTextNumber
-//{
-//    NSCharacterSet *nonDigitCharacterSet = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-//    return [[plainTextNumber componentsSeparatedByCharactersInSet:nonDigitCharacterSet] componentsJoinedByString:@""];
-//}
-//
-//- (void)textFieldDidChange:(id)sender
-//{
-//    _paymentProductCodes = [HPTCardNumberFormatter.sharedFormatter paymentProductCodesForPlainTextNumber:self.text];
-//    
-//    if (self.paymentProductCodes.count == 1) {
-//        self.text = [HPTCardNumberFormatter.sharedFormatter formatPlainTextNumber:self.text forPaymentProductCode:self.paymentProductCodes.firstObject];
-//    }
-//}
-//
+- (void)textFieldDidChange:(id)sender
+{
+    self.text = [[HPTExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:self.text];
+}
+
 //- (BOOL)isValid
 //{
-//    if (self.paymentProductCodes.count == 1) {
-//        if ([HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text reachesMaxLengthForPaymentProductCode:self.paymentProductCodes.firstObject]) {
-//            return [HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text isValidForPaymentProductCode:self.paymentProductCodes.firstObject];
-//        }
+//    if ([[HPTExpiryDateFormatter sharedFormatter] dateIsCompleteForPlainText:self.text]) {
+//        NSDateComponents *dateComponents = [[HPTExpiryDateFormatter sharedFormatter] dateComponentsForPlainText:self.text];
 //        
-//        return YES;
+//        
+//        if (currentDateComponents)
+//        
 //    }
 //    
-//    return (self.paymentProductCodes.count > 0) || (self.text.length == 0);
+//    return YES;
 //}
-//
+
 //- (BOOL)isCompleted
 //{
 //    if (self.paymentProductCodes.count == 1) {

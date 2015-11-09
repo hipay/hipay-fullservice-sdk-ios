@@ -110,7 +110,7 @@
             break;
             
         case 2:
-            cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"expiration"];
+            cell = [self dequeueInputCellWithIdentifier:@"ExpiryDateInput" fieldIdentifier:@"expiration"];
             cell.inputLabel.text = HPTLocalizedString(@"CARD_EXPIRATION_LABEL");
             cell.textField.placeholder = HPTLocalizedString(@"CARD_EXPIRATION_PLACEHOLDER");
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;

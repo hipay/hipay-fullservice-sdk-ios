@@ -7,7 +7,28 @@
 //
 
 #import "HPTPersonalInfoRequest.h"
+#import "NSString+HPTValidation.h"
 
 @implementation HPTPersonalInfoRequest
+
+- (NSString *)displayName
+{
+    NSString *firstname = self.firstname;
+    NSString *lastname = self.lastname;
+    
+    if ([firstname isDefined] && [lastname isDefined]) {
+        return [NSString stringWithFormat:@"%@ %@", firstname, lastname];
+    }
+    
+    else if ([firstname isDefined]) {
+        return firstname;
+    }
+    
+    else if ([lastname isDefined]) {
+        return lastname;
+    }
+    
+    return nil;
+}
 
 @end

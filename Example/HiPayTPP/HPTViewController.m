@@ -49,6 +49,8 @@
     order.customer = [[HPTCustomerInfoRequest alloc] init];
     order.customer.email = [NSString stringWithFormat:@"jtiret+%f@hipay.com", [NSDate date].timeIntervalSince1970];
     order.customer.country = @"FR";
+    order.customer.firstname = @"Jonathan";
+    order.customer.lastname = @"Tiret";
     
     
     

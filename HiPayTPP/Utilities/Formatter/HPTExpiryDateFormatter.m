@@ -24,12 +24,18 @@ HPTExpiryDateFormatter *HPTExpiryDateFormatterSharedInstance = nil;
 
 - (NSString *)formattedDateWithPlainText:(NSString *)plainText
 {
-    NSString *digits = [self digitsOnlyFromPlainText:plainText];
+    NSMutableString *digits = [NSMutableString stringWithString:[self digitsOnlyFromPlainText:plainText]];
+    
+    if ((digits.length == 2) && (plainText.length > 2) && (plainText.length < 5)) {
+        [digits deleteCharactersInRange:NSMakeRange(1, 1)];
+    }
+    
+    if ((digits.length == 1) && (digits.integerValue > 1)) {
+        [digits insertString:@"0" atIndex:0];
+    }
     
     if (digits.length >= 2) {
-        NSMutableString *mutableDigits = [NSMutableString stringWithString:digits];
-        [mutableDigits insertString:@" / " atIndex:2];
-        return mutableDigits;
+        [digits insertString:@" / " atIndex:2];
     }
     
     return digits;

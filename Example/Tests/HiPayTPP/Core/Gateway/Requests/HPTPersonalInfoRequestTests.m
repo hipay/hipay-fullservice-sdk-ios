@@ -9,6 +9,10 @@
 #import <XCTest/XCTest.h>
 
 @interface HPTPersonalInfoRequestTests : XCTestCase
+{
+    OCMockObject *mockedObject;
+    HPTPersonalInfoRequest *object;
+}
 
 @end
 
@@ -16,7 +20,9 @@
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    mockedObject = [OCMockObject partialMockForObject:[[HPTPersonalInfoRequest alloc] init]];
+    object = (HPTPersonalInfoRequest *)mockedObject;
 }
 
 - (void)tearDown {
@@ -26,7 +32,7 @@
 
 - (void)testKeyPaths
 {
-    HPTPersonalInfoRequest *object = [[HPTPersonalInfoRequest alloc] init];
+    object = [[HPTPersonalInfoRequest alloc] init];
     
     object.firstname = @"test1";
     object.lastname = @"test2";
@@ -47,6 +53,31 @@
     XCTAssertEqualObjects([object valueForKey:@"state"], @"test7");
     XCTAssertEqualObjects([object valueForKey:@"zipCode"], @"test8");
     XCTAssertEqualObjects([object valueForKey:@"country"], @"test9");
+}
+
+- (void)testDisplayName
+{
+    [[[mockedObject expect] andReturn:@"Jean-Pierre"] firstname];
+    [[[mockedObject expect] andReturn:@"Dupont"] lastname];
+    XCTAssertEqualObjects(object.displayName, @"Jean-Pierre Dupont");
+    [mockedObject verify];
+    
+    [[[mockedObject expect] andReturn:@""] firstname];
+    [[[mockedObject expect] andReturn:@"Dupont"] lastname];
+    XCTAssertEqualObjects(object.displayName, @"Dupont");
+    [mockedObject verify];
+    
+    [[[mockedObject expect] andReturn:@"Jean-Pierre"] firstname];
+    [[[mockedObject expect] andReturn:nil] lastname];
+    XCTAssertEqualObjects(object.displayName, @"Jean-Pierre");
+    [mockedObject verify];
+    
+    [[[mockedObject expect] andReturn:nil] firstname];
+    [[[mockedObject expect] andReturn:@""] lastname];
+    XCTAssertNil(object.displayName);
+    [mockedObject verify];
+    
+    
 }
 
 @end

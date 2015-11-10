@@ -10,4 +10,6 @@
 
 @interface HPTExpiryDateTextField : HPTFormattedTextField
 
+@property (nonatomic, readonly) NSDateComponents *dateComponents;
+
 @end

@@ -170,7 +170,7 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
     return lengthValid && BINValid && luhnCheck;
 }
 
-- (NSString *)formatPlainTextNumber:(NSString *)plainTextNumber forPaymentProductCode:(NSString *)paymentProductCode
+- (NSAttributedString *)formatPlainTextNumber:(NSString *)plainTextNumber forPaymentProductCode:(NSString *)paymentProductCode
 {
     NSString *digits = [self digitsOnlyFromPlainText:plainTextNumber];
     
@@ -178,13 +178,14 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
     
     if (groups != nil) {
         
-        NSMutableString *formattedNumber = [NSMutableString stringWithString:digits];
+        NSMutableAttributedString *formattedNumber = [[NSMutableAttributedString alloc] initWithString:digits];
         NSUInteger currentPosition = 0;
 
         for (NSNumber *numberOfDigits in groups) {
-            NSUInteger newPosition = (currentPosition + numberOfDigits.unsignedIntegerValue);
+            NSUInteger newPosition = (currentPosition + numberOfDigits.unsignedIntegerValue - 1);
             if (formattedNumber.length > newPosition) {
-                [formattedNumber insertString:@" " atIndex:newPosition];
+                [formattedNumber addAttribute:NSKernAttributeName value:@7 range:NSMakeRange(newPosition, 1)];
+
                 currentPosition = newPosition + 1;
             } else {
                 break;
@@ -194,7 +195,7 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
         return formattedNumber;
     }
     
-    return digits;
+    return [[NSAttributedString alloc] initWithString:digits];
 }
 
 @end

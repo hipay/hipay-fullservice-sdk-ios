@@ -19,7 +19,7 @@
 
 - (void)textFieldDidChange:(id)sender
 {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"The method %@ should be overridden in a subclass.", NSStringFromSelector(_cmd)] userInfo:nil];
+    // Empty implementation
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {

@@ -16,6 +16,7 @@
 #import "HPTSecureVaultClient.h"
 #import "HPTCardTokenPaymentMethodRequest.h"
 #import "HPTCardNumberTextField.h"
+#import "HPTExpiryDateTextField.h"
 
 @interface HPTTokenizableCardPaymentProductViewController ()
 
@@ -32,14 +33,41 @@
     return orderRequest;
 }
 
+- (void)viewDidLayoutSubviews
+{
+    static dispatch_once_t once;
+
+    dispatch_once(&once, ^{
+        UITextField *cardHolderTextField = [self textFieldForIdentifier:@"holder"];
+        cardHolderTextField.text = self.paymentPageRequest.customer.displayName;
+    });
+    
+}
+
 - (void)textFieldDidChange:(UITextField *)textField
 {
     [super textFieldDidChange:textField];
     
-    HPTCardNumberTextField *cardNumberTextField =  (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
+    HPTCardNumberTextField *cardNumberTextField = (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
+    HPTExpiryDateTextField *expiryDateTextField = (HPTExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
+    HPTExpiryDateTextField *securityCodeTextField = (HPTExpiryDateTextField *) [self textFieldForIdentifier:@"security_code"];
     
     if (textField == cardNumberTextField) {
-        [self cellWithTextField:cardNumberTextField].incorrectInput = !cardNumberTextField.valid;
+        BOOL valid = cardNumberTextField.valid;
+        [self cellWithTextField:cardNumberTextField].incorrectInput = !valid;
+        
+        if (valid && (cardNumberTextField.isCompleted)) {
+            [expiryDateTextField becomeFirstResponder];
+        }
+    }
+    
+    else if (textField == expiryDateTextField) {
+        BOOL valid = expiryDateTextField.valid;
+        [self cellWithTextField:expiryDateTextField].incorrectInput = !valid;
+        
+        if (valid && (expiryDateTextField.isCompleted)) {
+            [securityCodeTextField becomeFirstResponder];
+        }
     }
 }
 
@@ -110,7 +138,7 @@
             break;
             
         case 2:
-            cell = [self dequeueInputCellWithIdentifier:@"ExpiryDateInput" fieldIdentifier:@"expiration"];
+            cell = [self dequeueInputCellWithIdentifier:@"ExpiryDateInput" fieldIdentifier:@"expiry_date"];
             cell.inputLabel.text = HPTLocalizedString(@"CARD_EXPIRATION_LABEL");
             cell.textField.placeholder = HPTLocalizedString(@"CARD_EXPIRATION_PLACEHOLDER");
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;

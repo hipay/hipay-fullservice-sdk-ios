@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSString *firstname;
 @property (nonatomic, copy) NSString *lastname;
+@property (nonatomic, readonly) NSString *displayName;
 @property (nonatomic, copy) NSString *streetAddress;
 @property (nonatomic, copy) NSString *streetAddress2;
 @property (nonatomic, copy) NSString *recipientInfo;

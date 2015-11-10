@@ -15,7 +15,7 @@
     _paymentProductCodes = [HPTCardNumberFormatter.sharedFormatter paymentProductCodesForPlainTextNumber:self.text];
     
     if (self.paymentProductCodes.count == 1) {
-        self.text = [HPTCardNumberFormatter.sharedFormatter formatPlainTextNumber:self.text forPaymentProductCode:self.paymentProductCodes.firstObject];
+        self.attributedText = [HPTCardNumberFormatter.sharedFormatter formatPlainTextNumber:self.text forPaymentProductCode:self.paymentProductCodes.firstObject];
     }
 }
 

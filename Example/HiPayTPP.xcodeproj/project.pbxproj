@@ -57,7 +57,6 @@
 		A595C45A1BC802DA0076AF07 /* HPTOrderMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C4591BC802DA0076AF07 /* HPTOrderMapperTests.m */; };
 		A5A375581BD7E0DC00CEA434 /* HPTArrayMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A375571BD7E0DC00CEA434 /* HPTArrayMapperTests.m */; };
 		A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A3755B1BD8E6A600CEA434 /* payment_products.json */; };
-		A5A3755F1BD9165300CEA434 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A3755E1BD9165300CEA434 /* WebKit.framework */; };
 		A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */; };
 		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; };
 		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; };
@@ -171,7 +170,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5A3755F1BD9165300CEA434 /* WebKit.framework in Frameworks */,
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,

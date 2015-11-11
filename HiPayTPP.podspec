@@ -66,6 +66,7 @@ Pod::Spec.new do |s|
     }
     s.dependency "HiPayTPP/Core"
     s.dependency "HiPayTPP/Utilities"
+    s.frameworks = 'WebKit'
   end
 
 end

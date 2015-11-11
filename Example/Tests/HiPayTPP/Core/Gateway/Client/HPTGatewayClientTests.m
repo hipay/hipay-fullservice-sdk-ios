@@ -115,7 +115,7 @@
     
     [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [HTTPResponse verify];
     [(OCMockObject *)gatewayClient verify];
@@ -154,7 +154,7 @@
     
     [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [HTTPResponse verify];
     [(OCMockObject *)gatewayClient verify];
@@ -195,7 +195,7 @@
     
     [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [HTTPResponse verify];
     [(OCMockObject *)gatewayClient verify];
@@ -236,7 +236,7 @@
     
     [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:YES completionHandler:completionBlock];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [HTTPResponse verify];
     [(OCMockObject *)gatewayClient verify];
@@ -311,7 +311,7 @@
     [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
     
     [(OCMockObject *)gatewayClient verify];
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
 }
 
 - (void)testTransactionWithReferenceError
@@ -336,7 +336,7 @@
     [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
     
     [(OCMockObject *)gatewayClient verify];
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
 }
 
 - (void)testTransactionDetailsWithOrderId

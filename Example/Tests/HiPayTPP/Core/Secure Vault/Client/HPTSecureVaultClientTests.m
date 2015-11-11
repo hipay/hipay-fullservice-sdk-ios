@@ -238,7 +238,7 @@
         
     }];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [((OCMockObject *)secureVaultClient) verify];
 }
@@ -262,7 +262,7 @@
         
     }];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [((OCMockObject *)secureVaultClient) verify];
 }
@@ -292,7 +292,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [((OCMockObject *)secureVaultClient) verify];
 }

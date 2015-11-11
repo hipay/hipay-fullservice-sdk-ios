@@ -29,8 +29,6 @@
 		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; };
 		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; };
 		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; };
-		A537989B1BF3EF930029E776 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A3755E1BD9165300CEA434 /* WebKit.framework */; };
-		A537989C1BF3EFAE0029E776 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A3755E1BD9165300CEA434 /* WebKit.framework */; };
 		A53BF59F1BEB54D100E24957 /* HPTCardNumberFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF59E1BEB54D100E24957 /* HPTCardNumberFormatterTests.m */; };
 		A53BF5C21BF0F1A400E24957 /* HPTExpiryDateFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C11BF0F1A400E24957 /* HPTExpiryDateFormatterTests.m */; };
 		A53BF5C41BF0FA0300E24957 /* HPTFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C31BF0FA0300E24957 /* HPTFormatterTests.m */; };
@@ -172,7 +170,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A537989B1BF3EF930029E776 /* WebKit.framework in Frameworks */,
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
@@ -184,7 +181,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A537989C1BF3EFAE0029E776 /* WebKit.framework in Frameworks */,
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,

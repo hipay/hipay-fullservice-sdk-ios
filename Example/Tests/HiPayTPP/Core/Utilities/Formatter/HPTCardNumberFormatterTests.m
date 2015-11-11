@@ -9,7 +9,6 @@
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTCardNumberFormatter.h>
 #import <HiPayTPP/HPTCardNumberFormatter_Private.h>
-#import <HiPayTPP/HPTFormatter_Private.h>
 
 @interface HPTCardNumberFormatterTests : XCTestCase
 {
@@ -172,8 +171,6 @@
     
     [mockedFormatter verify];
     
-    
-    
     [[[mockedFormatter expect] andReturn:digits] digitsOnlyFromPlainText:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@NO] luhnCheck:digits];
@@ -186,47 +183,100 @@
 
 - (void)testFormatPlainTextNumber
 {
-    XCTAssertEqualObjects(@"5", [formatter formatPlainTextNumber:@"5" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"53", [formatter formatPlainTextNumber:@"53" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"539", [formatter formatPlainTextNumber:@"539" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399", [formatter formatPlainTextNumber:@"5399" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9", [formatter formatPlainTextNumber:@"53999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 99", [formatter formatPlainTextNumber:@"5399 99" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 999", [formatter formatPlainTextNumber:@"5399 999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9999", [formatter formatPlainTextNumber:@"5399 9999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9999 9", [formatter formatPlainTextNumber:@"5399 99999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9999 99", [formatter formatPlainTextNumber:@"5399 9999 99" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9999 999", [formatter formatPlainTextNumber:@"5399 9999 999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9999 9999", [formatter formatPlainTextNumber:@"5399 9999 9999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9999 9999 9", [formatter formatPlainTextNumber:@"5399 9999 99999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9999 9999 99", [formatter formatPlainTextNumber:@"5399 9999 9999 99" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9999 9999 999", [formatter formatPlainTextNumber:@"5399 9999 9999 999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"5399 9999 9999 9999", [formatter formatPlainTextNumber:@"5399 9999 9999 9999" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    NSAttributedString *result;
     
-    XCTAssertEqualObjects(@"4111 1111 1111 1111", [formatter formatPlainTextNumber:@"4111111111111111" forPaymentProductCode:HPTPaymentProductCodeVisa]);
-    XCTAssertEqualObjects(@"411", [formatter formatPlainTextNumber:@"411" forPaymentProductCode:HPTPaymentProductCodeVisa]);
-    XCTAssertEqualObjects(@"4111 1111 1", [formatter formatPlainTextNumber:@"4111 11111" forPaymentProductCode:HPTPaymentProductCodeVisa]);
-    XCTAssertEqualObjects(@"4111 1", [formatter formatPlainTextNumber:@"41111" forPaymentProductCode:HPTPaymentProductCodeVisa]);
+    // MasterCard
+    
+    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"539"], [formatter formatPlainTextNumber:@"539" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"5392" forPaymentProductCode:HPTPaymentProductCodeMasterCard] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    
+    result = [formatter formatPlainTextNumber:@"5125654789874565" forPaymentProductCode:HPTPaymentProductCodeMasterCard];
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:7 effectiveRange:nil].allKeys.firstObject);
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:11 effectiveRange:nil].allKeys.firstObject);
+    
+    // Visa
+    
+    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"539"], [formatter formatPlainTextNumber:@"539" forPaymentProductCode:HPTPaymentProductCodeVisa]);
+    XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"5392" forPaymentProductCode:HPTPaymentProductCodeVisa] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    
+    result = [formatter formatPlainTextNumber:@"5125654789874565" forPaymentProductCode:HPTPaymentProductCodeVisa];
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:7 effectiveRange:nil].allKeys.firstObject);
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:11 effectiveRange:nil].allKeys.firstObject);
+    
+    // American Express
+    
+    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"375"], [formatter formatPlainTextNumber:@"375" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
+    XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"3756" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    
+    result = [formatter formatPlainTextNumber:@"378282246310005" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress];
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:9 effectiveRange:nil].allKeys.firstObject);
+    
+    // Maestro
+    
+    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"670"], [formatter formatPlainTextNumber:@"670" forPaymentProductCode:HPTPaymentProductCodeMaestro]);
+    XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"6703" forPaymentProductCode:HPTPaymentProductCodeMaestro] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    
+    result = [formatter formatPlainTextNumber:@"67030000000000003" forPaymentProductCode:HPTPaymentProductCodeMaestro];
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:7 effectiveRange:nil].allKeys.firstObject);
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:11 effectiveRange:nil].allKeys.firstObject);
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:15 effectiveRange:nil].allKeys.firstObject);
+    
+    // Diners
+    
+    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"305"], [formatter formatPlainTextNumber:@"305" forPaymentProductCode:HPTPaymentProductCodeDiners]);
+    XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"3056" forPaymentProductCode:HPTPaymentProductCodeDiners] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    
+    result = [formatter formatPlainTextNumber:@"305693090259045" forPaymentProductCode:HPTPaymentProductCodeDiners];
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
+    XCTAssertEqualObjects(NSKernAttributeName, [result attributesAtIndex:9 effectiveRange:nil].allKeys.firstObject);
 
-    XCTAssertEqualObjects(@"4111 1111 1111 1111", [formatter formatPlainTextNumber:@"4111111111111111" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"411", [formatter formatPlainTextNumber:@"411" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"4111 1111 1", [formatter formatPlainTextNumber:@"4111 11111" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"4111 1111 11", [formatter formatPlainTextNumber:@"4111 111111" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects(@"4111 1", [formatter formatPlainTextNumber:@"41111" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
-    
-    XCTAssertEqualObjects(@"3782 822463 10005", [formatter formatPlainTextNumber:@"378282246310005" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
-    XCTAssertEqualObjects(@"3782", [formatter formatPlainTextNumber:@"3782" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
-    XCTAssertEqualObjects(@"378", [formatter formatPlainTextNumber:@"378" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
-    XCTAssertEqualObjects(@"3782 8", [formatter formatPlainTextNumber:@"37828" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
+}
 
-    XCTAssertEqualObjects(@"3056 930902 5904", [formatter formatPlainTextNumber:@"30569309025904" forPaymentProductCode:HPTPaymentProductCodeDiners]);
-    XCTAssertEqualObjects(@"3056 930902 59045", [formatter formatPlainTextNumber:@"305693090259045" forPaymentProductCode:HPTPaymentProductCodeDiners]);
-    XCTAssertEqualObjects(@"3056 9", [formatter formatPlainTextNumber:@"30569" forPaymentProductCode:HPTPaymentProductCodeDiners]);
+- (void)testIsInRangeForPaymentProductCode
+{
+    [[[mockedFormatter expect] andReturn:@"3"] digitsOnlyFromPlainText:@"amex1"];
+    [[[mockedFormatter expect] andReturn:@"37"] digitsOnlyFromPlainText:@"amex2"];
+    [[[mockedFormatter expect] andReturn:@"370"] digitsOnlyFromPlainText:@"amex3"];
+    XCTAssertFalse([formatter plainTextNumber:@"amex1" isInRangeForPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
+    XCTAssertTrue([formatter plainTextNumber:@"amex2" isInRangeForPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
+    XCTAssertTrue([formatter plainTextNumber:@"amex3" isInRangeForPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
+    [mockedFormatter verify];
     
-    XCTAssertEqualObjects(@"6703 0000 0000 0000 3", [formatter formatPlainTextNumber:@"67030000000000003" forPaymentProductCode:HPTPaymentProductCodeMaestro]);
-    XCTAssertEqualObjects(@"6703 0000 0000 0000", [formatter formatPlainTextNumber:@"6703000000000000" forPaymentProductCode:HPTPaymentProductCodeMaestro]);
-    XCTAssertEqualObjects(@"6703", [formatter formatPlainTextNumber:@"6703" forPaymentProductCode:HPTPaymentProductCodeMaestro]);
+    [[[mockedFormatter expect] andReturn:@"5"] digitsOnlyFromPlainText:@"mastercard1"];
+    [[[mockedFormatter expect] andReturn:@"51"] digitsOnlyFromPlainText:@"mastercard2"];
+    [[[mockedFormatter expect] andReturn:@"516"] digitsOnlyFromPlainText:@"mastercard3"];
+    XCTAssertFalse([formatter plainTextNumber:@"mastercard1" isInRangeForPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertTrue([formatter plainTextNumber:@"mastercard2" isInRangeForPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    XCTAssertTrue([formatter plainTextNumber:@"mastercard3" isInRangeForPaymentProductCode:HPTPaymentProductCodeMasterCard]);
+    [mockedFormatter verify];
     
+    [[[mockedFormatter expect] andReturn:@""] digitsOnlyFromPlainText:@"visa1"];
+    [[[mockedFormatter expect] andReturn:@"4"] digitsOnlyFromPlainText:@"visa2"];
+    [[[mockedFormatter expect] andReturn:@"411111"] digitsOnlyFromPlainText:@"visa3"];
+    XCTAssertFalse([formatter plainTextNumber:@"visa1" isInRangeForPaymentProductCode:HPTPaymentProductCodeVisa]);
+    XCTAssertTrue([formatter plainTextNumber:@"visa2" isInRangeForPaymentProductCode:HPTPaymentProductCodeVisa]);
+    XCTAssertTrue([formatter plainTextNumber:@"visa3" isInRangeForPaymentProductCode:HPTPaymentProductCodeVisa]);
+    [mockedFormatter verify];
+    
+    [[[mockedFormatter expect] andReturn:@"5"] digitsOnlyFromPlainText:@"maestro1"];
+    [[[mockedFormatter expect] andReturn:@"59"] digitsOnlyFromPlainText:@"maestro2"];
+    [[[mockedFormatter expect] andReturn:@"596865"] digitsOnlyFromPlainText:@"maestro3"];
+    XCTAssertFalse([formatter plainTextNumber:@"maestro1" isInRangeForPaymentProductCode:HPTPaymentProductCodeMaestro]);
+    XCTAssertTrue([formatter plainTextNumber:@"maestro2" isInRangeForPaymentProductCode:HPTPaymentProductCodeMaestro]);
+    XCTAssertTrue([formatter plainTextNumber:@"maestro3" isInRangeForPaymentProductCode:HPTPaymentProductCodeMaestro]);
+    [mockedFormatter verify];
+    
+    [[[mockedFormatter expect] andReturn:@"3"] digitsOnlyFromPlainText:@"diners1"];
+    [[[mockedFormatter expect] andReturn:@"38"] digitsOnlyFromPlainText:@"diners2"];
+    [[[mockedFormatter expect] andReturn:@"398776"] digitsOnlyFromPlainText:@"diners3"];
+    XCTAssertFalse([formatter plainTextNumber:@"diners1" isInRangeForPaymentProductCode:HPTPaymentProductCodeDiners]);
+    XCTAssertTrue([formatter plainTextNumber:@"diners2" isInRangeForPaymentProductCode:HPTPaymentProductCodeDiners]);
+    XCTAssertTrue([formatter plainTextNumber:@"diners3" isInRangeForPaymentProductCode:HPTPaymentProductCodeDiners]);
+    [mockedFormatter verify];
 }
 
 @end

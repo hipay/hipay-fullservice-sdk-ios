@@ -8,7 +8,6 @@
 
 #import "HPTCardNumberFormatter.h"
 #import "HPTCardNumberFormatter_Private.h"
-#import "HPTFormatter_Private.h"
 #import "HPTPaymentProduct.h"
 
 HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
@@ -184,8 +183,8 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
         for (NSNumber *numberOfDigits in groups) {
             NSUInteger newPosition = (currentPosition + numberOfDigits.unsignedIntegerValue - 1);
             if (formattedNumber.length > newPosition) {
-                [formattedNumber addAttribute:NSKernAttributeName value:@7 range:NSMakeRange(newPosition, 1)];
-
+                [formattedNumber addAttribute:NSKernAttributeName value:@6 range:NSMakeRange(newPosition, 1)];
+                
                 currentPosition = newPosition + 1;
             } else {
                 break;
@@ -196,6 +195,30 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
     }
     
     return [[NSAttributedString alloc] initWithString:digits];
+}
+
+- (BOOL)plainTextNumber:(NSString *)plainTextNumber isInRangeForPaymentProductCode:(NSString *)paymentProductCode
+{
+    NSString *digits = [self digitsOnlyFromPlainText:plainTextNumber];
+    NSIndexSet *ranges = paymentProductsInfo[paymentProductCode][@"ranges"];
+    
+    NSUInteger indexFound = [ranges indexPassingTest:^BOOL(NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSString *stringIndex = [NSString stringWithFormat:@"%lu", (unsigned long)idx];
+        NSString *digitsSubstring = digits;
+        
+        if (digitsSubstring.length > stringIndex.length) {
+            digitsSubstring = [digits substringToIndex:stringIndex.length];
+        }
+        
+        BOOL result = [stringIndex isEqualToString:digitsSubstring];
+        
+        *stop = result;
+        
+        return result;
+    }];
+    
+    return indexFound != NSNotFound;
 }
 
 @end

@@ -45,6 +45,8 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTExpiryDateInputTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ExpiryDateInput"];
     
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPTSecurityCodeInputTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"SecurityCodeInput"];
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTLabelTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTLabelTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];

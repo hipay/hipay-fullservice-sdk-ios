@@ -9,5 +9,8 @@
 #import "HPTAbstractPaymentProductViewController.h"
 
 @interface HPTTokenizableCardPaymentProductViewController : HPTAbstractPaymentProductViewController
+{
+    dispatch_once_t cardHolderPredefinedBlock;
+}
 
 @end

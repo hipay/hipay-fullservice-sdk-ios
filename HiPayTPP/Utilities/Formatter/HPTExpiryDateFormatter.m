@@ -7,7 +7,6 @@
 //
 
 #import "HPTExpiryDateFormatter.h"
-#import "HPTFormatter_Private.h"
 
 HPTExpiryDateFormatter *HPTExpiryDateFormatterSharedInstance = nil;
 
@@ -22,20 +21,17 @@ HPTExpiryDateFormatter *HPTExpiryDateFormatterSharedInstance = nil;
     return HPTExpiryDateFormatterSharedInstance;
 }
 
-- (NSString *)formattedDateWithPlainText:(NSString *)plainText
+- (NSAttributedString *)formattedDateWithPlainText:(NSString *)plainText
 {
-    NSMutableString *digits = [NSMutableString stringWithString:[self digitsOnlyFromPlainText:plainText]];
+    NSMutableAttributedString *digits = [[NSMutableAttributedString alloc] initWithString:[self digitsOnlyFromPlainText:plainText]];
     
-    if ((digits.length == 2) && (plainText.length > 2) && (plainText.length < 5)) {
-        [digits deleteCharactersInRange:NSMakeRange(1, 1)];
-    }
-    
-    if ((digits.length == 1) && (digits.integerValue > 1)) {
-        [digits insertString:@"0" atIndex:0];
+    if ((digits.length == 1) && (digits.string.integerValue > 1)) {
+        [digits insertAttributedString:[[NSAttributedString alloc] initWithString:@"0"] atIndex:0];
     }
     
     if (digits.length >= 2) {
-        [digits insertString:@" / " atIndex:2];
+        [digits addAttribute:NSKernAttributeName value:@5 range:NSMakeRange(1, 1)];
+        [digits insertAttributedString:[[NSAttributedString alloc] initWithString:@"/" attributes:@{NSKernAttributeName: @5}] atIndex:2];
     }
     
     return digits;

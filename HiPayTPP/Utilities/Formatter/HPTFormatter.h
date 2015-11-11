@@ -10,4 +10,6 @@
 
 @interface HPTFormatter : NSObject
 
+- (NSString *)digitsOnlyFromPlainText:(NSString *)plainTextNumber;
+
 @end

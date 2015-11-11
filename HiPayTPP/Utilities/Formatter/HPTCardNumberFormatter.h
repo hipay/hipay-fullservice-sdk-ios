@@ -18,6 +18,8 @@
 
 - (NSArray *)paymentProductCodesForPlainTextNumber:(NSString *)plainTextNumber;
 
+- (BOOL)plainTextNumber:(NSString *)plainTextNumber isInRangeForPaymentProductCode:(NSString *)paymentProductCode;
+
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber reachesMaxLengthForPaymentProductCode:(NSString *)paymentProductCode;
 
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber isValidForPaymentProductCode:(NSString *)paymentProductCode;

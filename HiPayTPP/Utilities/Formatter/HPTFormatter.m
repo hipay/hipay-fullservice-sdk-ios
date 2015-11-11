@@ -7,7 +7,6 @@
 //
 
 #import "HPTFormatter.h"
-#import "HPTFormatter_Private.h"
 
 @implementation HPTFormatter
 

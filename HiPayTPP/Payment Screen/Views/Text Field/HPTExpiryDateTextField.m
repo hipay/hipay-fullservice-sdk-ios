@@ -13,7 +13,7 @@
 
 - (void)textFieldDidChange:(id)sender
 {
-    self.text = [[HPTExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:self.text];
+    self.attributedText = [[HPTExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:self.text];
 }
 
 - (BOOL)isValid
@@ -46,9 +46,17 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+    NSString *part = [textField.text substringWithRange:range];
+    
+    if ([part isEqualToString:@"/"] && [string isEqualToString:@""]) {
+        
+        self.attributedText = [[HPTExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:[self.text substringToIndex:fmax(range.location - 1, 0)]];
+        
+        return NO;
+    }
+
     return [string isEqualToString:@""] || ![[HPTExpiryDateFormatter sharedFormatter] dateIsCompleteForPlainText:self.text];
+
 }
-
-
 
 @end

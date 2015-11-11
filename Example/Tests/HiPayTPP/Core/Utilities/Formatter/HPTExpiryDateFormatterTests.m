@@ -8,7 +8,6 @@
 
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTExpiryDateFormatter.h>
-#import <HiPayTPP/HPTFormatter_Private.h>
 
 @interface HPTExpiryDateFormatterTests : XCTestCase
 {
@@ -36,19 +35,17 @@
 {
     [[[mockedFormatter expect] andReturn:@""] digitsOnlyFromPlainText:@"test1"];
     [[[mockedFormatter expect] andReturn:@"1"] digitsOnlyFromPlainText:@"test2"];
-    [[[mockedFormatter expect] andReturn:@"11"] digitsOnlyFromPlainText:@"11"];
-    [[[mockedFormatter expect] andReturn:@"11"] digitsOnlyFromPlainText:@"11 /"];
+    [[[mockedFormatter expect] andReturn:@"11"] digitsOnlyFromPlainText:@"test3"];
     [[[mockedFormatter expect] andReturn:@"111"] digitsOnlyFromPlainText:@"test4"];
     [[[mockedFormatter expect] andReturn:@"1116"] digitsOnlyFromPlainText:@"test5"];
     [[[mockedFormatter expect] andReturn:@"6"] digitsOnlyFromPlainText:@"test6"];
     
-    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test1"], @"");
-    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test2"], @"1");
-    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"11"], @"11 / ");
-    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"11 /"], @"1");
-    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test4"], @"11 / 1");
-    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test5"], @"11 / 16");
-    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test6"], @"06 / ");
+    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test1"].string, @"");
+    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test2"].string, @"1");
+    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test3"].string, @"11/");
+    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test4"].string, @"11/1");
+    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test5"].string, @"11/16");
+    XCTAssertEqualObjects([formatter formattedDateWithPlainText:@"test6"].string, @"06/");
     
     [mockedFormatter verify];
 }

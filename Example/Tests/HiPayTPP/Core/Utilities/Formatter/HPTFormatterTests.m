@@ -8,7 +8,6 @@
 
 #import <XCTest/XCTest.h>
 #import <HiPayTPP/HPTFormatter.h>
-#import <HiPayTPP/HPTFormatter_Private.h>
 
 @interface HPTFormatterTests : XCTestCase
 

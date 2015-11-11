@@ -17,6 +17,7 @@
 #import "HPTCardTokenPaymentMethodRequest.h"
 #import "HPTCardNumberTextField.h"
 #import "HPTExpiryDateTextField.h"
+#import "HPTSecurityCodeTextField.h"
 
 @interface HPTTokenizableCardPaymentProductViewController ()
 
@@ -35,13 +36,35 @@
 
 - (void)viewDidLayoutSubviews
 {
-    static dispatch_once_t once;
-
-    dispatch_once(&once, ^{
+    [super viewDidLayoutSubviews];
+    
+    dispatch_once(&cardHolderPredefinedBlock, ^{
         UITextField *cardHolderTextField = [self textFieldForIdentifier:@"holder"];
         cardHolderTextField.text = self.paymentPageRequest.customer.displayName;
     });
     
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == 1) {
+        UITableViewHeaderFooterView *footerView = [[UITableViewHeaderFooterView alloc] init];
+        
+        footerView.detailTextLabel.text = @"Le cryptogramme correspond aux 3 chiffres au dos de votre carte.";
+        
+        return footerView;
+    }
+    
+    return nil;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return @"Le CVV correspond aux 3 chiffres au dos.";
+    }
+    
+    return nil;
 }
 
 - (void)textFieldDidChange:(UITextField *)textField
@@ -50,7 +73,20 @@
     
     HPTCardNumberTextField *cardNumberTextField = (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
     HPTExpiryDateTextField *expiryDateTextField = (HPTExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
-    HPTExpiryDateTextField *securityCodeTextField = (HPTExpiryDateTextField *) [self textFieldForIdentifier:@"security_code"];
+    HPTSecurityCodeTextField *securityCodeTextField = (HPTSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
+    
+    if (cardNumberTextField.paymentProductCodes.count == 1) {
+        if ([[HPTCardNumberFormatter sharedFormatter] plainTextNumber:cardNumberTextField.text isInRangeForPaymentProductCode:cardNumberTextField.paymentProductCodes.firstObject]) {
+            
+            securityCodeTextField.paymentProductCode = cardNumberTextField.paymentProductCodes.firstObject;
+            
+            NSString *imageName = [cardNumberTextField.paymentProductCodes.firstObject isEqualToString:HPTPaymentProductCodeAmericanExpress] ? @"cvc_amex" : @"cvc_mv";
+            
+            [self cellWithTextField:securityCodeTextField].accessoryView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:imageName inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+            
+            [self cellWithTextField:securityCodeTextField].accessoryView.tintColor = [UIColor colorWithRed:0.65 green:0.65 blue:0.65 alpha:1.0];
+        }
+    }
     
     if (textField == cardNumberTextField) {
         BOOL valid = cardNumberTextField.valid;
@@ -73,7 +109,11 @@
 
 - (BOOL)submitButtonEnabled
 {
-    return [[self textForIdentifier:@"number"] isDefined];
+    HPTCardNumberTextField *cardNumberTextField = (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
+    HPTExpiryDateTextField *expiryDateTextField = (HPTExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
+    HPTSecurityCodeTextField *securityCodeTextField = (HPTSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
+    
+    return [[self textForIdentifier:@"holder"] isDefined] && cardNumberTextField.isCompleted && expiryDateTextField.isCompleted && securityCodeTextField.isCompleted;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -145,7 +185,7 @@
             break;
             
         case 3:
-            cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"security_code"];
+            cell = [self dequeueInputCellWithIdentifier:@"SecurityCodeInput" fieldIdentifier:@"security_code"];
             cell.inputLabel.text = HPTLocalizedString(@"CARD_SECURITY_CODE_LABEL");
             cell.textField.placeholder = HPTLocalizedString(@"CARD_SECURITY_CODE_PLACEHOLDER");
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;

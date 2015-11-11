@@ -12,7 +12,7 @@
 
 + (instancetype)sharedFormatter;
 
-- (NSString *)formattedDateWithPlainText:(NSString *)plainText;
+- (NSAttributedString *)formattedDateWithPlainText:(NSString *)plainText;
 - (BOOL)dateIsCompleteForPlainText:(NSString *)plainText;
 - (NSDateComponents *)dateComponentsForPlainText:(NSString *)plainText;
 

@@ -14,9 +14,17 @@
 {
     _paymentProductCodes = [HPTCardNumberFormatter.sharedFormatter paymentProductCodesForPlainTextNumber:self.text];
     
+    NSInteger offset = [self offsetFromPosition:self.beginningOfDocument toPosition:self.selectedTextRange.start];
+    
     if (self.paymentProductCodes.count == 1) {
         self.attributedText = [HPTCardNumberFormatter.sharedFormatter formatPlainTextNumber:self.text forPaymentProductCode:self.paymentProductCodes.firstObject];
+        self.typingAttributes = self.defaultTextAttributes;
     }
+    
+    UITextPosition *newPosition = [self positionFromPosition:self.beginningOfDocument offset:offset];
+    UITextRange *selectedRange = [self textRangeFromPosition:newPosition toPosition:newPosition];
+    
+    [self setSelectedTextRange:selectedRange];
 }
 
 - (BOOL)isValid
@@ -58,7 +66,7 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 
     if (self.paymentProductCodes.count == 1) {
-        if (![string isEqualToString:@""]) {
+        if (range.location >= self.text.length) {
             return ![HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text reachesMaxLengthForPaymentProductCode:self.paymentProductCodes.firstObject];
         }
     }

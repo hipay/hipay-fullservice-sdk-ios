@@ -14,6 +14,7 @@
 {
     UIColor *defaultBackgroundColor;
     UIColor *defaultTextfieldColor;
+    NSLayoutConstraint *inputLabelLeadingConstraint;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;

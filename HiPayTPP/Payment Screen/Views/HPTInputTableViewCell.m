@@ -14,8 +14,28 @@
 {
     [super awakeFromNib];
     
+    NSUInteger indexFound = [self.contentView.constraints indexOfObjectPassingTest:^BOOL(__kindof NSLayoutConstraint * _Nonnull constraint, NSUInteger idx, BOOL * _Nonnull stop) {
+     
+        BOOL result = (constraint.firstItem == self.inputLabel) && (constraint.firstAttribute == NSLayoutAttributeLeading);
+        
+        *stop = result;
+        return result;
+        
+    }];
+    
+    if (indexFound != NSNotFound) {
+        inputLabelLeadingConstraint = self.contentView.constraints[indexFound];
+    }
+
     defaultBackgroundColor = self.contentView.backgroundColor;
     defaultTextfieldColor = self.textField.textColor;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    inputLabelLeadingConstraint.constant = self.textLabel.frame.origin.x;
 }
 
 - (void)setIncorrectInput:(BOOL)incorrectInput

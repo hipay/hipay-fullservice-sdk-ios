@@ -49,20 +49,6 @@
     return NO;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    if ([finalDelegate respondsToSelector:@selector(textFieldDidBeginEditing:)]) {
-        [finalDelegate textFieldDidBeginEditing:textField];
-    }
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if ([finalDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
-        [finalDelegate textFieldDidEndEditing:textField];
-    }
-}
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 
     if (self.paymentProductCodes.count == 1) {

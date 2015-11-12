@@ -54,6 +54,19 @@
     return YES;
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if ([finalDelegate respondsToSelector:@selector(textFieldDidBeginEditing:)]) {
+        [finalDelegate textFieldDidBeginEditing:textField];
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if ([finalDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
+        [finalDelegate textFieldDidEndEditing:textField];
+    }
+}
 
 - (void)setDelegate:(id<UITextFieldDelegate>)delegate
 {

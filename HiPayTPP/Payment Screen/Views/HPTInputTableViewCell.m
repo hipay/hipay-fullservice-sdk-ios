@@ -35,7 +35,7 @@
 {
     [super layoutSubviews];
     
-    inputLabelLeadingConstraint.constant = self.textLabel.frame.origin.x;
+    inputLabelLeadingConstraint.constant = self.separatorInset.left;
 }
 
 - (void)setIncorrectInput:(BOOL)incorrectInput

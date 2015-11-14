@@ -105,8 +105,16 @@
             if (cell != nil) {
                 NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
                 
+                UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
+                
+                // Last row of section before payment button; scroll to top
+                if ((indexPath.section == (self.tableView.numberOfSections - 2)) && (indexPath.row == ([self.tableView numberOfRowsInSection:indexPath.section] - 1))) {
+                    
+                    position = UITableViewScrollPositionTop;
+                }
+                
                 if (indexPath != nil) {
-                    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+                    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:position animated:NO];
                 }
             }
         }

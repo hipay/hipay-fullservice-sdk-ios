@@ -12,12 +12,12 @@
 #import "HPTAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPTValidation.h"
 #import "HPTPaymentScreenUtils.h"
-#import "HPTQiwiWalletPaymentMethodRequest.h"
 #import "HPTSecureVaultClient.h"
 #import "HPTCardTokenPaymentMethodRequest.h"
 #import "HPTCardNumberTextField.h"
 #import "HPTExpiryDateTextField.h"
 #import "HPTSecurityCodeTextField.h"
+#import "HPTSecurityCodeTableViewFooterView.h"
 
 @interface HPTTokenizableCardPaymentProductViewController ()
 
@@ -25,13 +25,11 @@
 
 @implementation HPTTokenizableCardPaymentProductViewController
 
-- (HPTOrderRequest *)createOrderRequest
+- (void)viewDidLoad
 {
-    HPTOrderRequest *orderRequest = [super createOrderRequest];
+    [super viewDidLoad];
     
-    orderRequest.paymentMethod = [HPTQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:[self textForIdentifier:@"username"]];
-    
-    return orderRequest;
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPTSecurityCodeTableViewFooterView" bundle:HPTPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
 }
 
 - (void)viewDidLayoutSubviews
@@ -43,28 +41,122 @@
         cardHolderTextField.text = self.paymentPageRequest.customer.displayName;
     });
     
+    ((HPTSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:0]).separatorInset = self.tableView.separatorInset;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 1) {
-        UITableViewHeaderFooterView *footerView = [[UITableViewHeaderFooterView alloc] init];
+    if (section == 0) {
         
-        footerView.detailTextLabel.text = @"Le cryptogramme correspond aux 3 chiffres au dos de votre carte.";
+        UIView *footer = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SecurityCode"];
         
-        return footerView;
+        footer.hidden = YES;
+        
+        return footer;
     }
     
     return nil;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 0) {
-        return @"Le CVV correspond aux 3 chiffres au dos.";
+        return footerHeight;
     }
     
-    return nil;
+    return 0.0;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [super textFieldDidBeginEditing:textField];
+    
+    HPTSecurityCodeTextField *securityCodeTextField = (HPTSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
+    
+    if ((textField == securityCodeTextField) && [HPTPaymentProduct paymentProductWithCodeHasSecurityCode:inferedPaymentProductCode]) {
+        [self.tableView beginUpdates];
+        footerHeight = 56.0;
+        [self.tableView endUpdates];
+        
+        [self securityCodeFooter].hidden = NO;
+        [self securityCodeFooter].alpha = 0.0;
+
+        [UIView animateWithDuration:0.2 animations:^{
+            [self securityCodeFooter].alpha = 1.0;
+        }];
+
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [super textFieldDidEndEditing:textField];
+    
+    HPTSecurityCodeTextField *securityCodeTextField = (HPTSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
+    HPTCardNumberTextField *cardNumberTextField = (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
+    HPTExpiryDateTextField *expiryDateTextField = (HPTExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
+
+    if (textField == securityCodeTextField) {
+        [self.tableView beginUpdates];
+        footerHeight = 0.0;
+        [self.tableView endUpdates];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            [self securityCodeFooter].alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [self securityCodeFooter].hidden = YES;
+        }];
+        
+        if ([securityCodeTextField.text isDefined] && !securityCodeTextField.completed) {
+            [self cellWithTextField:securityCodeTextField].incorrectInput = YES;
+        }
+    }
+    
+    else if (textField == cardNumberTextField) {
+        if ([cardNumberTextField.text isDefined] && !cardNumberTextField.completed) {
+            [self cellWithTextField:cardNumberTextField].incorrectInput = YES;
+        }
+    }
+    
+    else if (textField == expiryDateTextField) {
+        if ([expiryDateTextField.text isDefined] && !expiryDateTextField.completed) {
+            [self cellWithTextField:expiryDateTextField].incorrectInput = YES;
+        }
+    }
+}
+
+- (HPTSecurityCodeTableViewFooterView *)securityCodeFooter
+{
+    return (HPTSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:0];
+}
+
+- (void)checkInferredPaymentProductCode
+{
+    HPTCardNumberTextField *cardNumberTextField = (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
+    HPTSecurityCodeTextField *securityCodeTextField = (HPTSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
+
+    BOOL securityCodeSectionEnabled = [self securityCodeSectionEnabled];
+    
+    if ((cardNumberTextField.paymentProductCodes.count == 1) && [[HPTCardNumberFormatter sharedFormatter] plainTextNumber:cardNumberTextField.text isInRangeForPaymentProductCode:cardNumberTextField.paymentProductCodes.firstObject]) {
+        
+        inferedPaymentProductCode = cardNumberTextField.paymentProductCodes.firstObject;
+        securityCodeTextField.paymentProductCode = inferedPaymentProductCode;
+        [self securityCodeFooter].paymentProductCode = inferedPaymentProductCode;
+    }
+    
+    else {
+        inferedPaymentProductCode = nil;
+    }
+
+    if (securityCodeSectionEnabled != [self securityCodeSectionEnabled]) {
+        if ([self securityCodeSectionEnabled]) {
+            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+        }
+        
+        else {
+            [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+        }
+    }
 }
 
 - (void)textFieldDidChange:(UITextField *)textField
@@ -75,18 +167,7 @@
     HPTExpiryDateTextField *expiryDateTextField = (HPTExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
     HPTSecurityCodeTextField *securityCodeTextField = (HPTSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
     
-    if (cardNumberTextField.paymentProductCodes.count == 1) {
-        if ([[HPTCardNumberFormatter sharedFormatter] plainTextNumber:cardNumberTextField.text isInRangeForPaymentProductCode:cardNumberTextField.paymentProductCodes.firstObject]) {
-            
-            securityCodeTextField.paymentProductCode = cardNumberTextField.paymentProductCodes.firstObject;
-            
-            NSString *imageName = [cardNumberTextField.paymentProductCodes.firstObject isEqualToString:HPTPaymentProductCodeAmericanExpress] ? @"cvc_amex" : @"cvc_mv";
-            
-            [self cellWithTextField:securityCodeTextField].accessoryView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:imageName inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
-            
-            [self cellWithTextField:securityCodeTextField].accessoryView.tintColor = [UIColor colorWithRed:0.65 green:0.65 blue:0.65 alpha:1.0];
-        }
-    }
+    [self checkInferredPaymentProductCode];
     
     if (textField == cardNumberTextField) {
         BOOL valid = cardNumberTextField.valid;
@@ -94,6 +175,15 @@
         
         if (valid && (cardNumberTextField.isCompleted)) {
             [expiryDateTextField becomeFirstResponder];
+        }
+    }
+    
+    else if (textField == expiryDateTextField) {
+        BOOL valid = expiryDateTextField.valid;
+        [self cellWithTextField:expiryDateTextField].incorrectInput = !valid;
+        
+        if (valid && (expiryDateTextField.isCompleted)) {
+            [securityCodeTextField becomeFirstResponder];
         }
     }
     
@@ -113,17 +203,26 @@
     HPTExpiryDateTextField *expiryDateTextField = (HPTExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
     HPTSecurityCodeTextField *securityCodeTextField = (HPTSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
     
-    return [[self textForIdentifier:@"holder"] isDefined] && cardNumberTextField.isCompleted && expiryDateTextField.isCompleted && securityCodeTextField.isCompleted;
+    return [[self textForIdentifier:@"holder"] isDefined] && cardNumberTextField.completed && expiryDateTextField.completed && securityCodeTextField.completed && cardNumberTextField.valid && expiryDateTextField.valid && securityCodeTextField.valid;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
 
+- (BOOL)securityCodeSectionEnabled
+{
+    return (inferedPaymentProductCode == nil) || [HPTPaymentProduct paymentProductWithCodeHasSecurityCode:inferedPaymentProductCode];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == 0) {
-        return 4;
+        if ([self securityCodeSectionEnabled]) {
+            return 4;
+        } else {
+            return 3;
+        }
     }
     
     return 1;
@@ -133,7 +232,13 @@
 {
     [self setPaymentButtonLoadingMode:YES];
     
-    [[HPTSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:@"2019" cardHolder:[self textForIdentifier:@"holder"] securityCode:[self textForIdentifier:@"security_code"] multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
+    NSString *securityCode = nil;
+    
+    if ([self securityCodeSectionEnabled]) {
+        securityCode = [self textForIdentifier:@"security_code"];
+    }
+    
+    [[HPTSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:@"2019" cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
        
         [self setPaymentButtonLoadingMode:NO];
         
@@ -173,7 +278,9 @@
         case 1:
             cell = [self dequeueInputCellWithIdentifier:@"CardNumberInput" fieldIdentifier:@"number"];
             cell.inputLabel.text = HPTLocalizedString(@"CARD_NUMBER_LABEL");
-            cell.textField.placeholder = HPTLocalizedString(@"CARD_NUMBER_PLACEHOLDER");
+            
+            cell.textField.attributedPlaceholder = [[HPTCardNumberFormatter sharedFormatter] formatPlainTextNumber:HPTLocalizedString(@"CARD_NUMBER_PLACEHOLDER") forPaymentProductCode:HPTPaymentProductCodeVisa];
+            
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;
             break;
             
@@ -187,7 +294,14 @@
         case 3:
             cell = [self dequeueInputCellWithIdentifier:@"SecurityCodeInput" fieldIdentifier:@"security_code"];
             cell.inputLabel.text = HPTLocalizedString(@"CARD_SECURITY_CODE_LABEL");
-            cell.textField.placeholder = HPTLocalizedString(@"CARD_SECURITY_CODE_PLACEHOLDER");
+            
+            if ([inferedPaymentProductCode isEqualToString:HPTPaymentProductCodeAmericanExpress]) {
+                cell.textField.placeholder = HPTLocalizedString(@"CARD_SECURITY_CODE_PLACEHOLDER_AMEX");
+            } else {
+                cell.textField.placeholder = HPTLocalizedString(@"CARD_SECURITY_CODE_PLACEHOLDER_DEFAULT");
+            }
+            
+            ((HPTSecurityCodeTextField *)cell.textField).paymentProductCode = inferedPaymentProductCode;
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;
             break;
             

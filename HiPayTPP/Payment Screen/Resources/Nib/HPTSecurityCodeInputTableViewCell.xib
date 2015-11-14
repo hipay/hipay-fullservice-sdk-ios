@@ -38,7 +38,7 @@
                     <constraint firstItem="eac-vp-4Tq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mJ1-Rv-Yaq" secondAttribute="trailing" constant="8" id="NhL-dh-aJ1"/>
                     <constraint firstItem="eac-vp-4Tq" firstAttribute="top" secondItem="MaH-gz-ssl" secondAttribute="top" id="O1e-eM-GOe"/>
                     <constraint firstItem="eac-vp-4Tq" firstAttribute="trailing" secondItem="MaH-gz-ssl" secondAttribute="trailingMargin" id="g5k-7L-bV2"/>
-                    <constraint firstItem="eac-vp-4Tq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="centerXWithinMargins" multiplier="0.85" priority="750" id="pSD-sT-qFU"/>
+                    <constraint firstItem="eac-vp-4Tq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="centerXWithinMargins" multiplier="0.74" priority="750" id="pSD-sT-qFU"/>
                     <constraint firstAttribute="bottom" secondItem="eac-vp-4Tq" secondAttribute="bottom" id="xed-JG-ZTW"/>
                     <constraint firstItem="mJ1-Rv-Yaq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="leading" constant="15" id="zbd-YD-dxq"/>
                 </constraints>

@@ -67,4 +67,6 @@ extern NSString *const HPTPaymentProductCodeYandex;
 @property (nonatomic, readonly) NSString *paymentProductCategoryCode;
 @property (nonatomic, readonly) BOOL tokenizable;
 
++ (BOOL)paymentProductWithCodeHasSecurityCode:(NSString *)paymentProductCode;
+
 @end

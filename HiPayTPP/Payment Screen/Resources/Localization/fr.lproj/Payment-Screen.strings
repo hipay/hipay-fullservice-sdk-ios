@@ -33,9 +33,15 @@
 
 "CARD_EXPIRATION_PLACEHOLDER" = "MM / AA";
 
-"CARD_SECURITY_CODE_LABEL" = "Cryptogramme";
+"CARD_SECURITY_CODE_LABEL" = "CVV";
 
-"CARD_SECURITY_CODE_PLACEHOLDER" = "XXX";
+"CARD_SECURITY_CODE_PLACEHOLDER_DEFAULT" = "123";
+
+"CARD_SECURITY_CODE_PLACEHOLDER_AMEX" = "1234";
+
+"CARD_SECURITY_CODE_DESCRIPTION_DEFAULT" = "Le CVV correspond aux 3 chiffres au dos de votre carte de paiement.";
+
+"CARD_SECURITY_CODE_DESCRIPTION_AMEX" = "Le CVV correspond aux 4 chiffres au recto de votre carte American Express.";
 
 /* iDeal */
 

@@ -183,8 +183,7 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
         for (NSNumber *numberOfDigits in groups) {
             NSUInteger newPosition = (currentPosition + numberOfDigits.unsignedIntegerValue - 1);
             if (formattedNumber.length > newPosition) {
-                [formattedNumber addAttribute:NSKernAttributeName value:@6 range:NSMakeRange(newPosition, 1)];
-                
+                [formattedNumber addAttribute:NSKernAttributeName value:@5.5 range:NSMakeRange(newPosition, 1)];
                 currentPosition = newPosition + 1;
             } else {
                 break;

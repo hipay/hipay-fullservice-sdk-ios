@@ -11,6 +11,10 @@
 @interface HPTTokenizableCardPaymentProductViewController : HPTAbstractPaymentProductViewController
 {
     dispatch_once_t cardHolderPredefinedBlock;
+    
+    CGFloat footerHeight;
+    
+    NSString *inferedPaymentProductCode;
 }
 
 @end

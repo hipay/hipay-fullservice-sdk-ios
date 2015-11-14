@@ -13,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lLj-mf-I6F" id="u2t-NZ-XO0">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
@@ -36,7 +36,7 @@
                 <animations/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="puq-qj-JZP" secondAttribute="bottom" id="AEs-xw-eAA"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerXWithinMargins" multiplier="0.85" priority="750" id="SFh-Ca-N3F"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerXWithinMargins" multiplier="0.74" priority="750" id="SFh-Ca-N3F"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="trailingMargin" id="hxP-ii-EhB"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="top" secondItem="u2t-NZ-XO0" secondAttribute="top" id="ipM-VQ-y5U"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VaG-B8-8hX" secondAttribute="trailing" constant="8" id="oBm-VQ-Pao"/>

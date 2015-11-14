@@ -61,4 +61,9 @@ NSString *const HPTPaymentProductCodeYandex             = @"yandex";
 
 @implementation HPTPaymentProduct
 
++ (BOOL)paymentProductWithCodeHasSecurityCode:(NSString *)paymentProductCode
+{
+    return [paymentProductCode isEqualToString:HPTPaymentProductCodeMasterCard] || [paymentProductCode isEqualToString:HPTPaymentProductCodeVisa] || [paymentProductCode isEqualToString:HPTPaymentProductCodeAmericanExpress];
+}
+
 @end

@@ -26,7 +26,7 @@
     if (self.paymentProductCode != nil) {
         return [[HPTSecurityCodeFormatter sharedFormatter] codeIsCompleteForPlainText:self.text andPaymentProductCode:self.paymentProductCode];
     } else {
-        return NO;
+        return YES;
     }
 }
 

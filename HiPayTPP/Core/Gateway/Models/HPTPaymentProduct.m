@@ -61,9 +61,21 @@ NSString *const HPTPaymentProductCodeYandex             = @"yandex";
 
 @implementation HPTPaymentProduct
 
-+ (BOOL)paymentProductWithCodeHasSecurityCode:(NSString *)paymentProductCode
++ (HPTSecurityCodeType)securityCodeTypeForPaymentProductCode:(NSString *)paymentProductCode
 {
-    return ![paymentProductCode isEqualToString:HPTPaymentProductCodeMaestro] && ![paymentProductCode isEqualToString:HPTPaymentProductCodeBCMC];
+    if ([paymentProductCode isEqualToString:HPTPaymentProductCodeVisa] || [paymentProductCode isEqualToString:HPTPaymentProductCodeMasterCard] || [paymentProductCode isEqualToString:HPTPaymentProductCodeDiners]) {
+        return HPTSecurityCodeTypeCVV;
+    }
+    
+    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeAmericanExpress]) {
+        return HPTSecurityCodeTypeCID;
+    }
+
+    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeMaestro] || [paymentProductCode isEqualToString:HPTPaymentProductCodeBCMC]) {
+        return HPTSecurityCodeTypeNone;
+    }
+    
+    return HPTSecurityCodeTypeNotApplicable;
 }
 
 @end

@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="45" id="w59-uK-QFy" customClass="HPTInputTableViewCell">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="45" id="w59-uK-QFy" customClass="HPTSecurityCodeInputTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w59-uK-QFy" id="MaH-gz-ssl">
@@ -48,7 +48,7 @@
                 <outlet property="inputLabel" destination="mJ1-Rv-Yaq" id="MnJ-HS-v56"/>
                 <outlet property="textField" destination="eac-vp-4Tq" id="Ch2-CJ-n3i"/>
             </connections>
-            <point key="canvasLocation" x="258" y="267.5"/>
+            <point key="canvasLocation" x="137" y="215.5"/>
         </tableViewCell>
     </objects>
 </document>

@@ -8,6 +8,7 @@
 
 #import "HPTSecurityCodeTextField.h"
 #import "HPTSecurityCodeFormatter.h"
+#import "HPTPaymentScreenUtils.h"
 
 @implementation HPTSecurityCodeTextField
 

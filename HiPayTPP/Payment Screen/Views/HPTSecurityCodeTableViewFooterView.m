@@ -41,12 +41,12 @@
     NSString *imageName = nil;
     
     if ([paymentProductCode isEqualToString:HPTPaymentProductCodeAmericanExpress]) {
-        text = HPTLocalizedString(@"CARD_SECURITY_CODE_DESCRIPTION_AMEX");
+        text = HPTLocalizedString(@"CARD_SECURITY_CODE_DESCRIPTION_CID");
         imageName = @"cvc_amex";
     }
     
-    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeVisa] || [paymentProductCode isEqualToString:HPTPaymentProductCodeMasterCard]) {
-        text = HPTLocalizedString(@"CARD_SECURITY_CODE_DESCRIPTION_DEFAULT");
+    else {
+        text = HPTLocalizedString(@"CARD_SECURITY_CODE_DESCRIPTION_CVV");
         imageName = @"cvc_mv";
     }
     

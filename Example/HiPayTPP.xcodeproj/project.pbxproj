@@ -29,6 +29,7 @@
 		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; };
 		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; };
 		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; };
+		A53798A71BF73E0D0029E776 /* HPTPaymentProductTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53798A61BF73E0D0029E776 /* HPTPaymentProductTests.m */; };
 		A53BF59F1BEB54D100E24957 /* HPTCardNumberFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF59E1BEB54D100E24957 /* HPTCardNumberFormatterTests.m */; };
 		A53BF5C21BF0F1A400E24957 /* HPTExpiryDateFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C11BF0F1A400E24957 /* HPTExpiryDateFormatterTests.m */; };
 		A53BF5C41BF0FA0300E24957 /* HPTFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C31BF0FA0300E24957 /* HPTFormatterTests.m */; };
@@ -116,6 +117,7 @@
 		A51546371BBA83510077296E /* example_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_array.json; sourceTree = "<group>"; };
 		A515463C1BBBCD6D0077296E /* plain_text_response.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plain_text_response.txt; sourceTree = "<group>"; };
 		A515463E1BBBDD1F0077296E /* example_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_error.json; sourceTree = "<group>"; };
+		A53798A61BF73E0D0029E776 /* HPTPaymentProductTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPaymentProductTests.m; sourceTree = "<group>"; };
 		A53BF59E1BEB54D100E24957 /* HPTCardNumberFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTCardNumberFormatterTests.m; sourceTree = "<group>"; };
 		A53BF5C11BF0F1A400E24957 /* HPTExpiryDateFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTExpiryDateFormatterTests.m; sourceTree = "<group>"; };
 		A53BF5C31BF0FA0300E24957 /* HPTFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTFormatterTests.m; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				A53BF5C61BF22C6B00E24957 /* HPTPersonalInformationTests.m */,
+				A53798A61BF73E0D0029E776 /* HPTPaymentProductTests.m */,
 			);
 			name = Models;
 			path = Gateway/Models;
@@ -774,6 +777,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A595C4521BC800600076AF07 /* HPTTransactionMapperTests.m in Sources */,
+				A53798A71BF73E0D0029E776 /* HPTPaymentProductTests.m in Sources */,
 				A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */,
 				A57BA7DF1BCEAD6500F154E2 /* HPTCardTokenPaymentMethodRequestSerializationMapperTests.m in Sources */,
 				A5B9A6E41BD54A060014B27F /* HPTTransactionDetailsMapperTests.m in Sources */,

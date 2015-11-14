@@ -35,6 +35,20 @@
       "tokenizable":true
    },
    {
+      "id":"0J9LFS1O",
+      "code":"bcmc",
+      "description":"Bancontact / Mister Cash",
+      "paymentProductCategoryCode":"debit-card",
+      "tokenizable":true
+   },
+   {
+      "id":"339KCZTQ",
+      "code":"maestro",
+      "description":"Maestro",
+      "paymentProductCategoryCode":"debit-card",
+      "tokenizable":true
+   },   
+   {
       "id":"BLMQ0VNG",
       "code":"3xcb",
       "description":"3x Carte Bancaire",
@@ -54,20 +68,6 @@
       "description":"Carte Accord",
       "paymentProductCategoryCode":"credit-card",
       "tokenizable":false
-   },
-   {
-      "id":"0J9LFS1O",
-      "code":"bcmc",
-      "description":"Bancontact / Mister Cash",
-      "paymentProductCategoryCode":"debit-card",
-      "tokenizable":true
-   },
-   {
-      "id":"339KCZTQ",
-      "code":"maestro",
-      "description":"Maestro",
-      "paymentProductCategoryCode":"debit-card",
-      "tokenizable":true
    },
    {
       "id":"ICOD9CQU",

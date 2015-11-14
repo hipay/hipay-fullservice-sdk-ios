@@ -8,6 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, HPTSecurityCodeType) {
+    
+    // Ex. : Maestro
+    HPTSecurityCodeTypeNone,
+
+    // Ex. : BCMC (for domestic networks or specific issuer payment products, we don't know if there's a security code as it depends on the card scheme)
+    HPTSecurityCodeTypeNotApplicable,
+    
+    // Ex. : Visa, MasterCard
+    HPTSecurityCodeTypeCVV,
+    
+    // Ex. : American Express
+    HPTSecurityCodeTypeCID,
+    
+};
+
 extern NSString *const HPTPaymentProductCode3xcb;
 extern NSString *const HPTPaymentProductCode3xcbNoFees;
 extern NSString *const HPTPaymentProductCode4xcb;
@@ -67,6 +83,6 @@ extern NSString *const HPTPaymentProductCodeYandex;
 @property (nonatomic, readonly) NSString *paymentProductCategoryCode;
 @property (nonatomic, readonly) BOOL tokenizable;
 
-+ (BOOL)paymentProductWithCodeHasSecurityCode:(NSString *)paymentProductCode;
++ (HPTSecurityCodeType)securityCodeTypeForPaymentProductCode:(NSString *)paymentProductCode;
 
 @end

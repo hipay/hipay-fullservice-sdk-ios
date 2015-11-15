@@ -14,7 +14,6 @@
 - (void)textFieldDidChange:(id)sender
 {
     self.attributedText = [[HPTExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:self.text];
-    self.typingAttributes = self.defaultTextAttributes;
 }
 
 - (BOOL)isValid

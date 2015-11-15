@@ -23,14 +23,14 @@ HPTExpiryDateFormatter *HPTExpiryDateFormatterSharedInstance = nil;
 
 - (NSAttributedString *)formattedDateWithPlainText:(NSString *)plainText
 {
-    NSMutableAttributedString *digits = [[NSMutableAttributedString alloc] initWithString:[self digitsOnlyFromPlainText:plainText]];
+    NSMutableAttributedString *digits = [[NSMutableAttributedString alloc] initWithString:[self digitsOnlyFromPlainText:plainText] attributes:@{NSKernAttributeName: @0}];
     
     if ((digits.length == 1) && (digits.string.integerValue > 1)) {
         [digits insertAttributedString:[[NSAttributedString alloc] initWithString:@"0"] atIndex:0];
     }
     
     if (digits.length >= 2) {
-        [digits addAttribute:NSKernAttributeName value:@5 range:NSMakeRange(1, 1)];
+        [digits addAttribute:NSKernAttributeName value:@5 range:(NSRange){1, 1}];
         [digits insertAttributedString:[[NSAttributedString alloc] initWithString:@"/" attributes:@{NSKernAttributeName: @5}] atIndex:2];
     }
     
@@ -53,7 +53,7 @@ HPTExpiryDateFormatter *HPTExpiryDateFormatterSharedInstance = nil;
         NSInteger month = [[digits substringToIndex:2] integerValue];
         NSInteger year = [[digits substringFromIndex:2] integerValue];
         
-        if (NSLocationInRange(month, NSMakeRange(1, 12)) && NSLocationInRange(year, NSMakeRange(0, 100))) {
+        if (NSLocationInRange(month, (NSRange){1, 12}) && NSLocationInRange(year, (NSRange){0, 100})) {
             
             NSDateComponents *currentDateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:[NSDate date]];
             NSUInteger currentYear = currentDateComponents.year;

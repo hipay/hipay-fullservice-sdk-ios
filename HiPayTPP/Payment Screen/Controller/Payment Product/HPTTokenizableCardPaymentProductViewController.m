@@ -50,9 +50,16 @@
 {
     HPTCardNumberTextField *cardNumberTextField = (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
     HPTExpiryDateTextField *expiryDateTextField = (HPTExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
+    
+    BOOL validation = [[self textForIdentifier:@"holder"] isDefined] && cardNumberTextField.completed && expiryDateTextField.completed && cardNumberTextField.valid && expiryDateTextField.valid;
+    
     HPTSecurityCodeTextField *securityCodeTextField = (HPTSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
     
-    return [[self textForIdentifier:@"holder"] isDefined] && cardNumberTextField.completed && expiryDateTextField.completed && securityCodeTextField.completed && cardNumberTextField.valid && expiryDateTextField.valid && securityCodeTextField.valid;
+    if ([self securityCodeSectionEnabled]) {
+        validation = validation && securityCodeTextField.completed && securityCodeTextField.valid;
+    }
+    
+    return validation;
 }
 
 #pragma mark - Form edition

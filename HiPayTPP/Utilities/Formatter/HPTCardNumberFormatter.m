@@ -177,13 +177,14 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
     
     if (groups != nil) {
         
-        NSMutableAttributedString *formattedNumber = [[NSMutableAttributedString alloc] initWithString:digits];
+        NSMutableAttributedString *formattedNumber = [[NSMutableAttributedString alloc] initWithString:digits attributes:@{NSKernAttributeName: @0}];
         NSUInteger currentPosition = 0;
 
         for (NSNumber *numberOfDigits in groups) {
+            
             NSUInteger newPosition = (currentPosition + numberOfDigits.unsignedIntegerValue - 1);
             if (formattedNumber.length > newPosition) {
-                [formattedNumber addAttribute:NSKernAttributeName value:@5.5 range:NSMakeRange(newPosition, 1)];
+                [formattedNumber addAttribute:NSKernAttributeName value:@5.5 range:(NSRange){newPosition, 1}];
                 currentPosition = newPosition + 1;
             } else {
                 break;
@@ -193,7 +194,7 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
         return formattedNumber;
     }
     
-    return [[NSAttributedString alloc] initWithString:digits];
+    return [[NSAttributedString alloc] initWithString:digits attributes:@{NSKernAttributeName: @0}];
 }
 
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber isInRangeForPaymentProductCode:(NSString *)paymentProductCode

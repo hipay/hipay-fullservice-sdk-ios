@@ -16,8 +16,8 @@
     UIColor *cellColor;
 }
 
-@property (nonatomic, readonly) NSString *paymentProductCode;
+@property (nonatomic, readonly) NSString *paymentProduct;
 
-- (instancetype)initWithPaymentProductCode:(NSString *)paymentProductCode;
+- (instancetype)initWithPaymentProduct:(HPTPaymentProduct *)paymentProduct;
 
 @end

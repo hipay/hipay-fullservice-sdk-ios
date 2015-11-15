@@ -14,7 +14,7 @@
 {
     _paymentProduct = paymentProduct;
     [[self.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    _paymentProductButton = [[HPTPaymentProductButton alloc] initWithPaymentProductCode:paymentProduct.code];
+    _paymentProductButton = [[HPTPaymentProductButton alloc] initWithPaymentProduct:paymentProduct];
     [self.contentView addSubview:_paymentProductButton];
     [_paymentProductButton addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
 }

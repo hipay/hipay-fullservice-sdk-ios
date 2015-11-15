@@ -5,6 +5,13 @@
       "description":"VISA",
       "paymentProductCategoryCode":"credit-card",
       "tokenizable":true
+   },   
+   {
+      "id":"I9Z7G09N",
+      "code":"dcb-be-proximus",
+      "description":"DCB Belgique Proximus",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
    },
    {
       "id":"GUQ4NAIJ",

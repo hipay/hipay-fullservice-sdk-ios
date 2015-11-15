@@ -13,15 +13,15 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
 
 @implementation HPTPaymentProductButton
 
-- (instancetype)initWithPaymentProductCode:(NSString *)paymentProductCode
+- (instancetype)initWithPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
     CGFloat height = 60.;
     
     self = [super initWithFrame:CGRectMake(0.0, 0.0, 90., height)];
     if (self) {
-        _paymentProductCode = paymentProductCode;
+        _paymentProduct = paymentProduct.code;
 
-        NSDictionary *matrixInfo = [[self paymentProductMatrix] objectForKey:paymentProductCode];
+        NSDictionary *matrixInfo = [[self paymentProductMatrix] objectForKey:paymentProduct.code];
         
         if (matrixInfo != nil) {
             
@@ -36,23 +36,35 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
             [self setImage:baseImage forState:UIControlStateNormal];
             [self setImage:selectedImage forState:UIControlStateHighlighted];
             [self setImage:selectedImage forState:UIControlStateSelected];
-            
-            self.layer.borderWidth = 1.0;
-            self.layer.cornerRadius = 5.0;
-            
-            [self setDefaultStyle];
-            
-            [self addTarget:self action:@selector(enableButtonHighlight) forControlEvents:UIControlEventTouchDown];
-            [self addTarget:self action:@selector(enableButtonHighlight) forControlEvents:UIControlEventTouchDragInside];
-            [self addTarget:self action:@selector(disableButtonHighlight) forControlEvents:UIControlEventTouchUpInside];
-            [self addTarget:self action:@selector(disableButtonHighlight) forControlEvents:UIControlEventTouchUpOutside];
-            [self addTarget:self action:@selector(disableButtonHighlight) forControlEvents:UIControlEventTouchDragOutside];
-
         }
         
+        // No image for this payment product
         else {
-            return nil;
+            [self setTitle:paymentProduct.paymentProductDescription forState:UIControlStateNormal];
+            self.titleLabel.numberOfLines = 3;
+            self.titleEdgeInsets = UIEdgeInsetsMake(4.0, 5.0, 4.0, 5.0);
+            self.titleLabel.font = [UIFont systemFontOfSize:18.0];
+            self.titleLabel.minimumScaleFactor = 0.7;
+            self.titleLabel.textAlignment = NSTextAlignmentCenter;
+            self.titleLabel.adjustsFontSizeToFitWidth = YES;
+            
+            [self setTitleColor:[UIColor colorWithRed:0.45 green:0.45 blue:0.45 alpha:1.0] forState:UIControlStateNormal];
+            [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+            [self setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         }
+        
+        self.layer.borderWidth = 1.0;
+        self.layer.cornerRadius = 5.0;
+        
+        [self setDefaultStyle];
+        
+        [self addTarget:self action:@selector(enableButtonHighlight) forControlEvents:UIControlEventTouchDown];
+        [self addTarget:self action:@selector(enableButtonHighlight) forControlEvents:UIControlEventTouchDragInside];
+        [self addTarget:self action:@selector(disableButtonHighlight) forControlEvents:UIControlEventTouchUpInside];
+        [self addTarget:self action:@selector(disableButtonHighlight) forControlEvents:UIControlEventTouchUpOutside];
+        [self addTarget:self action:@selector(disableButtonHighlight) forControlEvents:UIControlEventTouchDragOutside];
+
+       
     }
     return self;
 }
@@ -63,6 +75,10 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
 
     if (!self.tracking) {
         [self setDefaultStyle];
+    }
+    
+    if (self.titleLabel.frame.size.height >= (0.85 * self.frame.size.height)) {
+        self.titleLabel.font = [UIFont systemFontOfSize:14.0];
     }
 }
 

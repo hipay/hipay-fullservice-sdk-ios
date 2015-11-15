@@ -114,7 +114,7 @@
 {
     HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
     
-    [mainViewController focusOnSelectedPaymentProduct];
+    [mainViewController focusOnSelectedPaymentProductWithAnimation:YES];
     
     [mainViewController setPaymentProductSelectionEnabled:!isLoading];
 }

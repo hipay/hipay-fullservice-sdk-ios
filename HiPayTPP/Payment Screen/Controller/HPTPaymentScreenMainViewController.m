@@ -62,6 +62,13 @@
     }
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [self focusOnSelectedPaymentProductWithAnimation:NO];
+    } completion:nil];
+}
+
 #pragma mark - Keyboard related methods
 
 - (void)keyboardWillShowOrChangeFrame:(NSNotification *)notification
@@ -250,25 +257,27 @@
         
         cell.highlighted = YES;
         
-        [self scrollToPaymentProductsCollectionViewIndexPath:indexPath];
+        [self scrollToPaymentProductsCollectionViewIndexPath:indexPath withAnimation:YES];
     }
 }
 
-- (void)scrollToPaymentProductsCollectionViewIndexPath:(NSIndexPath *)indexPath
+- (void)scrollToPaymentProductsCollectionViewIndexPath:(NSIndexPath *)indexPath withAnimation:(BOOL)animated
 {
     if (indexPath != nil) {
         
-        CGRect frame = [paymentProductsCollectionView layoutAttributesForItemAtIndexPath:indexPath].frame;
-        
-        CGPoint proposedOffset = CGPointMake(frame.origin.x - frame.size.width, 0.);
+        CGPoint currentContentOffset = paymentProductsCollectionView.contentOffset;
+        [paymentProductsCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        CGPoint proposedOffset = paymentProductsCollectionView.contentOffset;
+        paymentProductsCollectionView.contentOffset = currentContentOffset;
+
         CGPoint offset = [paymentProductsCollectionView.collectionViewLayout targetContentOffsetForProposedContentOffset:proposedOffset withScrollingVelocity:CGPointMake(0., 0.)];
         
-        [paymentProductsCollectionView setContentOffset:offset animated:YES];
+        [paymentProductsCollectionView setContentOffset:offset animated:animated];
         
     }
 }
 
-- (void)focusOnSelectedPaymentProduct
+- (void)focusOnSelectedPaymentProductWithAnimation:(BOOL)animated
 {
     NSUInteger index = [self.paymentProducts indexOfObjectPassingTest:^BOOL(HPTPaymentProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -277,7 +286,7 @@
     }];
     
     if (index != NSNotFound) {
-        [self scrollToPaymentProductsCollectionViewIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+        [self scrollToPaymentProductsCollectionViewIndexPath:[NSIndexPath indexPathForRow:index inSection:0] withAnimation:animated];
     }
 }
 

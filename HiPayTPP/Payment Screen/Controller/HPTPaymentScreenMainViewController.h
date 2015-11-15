@@ -32,7 +32,7 @@
     BOOL containerHasFullLayout;
 }
 
-- (void)focusOnSelectedPaymentProduct;
+- (void)focusOnSelectedPaymentProductWithAnimation:(BOOL)animated;
 - (void)setPaymentProductSelectionEnabled:(BOOL)enabled;
 
 @property (nonatomic) NSArray <HPTPaymentProduct *> *paymentProducts;

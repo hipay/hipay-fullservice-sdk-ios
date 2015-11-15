@@ -137,6 +137,8 @@
             ((HPTInputTableViewCell *)cell).textField.enabled = !isLoading;
         }
     }
+    
+    [self.delegate paymentProductViewController:self isLoading:isLoading];
 }
 
 - (void)editingDoneButtonTouched:(id)sender

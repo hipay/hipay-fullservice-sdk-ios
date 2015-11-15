@@ -95,12 +95,7 @@
         
         [self defineContainerTopSpacing];
         
-        NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-        
-//        [UIView animateWithDuration:animationDuration animations:^{
-            [self.view layoutIfNeeded];
-//        }];
-        
+        [self.view layoutIfNeeded];
     }
 }
 
@@ -154,7 +149,6 @@
 
 - (void)selectPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
-    
     if (selectedPaymentProduct != paymentProduct) {
         
         selectedPaymentProduct = paymentProduct;
@@ -167,12 +161,12 @@
         }
         
         // Qiwi Wallet
-        else if ([paymentProduct.code isEqualToString:@"qiwi-wallet"]) {
+        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodeQiwiWallet]) {
             paymentProductViewController = [[HPTQiwiWalletPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         
-        // iDeal
-        else if ([paymentProduct.code isEqualToString:@"ideal"]) {
+        // iDEAL
+        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodeIDEAL]) {
             paymentProductViewController = [[HPTIDealPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         
@@ -245,24 +239,51 @@
 
 - (void)paymentProductCollectionViewCellDidTouchButton:(HPTPaymentProductCollectionViewCell *)cell
 {
-    [self selectPaymentProduct:cell.paymentProduct];
-    
-    NSIndexPath *indexPath = [paymentProductsCollectionView indexPathForCell:cell];
-    
-    for (HPTPaymentButtonTableViewCell *aCell in paymentProductsCollectionView.visibleCells) {
-        aCell.highlighted = NO;
+    if (paymentProductsCollectionView.scrollEnabled || (paymentProductsCollectionView == nil)) {
+        [self selectPaymentProduct:cell.paymentProduct];
+        
+        NSIndexPath *indexPath = [paymentProductsCollectionView indexPathForCell:cell];
+        
+        for (HPTPaymentButtonTableViewCell *aCell in paymentProductsCollectionView.visibleCells) {
+            aCell.highlighted = NO;
+        }
+        
+        cell.highlighted = YES;
+        
+        [self scrollToPaymentProductsCollectionViewIndexPath:indexPath];
     }
-    
-    cell.highlighted = YES;
-    
+}
+
+- (void)scrollToPaymentProductsCollectionViewIndexPath:(NSIndexPath *)indexPath
+{
     if (indexPath != nil) {
         
-        CGPoint proposedOffset = CGPointMake(cell.frame.origin.x - cell.frame.size.width, 0.);
+        CGRect frame = [paymentProductsCollectionView layoutAttributesForItemAtIndexPath:indexPath].frame;
+        
+        CGPoint proposedOffset = CGPointMake(frame.origin.x - frame.size.width, 0.);
         CGPoint offset = [paymentProductsCollectionView.collectionViewLayout targetContentOffsetForProposedContentOffset:proposedOffset withScrollingVelocity:CGPointMake(0., 0.)];
         
         [paymentProductsCollectionView setContentOffset:offset animated:YES];
         
     }
+}
+
+- (void)focusOnSelectedPaymentProduct
+{
+    NSUInteger index = [self.paymentProducts indexOfObjectPassingTest:^BOOL(HPTPaymentProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        return [obj isEqual:selectedPaymentProduct];
+        
+    }];
+    
+    if (index != NSNotFound) {
+        [self scrollToPaymentProductsCollectionViewIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+}
+
+- (void)setPaymentProductSelectionEnabled:(BOOL)enabled
+{
+    paymentProductsCollectionView.scrollEnabled = enabled;
 }
 
 #pragma mark - Main table view

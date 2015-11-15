@@ -24,6 +24,8 @@
 
 - (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didFailWithError:(NSError *)error;
 
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController isLoading:(BOOL)isLoading;
+
 @end
 
 @interface HPTAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate, HPTPaymentButtonTableViewCellDelegate, HPTForwardViewControllerDelegate>

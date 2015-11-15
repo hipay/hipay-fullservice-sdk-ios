@@ -110,4 +110,13 @@
     }
 }
 
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController isLoading:(BOOL)isLoading
+{
+    HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
+    
+    [mainViewController focusOnSelectedPaymentProduct];
+    
+    [mainViewController setPaymentProductSelectionEnabled:!isLoading];
+}
+
 @end

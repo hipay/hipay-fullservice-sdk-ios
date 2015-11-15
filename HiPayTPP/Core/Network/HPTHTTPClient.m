@@ -88,10 +88,24 @@
 
 - (void)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock
 {
+    static dispatch_once_t onceBlock;
+    static NSMutableArray *requests;
+
+    dispatch_once (&onceBlock, ^{
+        requests = [NSMutableArray array];
+    });
     
     NSURLRequest *request = [self createURLRequestWithMethod:method path:path parameters:parameters];
     
+    [requests addObject:request];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        // Network activity
+        [requests removeObject:request];
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = (requests.count > 0);
         
         // Connection error
         if (error != nil) {

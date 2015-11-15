@@ -42,6 +42,13 @@
       "tokenizable":true
    },
    {
+      "id":"0J9LFS11",
+      "code":"bcmc-mobile",
+      "description":"Bancontact Mobile",
+      "paymentProductCategoryCode":"e-wallet",
+      "tokenizable":false
+   },
+   {
       "id":"339KCZTQ",
       "code":"maestro",
       "description":"Maestro",

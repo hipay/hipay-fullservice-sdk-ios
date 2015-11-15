@@ -28,7 +28,6 @@
 {
     // BCMC is often a Maestro card
     XCTAssertEqual([HPTPaymentProduct securityCodeTypeForPaymentProductCode:HPTPaymentProductCodeBCMC], HPTSecurityCodeTypeNone);
-    
     XCTAssertEqual([HPTPaymentProduct securityCodeTypeForPaymentProductCode:HPTPaymentProductCodeCB], HPTSecurityCodeTypeNotApplicable);
     XCTAssertEqual([HPTPaymentProduct securityCodeTypeForPaymentProductCode:HPTPaymentProductCodeCarteAccord], HPTSecurityCodeTypeNotApplicable);
     XCTAssertEqual([HPTPaymentProduct securityCodeTypeForPaymentProductCode:HPTPaymentProductCodeAmericanExpress], HPTSecurityCodeTypeCID);

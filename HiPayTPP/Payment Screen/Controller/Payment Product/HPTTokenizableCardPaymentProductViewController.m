@@ -334,8 +334,8 @@
 {
     if (section == 0) {
         
-        UIView *footer = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SecurityCode"];
-        
+        HPTSecurityCodeTableViewFooterView *footer = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SecurityCode"];
+        footer.paymentProductCode = [self currentPaymentProductCode];
         footer.hidden = YES;
         
         return footer;

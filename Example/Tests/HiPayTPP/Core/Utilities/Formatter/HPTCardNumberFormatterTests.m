@@ -187,7 +187,6 @@
     
     // MasterCard
     
-    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"539"], [formatter formatPlainTextNumber:@"539" forPaymentProductCode:HPTPaymentProductCodeMasterCard]);
     XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"5392" forPaymentProductCode:HPTPaymentProductCodeMasterCard] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
     
     result = [formatter formatPlainTextNumber:@"5125654789874565" forPaymentProductCode:HPTPaymentProductCodeMasterCard];
@@ -197,7 +196,6 @@
     
     // Visa
     
-    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"539"], [formatter formatPlainTextNumber:@"539" forPaymentProductCode:HPTPaymentProductCodeVisa]);
     XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"5392" forPaymentProductCode:HPTPaymentProductCodeVisa] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
     
     result = [formatter formatPlainTextNumber:@"5125654789874565" forPaymentProductCode:HPTPaymentProductCodeVisa];
@@ -207,7 +205,6 @@
     
     // American Express
     
-    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"375"], [formatter formatPlainTextNumber:@"375" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress]);
     XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"3756" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
     
     result = [formatter formatPlainTextNumber:@"378282246310005" forPaymentProductCode:HPTPaymentProductCodeAmericanExpress];
@@ -216,7 +213,6 @@
     
     // Maestro
     
-    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"670"], [formatter formatPlainTextNumber:@"670" forPaymentProductCode:HPTPaymentProductCodeMaestro]);
     XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"6703" forPaymentProductCode:HPTPaymentProductCodeMaestro] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
     
     result = [formatter formatPlainTextNumber:@"67030000000000003" forPaymentProductCode:HPTPaymentProductCodeMaestro];
@@ -227,7 +223,6 @@
     
     // Diners
     
-    XCTAssertEqualObjects([[NSAttributedString alloc] initWithString:@"305"], [formatter formatPlainTextNumber:@"305" forPaymentProductCode:HPTPaymentProductCodeDiners]);
     XCTAssertEqualObjects(NSKernAttributeName, [[formatter formatPlainTextNumber:@"3056" forPaymentProductCode:HPTPaymentProductCodeDiners] attributesAtIndex:3 effectiveRange:nil].allKeys.firstObject);
     
     result = [formatter formatPlainTextNumber:@"305693090259045" forPaymentProductCode:HPTPaymentProductCodeDiners];

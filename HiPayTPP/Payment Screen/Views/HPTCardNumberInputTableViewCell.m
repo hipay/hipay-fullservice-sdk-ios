@@ -17,7 +17,6 @@
     [super awakeFromNib];
     
     self.inputLabel.text = HPTLocalizedString(@"CARD_NUMBER_LABEL");
-    self.textField.keyboardType = UIKeyboardTypeNumberPad;
 }
 
 - (void)setDefaultPaymentProductCode:(NSString *)defaultPaymentProductCode

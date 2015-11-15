@@ -312,6 +312,7 @@
             cell.textField.keyboardType = UIKeyboardTypeAlphabet;
             cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
             cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+            cell.textField.returnKeyType = UIReturnKeyNext;
             break;
             
         case 1:
@@ -323,7 +324,6 @@
             cell = [self dequeueInputCellWithIdentifier:@"ExpiryDateInput" fieldIdentifier:@"expiry_date"];
             cell.inputLabel.text = HPTLocalizedString(@"CARD_EXPIRATION_LABEL");
             cell.textField.placeholder = HPTLocalizedString(@"CARD_EXPIRATION_PLACEHOLDER");
-            cell.textField.keyboardType = UIKeyboardTypeNumberPad;
             break;
             
         case 3:

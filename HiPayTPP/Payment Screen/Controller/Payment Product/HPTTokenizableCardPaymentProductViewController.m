@@ -165,6 +165,16 @@
     }
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == [self textFieldForIdentifier:@"holder"]) {
+        [[self textFieldForIdentifier:@"number"] becomeFirstResponder];
+        return YES;
+    }
+    
+    return [super textFieldShouldReturn:textField];
+}
+
 #pragma mark - Security code fields behavior
 
 - (NSString *)currentPaymentProductCode

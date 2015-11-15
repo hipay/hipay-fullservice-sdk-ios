@@ -29,6 +29,8 @@
 
     defaultBackgroundColor = self.contentView.backgroundColor;
     defaultTextfieldColor = self.textField.textColor;
+    
+    self.textField.returnKeyType = UIReturnKeyDone;
 }
 
 - (void)layoutSubviews

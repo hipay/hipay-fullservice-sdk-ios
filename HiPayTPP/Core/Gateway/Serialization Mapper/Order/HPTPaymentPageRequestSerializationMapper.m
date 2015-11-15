@@ -23,6 +23,9 @@
     [result setNullableObject:[self getIntegerEnumValueForKey:@"eci"] forKey:@"eci"];    
     [result setNullableObject:[self getIntegerEnumValueForKey:@"authenticationIndicator"] forKey:@"authentication_indicator"];
     [result setNullableObject:[self getIntegerForKey:@"multiUse"] forKey:@"multi_use"];
+    [result setNullableObject:[self getIntegerForKey:@"displaySelector"] forKey:@"display_selector"];
+    [result setNullableObject:[self getStringForKey:@"templateName"] forKey:@"template"];
+    [result setNullableObject:[self getURLForKey:@"css"] forKey:@"css"];
     
     return [self createImmutableDictionary:result];
 }

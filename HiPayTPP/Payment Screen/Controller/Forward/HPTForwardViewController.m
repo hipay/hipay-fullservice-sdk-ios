@@ -24,6 +24,15 @@
     return self;
 }
 
+- (instancetype)initWithHostedPaymentPage:(HPTHostedPaymentPage *)hostedPaymentPage
+{
+    self = [super init];
+    if (self) {
+        _hostedPaymentPage = hostedPaymentPage;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -37,6 +46,11 @@
 + (HPTForwardViewController *)relevantForwardViewControllerWithTransaction:(HPTTransaction *)transaction
 {
     return [[HPTForwardSafariViewController alloc] initWithTransaction:transaction];
+}
+
++ (HPTForwardViewController *)relevantForwardViewControllerWithHostedPaymentPage:(HPTHostedPaymentPage *)hostedPaymentPage
+{
+    return [[HPTForwardSafariViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
 }
 
 /*

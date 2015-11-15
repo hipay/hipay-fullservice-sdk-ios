@@ -16,6 +16,7 @@
 #import "HPTQiwiWalletPaymentProductViewController.h"
 #import "HPTIDealPaymentProductViewController.h"
 #import "HPTTokenizableCardPaymentProductViewController.h"
+#import "HPTUnsupportedPaymentProductViewController.h"
 
 @interface HPTPaymentScreenMainViewController ()
 
@@ -162,8 +163,12 @@
         
         HPTAbstractPaymentProductViewController *paymentProductViewController;
         
+        if (1) {
+            paymentProductViewController = [[HPTUnsupportedPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+        }
+        
         // Tokenizable card
-        if (paymentProduct.tokenizable) {
+        else if (paymentProduct.tokenizable) {
             paymentProductViewController = [[HPTTokenizableCardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         
@@ -177,9 +182,14 @@
             paymentProductViewController = [[HPTIDealPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         
+        // Fosrward
+        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodePayPal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeYandex] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeQiwiWallet] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSofortUberweisung]) {
+            paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+        }
+        
         // Simple payment method
         else {
-            paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+            paymentProductViewController = [[HPTUnsupportedPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
 
         id<HPTPaymentProductViewControllerDelegate> paymentProductViewDelegate = (id<HPTPaymentProductViewControllerDelegate>) self.parentViewController.parentViewController;

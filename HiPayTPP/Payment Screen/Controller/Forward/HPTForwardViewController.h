@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HPTTransaction.h"
+#import "HPTHostedPaymentPage.h"
 
 @class HPTForwardViewController;
 
@@ -26,10 +27,15 @@
 @interface HPTForwardViewController : UIViewController
 
 @property (nonatomic, readonly) HPTTransaction *transaction;
+@property (nonatomic, readonly) HPTHostedPaymentPage *hostedPaymentPage;
 @property (nonatomic, weak) id<HPTForwardViewControllerDelegate> delegate;
 
 + (HPTForwardViewController *)relevantForwardViewControllerWithTransaction:(HPTTransaction *)transaction;
 
++ (HPTForwardViewController *)relevantForwardViewControllerWithHostedPaymentPage:(HPTHostedPaymentPage *)hostedPaymentPage;
+
 - (instancetype)initWithTransaction:(HPTTransaction *)transaction;
+
+- (instancetype)initWithHostedPaymentPage:(HPTHostedPaymentPage *)hostedPaymentPage;
 
 @end

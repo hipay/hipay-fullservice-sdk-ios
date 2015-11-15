@@ -8,6 +8,9 @@
 
 #import "HPTPaymentPageRequest.h"
 
+NSString *const HPTPaymentPageRequestTemplateNameBasic = @"basic-js";
+NSString *const HPTPaymentPageRequestTemplateNameFrame = @"iframe-js";
+
 @implementation HPTPaymentPageRequest
 
 - (instancetype)init
@@ -17,6 +20,7 @@
         _authenticationIndicator = HPTAuthenticationIndicatorUndefined;
         _eci = HPTECIUndefined;
         _multiUse = NO;
+        _displaySelector = NO;
     }
     return self;
 }

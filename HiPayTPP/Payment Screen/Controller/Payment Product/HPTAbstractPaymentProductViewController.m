@@ -307,7 +307,9 @@
 
 - (void)forwardViewControllerDidCancel:(HPTForwardViewController *)viewController
 {
-    [self refreshTransactionStatus:transaction];
+    if (transaction != nil) {
+        [self refreshTransactionStatus:transaction];
+    }
 }
 
 - (void)forwardViewController:(HPTForwardViewController *)viewController didEndWithTransaction:(HPTTransaction *)theTransaction

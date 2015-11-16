@@ -77,7 +77,7 @@ NSString *const HPTPaymentProductCodeDCBItalyMobilePay      = @"dcb-it-mobilepay
 
 + (HPTSecurityCodeType)securityCodeTypeForPaymentProductCode:(NSString *)paymentProductCode
 {
-    if ([paymentProductCode isEqualToString:HPTPaymentProductCodeVisa] || [paymentProductCode isEqualToString:HPTPaymentProductCodeMasterCard] || [paymentProductCode isEqualToString:HPTPaymentProductCodeDiners]) {
+    if ([paymentProductCode isEqualToString:HPTPaymentProductCodeVisa] || [paymentProductCode isEqualToString:HPTPaymentProductCodeMasterCard] || [paymentProductCode isEqualToString:HPTPaymentProductCodeDiners] || [paymentProductCode isEqualToString:HPTPaymentProductCodeMaestro]) {
         return HPTSecurityCodeTypeCVV;
     }
     
@@ -85,7 +85,7 @@ NSString *const HPTPaymentProductCodeDCBItalyMobilePay      = @"dcb-it-mobilepay
         return HPTSecurityCodeTypeCID;
     }
 
-    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeMaestro] || [paymentProductCode isEqualToString:HPTPaymentProductCodeBCMC]) {
+    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeBCMC]) {
         return HPTSecurityCodeTypeNone;
     }
     

@@ -33,6 +33,7 @@
     XCTAssertEqual([HPTPaymentProduct securityCodeTypeForPaymentProductCode:HPTPaymentProductCodeAmericanExpress], HPTSecurityCodeTypeCID);
     XCTAssertEqual([HPTPaymentProduct securityCodeTypeForPaymentProductCode:HPTPaymentProductCodeVisa], HPTSecurityCodeTypeCVV);
     XCTAssertEqual([HPTPaymentProduct securityCodeTypeForPaymentProductCode:HPTPaymentProductCodeMasterCard], HPTSecurityCodeTypeCVV);
+    XCTAssertEqual([HPTPaymentProduct securityCodeTypeForPaymentProductCode:HPTPaymentProductCodeMaestro], HPTSecurityCodeTypeCVV);
     XCTAssertEqual([HPTPaymentProduct securityCodeTypeForPaymentProductCode:HPTPaymentProductCodeDiners], HPTSecurityCodeTypeCVV);
 }
 

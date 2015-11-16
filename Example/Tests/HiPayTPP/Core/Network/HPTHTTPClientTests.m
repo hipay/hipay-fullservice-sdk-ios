@@ -110,6 +110,32 @@
     XCTAssertEqualObjects(URLRequest.HTTPBody, [@"param=value&param2=value2" dataUsingEncoding:NSUTF8StringEncoding]);
 }
 
+- (void)testClientReturnsRequest
+{
+    NSURLRequest *URLRequest = [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        NSString* fixture = OHPathForFile(@"example_dictionary.json", self.class);
+        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
+    
+    HPTHTTPClientRequest *clientRequest = [client performRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            XCTFail(@"Expectations error: %@", error);
+        }
+    }];
+    
+    XCTAssertEqualObjects(clientRequest.URLSessionTask.originalRequest.HTTPMethod, URLRequest.HTTPMethod);
+    XCTAssertEqualObjects(clientRequest.URLSessionTask.originalRequest.URL, URLRequest.URL);
+    
+    [mockedClient verify];
+}
+
 - (NSURLRequest *)createRequestAndExpectItsCreationWithStubResponse:(OHHTTPStubsResponseBlock)stubResponse
 {
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.example.org/items/1?param=value&param2=value2"]];
@@ -394,6 +420,18 @@
     [self doTestPerformRequestWithClientError:402];
     [self doTestPerformRequestWithClientError:403];
     [self doTestPerformRequestWithClientError:404];
+}
+
+- (void)testRequest
+{
+    OCMockObject *mockedTask = [OCMockObject mockForClass:[NSURLSessionTask class]];
+    [[mockedTask expect] cancel];
+    
+    HPTHTTPClientRequest *request = [[HPTHTTPClientRequest alloc] initWithURLSessionTask:((NSURLSessionTask *)mockedTask)];
+
+    [request cancel];
+    
+    [mockedTask verify];
 }
 
 @end

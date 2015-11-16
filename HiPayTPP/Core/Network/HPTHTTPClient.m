@@ -9,6 +9,24 @@
 #import "HPTHTTPClient.h"
 #import "HPTErrors.h"
 
+@implementation HPTHTTPClientRequest
+
+- (instancetype)initWithURLSessionTask:(NSURLSessionTask *)URLSessionTask
+{
+    self = [super init];
+    if (self) {
+        _URLSessionTask = URLSessionTask;
+    }
+    return self;
+}
+
+- (void)cancel
+{
+    [_URLSessionTask cancel];
+}
+
+@end
+
 @implementation HPTHTTPClient
 
 - (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)thePassword
@@ -86,7 +104,7 @@
     return URLRequest;
 }
 
-- (void)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock
+- (HPTHTTPClientRequest *)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock
 {
     static dispatch_once_t onceBlock;
     static NSMutableArray *requests;
@@ -99,7 +117,7 @@
     
     [requests addObject:request];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
+
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         // Network activity
@@ -147,6 +165,8 @@
     }];
     
     [sessionDataTask resume];
+    
+    return [[HPTHTTPClientRequest alloc] initWithURLSessionTask:sessionDataTask];
 }
 
 - (NSError *)errorFromURLConnectionError:(NSError *)error

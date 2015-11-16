@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HPTHTTPResponse.h"
+#import "HPTRequest.h"
 
 typedef void (^HPTHTTPClientCompletionBlock)(HPTHTTPResponse *response, NSError *error);
 
@@ -15,6 +16,14 @@ typedef NS_ENUM(NSInteger, HPTHTTPMethod) {
     HPTHTTPMethodGet,
     HPTHTTPMethodPost
 };
+
+@interface HPTHTTPClientRequest : NSObject <HPTRequest>
+
+@property (nonatomic, readonly) NSURLSessionTask *URLSessionTask;
+
+- (instancetype)initWithURLSessionTask:(NSURLSessionTask *)URLSessionTask;
+
+@end
 
 @interface HPTHTTPClient : NSObject
 {
@@ -26,6 +35,6 @@ typedef NS_ENUM(NSInteger, HPTHTTPMethod) {
 @property (nonatomic) NSURL *baseURL;
 
 - (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)password;
-- (void)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock;
+- (HPTHTTPClientRequest *)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock;
 
 @end

@@ -10,6 +10,15 @@
 
 @implementation HPTOrderRelatedRequest
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.language = [[NSLocale currentLocale] localeIdentifier];
+    }
+    return self;
+}
+
 - (instancetype)initWithOrderRelatedRequest:(HPTOrderRelatedRequest *)orderRelatedRequest
 {
     HPTOrderRelatedRequest *request = [self init];

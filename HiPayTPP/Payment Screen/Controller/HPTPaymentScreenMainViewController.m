@@ -163,12 +163,8 @@
         
         HPTAbstractPaymentProductViewController *paymentProductViewController;
         
-        if (1) {
-            paymentProductViewController = [[HPTUnsupportedPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
-        }
-        
         // Tokenizable card
-        else if (paymentProduct.tokenizable) {
+        if (paymentProduct.tokenizable) {
             paymentProductViewController = [[HPTTokenizableCardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         
@@ -182,8 +178,9 @@
             paymentProductViewController = [[HPTIDealPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         
-        // Fosrward
+        // Forward
         else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodePayPal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeYandex] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeQiwiWallet] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSofortUberweisung]) {
+            
             paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         

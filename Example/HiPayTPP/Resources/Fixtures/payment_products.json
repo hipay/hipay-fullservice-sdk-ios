@@ -7,13 +7,6 @@
       "tokenizable":true
    },   
    {
-      "id":"I9Z7G09N",
-      "code":"dcb-be-proximus",
-      "description":"DCB Belgique Proximus",
-      "paymentProductCategoryCode":"realtime-banking",
-      "tokenizable":false
-   },
-   {
       "id":"GUQ4NAIJ",
       "code":"mastercard",
       "description":"MasterCard",
@@ -119,10 +112,24 @@
       "tokenizable":false
    },   
    {
+      "id":"OR39Z05G",
+      "code":"giropay",
+      "description":"Giropay",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"I9Z7G09N",
+      "code":"dcb-be-proximus",
+      "description":"DCB Belgique Proximus",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
       "id":"72L8SV1M",
       "code":"yandex",
       "description":"Yandex",
       "paymentProductCategoryCode":"ewallet",
       "tokenizable":false
-   }
+   },
 ]

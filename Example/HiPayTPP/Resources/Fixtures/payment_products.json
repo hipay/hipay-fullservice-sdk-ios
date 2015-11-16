@@ -56,20 +56,6 @@
       "tokenizable":true
    },   
    {
-      "id":"BLMQ0VNG",
-      "code":"3xcb",
-      "description":"3x Carte Bancaire",
-      "paymentProductCategoryCode":"credit-card",
-      "tokenizable":false
-   },
-   {
-      "id":"GSI0TKIH",
-      "code":"4xcb-no-fees",
-      "description":"4x Carte Bancaire sans frais",
-      "paymentProductCategoryCode":"credit-card",
-      "tokenizable":false
-   },
-   {
       "id":"LQ09C87Y",
       "code":"carte-accord",
       "description":"Carte Accord",
@@ -98,13 +84,6 @@
       "tokenizable":false
    },
    {
-      "id":"RAXLNESP",
-      "code":"qiwi-wallet",
-      "description":"VISA QIWI Wallet",
-      "paymentProductCategoryCode":"ewallet",
-      "tokenizable":false
-   },
-   {
       "id":"HY0ORGG3",
       "code":"paypal",
       "description":"PayPal",
@@ -116,6 +95,34 @@
       "code":"giropay",
       "description":"Giropay",
       "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"FZEWWCY0",
+      "code":"sisal",
+      "description":"Sisal",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"RAXLNESP",
+      "code":"qiwi-wallet",
+      "description":"VISA QIWI Wallet",
+      "paymentProductCategoryCode":"ewallet",
+      "tokenizable":false
+   },   
+   {
+      "id":"BLMQ0VNG",
+      "code":"3xcb",
+      "description":"3x Carte Bancaire",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":false
+   },
+   {
+      "id":"GSI0TKIH",
+      "code":"4xcb-no-fees",
+      "description":"4x Carte Bancaire sans frais",
+      "paymentProductCategoryCode":"credit-card",
       "tokenizable":false
    },   
    {

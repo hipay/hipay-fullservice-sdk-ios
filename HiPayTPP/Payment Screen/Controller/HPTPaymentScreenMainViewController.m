@@ -179,7 +179,7 @@
         }
         
         // Forward
-        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodePayPal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeYandex] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeQiwiWallet] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSofortUberweisung] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSisal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSDD]) {
+        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodePayPal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeYandex] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeQiwiWallet] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSofortUberweisung] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSisal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSDD] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeBankTransfer] || [paymentProduct.code isEqualToString:HPTPaymentProductCodePaysafecard] || [paymentProduct.code isEqualToString:HPTPaymentProductCodePrzelewy24] || [paymentProduct.code isEqualToString:HPTPaymentProductCodePayULatam] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeINGHomepay]) {
             
             paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }

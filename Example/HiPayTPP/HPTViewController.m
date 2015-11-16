@@ -51,7 +51,7 @@
     order.customer.country = @"FR";
     order.customer.firstname = @"Jonathan";
     order.customer.lastname = @"Tiret";
-    
+    order.authenticationIndicator = HPTAuthenticationIndicatorIfAvailable;
     
     
     NSURL *appURL = [NSURL URLWithString:@"hipaytpp://response"];

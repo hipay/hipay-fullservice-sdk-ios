@@ -23,6 +23,10 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
 
         NSDictionary *matrixInfo = [[self paymentProductMatrix] objectForKey:paymentProduct.code];
         
+        if ((matrixInfo == nil) && ([paymentProduct.code hasPrefix:@"dcb-"])) {
+            matrixInfo = @{@"y": @(5), @"x": @(5)};
+        }
+        
         if (matrixInfo != nil) {
             
             UIImage *spriteImage = [UIImage imageNamed:@"payment_product_sprites" inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
@@ -79,6 +83,17 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
     
     if (self.titleLabel.frame.size.height >= (0.85 * self.frame.size.height)) {
         self.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    }
+    
+    // Label takes two lines at least
+    else if ((self.titleLabel.frame.size.height >= (0.5 * self.frame.size.height))) {
+        
+        // But label is alphanumeric only, it means that a word is broken, it's better to reduce text size
+        NSRange range = [self.titleLabel.text rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+        
+        if (range.location == NSNotFound) {
+            self.titleLabel.font = [UIFont systemFontOfSize:14.0];
+        }
     }
 }
 
@@ -161,7 +176,7 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
                                                         HPTPaymentProductCodePagoFacil:             @{@"y": @(4), @"x": @(0)},
                                                         HPTPaymentProductCodePayPal:                @{@"y": @(5), @"x": @(3)},
                                                         HPTPaymentProductCodePaysafecard:           @{@"y": @(2), @"x": @(8)},
-                                                        HPTPaymentProductCodePayulatam:             @{@"y": @(2), @"x": @(6)},
+                                                        HPTPaymentProductCodePayULatam:             @{@"y": @(2), @"x": @(6)},
                                                         HPTPaymentProductCodeProvincia:             @{@"y": @(3), @"x": @(6)},
                                                         HPTPaymentProductCodePrzelewy24:            @{@"y": @(2), @"x": @(4)},
                                                         HPTPaymentProductCodeQiwiWallet:            @{@"y": @(2), @"x": @(3)},

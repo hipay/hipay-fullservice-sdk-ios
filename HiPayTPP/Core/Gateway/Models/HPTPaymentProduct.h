@@ -81,6 +81,12 @@ extern NSString *const HPTPaymentProductCodeDCBAustriaDrei;
 extern NSString *const HPTPaymentProductCodeDCBCzetchTMobile;
 extern NSString *const HPTPaymentProductCodeDCBCzetchO2;
 extern NSString *const HPTPaymentProductCodeDCBCzetchVodafone;
+extern NSString *const HPTPaymentProductCodeDCBBelgiumProximus;
+extern NSString *const HPTPaymentProductCodeDCBBelgiumMobistar;
+extern NSString *const HPTPaymentProductCodeDCBSpainPagosMovistar;
+extern NSString *const HPTPaymentProductCodeDCBSingaporeSingtel;
+extern NSString *const HPTPaymentProductCodeDCBSwissEasyPay;
+extern NSString *const HPTPaymentProductCodeDCBItalyMobilePay;
 
 @interface HPTPaymentProduct : NSObject
 

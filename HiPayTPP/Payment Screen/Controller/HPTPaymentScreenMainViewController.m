@@ -179,7 +179,7 @@
         }
         
         // Forward
-        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodePayPal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeYandex] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeQiwiWallet] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSofortUberweisung] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSisal]) {
+        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodePayPal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeYandex] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeQiwiWallet] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSofortUberweisung] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSisal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSDD]) {
             
             paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }

@@ -98,6 +98,13 @@
       "tokenizable":false
    },   
    {
+      "id":"56WDGA6Y",
+      "code":"sdd",
+      "description":"SEPA Direct Debit",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
       "id":"FZEWWCY0",
       "code":"sisal",
       "description":"Sisal",

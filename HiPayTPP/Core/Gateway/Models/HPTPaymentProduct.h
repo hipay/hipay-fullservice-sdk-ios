@@ -61,7 +61,7 @@ extern NSString *const HPTPaymentProductCodeOxxo;
 extern NSString *const HPTPaymentProductCodePagoFacil;
 extern NSString *const HPTPaymentProductCodePayPal;
 extern NSString *const HPTPaymentProductCodePaysafecard;
-extern NSString *const HPTPaymentProductCodePayulatam;
+extern NSString *const HPTPaymentProductCodePayULatam;
 extern NSString *const HPTPaymentProductCodeProvincia;
 extern NSString *const HPTPaymentProductCodePrzelewy24;
 extern NSString *const HPTPaymentProductCodeQiwiWallet;
@@ -74,6 +74,13 @@ extern NSString *const HPTPaymentProductCodeTarjetaShopping;
 extern NSString *const HPTPaymentProductCodeVisa;
 extern NSString *const HPTPaymentProductCodeWebmoneyTransfer;
 extern NSString *const HPTPaymentProductCodeYandex;
+extern NSString *const HPTPaymentProductCodeDCBAustriaA1;
+extern NSString *const HPTPaymentProductCodeDCBAustriaTMobile;
+extern NSString *const HPTPaymentProductCodeDCBAustriaOrange;
+extern NSString *const HPTPaymentProductCodeDCBAustriaDrei;
+extern NSString *const HPTPaymentProductCodeDCBCzetchTMobile;
+extern NSString *const HPTPaymentProductCodeDCBCzetchO2;
+extern NSString *const HPTPaymentProductCodeDCBCzetchVodafone;
 
 @interface HPTPaymentProduct : NSObject
 

@@ -45,7 +45,7 @@ NSString *const HPTPaymentProductCodeOxxo               = @"oxxo";
 NSString *const HPTPaymentProductCodePagoFacil          = @"pago-facil";
 NSString *const HPTPaymentProductCodePayPal             = @"paypal";
 NSString *const HPTPaymentProductCodePaysafecard        = @"paysafecard";
-NSString *const HPTPaymentProductCodePayulatam          = @"payulatam";
+NSString *const HPTPaymentProductCodePayULatam          = @"payulatam";
 NSString *const HPTPaymentProductCodeProvincia          = @"provincia";
 NSString *const HPTPaymentProductCodePrzelewy24         = @"przelewy24";
 NSString *const HPTPaymentProductCodeQiwiWallet         = @"qiwi-wallet";
@@ -58,6 +58,14 @@ NSString *const HPTPaymentProductCodeTarjetaShopping    = @"tarjeta-shopping";
 NSString *const HPTPaymentProductCodeVisa               = @"visa";
 NSString *const HPTPaymentProductCodeWebmoneyTransfer   = @"webmoney-transfer";
 NSString *const HPTPaymentProductCodeYandex             = @"yandex";
+NSString *const HPTPaymentProductCodeDCBAustriaA1       = @"dcb-at-a1";
+NSString *const HPTPaymentProductCodeDCBAustriaTMobile  = @"dcb-at-tmobile";
+NSString *const HPTPaymentProductCodeDCBAustriaOrange   = @"dcb-at-orange";
+NSString *const HPTPaymentProductCodeDCBAustriaDrei     = @"dcb-at-drei";
+NSString *const HPTPaymentProductCodeDCBCzetchTMobile   = @"dcb-cz-tmobile";
+NSString *const HPTPaymentProductCodeDCBCzetchO2        = @"dcb-cz-o2";
+NSString *const HPTPaymentProductCodeDCBCzetchVodafone  = @"dcb-cz-vodafone";
+
 
 @implementation HPTPaymentProduct
 

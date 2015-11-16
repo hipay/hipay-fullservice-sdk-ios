@@ -18,18 +18,21 @@
     
     [[HPTClientConfig sharedClientConfig] setEnvironment:HPTEnvironmentStage username:@"94654727.api.hipay-tpp.com" password:@"3g4zRCgG2EY9RJHFsQ4cIqAI"];
 
+    NSDictionary* environment = [[NSProcessInfo processInfo] environment];
+    NSString* injectBundle = environment[@"XCInjectBundle"];
+    BOOL isRunningTests = [[injectBundle pathExtension] isEqualToString:@"xctest"];
     
-    // Override point for customization after application launch.
-//
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.absoluteString containsString:@"payment_products"] && [request.HTTPMethod isEqualToString:@"GET"];
-    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
-        NSString *fixture = OHPathForFile(@"payment_products.json", self.class);
-        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
-        response.responseTime = 0.4;
-        return response;
-    }];
     
+    if (!isRunningTests) {
+        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            return [request.URL.absoluteString containsString:@"payment_products"] && [request.HTTPMethod isEqualToString:@"GET"];
+        } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+            NSString *fixture = OHPathForFile(@"payment_products.json", self.class);
+            OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+            response.responseTime = 0.4;
+            return response;
+        }];
+    }
 
     
 //

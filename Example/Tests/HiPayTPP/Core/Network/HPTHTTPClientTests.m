@@ -145,7 +145,6 @@
         return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
     [client performRequestWithMethod:HPTHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPTHTTPResponse *response, NSError *error) {
@@ -166,7 +165,12 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:0.2 handler:nil];
+    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            XCTFail(@"Expectations error: %@", error);
+        }
+    }];
+    
     [mockedClient verify];
 }
 
@@ -175,7 +179,6 @@
     [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
         NSString *fixture = OHPathForFile(@"example_array.json", self.class);
         return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
-        
     }];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
@@ -200,11 +203,15 @@
         XCTAssertEqualObjects(response.body, body);
         XCTAssertNil(error);
         XCTAssertTrue(response.statusCode == 200);
-        
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:1.0 handler:nil];
+    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            XCTFail(@"Expectations error: %@", error);
+        }
+    }];
+    
     [mockedClient verify];
 }
 
@@ -305,7 +312,11 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:0.2 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            XCTFail(@"Expectations error: %@", error);
+        }
+    }];
     [mockedClient verify];
 }
 
@@ -338,7 +349,11 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:0.2 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            XCTFail(@"Expectations error: %@", error);
+        }
+    }];
     [mockedClient verify];
 }
 
@@ -364,7 +379,11 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:0.2 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            XCTFail(@"Expectations error: %@", error);
+        }
+    }];
     [mockedClient verify];
 }
 

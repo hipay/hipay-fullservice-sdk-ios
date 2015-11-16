@@ -65,7 +65,7 @@ HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
     return [[HPTPaymentCardTokenMapper alloc] initWithRawData:rawData].mappedObject;
 }
 
-- (void)generateTokenWithCardNumber:(NSString *)cardNumber cardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder securityCode:(NSString *)securityCode multiUse:(BOOL)multiUse andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
+- (id<HPTRequest>)generateTokenWithCardNumber:(NSString *)cardNumber cardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder securityCode:(NSString *)securityCode multiUse:(BOOL)multiUse andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
     if (securityCode == nil) {
         securityCode = @"";
@@ -80,14 +80,14 @@ HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
                                  @"multi_use": @(multiUse).stringValue,
                                  };
     
-    [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
     }];
 }
 
-- (void)updatePaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID setCardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder completionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
+- (id<HPTRequest>)updatePaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID setCardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder completionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
     NSDictionary *parameters = @{
                                  @"request_id": requestID,
@@ -97,18 +97,18 @@ HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
                                  @"card_holder": cardHolder,
                                  };
     
-    [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/update" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/update" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
     }];
 }
 
-- (void)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
+- (id<HPTRequest>)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
     NSDictionary *parameters = @{@"request_id": requestID};
     
-    [HTTPClient performRequestWithMethod:HPTHTTPMethodGet path:[@"token/" stringByAppendingString:token] parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPTHTTPMethodGet path:[@"token/" stringByAppendingString:token] parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         

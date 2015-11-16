@@ -95,20 +95,24 @@
     // We don't do anything in this completion block, we just make sure the block is passed to the manageRequest method
     HPTSecureVaultClientCompletionBlock tokenCompletionBlock = ^(HPTPaymentCardToken *cardToken, NSError *error) {};
     
+    HPTHTTPClientRequest *request = [[HPTHTTPClientRequest alloc] init];
+    
     // Generate token method should perform HTTP request
-    [[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
+    [[[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
         
         HPTHTTPClientCompletionBlock passedCompletionBlock;
         [invocation getArgument: &passedCompletionBlock atIndex: 5];
         
         passedCompletionBlock(HTTPResponse, error);
         
-    }] performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:OCMOCK_ANY];
+    }] andReturn:request] performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:OCMOCK_ANY];
     
     // Once the method gets the HTTP response, it should call the manage request method
     [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
     
-    [secureVaultClient generateTokenWithCardNumber:cardNumber cardExpiryMonth:month cardExpiryYear:year cardHolder:holder securityCode:code multiUse:multiUse andCompletionHandler:tokenCompletionBlock];
+    id<HPTRequest> returnedRequest = [secureVaultClient generateTokenWithCardNumber:cardNumber cardExpiryMonth:month cardExpiryYear:year cardHolder:holder securityCode:code multiUse:multiUse andCompletionHandler:tokenCompletionBlock];
+    
+    XCTAssertEqual(request, returnedRequest);
     
     [((OCMockObject *)secureVaultClient) verify];
 }
@@ -163,20 +167,24 @@
     // We don't do anything in this completion block, we just make sure the block is passed to the manageRequest method
     HPTSecureVaultClientCompletionBlock tokenCompletionBlock = ^(HPTPaymentCardToken *cardToken, NSError *error) {};
     
+    HPTHTTPClientRequest *request = [[HPTHTTPClientRequest alloc] init];
+    
     // Generate token method should perform HTTP request
-    [[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
+    [[[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
         
         HPTHTTPClientCompletionBlock passedCompletionBlock;
         [invocation getArgument: &passedCompletionBlock atIndex: 5];
         
         passedCompletionBlock(HTTPResponse, error);
         
-    }] performRequestWithMethod:HPTHTTPMethodPost path:@"token/update" parameters:HTTPParameters completionHandler:OCMOCK_ANY];
+    }] andReturn:request] performRequestWithMethod:HPTHTTPMethodPost path:@"token/update" parameters:HTTPParameters completionHandler:OCMOCK_ANY];
     
     // Once the method gets the HTTP response, it should call the manage request method
     [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
     
-    [secureVaultClient updatePaymentCardWithToken:token requestID:requestID setCardExpiryMonth:month cardExpiryYear:year cardHolder:holder completionHandler:tokenCompletionBlock];
+    id<HPTRequest> returnedRequest = [secureVaultClient updatePaymentCardWithToken:token requestID:requestID setCardExpiryMonth:month cardExpiryYear:year cardHolder:holder completionHandler:tokenCompletionBlock];
+    
+    XCTAssertEqual(request, returnedRequest);
     
     [((OCMockObject *)secureVaultClient) verify];
 }
@@ -193,20 +201,24 @@
     // We don't do anything in this completion block, we just make sure the block is passed to the manageRequest method
     HPTSecureVaultClientCompletionBlock tokenCompletionBlock = ^(HPTPaymentCardToken *cardToken, NSError *error) {};
     
+    HPTHTTPClientRequest *request = [[HPTHTTPClientRequest alloc] init];
+    
     // Generate token method should perform HTTP request
-    [[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
+    [[[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
         
         HPTHTTPClientCompletionBlock passedCompletionBlock;
         [invocation getArgument: &passedCompletionBlock atIndex: 5];
         
         passedCompletionBlock(HTTPResponse, error);
         
-    }] performRequestWithMethod:HPTHTTPMethodGet path:@"token/b57dad30b32a0026bd036b359cf70a80436a3b10" parameters:@{@"request_id": requestID} completionHandler:OCMOCK_ANY];
+    }] andReturn:request] performRequestWithMethod:HPTHTTPMethodGet path:@"token/b57dad30b32a0026bd036b359cf70a80436a3b10" parameters:@{@"request_id": requestID} completionHandler:OCMOCK_ANY];
     
     // Once the method gets the HTTP response, it should call the manage request method
     [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
     
-    [secureVaultClient lookupPaymentCardWithToken:token requestID:requestID andCompletionHandler:tokenCompletionBlock];
+    id<HPTRequest> returnedRequest = [secureVaultClient lookupPaymentCardWithToken:token requestID:requestID andCompletionHandler:tokenCompletionBlock];
+    
+    XCTAssertEqual(request, returnedRequest);
     
     [((OCMockObject *)secureVaultClient) verify];
 }

@@ -7,6 +7,7 @@
 //
 
 #import "HPTOrderRelatedRequest.h"
+#import "HPTClientConfig.h"
 
 @implementation HPTOrderRelatedRequest
 
@@ -15,8 +16,36 @@
     self = [super init];
     if (self) {
         self.language = [[NSLocale currentLocale] localeIdentifier];
+        [self defineURLParameters];
     }
     return self;
+}
+
+- (void)defineURLParameters
+{
+    NSURL *appURL = [HPTClientConfig sharedClientConfig].appRedirectionURL;
+    
+    NSString *baseString;
+    
+    if (self.orderId == nil) {
+        baseString = @"/gateway";
+    } else {
+        baseString = [NSString stringWithFormat:@"/gateway/%@", self.orderId];
+    }
+    
+    NSURL *orderURL = [appURL URLByAppendingPathComponent:baseString];
+    
+    self.acceptURL = [orderURL URLByAppendingPathComponent:@"/accept"];
+    self.declineURL = [orderURL URLByAppendingPathComponent:@"/decline"];
+    self.pendingURL = [orderURL URLByAppendingPathComponent:@"/pending"];
+    self.exceptionURL = [orderURL URLByAppendingPathComponent:@"/exception"];
+    self.cancelURL = [orderURL URLByAppendingPathComponent:@"/cancel"];
+}
+
+- (void)setOrderId:(NSString *)orderId
+{
+    _orderId = orderId;
+    [self defineURLParameters];
 }
 
 - (instancetype)initWithOrderRelatedRequest:(HPTOrderRelatedRequest *)orderRelatedRequest

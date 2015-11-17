@@ -54,9 +54,6 @@
     order.authenticationIndicator = HPTAuthenticationIndicatorIfAvailable;
     
     
-    NSURL *appURL = [NSURL URLWithString:@"hipaytpp://response"];
-    
-    order.acceptURL = order.declineURL = order.exceptionURL = order.pendingURL = order.cancelURL = appURL;
     
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPTPaymentScreenViewsBundle()];
     HPTPaymentScreenViewController* vc = (HPTPaymentScreenViewController *)[sb instantiateInitialViewController];

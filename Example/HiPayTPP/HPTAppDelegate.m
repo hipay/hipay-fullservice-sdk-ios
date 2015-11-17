@@ -16,7 +16,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    [[HPTClientConfig sharedClientConfig] setEnvironment:HPTEnvironmentStage username:@"94654727.api.hipay-tpp.com" password:@"3g4zRCgG2EY9RJHFsQ4cIqAI"];
+    [[HPTClientConfig sharedClientConfig] setEnvironment:HPTEnvironmentStage username:@"94654727.api.hipay-tpp.com" password:@"3g4zRCgG2EY9RJHFsQ4cIqAI" appURLscheme:@"hipayexample"];
 
     NSDictionary* environment = [[NSProcessInfo processInfo] environment];
     NSString* injectBundle = environment[@"XCInjectBundle"];
@@ -30,11 +30,9 @@
             
             OHHTTPStubsResponse *response;
             
-            response = [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:@{}]];
-            
-            response.responseTime = 3.0;
-            
-            return response;
+//            response = [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:@{}]];
+//            response.responseTime = 3.0;
+//            return response;
             
             NSString *fixture = OHPathForFile(@"payment_products.json", self.class);
             response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];

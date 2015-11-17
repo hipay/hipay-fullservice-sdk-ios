@@ -20,13 +20,11 @@
 {
     _paymentPageRequest = paymentPageRequest;
     
-    HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
-
-    mainViewController.loading = YES;
+    [self mainViewController].loading = YES;
     
     paymentProductsRequest = [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
 
-        mainViewController.loading = NO;
+        [self mainViewController].loading = NO;
         paymentProductsRequest = nil;
         
         if (error == nil) {
@@ -41,9 +39,14 @@
     }];
 }
 
+- (HPTPaymentScreenMainViewController *)mainViewController
+{
+    return embeddedNavigationController.viewControllers.firstObject;
+}
+
 - (void)setPaymentProductsToMainViewController
 {
-    HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
+    HPTPaymentScreenMainViewController *mainViewController = [self mainViewController];
     
     if (paymentProductsRequest != nil) {
         mainViewController.loading = YES;
@@ -80,7 +83,7 @@
 {
     [super viewWillAppear:animated];
     
-    HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
+    HPTPaymentScreenMainViewController *mainViewController = [self mainViewController];
     
     if ([self isModal]) {
         mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];

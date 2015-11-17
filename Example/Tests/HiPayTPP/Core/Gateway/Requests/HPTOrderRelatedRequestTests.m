@@ -109,6 +109,26 @@
     XCTAssertEqualObjects([object valueForKey:@"cdata8"], @"test18");
     XCTAssertEqualObjects([object valueForKey:@"cdata9"], @"test19");
     XCTAssertEqualObjects([object valueForKey:@"cdata10"], @"test20");
+    
+    XCTAssertEqualObjects([object valueForKey:@"acceptURL"], [NSURL URLWithString:@"http://www.example.com/test1"]);
+    XCTAssertEqualObjects([object valueForKey:@"declineURL"], [NSURL URLWithString:@"http://www.example.com/test2"]);
+    XCTAssertEqualObjects([object valueForKey:@"pendingURL"], [NSURL URLWithString:@"http://www.example.com/test3"]);
+    XCTAssertEqualObjects([object valueForKey:@"exceptionURL"], [NSURL URLWithString:@"http://www.example.com/test4"]);
+    XCTAssertEqualObjects([object valueForKey:@"cancelURL"], [NSURL URLWithString:@"http://www.example.com/test5"]);
+
+    OCMockObject *mockedClientConfig = [OCMockObject mockForClass:[HPTClientConfig class]];
+    
+    id classMock = OCMClassMock([HPTClientConfig class]);
+    OCMExpect([classMock sharedClientConfig]).andReturn(mockedClientConfig);
+
+    [[[mockedClientConfig expect] andReturn:[NSURL URLWithString:@"test://hipay"]] appRedirectionURL];
+    
+    object.orderId = @"MyOrder?Id";
+    
+    XCTAssertEqualObjects(object.acceptURL, [NSURL URLWithString:@"test://hipay/gateway/MyOrder%3FId/accept"]);
+    
+    [mockedClientConfig verify];
+    OCMVerify([classMock sharedClientConfig]);
 }
 
 - (void)testInitWithOrderRelatedRequest

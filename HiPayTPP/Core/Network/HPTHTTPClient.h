@@ -20,8 +20,10 @@ typedef NS_ENUM(NSInteger, HPTHTTPMethod) {
 @interface HPTHTTPClientRequest : NSObject <HPTRequest>
 
 @property (nonatomic, readonly) NSURLSessionTask *URLSessionTask;
+@property (nonatomic, readonly) NSMutableArray *requests;
+@property (nonatomic, readonly) NSURLRequest *originalRequest;
 
-- (instancetype)initWithURLSessionTask:(NSURLSessionTask *)URLSessionTask;
+- (instancetype)initWithURLSessionTask:(NSURLSessionTask *)URLSessionTask requests:(NSMutableArray *)requests originalRequest:(NSURLRequest *)request;
 
 @end
 

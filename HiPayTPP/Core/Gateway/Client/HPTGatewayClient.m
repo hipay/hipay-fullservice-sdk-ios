@@ -74,9 +74,9 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
     
 }
 
-- (void)handleRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters responseMapperClass:(Class)responseMapperClass isArray:(BOOL)isArray completionHandler:(void (^)(id result, NSError *error))completionBlock
+- (id<HPTRequest>)handleRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters responseMapperClass:(Class)responseMapperClass isArray:(BOOL)isArray completionHandler:(void (^)(id result, NSError *error))completionBlock
 {
-    [HTTPClient performRequestWithMethod:method path:path parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:method path:path parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         if (completionBlock != nil) {
             
@@ -114,23 +114,23 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
     }];
 }
 
-- (void)initializeHostedPaymentPageRequest:(HPTPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock
+- (id<HPTRequest>)initializeHostedPaymentPageRequest:(HPTPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock
 {
     NSDictionary *parameters = [HPTPaymentPageRequestSerializationMapper mapperWithRequest:hostedPaymentPageRequest].serializedRequest;
     
-    [self handleRequestWithMethod:HPTHTTPMethodPost path:@"hpayment" parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] isArray:NO completionHandler:completionBlock];
+    return [self handleRequestWithMethod:HPTHTTPMethodPost path:@"hpayment" parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] isArray:NO completionHandler:completionBlock];
 }
 
-- (void)requestNewOrder:(HPTOrderRequest *)orderRequest withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock
+- (id<HPTRequest>)requestNewOrder:(HPTOrderRequest *)orderRequest withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock
 {
     NSDictionary *parameters = [HPTOrderRequestSerializationMapper mapperWithRequest:orderRequest].serializedRequest;
     
-    [self handleRequestWithMethod:HPTHTTPMethodPost path:@"order" parameters:parameters responseMapperClass:[HPTTransactionMapper class] isArray:NO completionHandler:completionBlock];
+    return [self handleRequestWithMethod:HPTHTTPMethodPost path:@"order" parameters:parameters responseMapperClass:[HPTTransactionMapper class] isArray:NO completionHandler:completionBlock];
 }
 
-- (void)getTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock
+- (id<HPTRequest>)getTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock
 {
-    [self handleRequestWithMethod:HPTHTTPMethodGet path:[@"transaction/" stringByAppendingString:transactionReference] parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:^(id result, NSError *error) {
+    return [self handleRequestWithMethod:HPTHTTPMethodGet path:[@"transaction/" stringByAppendingString:transactionReference] parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:^(id result, NSError *error) {
         
         NSError *resultError = nil;
         id resultObject = nil;
@@ -155,9 +155,9 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
     }];
 }
 
-- (void)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPTTransactionsCompletionBlock)completionBlock
+- (id<HPTRequest>)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPTTransactionsCompletionBlock)completionBlock
 {
-    [self handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction" parameters:@{@"orderid": orderId} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:completionBlock];
+    return [self handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction" parameters:@{@"orderid": orderId} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:completionBlock];
 }
 
 - (NSString *)operationValueForOperationType:(HPTOperationType)operationType
@@ -186,7 +186,7 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
     }
 }
 
-- (void)performMaintenanceOperation:(HPTOperationType)operation amount:(NSNumber *)amount onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock
+- (id<HPTRequest>)performMaintenanceOperation:(HPTOperationType)operation amount:(NSNumber *)amount onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock
 {
     NSString *operationName = [self operationValueForOperationType:operation];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"operation": operationName}];
@@ -195,14 +195,14 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
         parameters[@"amount"] = [HPTAbstractSerializationMapper formatAmountNumber:amount];
     }
     
-    [self handleRequestWithMethod:HPTHTTPMethodPost path:[@"maintenance/transaction/" stringByAppendingString:transactionReference] parameters:parameters responseMapperClass:[HPTOperationMapper class] isArray:NO completionHandler:completionBlock];
+    return [self handleRequestWithMethod:HPTHTTPMethodPost path:[@"maintenance/transaction/" stringByAppendingString:transactionReference] parameters:parameters responseMapperClass:[HPTOperationMapper class] isArray:NO completionHandler:completionBlock];
 }
 
-- (void)getPaymentProductsForRequest:(HPTPaymentPageRequest *)paymentPageRequest withCompletionHandler:(HPTPaymentProductsCompletionBlock)completionBlock
+- (id<HPTRequest>)getPaymentProductsForRequest:(HPTPaymentPageRequest *)paymentPageRequest withCompletionHandler:(HPTPaymentProductsCompletionBlock)completionBlock
 {
     NSDictionary *parameters = [HPTPaymentPageRequestSerializationMapper mapperWithRequest:paymentPageRequest].serializedRequest;
     
-    [self handleRequestWithMethod:HPTHTTPMethodGet path:@"payment_products" parameters:parameters responseMapperClass:[HPTPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
+    return [self handleRequestWithMethod:HPTHTTPMethodGet path:@"payment_products" parameters:parameters responseMapperClass:[HPTPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
 }
 
 @end

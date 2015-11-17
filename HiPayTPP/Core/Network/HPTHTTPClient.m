@@ -11,11 +11,13 @@
 
 @implementation HPTHTTPClientRequest
 
-- (instancetype)initWithURLSessionTask:(NSURLSessionTask *)URLSessionTask
+- (instancetype)initWithURLSessionTask:(NSURLSessionTask *)URLSessionTask requests:(NSMutableArray *)requests originalRequest:(NSURLRequest *)request
 {
     self = [super init];
     if (self) {
         _URLSessionTask = URLSessionTask;
+        _requests = requests;
+        _originalRequest = request;
     }
     return self;
 }
@@ -164,9 +166,11 @@
         
     }];
     
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] initWithURLSessionTask:sessionDataTask requests:requests originalRequest:request];
+    
     [sessionDataTask resume];
     
-    return [[HPTHTTPClientRequest alloc] initWithURLSessionTask:sessionDataTask];
+    return clientRequest;
 }
 
 - (NSError *)errorFromURLConnectionError:(NSError *)error

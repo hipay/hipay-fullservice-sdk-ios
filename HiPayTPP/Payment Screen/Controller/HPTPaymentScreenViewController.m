@@ -8,6 +8,7 @@
 
 #import "HPTPaymentScreenViewController.h"
 #import "HPTPaymentScreenMainViewController.h"
+#import "HPTPaymentScreenUtils.h"
 
 @interface HPTPaymentScreenViewController ()
 
@@ -19,19 +20,35 @@
 {
     _paymentPageRequest = paymentPageRequest;
     
+    HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
+
+    mainViewController.loading = YES;
+    
     paymentProductsRequest = [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
-        
+
+        mainViewController.loading = NO;
         paymentProductsRequest = nil;
-        paymentProducts = thePaymentProducts;
         
-        [self setPaymentProductsToMainViewController];
+        if (error == nil) {
+            paymentProducts = thePaymentProducts;
+            
+            [self setPaymentProductsToMainViewController];
+        }
+        
+        else {
+            [[[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPTLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_CANCEL") otherButtonTitles:HPTLocalizedString(@"ERROR_BUTTON_RETRY"), nil] show];
+        }
     }];
 }
 
 - (void)setPaymentProductsToMainViewController
 {
     HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
-
+    
+    if (paymentProductsRequest != nil) {
+        mainViewController.loading = YES;
+    }
+    
     if ((mainViewController != nil) && (paymentProducts != nil)) {
         mainViewController.paymentPageRequest = _paymentPageRequest;
         mainViewController.paymentProducts = paymentProducts;
@@ -88,6 +105,18 @@
     }
 }
 
+#pragma mark - Alert view
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex) {
+        [self cancelPayment];
+    }
+    
+    else {
+        [self loadPaymentPageRequest:self.paymentPageRequest];
+    }
+}
 
 #pragma mark - Payment product view controller delegate
 

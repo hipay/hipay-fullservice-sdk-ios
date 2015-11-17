@@ -24,7 +24,7 @@
 
 @end
 
-@interface HPTPaymentScreenViewController : UIViewController <HPTPaymentProductViewControllerDelegate>
+@interface HPTPaymentScreenViewController : UIViewController <HPTPaymentProductViewControllerDelegate, UIAlertViewDelegate>
 {
     UINavigationController *embeddedNavigationController;
     

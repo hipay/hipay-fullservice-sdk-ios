@@ -48,7 +48,6 @@
 {
     _paymentProducts = paymentProducts;
     [paymentProductsTableView reloadData];
-    [spinner stopAnimating];
     
     if ([paymentProducts count] > 0) {
         [self selectPaymentProduct:paymentProducts.firstObject];
@@ -68,6 +67,24 @@
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         [self focusOnSelectedPaymentProductWithAnimation:NO];
     } completion:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.loading = _loading;
+}
+
+- (void)setLoading:(BOOL)loading
+{
+    _loading = loading;
+    
+    if (loading) {
+        [spinner startAnimating];
+    } else {
+        [spinner stopAnimating];
+    }
 }
 
 #pragma mark - Keyboard related methods

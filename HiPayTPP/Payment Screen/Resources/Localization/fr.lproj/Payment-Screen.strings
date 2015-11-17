@@ -13,6 +13,14 @@
 
 "PAY_BUTTON_TITLE" = "Payer";
 
+"ERROR_TITLE_CONNECTION" = "Erreur de connexion";
+
+"ERROR_BODY_DEFAULT" = "Votre demande n'a pu aboutir.";
+
+"ERROR_BUTTON_CANCEL" = "Annuler";
+
+"ERROR_BUTTON_RETRY" = "Réessayer";
+
 "TRANSACTION_ERROR_DECLINED_TITLE" = "Transaction refusée";
 
 "TRANSACTION_ERROR_DECLINED" = "La transaction a été refusée. Merci de bien vouloir réessayer.";

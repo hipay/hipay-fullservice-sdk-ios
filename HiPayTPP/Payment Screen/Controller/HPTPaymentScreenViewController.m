@@ -19,8 +19,9 @@
 {
     _paymentPageRequest = paymentPageRequest;
     
-    [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
+    paymentProductsRequest = [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
         
+        paymentProductsRequest = nil;
         paymentProducts = thePaymentProducts;
         
         [self setPaymentProductsToMainViewController];
@@ -39,6 +40,8 @@
 
 - (void)cancelPayment
 {
+    [paymentProductsRequest cancel];
+    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
     if ([self.delegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {

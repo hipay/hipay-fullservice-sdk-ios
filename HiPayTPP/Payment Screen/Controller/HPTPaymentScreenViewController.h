@@ -29,6 +29,8 @@
     UINavigationController *embeddedNavigationController;
     
     NSArray *paymentProducts;
+    
+    id<HPTRequest> paymentProductsRequest;
 }
 
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;

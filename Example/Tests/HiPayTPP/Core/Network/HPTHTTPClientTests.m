@@ -264,7 +264,6 @@
                              
                              @(HPTErrorCodeHTTPConnectionFailed): @[
                                      @(NSURLErrorTimedOut),
-                                     @(NSURLErrorCancelled),
                                      @(NSURLErrorNetworkConnectionLost),
                                      @(NSURLErrorHTTPTooManyRedirects),
                                      @(NSURLErrorCannotDecodeRawData),
@@ -338,7 +337,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:0.2 handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:0.5 handler:^(NSError * _Nullable error) {
         if (error != nil) {
             XCTFail(@"Expectations error: %@", error);
         }
@@ -430,13 +429,10 @@
     NSURLRequest *originalRequest = [[NSURLRequest alloc] init];
     NSMutableArray *array = [NSMutableArray array];
     
-    HPTHTTPClientRequest *request = [[HPTHTTPClientRequest alloc] initWithURLSessionTask:((NSURLSessionTask *)mockedTask) requests:array originalRequest:originalRequest];
+    HPTHTTPClientRequest *request = [[HPTHTTPClientRequest alloc] initWithURLSessionTask:((NSURLSessionTask *)mockedTask)];
 
     [request cancel];
 
-    XCTAssertEqual(request.requests, array);
-    XCTAssertEqual(request.originalRequest, originalRequest);
-    
     [mockedTask verify];
 }
 

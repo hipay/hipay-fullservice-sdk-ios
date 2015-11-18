@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HPTTransaction.h"
 #import "HPTHostedPaymentPage.h"
+#import "HPTRequest.h"
 
 @class HPTForwardViewController;
 
@@ -25,6 +26,10 @@
 @end
 
 @interface HPTForwardViewController : UIViewController
+{
+    id<HPTRequest> backgroundRequest;
+    BOOL preventReload;
+}
 
 @property (nonatomic, readonly) HPTTransaction *transaction;
 @property (nonatomic, readonly) HPTHostedPaymentPage *hostedPaymentPage;

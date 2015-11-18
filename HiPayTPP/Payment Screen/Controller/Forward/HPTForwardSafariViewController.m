@@ -8,6 +8,7 @@
 
 #import "HPTForwardSafariViewController.h"
 #import "HPTGatewayClient.h"
+#import "HPTForwardViewController_Protected.h"
 
 @interface HPTForwardSafariViewController ()
 
@@ -36,9 +37,7 @@
 - (void)initializeComponentsWithURL:(NSURL *)URL
 {
     safariViewController = [[SFSafariViewController alloc] initWithURL:URL];
-    safariViewController.delegate = self;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];    
+    safariViewController.delegate = self;    
 }
 
 - (void)viewDidLoad {
@@ -74,76 +73,8 @@
 
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller
 {
+    [self cancelBackgroundTransactionLoading];
     [self.delegate forwardViewControllerDidCancel:self];
-}
-
-- (void)appDidBecomeActive:(NSNotification *)notification
-{
-    [UIView animateWithDuration:0.1 animations:^{
-        safariViewController.view.alpha = 0.7;
-    }];
-    
-    safariViewController.view.userInteractionEnabled = NO;
-    
-    [spinner startAnimating];
-    
-    if (self.transaction != nil) {
-        [[HPTGatewayClient sharedClient] getTransactionWithReference:self.transaction.transactionReference withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
-            
-            safariViewController.view.userInteractionEnabled = YES;
-            
-            [UIView animateWithDuration:0.1 animations:^{
-                safariViewController.view.alpha = 1.0;
-            }];
-            
-            [spinner stopAnimating];
-            
-            if (transaction != nil) {
-                if (transaction.state != HPTTransactionStateForwarding) {
-                    [self.delegate forwardViewController:self didEndWithTransaction:transaction];
-                    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-                }
-            }
-            else {
-                [self.delegate forwardViewController:self didFailWithError:error];
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-            }
-            
-        }];
-    }
-    
-    else {
-        [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.hostedPaymentPage.order.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
-            
-#warning retrieving check date instead of using lastObject
-            HPTTransaction *transaction = transactions.lastObject;
-            
-            safariViewController.view.userInteractionEnabled = YES;
-            
-            [UIView animateWithDuration:0.1 animations:^{
-                safariViewController.view.alpha = 1.0;
-            }];
-            
-            [spinner stopAnimating];
-            
-            if (transaction != nil) {
-                if (transaction.state != HPTTransactionStateForwarding) {
-                    [self.delegate forwardViewController:self didEndWithTransaction:transaction];
-                    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-                }
-            }
-            else {
-                [self.delegate forwardViewController:self didFailWithError:error];
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-            }
-            
-        }];
-    }
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {

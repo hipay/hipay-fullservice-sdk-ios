@@ -112,7 +112,7 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return YES;
+    return [[HPTGatewayClient sharedClient] handleOpenURL:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

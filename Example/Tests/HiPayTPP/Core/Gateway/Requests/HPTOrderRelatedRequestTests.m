@@ -125,7 +125,7 @@
     
     object.orderId = @"MyOrder?Id";
     
-    XCTAssertEqualObjects(object.acceptURL, [NSURL URLWithString:@"test://hipay/gateway/MyOrder%3FId/accept"]);
+    XCTAssertEqualObjects(object.acceptURL, [NSURL URLWithString:@"test://hipay/gateway/orders/MyOrder%3FId/accept"]);
     
     [mockedClientConfig verify];
     OCMVerify([classMock sharedClientConfig]);

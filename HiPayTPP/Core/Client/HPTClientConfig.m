@@ -34,7 +34,7 @@ HPTClientConfig *HPTClientConfigSharedInstance = nil;
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"The URL scheme should only contain letters. Argument passed: %@", appURLscheme] userInfo:nil];
     }
 
-    _appRedirectionURL = [NSURL URLWithString:[appURLscheme stringByAppendingString:@"://hipay-tpp"]];
+    _appRedirectionURL = [NSURL URLWithString:[[appURLscheme stringByAppendingString:@"://"] stringByAppendingString:HPTClientConfigCallbackURLHost]];
 }
 
 - (void)setEnvironment:(HPTEnvironment)environment username:(NSString *)username password:(NSString *)password appURLscheme:(NSString *)appURLscheme

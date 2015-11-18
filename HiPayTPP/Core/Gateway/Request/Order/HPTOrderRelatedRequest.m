@@ -8,6 +8,7 @@
 
 #import "HPTOrderRelatedRequest.h"
 #import "HPTClientConfig.h"
+#import "HPTGatewayClient.h"
 
 @implementation HPTOrderRelatedRequest
 
@@ -28,9 +29,9 @@
     NSString *baseString;
     
     if (self.orderId == nil) {
-        baseString = @"/gateway";
+        baseString = [NSString stringWithFormat:@"/%@/%@", HPTGatewayCallbackURLPathName, HPTGatewayCallbackURLOrderPathName];
     } else {
-        baseString = [NSString stringWithFormat:@"/gateway/%@", self.orderId];
+        baseString = [NSString stringWithFormat:@"/%@/%@/%@", HPTGatewayCallbackURLPathName, HPTGatewayCallbackURLOrderPathName, self.orderId];
     }
     
     NSURL *orderURL = [appURL URLByAppendingPathComponent:baseString];

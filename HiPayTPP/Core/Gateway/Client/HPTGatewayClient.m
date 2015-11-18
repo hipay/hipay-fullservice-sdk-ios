@@ -11,6 +11,10 @@
 #import "HPTPaymentPageRequestSerializationMapper.h"
 #import "HPTOrderRequestSerializationMapper.h"
 #import "HPTArrayMapper.h"
+#import "HPTTransactionCallbackMapper.h"
+
+NSString *const HPTGatewayClientDidRedirectSuccessfullyNotification = @"HPTGatewayClientDidRedirectSuccessfullyNotification";
+NSString *const HPTGatewayClientDidRedirectWithMappingErrorNotification = @"HPTGatewayClientDidRedirectWithMappingErrorNotification";
 
 HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
 
@@ -203,6 +207,37 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
     NSDictionary *parameters = [HPTPaymentPageRequestSerializationMapper mapperWithRequest:paymentPageRequest].serializedRequest;
     
     return [self handleRequestWithMethod:HPTHTTPMethodGet path:@"payment_products" parameters:parameters responseMapperClass:[HPTPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
+}
+
+- (BOOL)handleOpenURL:(NSURL *)URL
+{
+    NSURLComponents *URLComponents = [[NSURLComponents alloc] initWithURL:URL resolvingAgainstBaseURL:NO];
+    
+    if ([URLComponents.host isEqualToString:HPTClientConfigCallbackURLHost]) {
+        
+        NSArray *pathComponents = [URLComponents.path componentsSeparatedByString:@"/"];
+        
+        if ((pathComponents.count == 5) && [pathComponents[1] isEqualToString:HPTGatewayCallbackURLPathName] && [pathComponents[2] isEqualToString:HPTGatewayCallbackURLOrderPathName]) {
+         
+            NSMutableDictionary *values = [NSMutableDictionary dictionary];
+            
+            for (NSURLQueryItem *item in URLComponents.queryItems) {
+                [values setObject:item.value forKey:item.name];
+            }
+            
+            HPTTransaction *transaction = [HPTTransactionCallbackMapper mapperWithRawData:values].mappedObject;
+            
+            if (transaction != nil) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:HPTGatewayClientDidRedirectSuccessfullyNotification object:nil userInfo:@{@"transaction": transaction, @"orderId": pathComponents[3]}];
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:HPTGatewayClientDidRedirectWithMappingErrorNotification object:nil userInfo:@{@"orderId": pathComponents[3]}];
+            }
+            
+            return YES;
+        }
+    }
+
+    return NO;
 }
 
 @end

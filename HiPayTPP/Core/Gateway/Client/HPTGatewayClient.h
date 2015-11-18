@@ -20,6 +20,10 @@
 
 #define HPTGatewayClientBaseURLStage        @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/"
 #define HPTGatewayClientBaseURLProduction   @"https://secure-gateway.hipay-tpp.com/rest/v1/"
+#define HPTGatewayCallbackURLPathName       @"gateway"
+
+extern NSString *const HPTGatewayClientDidRedirectSuccessfullyNotification;
+extern NSString *const HPTGatewayClientDidRedirectWithMappingErrorNotification;
 
 typedef void (^HPTHostedPaymentPageCompletionBlock)(HPTHostedPaymentPage *hostedPaymentPage, NSError *error);
 typedef void (^HPTOperationCompletionBlock)(HPTOperation *operation, NSError *error);
@@ -47,5 +51,7 @@ typedef void (^HPTPaymentProductsCompletionBlock)(NSArray *paymentProducts, NSEr
 - (id<HPTRequest>)performMaintenanceOperation:(HPTOperationType)operation amount:(NSNumber *)amount onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock;
 
 - (id<HPTRequest>)getPaymentProductsForRequest:(HPTPaymentPageRequest *)paymentPageRequest withCompletionHandler:(HPTPaymentProductsCompletionBlock)completionBlock;
+
+- (BOOL)handleOpenURL:(NSURL *)URL;
 
 @end

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define HPTClientConfigCallbackURLHost @"hipay-tpp"
+
 typedef NS_ENUM(NSInteger, HPTEnvironment) {
     
     HPTEnvironmentStage,

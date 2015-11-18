@@ -12,6 +12,7 @@
 #import <HiPayTPP/HPTPaymentPageRequestSerializationMapper.h>
 #import <HiPayTPP/HPTOrderRequestSerializationMapper.h>
 #import <HiPayTPP/HPTArrayMapper.h>
+#import <HiPayTPP/HPTTransactionCallbackMapper.h>
 
 @interface HPTGatewayClientTests : XCTestCase
 {
@@ -452,6 +453,96 @@
     XCTAssertTrue([HPTGatewayClient isTransactionErrorFinal:error1]);
     
     XCTAssertFalse([HPTGatewayClient isTransactionErrorFinal:notFinalError]);
+}
+
+- (void)testHandleOpenURLSuccess
+{
+    NSURL *URL = [NSURL URLWithString:@"hipayexample://hipay-tpp/gateway/orders/TEST_SDK_IOS_1447858566.325105/decline?orderid=TEST_SDK_IOS_1447858566.325105&cid=&state=declined&reason=4000011&status=113&test=1&reference=851483651903&approval=&authorized=&ip=0.0.0.0&country=&lang=fr_FR&email=support%40hipay.com&cdata1=dt1&cdata2=&cdata3=&cdata4=&cdata5=&cdata6=&cdata7=&cdata8=&cdata9=&cdata10=&score=190&fraud=CHALLENGED&review=pending&avscheck=&cvccheck=&pp=visa&eci3ds=7&veres=Y&pares=N&cardtoken=ce5f096fa6bc05989c170pamq8a94432660491bd&cardbrand=VISA&cardpan=XXXXXXXXXXXX0002&cardexpiry=201912&cardcountry=US&hash="];
+    
+    
+    NSDictionary *expectedParams = @{@"orderid": @"TEST_SDK_IOS_1447858566.325105", @"cid": @"", @"state": @"declined", @"reason": @"4000011", @"status": @"113", @"test": @"1", @"reference": @"851483651903", @"approval": @"", @"authorized": @"", @"ip": @"0.0.0.0", @"country": @"", @"lang": @"fr_FR", @"email": @"support@hipay.com", @"cdata1": @"dt1", @"cdata2": @"", @"cdata3": @"", @"cdata4": @"", @"cdata5": @"", @"cdata6": @"", @"cdata7": @"", @"cdata8": @"", @"cdata9": @"", @"cdata10": @"", @"score": @"190", @"fraud": @"CHALLENGED", @"review": @"pending", @"avscheck": @"", @"cvccheck": @"", @"pp": @"visa", @"eci3ds": @"7", @"veres": @"Y", @"pares": @"N", @"cardtoken": @"ce5f096fa6bc05989c170pamq8a94432660491bd", @"cardbrand": @"VISA", @"cardpan": @"XXXXXXXXXXXX0002", @"cardexpiry": @"201912", @"cardcountry": @"US", @"hash": @""};
+    
+    
+    OCMockObject *mockedMapper = [OCMockObject mockForClass:[HPTTransactionCallbackMapper class]];
+    
+    id classMock = OCMClassMock([HPTTransactionCallbackMapper class]);
+    OCMStub([classMock mapperWithRawData:[OCMArg isEqual:expectedParams]]).andReturn(mockedMapper);
+    
+    HPTTransaction *transaction = [[HPTTransaction alloc] init];
+    
+    [[[mockedMapper expect] andReturn:transaction] mappedObject];
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Gateway notification"];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        XCTFail(@"Gateway should not post %@ notification in this case.", note.name);
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        
+        XCTAssertEqualObjects(note.userInfo[@"orderId"], @"TEST_SDK_IOS_1447858566.325105");
+        XCTAssertEqual(note.userInfo[@"transaction"], transaction);
+        
+        [expectation fulfill];
+    }];
+    
+    BOOL handled = [gatewayClient handleOpenURL:URL];
+    
+    XCTAssertTrue(handled);
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    
+    [mockedMapper verify];
+}
+
+- (void)testHandleOpenURLMappingError
+{
+    NSURL *URL = [NSURL URLWithString:@"hipayexample://hipay-tpp/gateway/orders/TEST_SDK_IOS_1447858566.325105/accept"];
+    
+    NSDictionary *expectedParams = @{};
+    
+    id classMock = OCMClassMock([HPTTransactionCallbackMapper class]);
+    OCMStub([classMock mapperWithRawData:[OCMArg isEqual:expectedParams]]).andReturn(nil);
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Gateway notification"];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        XCTFail(@"Gateway should not post %@ notification in this case.", note.name);
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        
+        XCTAssertEqualObjects(note.userInfo[@"orderId"], @"TEST_SDK_IOS_1447858566.325105");
+        XCTAssertNil(note.userInfo[@"transaction"]);
+        
+        [expectation fulfill];
+    }];
+    
+    BOOL handled = [gatewayClient handleOpenURL:URL];
+    
+    XCTAssertTrue(handled);
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+}
+
+- (void)testHandleOpenURLMalformedURL
+{
+    void (^notifBlock)(NSNotification *note) = ^(NSNotification * _Nonnull note) {
+        XCTFail(@"Gateway should not post %@ notification in case of malformed URL", note.name);
+    };
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:notifBlock];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:notifBlock];
+    
+    
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-tpp/gateway/orders/TEST_SDK_IOS_1447858566.325105"]]);
+    
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-tpp/gateway/order/TEST_SDK_IOS_1447858566.325105"]]);
+    
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-tpp/gateay/orders/TEST_SDK_IOS_1447858566.325105"]]);
+    
+    
 }
 
 @end

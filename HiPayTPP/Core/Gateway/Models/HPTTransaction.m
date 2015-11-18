@@ -19,4 +19,15 @@
     return NO;
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _eci = HPTECIUndefined;
+        _avsResult = HPTAVSResultNotApplicable;
+        _cvcResult = HPTCVCResultNotApplicable;
+    }
+    return self;
+}
+
 @end

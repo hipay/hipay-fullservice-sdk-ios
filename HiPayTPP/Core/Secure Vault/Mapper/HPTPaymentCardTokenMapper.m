@@ -21,8 +21,8 @@
     [object setValue:[self getStringForKey:@"pan"] forKey:@"pan"];
     [object setValue:[self getStringForKey:@"brand"] forKey:@"brand"];
     [object setValue:[self getStringForKey:@"card_holder"] forKey:@"cardHolder"];
-    [object setValue:[self getStringForKey:@"card_expiry_month"] forKey:@"cardExpiryMonth"];
-    [object setValue:[self getStringForKey:@"card_expiry_year"] forKey:@"cardExpiryYear"];
+    [object setValue:[self getNumberForKey:@"card_expiry_month"] forKey:@"cardExpiryMonth"];
+    [object setValue:[self getNumberForKey:@"card_expiry_year"] forKey:@"cardExpiryYear"];
     [object setValue:[self getStringForKey:@"issuer"] forKey:@"issuer"];
     [object setValue:[self getStringForKey:@"country"] forKey:@"country"];
     [object setValue:[self getStringForKey:@"domesticNetwork"] forKey:@"domesticNetwork"];

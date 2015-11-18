@@ -16,8 +16,8 @@
 @property (nonatomic, readonly, nonnull) NSString *requestID;
 @property (nonatomic, readonly, nonnull) NSString *pan;
 @property (nonatomic, readonly, nonnull) NSString *cardHolder;
-@property (nonatomic, readonly, nonnull) NSString *cardExpiryMonth;
-@property (nonatomic, readonly, nonnull) NSString *cardExpiryYear;
+@property (nonatomic, readonly, nonnull) NSNumber *cardExpiryMonth;
+@property (nonatomic, readonly, nonnull) NSNumber *cardExpiryYear;
 @property (nonatomic, readonly, nonnull) NSString *issuer;
 @property (nonatomic, readonly, nonnull) NSString *country;
 @property (nonatomic, readonly, nullable) NSString *domesticNetwork;

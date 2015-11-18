@@ -209,6 +209,18 @@
     return nil;
 }
 
+- (NSDateComponents *)getYearAndMonthForKey:(NSString *)key
+{
+    NSString *stringDate = [self getStringForKey:key];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [dateFormatter setLocale:enUSPOSIXLocale];
+    [dateFormatter setDateFormat:@"yyyyMM"];
+    
+    return [[NSCalendar currentCalendar] components:NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[dateFormatter dateFromString:stringDate]];
+}
+
 - (NSURL *)getURLForKey:(NSString *)key
 {
     id object = [self getStringForKey:key];

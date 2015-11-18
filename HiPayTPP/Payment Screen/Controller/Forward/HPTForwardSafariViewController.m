@@ -19,10 +19,7 @@
 {
     self = [super initWithTransaction:transaction];
     if (self) {
-        safariViewController = [[SFSafariViewController alloc] initWithURL:transaction.forwardUrl];
-        safariViewController.delegate = self;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [self initializeComponentsWithURL:transaction.forwardUrl];
     }
     return self;
 }
@@ -31,12 +28,17 @@
 {
     self = [super initWithHostedPaymentPage:hostedPaymentPage];
     if (self) {
-        safariViewController = [[SFSafariViewController alloc] initWithURL:hostedPaymentPage.forwardUrl];
-        safariViewController.delegate = self;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [self initializeComponentsWithURL:hostedPaymentPage.forwardUrl];
     }
     return self;
+}
+
+- (void)initializeComponentsWithURL:(NSURL *)URL
+{
+    safariViewController = [[SFSafariViewController alloc] initWithURL:URL];
+    safariViewController.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];    
 }
 
 - (void)viewDidLoad {

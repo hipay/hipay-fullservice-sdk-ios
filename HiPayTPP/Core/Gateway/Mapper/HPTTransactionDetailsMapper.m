@@ -9,6 +9,7 @@
 #import "HPTTransactionDetailsMapper.h"
 #import "HPTAbstractMapper+Decode.h"
 #import "HPTTransactionMapper.h"
+#import "HPTTransaction.h"
 
 @implementation HPTTransactionDetailsMapper
 
@@ -23,7 +24,7 @@
             [result addObject:[HPTTransactionMapper mapperWithRawData:transactionInfo].mappedObject];
         }
         
-        return result;
+        return [HPTTransaction sortTransactionsByRelevance:result];
     }
 }
 

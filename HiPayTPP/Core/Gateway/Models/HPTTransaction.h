@@ -94,4 +94,8 @@ typedef NS_ENUM(NSInteger, HPTTransactionState) {
 
 @property (readonly, getter=isHandled) BOOL handled;
 
++ (NSArray<HPTTransaction *> *)sortTransactionsByRelevance:(NSArray<HPTTransaction *> *)transactions;
+
+- (BOOL)isMoreRelevantThan:(HPTTransaction *)transaction;
+
 @end

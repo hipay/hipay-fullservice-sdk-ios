@@ -128,6 +128,7 @@
     id mappedTransaction1 = [[NSObject alloc] init];
     id mappedTransaction2 = [[NSObject alloc] init];
     NSArray *response = @[mappedTransaction1, mappedTransaction2];
+    NSArray *sortedResponse = @[mappedTransaction2, mappedTransaction1];
     
     [[[mockedMapper stub] andReturnValue:@(NO)] isRawDataSingleObject];
     [[[mockedMapper expect] andReturn:transactionData] transactionData];
@@ -137,10 +138,14 @@
     OCMStub([transactionMapperClassMock mapperWithRawData:@{@"state": @"completed"}]).andReturn(mockedTransactionMapper1);
     OCMStub([transactionMapperClassMock mapperWithRawData:@{@"state": @"pending"}]).andReturn(mockedTransactionMapper2);
     
+    id classMock = OCMClassMock([HPTTransaction class]);
+    OCMStub([classMock sortTransactionsByRelevance:response]).andReturn(sortedResponse);
+    
+    
     [[[mockedTransactionMapper1 expect] andReturn:mappedTransaction1] mappedObject];
     [[[mockedTransactionMapper2 expect] andReturn:mappedTransaction2] mappedObject];
     
-    XCTAssertEqualObjects(mapper.mappedObject, response);
+    XCTAssertEqualObjects(mapper.mappedObject, sortedResponse);
     
     OCMVerify([transactionMapperClassMock mapperWithRawData:@{@"state": @"completed"}]);
     OCMVerify([transactionMapperClassMock mapperWithRawData:@{@"state": @"pending"}]);

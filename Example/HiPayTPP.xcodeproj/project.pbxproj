@@ -62,6 +62,7 @@
 		A5A6EE9C1BB9604700825B19 /* HPTHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */; };
 		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; };
 		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; };
+		A5ABD1141BFCE1C700D8B867 /* HPTTransactionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5ABD1131BFCE1C700D8B867 /* HPTTransactionTests.m */; };
 		A5B9A6E41BD54A060014B27F /* HPTTransactionDetailsMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B9A6E31BD54A060014B27F /* HPTTransactionDetailsMapperTests.m */; };
 		A5B9A6EE1BD6B2550014B27F /* HPTPaymentProductMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B9A6ED1BD6B2550014B27F /* HPTPaymentProductMapperTests.m */; };
 		A5C657DC1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C657DB1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m */; };
@@ -153,6 +154,7 @@
 		A5A6EE9B1BB9604700825B19 /* HPTHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPClientTests.m; sourceTree = "<group>"; };
 		A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponseTests.m; sourceTree = "<group>"; };
 		A5A6EEA21BB97C8400825B19 /* example_dictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_dictionary.json; sourceTree = "<group>"; };
+		A5ABD1131BFCE1C700D8B867 /* HPTTransactionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTTransactionTests.m; sourceTree = "<group>"; };
 		A5B9A6E31BD54A060014B27F /* HPTTransactionDetailsMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTTransactionDetailsMapperTests.m; sourceTree = "<group>"; };
 		A5B9A6ED1BD6B2550014B27F /* HPTPaymentProductMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPaymentProductMapperTests.m; sourceTree = "<group>"; };
 		A5C657DB1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTMutableDictionarySerialization.m; sourceTree = "<group>"; };
@@ -344,9 +346,9 @@
 			children = (
 				A53BF5C61BF22C6B00E24957 /* HPTPersonalInformationTests.m */,
 				A53798A61BF73E0D0029E776 /* HPTPaymentProductTests.m */,
+				A5ABD1131BFCE1C700D8B867 /* HPTTransactionTests.m */,
 			);
-			name = Models;
-			path = Gateway/Models;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		A57BA74D1BCD66E200F154E2 /* Client */ = {
@@ -436,6 +438,7 @@
 		A5C6F2951BC7F08D00DEC43E /* Gateway */ = {
 			isa = PBXGroup;
 			children = (
+				A53BF5C51BF22C5900E24957 /* Models */,
 				A57BA7E81BCF8EEE00F154E2 /* Requests */,
 				A57BA7B51BCEA2B500F154E2 /* Serialization Mapper */,
 				A57BA74D1BCD66E200F154E2 /* Client */,
@@ -475,7 +478,6 @@
 			isa = PBXGroup;
 			children = (
 				A51004D81BBD8F43002BD3C1 /* Client */,
-				A53BF5C51BF22C5900E24957 /* Models */,
 				A51004BD1BBD67DF002BD3C1 /* Mapper */,
 				A57BA78A1BCE506B00F154E2 /* Serialization Mapper */,
 				A5F335281BB58ABB0082463F /* Network */,
@@ -788,6 +790,7 @@
 				A57BA74F1BCD66F000F154E2 /* HPTGatewayClientTests.m in Sources */,
 				A57BA7DB1BCEAD4800F154E2 /* HPTPaymentPageRequestSerializationMapperTests.m in Sources */,
 				A57BA7EA1BCF8F2B00F154E2 /* HPTPersonalInfoRequestTests.m in Sources */,
+				A5ABD1141BFCE1C700D8B867 /* HPTTransactionTests.m in Sources */,
 				A53BF5C71BF22C6B00E24957 /* HPTPersonalInformationTests.m in Sources */,
 				A57BA7EC1BCF8F4800F154E2 /* HPTCustomerInfoRequestTests.m in Sources */,
 				A5F605921BCD5FC200921528 /* HPTHostedPaymentPageMapperTests.m in Sources */,

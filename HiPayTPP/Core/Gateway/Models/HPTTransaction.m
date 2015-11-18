@@ -30,4 +30,29 @@
     return self;
 }
 
+- (BOOL)isMoreRelevantThan:(HPTTransaction *)transaction
+{
+    if ([transaction isHandled]) {
+        return NO;
+    }
+    
+    if ([self isHandled]) {
+        return YES;
+    }
+
+    return [transaction.dateCreated compare:self.dateCreated] == NSOrderedAscending;
+}
+
++ (NSArray<HPTTransaction *> *)sortTransactionsByRelevance:(NSArray<HPTTransaction *> *)transactions
+{
+    return [transactions sortedArrayUsingComparator:^NSComparisonResult(HPTTransaction * _Nonnull obj1, HPTTransaction *  _Nonnull obj2) {
+       
+        if ([obj1 isMoreRelevantThan:obj2]) {
+            return NSOrderedAscending;
+        }
+        
+        return NSOrderedDescending;
+    }];
+}
+
 @end

@@ -208,13 +208,11 @@
         inferedPaymentProductCode = nil;
     }
     
-    NSString *paymentProductCode = [self currentPaymentProductCode];
-    
-    ((HPTSecurityCodeInputTableViewCell *)[self cellWithTextField:securityCodeTextField]).paymentProductCode = paymentProductCode;
-    
-    securityCodeTextField.paymentProductCode = paymentProductCode;
-    [self securityCodeFooter].paymentProductCode = paymentProductCode;
-
+    if ([self securityCodeSectionEnabled]) {
+        NSString *paymentProductCode = [self currentPaymentProductCode];
+        ((HPTSecurityCodeInputTableViewCell *)[self cellWithTextField:securityCodeTextField]).paymentProductCode = paymentProductCode;
+        [self securityCodeFooter].paymentProductCode = paymentProductCode;
+    }
     
     if (securityCodeSectionEnabled != [self securityCodeSectionEnabled]) {
         if ([self securityCodeSectionEnabled]) {
@@ -226,7 +224,7 @@
         }
     }
     
-    if ([self securityCodeSectionEnabled]) {
+    else {
         if (currentSecurityCodeType != [self currentSecurityCodeType]) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         }

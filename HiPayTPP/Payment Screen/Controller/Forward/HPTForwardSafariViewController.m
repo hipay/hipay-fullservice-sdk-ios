@@ -7,7 +7,6 @@
 //
 
 #import "HPTForwardSafariViewController.h"
-#import "HPTGatewayClient.h"
 #import "HPTForwardViewController_Protected.h"
 
 @interface HPTForwardSafariViewController ()

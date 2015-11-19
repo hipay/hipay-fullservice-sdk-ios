@@ -8,6 +8,7 @@
 
 #import "HPTForwardViewController.h"
 #import "HPTForwardSafariViewController.h"
+#import "HPTForwardWebViewViewController.h"
 #import "HPTGatewayClient.h"
 #import "HPTForwardViewController_Protected.h"
 
@@ -58,12 +59,13 @@
 
 + (HPTForwardViewController *)relevantForwardViewControllerWithTransaction:(HPTTransaction *)transaction
 {
-    return [[HPTForwardSafariViewController alloc] initWithTransaction:transaction];
+    return [[HPTForwardWebViewViewController alloc] initWithTransaction:transaction];
 }
 
 + (HPTForwardViewController *)relevantForwardViewControllerWithHostedPaymentPage:(HPTHostedPaymentPage *)hostedPaymentPage
 {
-    return [[HPTForwardSafariViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
+    return [[HPTForwardWebViewViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
+//    return [[HPTForwardSafariViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
 }
 
 #pragma mark - Redirect

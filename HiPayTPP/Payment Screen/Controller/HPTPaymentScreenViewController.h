@@ -28,7 +28,7 @@
 {
     UINavigationController *embeddedNavigationController;
     
-    NSArray *paymentProducts;
+    NSArray <HPTPaymentProduct *> *paymentProducts;
     
     id<HPTRequest> paymentProductsRequest;
 }

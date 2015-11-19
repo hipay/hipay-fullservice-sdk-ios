@@ -172,6 +172,13 @@
     return cell;
 }
 
+- (void)changeSelectedPaymentProductTo:(HPTPaymentProduct *)paymentProduct
+{
+    selectedPaymentProduct = paymentProduct;
+    [paymentProductsCollectionView reloadData];
+    [self focusOnSelectedPaymentProductWithAnimation:YES];
+}
+
 - (void)selectPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
     if (selectedPaymentProduct != paymentProduct) {

@@ -34,6 +34,7 @@
 
 - (void)focusOnSelectedPaymentProductWithAnimation:(BOOL)animated;
 - (void)setPaymentProductSelectionEnabled:(BOOL)enabled;
+- (void)changeSelectedPaymentProductTo:(HPTPaymentProduct *)paymentProduct;
 
 @property (nonatomic) NSArray <HPTPaymentProduct *> *paymentProducts;
 @property (nonatomic) HPTPaymentPageRequest *paymentPageRequest;

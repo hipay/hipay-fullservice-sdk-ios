@@ -15,6 +15,10 @@
     CGFloat footerHeight;
     
     NSString *inferedPaymentProductCode;
+    
+    HPTPaymentProduct *inferedPaymentProduct;
+    
+    BOOL paymentProductDisallowed;
 }
 
 @end

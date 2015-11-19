@@ -154,4 +154,22 @@
     [mainViewController setPaymentProductSelectionEnabled:!isLoading];
 }
 
+- (HPTPaymentProduct *)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController paymentProductForInferredPaymentProductCode:(NSString *)paymentProductCode
+{
+    NSUInteger index = [paymentProducts indexOfObjectPassingTest:^BOOL(HPTPaymentProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        return [obj.code isEqualToString:paymentProductCode];
+    }];
+    
+    if (index != NSNotFound) {
+        return paymentProducts[index];
+    }
+
+    return nil;
+}
+
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController changeSelectedPaymentProduct:(HPTPaymentProduct *)paymentProduct
+{
+    [[self mainViewController] changeSelectedPaymentProductTo:paymentProduct];
+}
+
 @end

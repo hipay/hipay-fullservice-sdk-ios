@@ -26,6 +26,10 @@
 
 - (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController isLoading:(BOOL)isLoading;
 
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController changeSelectedPaymentProduct:(HPTPaymentProduct *)paymentProduct;
+
+- (HPTPaymentProduct *)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController paymentProductForInferredPaymentProductCode:(NSString *)paymentProductCode;
+
 @end
 
 @interface HPTAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate, HPTPaymentButtonTableViewCellDelegate, HPTForwardViewControllerDelegate>

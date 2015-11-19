@@ -133,7 +133,7 @@
     [self inferPaymentProductCode];
     
     if (textField == cardNumberTextField) {
-        BOOL valid = cardNumberTextField.valid;
+        BOOL valid = cardNumberTextField.valid && !paymentProductDisallowed;
         [self cellWithTextField:cardNumberTextField].incorrectInput = !valid;
         
         if (valid && (cardNumberTextField.isCompleted)) {
@@ -191,6 +191,12 @@
     return (HPTSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:0];
 }
 
+- (void)updateTitleHeader
+{
+    [self.tableView headerViewForSection:0].textLabel.text = [[self tableView:self.tableView titleForHeaderInSection:0] uppercaseString];
+    [[self.tableView headerViewForSection:0] layoutSubviews];
+}
+
 - (void)inferPaymentProductCode
 {
     HPTCardNumberTextField *cardNumberTextField = (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
@@ -203,9 +209,29 @@
         
         inferedPaymentProductCode = cardNumberTextField.paymentProductCodes.firstObject;
         
+        HPTPaymentProduct *newInferredPaymentProduct = [self.delegate paymentProductViewController:self paymentProductForInferredPaymentProductCode:inferedPaymentProductCode];
+        
+        if (newInferredPaymentProduct != inferedPaymentProduct) {
+            inferedPaymentProduct = newInferredPaymentProduct;
+
+            if (![HPTPaymentProduct isPaymentProduct:self.paymentProduct domesticNetworkOfPaymentProduct:newInferredPaymentProduct]) {
+                [self updateTitleHeader];
+                [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:inferedPaymentProduct];
+            }
+        }
+        
+        if (inferedPaymentProduct == nil) {
+            paymentProductDisallowed = YES;
+        } else {
+            paymentProductDisallowed = NO;
+        }
     }
+    
     else {
         inferedPaymentProductCode = nil;
+        inferedPaymentProduct = nil;
+        [self updateTitleHeader];
+        [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:self.paymentProduct];
     }
     
     if ([self securityCodeSectionEnabled]) {
@@ -258,6 +284,21 @@
 
 #pragma mark - Table View delegate and data source
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        
+        NSString *description = self.paymentProduct.paymentProductDescription;
+        
+        if (inferedPaymentProduct && ![HPTPaymentProduct isPaymentProduct:self.paymentProduct domesticNetworkOfPaymentProduct:inferedPaymentProduct]) {
+            description = inferedPaymentProduct.paymentProductDescription;
+        }
+        
+        return [NSString stringWithFormat:HPTLocalizedString(@"PAY_WITH_THIS_METHOD"), description];
+    }
+    
+    return [super tableView:tableView titleForHeaderInSection:section];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
@@ -292,6 +333,8 @@
         if (cardToken != nil) {
             
             HPTOrderRequest *orderRequest = [self createOrderRequest];
+            
+            orderRequest.paymentProductCode = inferedPaymentProductCode;
             
             orderRequest.paymentMethod = [HPTCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
             

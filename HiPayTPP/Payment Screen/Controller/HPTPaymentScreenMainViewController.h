@@ -16,6 +16,7 @@
     
     HPTPaymentProduct *selectedPaymentProduct;
     NSArray *rightBarButtonItems;
+    NSDictionary *paymentProductViewControllers;
     
     __weak IBOutlet UIActivityIndicatorView *spinner;
     __weak IBOutlet UIView *containerView;

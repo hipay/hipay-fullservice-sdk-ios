@@ -37,6 +37,29 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
+    paymentProductViewControllers = @{
+                                      HPTPaymentProductCodeVisa: HPTTokenizableCardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeMasterCard: HPTTokenizableCardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeCB: HPTTokenizableCardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeAmericanExpress: HPTTokenizableCardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeDiners: HPTTokenizableCardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeMaestro: HPTTokenizableCardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeBCMC: HPTTokenizableCardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeQiwiWallet: HPTQiwiWalletPaymentProductViewController.class,
+                                      HPTPaymentProductCodeIDEAL: HPTIDealPaymentProductViewController.class,
+                                      HPTPaymentProductCodePayPal: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeYandex: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeSofortUberweisung: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeSisal: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeSDD: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodePayULatam: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeINGHomepay: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeBCMCMobile: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodePrzelewy24: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodeBankTransfer: HPTForwardPaymentProductViewController.class,
+                                      HPTPaymentProductCodePaysafecard: HPTForwardPaymentProductViewController.class,
+                                      };
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -185,30 +208,15 @@
         
         selectedPaymentProduct = paymentProduct;
         
+        Class paymentProductViewControllerClass = paymentProductViewControllers[paymentProduct.code];
         HPTAbstractPaymentProductViewController *paymentProductViewController;
         
-        // Tokenizable card
-        if (paymentProduct.tokenizable) {
-            paymentProductViewController = [[HPTTokenizableCardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+        // Supported payment product with specific view controller
+        if (paymentProductViewControllerClass != nil) {
+            paymentProductViewController = [[paymentProductViewControllerClass alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }
         
-        // Qiwi Wallet
-        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodeQiwiWallet]) {
-            paymentProductViewController = [[HPTQiwiWalletPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
-        }
-        
-        // iDEAL
-        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodeIDEAL]) {
-            paymentProductViewController = [[HPTIDealPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
-        }
-        
-        // Forward
-        else if ([paymentProduct.code isEqualToString:HPTPaymentProductCodePayPal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeYandex] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeQiwiWallet] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSofortUberweisung] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSisal] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeSDD] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeBankTransfer] || [paymentProduct.code isEqualToString:HPTPaymentProductCodePaysafecard] || [paymentProduct.code isEqualToString:HPTPaymentProductCodePrzelewy24] || [paymentProduct.code isEqualToString:HPTPaymentProductCodePayULatam] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeINGHomepay] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeBCMCMobile]) {
-            
-            paymentProductViewController = [[HPTForwardPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
-        }
-        
-        // Simple payment method
+        // Payment product which is natively unsupported, fallback controller
         else {
             paymentProductViewController = [[HPTUnsupportedPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
         }

@@ -59,13 +59,20 @@
 
 + (HPTForwardViewController *)relevantForwardViewControllerWithTransaction:(HPTTransaction *)transaction
 {
-    return [[HPTForwardWebViewViewController alloc] initWithTransaction:transaction];
+    if ([HPTForwardSafariViewController isCompatible]) {
+        return [[HPTForwardSafariViewController alloc] initWithTransaction:transaction];
+    } else {
+        return [[HPTForwardWebViewViewController alloc] initWithTransaction:transaction];
+    }
 }
 
 + (HPTForwardViewController *)relevantForwardViewControllerWithHostedPaymentPage:(HPTHostedPaymentPage *)hostedPaymentPage
 {
-    return [[HPTForwardWebViewViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
-//    return [[HPTForwardSafariViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
+    if ([HPTForwardSafariViewController isCompatible]) {
+        return [[HPTForwardSafariViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
+    } else {
+        return [[HPTForwardWebViewViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
+    }
 }
 
 #pragma mark - Redirect
@@ -74,7 +81,7 @@
 {
     [self cancelBackgroundTransactionLoading];
     preventReload = YES;
-
+    
     [self checkTransaction:notification.userInfo[@"transaction"] error:nil];
 }
 

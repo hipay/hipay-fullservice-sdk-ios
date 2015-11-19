@@ -8,8 +8,11 @@
 
 #import "HPTForwardWebViewViewController.h"
 #import "HPTForwardViewController_Protected.h"
+#import "HPTPaymentScreenUtils.h"
 
 @implementation HPTForwardWebViewViewController
+
+#pragma mark - Init
 
 - (instancetype)initWithTransaction:(HPTTransaction *)transaction
 {
@@ -31,37 +34,53 @@
 
 - (void)initializeComponentsWithURL:(NSURL *)URL
 {
-    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShowOrChangedFrame:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidlHide) name:UIKeyboardDidHideNotification object:nil];
     
-    webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-    webView.navigationDelegate = self;
+    
+    webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+    webView.delegate = self;
+  
     [webView loadRequest:[[NSURLRequest alloc] initWithURL:URL]];
 }
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Load view
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    
     webViewController = [[UIViewController alloc] init];
     [webViewController.view addSubview:webView];
-    webViewController.title = @"Redirection";
+    webViewController.title = HPTLocalizedString(@"PAYMENT_SCREEN_TITLE");
     
     navigationViewController = [[UINavigationController alloc] initWithRootViewController:webViewController];
+    navigationViewController.delegate = self;
     
     [self addChildViewController:navigationViewController];
     [self.view addSubview:navigationViewController.view];
     
-    webViewController.view.backgroundColor = [UIColor yellowColor];
-    
     [navigationViewController didMoveToParentViewController:self];
     
-    webView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.hidesWhenStopped = YES;
+    webView.backgroundColor = [UIColor whiteColor];
     
-    webViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    webViewController.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [self defineConstraints];
+    
+    [self createNavigationButton];
+
+    [self defineScrollViewIndicatorInsets];
+}
+
+
+- (void)defineConstraints
+{
+    webView.translatesAutoresizingMaskIntoConstraints = NO;
 
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:navigationViewController.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
     
@@ -73,62 +92,126 @@
     
     
     [webViewController.view addConstraint:[NSLayoutConstraint constraintWithItem:webView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:webViewController.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
-
+    
     [webViewController.view addConstraint:[NSLayoutConstraint constraintWithItem:webView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:webViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
     
     [webViewController.view addConstraint:[NSLayoutConstraint constraintWithItem:webView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:webViewController.topLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
     
     [webViewController.view addConstraint:[NSLayoutConstraint constraintWithItem:webView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:webViewController.bottomLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
-    
-    
+
 }
 
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
+- (void)createNavigationButton
 {
-    [spinner stopAnimating];
+    
+    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.hidesWhenStopped = YES;
+    
+    webViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    
+    webViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doneButtonTouched:)];
+    
+    navigationViewController.toolbarHidden = NO;
+    
+    backButton = [[UIBarButtonItem alloc] initWithTitle:HPTLocalizedString(@"FORWARD_VIEW_BACK") style:UIBarButtonItemStylePlain target:self action:@selector(webViewBack)];
+    backButton.enabled = NO;
+    
+    forwardButton = [[UIBarButtonItem alloc] initWithTitle:HPTLocalizedString(@"FORWARD_VIEW_FORWARD") style:UIBarButtonItemStylePlain target:self action:@selector(webViewForward)];
+    forwardButton.enabled = NO;
+    
+    webViewController.toolbarItems = @[
+                                       [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(webViewRefresh)],
+                                       
+                                       
+                                       [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                                       
+                                       backButton,
+                                       
+                                       forwardButton,
+                                       ];
 }
 
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error
+#pragma mark - Content insets
+
+- (void)keyboardDidShowOrChangedFrame:(NSNotification *)notification
 {
-    [spinner stopAnimating];
+    keyboardHeight = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
+    
+    keyboardShown = YES;
+    [self defineScrollViewIndicatorInsets];
 }
 
+- (void)keyboardDidlHide
+{
+    keyboardShown = NO;
+    [self defineScrollViewIndicatorInsets];
+}
 
-- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
+- (void)defineScrollViewIndicatorInsets
+{
+    CGFloat bottomInset = webViewController.bottomLayoutGuide.length;
+
+    if (keyboardShown) {
+        bottomInset = keyboardHeight;
+    }
+    
+    webView.scrollView.contentInset = UIEdgeInsetsMake(webViewController.topLayoutGuide.length, 0.0, bottomInset, 0.0);
+    webView.scrollView.scrollIndicatorInsets = webView.scrollView.contentInset;
+}
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [self defineScrollViewIndicatorInsets];
+}
+
+#pragma mark - Controls
+
+- (void)webViewBack
+{
+    [webView goBack];
+}
+
+- (void)webViewForward
+{
+    [webView goForward];
+}
+
+- (void)webViewRefresh
+{
+    [webView reload];
+}
+
+- (void)doneButtonTouched:(id)sender
+{
+    [self cancelBackgroundTransactionLoading];
+    [self.delegate forwardViewControllerDidCancel:self];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)configureButtons
+{
+    backButton.enabled = webView.canGoBack;
+    forwardButton.enabled = webView.canGoForward;
+}
+
+#pragma mark - Web view delegate
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
 {
     [spinner startAnimating];
+    [self configureButtons];
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+- (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     [spinner stopAnimating];
+    [self configureButtons];
 }
 
-- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    
+    [spinner stopAnimating];
+    [self configureButtons];
 }
-
-//- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller
-//{
-//    [self cancelBackgroundTransactionLoading];
-//    [self.delegate forwardViewControllerDidCancel:self];
-//}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 
 @end

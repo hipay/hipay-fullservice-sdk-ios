@@ -9,13 +9,19 @@
 #import "HPTForwardViewController.h"
 #import <WebKit/WebKit.h>
 
-@interface HPTForwardWebViewViewController : HPTForwardViewController <WKNavigationDelegate>
+@interface HPTForwardWebViewViewController : HPTForwardViewController <UIWebViewDelegate, UINavigationControllerDelegate>
 {
-    WKWebView *webView;
+    UIWebView *webView;
     UIActivityIndicatorView *spinner;
     
     UIViewController *webViewController;
     UINavigationController *navigationViewController;
+    
+    UIBarButtonItem *backButton;
+    UIBarButtonItem *forwardButton;
+    
+    BOOL keyboardShown;
+    CGFloat keyboardHeight;
 }
 
 @end

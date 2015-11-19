@@ -102,8 +102,8 @@
     XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"diners1"], @[HPTPaymentProductCodeDiners]);
     XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"diners2"], @[HPTPaymentProductCodeDiners]);
     
-    NSArray *result = @[HPTPaymentProductCodeDiners, HPTPaymentProductCodeAmericanExpress];
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"dinersOrAmex"], result);
+    NSArray *result = [@[HPTPaymentProductCodeDiners, HPTPaymentProductCodeAmericanExpress] sortedArrayUsingSelector:@selector(compare:)];
+    XCTAssertEqualObjects([[formatter paymentProductCodesForPlainTextNumber:@"dinersOrAmex"] sortedArrayUsingSelector:@selector(compare:)], result);
     
     [mockedFormatter verify];
 }

@@ -59,6 +59,10 @@
 
 "CARD_SECURITY_CODE_DESCRIPTION_CID" = "Le CID correspond aux 4 chiffres au recto de votre carte American Express.";
 
+"FORWARD_VIEW_BACK" = "Retour";
+
+"FORWARD_VIEW_FORWARD" = "Suivant";
+
 /* iDeal */
 
 "IDEAL_BANK" = "Banque";

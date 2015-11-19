@@ -7,6 +7,7 @@
 //
 
 #import "HPTSecurityCodeFormatter.h"
+#import "HPTPaymentProduct.h"
 
 @implementation HPTSecurityCodeFormatter
 
@@ -29,17 +30,20 @@
 
 - (BOOL)codeIsCompleteForPlainText:(NSString *)plainText andPaymentProductCode:(NSString *)paymentProductCode
 {
-    if ([paymentProductCode isEqualToString:HPTPaymentProductCodeVisa] || [paymentProductCode isEqualToString:HPTPaymentProductCodeMasterCard]) {
+    NSString *digits = [self digitsOnlyFromPlainText:plainText];
+    HPTSecurityCodeType type = [HPTPaymentProduct securityCodeTypeForPaymentProductCode:paymentProductCode];
+    
+    if (type == HPTSecurityCodeTypeCVV) {
         
-        return plainText.length >= 3;
+        return digits.length >= 3;
     }
     
-    else if ([paymentProductCode isEqualToString:HPTPaymentProductCodeAmericanExpress]) {
+    else if (type == HPTSecurityCodeTypeCID) {
         
-        return plainText.length >= 4;
+        return digits.length >= 4;
     }
     
-    return plainText;
+    return YES;
 }
 
 @end

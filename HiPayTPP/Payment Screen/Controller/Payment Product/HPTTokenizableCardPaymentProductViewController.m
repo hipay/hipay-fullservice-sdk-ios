@@ -202,6 +202,7 @@
     HPTCardNumberTextField *cardNumberTextField = (HPTCardNumberTextField *) [self textFieldForIdentifier:@"number"];
     HPTSecurityCodeTextField *securityCodeTextField = (HPTSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
     
+    BOOL wasPaymentProductDisallowed = paymentProductDisallowed;
     BOOL securityCodeSectionEnabled = [self securityCodeSectionEnabled];
     HPTSecurityCodeType currentSecurityCodeType = [self currentSecurityCodeType];
 
@@ -244,20 +245,22 @@
             [self securityCodeFooter].paymentProductCode = paymentProductCode;
         }
         
-        if (securityCodeSectionEnabled != [self securityCodeSectionEnabled]) {
-            if ([self securityCodeSectionEnabled]) {
-                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+        if (!wasPaymentProductDisallowed) {
+            if (securityCodeSectionEnabled != [self securityCodeSectionEnabled]) {
+                if ([self securityCodeSectionEnabled]) {
+                    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                }
+                
+                else {
+                    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                }
             }
             
             else {
-                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-            }
-        }
-        
-        else {
-            if (currentSecurityCodeType != [self currentSecurityCodeType]) {
-                [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            }
+                if (currentSecurityCodeType != [self currentSecurityCodeType]) {
+                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                }
+            }            
         }
     }
 }

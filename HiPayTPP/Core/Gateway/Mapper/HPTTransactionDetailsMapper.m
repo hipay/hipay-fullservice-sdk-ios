@@ -17,7 +17,11 @@
 {
     if ([self isRawDataSingleObject]) {
         return @[[HPTTransactionMapper mapperWithRawData:[self transactionData]].mappedObject];
-    } else {
+    }
+    else if ([self isEmpty]) {
+        return @[];
+    }
+    else {
         NSMutableArray *result = [NSMutableArray array];
         
         for (NSDictionary *transactionInfo in [self getObjectsArrayForObject:[self transactionData]]) {
@@ -30,7 +34,12 @@
 
 - (BOOL)isClassValid
 {
-    return [[self transactionData] isKindOfClass:[NSArray class]] || [[self transactionData] isKindOfClass:[NSDictionary class]];
+    return [[self transactionData] isKindOfClass:[NSArray class]] || [[self transactionData] isKindOfClass:[NSDictionary class]] || [self.rawData isKindOfClass:[NSDictionary class]];
+}
+
+- (BOOL)isEmpty
+{
+    return [self.rawData isKindOfClass:[NSDictionary class]] && [self.rawData objectForKey:@"transaction"] == nil;
 }
 
 - (BOOL)isRawDataSingleObject
@@ -42,7 +51,7 @@
 
 - (BOOL)isValid
 {
-    return [super isValid] && ([self isRawDataSingleObject] || ([self getObjectsArrayForObject:[self transactionData]] != nil));
+    return [super isValid] && ([self isRawDataSingleObject] || [self isEmpty] || ([self getObjectsArrayForObject:[self transactionData]] != nil));
 }
 
 - (id)transactionData

@@ -9,6 +9,7 @@
 #import "HPTPaymentScreenViewController.h"
 #import "HPTPaymentScreenMainViewController.h"
 #import "HPTPaymentScreenUtils.h"
+#import "HPTTransactionErrorsManager.h"
 
 @interface HPTPaymentScreenViewController ()
 
@@ -21,6 +22,8 @@
     _paymentPageRequest = paymentPageRequest;
     
     [self mainViewController].loading = YES;
+    
+    [[HPTTransactionErrorsManager sharedManager] flushHistory];
     
     paymentProductsRequest = [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
 

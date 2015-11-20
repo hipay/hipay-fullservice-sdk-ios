@@ -50,10 +50,55 @@
 {
     self = [super init];
     if (self) {
-        history = [NSMutableDictionary dictionary];
+        history = [NSMutableArray array];
         completionBlocks = [NSMutableArray array];
     }
     return self;
+}
+
+- (void)manageTransaction:(HPTTransaction *)transaction withCompletionHandler:(HPTTransactionErrorsManagerCompletionBlock)completionBlock
+{
+    UIAlertView *alertView = nil;
+    BOOL reset = NO;
+    
+    if (transaction.state == HPTTransactionStateDeclined) {
+        
+        // First error
+        if ((transaction.paymentMethod == nil) || ![history containsObject:transaction.paymentMethod]) {
+            alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
+        }
+        
+        // It was a retry with the same payment method
+        else {
+            alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_RESET") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
+            
+            reset = YES;
+        }
+        
+        if ([transaction.paymentMethod isKindOfClass:[HPTPaymentCardToken class]]) {
+            [history addObject:transaction.paymentMethod];
+        }
+    }
+    
+    // State error or unknown
+    else if (transaction.state == HPTTransactionStateError) {
+        alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPTLocalizedString(@"TRANSACTION_ERROR_OTHER") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
+    }
+    
+    if (alertView != nil) {
+        [completionBlocks addObject:@{
+                                      @"alert": alertView,
+                                      @"block": completionBlock,
+                                      @"reset": @(reset)
+                                      }];
+        
+        [alertView show];
+    }
+    
+    else {
+        completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionNone reloadOrder:NO]);
+    }
+
 }
 
 - (void)manageError:(NSError *)transactionError withCompletionHandler:(HPTTransactionErrorsManagerCompletionBlock)completionBlock
@@ -88,7 +133,8 @@
     if (alertView != nil) {
         [completionBlocks addObject:@{
                                       @"alert": alertView,
-                                      @"block": completionBlock
+                                      @"block": completionBlock,
+                                      @"reset": @(NO)
                                       }];
         
         [alertView show];
@@ -105,12 +151,25 @@
     HPTTransactionErrorsManagerCompletionBlock block = [completionBlocks objectAtIndex:index][@"block"];
     
     if (buttonIndex == alertView.cancelButtonIndex) {
-        block([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionNone reloadOrder:NO]);
+
+        BOOL reset = [[completionBlocks objectAtIndex:index][@"reset"] boolValue];
+
+        if (!reset) {
+            block([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionNone reloadOrder:NO]);
+        } else {
+            block([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionReset reloadOrder:NO]);
+        }
+        
     } else {
         block([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionReload reloadOrder:NO]);
     }
     
     [completionBlocks removeObjectAtIndex:index];
+}
+
+- (void)flushHistory
+{
+    [history removeAllObjects];
 }
 
 @end

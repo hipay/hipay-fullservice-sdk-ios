@@ -35,9 +35,11 @@
 
 "TRANSACTION_ERROR_DECLINED_TITLE" = "Transaction refusée";
 
-"TRANSACTION_ERROR_DECLINED" = "La transaction a été refusée. Merci de bien vouloir réessayer.";
+"TRANSACTION_ERROR_DECLINED" = "Veuillez vérifier vos informations et réessayer.";
 
-"TRANSACTION_ERROR_OTHER" = "Une erreur est survenue lors de la transaction. Merci de bien vouloir réessayer.";
+"TRANSACTION_ERROR_DECLINED_RESET" = "Merci de bien vouloir utiliser un autre moyen de paiement.";
+
+"TRANSACTION_ERROR_OTHER" = "Une erreur est survenue lors du traitement de la transaction.";
 
 /* Tokenizable card */
 

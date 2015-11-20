@@ -24,7 +24,7 @@
 {
     _enabled = enabled;
     
-    self.userInteractionEnabled = NO;
+    self.userInteractionEnabled = enabled;
 }
 
 @end

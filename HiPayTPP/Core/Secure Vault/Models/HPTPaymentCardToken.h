@@ -22,4 +22,6 @@
 @property (nonatomic, readonly, nonnull) NSString *country;
 @property (nonatomic, readonly, nullable) NSString *domesticNetwork;
 
+- (BOOL)isEqualToPaymentCardToken:(HPTPaymentCardToken  * _Nonnull )object;
+
 @end

@@ -139,7 +139,7 @@
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         }
     }
-    else {
+    else if(error != nil) {
         if (error.code != HPTErrorCodeAPIOther) {
             [self.delegate forwardViewController:self didFailWithError:error];
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

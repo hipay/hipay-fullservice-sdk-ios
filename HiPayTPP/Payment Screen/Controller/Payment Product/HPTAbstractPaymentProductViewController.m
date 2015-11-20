@@ -136,6 +136,7 @@
         
         if ([cell isKindOfClass:[HPTInputTableViewCell class]]) {
             ((HPTInputTableViewCell *)cell).enabled = !isLoading;
+            [((HPTInputTableViewCell *)cell).textField resignFirstResponder];
         }
     }
     
@@ -259,12 +260,24 @@
         [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
     }
     
-    else if (theTransaction.state == HPTTransactionStateDeclined) {
-        [[[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
-    }
-    
-    else if (theTransaction.state == HPTTransactionStateError) {
-        [[[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPTLocalizedString(@"TRANSACTION_ERROR_OTHER") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+    else {
+        [[HPTTransactionErrorsManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPTTransactionErrorResult *result) {
+            
+            switch (result.formAction) {
+
+                case HPTFormActionReset:
+                    [self resetForm];
+                    break;
+                    
+                case HPTFormActionReload:
+                    [self submit];
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+        }];
     }
 }
 
@@ -292,21 +305,37 @@
         if (result.reloadOrder) {
             [self setPaymentButtonLoadingMode:YES];
             
+            [orderLoadingRequest cancel];
             orderLoadingRequest = [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.paymentPageRequest.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
                 
                 orderLoadingRequest = nil;
                 
                 [self setPaymentButtonLoadingMode:NO];
                 
-                for (HPTTransaction *aTransaction in transactions) {
-                    if (aTransaction.handled) {
-                        [self.delegate paymentProductViewController:self didEndWithTransaction:aTransaction];
-                        return;
-                    }
+                if (transactions.firstObject) {
+                    [self.delegate paymentProductViewController:self didEndWithTransaction:transactions.firstObject];
+                } else {
+                    [self.delegate paymentProductViewController:self didFailWithError:transactionError];
                 }
                 
-                [self.delegate paymentProductViewController:self didFailWithError:transactionError];
             }];
+        }
+    }];
+}
+
+- (void)reloadOrder
+{
+    [orderLoadingRequest cancel];
+    [transactionLoadingRequest cancel];
+    
+    orderLoadingRequest = [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.paymentPageRequest.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
+        
+        orderLoadingRequest = nil;
+        
+        [self setPaymentButtonLoadingMode:NO];
+        
+        if (transactions.firstObject) {
+            [self.delegate paymentProductViewController:self didEndWithTransaction:transactions.firstObject];
         }
     }];
 }
@@ -315,10 +344,14 @@
 {
     [self setPaymentButtonLoadingMode:YES];
     
-    [[HPTGatewayClient sharedClient] getTransactionWithReference:theTransaction.transactionReference withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
+    [orderLoadingRequest cancel];
+    [transactionLoadingRequest cancel];
+    
+    transactionLoadingRequest = [[HPTGatewayClient sharedClient] getTransactionWithReference:theTransaction.transactionReference withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
+        
+        transactionLoadingRequest = nil;
         
         [self checkTransactionStatus:theTransaction];
-        
         [self setPaymentButtonLoadingMode:NO];
 
     }];
@@ -330,6 +363,10 @@
 {
     if (transaction != nil) {
         [self refreshTransactionStatus:transaction];
+    }
+    
+    else {
+        [self reloadOrder];
     }
 }
 
@@ -367,6 +404,9 @@
 - (void)performOrderRequest:(HPTOrderRequest *)orderRequest
 {
     [self setPaymentButtonLoadingMode:YES];
+    
+    [transactionLoadingRequest cancel];
+    [orderLoadingRequest cancel];
     
     transactionLoadingRequest = [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
         

@@ -28,13 +28,6 @@
       "tokenizable":true
    },
    {
-      "id":"MRU9TJFH",
-      "code":"american-express",
-      "description":"American Express",
-      "paymentProductCategoryCode":"credit-card",
-      "tokenizable":true
-   },
-   {
       "id":"0J9LFS1O",
       "code":"bcmc",
       "description":"Bancontact / Mister Cash",

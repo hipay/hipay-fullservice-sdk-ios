@@ -230,32 +230,34 @@
     else {
         inferedPaymentProductCode = nil;
         inferedPaymentProduct = nil;
+        paymentProductDisallowed = NO;
         [self updateTitleHeader];
         [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:self.paymentProduct];
     }
     
-    if ([self securityCodeSectionEnabled]) {
-        NSString *paymentProductCode = [self currentPaymentProductCode];
-        ((HPTSecurityCodeInputTableViewCell *)[self cellWithTextField:securityCodeTextField]).paymentProductCode = paymentProductCode;
-        [self securityCodeFooter].paymentProductCode = paymentProductCode;
-    }
-    
-    if (securityCodeSectionEnabled != [self securityCodeSectionEnabled]) {
+    if (!paymentProductDisallowed) {
         if ([self securityCodeSectionEnabled]) {
-            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+            NSString *paymentProductCode = [self currentPaymentProductCode];
+            ((HPTSecurityCodeInputTableViewCell *)[self cellWithTextField:securityCodeTextField]).paymentProductCode = paymentProductCode;
+            [self securityCodeFooter].paymentProductCode = paymentProductCode;
+        }
+        
+        if (securityCodeSectionEnabled != [self securityCodeSectionEnabled]) {
+            if ([self securityCodeSectionEnabled]) {
+                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+            }
+            
+            else {
+                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+            }
         }
         
         else {
-            [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+            if (currentSecurityCodeType != [self currentSecurityCodeType]) {
+                [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            }
         }
     }
-    
-    else {
-        if (currentSecurityCodeType != [self currentSecurityCodeType]) {
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-        }
-    }
-    
 }
 
 - (HPTSecurityCodeType)currentSecurityCodeType

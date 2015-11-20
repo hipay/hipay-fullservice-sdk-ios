@@ -92,14 +92,14 @@ NSString *const HPTPaymentProductCodeDCBItalyMobilePay      = @"dcb-it-mobilepay
     return HPTSecurityCodeTypeNotApplicable;
 }
 
-+ (BOOL)isPaymentProduct:(HPTPaymentProduct *)domesticPaymentProduct domesticNetworkOfPaymentProduct:(HPTPaymentProduct *)paymentProduct
++ (BOOL)isPaymentProductCode:(NSString *)domesticPaymentProductCode domesticNetworkOfPaymentProductCode:(NSString *)paymentProductCode
 {
-    if ([domesticPaymentProduct.code isEqualToString:HPTPaymentProductCodeBCMC]) {
-        return [paymentProduct.code isEqualToString:HPTPaymentProductCodeMaestro];
+    if ([domesticPaymentProductCode isEqualToString:HPTPaymentProductCodeBCMC]) {
+        return [paymentProductCode isEqualToString:HPTPaymentProductCodeMaestro];
     }
 
-    if ([domesticPaymentProduct.code isEqualToString:HPTPaymentProductCodeCB]) {
-        return [paymentProduct.code isEqualToString:HPTPaymentProductCodeMasterCard] || [paymentProduct.code isEqualToString:HPTPaymentProductCodeVisa];
+    if ([domesticPaymentProductCode isEqualToString:HPTPaymentProductCodeCB]) {
+        return [paymentProductCode isEqualToString:HPTPaymentProductCodeMasterCard] || [paymentProductCode isEqualToString:HPTPaymentProductCodeVisa];
     }
     
     return NO;

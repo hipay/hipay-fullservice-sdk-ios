@@ -98,6 +98,6 @@ extern NSString *const HPTPaymentProductCodeDCBItalyMobilePay;
 
 + (HPTSecurityCodeType)securityCodeTypeForPaymentProductCode:(NSString *)paymentProductCode;
 
-+ (BOOL)isPaymentProduct:(HPTPaymentProduct *)domesticPaymentProduct domesticNetworkOfPaymentProduct:(HPTPaymentProduct *)paymentProduct;
++ (BOOL)isPaymentProductCode:(NSString *)domesticPaymentProductCode domesticNetworkOfPaymentProductCode:(NSString *)paymentProductCode;
 
 @end

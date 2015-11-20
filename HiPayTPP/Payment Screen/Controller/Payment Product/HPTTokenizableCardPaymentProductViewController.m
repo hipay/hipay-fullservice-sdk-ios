@@ -211,16 +211,18 @@
         
         HPTPaymentProduct *newInferredPaymentProduct = [self.delegate paymentProductViewController:self paymentProductForInferredPaymentProductCode:inferedPaymentProductCode];
         
+        BOOL isDomestic = [HPTPaymentProduct isPaymentProductCode:self.paymentProduct.code domesticNetworkOfPaymentProductCode:inferedPaymentProductCode];
+        
         if (newInferredPaymentProduct != inferedPaymentProduct) {
             inferedPaymentProduct = newInferredPaymentProduct;
 
-            if (![HPTPaymentProduct isPaymentProduct:self.paymentProduct domesticNetworkOfPaymentProduct:newInferredPaymentProduct]) {
+            if (!isDomestic) {
                 [self updateTitleHeader];
                 [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:inferedPaymentProduct];
             }
         }
         
-        if (inferedPaymentProduct == nil) {
+        if ((inferedPaymentProduct == nil) && !isDomestic) {
             paymentProductDisallowed = YES;
         } else {
             paymentProductDisallowed = NO;
@@ -291,7 +293,7 @@
         
         NSString *description = self.paymentProduct.paymentProductDescription;
         
-        if (inferedPaymentProduct && ![HPTPaymentProduct isPaymentProduct:self.paymentProduct domesticNetworkOfPaymentProduct:inferedPaymentProduct]) {
+        if ((inferedPaymentProduct != nil) && ![HPTPaymentProduct isPaymentProductCode:self.paymentProduct.code domesticNetworkOfPaymentProductCode:inferedPaymentProduct.code]) {
             description = inferedPaymentProduct.paymentProductDescription;
         }
         

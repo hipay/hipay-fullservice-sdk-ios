@@ -21,6 +21,13 @@
       "tokenizable":true
    },
    {
+      "id":"MRU9TJFH",
+      "code":"american-express",
+      "description":"American Express",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":true
+   },   
+   {
       "id":"JRTEL7NY",
       "code":"diners",
       "description":"Diners Club International",
@@ -60,7 +67,7 @@
       "code":"carte-accord",
       "description":"Carte Accord",
       "paymentProductCategoryCode":"credit-card",
-      "tokenizable":false
+      "tokenizable":true
    },
    {
       "id":"ICOD9CQU",

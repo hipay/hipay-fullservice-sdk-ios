@@ -40,6 +40,19 @@
     inputLabelLeadingConstraint.constant = self.separatorInset.left;
 }
 
+- (void)setEnabled:(BOOL)enabled
+{
+    [super setEnabled:enabled];
+    
+    if (!enabled) {
+        self.textField.textColor = [UIColor blackColor];
+    }
+    
+    else {
+        self.textField.textColor = defaultTextfieldColor;
+    }
+}
+
 - (void)setIncorrectInput:(BOOL)incorrectInput
 {
     [super setIncorrectInput:incorrectInput];

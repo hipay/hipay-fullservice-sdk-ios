@@ -14,5 +14,6 @@
 }
 
 @property (nonatomic) BOOL incorrectInput;
+@property (nonatomic) BOOL enabled;
 
 @end

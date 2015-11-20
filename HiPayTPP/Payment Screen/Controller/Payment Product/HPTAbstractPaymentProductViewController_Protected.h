@@ -26,5 +26,6 @@
 - (void)textFieldDidChange:(UITextField *)textField;
 - (UITextField *)textFieldForIdentifier:(NSString *)fieldIdentifier;
 - (HPTInputTableViewCell *)cellWithTextField:(UITextField *)textField;
+- (void)submit;
 
 @end

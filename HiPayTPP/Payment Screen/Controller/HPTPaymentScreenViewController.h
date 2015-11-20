@@ -31,6 +31,9 @@
     NSArray <HPTPaymentProduct *> *paymentProducts;
     
     id<HPTRequest> paymentProductsRequest;
+    
+    BOOL loadingRequest;
+    UIAlertView *warningCancelWhileLoadingAlertView;
 }
 
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;

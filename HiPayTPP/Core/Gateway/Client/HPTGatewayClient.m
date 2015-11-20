@@ -31,9 +31,19 @@ HPTGatewayClient *HPTGatewayClientSharedInstance = nil;
 
 + (BOOL)isTransactionErrorFinal:(NSError *)error
 {
-    if (error.domain == HPTHiPayTPPErrorDomain) {
+    if ([error.domain isEqual:HPTHiPayTPPErrorDomain]) {
         if (error.code == HPTErrorCodeAPICheckout) {
-            return [error.userInfo[HPTErrorCodeAPICodeKey] isEqualToNumber:@(3010003)] || [error.userInfo[HPTErrorCodeAPICodeKey] isEqualToNumber:@(3010004)];
+            
+            if (error.userInfo[HPTErrorCodeAPICodeKey] != nil) {
+                NSInteger code = [error.userInfo[HPTErrorCodeAPICodeKey] integerValue];
+                
+                NSMutableIndexSet *finalErrors = [NSMutableIndexSet indexSet];
+                
+                [finalErrors addIndex:HPTErrorAPIMaxAttemptsExceeded];
+                [finalErrors addIndex:HPTErrorAPIDuplicateOrder];
+                
+                return [finalErrors containsIndex:code];
+            }
         }
     }
     

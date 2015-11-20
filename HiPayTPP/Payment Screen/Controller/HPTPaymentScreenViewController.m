@@ -60,7 +60,21 @@
 
 - (void)cancelPayment
 {
+    if (!loadingRequest) {
+        [self doCancelPayment];
+    }
+    
+    else {
+        warningCancelWhileLoadingAlertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_TITLE") message:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_BODY") delegate:self cancelButtonTitle:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_NO") otherButtonTitles:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_YES"), nil];
+        
+        [warningCancelWhileLoadingAlertView show];
+    }
+}
+
+- (void)doCancelPayment
+{
     [paymentProductsRequest cancel];
+    [[self mainViewController] cancelRequests];
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
@@ -112,12 +126,20 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == alertView.cancelButtonIndex) {
-        [self cancelPayment];
+    if (alertView == warningCancelWhileLoadingAlertView) {
+        if (alertView.cancelButtonIndex != buttonIndex) {
+            [self doCancelPayment];
+        }
     }
     
     else {
-        [self loadPaymentPageRequest:self.paymentPageRequest];
+        if (buttonIndex == alertView.cancelButtonIndex) {
+            [self cancelPayment];
+        }
+        
+        else {
+            [self loadPaymentPageRequest:self.paymentPageRequest];
+        }
     }
 }
 
@@ -147,6 +169,8 @@
 
 - (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController isLoading:(BOOL)isLoading
 {
+    loadingRequest = isLoading;
+    
     HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
     
     [mainViewController focusOnSelectedPaymentProductWithAnimation:YES];

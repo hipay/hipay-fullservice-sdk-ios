@@ -51,7 +51,7 @@
     specificPaymentProductPaymentPageRequest.displaySelector = NO;
     specificPaymentProductPaymentPageRequest.templateName = HPTPaymentPageRequestTemplateNameFrame;
     
-    [[HPTGatewayClient sharedClient] initializeHostedPaymentPageRequest:specificPaymentProductPaymentPageRequest withCompletionHandler:^(HPTHostedPaymentPage *hostedPaymentPage, NSError *error) {
+    transactionLoadingRequest = [[HPTGatewayClient sharedClient] initializeHostedPaymentPageRequest:specificPaymentProductPaymentPageRequest withCompletionHandler:^(HPTHostedPaymentPage *hostedPaymentPage, NSError *error) {
         
         if (hostedPaymentPage != nil) {
             

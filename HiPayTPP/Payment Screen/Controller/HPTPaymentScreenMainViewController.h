@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HPTPaymentPageRequest.h"
 #import "HPTPaymentProductCollectionViewCell.h"
+#import "HPTAbstractPaymentProductViewController.h"
 
 @interface HPTPaymentScreenMainViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, HPTPaymentProductCollectionViewCellDelegate>
 {
@@ -17,7 +18,8 @@
     HPTPaymentProduct *selectedPaymentProduct;
     NSArray *rightBarButtonItems;
     NSDictionary *paymentProductViewControllers;
-    
+    HPTAbstractPaymentProductViewController *paymentProductViewController;
+
     __weak IBOutlet UIActivityIndicatorView *spinner;
     __weak IBOutlet UIView *containerView;
     
@@ -36,6 +38,7 @@
 - (void)focusOnSelectedPaymentProductWithAnimation:(BOOL)animated;
 - (void)setPaymentProductSelectionEnabled:(BOOL)enabled;
 - (void)changeSelectedPaymentProductTo:(HPTPaymentProduct *)paymentProduct;
+- (void)cancelRequests;
 
 @property (nonatomic) NSArray <HPTPaymentProduct *> *paymentProducts;
 @property (nonatomic) HPTPaymentPageRequest *paymentPageRequest;

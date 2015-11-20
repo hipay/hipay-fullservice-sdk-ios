@@ -13,6 +13,7 @@
 #import "HPTLabelTableViewCell.h"
 #import "HPTPaymentScreenUtils.h"
 #import "HPTForwardViewController.h"
+#import "HPTTransactionErrorsManager.h"
 
 @interface HPTAbstractPaymentProductViewController ()
 
@@ -134,7 +135,7 @@
         }
         
         if ([cell isKindOfClass:[HPTInputTableViewCell class]]) {
-            ((HPTInputTableViewCell *)cell).textField.enabled = !isLoading;
+            ((HPTInputTableViewCell *)cell).enabled = !isLoading;
         }
     }
     
@@ -243,6 +244,13 @@
     return cell;
 }
 
+- (void)resetForm
+{
+    defaultFormValuesDefined = NO;
+    [fieldIdentifiers removeAllObjects];
+    [self.tableView reloadData];
+}
+
 #pragma mark - Transaction results, errors
 
 - (void)checkTransactionStatus:(HPTTransaction *)theTransaction
@@ -262,32 +270,45 @@
 
 - (void)checkTransactionError:(NSError *)transactionError
 {
-    if ((transactionError.domain == HPTHiPayTPPErrorDomain) && (transactionError.code == HPTErrorCodeAPICheckout) && [transactionError.userInfo[HPTErrorCodeAPICodeKey] isEqualToNumber:@(HPTErrorAPIDuplicateOrder)]) {
+    [[HPTTransactionErrorsManager sharedManager] manageError:transactionError withCompletionHandler:^(HPTTransactionErrorResult *result) {
+       
+        switch (result.formAction) {
+            case HPTFormActionQuit:
+                [self.delegate paymentProductViewController:self didFailWithError:transactionError];
+                break;
+                
+            case HPTFormActionReset:
+                [self resetForm];
+                break;
+                
+            case HPTFormActionReload:
+                [self submit];
+                break;
+                
+            case HPTFormActionNone:
+                break;
+        }
         
-        [self setPaymentButtonLoadingMode:YES];
-        
-        [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.paymentPageRequest.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
-
-            [self setPaymentButtonLoadingMode:NO];
+        if (result.reloadOrder) {
+            [self setPaymentButtonLoadingMode:YES];
             
-            for (HPTTransaction *aTransaction in transactions) {
-                if (aTransaction.handled) {
-                    [self.delegate paymentProductViewController:self didEndWithTransaction:aTransaction];
-                    return;
+            orderLoadingRequest = [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.paymentPageRequest.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
+                
+                orderLoadingRequest = nil;
+                
+                [self setPaymentButtonLoadingMode:NO];
+                
+                for (HPTTransaction *aTransaction in transactions) {
+                    if (aTransaction.handled) {
+                        [self.delegate paymentProductViewController:self didEndWithTransaction:aTransaction];
+                        return;
+                    }
                 }
-            }
-            
-            [self.delegate paymentProductViewController:self didFailWithError:transactionError];
-        }];
-    }
-    
-    else if ([HPTGatewayClient isTransactionErrorFinal:transactionError]) {
-        [self.delegate paymentProductViewController:self didFailWithError:transactionError];
-    }
-    
-    else {
-        [[[UIAlertView alloc] initWithTitle:@"Error" message:transactionError.description delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
-    }
+                
+                [self.delegate paymentProductViewController:self didFailWithError:transactionError];
+            }];
+        }
+    }];
 }
 
 - (void)refreshTransactionStatus:(HPTTransaction *)theTransaction
@@ -335,6 +356,11 @@
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell
 {
+    [self submit];
+}
+
+- (void)submit
+{
     [self performOrderRequest:[self createOrderRequest]];
 }
 
@@ -342,7 +368,9 @@
 {
     [self setPaymentButtonLoadingMode:YES];
     
-    [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
+    transactionLoadingRequest = [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
+        
+        transactionLoadingRequest = nil;
         
         if (theTransaction != nil) {
             transaction = theTransaction;
@@ -368,6 +396,12 @@
         [self setPaymentButtonLoadingMode:NO];
         
     }];
+}
+
+- (void)cancelRequests
+{
+    [transactionLoadingRequest cancel];
+    [orderLoadingRequest cancel];
 }
 
 #pragma mark - Table view data source

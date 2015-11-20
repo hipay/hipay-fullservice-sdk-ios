@@ -15,11 +15,23 @@
 
 "ERROR_TITLE_CONNECTION" = "Erreur de connexion";
 
+"ERROR_TITLE_DEFAULT" = "Une erreur est survenue";
+
 "ERROR_BODY_DEFAULT" = "Votre demande n'a pu aboutir.";
 
 "ERROR_BUTTON_CANCEL" = "Annuler";
 
 "ERROR_BUTTON_RETRY" = "Réessayer";
+
+"ERROR_BUTTON_DISMISS" = "OK";
+
+"ALERT_TRANSACTION_LOADING_TITLE" = "Transaction en cours";
+
+"ALERT_TRANSACTION_LOADING_BODY" = "Le traitement de votre transaction est toujours en cours, êtes-vous sûr de vouloir quitter cet écran ?";
+
+"ALERT_TRANSACTION_LOADING_YES" = "Quitter";
+
+"ALERT_TRANSACTION_LOADING_NO" = "Reprendre";
 
 "TRANSACTION_ERROR_DECLINED_TITLE" = "Transaction refusée";
 

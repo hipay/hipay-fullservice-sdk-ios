@@ -36,8 +36,11 @@
 {
     UITextField *activeTextField;
     BOOL loading;
-    NSMutableDictionary *fieldIdentifiers;
+    NSMutableDictionary <NSString *, UITextField *> *fieldIdentifiers;
     HPTTransaction *transaction;
+    BOOL defaultFormValuesDefined;
+    id<HPTRequest> transactionLoadingRequest;
+    id<HPTRequest> orderLoadingRequest;
 }
 
 @property (nonatomic, readonly) HPTPaymentProduct *paymentProduct;
@@ -45,5 +48,7 @@
 @property (nonatomic, weak) id<HPTPaymentProductViewControllerDelegate> delegate;
 
 - (instancetype)initWithPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest andSelectedPaymentProduct:(HPTPaymentProduct *)paymentProduct;
+
+- (void)cancelRequests;
 
 @end

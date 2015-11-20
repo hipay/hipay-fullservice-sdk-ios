@@ -38,10 +38,11 @@
 {
     [super viewDidLayoutSubviews];
     
-    dispatch_once(&cardHolderPredefinedBlock, ^{
+    if (!defaultFormValuesDefined) {
         UITextField *cardHolderTextField = [self textFieldForIdentifier:@"holder"];
         cardHolderTextField.text = self.paymentPageRequest.customer.displayName;
-    });
+        defaultFormValuesDefined = YES;
+    }
     
     ((HPTSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:0]).separatorInset = self.tableView.separatorInset;
 }
@@ -230,7 +231,7 @@
         }
     }
     
-    else {
+    else if (inferedPaymentProductCode != nil) {
         inferedPaymentProductCode = nil;
         inferedPaymentProduct = nil;
         paymentProductDisallowed = NO;
@@ -260,7 +261,7 @@
                 if (currentSecurityCodeType != [self currentSecurityCodeType]) {
                     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
                 }
-            }            
+            }
         }
     }
 }
@@ -323,7 +324,7 @@
     return 1;
 }
 
-- (void)paymentButtonTableViewCellDidTouchButton:(HPTPaymentButtonTableViewCell *)cell
+- (void)submit
 {
     [self setPaymentButtonLoadingMode:YES];
     
@@ -333,9 +334,10 @@
         securityCode = [self textForIdentifier:@"security_code"];
     }
     
-    [[HPTSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:@"2019" cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
+    transactionLoadingRequest = [[HPTSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:@"2019" cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
        
         [self setPaymentButtonLoadingMode:NO];
+        transactionLoadingRequest = nil;
         
         if (cardToken != nil) {
             

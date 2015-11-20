@@ -73,7 +73,7 @@
     NSMutableDictionary *userInfo = @{NSUnderlyingErrorKey: error}.mutableCopy;
     NSInteger code;
     
-    if (error.domain == HPTHiPayTPPErrorDomain && error.code == HPTErrorCodeHTTPClient && ([[body objectForKey:@"code"] isKindOfClass:[NSString class]] || [[body objectForKey:@"code"] isKindOfClass:[NSNumber class]]) && [[body objectForKey:@"message"] isKindOfClass:[NSString class]]) {
+    if ([error.domain isEqual:HPTHiPayTPPErrorDomain] && error.code == HPTErrorCodeHTTPClient && ([[body objectForKey:@"code"] isKindOfClass:[NSString class]] || [[body objectForKey:@"code"] isKindOfClass:[NSNumber class]]) && [[body objectForKey:@"message"] isKindOfClass:[NSString class]]) {
         
         NSString *stringCode;
         

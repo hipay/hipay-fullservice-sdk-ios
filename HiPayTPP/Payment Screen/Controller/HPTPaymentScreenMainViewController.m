@@ -110,6 +110,11 @@
     }
 }
 
+- (void)cancelRequests
+{
+    [paymentProductViewController cancelRequests];
+}
+
 #pragma mark - Keyboard related methods
 
 - (void)keyboardWillShowOrChangeFrame:(NSNotification *)notification
@@ -192,6 +197,16 @@
     
     cell.highlighted = (cell.paymentProduct == selectedPaymentProduct);
     
+    if (!cell.highlighted && !paymentProductsCollectionView.scrollEnabled) {
+        cell.paymentProductButton.enabled = NO;
+        cell.userInteractionEnabled = NO;
+    }
+    
+    else {
+        cell.paymentProductButton.enabled = YES;
+        cell.userInteractionEnabled = YES;
+    }
+    
     return cell;
 }
 
@@ -209,7 +224,6 @@
         selectedPaymentProduct = paymentProduct;
         
         Class paymentProductViewControllerClass = paymentProductViewControllers[paymentProduct.code];
-        HPTAbstractPaymentProductViewController *paymentProductViewController;
         
         // Supported payment product with specific view controller
         if (paymentProductViewControllerClass != nil) {
@@ -332,6 +346,7 @@
 - (void)setPaymentProductSelectionEnabled:(BOOL)enabled
 {
     paymentProductsCollectionView.scrollEnabled = enabled;
+    [paymentProductsCollectionView reloadData];
 }
 
 #pragma mark - Main table view

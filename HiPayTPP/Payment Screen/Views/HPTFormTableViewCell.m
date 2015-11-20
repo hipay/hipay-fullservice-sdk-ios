@@ -20,4 +20,11 @@
     return YES;
 }
 
+- (void)setEnabled:(BOOL)enabled
+{
+    _enabled = enabled;
+    
+    self.userInteractionEnabled = NO;
+}
+
 @end

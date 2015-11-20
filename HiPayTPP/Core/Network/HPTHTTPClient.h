@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, HPTHTTPMethod) {
 @property (nonatomic) NSURL *baseURL;
 
 - (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)password;
+
 - (HPTHTTPClientRequest *)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock;
 
 @end

@@ -17,6 +17,7 @@
 #import "HPTIDealPaymentProductViewController.h"
 #import "HPTTokenizableCardPaymentProductViewController.h"
 #import "HPTUnsupportedPaymentProductViewController.h"
+#import "HPTPaymentProductsFlowLayout.h"
 
 @interface HPTPaymentScreenMainViewController ()
 
@@ -94,8 +95,13 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        
+        ((HPTPaymentProductsFlowLayout *)paymentProductsCollectionView.collectionViewLayout).collectionViewSize = size;
         [self focusOnSelectedPaymentProductWithAnimation:NO];
+        [paymentProductsCollectionView layoutSubviews];
+        
     } completion:nil];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

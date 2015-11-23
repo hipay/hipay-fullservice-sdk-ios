@@ -10,4 +10,6 @@
 
 @interface HPTPaymentProductsFlowLayout : UICollectionViewFlowLayout
 
+@property (nonatomic) CGSize collectionViewSize;
+
 @end

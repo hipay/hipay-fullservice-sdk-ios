@@ -14,12 +14,20 @@
 {
     [super awakeFromNib];
     
-    self.itemSize = CGSizeMake(80., 60.);
+    self.collectionViewSize = self.collectionView.frame.size;
     self.minimumInteritemSpacing = 10.;
     self.minimumLineSpacing = 10.;
     self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.sectionInset = UIEdgeInsetsMake(0., 10., 0., 10.);
+}
+
+- (void)setCollectionViewSize:(CGSize)collectionViewSize
+{
+    _collectionViewSize = collectionViewSize;
     
+    CGFloat width = fmin(collectionViewSize.width / 4.0, 100.0);
+    
+    self.itemSize = CGSizeMake(width, 60.0);
 
 }
 

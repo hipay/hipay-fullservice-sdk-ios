@@ -74,7 +74,6 @@
 {
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] init];
     NSString *baseURLAndPath = [NSString stringWithFormat:@"%@%@", self.baseURL, path];
-//    URLRequest.timeoutInterval = 3.0;
     
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [URLRequest setValue:[self createAuthHeader] forHTTPHeaderField:@"Authorization"];

@@ -118,6 +118,8 @@
     // Network unavailable
     else if ((HTTPError != nil) && (HTTPError.code == HPTErrorCodeHTTPNetworkUnavailable)) {
         alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPTLocalizedString(@"ERROR_BODY_NETWORK_UNAVAILABLE") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
+
+        completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionBackgroundReload]);
     }
     
     // Other connection or server error

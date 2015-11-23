@@ -382,8 +382,6 @@
 - (void)cancelRequests
 {
     [transactionLoadingRequest cancel];
-
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadOrder) object:nil];
 }
 
 #pragma mark - Table view data source

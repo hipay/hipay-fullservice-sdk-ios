@@ -201,7 +201,9 @@
 {
     loadingRequest = isLoading;
     
-    [self cancelBackgroundReload];
+    if (isLoading) {
+        [self cancelBackgroundReload];
+    }
     
     HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
     
@@ -291,7 +293,7 @@
         // Specific client error (4xx)
         if ((HTTPError != nil) && (HTTPError.code == HPTErrorCodeHTTPClient)) {
             
-            BOOL isNotFoundError = [[HTTPError.userInfo[NSUnderlyingErrorKey] userInfo][HPTErrorCodeHTTPStatusCodeKey] integerValue] == HPTHTTPStatusNotFound;
+            BOOL isNotFoundError = [HTTPError.userInfo[HPTErrorCodeHTTPStatusCodeKey] integerValue] == HPTHTTPStatusNotFound;
             
             BOOL isOrderNotFoundError = (error.code == HPTErrorCodeAPICheckout) && [error.userInfo[HPTErrorCodeAPICodeKey] integerValue] == HPTErrorAPIUnknownOrder;
             

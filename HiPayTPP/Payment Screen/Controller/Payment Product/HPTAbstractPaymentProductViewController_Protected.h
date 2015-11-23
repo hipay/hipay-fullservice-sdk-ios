@@ -11,7 +11,6 @@
 @interface HPTAbstractPaymentProductViewController ()
 
 - (void)checkTransactionStatus:(HPTTransaction *)transaction;
-- (void)refreshTransactionStatus:(HPTTransaction *)transaction;
 - (void)checkTransactionError:(NSError *)transactionError;
 
 - (void)editingDoneButtonTouched:(id)sender;

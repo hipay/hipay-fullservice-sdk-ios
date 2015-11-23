@@ -46,7 +46,6 @@
     HPTTransaction *transaction;
     BOOL defaultFormValuesDefined;
     id<HPTRequest> transactionLoadingRequest;
-    id<HPTRequest> orderLoadingRequest;
 }
 
 @property (nonatomic, readonly) HPTPaymentProduct *paymentProduct;

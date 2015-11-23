@@ -17,6 +17,13 @@
     _paymentProductButton = [[HPTPaymentProductButton alloc] initWithPaymentProduct:paymentProduct];
     [self.contentView addSubview:_paymentProductButton];
     [_paymentProductButton addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
+
+    _paymentProductButton.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_paymentProductButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_paymentProductButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:60.0]];
+    
 }
 
 - (void)buttonTouched:(id)button

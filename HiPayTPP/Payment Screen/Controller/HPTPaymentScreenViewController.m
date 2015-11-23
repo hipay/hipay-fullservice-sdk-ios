@@ -77,13 +77,20 @@
 - (void)doCancelPayment
 {
     [paymentProductsRequest cancel];
-    [[self mainViewController] cancelRequests];
+    [self cancelActivity];
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
     if ([self.delegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
         [self.delegate paymentScreenViewControllerDidCancel:self];
     }
+}
+
+- (void)cancelActivity
+{
+    [[self mainViewController] cancelRequests];
+    [self cancelBackgroundReload];
+    [[HPTTransactionErrorsManager sharedManager] removeAlerts];
 }
 
 - (void)viewDidLoad {
@@ -133,6 +140,8 @@
         if (alertView.cancelButtonIndex != buttonIndex) {
             [self doCancelPayment];
         }
+        
+        warningCancelWhileLoadingAlertView = nil;
     }
     
     else {
@@ -150,6 +159,15 @@
 
 - (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didEndWithTransaction:(HPTTransaction *)transaction
 {
+    [self endWithTransaction:transaction];
+}
+
+- (void)endWithTransaction:(HPTTransaction *)transaction
+{
+    [warningCancelWhileLoadingAlertView dismissWithClickedButtonIndex:warningCancelWhileLoadingAlertView.cancelButtonIndex animated:YES];
+    
+    [self cancelActivity];
+    
     if ([self.delegate respondsToSelector:@selector(paymentScreenViewController:didEndWithTransaction:)]) {
         [self.delegate paymentScreenViewController:self didEndWithTransaction:transaction];
     }
@@ -161,6 +179,15 @@
 
 - (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didFailWithError:(NSError *)error
 {
+    [self endWithError:error];
+}
+
+- (void)endWithError:(NSError *)error
+{
+    [warningCancelWhileLoadingAlertView dismissWithClickedButtonIndex:warningCancelWhileLoadingAlertView.cancelButtonIndex animated:YES];
+    
+    [self cancelActivity];
+    
     if ([self.delegate respondsToSelector:@selector(paymentScreenViewController:didFailWithError:)]) {
         [self.delegate paymentScreenViewController:self didFailWithError:error];
     }
@@ -173,6 +200,8 @@
 - (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController isLoading:(BOOL)isLoading
 {
     loadingRequest = isLoading;
+    
+    [self cancelBackgroundReload];
     
     HPTPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
     
@@ -197,6 +226,90 @@
 - (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController changeSelectedPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
     [[self mainViewController] changeSelectedPaymentProductTo:paymentProduct];
+}
+
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController needsBackgroundReloadingOfTransaction:(HPTTransaction *)transaction
+{
+    [self reloadTransaction:transaction];
+}
+
+- (void)paymentProductViewControllerNeedsBackgroundOrderReload:(HPTAbstractPaymentProductViewController *)viewController
+{
+    [self reloadOrder];
+}
+
+#pragma mark - Background loading
+
+- (void)cancelBackgroundReload
+{
+    [backgroundOrderLoadingRequest cancel];
+    [backgroundTransactionLoadingRequest cancel];
+
+    backgroundOrderLoadingRequest = nil;
+    backgroundTransactionLoadingRequest = nil;
+    backgroundTransactionBeingReload = nil;
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+}
+
+- (void)reloadOrder
+{
+    [self cancelBackgroundReload];
+    
+    backgroundOrderLoadingRequest = [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.paymentPageRequest.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
+        
+        [self checkTransaction:transactions.firstObject error:error];
+    }];
+}
+
+- (void)reloadTransaction:(HPTTransaction *)transaction
+{
+    [self cancelBackgroundReload];
+
+    backgroundTransactionBeingReload = transaction;
+
+    backgroundTransactionLoadingRequest = [[HPTGatewayClient sharedClient] getTransactionWithReference:transaction.transactionReference withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
+        
+        [self checkTransaction:transaction error:error];
+    }];
+}
+
+- (void)checkTransaction:(HPTTransaction *)transaction error:(NSError *)error
+{
+    backgroundOrderLoadingRequest = nil;
+    
+    if (transaction != nil) {
+        if (transaction.handled) {
+            [self endWithTransaction:transaction];
+        }
+    }
+    
+    else if(error != nil) {
+        
+        NSError *HTTPError = error.userInfo[NSUnderlyingErrorKey];
+        
+        // Specific client error (4xx)
+        if ((HTTPError != nil) && (HTTPError.code == HPTErrorCodeHTTPClient)) {
+            
+            BOOL isNotFoundError = [[HTTPError.userInfo[NSUnderlyingErrorKey] userInfo][HPTErrorCodeHTTPStatusCodeKey] integerValue] == HPTHTTPStatusNotFound;
+            
+            BOOL isOrderNotFoundError = (error.code == HPTErrorCodeAPICheckout) && [error.userInfo[HPTErrorCodeAPICodeKey] integerValue] == HPTErrorAPIUnknownOrder;
+            
+            // Other client (4xx) error, no way to handle this, should be managed by the merchant
+            if (!isNotFoundError && !isOrderNotFoundError) {
+                [self endWithError:error];
+            }
+        }
+        
+        // Typically a network error, let's retry
+        else {
+            if (backgroundOrderLoadingRequest != nil) {
+                [self performSelector:@selector(reloadTransaction:) withObject:backgroundTransactionBeingReload afterDelay:5.0];
+            } else {
+                [self performSelector:@selector(reloadOrder) withObject:nil afterDelay:5.0];
+            }
+        }
+    }
 }
 
 @end

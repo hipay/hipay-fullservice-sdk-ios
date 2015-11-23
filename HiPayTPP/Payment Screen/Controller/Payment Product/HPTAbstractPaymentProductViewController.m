@@ -39,17 +39,11 @@
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTPaymentButtonTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
-
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTInputTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Input"];
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTCardNumberInputTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"CardNumberInput"];
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTExpiryDateInputTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ExpiryDateInput"];
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTSecurityCodeInputTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"SecurityCodeInput"];
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTLabelTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"HPTLabelTableViewCell" bundle:HPTPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -256,118 +250,66 @@
 
 - (void)checkTransactionStatus:(HPTTransaction *)theTransaction
 {
-    if (theTransaction.handled) {
-        [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
-    }
-    
-    else {
-        [[HPTTransactionErrorsManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPTTransactionErrorResult *result) {
-            
-            switch (result.formAction) {
-
-                case HPTFormActionReset:
-                    [self resetForm];
-                    break;
-                    
-                case HPTFormActionReload:
-                    [self submit];
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-        }];
-    }
+    [[HPTTransactionErrorsManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPTTransactionErrorResult *result) {
+        
+        if(result.formAction == HPTFormActionQuit) {
+            [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
+        }
+        
+        [self checkRequestResultStatus:result];
+        
+    }];
 }
 
 - (void)checkTransactionError:(NSError *)transactionError
 {
     [[HPTTransactionErrorsManager sharedManager] manageError:transactionError withCompletionHandler:^(HPTTransactionErrorResult *result) {
        
-        switch (result.formAction) {
-            case HPTFormActionQuit:
-                [self.delegate paymentProductViewController:self didFailWithError:transactionError];
-                break;
-                
-            case HPTFormActionReset:
-                [self resetForm];
-                break;
-                
-            case HPTFormActionReload:
-                [self submit];
-                break;
-                
-            case HPTFormActionNone:
-                break;
+        if(result.formAction == HPTFormActionQuit) {
+            [self.delegate paymentProductViewController:self didFailWithError:transactionError];
         }
         
-        if (result.reloadOrder) {
-            [self setPaymentButtonLoadingMode:YES];
+        [self checkRequestResultStatus:result];
+        
+    }];
+}
+
+- (void)checkRequestResultStatus:(HPTTransactionErrorResult *)result
+{
+    switch (result.formAction) {
+        case HPTFormActionReset:
+            [self resetForm];
+            break;
             
-            [orderLoadingRequest cancel];
-            orderLoadingRequest = [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.paymentPageRequest.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
-                
-                orderLoadingRequest = nil;
-                
-                [self setPaymentButtonLoadingMode:NO];
-                
-                if (transactions.firstObject) {
-                    [self.delegate paymentProductViewController:self didEndWithTransaction:transactions.firstObject];
-                } else {
-                    [self.delegate paymentProductViewController:self didFailWithError:transactionError];
-                }
-                
-            }];
-        }
-    }];
+        case HPTFormActionFormReload:
+            [self submit];
+            break;
+            
+        case HPTFormActionBackgroundReload:
+            [self needsBackgroundTransactionOrOrderReload];
+            break;
+            
+        default:
+            break;
+    }
 }
 
-- (void)reloadOrder
+- (void)needsBackgroundTransactionOrOrderReload
 {
-    [orderLoadingRequest cancel];
-    [transactionLoadingRequest cancel];
+    if (transaction != nil) {
+        [self.delegate paymentProductViewController:self needsBackgroundReloadingOfTransaction:transaction];
+    }
     
-    orderLoadingRequest = [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.paymentPageRequest.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
-        
-        orderLoadingRequest = nil;
-        
-        [self setPaymentButtonLoadingMode:NO];
-        
-        if (transactions.firstObject) {
-            [self.delegate paymentProductViewController:self didEndWithTransaction:transactions.firstObject];
-        }
-    }];
-}
-
-- (void)refreshTransactionStatus:(HPTTransaction *)theTransaction
-{
-    [self setPaymentButtonLoadingMode:YES];
-    
-    [orderLoadingRequest cancel];
-    [transactionLoadingRequest cancel];
-    
-    transactionLoadingRequest = [[HPTGatewayClient sharedClient] getTransactionWithReference:theTransaction.transactionReference withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
-        
-        transactionLoadingRequest = nil;
-        
-        [self checkTransactionStatus:theTransaction];
-        [self setPaymentButtonLoadingMode:NO];
-
-    }];
+    else {
+        [self.delegate paymentProductViewControllerNeedsBackgroundOrderReload:self];
+    }
 }
 
 #pragma mark - Forward controller
 
 - (void)forwardViewControllerDidCancel:(HPTForwardViewController *)viewController
 {
-    if (transaction != nil) {
-        [self refreshTransactionStatus:transaction];
-    }
-    
-    else {
-        [self reloadOrder];
-    }
+    [self needsBackgroundTransactionOrOrderReload];
 }
 
 - (void)forwardViewController:(HPTForwardViewController *)viewController didEndWithTransaction:(HPTTransaction *)theTransaction
@@ -405,8 +347,7 @@
 {
     [self setPaymentButtonLoadingMode:YES];
     
-    [transactionLoadingRequest cancel];
-    [orderLoadingRequest cancel];
+    [self cancelRequests];
     
     transactionLoadingRequest = [[HPTGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPTTransaction *theTransaction, NSError *error) {
         
@@ -441,7 +382,8 @@
 - (void)cancelRequests
 {
     [transactionLoadingRequest cancel];
-    [orderLoadingRequest cancel];
+
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadOrder) object:nil];
 }
 
 #pragma mark - Table view data source

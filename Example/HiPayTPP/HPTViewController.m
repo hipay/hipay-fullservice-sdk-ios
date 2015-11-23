@@ -53,7 +53,7 @@
     order.customer.lastname = @"Tiret";
     order.authenticationIndicator = HPTAuthenticationIndicatorIfAvailable;
     
-    
+    NSLog(@"ORDERID : %@", order.orderId);
     
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPTPaymentScreenViewsBundle()];
     HPTPaymentScreenViewController* vc = (HPTPaymentScreenViewController *)[sb instantiateInitialViewController];

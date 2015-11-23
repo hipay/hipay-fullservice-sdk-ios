@@ -9,17 +9,16 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, HPTFormAction) {
-    HPTFormActionNone,
     HPTFormActionReset,
-    HPTFormActionReload,
+    HPTFormActionFormReload,
+    HPTFormActionBackgroundReload,
     HPTFormActionQuit
 };
 
 @interface HPTTransactionErrorResult : NSObject
 
 @property (nonatomic, readonly) HPTFormAction formAction;
-@property (nonatomic, readonly) BOOL reloadOrder;
 
-- (instancetype)initWithFormAction:(HPTFormAction)formAction reloadOrder:(BOOL)shoulReloadOrder;
+- (instancetype)initWithFormAction:(HPTFormAction)formAction;
 
 @end

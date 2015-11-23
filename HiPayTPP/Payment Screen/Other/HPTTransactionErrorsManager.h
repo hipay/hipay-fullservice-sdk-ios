@@ -16,11 +16,14 @@ typedef void (^HPTTransactionErrorsManagerCompletionBlock)(HPTTransactionErrorRe
 {
     NSMutableArray *history;
     NSMutableArray <NSDictionary <NSString *, id> *> *completionBlocks;
+    UIAlertView *alertView;
 }
 
 + (instancetype)sharedManager;
 
 - (void)flushHistory;
+
+- (void)removeAlerts;
 
 - (void)manageError:(NSError *)error withCompletionHandler:(HPTTransactionErrorsManagerCompletionBlock)completionBlock;
 

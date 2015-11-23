@@ -15,9 +15,7 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
 
 - (instancetype)initWithPaymentProduct:(HPTPaymentProduct *)paymentProduct
 {
-    CGFloat height = 60.;
-    
-    self = [super initWithFrame:CGRectMake(0.0, 0.0, 90., height)];
+    self = [super initWithFrame:CGRectZero];
     if (self) {
         _paymentProduct = paymentProduct.code;
 
@@ -33,13 +31,15 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
             
             UIImage *graySpriteImage = [UIImage imageNamed:@"payment_product_sprites_gray" inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
             
-            baseImage = [self cropImage:graySpriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100. + 5., [matrixInfo[@"y"] floatValue] * height, 90., height)];
+            baseImage = [self cropImage:graySpriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100.0, [matrixInfo[@"y"] floatValue] * 60.0, 100.0, 60.0)];
             
-            selectedImage = [self cropImage:spriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100. + 5., [matrixInfo[@"y"] floatValue] * height, 90., height)];
+            selectedImage = [self cropImage:spriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100.0, [matrixInfo[@"y"] floatValue] * 60.0, 100.0, 60.0)];
             
             [self setImage:baseImage forState:UIControlStateNormal];
             [self setImage:selectedImage forState:UIControlStateHighlighted];
             [self setImage:selectedImage forState:UIControlStateSelected];
+            
+            self.imageView.contentMode = UIViewContentModeScaleAspectFit;
         }
         
         // No image for this payment product
@@ -81,18 +81,20 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
         [self setDefaultStyle];
     }
     
-    if (self.titleLabel.frame.size.height >= (0.85 * self.frame.size.height)) {
-        self.titleLabel.font = [UIFont systemFontOfSize:14.0];
-    }
-    
-    // Label takes two lines at least
-    else if ((self.titleLabel.frame.size.height >= (0.5 * self.frame.size.height))) {
-        
-        // But label is alphanumeric only, it means that a word is broken, it's better to reduce text size
-        NSRange range = [self.titleLabel.text rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
-        
-        if (range.location == NSNotFound) {
+    if (baseImage == nil) {
+        if (self.titleLabel.frame.size.height >= (0.85 * self.frame.size.height)) {
             self.titleLabel.font = [UIFont systemFontOfSize:14.0];
+        }
+        
+        // Label takes two lines at least
+        else if ((self.titleLabel.frame.size.height >= (0.5 * self.frame.size.height))) {
+            
+            // But label is alphanumeric only, it means that a word is broken, it's better to reduce text size
+            NSRange range = [self.titleLabel.text rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+            
+            if (range.location == NSNotFound) {
+                self.titleLabel.font = [UIFont systemFontOfSize:14.0];
+            }
         }
     }
 }

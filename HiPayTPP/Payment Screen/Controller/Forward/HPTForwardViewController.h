@@ -28,7 +28,6 @@
 @interface HPTForwardViewController : UIViewController
 {
     id<HPTRequest> backgroundRequest;
-    BOOL preventReload;
 }
 
 @property (nonatomic, readonly) HPTTransaction *transaction;

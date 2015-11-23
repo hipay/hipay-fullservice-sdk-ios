@@ -77,12 +77,29 @@
 
 #pragma mark - Redirect
 
+- (NSString *)currentOrderId
+{
+    if (self.hostedPaymentPage != nil) {
+        return self.hostedPaymentPage.order.orderId;
+    }
+    
+    return self.transaction.order.orderId;
+}
+
 - (void)didRedirectSuccessfully:(NSNotification *)notification
 {
     [self cancelBackgroundTransactionLoading];
-    preventReload = YES;
     
-    [self checkTransaction:notification.userInfo[@"transaction"] error:nil];
+    NSString *orderId = notification.userInfo[@"orderId"];
+    
+    // To avoid late redirection of previous order
+    if ([[self currentOrderId] isEqualToString:orderId]) {
+        [self cancelBackgroundTransactionLoading];
+        [self checkTransaction:notification.userInfo[@"transaction"] error:nil];
+        
+        // To prevent appDidBecomeActive call
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }
 }
 
 - (void)didRedirectWithMappingError:(NSNotification *)notification
@@ -106,26 +123,24 @@
 
 - (void)reloadTransaction
 {
-    if (!preventReload) {
-        
-        [self cancelBackgroundTransactionLoading];
-        
-        if (self.transaction != nil) {
-            backgroundRequest = [[HPTGatewayClient sharedClient] getTransactionWithReference:self.transaction.transactionReference withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
-                
-                [self checkTransaction:transaction error:error];
-                
-            }];
-        }
-        
-        else {
-            backgroundRequest = [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.hostedPaymentPage.order.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
-                
+    [self cancelBackgroundTransactionLoading];
+    
+    if (self.transaction != nil) {
+        backgroundRequest = [[HPTGatewayClient sharedClient] getTransactionWithReference:self.transaction.transactionReference withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
+            
+            [self checkTransaction:transaction error:error];
+            
+        }];
+    }
+    
+    else {
+        backgroundRequest = [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:self.hostedPaymentPage.order.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
+            
+            if (error != nil || ((transactions.count > 0) && ([transactions.firstObject isHandled]))) {
                 [self checkTransaction:transactions.firstObject error:error];
-                
-            }];
-        }
-        
+            }
+            
+        }];
     }
 }
 
@@ -139,14 +154,20 @@
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         }
     }
+    
     else if(error != nil) {
-        if (error.code != HPTErrorCodeAPIOther) {
+        
+        NSError *HTTPError = error.userInfo[NSUnderlyingErrorKey];
+        
+        // Specific client error (4xx), terminate forward
+        if ((HTTPError != nil) && (HTTPError.code == HPTErrorCodeHTTPClient)) {
             [self.delegate forwardViewController:self didFailWithError:error];
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         }
         
+        // Typically a network error, let's retry
         else {
-            [self performSelector:@selector(reloadTransaction) withObject:nil afterDelay:1.0];
+            [self performSelector:@selector(reloadTransaction) withObject:nil afterDelay:5.0];
         }
     }
 }

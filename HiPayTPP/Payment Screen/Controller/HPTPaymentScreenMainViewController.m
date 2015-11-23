@@ -222,6 +222,11 @@
     if (selectedPaymentProduct != paymentProduct) {
         
         selectedPaymentProduct = paymentProduct;
+
+        // Cancel requests for currently displayed payment product view controller
+        if (paymentProductViewController != nil) {
+            [paymentProductViewController cancelRequests];
+        }
         
         Class paymentProductViewControllerClass = paymentProductViewControllers[paymentProduct.code];
         
@@ -276,8 +281,6 @@
 
 - (void)defineContainerTopSpacing
 {
-    UITableViewController *paymentProductViewController = self.childViewControllers.lastObject;
-    
     if ([paymentProductViewController isKindOfClass:[UITableViewController class]]) {
         
         UITableViewHeaderFooterView *headerView = [paymentProductViewController.tableView headerViewForSection:0];

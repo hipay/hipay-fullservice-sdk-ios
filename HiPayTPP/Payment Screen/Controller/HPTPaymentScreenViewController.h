@@ -34,6 +34,11 @@
     
     BOOL loadingRequest;
     UIAlertView *warningCancelWhileLoadingAlertView;
+    
+    // Background loading
+    id<HPTRequest> backgroundOrderLoadingRequest;
+    id<HPTRequest> backgroundTransactionLoadingRequest;
+    HPTTransaction *backgroundTransactionBeingReload;
 }
 
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;

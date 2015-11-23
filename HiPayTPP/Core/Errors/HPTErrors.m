@@ -21,6 +21,7 @@ NSString * const HPTErrorCodeHTTPServerDescription = @"There's a server side err
 
 NSString * const HPTErrorCodeHTTPPlainResponseKey = @"HPTErrorCodeHTTPPlainResponseKey";
 NSString * const HPTErrorCodeHTTPParsedResponseKey = @"HPTErrorCodeHTTPParsedResponseKey";
+NSString * const HPTErrorCodeHTTPStatusCodeKey = @"HPTErrorCodeHTTPStatusCodeKey";
 
 NSString * const HPTErrorCodeAPIMessageKey = @"HPTErrorCodeAPIMessageKey";
 NSString * const HPTErrorCodeAPICodeKey = @"HPTErrorCodeAPICodeKey";

@@ -14,7 +14,6 @@
 @interface NSError (HPTTransactionErrorsManager)
 
 @property (nonatomic, readonly) NSError *underlyingError;
-@property (nonatomic, readonly) BOOL isHiPayDomain;
 
 @end
 
@@ -23,11 +22,6 @@
 - (NSError *)underlyingError
 {
     return self.userInfo[NSUnderlyingErrorKey];
-}
-
-- (BOOL)isHiPayDomain
-{
-    return [self.domain isEqualToString:HPTHiPayTPPErrorDomain];
 }
 
 @end
@@ -58,10 +52,14 @@
 
 - (void)manageTransaction:(HPTTransaction *)transaction withCompletionHandler:(HPTTransactionErrorsManagerCompletionBlock)completionBlock
 {
-    UIAlertView *alertView = nil;
-    BOOL reset = NO;
+    alertView = nil;
     
-    if (transaction.state == HPTTransactionStateDeclined) {
+    // Final transaction (completed or pending)
+    if (transaction.handled) {
+        completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionQuit]);
+    }
+    
+    else if (transaction.state == HPTTransactionStateDeclined) {
         
         // First error
         if ((transaction.paymentMethod == nil) || ![history containsObject:transaction.paymentMethod]) {
@@ -72,7 +70,7 @@
         else {
             alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPTLocalizedString(@"TRANSACTION_ERROR_DECLINED_RESET") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
             
-            reset = YES;
+            completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionReset]);
         }
         
         if ([transaction.paymentMethod isKindOfClass:[HPTPaymentCardToken class]]) {
@@ -89,79 +87,68 @@
         [completionBlocks addObject:@{
                                       @"alert": alertView,
                                       @"block": completionBlock,
-                                      @"reset": @(reset)
                                       }];
         
         [alertView show];
     }
-    
-    else {
-        completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionNone reloadOrder:NO]);
-    }
-
 }
 
 - (void)manageError:(NSError *)transactionError withCompletionHandler:(HPTTransactionErrorsManagerCompletionBlock)completionBlock
 {
-    UIAlertView *alertView = nil;
+    alertView = nil;
+
+    NSError *HTTPError = transactionError.userInfo[NSUnderlyingErrorKey];
     
     // Duplicate order
-    if ((transactionError.isHiPayDomain) && (transactionError.code == HPTErrorCodeAPICheckout) && [transactionError.userInfo[HPTErrorCodeAPICodeKey] isEqual:@(HPTErrorAPIDuplicateOrder)]) {
+    if ((transactionError.code == HPTErrorCodeAPICheckout) && [transactionError.userInfo[HPTErrorCodeAPICodeKey] isEqual:@(HPTErrorAPIDuplicateOrder)]) {
         
-        completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionNone reloadOrder:YES]);
+        completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionBackgroundReload]);
     }
     
     // Final error (ex. : max attempts exceeded)
     else if ([HPTGatewayClient isTransactionErrorFinal:transactionError]) {
-        completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionQuit reloadOrder:NO]);
+        completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionQuit]);
     }
 
-    // Unknown platform error
-    else if (transactionError.isHiPayDomain && (transactionError.underlyingError.code == HPTErrorCodeHTTPClient)) {
-        
+    // Client error
+    else if ((HTTPError != nil) && (HTTPError.code == HPTErrorCodeHTTPClient)) {
         alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_DEFAULT") message:HPTLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
-        
     }
-
-    // Connection error
+    
+    // Network unavailable
+    else if ((HTTPError != nil) && (HTTPError.code == HPTErrorCodeHTTPNetworkUnavailable)) {
+        alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPTLocalizedString(@"ERROR_BODY_NETWORK_UNAVAILABLE") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
+    }
+    
+    // Other connection or server error
     else {
         alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPTLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:HPTLocalizedString(@"ERROR_BUTTON_RETRY"), nil];
         
-        
+        completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionBackgroundReload]);
     }
     
     if (alertView != nil) {
         [completionBlocks addObject:@{
                                       @"alert": alertView,
                                       @"block": completionBlock,
-                                      @"reset": @(NO)
                                       }];
         
         [alertView show];
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)alertView:(UIAlertView *)theAlertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSUInteger index = [completionBlocks indexOfObjectPassingTest:^BOOL(NSDictionary<NSString *,id> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return obj[@"alert"] == alertView;
-    }];
+    alertView = nil;
     
+    NSUInteger index = [completionBlocks indexOfObjectPassingTest:^BOOL(NSDictionary<NSString *,id> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        return obj[@"alert"] == theAlertView;
+    }];
     
     HPTTransactionErrorsManagerCompletionBlock block = [completionBlocks objectAtIndex:index][@"block"];
     
-    if (buttonIndex == alertView.cancelButtonIndex) {
-
-        BOOL reset = [[completionBlocks objectAtIndex:index][@"reset"] boolValue];
-
-        if (!reset) {
-            block([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionNone reloadOrder:NO]);
-        } else {
-            block([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionReset reloadOrder:NO]);
-        }
-        
-    } else {
-        block([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionReload reloadOrder:NO]);
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        block([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionFormReload]);
     }
     
     [completionBlocks removeObjectAtIndex:index];
@@ -170,6 +157,11 @@
 - (void)flushHistory
 {
     [history removeAllObjects];
+}
+
+- (void)removeAlerts
+{
+    [alertView dismissWithClickedButtonIndex:alertView.cancelButtonIndex animated:YES];
 }
 
 @end

@@ -74,6 +74,7 @@
 {
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] init];
     NSString *baseURLAndPath = [NSString stringWithFormat:@"%@%@", self.baseURL, path];
+//    URLRequest.timeoutInterval = 3.0;
     
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [URLRequest setValue:[self createAuthHeader] forHTTPHeaderField:@"Authorization"];
@@ -144,11 +145,11 @@
                     NSError *responseError = nil;
                     
                     if (NSLocationInRange(clientResponse.statusCode, (NSRange){400, 499})) {
-                        responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPClientDescription}];
+                        responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPClientDescription, HPTErrorCodeHTTPStatusCodeKey: @(clientResponse.statusCode)}];
                     }
                     
                     else if (NSLocationInRange(clientResponse.statusCode, (NSRange){500, 599})) {
-                        responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription}];
+                        responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription, HPTErrorCodeHTTPStatusCodeKey: @(clientResponse.statusCode)}];
                     }
                     
                     completionBlock(clientResponse, responseError);
@@ -156,7 +157,7 @@
                 
                 // Content not parsable, server error
                 else {
-                    completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSUnderlyingErrorKey: JSONError, NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription, HPTErrorCodeHTTPPlainResponseKey: [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]}]);
+                    completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSUnderlyingErrorKey: JSONError, NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription, HPTErrorCodeHTTPPlainResponseKey: [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], HPTErrorCodeHTTPStatusCodeKey: @([(NSHTTPURLResponse *)response statusCode])}]);
                 }
             }
             
@@ -179,7 +180,7 @@
     NSInteger code = HPTErrorCodeHTTPOther;
     NSString *description = HPTErrorCodeHTTPOtherDescription;
     
-    if (error.domain == NSURLErrorDomain) {
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
         switch (error.code) {
             case NSURLErrorNotConnectedToInternet:
             case NSURLErrorInternationalRoamingOff:

@@ -425,10 +425,7 @@
 {
     OCMockObject *mockedTask = [OCMockObject mockForClass:[NSURLSessionTask class]];
     [[mockedTask expect] cancel];
-    
-    NSURLRequest *originalRequest = [[NSURLRequest alloc] init];
-    NSMutableArray *array = [NSMutableArray array];
-    
+        
     HPTHTTPClientRequest *request = [[HPTHTTPClientRequest alloc] initWithURLSessionTask:((NSURLSessionTask *)mockedTask)];
 
     [request cancel];

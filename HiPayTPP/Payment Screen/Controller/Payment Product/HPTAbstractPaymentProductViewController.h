@@ -30,6 +30,12 @@
 
 - (HPTPaymentProduct *)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController paymentProductForInferredPaymentProductCode:(NSString *)paymentProductCode;
 
+- (void)paymentProductViewControllerNeedsBackgroundOrderReload:(HPTAbstractPaymentProductViewController *)viewController;
+
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController needsBackgroundReloadingOfTransaction:(HPTTransaction *)transaction;
+
+
+
 @end
 
 @interface HPTAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate, HPTPaymentButtonTableViewCellDelegate, HPTForwardViewControllerDelegate>

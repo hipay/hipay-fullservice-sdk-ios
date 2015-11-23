@@ -19,6 +19,8 @@
 
 "ERROR_BODY_DEFAULT" = "Votre demande n'a pu aboutir.";
 
+"ERROR_BODY_NETWORK_UNAVAILABLE" = "Aucune connexion à Internet n'est disponible.";
+
 "ERROR_BUTTON_CANCEL" = "Annuler";
 
 "ERROR_BUTTON_RETRY" = "Réessayer";

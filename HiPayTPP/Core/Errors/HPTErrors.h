@@ -19,10 +19,16 @@ NSString * const HPTErrorCodeHTTPServerDescription;
 
 NSString * const HPTErrorCodeHTTPPlainResponseKey;
 NSString * const HPTErrorCodeHTTPParsedResponseKey;
+NSString * const HPTErrorCodeHTTPStatusCodeKey;
 
 NSString * const HPTErrorCodeAPIMessageKey;
 NSString * const HPTErrorCodeAPICodeKey;
 
+typedef NS_ENUM(NSInteger, HPTHTTPStatus) {
+    
+    HPTHTTPStatusNotFound = 404
+    
+};
 
 typedef NS_ENUM(NSInteger, HPTErrorCode) {
     
@@ -91,7 +97,7 @@ typedef NS_ENUM(NSInteger, HPTErrorAPIReason) {
     HPTErrorAPIInvalidIPAddress = 1010208,
     HPTErrorAPIInvalidEmailAddress = 1010209,
     HPTErrorAPIInvalidSoftDescriptorCodeMessage = 1010301,
-    HPTErrorAPINoRoutetoAcquirer = 1020001,
+    HPTErrorAPINoRouteToAcquirer = 1020001,
     HPTErrorAPIUnsupportedECIDescription = 1020002,
     HPTErrorAPIUnsupported = 1020003,
     
@@ -183,7 +189,6 @@ typedef NS_ENUM(NSInteger, HPTErrorAPIReason) {
     HPTErrorAPIUnauthorisedIPAddressCountry = 4010307,
     HPTErrorAPICardnotInAuthorisersDatabase = 4010309,
 };
-
 
 
 #endif /* HPTErrors_h */

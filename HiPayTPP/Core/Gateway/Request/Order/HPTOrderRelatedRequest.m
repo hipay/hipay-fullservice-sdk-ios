@@ -18,6 +18,8 @@
     if (self) {
         self.language = [[NSLocale currentLocale] localeIdentifier];
         [self defineURLParameters];
+        self.customer = [[HPTCustomerInfoRequest alloc] init];
+        self.shippingAddress = [[HPTPersonalInfoRequest alloc] init];
     }
     return self;
 }

@@ -29,6 +29,8 @@
     HPTOrderRelatedRequest *object = [[HPTOrderRelatedRequest alloc] init];
     
     XCTAssertEqualObjects([object valueForKey:@"operation"], @(HPTOrderRequestOperationUndefined));
+    XCTAssertTrue([object.customer isKindOfClass:[HPTCustomerInfoRequest class]]);
+    XCTAssertTrue([object.shippingAddress isKindOfClass:[HPTPersonalInfoRequest class]]);
 }
 
 - (HPTOrderRelatedRequest *)createOrderRelatedRequest

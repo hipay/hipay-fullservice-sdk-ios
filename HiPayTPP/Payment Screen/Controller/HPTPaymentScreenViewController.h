@@ -24,7 +24,7 @@
 
 @end
 
-@interface HPTPaymentScreenViewController : UIViewController <HPTPaymentProductViewControllerDelegate, UIAlertViewDelegate>
+@interface HPTPaymentScreenViewController : UIViewController <HPTPaymentProductViewControllerDelegate, UIAlertViewDelegate, UINavigationControllerDelegate>
 {
     UINavigationController *embeddedNavigationController;
     
@@ -44,6 +44,6 @@
 @property (nonatomic, readonly) HPTPaymentPageRequest *paymentPageRequest;
 @property (nonatomic, weak) id<HPTPaymentScreenViewControllerDelegate> delegate;
 
-- (void)loadPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest;
++ (instancetype)paymentScreenViewControllerWithRequest:(HPTPaymentPageRequest *)paymentPageRequest;
 
 @end

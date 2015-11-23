@@ -17,6 +17,23 @@
 
 @implementation HPTPaymentScreenViewController
 
+#pragma mark - Init and loading payment products
+
++ (instancetype)paymentScreenViewControllerWithRequest:(HPTPaymentPageRequest *)paymentPageRequest
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPTPaymentScreenViewsBundle()];
+    HPTPaymentScreenViewController *viewController = (HPTPaymentScreenViewController *)[storyboard instantiateInitialViewController];
+    
+    [viewController loadPaymentPageRequest:paymentPageRequest];
+    
+    return viewController;
+}
+
+- (instancetype)init
+{
+    @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"The class %@ should be instantiated using %@ and NOT %@.", self.class, NSStringFromSelector(@selector(paymentScreenViewControllerWithRequest:)), NSStringFromSelector(_cmd)] userInfo:nil];
+}
+
 - (void)loadPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest
 {
     _paymentPageRequest = paymentPageRequest;
@@ -42,11 +59,6 @@
     }];
 }
 
-- (HPTPaymentScreenMainViewController *)mainViewController
-{
-    return embeddedNavigationController.viewControllers.firstObject;
-}
-
 - (void)setPaymentProductsToMainViewController
 {
     HPTPaymentScreenMainViewController *mainViewController = [self mainViewController];
@@ -61,46 +73,18 @@
     }
 }
 
-- (void)cancelPayment
+
+- (HPTPaymentScreenMainViewController *)mainViewController
 {
-    if (!loadingRequest) {
-        [self doCancelPayment];
-    }
-    
-    else {
-        warningCancelWhileLoadingAlertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_TITLE") message:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_BODY") delegate:self cancelButtonTitle:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_NO") otherButtonTitles:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_YES"), nil];
-        
-        [warningCancelWhileLoadingAlertView show];
-    }
+    return embeddedNavigationController.viewControllers.firstObject;
 }
 
-- (void)doCancelPayment
-{
-    [paymentProductsRequest cancel];
-    [self cancelActivity];
-    
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
-    if ([self.delegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
-        [self.delegate paymentScreenViewControllerDidCancel:self];
-    }
-}
-
-- (void)cancelActivity
-{
-    [[self mainViewController] cancelRequests];
-    [self cancelBackgroundReload];
-    [[HPTTransactionErrorsManager sharedManager] removeAlerts];
-}
+#pragma mark - View related methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -125,11 +109,50 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"contained_controller"]) {
-        
         embeddedNavigationController = segue.destinationViewController;
-        
+        embeddedNavigationController.delegate = self;
+    }
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if ([viewController isKindOfClass:[HPTPaymentScreenMainViewController class]]) {
         [self setPaymentProductsToMainViewController];
     }
+}
+
+#pragma mark - Cancelling
+
+- (void)cancelPayment
+{
+    if (!loadingRequest) {
+        [self doCancelPayment];
+    }
+    
+    else {
+        warningCancelWhileLoadingAlertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_TITLE") message:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_BODY") delegate:self cancelButtonTitle:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_NO") otherButtonTitles:HPTLocalizedString(@"ALERT_TRANSACTION_LOADING_YES"), nil];
+        
+        [warningCancelWhileLoadingAlertView show];
+    }
+}
+
+- (void)doCancelPayment
+{
+    [paymentProductsRequest cancel];
+    [self cancelActivity];
+    
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    if ([self.delegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
+        [self.delegate paymentScreenViewControllerDidCancel:self];
+    }
+}
+
+- (void)cancelActivity
+{
+    [[self mainViewController] cancelRequests];
+    [self cancelBackgroundReload];
+    [[HPTTransactionErrorsManager sharedManager] removeAlerts];
 }
 
 #pragma mark - Alert view
@@ -155,11 +178,21 @@
     }
 }
 
-#pragma mark - Payment product view controller delegate
+#pragma mark - Ending payment
 
-- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didEndWithTransaction:(HPTTransaction *)transaction
+- (void)endWithError:(NSError *)error
 {
-    [self endWithTransaction:transaction];
+    [warningCancelWhileLoadingAlertView dismissWithClickedButtonIndex:warningCancelWhileLoadingAlertView.cancelButtonIndex animated:YES];
+    
+    [self cancelActivity];
+    
+    if ([self.delegate respondsToSelector:@selector(paymentScreenViewController:didFailWithError:)]) {
+        [self.delegate paymentScreenViewController:self didFailWithError:error];
+    }
+    
+    if ([self isModal]) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)endWithTransaction:(HPTTransaction *)transaction
@@ -177,24 +210,16 @@
     }
 }
 
+#pragma mark - Payment product view controller delegate
+
+- (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didEndWithTransaction:(HPTTransaction *)transaction
+{
+    [self endWithTransaction:transaction];
+}
+
 - (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController didFailWithError:(NSError *)error
 {
     [self endWithError:error];
-}
-
-- (void)endWithError:(NSError *)error
-{
-    [warningCancelWhileLoadingAlertView dismissWithClickedButtonIndex:warningCancelWhileLoadingAlertView.cancelButtonIndex animated:YES];
-    
-    [self cancelActivity];
-    
-    if ([self.delegate respondsToSelector:@selector(paymentScreenViewController:didFailWithError:)]) {
-        [self.delegate paymentScreenViewController:self didFailWithError:error];
-    }
-    
-    if ([self isModal]) {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    }
 }
 
 - (void)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController isLoading:(BOOL)isLoading

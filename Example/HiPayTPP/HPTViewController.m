@@ -40,30 +40,26 @@
 
 - (void)test
 {
-    HPTPaymentPageRequest *order = [[HPTPaymentPageRequest alloc] init];
+    HPTPaymentPageRequest *paymentPageRequest = [[HPTPaymentPageRequest alloc] init];
     
-    order.amount = @(25.50);
-    order.currency = @"EUR";
-    order.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%f", [NSDate date].timeIntervalSince1970];
-    order.shortDescription = @"Une paire de chaussures";
-    order.customer = [[HPTCustomerInfoRequest alloc] init];
-    order.customer.email = [NSString stringWithFormat:@"jtiret+%f@hipay.com", [NSDate date].timeIntervalSince1970];
-    order.customer.country = @"FR";
-    order.customer.firstname = @"Jonathan";
-    order.customer.lastname = @"Tiret";
-    order.authenticationIndicator = HPTAuthenticationIndicatorIfAvailable;
+    paymentPageRequest.amount = @(25.50);
+    paymentPageRequest.currency = @"EUR";
+    paymentPageRequest.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%f", [NSDate date].timeIntervalSince1970];
+    paymentPageRequest.shortDescription = @"Une paire de chaussures";
+    paymentPageRequest.customer.email = [NSString stringWithFormat:@"jtiret+%f@hipay.com", [NSDate date].timeIntervalSince1970];
+    paymentPageRequest.customer.country = @"FR";
+    paymentPageRequest.customer.firstname = @"Jonathan";
+    paymentPageRequest.customer.lastname = @"Tiret";
+    paymentPageRequest.authenticationIndicator = HPTAuthenticationIndicatorIfAvailable;
     
-    NSLog(@"ORDERID : %@", order.orderId);
+    NSLog(@"ORDERID : %@", paymentPageRequest.orderId);
+
+    HPTPaymentScreenViewController *paymentScreen = [HPTPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest];
     
-    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPTPaymentScreenViewsBundle()];
-    HPTPaymentScreenViewController* vc = (HPTPaymentScreenViewController *)[sb instantiateInitialViewController];
+    paymentScreen.delegate = self;
     
-    vc.delegate = self;
+    [self presentViewController:paymentScreen animated:YES completion:nil];
     
-    
-    [vc loadPaymentPageRequest:order];
-    
-    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)paymentScreenViewController:(HPTPaymentScreenViewController *)viewController didEndWithTransaction:(HPTTransaction *)transaction

@@ -26,16 +26,9 @@
 
 #pragma mark - Miscellaneous
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    self.title = HPTLocalizedString(@"PAYMENT_SCREEN_TITLE");
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
     
     paymentProductViewControllers = @{
                                       HPTPaymentProductCodeVisa: HPTTokenizableCardPaymentProductViewController.class,
@@ -59,6 +52,19 @@
                                       HPTPaymentProductCodeBankTransfer: HPTForwardPaymentProductViewController.class,
                                       HPTPaymentProductCodePaysafecard: HPTForwardPaymentProductViewController.class,
                                       };
+    
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.title = HPTLocalizedString(@"PAYMENT_SCREEN_TITLE");
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
 }
 

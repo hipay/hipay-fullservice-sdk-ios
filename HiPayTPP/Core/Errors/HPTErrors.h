@@ -35,13 +35,13 @@ typedef NS_ENUM(NSInteger, HPTErrorCode) {
     // Unknown network/HTTP error
     HPTErrorCodeHTTPOther,
     
-    // Network is unavailable, the request did not reach the server
+    // Network is unavailable
     HPTErrorCodeHTTPNetworkUnavailable,
     
     // Config error (such as SSL, bad URL, etc.)
     HPTErrorCodeHTTPConfig,
     
-    // The connection has been interupted, the data possibly reached the server
+    // The connection has been interupted
     HPTErrorCodeHTTPConnectionFailed,
     
     // HTTP client error (400)

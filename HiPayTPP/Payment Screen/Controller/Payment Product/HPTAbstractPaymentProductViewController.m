@@ -13,7 +13,7 @@
 #import "HPTLabelTableViewCell.h"
 #import "HPTPaymentScreenUtils.h"
 #import "HPTForwardViewController.h"
-#import "HPTTransactionErrorsManager.h"
+#import "HPTTransactionRequestResponseManager.h"
 
 @interface HPTAbstractPaymentProductViewController ()
 
@@ -250,7 +250,7 @@
 
 - (void)checkTransactionStatus:(HPTTransaction *)theTransaction
 {
-    [[HPTTransactionErrorsManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPTTransactionErrorResult *result) {
+    [[HPTTransactionRequestResponseManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPTTransactionErrorResult *result) {
         
         if(result.formAction == HPTFormActionQuit) {
             [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
@@ -263,7 +263,7 @@
 
 - (void)checkTransactionError:(NSError *)transactionError
 {
-    [[HPTTransactionErrorsManager sharedManager] manageError:transactionError withCompletionHandler:^(HPTTransactionErrorResult *result) {
+    [[HPTTransactionRequestResponseManager sharedManager] manageError:transactionError withCompletionHandler:^(HPTTransactionErrorResult *result) {
        
         if(result.formAction == HPTFormActionQuit) {
             [self.delegate paymentProductViewController:self didFailWithError:transactionError];

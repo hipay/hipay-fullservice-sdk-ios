@@ -9,7 +9,7 @@
 #import "HPTPaymentScreenViewController.h"
 #import "HPTPaymentScreenMainViewController.h"
 #import "HPTPaymentScreenUtils.h"
-#import "HPTTransactionErrorsManager.h"
+#import "HPTTransactionRequestResponseManager.h"
 
 @interface HPTPaymentScreenViewController ()
 
@@ -40,7 +40,7 @@
     
     [self mainViewController].loading = YES;
     
-    [[HPTTransactionErrorsManager sharedManager] flushHistory];
+    [[HPTTransactionRequestResponseManager sharedManager] flushHistory];
     
     paymentProductsRequest = [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
 
@@ -152,7 +152,7 @@
 {
     [[self mainViewController] cancelRequests];
     [self cancelBackgroundReload];
-    [[HPTTransactionErrorsManager sharedManager] removeAlerts];
+    [[HPTTransactionRequestResponseManager sharedManager] removeAlerts];
 }
 
 #pragma mark - Alert view

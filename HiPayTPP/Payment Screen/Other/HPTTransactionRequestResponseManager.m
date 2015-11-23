@@ -6,27 +6,12 @@
 //
 //
 
-#import "HPTTransactionErrorsManager.h"
+#import "HPTTransactionRequestResponseManager.h"
 #import "HPTErrors.h"
 #import "HPTGatewayClient.h"
 #import "HPTPaymentScreenUtils.h"
 
-@interface NSError (HPTTransactionErrorsManager)
-
-@property (nonatomic, readonly) NSError *underlyingError;
-
-@end
-
-@implementation NSError (HPTTransactionErrorsManager)
-
-- (NSError *)underlyingError
-{
-    return self.userInfo[NSUnderlyingErrorKey];
-}
-
-@end
-
-@implementation HPTTransactionErrorsManager
+@implementation HPTTransactionRequestResponseManager
 
 + (instancetype)sharedManager
 {

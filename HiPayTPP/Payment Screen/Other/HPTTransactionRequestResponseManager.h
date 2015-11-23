@@ -12,7 +12,7 @@
 
 typedef void (^HPTTransactionErrorsManagerCompletionBlock)(HPTTransactionErrorResult *result);
 
-@interface HPTTransactionErrorsManager : NSObject <UIAlertViewDelegate>
+@interface HPTTransactionRequestResponseManager : NSObject <UIAlertViewDelegate>
 {
     NSMutableArray *history;
     NSMutableArray <NSDictionary <NSString *, id> *> *completionBlocks;

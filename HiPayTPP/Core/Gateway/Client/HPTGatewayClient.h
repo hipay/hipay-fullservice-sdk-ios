@@ -17,6 +17,7 @@
 
 #import "HPTPaymentPageRequest.h"
 #import "HPTOrderRequest.h"
+#import "HPTPaymentProduct.h"
 
 #define HPTGatewayClientBaseURLStage        @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/"
 #define HPTGatewayClientBaseURLProduction   @"https://secure-gateway.hipay-tpp.com/rest/v1/"
@@ -28,8 +29,8 @@ extern NSString *const HPTGatewayClientDidRedirectWithMappingErrorNotification;
 typedef void (^HPTHostedPaymentPageCompletionBlock)(HPTHostedPaymentPage *hostedPaymentPage, NSError *error);
 typedef void (^HPTOperationCompletionBlock)(HPTOperation *operation, NSError *error);
 typedef void (^HPTTransactionCompletionBlock)(HPTTransaction *transaction, NSError *error);
-typedef void (^HPTTransactionsCompletionBlock)(NSArray *transactions, NSError *error);
-typedef void (^HPTPaymentProductsCompletionBlock)(NSArray *paymentProducts, NSError *error);
+typedef void (^HPTTransactionsCompletionBlock)(NSArray <HPTTransaction *> *transactions, NSError *error);
+typedef void (^HPTPaymentProductsCompletionBlock)(NSArray <HPTPaymentProduct *> *paymentProducts, NSError *error);
 
 @interface HPTGatewayClient : HPTAbstractClient
 {

@@ -14,6 +14,7 @@
     UIImage *baseImage;
     UIImage *selectedImage;
     UIColor *cellColor;
+    UIColor *defaultTintColor;
 }
 
 @property (nonatomic, readonly) NSString *paymentProduct;

@@ -18,43 +18,38 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
     self = [super initWithFrame:CGRectZero];
     if (self) {
         _paymentProduct = paymentProduct.code;
-
-        NSDictionary *matrixInfo = [[self paymentProductMatrix] objectForKey:paymentProduct.code];
+        defaultTintColor = self.tintColor;
         
-        if ((matrixInfo == nil) && ([paymentProduct.code hasPrefix:@"dcb-"])) {
-            matrixInfo = @{@"y": @(5), @"x": @(5)};
+        if (paymentProduct.groupedPaymentProductCodes == nil) {
+        
+            NSDictionary *matrixInfo = [[self paymentProductMatrix] objectForKey:paymentProduct.code];
+            
+            if ((matrixInfo == nil) && ([paymentProduct.code hasPrefix:@"dcb-"])) {
+                matrixInfo = @{@"y": @(5), @"x": @(5)};
+            }
+            
+            if (matrixInfo != nil) {
+                [self setupBasicPaymentProductWithInfo:matrixInfo];
+            }
+            
+            // No image for this payment product
+            else {
+                [self setTitle:paymentProduct.paymentProductDescription forState:UIControlStateNormal];
+                self.titleLabel.numberOfLines = 3;
+                self.titleEdgeInsets = UIEdgeInsetsMake(4.0, 5.0, 4.0, 5.0);
+                self.titleLabel.font = [UIFont systemFontOfSize:18.0];
+                self.titleLabel.minimumScaleFactor = 0.7;
+                self.titleLabel.textAlignment = NSTextAlignmentCenter;
+                self.titleLabel.adjustsFontSizeToFitWidth = YES;
+                
+                [self setTitleColor:[UIColor colorWithRed:0.45 green:0.45 blue:0.45 alpha:1.0] forState:UIControlStateNormal];
+                [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+                [self setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+            }
         }
         
-        if (matrixInfo != nil) {
-            
-            UIImage *spriteImage = [UIImage imageNamed:@"payment_product_sprites" inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
-            
-            UIImage *graySpriteImage = [UIImage imageNamed:@"payment_product_sprites_gray" inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
-            
-            baseImage = [self cropImage:graySpriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100.0, [matrixInfo[@"y"] floatValue] * 60.0, 100.0, 60.0)];
-            
-            selectedImage = [self cropImage:spriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100.0, [matrixInfo[@"y"] floatValue] * 60.0, 100.0, 60.0)];
-            
-            [self setImage:baseImage forState:UIControlStateNormal];
-            [self setImage:selectedImage forState:UIControlStateHighlighted];
-            [self setImage:selectedImage forState:UIControlStateSelected];
-            
-            self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        }
-        
-        // No image for this payment product
         else {
-            [self setTitle:paymentProduct.paymentProductDescription forState:UIControlStateNormal];
-            self.titleLabel.numberOfLines = 3;
-            self.titleEdgeInsets = UIEdgeInsetsMake(4.0, 5.0, 4.0, 5.0);
-            self.titleLabel.font = [UIFont systemFontOfSize:18.0];
-            self.titleLabel.minimumScaleFactor = 0.7;
-            self.titleLabel.textAlignment = NSTextAlignmentCenter;
-            self.titleLabel.adjustsFontSizeToFitWidth = YES;
-            
-            [self setTitleColor:[UIColor colorWithRed:0.45 green:0.45 blue:0.45 alpha:1.0] forState:UIControlStateNormal];
-            [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-            [self setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+            [self setupGroupPaymentProduct];
         }
         
         self.layer.borderWidth = 1.0;
@@ -71,6 +66,35 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
        
     }
     return self;
+}
+
+- (void)setupGroupPaymentProduct
+{
+    baseImage = [[UIImage imageNamed:@"payment_card" inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    [self setupImages];
+}
+
+- (void)setupImages
+{
+    [self setImage:baseImage forState:UIControlStateNormal];
+    [self setImage:selectedImage forState:UIControlStateHighlighted];
+    [self setImage:selectedImage forState:UIControlStateSelected];
+    
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+}
+
+- (void)setupBasicPaymentProductWithInfo:(NSDictionary *)matrixInfo
+{
+    UIImage *spriteImage = [UIImage imageNamed:@"payment_product_sprites" inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
+    
+    UIImage *graySpriteImage = [UIImage imageNamed:@"payment_product_sprites_gray" inBundle:HPTPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
+    
+    baseImage = [self cropImage:graySpriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100.0, [matrixInfo[@"y"] floatValue] * 60.0, 100.0, 60.0)];
+    
+    selectedImage = [self cropImage:spriteImage withRect:CGRectMake([matrixInfo[@"x"] floatValue] * 100.0, [matrixInfo[@"y"] floatValue] * 60.0, 100.0, 60.0)];
+    
+    [self setupImages];
 }
 
 - (void)layoutSubviews
@@ -105,10 +129,12 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
         self.layer.borderColor = [UIColor colorWithRed:0.86 green:0.86 blue:0.88 alpha:1.0].CGColor;
         self.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.0];
         self.imageView.alpha = 0.6;
+        self.tintColor = [UIColor lightGrayColor];
     } else {
         self.layer.borderColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1.0].CGColor;
         self.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1.0];
         self.imageView.alpha = 1.0;
+        self.tintColor = defaultTintColor;
     }
 }
 

@@ -1,5 +1,5 @@
 
-"PAY_WITH_THIS_METHOD" = "Payer avec %@";
+"PAY_WITH_THIS_METHOD" = "Payer par %@";
 
 "PAYMENT_REDIRECTION_DETAILS" = "Vous allez être redirigé afin de pouvoir procéder au paiement.";
 
@@ -78,6 +78,8 @@
 "FORWARD_VIEW_BACK" = "Retour";
 
 "FORWARD_VIEW_FORWARD" = "Suivant";
+
+"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD" = "Carte";
 
 /* iDeal */
 

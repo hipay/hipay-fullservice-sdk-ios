@@ -23,7 +23,7 @@ NSString *const HPTPaymentPageRequestTemplateNameFrame = @"iframe-js";
         _multiUse = NO;
         _displaySelector = NO;
         _paymentCardGroupingEnabled = YES;
-        _groupedPaymentCardProductCodes = [NSMutableSet setWithObjects:HPTPaymentProductCodeCB, HPTPaymentProductCodeMasterCard, HPTPaymentProductCodeVisa, HPTPaymentProductCodeAmericanExpress, HPTPaymentProductCodeMaestro, nil];
+        _groupedPaymentCardProductCodes = [NSMutableSet setWithObjects:HPTPaymentProductCodeCB, HPTPaymentProductCodeMasterCard, HPTPaymentProductCodeVisa, HPTPaymentProductCodeAmericanExpress, HPTPaymentProductCodeMaestro, HPTPaymentProductCodeDiners, nil];
     }
     return self;
 }

@@ -53,7 +53,7 @@
 {
     HPTPaymentPageRequest *result = [[HPTPaymentPageRequest alloc] init];
     
-    NSSet *groupedCardPaymentProductCodes = [NSSet setWithObjects:HPTPaymentProductCodeMasterCard, HPTPaymentProductCodeVisa, HPTPaymentProductCodeCB, HPTPaymentProductCodeMaestro, HPTPaymentProductCodeAmericanExpress, nil];
+    NSSet *groupedCardPaymentProductCodes = [NSSet setWithObjects:HPTPaymentProductCodeMasterCard, HPTPaymentProductCodeVisa, HPTPaymentProductCodeCB, HPTPaymentProductCodeMaestro, HPTPaymentProductCodeAmericanExpress, HPTPaymentProductCodeDiners, nil];
     
     XCTAssertEqual(result.eci, HPTECIUndefined);
     XCTAssertEqual(result.authenticationIndicator, HPTAuthenticationIndicatorUndefined);

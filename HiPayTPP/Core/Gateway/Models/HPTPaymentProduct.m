@@ -7,6 +7,7 @@
 //
 
 #import "HPTPaymentProduct.h"
+#import "HPTPaymentScreenUtils.h"
 
 NSString *const HPTPaymentProductCode3xcb                   = @"3xcb";
 NSString *const HPTPaymentProductCode3xcbNoFees             = @"3xcb-no-fees";
@@ -72,6 +73,10 @@ NSString *const HPTPaymentProductCodeDCBSingaporeSingtel    = @"dcb-sg-singtel";
 NSString *const HPTPaymentProductCodeDCBSwissEasyPay        = @"dcb-ch-easypay";
 NSString *const HPTPaymentProductCodeDCBItalyMobilePay      = @"dcb-it-mobilepay";
 
+NSString *const HPTPaymentProductCategoryCodeCreditCard = @"credit-card";
+NSString *const HPTPaymentProductCategoryCodeDebitCard = @"debit-card";
+NSString *const HPTPaymentProductCategoryCodeRealtimeBanking = @"realtime-banking";
+NSString *const HPTPaymentProductCategoryCodeEWallet = @"ewallet";
 
 @implementation HPTPaymentProduct
 
@@ -103,6 +108,31 @@ NSString *const HPTPaymentProductCodeDCBItalyMobilePay      = @"dcb-it-mobilepay
     }
     
     return NO;
+}
+
+- (instancetype)initWithGroupedProducts:(NSSet <NSString *> *)paymentProducts
+{
+    self = [super init];
+    if (self) {
+        _groupedPaymentProductCodes = paymentProducts;
+        _paymentProductDescription = HPTLocalizedString(@"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD");
+        _paymentProductCategoryCode = HPTPaymentProductCategoryCodeCreditCard;
+    }
+    return self;
+}
+
+- (BOOL)isEqualToPaymentProduct:(HPTPaymentProduct *)object
+{
+    if (![object isKindOfClass:[HPTPaymentProduct class]]) {
+        return NO;
+    }
+    
+    return [self.code isEqual:object.code];
+}
+
+- (BOOL)isEqual:(id)object
+{
+    return [self isEqualToPaymentProduct:object];
 }
 
 @end

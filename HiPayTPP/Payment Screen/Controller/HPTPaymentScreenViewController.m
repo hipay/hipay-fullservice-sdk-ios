@@ -24,7 +24,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPTPaymentScreenViewsBundle()];
     HPTPaymentScreenViewController *viewController = (HPTPaymentScreenViewController *)[storyboard instantiateInitialViewController];
     
-    [viewController loadPaymentPageRequest:paymentPageRequest];
+    [viewController loadPaymentProducts:paymentPageRequest];
     
     return viewController;
 }
@@ -34,7 +34,7 @@
     @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"The class %@ should be instantiated using %@ and NOT %@.", self.class, NSStringFromSelector(@selector(paymentScreenViewControllerWithRequest:)), NSStringFromSelector(_cmd)] userInfo:nil];
 }
 
-- (void)loadPaymentPageRequest:(HPTPaymentPageRequest *)paymentPageRequest
+- (void)loadPaymentProducts:(HPTPaymentPageRequest *)paymentPageRequest
 {
     _paymentPageRequest = paymentPageRequest;
     
@@ -48,7 +48,7 @@
         paymentProductsRequest = nil;
         
         if (error == nil) {
-            paymentProducts = thePaymentProducts;
+            paymentProducts = [self fullPaymentProductsListWithPaymentProducts:thePaymentProducts andRequest:paymentPageRequest];
             
             [self setPaymentProductsToMainViewController];
         }
@@ -57,6 +57,35 @@
             [[[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPTLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_CANCEL") otherButtonTitles:HPTLocalizedString(@"ERROR_BUTTON_RETRY"), nil] show];
         }
     }];
+}
+
+- (NSArray *)fullPaymentProductsListWithPaymentProducts:(NSArray <HPTPaymentProduct *> *)thePaymentProducts andRequest:(HPTPaymentPageRequest *)paymentPageRequest
+{
+    if (paymentPageRequest.paymentCardGroupingEnabled) {
+        
+        NSSet *groupedPaymentCardProductCodes = [paymentPageRequest.groupedPaymentCardProductCodes objectsPassingTest:^BOOL(NSString * _Nonnull code, BOOL * _Nonnull stop) {
+            
+            return [thePaymentProducts indexOfObjectPassingTest:^BOOL(HPTPaymentProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                return [obj.code isEqual:code];
+            }] != NSNotFound;
+        }];
+        
+        if (groupedPaymentCardProductCodes.count > 0) {
+            NSMutableArray *newPaymentProducts = [NSMutableArray arrayWithArray:thePaymentProducts];
+            
+            NSIndexSet *groupedProductsToRemoveIndexes = [newPaymentProducts indexesOfObjectsPassingTest:^BOOL(HPTPaymentProduct *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                return [groupedPaymentCardProductCodes containsObject:obj.code];
+            }];
+            
+            [newPaymentProducts removeObjectsAtIndexes:groupedProductsToRemoveIndexes];
+            
+            [newPaymentProducts insertObject:[[HPTPaymentProduct alloc] initWithGroupedProducts:groupedPaymentCardProductCodes] atIndex:groupedProductsToRemoveIndexes.firstIndex];
+            
+            return newPaymentProducts;
+        }
+    }
+    
+    return thePaymentProducts;
 }
 
 - (void)setPaymentProductsToMainViewController
@@ -173,7 +202,7 @@
         }
         
         else {
-            [self loadPaymentPageRequest:self.paymentPageRequest];
+            [self loadPaymentProducts:self.paymentPageRequest];
         }
     }
 }
@@ -240,7 +269,7 @@
 - (HPTPaymentProduct *)paymentProductViewController:(HPTAbstractPaymentProductViewController *)viewController paymentProductForInferredPaymentProductCode:(NSString *)paymentProductCode
 {
     NSUInteger index = [paymentProducts indexOfObjectPassingTest:^BOOL(HPTPaymentProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return [obj.code isEqualToString:paymentProductCode];
+        return [obj.code isEqualToString:paymentProductCode] || [obj.groupedPaymentProductCodes containsObject:paymentProductCode];
     }];
     
     if (index != NSNotFound) {

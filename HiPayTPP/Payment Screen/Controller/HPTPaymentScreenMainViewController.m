@@ -241,6 +241,11 @@
         }
         
         Class paymentProductViewControllerClass = paymentProductViewControllers[paymentProduct.code];
+
+        // Grouped payment cards
+        if (paymentProduct.groupedPaymentProductCodes != nil) {
+            paymentProductViewControllerClass = [HPTTokenizableCardPaymentProductViewController class];
+        }
         
         // Supported payment product with specific view controller
         if (paymentProductViewControllerClass != nil) {
@@ -333,15 +338,16 @@
 {
     if (indexPath != nil) {
         
-        CGPoint currentContentOffset = paymentProductsCollectionView.contentOffset;
-        [paymentProductsCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-        CGPoint proposedOffset = paymentProductsCollectionView.contentOffset;
-        paymentProductsCollectionView.contentOffset = currentContentOffset;
-
-        CGPoint offset = [paymentProductsCollectionView.collectionViewLayout targetContentOffsetForProposedContentOffset:proposedOffset withScrollingVelocity:CGPointMake(0., 0.)];
-        
-        [paymentProductsCollectionView setContentOffset:offset animated:animated];
-        
+        if (paymentProductsCollectionView.contentSize.width > paymentProductsCollectionView.bounds.size.width) {
+            CGPoint currentContentOffset = paymentProductsCollectionView.contentOffset;
+            [paymentProductsCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+            CGPoint proposedOffset = paymentProductsCollectionView.contentOffset;
+            paymentProductsCollectionView.contentOffset = currentContentOffset;
+            
+            CGPoint offset = [paymentProductsCollectionView.collectionViewLayout targetContentOffsetForProposedContentOffset:proposedOffset withScrollingVelocity:CGPointMake(0., 0.)];
+            
+            [paymentProductsCollectionView setContentOffset:offset animated:animated];
+        }
     }
 }
 

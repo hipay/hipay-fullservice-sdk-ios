@@ -49,13 +49,6 @@
       "tokenizable":false
    },
    {
-      "id":"1PGRUI97",
-      "code":"webmoney-transfer",
-      "description":"WebMoney Transfer",
-      "paymentProductCategoryCode":"ewallet",
-      "tokenizable":false
-   },
-   {
       "id":"339KCZTQ",
       "code":"maestro",
       "description":"Maestro",

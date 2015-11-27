@@ -88,6 +88,11 @@ extern NSString *const HPTPaymentProductCodeDCBSingaporeSingtel;
 extern NSString *const HPTPaymentProductCodeDCBSwissEasyPay;
 extern NSString *const HPTPaymentProductCodeDCBItalyMobilePay;
 
+extern NSString *const HPTPaymentProductCategoryCodeCreditCard;
+extern NSString *const HPTPaymentProductCategoryCodeDebitCard;
+extern NSString *const HPTPaymentProductCategoryCodeRealtimeBanking;
+extern NSString *const HPTPaymentProductCategoryCodeEWallet;
+
 @interface HPTPaymentProduct : NSObject
 
 @property (nonatomic, readonly) NSString *code;
@@ -95,9 +100,12 @@ extern NSString *const HPTPaymentProductCodeDCBItalyMobilePay;
 @property (nonatomic, readonly) NSString *paymentProductDescription;
 @property (nonatomic, readonly) NSString *paymentProductCategoryCode;
 @property (nonatomic, readonly) BOOL tokenizable;
+@property (nonatomic, readonly) NSSet <NSString *> *groupedPaymentProductCodes;
 
 + (HPTSecurityCodeType)securityCodeTypeForPaymentProductCode:(NSString *)paymentProductCode;
 
 + (BOOL)isPaymentProductCode:(NSString *)domesticPaymentProductCode domesticNetworkOfPaymentProductCode:(NSString *)paymentProductCode;
+
+- (instancetype)initWithGroupedProducts:(NSSet <NSString *> *)paymentProducts;
 
 @end

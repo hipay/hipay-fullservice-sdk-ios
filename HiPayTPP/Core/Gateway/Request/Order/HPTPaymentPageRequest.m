@@ -7,6 +7,7 @@
 //
 
 #import "HPTPaymentPageRequest.h"
+#import "HPTPaymentProduct.h"
 
 NSString *const HPTPaymentPageRequestTemplateNameBasic = @"basic-js";
 NSString *const HPTPaymentPageRequestTemplateNameFrame = @"iframe-js";
@@ -21,6 +22,8 @@ NSString *const HPTPaymentPageRequestTemplateNameFrame = @"iframe-js";
         _eci = HPTECIUndefined;
         _multiUse = NO;
         _displaySelector = NO;
+        _paymentCardGroupingEnabled = YES;
+        _groupedPaymentCardProductCodes = [NSMutableSet setWithObjects:HPTPaymentProductCodeCB, HPTPaymentProductCodeMasterCard, HPTPaymentProductCodeVisa, HPTPaymentProductCodeAmericanExpress, HPTPaymentProductCodeMaestro, nil];
     }
     return self;
 }

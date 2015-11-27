@@ -13,6 +13,6 @@
 
 @interface HPTCardNumberTextField : HPTFormattedTextField
 
-@property (nonatomic, readonly) NSArray *paymentProductCodes;
+@property (nonatomic, readonly) NSSet *paymentProductCodes;
 
 @end

@@ -70,11 +70,11 @@ HPTCardNumberFormatter *HPTCardNumberFormatterSharedInstance = nil;
     return indexSet;
 }
 
-- (NSArray *)paymentProductCodesForPlainTextNumber:(NSString *)plainTextNumber
+- (NSSet *)paymentProductCodesForPlainTextNumber:(NSString *)plainTextNumber
 {
     NSString *digits = [self digitsOnlyFromPlainText:plainTextNumber];
     
-    NSMutableArray *result = [NSMutableArray array];
+    NSMutableSet *result = [NSMutableSet set];
     
     for (NSString *paymentProductCode in paymentProductsInfo.allKeys) {
         

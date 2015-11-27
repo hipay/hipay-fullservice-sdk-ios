@@ -85,25 +85,25 @@
     
     [[[mockedFormatter expect] andReturn:@"3"] digitsOnlyFromPlainText:@"dinersOrAmex"];
     
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa1"], @[HPTPaymentProductCodeVisa]);
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa2"], @[HPTPaymentProductCodeVisa]);
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa3"], @[HPTPaymentProductCodeVisa]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa1"], [NSSet setWithObject:HPTPaymentProductCodeVisa]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa2"], [NSSet setWithObject:HPTPaymentProductCodeVisa]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"visa3"], [NSSet setWithObject:HPTPaymentProductCodeVisa]);
     
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"mastercard1"], @[HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"mastercard2"], @[HPTPaymentProductCodeMasterCard]);
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"mastercard3"], @[HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"mastercard1"], [NSSet setWithObject:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"mastercard2"], [NSSet setWithObject:HPTPaymentProductCodeMasterCard]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"mastercard3"], [NSSet setWithObject:HPTPaymentProductCodeMasterCard]);
     
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"maestro1"], @[HPTPaymentProductCodeMaestro]);
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"maestro2"], @[HPTPaymentProductCodeMaestro]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"maestro1"], [NSSet setWithObject:HPTPaymentProductCodeMaestro]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"maestro2"], [NSSet setWithObject:HPTPaymentProductCodeMaestro]);
     
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"amex1"], @[HPTPaymentProductCodeAmericanExpress]);
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"amex2"], @[HPTPaymentProductCodeAmericanExpress]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"amex1"], [NSSet setWithObject:HPTPaymentProductCodeAmericanExpress]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"amex2"], [NSSet setWithObject:HPTPaymentProductCodeAmericanExpress]);
     
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"diners1"], @[HPTPaymentProductCodeDiners]);
-    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"diners2"], @[HPTPaymentProductCodeDiners]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"diners1"], [NSSet setWithObject:HPTPaymentProductCodeDiners]);
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"diners2"], [NSSet setWithObject:HPTPaymentProductCodeDiners]);
     
-    NSArray *result = [@[HPTPaymentProductCodeDiners, HPTPaymentProductCodeAmericanExpress] sortedArrayUsingSelector:@selector(compare:)];
-    XCTAssertEqualObjects([[formatter paymentProductCodesForPlainTextNumber:@"dinersOrAmex"] sortedArrayUsingSelector:@selector(compare:)], result);
+    NSSet *result = [NSSet setWithObjects:HPTPaymentProductCodeDiners, HPTPaymentProductCodeAmericanExpress, nil];
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"dinersOrAmex"], result);
     
     [mockedFormatter verify];
 }
@@ -144,7 +144,7 @@
     [[[mockedFormatter expect] andReturn:digits] digitsOnlyFromPlainText:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@YES] luhnCheck:digits];
-    [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:[NSSet setWithObject:HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
     
     XCTAssertTrue([formatter plainTextNumber:@"number" isValidForPaymentProductCode:HPTPaymentProductCodeVisa]);
     
@@ -154,7 +154,7 @@
     [[[mockedFormatter expect] andReturn:digits] digitsOnlyFromPlainText:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@YES] luhnCheck:digits];
-    [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeMasterCard]] paymentProductCodesForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:[NSSet setWithObject:HPTPaymentProductCodeMasterCard]] paymentProductCodesForPlainTextNumber:@"number"];
     
     XCTAssertFalse([formatter plainTextNumber:@"number" isValidForPaymentProductCode:HPTPaymentProductCodeVisa]);
     
@@ -165,7 +165,7 @@
     [[[mockedFormatter expect] andReturn:digits] digitsOnlyFromPlainText:@"number"];
     [[[mockedFormatter expect] andReturnValue:@NO] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@YES] luhnCheck:digits];
-    [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:[NSSet setWithObject:HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
     
     XCTAssertFalse([formatter plainTextNumber:@"number" isValidForPaymentProductCode:HPTPaymentProductCodeVisa]);
     
@@ -174,7 +174,7 @@
     [[[mockedFormatter expect] andReturn:digits] digitsOnlyFromPlainText:@"number"];
     [[[mockedFormatter expect] andReturnValue:@YES] plainTextNumber:@"number" hasValidLengthForPaymentProductCode:HPTPaymentProductCodeVisa];
     [[[mockedFormatter expect] andReturnValue:@NO] luhnCheck:digits];
-    [[[mockedFormatter expect] andReturn:@[HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
+    [[[mockedFormatter expect] andReturn:[NSSet setWithObject:HPTPaymentProductCodeVisa]] paymentProductCodesForPlainTextNumber:@"number"];
     
     XCTAssertFalse([formatter plainTextNumber:@"number" isValidForPaymentProductCode:HPTPaymentProductCodeVisa]);
     

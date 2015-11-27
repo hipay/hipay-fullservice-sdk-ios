@@ -16,7 +16,7 @@
 
 + (instancetype)sharedFormatter;
 
-- (NSArray *)paymentProductCodesForPlainTextNumber:(NSString *)plainTextNumber;
+- (NSSet *)paymentProductCodesForPlainTextNumber:(NSString *)plainTextNumber;
 
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber isInRangeForPaymentProductCode:(NSString *)paymentProductCode;
 

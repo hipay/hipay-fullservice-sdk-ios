@@ -17,7 +17,7 @@
     NSInteger offset = [self offsetFromPosition:self.beginningOfDocument toPosition:self.selectedTextRange.start];
     
     if (self.paymentProductCodes.count == 1) {
-        self.attributedText = [HPTCardNumberFormatter.sharedFormatter formatPlainTextNumber:self.text forPaymentProductCode:self.paymentProductCodes.firstObject];
+        self.attributedText = [HPTCardNumberFormatter.sharedFormatter formatPlainTextNumber:self.text forPaymentProductCode:self.paymentProductCodes.anyObject];
     }
 
     UITextPosition *newPosition = [self positionFromPosition:self.beginningOfDocument offset:offset];
@@ -29,8 +29,8 @@
 - (BOOL)isValid
 {
     if (self.paymentProductCodes.count == 1) {
-        if ([HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text reachesMaxLengthForPaymentProductCode:self.paymentProductCodes.firstObject]) {
-            return [HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text isValidForPaymentProductCode:self.paymentProductCodes.firstObject];
+        if ([HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text reachesMaxLengthForPaymentProductCode:self.paymentProductCodes.anyObject]) {
+            return [HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text isValidForPaymentProductCode:self.paymentProductCodes.anyObject];
         }
         
         return YES;
@@ -42,7 +42,7 @@
 - (BOOL)isCompleted
 {
     if (self.paymentProductCodes.count == 1) {
-        return [HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text isValidForPaymentProductCode:self.paymentProductCodes.firstObject];
+        return [HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text isValidForPaymentProductCode:self.paymentProductCodes.anyObject];
     }
     
     return NO;
@@ -52,7 +52,7 @@
 
     if (self.paymentProductCodes.count == 1) {
         if (range.location >= self.text.length) {
-            return ![HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text reachesMaxLengthForPaymentProductCode:self.paymentProductCodes.firstObject];
+            return ![HPTCardNumberFormatter.sharedFormatter plainTextNumber:self.text reachesMaxLengthForPaymentProductCode:self.paymentProductCodes.anyObject];
         }
     }
     

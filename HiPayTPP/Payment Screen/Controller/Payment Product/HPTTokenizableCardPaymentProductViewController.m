@@ -207,9 +207,9 @@
     BOOL securityCodeSectionEnabled = [self securityCodeSectionEnabled];
     HPTSecurityCodeType currentSecurityCodeType = [self currentSecurityCodeType];
 
-    if ((cardNumberTextField.paymentProductCodes.count == 1) && [[HPTCardNumberFormatter sharedFormatter] plainTextNumber:cardNumberTextField.text isInRangeForPaymentProductCode:cardNumberTextField.paymentProductCodes.firstObject]) {
+    if ((cardNumberTextField.paymentProductCodes.count == 1) && [[HPTCardNumberFormatter sharedFormatter] plainTextNumber:cardNumberTextField.text isInRangeForPaymentProductCode:cardNumberTextField.paymentProductCodes.anyObject]) {
         
-        inferedPaymentProductCode = cardNumberTextField.paymentProductCodes.firstObject;
+        inferedPaymentProductCode = cardNumberTextField.paymentProductCodes.anyObject;
         
         HPTPaymentProduct *newInferredPaymentProduct = [self.delegate paymentProductViewController:self paymentProductForInferredPaymentProductCode:inferedPaymentProductCode];
         

@@ -22,5 +22,7 @@ extern NSString *const HPTPaymentPageRequestTemplateNameFrame;
 @property (nonatomic) BOOL displaySelector;
 @property (nonatomic) NSString *templateName;
 @property (nonatomic) NSURL *css;
+@property (nonatomic) BOOL paymentCardGroupingEnabled;
+@property (nonatomic) NSMutableSet <NSString *> *groupedPaymentCardProductCodes;
 
 @end

@@ -11,8 +11,5 @@
 @import UIKit;
 
 @interface HPTViewController : UINavigationController <HPTPaymentScreenViewControllerDelegate, UIAlertViewDelegate>
-{
-    BOOL firstTestDone;
-}
 
 @end

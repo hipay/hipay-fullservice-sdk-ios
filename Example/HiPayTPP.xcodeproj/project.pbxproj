@@ -37,6 +37,13 @@
 		A54938911BFC908500068D9C /* HPTTransactionCallbackMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54938901BFC908500068D9C /* HPTTransactionCallbackMapperTests.m */; };
 		A54AF8FE1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FD1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m */; };
 		A54AF9001BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FF1BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m */; };
+		A54AF90D1C09BF3E00B10F36 /* HPTDemoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF90C1C09BF3E00B10F36 /* HPTDemoTableViewController.m */; };
+		A54AF9161C0B52E000B10F36 /* HPTSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF9151C0B52E000B10F36 /* HPTSwitchTableViewCell.m */; };
+		A54AF91C1C0B599C00B10F36 /* HPTSegmentedControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF91B1C0B599C00B10F36 /* HPTSegmentedControlTableViewCell.m */; };
+		A54AF9221C0B602700B10F36 /* HPTStepperTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF9211C0B602700B10F36 /* HPTStepperTableViewCell.m */; };
+		A54AF9251C0B6D4700B10F36 /* HPTSubmitTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF9241C0B6D4700B10F36 /* HPTSubmitTableViewCell.m */; };
+		A54AF9281C0B724500B10F36 /* HPTPaymentProductCategoriesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF9271C0B724500B10F36 /* HPTPaymentProductCategoriesTableViewController.m */; };
+		A54AF92B1C0B771000B10F36 /* HPTMoreOptionsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF92A1C0B771000B10F36 /* HPTMoreOptionsTableViewCell.m */; };
 		A57BA74F1BCD66F000F154E2 /* HPTGatewayClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA74E1BCD66F000F154E2 /* HPTGatewayClientTests.m */; };
 		A57BA78C1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA78B1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m */; };
 		A57BA7D31BCEAD0B00F154E2 /* HPTPersonalInfoRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D21BCEAD0B00F154E2 /* HPTPersonalInfoRequestSerializationMapperTests.m */; };
@@ -127,6 +134,20 @@
 		A54938901BFC908500068D9C /* HPTTransactionCallbackMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTTransactionCallbackMapperTests.m; sourceTree = "<group>"; };
 		A54AF8FD1BE6802000B10F36 /* HPTIDealPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTIDealPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		A54AF8FF1BE680F000B10F36 /* HPTIDealPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTIDealPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A54AF90B1C09BF3E00B10F36 /* HPTDemoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTDemoTableViewController.h; sourceTree = "<group>"; };
+		A54AF90C1C09BF3E00B10F36 /* HPTDemoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTDemoTableViewController.m; sourceTree = "<group>"; };
+		A54AF9141C0B52E000B10F36 /* HPTSwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPTSwitchTableViewCell.h; path = Views/HPTSwitchTableViewCell.h; sourceTree = "<group>"; };
+		A54AF9151C0B52E000B10F36 /* HPTSwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPTSwitchTableViewCell.m; path = Views/HPTSwitchTableViewCell.m; sourceTree = "<group>"; };
+		A54AF91A1C0B599C00B10F36 /* HPTSegmentedControlTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPTSegmentedControlTableViewCell.h; path = Views/HPTSegmentedControlTableViewCell.h; sourceTree = "<group>"; };
+		A54AF91B1C0B599C00B10F36 /* HPTSegmentedControlTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPTSegmentedControlTableViewCell.m; path = Views/HPTSegmentedControlTableViewCell.m; sourceTree = "<group>"; };
+		A54AF9201C0B602700B10F36 /* HPTStepperTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPTStepperTableViewCell.h; path = Views/HPTStepperTableViewCell.h; sourceTree = "<group>"; };
+		A54AF9211C0B602700B10F36 /* HPTStepperTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPTStepperTableViewCell.m; path = Views/HPTStepperTableViewCell.m; sourceTree = "<group>"; };
+		A54AF9231C0B6D4700B10F36 /* HPTSubmitTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPTSubmitTableViewCell.h; path = Views/HPTSubmitTableViewCell.h; sourceTree = "<group>"; };
+		A54AF9241C0B6D4700B10F36 /* HPTSubmitTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPTSubmitTableViewCell.m; path = Views/HPTSubmitTableViewCell.m; sourceTree = "<group>"; };
+		A54AF9261C0B724500B10F36 /* HPTPaymentProductCategoriesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTPaymentProductCategoriesTableViewController.h; sourceTree = "<group>"; };
+		A54AF9271C0B724500B10F36 /* HPTPaymentProductCategoriesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPaymentProductCategoriesTableViewController.m; sourceTree = "<group>"; };
+		A54AF9291C0B771000B10F36 /* HPTMoreOptionsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPTMoreOptionsTableViewCell.h; path = Views/HPTMoreOptionsTableViewCell.h; sourceTree = "<group>"; };
+		A54AF92A1C0B771000B10F36 /* HPTMoreOptionsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPTMoreOptionsTableViewCell.m; path = Views/HPTMoreOptionsTableViewCell.m; sourceTree = "<group>"; };
 		A57BA74E1BCD66F000F154E2 /* HPTGatewayClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTGatewayClientTests.m; sourceTree = "<group>"; };
 		A57BA7511BCD676100F154E2 /* HPTGatewayClient+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPTGatewayClient+Testing.h"; sourceTree = "<group>"; };
 		A57BA78B1BCE515E00F154E2 /* HPTAbstractSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTAbstractSerializationMapperTests.m; sourceTree = "<group>"; };
@@ -240,7 +261,12 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* HPTViewController.h */,
 				6003F5A6195388D20070C39A /* HPTViewController.m */,
+				A54AF90B1C09BF3E00B10F36 /* HPTDemoTableViewController.h */,
+				A54AF90C1C09BF3E00B10F36 /* HPTDemoTableViewController.m */,
+				A54AF9261C0B724500B10F36 /* HPTPaymentProductCategoriesTableViewController.h */,
+				A54AF9271C0B724500B10F36 /* HPTPaymentProductCategoriesTableViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
+				A54AF9101C09C59900B10F36 /* Views */,
 				A5A375591BD8E6A600CEA434 /* Resources */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -349,6 +375,23 @@
 				A5ABD1131BFCE1C700D8B867 /* HPTTransactionTests.m */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		A54AF9101C09C59900B10F36 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A54AF9141C0B52E000B10F36 /* HPTSwitchTableViewCell.h */,
+				A54AF9151C0B52E000B10F36 /* HPTSwitchTableViewCell.m */,
+				A54AF91A1C0B599C00B10F36 /* HPTSegmentedControlTableViewCell.h */,
+				A54AF91B1C0B599C00B10F36 /* HPTSegmentedControlTableViewCell.m */,
+				A54AF9201C0B602700B10F36 /* HPTStepperTableViewCell.h */,
+				A54AF9211C0B602700B10F36 /* HPTStepperTableViewCell.m */,
+				A54AF9231C0B6D4700B10F36 /* HPTSubmitTableViewCell.h */,
+				A54AF9241C0B6D4700B10F36 /* HPTSubmitTableViewCell.m */,
+				A54AF9291C0B771000B10F36 /* HPTMoreOptionsTableViewCell.h */,
+				A54AF92A1C0B771000B10F36 /* HPTMoreOptionsTableViewCell.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		A57BA74D1BCD66E200F154E2 /* Client */ = {
@@ -771,9 +814,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A54AF9161C0B52E000B10F36 /* HPTSwitchTableViewCell.m in Sources */,
 				6003F59E195388D20070C39A /* HPTAppDelegate.m in Sources */,
+				A54AF92B1C0B771000B10F36 /* HPTMoreOptionsTableViewCell.m in Sources */,
 				6003F5A7195388D20070C39A /* HPTViewController.m in Sources */,
+				A54AF91C1C0B599C00B10F36 /* HPTSegmentedControlTableViewCell.m in Sources */,
+				A54AF9221C0B602700B10F36 /* HPTStepperTableViewCell.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				A54AF9281C0B724500B10F36 /* HPTPaymentProductCategoriesTableViewController.m in Sources */,
+				A54AF9251C0B6D4700B10F36 /* HPTSubmitTableViewCell.m in Sources */,
+				A54AF90D1C09BF3E00B10F36 /* HPTDemoTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

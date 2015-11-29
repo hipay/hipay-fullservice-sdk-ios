@@ -18,7 +18,7 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
     self = [super initWithFrame:CGRectZero];
     if (self) {
         _paymentProduct = paymentProduct.code;
-        defaultTintColor = self.tintColor;
+        defaultTintColor = [UIView appearance].tintColor;
         
         if (paymentProduct.groupedPaymentProductCodes == nil) {
         
@@ -129,12 +129,12 @@ NSDictionary *HPTPaymentProductButtonPaymentProductMatrix;
         self.layer.borderColor = [UIColor colorWithRed:0.86 green:0.86 blue:0.88 alpha:1.0].CGColor;
         self.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.0];
         self.imageView.alpha = 0.6;
-        self.tintColor = [UIColor lightGrayColor];
+        self.imageView.tintColor = [UIColor lightGrayColor];
     } else {
         self.layer.borderColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1.0].CGColor;
         self.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1.0];
         self.imageView.alpha = 1.0;
-        self.tintColor = defaultTintColor;
+        self.imageView.tintColor = defaultTintColor;
     }
 }
 

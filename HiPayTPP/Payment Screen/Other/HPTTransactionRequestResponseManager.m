@@ -102,7 +102,7 @@
     
     // Network unavailable
     else if ((HTTPError != nil) && (HTTPError.code == HPTErrorCodeHTTPNetworkUnavailable)) {
-        alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPTLocalizedString(@"ERROR_BODY_NETWORK_UNAVAILABLE") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
+        alertView = [[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPTLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:HPTLocalizedString(@"ERROR_BUTTON_RETRY"), nil];
 
         completionBlock([[HPTTransactionErrorResult alloc] initWithFormAction:HPTFormActionBackgroundReload]);
     }

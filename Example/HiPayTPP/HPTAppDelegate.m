@@ -15,7 +15,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     [[HPTClientConfig sharedClientConfig] setEnvironment:HPTEnvironmentStage username:@"94654727.api.hipay-tpp.com" password:@"3g4zRCgG2EY9RJHFsQ4cIqAI" appURLscheme:@"hipayexample"];
 
     NSDictionary* environment = [[NSProcessInfo processInfo] environment];

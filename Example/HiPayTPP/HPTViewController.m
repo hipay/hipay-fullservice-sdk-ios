@@ -58,7 +58,7 @@
     
     paymentScreen.delegate = self;
     
-    [self presentViewController:paymentScreen animated:YES completion:nil];
+    //[self presentViewController:paymentScreen animated:YES completion:nil];
     
 }
 

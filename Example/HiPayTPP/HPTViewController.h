@@ -10,7 +10,7 @@
 
 @import UIKit;
 
-@interface HPTViewController : UIViewController <HPTPaymentScreenViewControllerDelegate, UIAlertViewDelegate>
+@interface HPTViewController : UINavigationController <HPTPaymentScreenViewControllerDelegate, UIAlertViewDelegate>
 {
     BOOL firstTestDone;
 }

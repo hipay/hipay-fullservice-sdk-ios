@@ -1,2 +1,43 @@
 /* Localized versions of Info.plist keys */
 
+"APP_TITLE" = "Démo m-commerce HiPay";
+
+"FORM_TITLE" = "Générer un écran de paiement";
+
+"FORM_CURRENCY" = "Devise";
+
+"FORM_GROUP_PAYMENT_CARDS" = "Regrouper les cartes";
+
+"FORM_AMOUNT" = "Montant";
+
+"FORM_MULTI_USE" = "Token réutilisable";
+
+"FORM_COLOR" = "Couleur";
+
+"FORM_COLOR_DEFAULT" = "Défaut";
+
+"FORM_COLOR_RED" = "Rouge";
+
+"FORM_COLOR_PURPLE" = "Violet";
+
+"FORM_AUTH" = "3DS";
+
+"FORM_PAYMENT_PRODUCT_CATEGORIES" = "Moyens de paiement";
+
+"FORM_AUTH_IF_AVAILABLE" = "Si disp.";
+
+"FORM_AUTH_MANDATORY" = "Oblig.";
+
+"FORM_AUTH_NONE" = "Non";
+
+"FORM_AUTH_DEFAULT" = "Défaut";
+
+"FORM_SUBMIT" = "Générer l'écran de paiement";
+
+"FORM_PAYMENT_PRODUCTS_CREDIT_CARD" = "Carte de crédit";
+
+"FORM_PAYMENT_PRODUCTS_DEBIT_CARD" = "Carte de débit";
+
+"FORM_PAYMENT_PRODUCTS_EWALLET" = "Portefeuille électronique";
+
+"FORM_PAYMENT_PRODUCTS_REALTIME_BANKING" = "Banque temps réel";

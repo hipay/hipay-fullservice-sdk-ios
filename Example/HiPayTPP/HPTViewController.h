@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Jonathan TIRET. All rights reserved.
 //
 
+#import <HiPayTPP/HiPayTPP.h>
+
 @import UIKit;
 
-@interface HPTViewController : UIViewController
+@interface HPTViewController : UINavigationController <HPTPaymentScreenViewControllerDelegate, UIAlertViewDelegate>
 
 @end

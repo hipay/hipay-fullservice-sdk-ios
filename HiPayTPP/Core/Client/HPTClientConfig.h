@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define HPTClientConfigCallbackURLHost @"hipay-tpp"
+
 typedef NS_ENUM(NSInteger, HPTEnvironment) {
     
     HPTEnvironmentStage,
@@ -20,9 +22,10 @@ typedef NS_ENUM(NSInteger, HPTEnvironment) {
 @property (nonatomic, readonly) HPTEnvironment environment;
 @property (nonatomic, readonly, nullable) NSString *username;
 @property (nonatomic, readonly, nullable) NSString *password;
+@property (nonatomic, readonly, nullable) NSURL *appRedirectionURL;
 
 + (instancetype _Nonnull)sharedClientConfig;
 
-- (void)setEnvironment:(HPTEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password;
+- (void)setEnvironment:(HPTEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password appURLscheme:(NSString * _Nonnull)appURLscheme;
 
 @end

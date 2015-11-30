@@ -28,9 +28,9 @@
 {
     HPTOrderRequest *object = [[HPTOrderRequest alloc] init];
     
-    object.paymentProduct = @"test1";
+    object.paymentProductCode = @"test1";
     
-    XCTAssertEqualObjects([object valueForKey:@"paymentProduct"], @"test1");
+    XCTAssertEqualObjects([object valueForKey:@"paymentProductCode"], @"test1");
 }
 
 @end

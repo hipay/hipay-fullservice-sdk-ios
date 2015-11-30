@@ -24,7 +24,7 @@
 - (BOOL)getBoolForKey:(NSString *)key;
 - (NSDictionary *)getDictionaryForKey:(NSString *)key;
 - (NSURL *)getURLForKey:(NSString *)key;
-
+- (NSDateComponents *)getYearAndMonthForKey:(NSString *)key;
 - (NSArray *)getObjectsArrayForObject:(id)object;
 
 - (BOOL)isValid;

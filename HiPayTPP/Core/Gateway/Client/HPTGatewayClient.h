@@ -17,15 +17,20 @@
 
 #import "HPTPaymentPageRequest.h"
 #import "HPTOrderRequest.h"
+#import "HPTPaymentProduct.h"
 
 #define HPTGatewayClientBaseURLStage        @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/"
 #define HPTGatewayClientBaseURLProduction   @"https://secure-gateway.hipay-tpp.com/rest/v1/"
+#define HPTGatewayCallbackURLPathName       @"gateway"
+
+extern NSString *const HPTGatewayClientDidRedirectSuccessfullyNotification;
+extern NSString *const HPTGatewayClientDidRedirectWithMappingErrorNotification;
 
 typedef void (^HPTHostedPaymentPageCompletionBlock)(HPTHostedPaymentPage *hostedPaymentPage, NSError *error);
 typedef void (^HPTOperationCompletionBlock)(HPTOperation *operation, NSError *error);
 typedef void (^HPTTransactionCompletionBlock)(HPTTransaction *transaction, NSError *error);
-typedef void (^HPTTransactionsCompletionBlock)(NSArray *transactions, NSError *error);
-typedef void (^HPTPaymentProductsCompletionBlock)(NSArray *paymentProducts, NSError *error);
+typedef void (^HPTTransactionsCompletionBlock)(NSArray <HPTTransaction *> *transactions, NSError *error);
+typedef void (^HPTPaymentProductsCompletionBlock)(NSArray <HPTPaymentProduct *> *paymentProducts, NSError *error);
 
 @interface HPTGatewayClient : HPTAbstractClient
 {
@@ -34,17 +39,20 @@ typedef void (^HPTPaymentProductsCompletionBlock)(NSArray *paymentProducts, NSEr
 }
 
 + (instancetype)sharedClient;
++ (BOOL)isTransactionErrorFinal:(NSError *)error;
 
-- (void)initializeHostedPaymentPageRequest:(HPTPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock;
+- (id<HPTRequest>)initializeHostedPaymentPageRequest:(HPTPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPTHostedPaymentPageCompletionBlock)completionBlock;
 
-- (void)requestNewOrder:(HPTOrderRequest *)orderRequest withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock;
+- (id<HPTRequest>)requestNewOrder:(HPTOrderRequest *)orderRequest withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock;
 
-- (void)getTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock;
+- (id<HPTRequest>)getTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTTransactionCompletionBlock)completionBlock;
 
-- (void)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPTTransactionsCompletionBlock)completionBlock;
+- (id<HPTRequest>)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPTTransactionsCompletionBlock)completionBlock;
 
-- (void)performMaintenanceOperation:(HPTOperationType)operation amount:(NSNumber *)amount onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock;
+- (id<HPTRequest>)performMaintenanceOperation:(HPTOperationType)operation amount:(NSNumber *)amount onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPTOperationCompletionBlock)completionBlock;
 
-- (void)getPaymentProductsForRequest:(HPTPaymentPageRequest *)paymentPageRequest withCompletionHandler:(HPTPaymentProductsCompletionBlock)completionBlock;
+- (id<HPTRequest>)getPaymentProductsForRequest:(HPTPaymentPageRequest *)paymentPageRequest withCompletionHandler:(HPTPaymentProductsCompletionBlock)completionBlock;
+
+- (BOOL)handleOpenURL:(NSURL *)URL;
 
 @end

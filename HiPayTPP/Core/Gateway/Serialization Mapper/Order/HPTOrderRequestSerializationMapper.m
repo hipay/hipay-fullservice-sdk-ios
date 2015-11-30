@@ -12,6 +12,8 @@
 #import "HPTAbstractSerializationMapper+Encode.h"
 #import "HPTOrderRelatedRequestSerializationMapper_Private.h"
 #import "HPTCardTokenPaymentMethodRequestSerializationMapper.h"
+#import "HPTQiwiWalletPaymentMethodRequestSerializationMapper.h"
+#import "HPTIDealPaymentMethodRequestSerializationMapper.h"
 
 @implementation HPTOrderRequestSerializationMapper
 
@@ -19,7 +21,7 @@
 {
     NSMutableDictionary *result = [self orderRelatedSerializedRequest];
     
-    [result setNullableObject:[self getStringForKey:@"paymentProduct"] forKey:@"payment_product"];
+    [result setNullableObject:[self getStringForKey:@"paymentProductCode"] forKey:@"payment_product"];
     
     [result mergeDictionary:[self paymentMethodSerializedRequest] withPrefix:nil];
     
@@ -32,6 +34,14 @@
 
     if ([paymentMethodRequest isKindOfClass:[HPTCardTokenPaymentMethodRequest class]]) {
         return [HPTCardTokenPaymentMethodRequestSerializationMapper mapperWithRequest:paymentMethodRequest].serializedRequest;
+    }
+    
+    else if ([paymentMethodRequest isKindOfClass:[HPTQiwiWalletPaymentMethodRequest class]]) {
+        return [HPTQiwiWalletPaymentMethodRequestSerializationMapper mapperWithRequest:paymentMethodRequest].serializedRequest;
+    }
+    
+    else if ([paymentMethodRequest isKindOfClass:[HPTIDealPaymentMethodRequest class]]) {
+        return [HPTIDealPaymentMethodRequestSerializationMapper mapperWithRequest:paymentMethodRequest].serializedRequest;
     }
     
     return nil;

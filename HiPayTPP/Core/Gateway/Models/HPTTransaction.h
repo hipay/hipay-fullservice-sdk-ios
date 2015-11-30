@@ -53,11 +53,11 @@ typedef NS_ENUM(char, HPTCVCResult) {
 
 typedef NS_ENUM(NSInteger, HPTTransactionState) {
     
+    HPTTransactionStateError,
     HPTTransactionStateCompleted,
     HPTTransactionStateForwarding,
     HPTTransactionStatePending,
     HPTTransactionStateDeclined,
-    HPTTransactionStateError,
     
 };
 
@@ -91,5 +91,11 @@ typedef NS_ENUM(NSInteger, HPTTransactionState) {
 @property (nonatomic, readonly) NSString *cdata8;
 @property (nonatomic, readonly) NSString *cdata9;
 @property (nonatomic, readonly) NSString *cdata10;
+
+@property (readonly, getter=isHandled) BOOL handled;
+
++ (NSArray<HPTTransaction *> *)sortTransactionsByRelevance:(NSArray<HPTTransaction *> *)transactions;
+
+- (BOOL)isMoreRelevantThan:(HPTTransaction *)transaction;
 
 @end

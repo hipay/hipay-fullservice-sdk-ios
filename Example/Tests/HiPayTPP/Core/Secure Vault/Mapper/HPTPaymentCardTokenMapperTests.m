@@ -55,8 +55,13 @@
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTPaymentCardTokenMapper alloc] initWithRawData:rawData]];
     
     for (id key in [rawData allKeys]) {
-        [((HPTPaymentCardTokenMapper *)[[mockedMapper expect] andReturn:[rawData objectForKey:key]]) getStringForKey:key];
+        if (![key isEqualToString:@"card_expiry_month"] && ![key isEqualToString:@"card_expiry_year"]) {
+            [((HPTPaymentCardTokenMapper *)[[mockedMapper expect] andReturn:[rawData objectForKey:key]]) getStringForKey:key];
+        }
     }
+    
+    [((HPTPaymentCardTokenMapper *)[[mockedMapper expect] andReturn:@(2018)]) getNumberForKey:@"card_expiry_year"];
+    [((HPTPaymentCardTokenMapper *)[[mockedMapper expect] andReturn:@(5)]) getNumberForKey:@"card_expiry_month"];
     
     HPTPaymentCardToken *paymentCardToken = ((HPTPaymentCardTokenMapper *)mockedMapper).mappedObject;
     
@@ -65,8 +70,8 @@
     XCTAssertEqualObjects([rawData objectForKey:@"pan"], paymentCardToken.pan);
     XCTAssertEqualObjects([rawData objectForKey:@"request_id"], paymentCardToken.requestID);
     XCTAssertEqualObjects([rawData objectForKey:@"card_holder"], paymentCardToken.cardHolder);
-    XCTAssertEqualObjects([rawData objectForKey:@"card_expiry_month"], paymentCardToken.cardExpiryMonth);
-    XCTAssertEqualObjects([rawData objectForKey:@"card_expiry_year"], paymentCardToken.cardExpiryYear);
+    XCTAssertEqualObjects(@5, paymentCardToken.cardExpiryMonth);
+    XCTAssertEqualObjects(@2018, paymentCardToken.cardExpiryYear);
     XCTAssertEqualObjects([rawData objectForKey:@"issuer"], paymentCardToken.issuer);
     XCTAssertEqualObjects([rawData objectForKey:@"country"], paymentCardToken.country);
     XCTAssertEqualObjects([rawData objectForKey:@"domesticNetwork"], paymentCardToken.domesticNetwork);

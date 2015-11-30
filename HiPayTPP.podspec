@@ -37,7 +37,7 @@ Pod::Spec.new do |s|
   s.source_files     = "HiPayTPP/*.{m,h}"
 
 
-  s.default_subspecs = %w[Core]
+  s.default_subspecs = %w[Core Payment-Screen]
 
   s.public_header_files = 'HiPayTPP/*.h'
 
@@ -49,10 +49,24 @@ Pod::Spec.new do |s|
     s.public_header_files = "HiPayTPP/Core/**/*.h"
   end
 
-#  s.subspec "Payment-Screen" do |s|
-#    s.source_files  = "HiPayTPP/Payment-Screen/**/*.{h,m}"
-#    s.public_header_files = "HiPayTPP/Payment-Screen/**/*.h"
-#    s.dependency "HiPayTPP/Core"
-#  end
+  s.subspec "Utilities" do |s|
+    s.source_files  = "HiPayTPP/Utilities/**/*.{h,m}"
+    s.public_header_files = "HiPayTPP/Utilities/**/*.h"
+    s.resource_bundles = {
+      'HPTUtilitiesResources' => ["HiPayTPP/Utilities/**/*.{plist}"],
+    }
+  end
+
+  s.subspec "Payment-Screen" do |s|
+    s.source_files  = "HiPayTPP/Payment Screen/**/*.{h,m}"
+    s.public_header_files = "HiPayTPP/Payment Screen/**/*.h"
+    s.resource_bundles = {
+      'HPTPaymentScreenViews' => ["HiPayTPP/Payment Screen/**/*.{xib,png,storyboard}"],
+      'HPTPaymentScreenLocalization' => ["HiPayTPP/Payment Screen/**/*.lproj"]
+    }
+    s.dependency "HiPayTPP/Core"
+    s.dependency "HiPayTPP/Utilities"
+    s.weak_frameworks = 'WebKit'
+  end
 
 end

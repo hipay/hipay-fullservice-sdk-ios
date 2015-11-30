@@ -10,10 +10,16 @@
 #import "NSMutableDictionary+Serialization.h"
 #import "HPTAbstractSerializationMapper+Encode.h"
 #import "HPTPersonalInfoRequest.h"
+#import "HPTPersonalInfoRequestSerializationMapper_Protected.h"
 
 @implementation HPTPersonalInfoRequestSerializationMapper
 
 - (NSDictionary *)serializedRequest
+{
+    return [NSDictionary dictionaryWithDictionary:[self personalInformationSerializedRequest]];
+}
+
+- (NSMutableDictionary *)personalInformationSerializedRequest
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     
@@ -27,7 +33,7 @@
     [result setNullableObject:[self getStringForKey:@"zipCode"] forKey:@"zipcode"];
     [result setNullableObject:[self getStringForKey:@"country"] forKey:@"country"];
     
-    return [NSDictionary dictionaryWithDictionary:result];
+    return result;
 }
 
 @end

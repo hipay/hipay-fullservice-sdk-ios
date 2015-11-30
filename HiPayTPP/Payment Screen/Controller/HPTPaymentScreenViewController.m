@@ -47,14 +47,21 @@
         [self mainViewController].loading = NO;
         paymentProductsRequest = nil;
         
-        if (error == nil) {
+        if ((error == nil) && (thePaymentProducts.count > 0)) {
             paymentProducts = [self fullPaymentProductsListWithPaymentProducts:thePaymentProducts andRequest:paymentPageRequest];
             
             [self setPaymentProductsToMainViewController];
         }
         
         else {
-            [[[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPTLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_CANCEL") otherButtonTitles:HPTLocalizedString(@"ERROR_BUTTON_RETRY"), nil] show];
+            
+            if (error != nil) {
+                [[[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPTLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_CANCEL") otherButtonTitles:HPTLocalizedString(@"ERROR_BUTTON_RETRY"), nil] show];
+            }
+            
+            else {
+                [[[UIAlertView alloc] initWithTitle:HPTLocalizedString(@"ERROR_TITLE_DEFAULT") message:HPTLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPTLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil] show];
+            }
         }
     }];
 }

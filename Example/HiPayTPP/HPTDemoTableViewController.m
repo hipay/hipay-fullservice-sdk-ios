@@ -56,13 +56,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    
+    defaultGlobalTintColor = self.view.tintColor;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,27 +66,29 @@
 
 - (void)setupGlobalTintColor
 {
-    UIColor *color = nil;
+    UIColor *tintColor;
+    UIColor *onTintColor;
     
     switch (colorSegmentIndex) {
         case 0:
-            color = nil;
+            tintColor = defaultGlobalTintColor;
+            onTintColor = nil;
             break;
             
         case 1:
-            color = [UIColor redColor];
+            onTintColor = tintColor = [UIColor redColor];
             break;
             
         case 2:
-            color = [UIColor purpleColor];
+            onTintColor = tintColor = [UIColor purpleColor];
             break;
             
         default:
             break;
     }
     
-    [[UIView appearance] setTintColor:color];
-    [[UISwitch appearance] setOnTintColor:color];
+    [[UIView appearance] setTintColor:tintColor];
+    [[UISwitch appearance] setOnTintColor:onTintColor];
 }
 
 #pragma mark - Table view data source

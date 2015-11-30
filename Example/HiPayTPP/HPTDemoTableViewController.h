@@ -34,6 +34,7 @@
     NSUInteger authenticationIndicatorSegmentIndex;
     CGFloat amount;
     NSSet *selectedPaymentProducts;
+    UIColor *defaultGlobalTintColor;
     
     HPTPaymentProductCategoriesTableViewController *productCategoriesViewController;
 }

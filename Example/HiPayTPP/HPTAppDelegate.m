@@ -21,90 +21,270 @@
     NSString* injectBundle = environment[@"XCInjectBundle"];
     BOOL isRunningTests = [[injectBundle pathExtension] isEqualToString:@"xctest"];
     
+    /*
+     All the code below is meant to be deleted.
+     */
+    
+    NSArray *paymentProductsResponse = @[
+                                         @{
+                                             @"id":@"52DY02WM",
+                                             @"code":@"visa",
+                                             @"description":@"VISA",
+                                             @"paymentProductCategoryCode":@"credit-card",
+                                             @"tokenizable":@YES
+                                             },
+                                         @{
+                                             @"id":@"GUQ4NAIJ",
+                                             @"code":@"mastercard",
+                                             @"description":@"MasterCard",
+                                             @"paymentProductCategoryCode":@"credit-card",
+                                             @"tokenizable":@YES
+                                             },
+                                         @{
+                                             @"id":@"F7PQ8VAI",
+                                             @"code":@"cb",
+                                             @"description":@"Carte Bancaire",
+                                             @"paymentProductCategoryCode":@"credit-card",
+                                             @"tokenizable":@YES
+                                             },
+                                         @{
+                                             @"id":@"MRU9TJFH",
+                                             @"code":@"american-express",
+                                             @"description":@"American Express",
+                                             @"paymentProductCategoryCode":@"credit-card",
+                                             @"tokenizable":@YES
+                                             },
+                                         @{
+                                             @"id":@"JRTEL7NY",
+                                             @"code":@"diners",
+                                             @"description":@"Diners Club International",
+                                             @"paymentProductCategoryCode":@"credit-card",
+                                             @"tokenizable":@YES
+                                             },
+                                         @{
+                                             @"id":@"0J9LFS1O",
+                                             @"code":@"bcmc",
+                                             @"description":@"Bancontact / Mister Cash",
+                                             @"paymentProductCategoryCode":@"debit-card",
+                                             @"tokenizable":@YES
+                                             },
+                                         @{
+                                             @"id":@"0J9LFS11",
+                                             @"code":@"bcmc-mobile",
+                                             @"description":@"Bancontact Mobile",
+                                             @"paymentProductCategoryCode":@"ewallet",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"339KCZTQ",
+                                             @"code":@"maestro",
+                                             @"description":@"Maestro",
+                                             @"paymentProductCategoryCode":@"debit-card",
+                                             @"tokenizable":@YES
+                                             },
+                                         @{
+                                             @"id":@"LQ09C87Y",
+                                             @"code":@"carte-accord",
+                                             @"description":@"Carte Accord",
+                                             @"paymentProductCategoryCode":@"credit-card",
+                                             @"tokenizable":@YES
+                                             },
+                                         @{
+                                             @"id":@"ICOD9CQU",
+                                             @"code":@"sofort-uberweisung",
+                                             @"description":@"Sofort Ãœberweisung",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"C6RXY2KR",
+                                             @"code":@"ing-homepay",
+                                             @"description":@"ING Home'Pay",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"XZWIGL27",
+                                             @"code":@"ideal",
+                                             @"description":@"iDEAL",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"HY0ORGG3",
+                                             @"code":@"paypal",
+                                             @"description":@"PayPal",
+                                             @"paymentProductCategoryCode":@"ewallet",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"OR39Z05G",
+                                             @"code":@"giropay",
+                                             @"description":@"Giropay",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"56WDGA6Y",
+                                             @"code":@"sdd",
+                                             @"description":@"SEPA Direct Debit",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"EM5VTJII",
+                                             @"code":@"bank-transfer",
+                                             @"description":@"Transfer from bank account to bank account",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },   
+                                         @{
+                                             @"id":@"KYYI3FSH",
+                                             @"code":@"payulatam",
+                                             @"description":@"PayULatam wallet",
+                                             @"paymentProductCategoryCode":@"ewallet",
+                                             @"tokenizable":@NO
+                                             },   
+                                         @{
+                                             @"id":@"TTB0Y3DE",
+                                             @"code":@"paysafecard",
+                                             @"description":@"PaysafeCard",
+                                             @"paymentProductCategoryCode":@"prepaid-card",
+                                             @"tokenizable":@NO
+                                             },   
+                                         @{
+                                             @"id":@"FZEWWCY0",
+                                             @"code":@"sisal",
+                                             @"description":@"Sisal",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },   
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"przelewy24",
+                                             @"description":@"Przelewy24",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },   
+                                         @{
+                                             @"id":@"RAXLNESP",
+                                             @"code":@"qiwi-wallet",
+                                             @"description":@"VISA QIWI Wallet",
+                                             @"paymentProductCategoryCode":@"ewallet",
+                                             @"tokenizable":@NO
+                                             },   
+                                         @{
+                                             @"id":@"BLMQ0VNG",
+                                             @"code":@"3xcb",
+                                             @"description":@"3x Carte Bancaire",
+                                             @"paymentProductCategoryCode":@"credit-card",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"GSI0TKIH",
+                                             @"code":@"4xcb-no-fees",
+                                             @"description":@"4x Carte Bancaire sans frais",
+                                             @"paymentProductCategoryCode":@"credit-card",
+                                             @"tokenizable":@NO
+                                             },   
+                                         @{
+                                             @"id":@"72L8SV1M",
+                                             @"code":@"yandex",
+                                             @"description":@"Yandex",
+                                             @"paymentProductCategoryCode":@"ewallet",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"72L8SV1M",
+                                             @"code":@"postfinance",
+                                             @"description":@"Postfinance",
+                                             @"paymentProductCategoryCode":@"debit-card",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"LKA7QX4W",
+                                             @"code":@"dcb-at-a1",
+                                             @"description":@"Dimoco A1",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },   
+                                         @{
+                                             @"id":@"LKA7QX4W",
+                                             @"code":@"dcb-at-tmobile",
+                                             @"description":@"Dimoco TMobile",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             }
+                                         ];
     
     if (!isRunningTests) {
         [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [request.URL.absoluteString containsString:@"payment_products"] && [request.HTTPMethod isEqualToString:@"GET"];
         } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
             
-            OHHTTPStubsResponse *response;
+            NSURLComponents *URLComponents = [[NSURLComponents alloc] initWithURL:request.URL resolvingAgainstBaseURL:NO];
+            NSMutableArray *currentResponse = [NSMutableArray arrayWithArray:paymentProductsResponse];
             
-//            response = [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:@{}]];
-//            response.responseTime = 3.0;
-//            return response;
+            for (NSURLQueryItem *item in URLComponents.queryItems) {
+                
+                // Payment product categories
+                if ([item.name isEqual:@"payment_product_category_list"]) {
+                    NSArray *productCategories = [item.value componentsSeparatedByString:@","];
+                    
+                    if (![item.value isEqualToString:@""]) {
+                        NSIndexSet *indexes = [currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            return ![productCategories containsObject:[obj objectForKey:@"paymentProductCategoryCode"]];
+                        }];
+                        
+                        [currentResponse removeObjectsAtIndexes:indexes];
+                    }
+                }
+                
+                else if ([item.name isEqual:@"currency"]) {
+                    
+                    if (![item.value isEqual:@"USD"]) {
+                        NSIndexSet *indexes =[currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            return [[obj objectForKey:@"code"] isEqualToString:@"payulatam"];
+                        }];
+                        
+                        [currentResponse removeObjectsAtIndexes:indexes];
+                    }
+                    
+                    if (![item.value isEqual:@"PLN"]) {
+                        NSIndexSet *indexes =[currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            return [[obj objectForKey:@"code"] isEqualToString:@"przelewy24"];
+                        }];
+                        
+                        [currentResponse removeObjectsAtIndexes:indexes];
+                    }
+                    
+                    if (![item.value isEqual:@"RUB"]) {
+                        NSIndexSet *indexes =[currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            return [[obj objectForKey:@"code"] isEqualToString:@"qiwi-wallet"] || [[obj objectForKey:@"code"] isEqualToString:@"yandex"];
+                        }];
+                        
+                        [currentResponse removeObjectsAtIndexes:indexes];
+                    }
+                    
+                    if (![item.value isEqual:@"EUR"]) {
+                        NSIndexSet *indexes =[currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            return [[obj objectForKey:@"code"] isEqualToString:@"visa"] || [[obj objectForKey:@"code"] isEqualToString:@"mastercard"] || [[obj objectForKey:@"code"] isEqualToString:@"cb"] || [[obj objectForKey:@"code"] isEqualToString:@"american-express"] || [[obj objectForKey:@"code"] isEqualToString:@"diners"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc-mobile"] || [[obj objectForKey:@"code"] isEqualToString:@"maestro"] || [[obj objectForKey:@"code"] isEqualToString:@"carte-accord"] || [[obj objectForKey:@"code"] isEqualToString:@"sofort-uberweisung"] || [[obj objectForKey:@"code"] isEqualToString:@"ing-homepay"] || [[obj objectForKey:@"code"] isEqualToString:@"ideal"] || [[obj objectForKey:@"code"] isEqualToString:@"paypal"] || [[obj objectForKey:@"code"] isEqualToString:@"giropay"] || [[obj objectForKey:@"code"] isEqualToString:@"sdd"] || [[obj objectForKey:@"code"] isEqualToString:@"bank-transfer"] || [[obj objectForKey:@"code"] isEqualToString:@"paysafecard"] || [[obj objectForKey:@"code"] isEqualToString:@"sisal"] || [[obj objectForKey:@"code"] isEqualToString:@"3xcb"] || [[obj objectForKey:@"code"] isEqualToString:@"4xcb-no-fees"] || [[obj objectForKey:@"code"] isEqualToString:@"postfinance"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-a1"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-tmobile"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-orange"];
+                        }];
+                        
+                        [currentResponse removeObjectsAtIndexes:indexes];
+                    }
+                    
+                }
+ 
+            }
             
-            NSString *fixture = OHPathForFile(@"payment_products.json", self.class);
-            response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+            
+            OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithJSONObject:currentResponse statusCode:200 headers:nil];
+
             response.responseTime = 0.4;
             return response;
         }];
     }
-
-    
-//
-//
-//    HPTPaymentPageRequest *request = [[HPTPaymentPageRequest alloc] init];
-//    request.amount = @(25.50);
-//    request.currency = @"EUR";
-//    request.orderId = @"SDK_IOS_TEST_ORDER_1234";
-//    request.shortDescription = @"Une paire de chaussures";
-//    request.paymentProductCategoryList = @[@"credit-card", @"debit-card", @"realtime-banking", @"ewallet"];
-//    request.customer = [[HPTCustomerInfoRequest alloc] init];
-//    request.customer.email = [NSString stringWithFormat:@"jtiret+%f@hipay.com", [NSDate date].timeIntervalSince1970];
-//    
-//    
-//    [[HPTGatewayClient sharedClient] getPaymentProductsForRequest:request withCompletionHandler:^(NSArray *paymentProducts, NSError *error) {
-//       
-//        
-//        
-//        
-//        
-//    }];
-//    
-    
-    
-    //    [[HPTGatewayClient sharedClient] getTransactionsWithOrderId:@"SDK_TEST_MULTIPLE_TRANSAC" withCompletionHandler:^(NSArray *transactions, NSError *error) {
-//       
-//        
-//        
-//        
-//        
-//        
-//    }];
-//    
-    
-    
-    
-//    [[HPTSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111113333333333" cardExpiryMonth:@"12" cardExpiryYear:@"2018" cardHolder:@"John Simpson" securityCode:@"458" multiUse:YES andCompletionHandler:^(HPTPaymentCardToken *cardToken, NSError *error) {
-//       
-//        
-//        
-//        HPTOrderRequest *order = [[HPTOrderRequest alloc] init];
-//        order.amount = @(25.50);
-//        order.currency = @"EUR";
-////        order.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%f", [NSDate date].timeIntervalSince1970];
-//        order.orderId = @"SDK_TEST_MULTIPLE_TRANSAC";
-//        order.shortDescription = @"Une paire de chaussures";
-//        order.paymentProduct = @"cb";
-//        order.customer = [[HPTCustomerInfoRequest alloc] init];
-//        order.customer.email = [NSString stringWithFormat:@"jtiret+%f@hipay.com", [NSDate date].timeIntervalSince1970];
-//        
-//        order.paymentMethod = [HPTCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:HPTECISecureECommerce authenticationIndicator:HPTAuthenticationIndicatorIfAvailable];
-//        
-//        [[HPTGatewayClient sharedClient] requestNewOrder:order withCompletionHandler:^(HPTTransaction *transaction, NSError *error) {
-//            
-//            
-//            
-//        }];
-//        
-//    }];
-    
-    
-//    HPTHTTPClient *client = [[HPTHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.foursquare.com/v2/venues/search"] login:@"" password:@""];
-//    
-//    [client performRequestWithMethod:HPTHTTPMethodGet path:@"" parameters:nil completionHandler:^(HPTHTTPResponse *response, NSError *error) {
-//        
-//    }];
     
     return YES;
 }

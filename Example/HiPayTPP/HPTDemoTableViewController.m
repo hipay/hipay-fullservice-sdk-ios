@@ -34,7 +34,7 @@
     submitRowIndex = 7;
     
     // Default form values
-    currencies = @[@"EUR", @"USD", @"GBP", @"RUB"];
+    currencies = @[@"EUR", @"USD", @"PLN", @"RUB"];
     currencySegmentIndex = 0;
     authenticationIndicatorSegmentIndex = 0;
     colorSegmentIndex = 0;
@@ -76,7 +76,7 @@
             break;
             
         case 1:
-            onTintColor = tintColor = [UIColor redColor];
+            onTintColor = tintColor = [UIColor colorWithRed:0.9 green:0.02 blue:0.02 alpha:1.0];
             break;
             
         case 2:
@@ -195,6 +195,8 @@
             cell.textLabel.text = NSLocalizedString(@"FORM_AMOUNT", nil);
             cell.stepper.value = amount;
             cell.stepper.stepValue = 0.5;
+            cell.stepper.maximumValue = 1000.0;
+            cell.stepper.minimumValue = 1.0;
             cell.detailTextLabel.attributedText = [self formattedAmountWithMargin];
             
             return cell;
@@ -248,7 +250,8 @@
         paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
         paymentPageRequest.multiUse = multiUse;
         paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
-        
+        paymentPageRequest.customer.email = @"jtiret+456464@hipay.com";
+
         switch (authenticationIndicatorSegmentIndex) {
             case 1:
                 paymentPageRequest.authenticationIndicator = HPTAuthenticationIndicatorIfAvailable;
@@ -261,9 +264,7 @@
                 break;
         }
         
-        /* You may define other request attributes like the customer email:
-         paymentPageRequest.customer.email = @"john.doe@mywebsite.com";
-         */
+        
         
         HPTPaymentScreenViewController *paymentScreen = [HPTPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest];
         

@@ -65,7 +65,7 @@ HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
     return [[HPTPaymentCardTokenMapper alloc] initWithRawData:rawData].mappedObject;
 }
 
-- (void)generateTokenWithCardNumber:(NSString *)cardNumber cardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder securityCode:(NSString *)securityCode multiUse:(BOOL)multiUse andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
+- (id<HPTRequest>)generateTokenWithCardNumber:(NSString *)cardNumber cardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder securityCode:(NSString *)securityCode multiUse:(BOOL)multiUse andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
     if (securityCode == nil) {
         securityCode = @"";
@@ -80,14 +80,14 @@ HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
                                  @"multi_use": @(multiUse).stringValue,
                                  };
     
-    [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
     }];
 }
 
-- (void)updatePaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID setCardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder completionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
+- (id<HPTRequest>)updatePaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID setCardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder completionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
     NSDictionary *parameters = @{
                                  @"request_id": requestID,
@@ -97,18 +97,18 @@ HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
                                  @"card_holder": cardHolder,
                                  };
     
-    [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/update" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPTHTTPMethodPost path:@"token/update" parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
     }];
 }
 
-- (void)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
+- (id<HPTRequest>)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
     NSDictionary *parameters = @{@"request_id": requestID};
     
-    [HTTPClient performRequestWithMethod:HPTHTTPMethodGet path:[@"token/" stringByAppendingString:token] parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPTHTTPMethodGet path:[@"token/" stringByAppendingString:token] parameters:parameters completionHandler:^(HPTHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
@@ -118,16 +118,29 @@ HPTSecureVaultClient *HPTSecureVaultClientSharedInstance = nil;
 - (void)manageRequestWithHTTPResponse:(HPTHTTPResponse *)response error:(NSError *)error andCompletionHandler:(HPTSecureVaultClientCompletionBlock)completionBlock
 {
     if (completionBlock != nil) {
+        
+        NSError *resultError = nil;
+        HPTPaymentCardToken *resultObject = nil;
+        
         if (error == nil) {
             HPTPaymentCardToken *newToken = [self paymentCardTokenWithData:response.body];
             
             if (newToken != nil) {
-                completionBlock(newToken, nil);
+                resultObject = newToken;
             } else {
-                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}]);
+                resultError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPIOther userInfo:@{NSLocalizedFailureReasonErrorKey: @"Malformed server response"}];
             }
         } else {
-            completionBlock(nil, [self errorForResponseBody:response.body andError:error]);
+            resultError = [self errorForResponseBody:response.body andError:error];
+        }
+        
+        if ([NSThread isMainThread]) {
+            completionBlock(resultObject, resultError);
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(resultObject, resultError);
+            });
         }
     }
 }

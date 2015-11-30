@@ -32,9 +32,36 @@
     
     object.paymentProductList = test1;
     object.paymentProductCategoryList = test2;
+    object.eci = HPTECIRecurringMOTO;
+    object.authenticationIndicator = HPTAuthenticationIndicatorIfAvailable;
+    object.multiUse = YES;
+    object.displaySelector = YES;
+    object.templateName = HPTPaymentPageRequestTemplateNameFrame;
+    object.css = [NSURL URLWithString:@"https://example.com/style.css"];
     
     XCTAssertEqualObjects([object valueForKey:@"paymentProductList"], test1);
     XCTAssertEqualObjects([object valueForKey:@"paymentProductCategoryList"], test2);
+    XCTAssertEqualObjects([object valueForKey:@"eci"], @(HPTECIRecurringMOTO));
+    XCTAssertEqualObjects([object valueForKey:@"authenticationIndicator"], @(HPTAuthenticationIndicatorIfAvailable));
+    XCTAssertEqualObjects([object valueForKey:@"multiUse"], @YES);
+    XCTAssertEqualObjects([object valueForKey:@"displaySelector"], @YES);
+    XCTAssertEqualObjects([object valueForKey:@"templateName"], HPTPaymentPageRequestTemplateNameFrame);
+    XCTAssertEqualObjects([object valueForKey:@"css"], [NSURL URLWithString:@"https://example.com/style.css"]);
+}
+
+- (void)testDefaultValues
+{
+    HPTPaymentPageRequest *result = [[HPTPaymentPageRequest alloc] init];
+    
+    NSSet *groupedCardPaymentProductCodes = [NSSet setWithObjects:HPTPaymentProductCodeMasterCard, HPTPaymentProductCodeVisa, HPTPaymentProductCodeCB, HPTPaymentProductCodeMaestro, HPTPaymentProductCodeAmericanExpress, HPTPaymentProductCodeDiners, nil];
+    
+    XCTAssertEqual(result.eci, HPTECIUndefined);
+    XCTAssertEqual(result.authenticationIndicator, HPTAuthenticationIndicatorUndefined);
+    XCTAssertEqual(result.multiUse, NO);
+    XCTAssertEqual(result.displaySelector, NO);
+    
+    XCTAssertEqualObjects(result.groupedPaymentCardProductCodes, groupedCardPaymentProductCodes);
+    XCTAssertTrue(result.paymentCardGroupingEnabled);
 }
 
 @end

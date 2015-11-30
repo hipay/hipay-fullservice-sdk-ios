@@ -12,6 +12,7 @@
 #import <HiPayTPP/HPTPaymentPageRequestSerializationMapper.h>
 #import <HiPayTPP/HPTOrderRequestSerializationMapper.h>
 #import <HiPayTPP/HPTArrayMapper.h>
+#import <HiPayTPP/HPTTransactionCallbackMapper.h>
 
 @interface HPTGatewayClientTests : XCTestCase
 {
@@ -115,7 +116,7 @@
     
     [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [HTTPResponse verify];
     [(OCMockObject *)gatewayClient verify];
@@ -154,7 +155,7 @@
     
     [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [HTTPResponse verify];
     [(OCMockObject *)gatewayClient verify];
@@ -184,18 +185,22 @@
     
     [[[HTTPResponse expect] andReturn:body] body];
     
-    [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] init];
+    
+    [[[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPTHTTPClientCompletionBlock passedCompletionBlock;
         [invocation getArgument: &passedCompletionBlock atIndex: 5];
         
         passedCompletionBlock((HPTHTTPResponse *) HTTPResponse, nil);
         
-    }] performRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] andReturn:clientRequest] performRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
+    id<HPTRequest> returnedRequest = [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
+    
+    XCTAssertEqual(returnedRequest, clientRequest);
     
     [HTTPResponse verify];
     [(OCMockObject *)gatewayClient verify];
@@ -236,7 +241,7 @@
     
     [gatewayClient handleRequestWithMethod:HPTHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPTAbstractMapper class] isArray:YES completionHandler:completionBlock];
     
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
     [HTTPResponse verify];
     [(OCMockObject *)gatewayClient verify];
@@ -258,9 +263,12 @@
     
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"hpayment"] parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] isArray:NO completionHandler:completionBlock];
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] init];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"hpayment"] parameters:parameters responseMapperClass:[HPTHostedPaymentPageMapper class] isArray:NO completionHandler:completionBlock];
     
-    [gatewayClient initializeHostedPaymentPageRequest:request withCompletionHandler:completionBlock];
+    HPTHTTPClientRequest *returnedRequest = [gatewayClient initializeHostedPaymentPageRequest:request withCompletionHandler:completionBlock];
+    
+    XCTAssertEqual(clientRequest, returnedRequest);
     
     OCMVerify([mapperClassMock mapperWithRequest:request]);
     [(OCMockObject *)gatewayClient verify];
@@ -279,10 +287,13 @@
     
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"order"] parameters:parameters responseMapperClass:[HPTTransactionMapper class] isArray:NO completionHandler:completionBlock];
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] init];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPTHTTPMethodPost path:[OCMArg isEqual:@"order"] parameters:parameters responseMapperClass:[HPTTransactionMapper class] isArray:NO completionHandler:completionBlock];
     
-    [gatewayClient requestNewOrder:request withCompletionHandler:completionBlock];
+    HPTHTTPClientRequest *returnedRequest = [gatewayClient requestNewOrder:request withCompletionHandler:completionBlock];
     
+    XCTAssertEqual(clientRequest, returnedRequest);
+
     OCMVerify([mapperClassMock mapperWithRequest:request]);
     [(OCMockObject *)gatewayClient verify];
 }
@@ -299,7 +310,9 @@
         [expectation fulfill];
     };
     
-    [[[(OCMockObject *)gatewayClient expect] andDo:^(NSInvocation *invocation) {
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] init];
+    
+    [[[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] andDo:^(NSInvocation *invocation) {
         
         HPTTransactionsCompletionBlock passedCompletionBlock;
         [invocation getArgument: &passedCompletionBlock atIndex: 7];
@@ -308,10 +321,12 @@
         
     }] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction/trId" parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:OCMOCK_ANY];
     
-    [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+    HPTHTTPClientRequest *returnedRequest = [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
     
+    XCTAssertEqual(clientRequest, returnedRequest);
+
     [(OCMockObject *)gatewayClient verify];
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
 }
 
 - (void)testTransactionWithReferenceError
@@ -324,7 +339,9 @@
         [expectation fulfill];
     };
     
-    [[[(OCMockObject *)gatewayClient expect] andDo:^(NSInvocation *invocation) {
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] init];
+
+    [[[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] andDo:^(NSInvocation *invocation) {
         
         HPTTransactionsCompletionBlock passedCompletionBlock;
         [invocation getArgument: &passedCompletionBlock atIndex: 7];
@@ -333,20 +350,25 @@
         
     }] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction/trId" parameters:@{} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:OCMOCK_ANY];
     
-    [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+    HPTHTTPClientRequest *returnedRequest = [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
     
+    XCTAssertEqual(clientRequest, returnedRequest);
+
     [(OCMockObject *)gatewayClient verify];
-    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:0.2 handler:nil];
 }
 
 - (void)testTransactionDetailsWithOrderId
 {
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction" parameters:@{@"orderid":@"orderId"} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:completionBlock];
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] init];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPTHTTPMethodGet path:@"transaction" parameters:@{@"orderid":@"orderId"} responseMapperClass:[HPTTransactionDetailsMapper class] isArray:NO completionHandler:completionBlock];
     
-    [gatewayClient getTransactionsWithOrderId:@"orderId" withCompletionHandler:completionBlock];
+    HPTHTTPClientRequest *returnedRequest = [gatewayClient getTransactionsWithOrderId:@"orderId" withCompletionHandler:completionBlock];
     
+    XCTAssertEqual(clientRequest, returnedRequest);
+
     [(OCMockObject *)gatewayClient verify];
 }
 
@@ -365,12 +387,15 @@
 {
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture"} responseMapperClass:[HPTOperationMapper class] isArray:NO completionHandler:completionBlock];
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] init];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture"} responseMapperClass:[HPTOperationMapper class] isArray:NO completionHandler:completionBlock];
     
     [[[(OCMockObject *)gatewayClient expect] andReturn:@"capture"] operationValueForOperationType:HPTOperationTypeCapture];
     
-    [gatewayClient performMaintenanceOperation:HPTOperationTypeCapture amount:nil onTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+    HPTHTTPClientRequest *returnedRequest = [gatewayClient performMaintenanceOperation:HPTOperationTypeCapture amount:nil onTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
     
+    XCTAssertEqual(clientRequest, returnedRequest);
+
     [(OCMockObject *)gatewayClient verify];
 }
 
@@ -378,14 +403,17 @@
 {
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture", @"amount": @"15.00"} responseMapperClass:[HPTOperationMapper class] isArray:NO completionHandler:completionBlock];
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] init];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPTHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture", @"amount": @"15.00"} responseMapperClass:[HPTOperationMapper class] isArray:NO completionHandler:completionBlock];
     
     [[[(OCMockObject *)gatewayClient expect] andReturn:@"capture"] operationValueForOperationType:HPTOperationTypeCapture];
 
     id classMock = OCMClassMock([HPTAbstractSerializationMapper class]);
     OCMStub([classMock formatAmountNumber:@15]).andReturn(@"15.00");
     
-    [gatewayClient performMaintenanceOperation:HPTOperationTypeCapture amount:@15 onTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+    HPTHTTPClientRequest *returnedRequest = [gatewayClient performMaintenanceOperation:HPTOperationTypeCapture amount:@15 onTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+    
+    XCTAssertEqual(clientRequest, returnedRequest);
 
     OCMVerify([classMock formatAmountNumber:@15]);
     
@@ -405,12 +433,116 @@
     
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
-    [[(OCMockObject *)gatewayClient expect] handleRequestWithMethod:HPTHTTPMethodGet path:@"payment_products" parameters:parameters responseMapperClass:[HPTPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] init];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPTHTTPMethodGet path:@"payment_products" parameters:parameters responseMapperClass:[HPTPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
     
-    [gatewayClient getPaymentProductsForRequest:request withCompletionHandler:completionBlock];
+    HPTHTTPClientRequest *returnedRequest = [gatewayClient getPaymentProductsForRequest:request withCompletionHandler:completionBlock];
     
+    XCTAssertEqual(clientRequest, returnedRequest);
+
     OCMVerify([mapperClassMock mapperWithRequest:request]);
     [(OCMockObject *)gatewayClient verify];
+}
+
+- (void)testTransactionErrorIsFinal
+{
+    NSError *error1 = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPICheckout userInfo:@{HPTErrorCodeAPICodeKey: @(3010003)}];
+    
+    NSError *notFinalError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeAPICheckout userInfo:@{HPTErrorCodeAPICodeKey: @(3010002)}];
+    
+    XCTAssertTrue([HPTGatewayClient isTransactionErrorFinal:error1]);
+    
+    XCTAssertFalse([HPTGatewayClient isTransactionErrorFinal:notFinalError]);
+}
+
+- (void)testHandleOpenURLSuccess
+{
+    NSURL *URL = [NSURL URLWithString:@"hipayexample://hipay-tpp/gateway/orders/TEST_SDK_IOS_1447858566.325105/decline?orderid=TEST_SDK_IOS_1447858566.325105&cid=&state=declined&reason=4000011&status=113&test=1&reference=851483651903&approval=&authorized=&ip=0.0.0.0&country=&lang=fr_FR&email=support%40hipay.com&cdata1=dt1&cdata2=&cdata3=&cdata4=&cdata5=&cdata6=&cdata7=&cdata8=&cdata9=&cdata10=&score=190&fraud=CHALLENGED&review=pending&avscheck=&cvccheck=&pp=visa&eci3ds=7&veres=Y&pares=N&cardtoken=ce5f096fa6bc05989c170pamq8a94432660491bd&cardbrand=VISA&cardpan=XXXXXXXXXXXX0002&cardexpiry=201912&cardcountry=US&hash="];
+    
+    
+    NSDictionary *expectedParams = @{@"orderid": @"TEST_SDK_IOS_1447858566.325105", @"cid": @"", @"state": @"declined", @"reason": @"4000011", @"status": @"113", @"test": @"1", @"reference": @"851483651903", @"approval": @"", @"authorized": @"", @"ip": @"0.0.0.0", @"country": @"", @"lang": @"fr_FR", @"email": @"support@hipay.com", @"cdata1": @"dt1", @"cdata2": @"", @"cdata3": @"", @"cdata4": @"", @"cdata5": @"", @"cdata6": @"", @"cdata7": @"", @"cdata8": @"", @"cdata9": @"", @"cdata10": @"", @"score": @"190", @"fraud": @"CHALLENGED", @"review": @"pending", @"avscheck": @"", @"cvccheck": @"", @"pp": @"visa", @"eci3ds": @"7", @"veres": @"Y", @"pares": @"N", @"cardtoken": @"ce5f096fa6bc05989c170pamq8a94432660491bd", @"cardbrand": @"VISA", @"cardpan": @"XXXXXXXXXXXX0002", @"cardexpiry": @"201912", @"cardcountry": @"US", @"hash": @""};
+    
+    
+    OCMockObject *mockedMapper = [OCMockObject mockForClass:[HPTTransactionCallbackMapper class]];
+    
+    id classMock = OCMClassMock([HPTTransactionCallbackMapper class]);
+    OCMStub([classMock mapperWithRawData:[OCMArg isEqual:expectedParams]]).andReturn(mockedMapper);
+    
+    HPTTransaction *transaction = [[HPTTransaction alloc] init];
+    
+    [[[mockedMapper expect] andReturn:transaction] mappedObject];
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Gateway notification"];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        XCTFail(@"Gateway should not post %@ notification in this case.", note.name);
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        
+        XCTAssertEqualObjects(note.userInfo[@"orderId"], @"TEST_SDK_IOS_1447858566.325105");
+        XCTAssertEqual(note.userInfo[@"transaction"], transaction);
+        
+        [expectation fulfill];
+    }];
+    
+    BOOL handled = [gatewayClient handleOpenURL:URL];
+    
+    XCTAssertTrue(handled);
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+    
+    [mockedMapper verify];
+}
+
+- (void)testHandleOpenURLMappingError
+{
+    NSURL *URL = [NSURL URLWithString:@"hipayexample://hipay-tpp/gateway/orders/TEST_SDK_IOS_1447858566.325105/accept"];
+    
+    NSDictionary *expectedParams = @{};
+    
+    id classMock = OCMClassMock([HPTTransactionCallbackMapper class]);
+    OCMStub([classMock mapperWithRawData:[OCMArg isEqual:expectedParams]]).andReturn(nil);
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Gateway notification"];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        XCTFail(@"Gateway should not post %@ notification in this case.", note.name);
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        
+        XCTAssertEqualObjects(note.userInfo[@"orderId"], @"TEST_SDK_IOS_1447858566.325105");
+        XCTAssertNil(note.userInfo[@"transaction"]);
+        
+        [expectation fulfill];
+    }];
+    
+    BOOL handled = [gatewayClient handleOpenURL:URL];
+    
+    XCTAssertTrue(handled);
+    
+    [self waitForExpectationsWithTimeout:0.1 handler:nil];
+}
+
+- (void)testHandleOpenURLMalformedURL
+{
+    void (^notifBlock)(NSNotification *note) = ^(NSNotification * _Nonnull note) {
+        XCTFail(@"Gateway should not post %@ notification in case of malformed URL", note.name);
+    };
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:notifBlock];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPTGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:notifBlock];
+    
+    
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-tpp/gateway/orders/TEST_SDK_IOS_1447858566.325105"]]);
+    
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-tpp/gateway/order/TEST_SDK_IOS_1447858566.325105"]]);
+    
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-tpp/gateay/orders/TEST_SDK_IOS_1447858566.325105"]]);
+    
+    
 }
 
 @end

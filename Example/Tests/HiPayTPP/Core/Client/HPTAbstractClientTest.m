@@ -63,7 +63,7 @@
     
     XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
     XCTAssertEqual(error.code, HPTErrorCodeAPIConfiguration);
-    XCTAssertEqualObjects([error.userInfo objectForKey:NSLocalizedDescriptionKey], @"Username and/or password is incorrect.");
+    XCTAssertEqualObjects([error.userInfo objectForKey:HPTErrorCodeAPIDescriptionKey], @"Username and/or password is incorrect.");
     XCTAssertEqual([[error.userInfo objectForKey:HPTErrorCodeAPICodeKey] integerValue], HPTErrorAPIIncorrectCredentials);
     XCTAssertEqualObjects([error.userInfo objectForKey:NSUnderlyingErrorKey], underlyingError);
     
@@ -95,7 +95,7 @@
     
     XCTAssertEqualObjects(error.domain, HPTHiPayTPPErrorDomain);
     XCTAssertEqual(error.code, HPTErrorCodeAPIConfiguration);
-    XCTAssertEqualObjects([error.userInfo objectForKey:NSLocalizedDescriptionKey], @"Username and/or password is incorrect.");
+    XCTAssertEqualObjects([error.userInfo objectForKey:HPTErrorCodeAPIDescriptionKey], @"Username and/or password is incorrect.");
     XCTAssertEqual([[error.userInfo objectForKey:HPTErrorCodeAPICodeKey] integerValue], HPTErrorAPIIncorrectCredentials);
     XCTAssertEqualObjects([error.userInfo objectForKey:NSUnderlyingErrorKey], underlyingError);
 }

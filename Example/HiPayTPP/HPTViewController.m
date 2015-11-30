@@ -7,6 +7,9 @@
 //
 
 #import "HPTViewController.h"
+#import <WebKit/WebKit.h>
+#import <SafariServices/SafariServices.h>
+#import <HiPayTPP/HPTPaymentScreenUtils.h>
 
 @interface HPTViewController ()
 
@@ -18,6 +21,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
 }
 
 - (void)didReceiveMemoryWarning

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x3v-0z-yzu">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Payment Screen Main View Controller-->
+        <scene sceneID="Tvi-uq-4o5">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="qTi-Cp-vWY" customClass="HPTPaymentScreenMainViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ACm-0I-p5W"/>
+                        <viewControllerLayoutGuide type="bottom" id="tao-Ft-77u"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LzR-BS-9hQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YmN-zD-Gn1">
+                                <rect key="frame" x="0.0" y="171" width="320" height="397"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                <connections>
+                                    <segue destination="3HD-7E-Cgn" kind="embed" id="oyt-3G-Ajd"/>
+                                </connections>
+                            </containerView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="60" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZFw-rb-92n">
+                                <rect key="frame" x="0.0" y="64" width="320" height="107"/>
+                                <animations/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="107" id="WML-2F-VZO"/>
+                                </constraints>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PaymentProductsCell" id="T3t-Vm-6UX" customClass="HPTPaymentProductsTableViewCell">
+                                        <rect key="frame" x="0.0" y="50" width="320" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T3t-Vm-6UX" id="TaL-fo-NW0">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7me-MC-uEC">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                                    <animations/>
+                                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <collectionViewLayout key="collectionViewLayout" id="AUE-Z0-Qge" customClass="HPTPaymentProductsFlowLayout"/>
+                                                    <cells>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PaymentProductCell" id="NLG-gI-pnO" customClass="HPTPaymentProductCollectionViewCell">
+                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <animations/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            </view>
+                                                            <animations/>
+                                                        </collectionViewCell>
+                                                    </cells>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="qTi-Cp-vWY" id="qWA-8B-CNv"/>
+                                                        <outlet property="delegate" destination="qTi-Cp-vWY" id="GQI-oU-DGY"/>
+                                                    </connections>
+                                                </collectionView>
+                                            </subviews>
+                                            <animations/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="7me-MC-uEC" firstAttribute="leading" secondItem="TaL-fo-NW0" secondAttribute="leadingMargin" constant="-8" id="JPP-AV-P9W"/>
+                                                <constraint firstItem="7me-MC-uEC" firstAttribute="top" secondItem="TaL-fo-NW0" secondAttribute="topMargin" constant="-8" id="KWz-hv-vse"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="7me-MC-uEC" secondAttribute="trailing" constant="-8" id="O9o-ed-Crf"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="7me-MC-uEC" secondAttribute="bottom" constant="-8" id="QnR-pW-UKU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="paymentProductsCollectionView" destination="7me-MC-uEC" id="qNh-Hh-hBV"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="qTi-Cp-vWY" id="pk0-MY-JgO"/>
+                                    <outlet property="delegate" destination="qTi-Cp-vWY" id="iFH-QL-7Vc"/>
+                                </connections>
+                            </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yfH-RL-9t5">
+                                <rect key="frame" x="142" y="266" width="37" height="37"/>
+                                <animations/>
+                                <color key="color" white="0.64859479870335579" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="YmN-zD-Gn1" firstAttribute="leading" secondItem="LzR-BS-9hQ" secondAttribute="leading" priority="750" id="2Qe-Y0-bVQ"/>
+                            <constraint firstItem="YmN-zD-Gn1" firstAttribute="top" secondItem="ZFw-rb-92n" secondAttribute="bottom" priority="750" id="ExS-PC-JJe"/>
+                            <constraint firstItem="ZFw-rb-92n" firstAttribute="top" secondItem="ACm-0I-p5W" secondAttribute="bottom" priority="750" id="JR3-Gk-iDs"/>
+                            <constraint firstItem="YmN-zD-Gn1" firstAttribute="top" secondItem="ZFw-rb-92n" secondAttribute="bottom" priority="750" id="Wiw-e3-SfA"/>
+                            <constraint firstItem="ZFw-rb-92n" firstAttribute="leading" secondItem="LzR-BS-9hQ" secondAttribute="leading" priority="750" id="fkp-c3-IcT"/>
+                            <constraint firstItem="yfH-RL-9t5" firstAttribute="centerX" secondItem="LzR-BS-9hQ" secondAttribute="centerX" priority="750" id="gbW-Ia-UPg"/>
+                            <constraint firstItem="yfH-RL-9t5" firstAttribute="centerY" secondItem="LzR-BS-9hQ" secondAttribute="centerY" priority="750" id="gkU-CU-HEi"/>
+                            <constraint firstAttribute="trailing" secondItem="YmN-zD-Gn1" secondAttribute="trailing" priority="750" id="h19-gL-mbd"/>
+                            <constraint firstItem="tao-Ft-77u" firstAttribute="top" secondItem="YmN-zD-Gn1" secondAttribute="bottom" priority="750" id="lA5-wZ-CZX"/>
+                            <constraint firstAttribute="trailing" secondItem="ZFw-rb-92n" secondAttribute="trailing" priority="750" id="nSQ-jo-AMJ"/>
+                            <constraint firstItem="tao-Ft-77u" firstAttribute="top" secondItem="YmN-zD-Gn1" secondAttribute="bottom" priority="750" id="zi4-Ib-5ds"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="ExS-PC-JJe"/>
+                                <exclude reference="zi4-Ib-5ds"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" id="c61-tc-cJr"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="containerBottomConstraint" destination="lA5-wZ-CZX" id="yUt-Ay-YKv"/>
+                        <outlet property="containerTopConstraint" destination="Wiw-e3-SfA" id="fqx-SA-VS9"/>
+                        <outlet property="containerView" destination="YmN-zD-Gn1" id="cU1-xe-1k8"/>
+                        <outlet property="paymentProductsTableView" destination="ZFw-rb-92n" id="IhB-Vw-xDE"/>
+                        <outlet property="paymentProductsTableViewHeightConstraint" destination="WML-2F-VZO" id="UFA-mm-rIM"/>
+                        <outlet property="spinner" destination="yfH-RL-9t5" id="RXn-Tb-8WX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Uu-Uv-VDH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-177" y="291"/>
+        </scene>
+        <!--Payment Screen View Controller-->
+        <scene sceneID="00c-Eg-Qfn">
+            <objects>
+                <viewController id="x3v-0z-yzu" customClass="HPTPaymentScreenViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5G5-Mb-Fs9"/>
+                        <viewControllerLayoutGuide type="bottom" id="W8l-mT-HL9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DQr-CJ-mnf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kz-Wz-2xI">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <animations/>
+                                <connections>
+                                    <segue destination="6yy-Ye-aDf" kind="embed" identifier="contained_controller" id="jYe-67-ifp"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9Kz-Wz-2xI" firstAttribute="leading" secondItem="DQr-CJ-mnf" secondAttribute="leading" id="Bvd-rI-7gC"/>
+                            <constraint firstItem="9Kz-Wz-2xI" firstAttribute="top" secondItem="DQr-CJ-mnf" secondAttribute="top" id="RAl-JW-Yn9"/>
+                            <constraint firstItem="W8l-mT-HL9" firstAttribute="top" secondItem="9Kz-Wz-2xI" secondAttribute="bottom" id="bu9-D1-OzI"/>
+                            <constraint firstAttribute="trailing" secondItem="9Kz-Wz-2xI" secondAttribute="trailing" id="pVy-02-oD9"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HUR-tT-tfd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1065" y="291"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5eb-Qi-Rzb">
+            <objects>
+                <navigationController id="6yy-Ye-aDf" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DIc-w1-trW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="qTi-Cp-vWY" kind="relationship" relationship="rootViewController" id="8oV-2F-sbU"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z9f-0s-gpM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-624" y="291"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="2VT-7e-3hZ">
+            <objects>
+                <viewController id="3HD-7E-Cgn" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FPb-Qa-dhO"/>
+                        <viewControllerLayoutGuide type="bottom" id="chi-Xd-gzg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uXo-DJ-elz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XiF-RD-f7G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-177" y="1031"/>
+        </scene>
+    </scenes>
+</document>

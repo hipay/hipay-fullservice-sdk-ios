@@ -10,12 +10,14 @@
 #import "HPTCustomerInfoRequest.h"
 #import "NSMutableDictionary+Serialization.h"
 #import "HPTAbstractSerializationMapper+Encode.h"
+#import "HPTCustomerInfoRequestSerializationMapper_Private.h"
+#import "HPTPersonalInfoRequestSerializationMapper_Protected.h"
 
 @implementation HPTCustomerInfoRequestSerializationMapper
 
 - (NSDictionary *)serializedRequest
 {
-    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    NSMutableDictionary *result = [self personalInformationSerializedRequest];
     
     [result setNullableObject:[self getStringForKey:@"email"] forKey:@"email"];
     [result setNullableObject:[self getStringForKey:@"phone"] forKey:@"phone"];

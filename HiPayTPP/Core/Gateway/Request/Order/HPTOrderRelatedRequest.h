@@ -8,6 +8,8 @@
 
 #import "HPTCustomerInfoRequest.h"
 
+#define HPTGatewayCallbackURLOrderPathName @"orders"
+
 typedef NS_ENUM(NSInteger, HPTOrderRequestOperation) {
     HPTOrderRequestOperationUndefined,
     HPTOrderRequestOperationAuthorization,
@@ -52,5 +54,6 @@ typedef NS_ENUM(NSInteger, HPTOrderRequestOperation) {
 @property (nonatomic, copy) NSString *cdata9;
 @property (nonatomic, copy) NSString *cdata10;
 
+- (instancetype)initWithOrderRelatedRequest:(HPTOrderRelatedRequest *)orderRelatedRequest;
 
 @end

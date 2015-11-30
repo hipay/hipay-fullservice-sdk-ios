@@ -5,7 +5,7 @@
       "description":"VISA",
       "paymentProductCategoryCode":"credit-card",
       "tokenizable":true
-   },
+   },   
    {
       "id":"GUQ4NAIJ",
       "code":"mastercard",
@@ -21,39 +21,18 @@
       "tokenizable":true
    },
    {
-      "id":"JRTEL7NY",
-      "code":"diners",
-      "description":"Diners Club International",
-      "paymentProductCategoryCode":"credit-card",
-      "tokenizable":true
-   },
-   {
-      "id":"PL2SFXZ0",
-      "code":"jcb",
-      "description":"JCB",
-      "paymentProductCategoryCode":"credit-card",
-      "tokenizable":true
-   },
-   {
       "id":"MRU9TJFH",
       "code":"american-express",
       "description":"American Express",
       "paymentProductCategoryCode":"credit-card",
       "tokenizable":true
-   },
+   },   
    {
-      "id":"BLMQ0VNG",
-      "code":"3xcb",
-      "description":"3x Carte Bancaire",
+      "id":"JRTEL7NY",
+      "code":"diners",
+      "description":"Diners Club International",
       "paymentProductCategoryCode":"credit-card",
-      "tokenizable":false
-   },
-   {
-      "id":"GSI0TKIH",
-      "code":"4xcb-no-fees",
-      "description":"4x Carte Bancaire sans frais",
-      "paymentProductCategoryCode":"credit-card",
-      "tokenizable":false
+      "tokenizable":true
    },
    {
       "id":"0J9LFS1O",
@@ -63,25 +42,25 @@
       "tokenizable":true
    },
    {
+      "id":"0J9LFS11",
+      "code":"bcmc-mobile",
+      "description":"Bancontact Mobile",
+      "paymentProductCategoryCode":"ewallet",
+      "tokenizable":false
+   },
+   {
       "id":"339KCZTQ",
       "code":"maestro",
       "description":"Maestro",
       "paymentProductCategoryCode":"debit-card",
       "tokenizable":true
-   },
+   },   
    {
-      "id":"8YXAZS5Y",
-      "code":"dankort",
-      "description":"Dankort",
-      "paymentProductCategoryCode":"debit-card",
-      "tokenizable":false
-   },
-   {
-      "id":"XZWIGL27",
-      "code":"ideal",
-      "description":"iDEAL",
-      "paymentProductCategoryCode":"realtime-banking",
-      "tokenizable":false
+      "id":"LQ09C87Y",
+      "code":"carte-accord",
+      "description":"Carte Accord",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":true
    },
    {
       "id":"ICOD9CQU",
@@ -98,10 +77,10 @@
       "tokenizable":false
    },
    {
-      "id":"RAXLNESP",
-      "code":"qiwi-wallet",
-      "description":"VISA QIWI Wallet",
-      "paymentProductCategoryCode":"ewallet",
+      "id":"XZWIGL27",
+      "code":"ideal",
+      "description":"iDEAL",
+      "paymentProductCategoryCode":"realtime-banking",
       "tokenizable":false
    },
    {
@@ -110,12 +89,180 @@
       "description":"PayPal",
       "paymentProductCategoryCode":"ewallet",
       "tokenizable":false
+   },   
+   {
+      "id":"OR39Z05G",
+      "code":"giropay",
+      "description":"Giropay",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"56WDGA6Y",
+      "code":"sdd",
+      "description":"SEPA Direct Debit",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"EM5VTJII",
+      "code":"bank-transfer",
+      "description":"Transfer from bank account to bank account",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"KYYI3FSH",
+      "code":"payulatam",
+      "description":"PayULatam wallet",
+      "paymentProductCategoryCode":"ewallet",
+      "tokenizable":false
+   },   
+   {
+      "id":"TTB0Y3DE",
+      "code":"paysafecard",
+      "description":"PaysafeCard",
+      "paymentProductCategoryCode":"prepaid-card",
+      "tokenizable":false
+   },   
+   {
+      "id":"FZEWWCY0",
+      "code":"sisal",
+      "description":"Sisal",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"SJEYVCOE",
+      "code":"przelewy24",
+      "description":"Przelewy24",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"RAXLNESP",
+      "code":"qiwi-wallet",
+      "description":"VISA QIWI Wallet",
+      "paymentProductCategoryCode":"ewallet",
+      "tokenizable":false
+   },   
+   {
+      "id":"BLMQ0VNG",
+      "code":"3xcb",
+      "description":"3x Carte Bancaire",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":false
    },
+   {
+      "id":"GSI0TKIH",
+      "code":"4xcb-no-fees",
+      "description":"4x Carte Bancaire sans frais",
+      "paymentProductCategoryCode":"credit-card",
+      "tokenizable":false
+   },   
    {
       "id":"72L8SV1M",
       "code":"yandex",
       "description":"Yandex",
       "paymentProductCategoryCode":"ewallet",
       "tokenizable":false
-   }
+   },
+   {
+      "id":"72L8SV1M",
+      "code":"postfinance",
+      "description":"Postfinance",
+      "paymentProductCategoryCode":"debit-card",
+      "tokenizable":false
+   },
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-at-a1",
+      "description":"Dimoco A1",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-at-tmobile",
+      "description":"Dimoco TMobile",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-at-orange",
+      "description":"Dimoco Orange",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-at-drei",
+      "description":"Dimoco Drei",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-cz-tmobile",
+      "description":"Dimoco CZ tmobile",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-cz-o2",
+      "description":"Dimoco CZ o2",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-cz-vodafone",
+      "description":"Dimoco CZ vodafone",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-be-proximus",
+      "description":"DCB Belgique Proximus",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-be-mobistar",
+      "description":"DCB Belgique Mobistar",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-es-pagosmovistar",
+      "description":"DCB ES Pagos Movistar",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-sg-singtel",
+      "description":"Singtel SG",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-ch-easypay",
+      "description":"Easypay",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
+   {
+      "id":"LKA7QX4W",
+      "code":"dcb-it-mobilepay",
+      "description":"MobilePay IT",
+      "paymentProductCategoryCode":"realtime-banking",
+      "tokenizable":false
+   },   
 ]

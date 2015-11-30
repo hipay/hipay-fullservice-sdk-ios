@@ -354,11 +354,13 @@
     [[[mockedMapper expect] andReturn:@"https://www.example2.com/page/to/redirect.php"] getStringForKey:@"test2"];
     [[[mockedMapper expect] andReturn:nil] getStringForKey:@"test3"];
     [[[mockedMapper expect] andReturn:@"invalid URL"] getStringForKey:@"test4"];
+    [[[mockedMapper expect] andReturn:@""] getStringForKey:@"test5"];
     
     XCTAssertEqualObjects([mapper getURLForKey:@"test1"], [NSURL URLWithString:@"http://www.example.com/page/to/redirect"]);
     XCTAssertEqualObjects([mapper getURLForKey:@"test2"], [NSURL URLWithString:@"https://www.example2.com/page/to/redirect.php"]);
     XCTAssertNil([mapper getURLForKey:@"test3"]);
     XCTAssertNil([mapper getURLForKey:@"test4"]);
+    XCTAssertNil([mapper getURLForKey:@"test5"]);
     
     [mockedMapper verify];
 }
@@ -366,15 +368,43 @@
 - (void)testObjectsArrayValues
 {
     HPTAbstractMapper *mapper = [[HPTAbstractMapper alloc] initWithRawData:@{}];
-
+    
     NSArray *test1 = @[@{@"state": @"completed"}, @{@"state": @"pending"}];
     NSDictionary *test2 = @{@"0": @{@"state": @"completed"}, @"1": @{@"state": @"pending"}};
-
+    
     XCTAssertEqualObjects([mapper getObjectsArrayForObject:test1], test1);
     XCTAssertEqualObjects([mapper getObjectsArrayForObject:test2], test1);
     XCTAssertNil([mapper getObjectsArrayForObject:nil]);
     XCTAssertNil([mapper getObjectsArrayForObject:@"test"]);
     
+}
+
+- (void)testYearAndMonthForKey
+{
+    OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPTAbstractMapper alloc] initWithRawData:@{}]];
+    HPTAbstractMapper *mapper = (HPTAbstractMapper *)mockedMapper;
+    
+    [[[mockedMapper expect] andReturn:@"201212"] getStringForKey:@"test1"];
+    [[[mockedMapper expect] andReturn:@"201502"] getStringForKey:@"test2"];
+    [[[mockedMapper expect] andReturn:@"022015"] getStringForKey:@"test3"];
+    [[[mockedMapper expect] andReturn:@"testdd"] getStringForKey:@"test4"];
+    [[[mockedMapper expect] andReturn:@"201513"] getStringForKey:@"test5"];
+    
+    NSDateComponents *test1 = [[NSDateComponents alloc] init];
+    test1.year = 2012;
+    test1.month = 12;
+    
+    NSDateComponents *test2 = [[NSDateComponents alloc] init];
+    test2.year = 2015;
+    test2.month = 2;
+    
+    XCTAssertEqualObjects([mapper getYearAndMonthForKey:@"test1"],  test1);
+    XCTAssertEqualObjects([mapper getYearAndMonthForKey:@"test2"],  test2);
+    XCTAssertNil([mapper getYearAndMonthForKey:@"test3"]);
+    XCTAssertNil([mapper getYearAndMonthForKey:@"test4"]);
+    XCTAssertNil([mapper getYearAndMonthForKey:@"test5"]);
+    
+    [mockedMapper verify];
 }
 
 @end

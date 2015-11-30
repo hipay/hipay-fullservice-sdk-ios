@@ -9,6 +9,24 @@
 #import "HPTHTTPClient.h"
 #import "HPTErrors.h"
 
+@implementation HPTHTTPClientRequest
+
+- (instancetype)initWithURLSessionTask:(NSURLSessionTask *)URLSessionTask
+{
+    self = [super init];
+    if (self) {
+        _URLSessionTask = URLSessionTask;
+    }
+    return self;
+}
+
+- (void)cancel
+{
+    [_URLSessionTask cancel];
+}
+
+@end
+
 @implementation HPTHTTPClient
 
 - (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)thePassword
@@ -86,53 +104,74 @@
     return URLRequest;
 }
 
-- (void)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock
+- (HPTHTTPClientRequest *)performRequestWithMethod:(HPTHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPTHTTPClientCompletionBlock)completionBlock
 {
+    static dispatch_once_t onceBlock;
+    static NSMutableArray *requests;
+
+    dispatch_once (&onceBlock, ^{
+        requests = [NSMutableArray array];
+    });
     
     NSURLRequest *request = [self createURLRequestWithMethod:method path:path parameters:parameters];
     
+    [requests addObject:request];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        // Connection error
-        if (error != nil) {
-            completionBlock(nil, [self errorFromURLConnectionError:error]);
-        }
+        // Network activity
+        [requests removeObject:request];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = (requests.count > 0);
         
-        else if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+        // Cancelled by user, no callback
+        if ((error == nil) || ![error.domain isEqualToString:NSURLErrorDomain] || (error.code != NSURLErrorCancelled)) {
             
-            NSError *JSONError = nil;
-            
-            id body = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
-            
-            if (JSONError == nil) {
-                HPTHTTPResponse *clientResponse = [[HPTHTTPResponse alloc] initWithStatusCode:[(NSHTTPURLResponse *)response statusCode] body:body];
-                
-                NSError *responseError = nil;
-                
-                if (NSLocationInRange(clientResponse.statusCode, NSMakeRange(400, 499))) {
-                    responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPClientDescription}];
-                }
-                
-                else if (NSLocationInRange(clientResponse.statusCode, NSMakeRange(500, 599))) {
-                    responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription}];
-                }
-                
-                completionBlock(clientResponse, responseError);
+            // Connection error
+            if (error != nil) {
+                completionBlock(nil, [self errorFromURLConnectionError:error]);
             }
             
-            // Content not parsable, server error
+            else if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                
+                NSError *JSONError = nil;
+                
+                id body = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
+                
+                if (JSONError == nil) {
+                    HPTHTTPResponse *clientResponse = [[HPTHTTPResponse alloc] initWithStatusCode:[(NSHTTPURLResponse *)response statusCode] body:body];
+                    
+                    NSError *responseError = nil;
+                    
+                    if (NSLocationInRange(clientResponse.statusCode, (NSRange){400, 499})) {
+                        responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPClient userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPClientDescription, HPTErrorCodeHTTPStatusCodeKey: @(clientResponse.statusCode)}];
+                    }
+                    
+                    else if (NSLocationInRange(clientResponse.statusCode, (NSRange){500, 599})) {
+                        responseError = [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription, HPTErrorCodeHTTPStatusCodeKey: @(clientResponse.statusCode)}];
+                    }
+                    
+                    completionBlock(clientResponse, responseError);
+                }
+                
+                // Content not parsable, server error
+                else {
+                    completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSUnderlyingErrorKey: JSONError, NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription, HPTErrorCodeHTTPPlainResponseKey: [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], HPTErrorCodeHTTPStatusCodeKey: @([(NSHTTPURLResponse *)response statusCode])}]);
+                }
+            }
+            
             else {
-                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPServer userInfo:@{NSUnderlyingErrorKey: JSONError, NSLocalizedDescriptionKey: HPTErrorCodeHTTPServerDescription, HPTErrorCodeHTTPPlainResponseKey: [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]}]);
+                completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPOther userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPOtherDescription}]);
             }
-        }
-        
-        else {
-            completionBlock(nil, [NSError errorWithDomain:HPTHiPayTPPErrorDomain code:HPTErrorCodeHTTPOther userInfo:@{NSLocalizedDescriptionKey: HPTErrorCodeHTTPOtherDescription}]);
         }
         
     }];
     
+    HPTHTTPClientRequest *clientRequest = [[HPTHTTPClientRequest alloc] initWithURLSessionTask:sessionDataTask];
+    
     [sessionDataTask resume];
+    
+    return clientRequest;
 }
 
 - (NSError *)errorFromURLConnectionError:(NSError *)error
@@ -140,7 +179,7 @@
     NSInteger code = HPTErrorCodeHTTPOther;
     NSString *description = HPTErrorCodeHTTPOtherDescription;
     
-    if (error.domain == NSURLErrorDomain) {
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
         switch (error.code) {
             case NSURLErrorNotConnectedToInternet:
             case NSURLErrorInternationalRoamingOff:

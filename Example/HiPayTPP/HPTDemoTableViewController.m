@@ -504,7 +504,9 @@
         default:
             break;
     }
-    
+
+    self.view.tintColor = tintColor;
+    self.navigationController.view.tintColor = tintColor;
     [[UIView appearance] setTintColor:tintColor];
     [[UISwitch appearance] setOnTintColor:onTintColor];
 }

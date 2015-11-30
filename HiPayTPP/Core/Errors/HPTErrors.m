@@ -23,5 +23,6 @@ NSString * const HPTErrorCodeHTTPPlainResponseKey = @"HPTErrorCodeHTTPPlainRespo
 NSString * const HPTErrorCodeHTTPParsedResponseKey = @"HPTErrorCodeHTTPParsedResponseKey";
 NSString * const HPTErrorCodeHTTPStatusCodeKey = @"HPTErrorCodeHTTPStatusCodeKey";
 
+NSString * const HPTErrorCodeAPIDescriptionKey = @"HPTErrorCodeAPIDescriptionKey";
 NSString * const HPTErrorCodeAPIMessageKey = @"HPTErrorCodeAPIMessageKey";
 NSString * const HPTErrorCodeAPICodeKey = @"HPTErrorCodeAPICodeKey";

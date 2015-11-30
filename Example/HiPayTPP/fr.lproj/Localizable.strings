@@ -41,3 +41,32 @@
 "FORM_PAYMENT_PRODUCTS_EWALLET" = "Portefeuille électronique";
 
 "FORM_PAYMENT_PRODUCTS_REALTIME_BANKING" = "Banque temps réel";
+
+"RESULT_CANCEL" = "Annulé par l'utilisateur.";
+
+"RESULT_TITLE" = "Résultat du parcours de paiement";
+
+"RESULT_ERROR" = "Erreur";
+
+"RESULT_FRAUD" = "Analyse fraude";
+
+"RESULT_FRAUD_PENDING" = "En attente";
+
+"RESULT_FRAUD_ACCEPTED" = "Acceptée";
+
+"RESULT_FRAUD_BLOCKED" = "Bloquée";
+
+"RESULT_FRAUD_CHALLENGED" = "Challengée";
+
+"RESULT_STATE" = "Statut de la transaction";
+
+"RESULT_STATE_ERROR" = "En erreur";
+
+"RESULT_STATE_COMPLETED" = "Terminée";
+
+"RESULT_STATE_FORWARDING" = "Redirection";
+
+"RESULT_STATE_PENDING" = "En attente";
+
+"RESULT_STATE_DECLINED" = "Refusée";
+

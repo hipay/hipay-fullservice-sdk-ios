@@ -70,6 +70,7 @@
 		A5A6EEA01BB972AF00825B19 /* HPTHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */; };
 		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; };
 		A5ABD1141BFCE1C700D8B867 /* HPTTransactionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5ABD1131BFCE1C700D8B867 /* HPTTransactionTests.m */; };
+		A5B076961C0C7FFE00B225C1 /* HPTInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B076951C0C7FFE00B225C1 /* HPTInfoTableViewCell.m */; };
 		A5B9A6E41BD54A060014B27F /* HPTTransactionDetailsMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B9A6E31BD54A060014B27F /* HPTTransactionDetailsMapperTests.m */; };
 		A5B9A6EE1BD6B2550014B27F /* HPTPaymentProductMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B9A6ED1BD6B2550014B27F /* HPTPaymentProductMapperTests.m */; };
 		A5C657DC1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C657DB1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m */; };
@@ -176,6 +177,8 @@
 		A5A6EE9F1BB972AF00825B19 /* HPTHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTHTTPResponseTests.m; sourceTree = "<group>"; };
 		A5A6EEA21BB97C8400825B19 /* example_dictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_dictionary.json; sourceTree = "<group>"; };
 		A5ABD1131BFCE1C700D8B867 /* HPTTransactionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTTransactionTests.m; sourceTree = "<group>"; };
+		A5B076941C0C7FFE00B225C1 /* HPTInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTInfoTableViewCell.h; sourceTree = "<group>"; };
+		A5B076951C0C7FFE00B225C1 /* HPTInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTInfoTableViewCell.m; sourceTree = "<group>"; };
 		A5B9A6E31BD54A060014B27F /* HPTTransactionDetailsMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTTransactionDetailsMapperTests.m; sourceTree = "<group>"; };
 		A5B9A6ED1BD6B2550014B27F /* HPTPaymentProductMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTPaymentProductMapperTests.m; sourceTree = "<group>"; };
 		A5C657DB1BD0102B0017A2D7 /* HPTMutableDictionarySerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTMutableDictionarySerialization.m; sourceTree = "<group>"; };
@@ -390,6 +393,8 @@
 				A54AF9241C0B6D4700B10F36 /* HPTSubmitTableViewCell.m */,
 				A54AF9291C0B771000B10F36 /* HPTMoreOptionsTableViewCell.h */,
 				A54AF92A1C0B771000B10F36 /* HPTMoreOptionsTableViewCell.m */,
+				A5B076941C0C7FFE00B225C1 /* HPTInfoTableViewCell.h */,
+				A5B076951C0C7FFE00B225C1 /* HPTInfoTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -816,6 +821,7 @@
 			files = (
 				A54AF9161C0B52E000B10F36 /* HPTSwitchTableViewCell.m in Sources */,
 				6003F59E195388D20070C39A /* HPTAppDelegate.m in Sources */,
+				A5B076961C0C7FFE00B225C1 /* HPTInfoTableViewCell.m in Sources */,
 				A54AF92B1C0B771000B10F36 /* HPTMoreOptionsTableViewCell.m in Sources */,
 				6003F5A7195388D20070C39A /* HPTViewController.m in Sources */,
 				A54AF91C1C0B599C00B10F36 /* HPTSegmentedControlTableViewCell.m in Sources */,

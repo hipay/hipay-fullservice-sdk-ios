@@ -12,6 +12,7 @@
 #import "HPTStepperTableViewCell.h"
 #import "HPTSubmitTableViewCell.h"
 #import "HPTMoreOptionsTableViewCell.h"
+#import "HPTInfoTableViewCell.h"
 
 @interface HPTDemoTableViewController ()
 
@@ -21,9 +22,11 @@
 
 - (void)awakeFromNib
 {
+    // Section indexes
     formSectionIndex = 0;
     resultSectionIndex = NSNotFound;
     
+    // Form row indexes
     groupedPaymentCardRowIndex = 0;
     currencyRowIndex = 1;
     amountRowIndex = 2;
@@ -32,6 +35,13 @@
     colorRowIndex = 5;
     productCategoryRowIndex = 6;
     submitRowIndex = 7;
+    
+    // Error row indexes
+    resultSectionIndex = NSNotFound;
+    errorDescriptionRowIndex = NSNotFound;
+    transactionStateRowIndex = NSNotFound;
+    fraudReviewRowIndex = NSNotFound;
+    cancelRowIndex = NSNotFound;
     
     // Default form values
     currencies = @[@"EUR", @"USD", @"PLN", @"RUB"];
@@ -49,6 +59,7 @@
     [self.tableView registerClass:[HPTSegmentedControlTableViewCell class] forCellReuseIdentifier:@"SegmentedControlCell"];
     [self.tableView registerClass:[HPTSubmitTableViewCell class] forCellReuseIdentifier:@"SubmitCell"];
     [self.tableView registerClass:[HPTMoreOptionsTableViewCell class] forCellReuseIdentifier:@"OptionsCell"];
+    [self.tableView registerClass:[HPTInfoTableViewCell class] forCellReuseIdentifier:@"LabelCell"];
 
     self.title = NSLocalizedString(@"APP_TITLE", nil);
 }
@@ -59,42 +70,41 @@
     defaultGlobalTintColor = self.view.tintColor;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (insertResultSection) {
+        insertResultSection = NO;
+        
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:resultSectionIndex] withRowAnimation:UITableViewRowAnimationRight];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupGlobalTintColor
+- (void)viewWillAppear:(BOOL)animated
 {
-    UIColor *tintColor;
-    UIColor *onTintColor;
+    [super viewWillAppear:animated];
     
-    switch (colorSegmentIndex) {
-        case 0:
-            tintColor = defaultGlobalTintColor;
-            onTintColor = nil;
-            break;
-            
-        case 1:
-            onTintColor = tintColor = [UIColor colorWithRed:0.9 green:0.02 blue:0.02 alpha:1.0];
-            break;
-            
-        case 2:
-            onTintColor = tintColor = [UIColor purpleColor];
-            break;
-            
-        default:
-            break;
+    if (productCategoriesViewController != nil) {
+        selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationFade];
+        productCategoriesViewController = nil;
     }
-    
-    [[UIView appearance] setTintColor:tintColor];
-    [[UISwitch appearance] setOnTintColor:onTintColor];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    if (resultSectionIndex == NSNotFound) {
+        return 1;
+    }
+    
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -102,7 +112,15 @@
     if (section == formSectionIndex) {
         return 8;
     }
-
+    
+    if (section == resultSectionIndex) {
+        if (fraudReviewRowIndex != NSNotFound) {
+            return 2;
+        }
+        
+        return 1;
+    }
+    
     return 0;
 }
 
@@ -220,7 +238,111 @@
             
             return cell;
         }
+        
     }
+
+    else {
+        
+        if (indexPath.row == cancelRowIndex) {
+            
+            HPTSubmitTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LabelCell" forIndexPath:indexPath];
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = NSLocalizedString(@"RESULT_CANCEL", nil);
+            cell.detailTextLabel.text = nil;
+            cell.detailTextLabel.font = [UIFont systemFontOfSize:cell.detailTextLabel.font.pointSize];
+
+            return cell;
+        }
+        
+        else if (indexPath.row == errorDescriptionRowIndex) {
+            
+            HPTSubmitTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LabelCell" forIndexPath:indexPath];
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = NSLocalizedString(@"RESULT_ERROR", nil);
+            cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:cell.detailTextLabel.font.pointSize];
+            
+            if (transactionError.userInfo[HPTErrorCodeAPIMessageKey] != nil) {
+                cell.detailTextLabel.text = transactionError.userInfo[HPTErrorCodeAPIMessageKey];
+            } else {
+                cell.detailTextLabel.text = transactionError.localizedDescription;
+            }
+            
+            return cell;
+        }
+        
+        else if (indexPath.row == transactionStateRowIndex) {
+            
+            HPTSubmitTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LabelCell" forIndexPath:indexPath];
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = NSLocalizedString(@"RESULT_STATE", nil);
+            cell.detailTextLabel.font = [UIFont systemFontOfSize:cell.detailTextLabel.font.pointSize];
+            
+            switch (transaction.state) {
+                case HPTTransactionStateCompleted:
+                    cell.detailTextLabel.text = NSLocalizedString(@"RESULT_STATE_COMPLETED", nil);
+                    break;
+                    
+                case HPTTransactionStatePending:
+                    cell.detailTextLabel.text = NSLocalizedString(@"RESULT_STATE_PENDING", nil);
+                    break;
+                    
+                case HPTTransactionStateForwarding:
+                    cell.detailTextLabel.text = NSLocalizedString(@"RESULT_STATE_FORWARDING", nil);
+                    break;
+                    
+                case HPTTransactionStateError:
+                    cell.detailTextLabel.text = NSLocalizedString(@"RESULT_STATE_ERROR", nil);
+                    break;
+                    
+                case HPTTransactionStateDeclined:
+                    cell.detailTextLabel.text = NSLocalizedString(@"RESULT_STATE_DECLINED", nil);
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            return cell;
+        }
+        
+        else if (indexPath.row == fraudReviewRowIndex) {
+            
+            HPTSubmitTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LabelCell" forIndexPath:indexPath];
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = NSLocalizedString(@"RESULT_FRAUD", nil);
+            cell.detailTextLabel.font = [UIFont systemFontOfSize:cell.detailTextLabel.font.pointSize];
+
+            switch (transaction.fraudScreening.result) {
+                case HPTFraudScreeningResultAccepted:
+                    cell.detailTextLabel.text = NSLocalizedString(@"RESULT_FRAUD_ACCEPTED", nil);
+                    break;
+                    
+                case HPTFraudScreeningResultBlocked:
+                    cell.detailTextLabel.text = NSLocalizedString(@"RESULT_FRAUD_BLOCKED", nil);
+                    break;
+                    
+                case HPTFraudScreeningResultPending:
+                    cell.detailTextLabel.text = NSLocalizedString(@"RESULT_FRAUD_PENDING", nil);
+                    break;
+                    
+                case HPTFraudScreeningResultChallenged:
+                    cell.detailTextLabel.text = NSLocalizedString(@"RESULT_FRAUD_CHALLENGED", nil);
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            return cell;
+        }
+        
+        
+    }
+    
     
     return nil;
 }
@@ -229,6 +351,10 @@
 {
     if (section == formSectionIndex) {
         return NSLocalizedString(@"FORM_TITLE", nil);
+    }
+    
+    if (section == resultSectionIndex) {
+        return NSLocalizedString(@"RESULT_TITLE", nil);
     }
     
     return nil;
@@ -271,6 +397,18 @@
         paymentScreen.delegate = self;
         
         [self presentViewController:paymentScreen animated:YES completion:nil];
+        
+        if (resultSectionIndex != NSNotFound) {
+            errorDescriptionRowIndex = NSNotFound;
+            transactionStateRowIndex = NSNotFound;
+            fraudReviewRowIndex = NSNotFound;
+            cancelRowIndex = NSNotFound;
+            
+            resultSectionIndex = NSNotFound;
+            formSectionIndex = 0;
+            
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationRight];
+        }
     }
     
     else if (indexPath.row == productCategoryRowIndex) {
@@ -344,15 +482,66 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)setupGlobalTintColor
 {
-    [super viewWillAppear:animated];
- 
-    if (productCategoriesViewController != nil) {
-        selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationFade];
-        productCategoriesViewController = nil;
+    UIColor *tintColor;
+    UIColor *onTintColor;
+    
+    switch (colorSegmentIndex) {
+        case 0:
+            tintColor = defaultGlobalTintColor;
+            onTintColor = nil;
+            break;
+            
+        case 1:
+            onTintColor = tintColor = [UIColor colorWithRed:0.9 green:0.02 blue:0.02 alpha:1.0];
+            break;
+            
+        case 2:
+            onTintColor = tintColor = [UIColor purpleColor];
+            break;
+            
+        default:
+            break;
     }
+    
+    [[UIView appearance] setTintColor:tintColor];
+    [[UISwitch appearance] setOnTintColor:onTintColor];
+}
+
+#pragma mark - Payment screen result
+
+- (void)paymentScreenViewController:(HPTPaymentScreenViewController *)viewController didEndWithTransaction:(HPTTransaction *)theTransaction
+{
+    transaction = theTransaction;
+    transactionStateRowIndex = 0;
+    
+    if (transaction.fraudScreening != nil && transaction.fraudScreening.result != HPTFraudScreeningResultUnknown) {
+        fraudReviewRowIndex = 1;
+    }
+    
+    [self insertResultSection];
+}
+
+- (void)paymentScreenViewController:(HPTPaymentScreenViewController *)viewController didFailWithError:(NSError *)error
+{
+    transactionError = error;
+    errorDescriptionRowIndex = 0;
+    
+    [self insertResultSection];
+}
+
+- (void)paymentScreenViewControllerDidCancel:(HPTPaymentScreenViewController *)viewController
+{
+    cancelRowIndex = 0;
+    [self insertResultSection];
+}
+
+- (void)insertResultSection
+{
+    resultSectionIndex = 0;
+    formSectionIndex = 1;
+    insertResultSection = YES;
 }
 
 @end

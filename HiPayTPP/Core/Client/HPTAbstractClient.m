@@ -96,7 +96,7 @@
                 [userInfo setObject:[body objectForKey:@"message"] forKey:HPTErrorCodeAPIMessageKey];
                 
                 if ([[body objectForKey:@"description"] isKindOfClass:[NSString class]]) {
-                    [userInfo setObject:[body objectForKey:@"description"] forKey:NSLocalizedDescriptionKey];
+                    [userInfo setObject:[body objectForKey:@"description"] forKey:HPTErrorCodeAPIDescriptionKey];
                 }
             }
         }

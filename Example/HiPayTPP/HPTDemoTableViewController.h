@@ -21,9 +21,21 @@
     NSUInteger productCategoryRowIndex;
     NSUInteger submitRowIndex;
     NSUInteger colorRowIndex;
-
+    
+    // Error rows
+    NSUInteger errorDescriptionRowIndex;
+    NSUInteger transactionStateRowIndex;
+    NSUInteger fraudReviewRowIndex;
+    NSUInteger cancelRowIndex;
+    
+    // Sections
     NSUInteger formSectionIndex;
     NSUInteger resultSectionIndex;
+    BOOL insertResultSection;
+    
+    // Result
+    NSError *transactionError;
+    HPTTransaction *transaction;
     
     // Form values
     NSArray *currencies;

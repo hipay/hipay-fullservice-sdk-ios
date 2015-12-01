@@ -6,8 +6,10 @@ PODS:
   - FBSnapshotTestCase/Core (2.0.4)
   - HiPayTPP (0.1.0):
     - HiPayTPP/Core (= 0.1.0)
+    - HiPayTPP/Device-Print (= 0.1.0)
     - HiPayTPP/Payment-Screen (= 0.1.0)
   - HiPayTPP/Core (0.1.0)
+  - HiPayTPP/Device-Print (0.1.0)
   - HiPayTPP/Payment-Screen (0.1.0):
     - HiPayTPP/Core
     - HiPayTPP/Utilities
@@ -44,7 +46,7 @@ SPEC CHECKSUMS:
   Expecta: 9d1bff6c8b0eeee73a166a2ee898892478927a15
   Expecta+Snapshots: 29b38dd695bc72a0ed2bea833937d78df41943ba
   FBSnapshotTestCase: d94cf34841c9e77390e29009e8e2713479d48753
-  HiPayTPP: e5b513d697054ffa6a6f59b65f299bbdcf8827c4
+  HiPayTPP: a4aa1e8b2cb303c46ae61e1510bc182e26633464
   OCMock: 4c2925291f80407c3738dd1db14d21d0cc278864
   OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
   Specta: cf3e4188cf35375c3ee2cd03f8db8f1f4ef98234

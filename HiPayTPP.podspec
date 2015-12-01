@@ -36,8 +36,7 @@ Pod::Spec.new do |s|
 
   s.source_files     = "HiPayTPP/*.{m,h}"
 
-
-  s.default_subspecs = %w[Core Payment-Screen]
+  s.default_subspecs = %w[Core Payment-Screen Device-Print]
 
   s.public_header_files = 'HiPayTPP/*.h'
 
@@ -45,7 +44,7 @@ Pod::Spec.new do |s|
   # s.dependency 'AFNetworking', '~> 2.3'
 
   s.subspec "Core" do |s|
-    s.source_files  = "HiPayTPP/Core/**/*.{h,m}"
+    s.source_files  = "HiPayTPP/Core/**/*.{h,m}", "HiPayTPP/Device Print/**/*.h"
     s.public_header_files = "HiPayTPP/Core/**/*.h"
   end
 
@@ -56,6 +55,11 @@ Pod::Spec.new do |s|
       'HPTUtilitiesResources' => ["HiPayTPP/Utilities/**/*.{plist}"],
     }
   end
+
+  s.subspec "Device-Print" do |s|
+    s.ios.vendored_frameworks = 'HiPayTPP/Device Print/iovation.framework'
+    s.frameworks = 'CoreTelephony', 'SystemConfiguration', 'ExternalAccessory'
+  end  
 
   s.subspec "Payment-Screen" do |s|
     s.source_files  = "HiPayTPP/Payment Screen/**/*.{h,m}"

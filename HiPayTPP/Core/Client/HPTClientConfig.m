@@ -7,6 +7,7 @@
 //
 
 #import "HPTClientConfig.h"
+#import "DevicePrint.h"
 
 HPTClientConfig *HPTClientConfigSharedInstance = nil;
 
@@ -44,6 +45,20 @@ HPTClientConfig *HPTClientConfigSharedInstance = nil;
     _password = password;
     
     [self setAppURLscheme:appURLscheme];
+    
+    id devicePrintClass = NSClassFromString(@"DevicePrint");
+    
+    if ([devicePrintClass respondsToSelector:@selector(start)]) {
+        [(Class)devicePrintClass start];
+    }
+    
+    [self performSelectorOnMainThread:@selector(determineUserAgent) withObject:nil waitUntilDone:YES];
+}
+
+- (void)determineUserAgent
+{
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+    _userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <iovation/DevicePrint.h>
 
 @interface HPTClientConfigTests : XCTestCase
 
@@ -34,17 +35,17 @@
 - (void)testSettingValues
 {
     [[HPTClientConfig sharedClientConfig] setEnvironment:HPTEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"testapp"];
-    
+
     XCTAssertEqualObjects([HPTClientConfig sharedClientConfig].username, @"username");
     XCTAssertEqualObjects([HPTClientConfig sharedClientConfig].password, @"passwd");
     XCTAssertTrue([HPTClientConfig sharedClientConfig].environment == HPTEnvironmentProduction);
     XCTAssertEqualObjects([HPTClientConfig sharedClientConfig].appRedirectionURL, [NSURL URLWithString:@"testapp://hipay-tpp"]);
+    XCTAssertNotNil([HPTClientConfig sharedClientConfig].userAgent);
+    XCTAssertFalse([[HPTClientConfig sharedClientConfig] isEqual:@""]);
 }
 
 - (void)testInitSchemeError
 {
-    XCTAssertThrows([[HPTClientConfig sharedClientConfig] setEnvironment:HPTEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:nil]);
-    
     XCTAssertThrows([[HPTClientConfig sharedClientConfig] setEnvironment:HPTEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"hello-test"]);
 
     XCTAssertThrows([[HPTClientConfig sharedClientConfig] setEnvironment:HPTEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"test1"]);

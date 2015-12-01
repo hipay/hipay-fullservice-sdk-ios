@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, HPTEnvironment) {
 @property (nonatomic, readonly) HPTEnvironment environment;
 @property (nonatomic, readonly, nullable) NSString *username;
 @property (nonatomic, readonly, nullable) NSString *password;
+@property (nonatomic, readonly, nullable) NSString *userAgent;
 @property (nonatomic, readonly, nullable) NSURL *appRedirectionURL;
 
 + (instancetype _Nonnull)sharedClientConfig;

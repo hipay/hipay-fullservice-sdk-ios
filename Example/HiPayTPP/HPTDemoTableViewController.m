@@ -78,6 +78,7 @@
         insertResultSection = NO;
         
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:resultSectionIndex] withRowAnimation:UITableViewRowAnimationRight];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:resultSectionIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
 }
 
@@ -407,7 +408,7 @@
             resultSectionIndex = NSNotFound;
             formSectionIndex = 0;
             
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationRight];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationRight];
         }
     }
     
@@ -541,8 +542,7 @@
 
 - (void)insertResultSection
 {
-    resultSectionIndex = 0;
-    formSectionIndex = 1;
+    resultSectionIndex = 1;
     insertResultSection = YES;
 }
 

@@ -9,6 +9,9 @@
 #import "HPTOrderRelatedRequest.h"
 #import "HPTClientConfig.h"
 #import "HPTGatewayClient.h"
+#import "DevicePrint.h"
+#include <ifaddrs.h>
+#include <arpa/inet.h>
 
 @implementation HPTOrderRelatedRequest
 
@@ -20,7 +23,15 @@
         [self defineURLParameters];
         self.customer = [[HPTCustomerInfoRequest alloc] init];
         self.shippingAddress = [[HPTPersonalInfoRequest alloc] init];
+        self.HTTPUserAgent = [HPTClientConfig sharedClientConfig].userAgent;
+
+        id devicePrintClass = NSClassFromString(@"DevicePrint");
+        
+        if ([devicePrintClass respondsToSelector:@selector(blackbox)]) {
+            self.deviceFingerprint = [devicePrintClass blackbox];
+        }
     }
+    
     return self;
 }
 

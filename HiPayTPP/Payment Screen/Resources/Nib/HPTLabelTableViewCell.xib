@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" text="Selected info" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
+                    <label opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" text="Selected info" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
                         <rect key="frame" x="111" y="7" width="194" height="30"/>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -45,7 +45,7 @@
                 <outlet property="infoLabel" destination="puq-qj-JZP" id="WAG-ok-zc5"/>
                 <outlet property="inputLabel" destination="VaG-B8-8hX" id="7wP-ix-enL"/>
             </connections>
-            <point key="canvasLocation" x="510" y="362.5"/>
+            <point key="canvasLocation" x="424" y="311.5"/>
         </tableViewCell>
     </objects>
 </document>

@@ -7,7 +7,6 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <iovation/DevicePrint.h>
 
 @interface HPTClientConfigTests : XCTestCase
 

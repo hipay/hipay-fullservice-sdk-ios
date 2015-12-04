@@ -7,11 +7,11 @@
 //
 
 @import UIKit;
-#import "HPTAppDelegate.h"
+#import "HPFAppDelegate.h"
 
 int main(int argc, char * argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([HPTAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([HPFAppDelegate class]));
     }
 }

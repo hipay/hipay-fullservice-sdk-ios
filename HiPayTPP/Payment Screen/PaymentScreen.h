@@ -6,5 +6,5 @@
 //
 //
 
-#import <HiPayTPP/HPTPaymentScreenViewController.h>
+#import <HiPayTPP/HPFPaymentScreenViewController.h>
 

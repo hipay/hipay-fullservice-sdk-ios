@@ -9,5 +9,5 @@
 
 #endif
 
-#import <HiPayTPP/HiPayTPP.h>
+#import <HiPayFullservice/HiPayFullservice.h>
 #import <OCMock/OCMock.h>

@@ -1,0 +1,1122 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		37A10361D7F4F96732FF97C8 /* libPods-HiPayFullservice_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D271450D432140C3F897A37D /* libPods-HiPayFullservice_Example.a */; };
+		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
+		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
+		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
+		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
+		6003F59E195388D20070C39A /* HPFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* HPFAppDelegate.m */; };
+		6003F5A7195388D20070C39A /* HPFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* HPFViewController.m */; };
+		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
+		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
+		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
+		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
+		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
+		631308FA94450C1088C86EC9 /* libPods-HiPayFullservice_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5385339AE4D60949DC28E6 /* libPods-HiPayFullservice_Tests.a */; };
+		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		A51004B51BBD3EC6002BD3C1 /* HPFPaymentCardTokenMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004B41BBD3EC6002BD3C1 /* HPFPaymentCardTokenMapperTests.m */; };
+		A51004BF1BBD67EF002BD3C1 /* HPFMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004BE1BBD67EF002BD3C1 /* HPFMapperTests.m */; };
+		A51004DA1BBD8F4F002BD3C1 /* HPFClientConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004D91BBD8F4F002BD3C1 /* HPFClientConfigTests.m */; };
+		A51004DC1BBE893D002BD3C1 /* HPFSecureVaultClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004DB1BBE893D002BD3C1 /* HPFSecureVaultClientTests.m */; };
+		A51004E51BC28714002BD3C1 /* HPFAbstractClientTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A51004E41BC28714002BD3C1 /* HPFAbstractClientTest.m */; };
+		A51546381BBA83510077296E /* example_array.json in Resources */ = {isa = PBXBuildFile; fileRef = A51546371BBA83510077296E /* example_array.json */; };
+		A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */ = {isa = PBXBuildFile; fileRef = A515463C1BBBCD6D0077296E /* plain_text_response.txt */; };
+		A515463F1BBBDD1F0077296E /* example_error.json in Resources */ = {isa = PBXBuildFile; fileRef = A515463E1BBBDD1F0077296E /* example_error.json */; };
+		A53798A71BF73E0D0029E776 /* HPFPaymentProductTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53798A61BF73E0D0029E776 /* HPFPaymentProductTests.m */; };
+		A53BF59F1BEB54D100E24957 /* HPFCardNumberFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF59E1BEB54D100E24957 /* HPFCardNumberFormatterTests.m */; };
+		A53BF5C21BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C11BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m */; };
+		A53BF5C41BF0FA0300E24957 /* HPFFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C31BF0FA0300E24957 /* HPFFormatterTests.m */; };
+		A53BF5C71BF22C6B00E24957 /* HPFPersonalInformationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C61BF22C6B00E24957 /* HPFPersonalInformationTests.m */; };
+		A54938911BFC908500068D9C /* HPFTransactionCallbackMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54938901BFC908500068D9C /* HPFTransactionCallbackMapperTests.m */; };
+		A54AF8FE1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FD1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m */; };
+		A54AF9001BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FF1BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m */; };
+		A54AF90D1C09BF3E00B10F36 /* HPFDemoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF90C1C09BF3E00B10F36 /* HPFDemoTableViewController.m */; };
+		A54AF9161C0B52E000B10F36 /* HPFSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF9151C0B52E000B10F36 /* HPFSwitchTableViewCell.m */; };
+		A54AF91C1C0B599C00B10F36 /* HPFSegmentedControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF91B1C0B599C00B10F36 /* HPFSegmentedControlTableViewCell.m */; };
+		A54AF9221C0B602700B10F36 /* HPFStepperTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF9211C0B602700B10F36 /* HPFStepperTableViewCell.m */; };
+		A54AF9251C0B6D4700B10F36 /* HPFSubmitTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF9241C0B6D4700B10F36 /* HPFSubmitTableViewCell.m */; };
+		A54AF9281C0B724500B10F36 /* HPFPaymentProductCategoriesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF9271C0B724500B10F36 /* HPFPaymentProductCategoriesTableViewController.m */; };
+		A54AF92B1C0B771000B10F36 /* HPFMoreOptionsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF92A1C0B771000B10F36 /* HPFMoreOptionsTableViewCell.m */; };
+		A57BA74F1BCD66F000F154E2 /* HPFGatewayClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA74E1BCD66F000F154E2 /* HPFGatewayClientTests.m */; };
+		A57BA78C1BCE515E00F154E2 /* HPFAbstractSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA78B1BCE515E00F154E2 /* HPFAbstractSerializationMapperTests.m */; };
+		A57BA7D31BCEAD0B00F154E2 /* HPFPersonalInfoRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D21BCEAD0B00F154E2 /* HPFPersonalInfoRequestSerializationMapperTests.m */; };
+		A57BA7D51BCEAD1D00F154E2 /* HPFCustomerInfoRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D41BCEAD1D00F154E2 /* HPFCustomerInfoRequestSerializationMapperTests.m */; };
+		A57BA7D71BCEAD2B00F154E2 /* HPFOrderRelatedRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D61BCEAD2B00F154E2 /* HPFOrderRelatedRequestSerializationMapperTests.m */; };
+		A57BA7D91BCEAD3900F154E2 /* HPFOrderRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7D81BCEAD3900F154E2 /* HPFOrderRequestSerializationMapperTests.m */; };
+		A57BA7DB1BCEAD4800F154E2 /* HPFPaymentPageRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7DA1BCEAD4800F154E2 /* HPFPaymentPageRequestSerializationMapperTests.m */; };
+		A57BA7DF1BCEAD6500F154E2 /* HPFCardTokenPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7DE1BCEAD6500F154E2 /* HPFCardTokenPaymentMethodRequestSerializationMapperTests.m */; };
+		A57BA7EA1BCF8F2B00F154E2 /* HPFPersonalInfoRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7E91BCF8F2B00F154E2 /* HPFPersonalInfoRequestTests.m */; };
+		A57BA7EC1BCF8F4800F154E2 /* HPFCustomerInfoRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7EB1BCF8F4800F154E2 /* HPFCustomerInfoRequestTests.m */; };
+		A57BA7EE1BCF8F5A00F154E2 /* HPFPaymentPageRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7ED1BCF8F5A00F154E2 /* HPFPaymentPageRequestTests.m */; };
+		A57BA7F01BCF8F6500F154E2 /* HPFOrderRelatedRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7EF1BCF8F6500F154E2 /* HPFOrderRelatedRequestTests.m */; };
+		A57BA7F21BCF8F7000F154E2 /* HPFOrderRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7F11BCF8F7000F154E2 /* HPFOrderRequestTests.m */; };
+		A57BA7F81BCF8FB200F154E2 /* HPFCardTokenPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A57BA7F71BCF8FB200F154E2 /* HPFCardTokenPaymentMethodRequestTests.m */; };
+		A595C44C1BC800310076AF07 /* HPFFraudScreeningMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C44B1BC800310076AF07 /* HPFFraudScreeningMapperTests.m */; };
+		A595C44E1BC800430076AF07 /* HPFOperationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C44D1BC800430076AF07 /* HPFOperationMapperTests.m */; };
+		A595C4501BC800510076AF07 /* HPFPersonalInformationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C44F1BC800510076AF07 /* HPFPersonalInformationMapperTests.m */; };
+		A595C4521BC800600076AF07 /* HPFTransactionMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C4511BC800600076AF07 /* HPFTransactionMapperTests.m */; };
+		A595C4541BC800710076AF07 /* HPFTransactionRelatedItemMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C4531BC800710076AF07 /* HPFTransactionRelatedItemMapperTests.m */; };
+		A595C45A1BC802DA0076AF07 /* HPFOrderMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A595C4591BC802DA0076AF07 /* HPFOrderMapperTests.m */; };
+		A5A375581BD7E0DC00CEA434 /* HPFArrayMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A375571BD7E0DC00CEA434 /* HPFArrayMapperTests.m */; };
+		A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A3755B1BD8E6A600CEA434 /* payment_products.json */; };
+		A5A6EE9C1BB9604700825B19 /* HPFHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9B1BB9604700825B19 /* HPFHTTPClientTests.m */; };
+		A5A6EEA01BB972AF00825B19 /* HPFHTTPResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A6EE9F1BB972AF00825B19 /* HPFHTTPResponseTests.m */; };
+		A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = A5A6EEA21BB97C8400825B19 /* example_dictionary.json */; };
+		A5ABD1141BFCE1C700D8B867 /* HPFTransactionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5ABD1131BFCE1C700D8B867 /* HPFTransactionTests.m */; };
+		A5B076961C0C7FFE00B225C1 /* HPFInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B076951C0C7FFE00B225C1 /* HPFInfoTableViewCell.m */; };
+		A5B9A6E41BD54A060014B27F /* HPFTransactionDetailsMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B9A6E31BD54A060014B27F /* HPFTransactionDetailsMapperTests.m */; };
+		A5B9A6EE1BD6B2550014B27F /* HPFPaymentProductMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B9A6ED1BD6B2550014B27F /* HPFPaymentProductMapperTests.m */; };
+		A5C657DC1BD0102B0017A2D7 /* HPFMutableDictionarySerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C657DB1BD0102B0017A2D7 /* HPFMutableDictionarySerialization.m */; };
+		A5C6F2981BC7F0CA00DEC43E /* HPFThreeDSecureMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C6F2971BC7F0CA00DEC43E /* HPFThreeDSecureMapperTests.m */; };
+		A5C91F441BE2CD6D00FD8421 /* HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C91F431BE2CD6D00FD8421 /* HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m */; };
+		A5C91F491BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C91F481BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m */; };
+		A5F605921BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F605911BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m */; };
+		A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F931BE91B9500F9604F /* InfoPlist.strings */; };
+		A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F951BE91B9500F9604F /* Localizable.strings */; };
+		A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F981BE91B9500F9604F /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6003F5B3195388D20070C39A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6003F582195388D10070C39A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6003F589195388D20070C39A;
+			remoteInfo = HiPayFullservice;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1BCCDB71367D2362CE4675C3 /* Pods-HiPayFullservice_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example.release.xcconfig"; sourceTree = "<group>"; };
+		1FB39614B33B04B898162649 /* Pods-HiPayFullservice_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		39BEBD4EC0BC4099960FF4ED /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		6003F58A195388D20070C39A /* HiPayFullservice_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPayFullservice_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6003F595195388D20070C39A /* HiPayFullservice-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HiPayFullservice-Info.plist"; sourceTree = "<group>"; };
+		6003F599195388D20070C39A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6003F59B195388D20070C39A /* HiPayFullservice-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HiPayFullservice-Prefix.pch"; sourceTree = "<group>"; };
+		6003F59C195388D20070C39A /* HPFAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFAppDelegate.h; sourceTree = "<group>"; };
+		6003F59D195388D20070C39A /* HPFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFAppDelegate.m; sourceTree = "<group>"; };
+		6003F5A5195388D20070C39A /* HPFViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFViewController.h; sourceTree = "<group>"; };
+		6003F5A6195388D20070C39A /* HPFViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFViewController.m; sourceTree = "<group>"; };
+		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		6003F5AE195388D20070C39A /* HiPayFullservice_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HiPayFullservice_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
+		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		9D5385339AE4D60949DC28E6 /* libPods-HiPayFullservice_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayFullservice_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A286DBFF34568FC4BA19F022 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		A51004B41BBD3EC6002BD3C1 /* HPFPaymentCardTokenMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPaymentCardTokenMapperTests.m; sourceTree = "<group>"; };
+		A51004BE1BBD67EF002BD3C1 /* HPFMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFMapperTests.m; sourceTree = "<group>"; };
+		A51004D91BBD8F4F002BD3C1 /* HPFClientConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFClientConfigTests.m; sourceTree = "<group>"; };
+		A51004DB1BBE893D002BD3C1 /* HPFSecureVaultClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFSecureVaultClientTests.m; sourceTree = "<group>"; };
+		A51004DD1BBE8D7C002BD3C1 /* HPFHTTPClient+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HPFHTTPClient+Testing.h"; path = "Tests/HiPayFullservice/Core/Network/Extensions/HPFHTTPClient+Testing.h"; sourceTree = SOURCE_ROOT; };
+		A51004DF1BBE8DCD002BD3C1 /* HPFSecureVaultClient+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPFSecureVaultClient+Testing.h"; sourceTree = "<group>"; };
+		A51004E41BC28714002BD3C1 /* HPFAbstractClientTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFAbstractClientTest.m; sourceTree = "<group>"; };
+		A51546371BBA83510077296E /* example_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_array.json; sourceTree = "<group>"; };
+		A515463C1BBBCD6D0077296E /* plain_text_response.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plain_text_response.txt; sourceTree = "<group>"; };
+		A515463E1BBBDD1F0077296E /* example_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_error.json; sourceTree = "<group>"; };
+		A53798A61BF73E0D0029E776 /* HPFPaymentProductTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPaymentProductTests.m; sourceTree = "<group>"; };
+		A53BF59E1BEB54D100E24957 /* HPFCardNumberFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFCardNumberFormatterTests.m; sourceTree = "<group>"; };
+		A53BF5C11BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFExpiryDateFormatterTests.m; sourceTree = "<group>"; };
+		A53BF5C31BF0FA0300E24957 /* HPFFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFFormatterTests.m; sourceTree = "<group>"; };
+		A53BF5C61BF22C6B00E24957 /* HPFPersonalInformationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPersonalInformationTests.m; sourceTree = "<group>"; };
+		A54938901BFC908500068D9C /* HPFTransactionCallbackMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFTransactionCallbackMapperTests.m; sourceTree = "<group>"; };
+		A54AF8FD1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFIDealPaymentMethodRequestTests.m; sourceTree = "<group>"; };
+		A54AF8FF1BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFIDealPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A54AF90B1C09BF3E00B10F36 /* HPFDemoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPFDemoTableViewController.h; sourceTree = "<group>"; };
+		A54AF90C1C09BF3E00B10F36 /* HPFDemoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFDemoTableViewController.m; sourceTree = "<group>"; };
+		A54AF9141C0B52E000B10F36 /* HPFSwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPFSwitchTableViewCell.h; path = Views/HPFSwitchTableViewCell.h; sourceTree = "<group>"; };
+		A54AF9151C0B52E000B10F36 /* HPFSwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPFSwitchTableViewCell.m; path = Views/HPFSwitchTableViewCell.m; sourceTree = "<group>"; };
+		A54AF91A1C0B599C00B10F36 /* HPFSegmentedControlTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPFSegmentedControlTableViewCell.h; path = Views/HPFSegmentedControlTableViewCell.h; sourceTree = "<group>"; };
+		A54AF91B1C0B599C00B10F36 /* HPFSegmentedControlTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPFSegmentedControlTableViewCell.m; path = Views/HPFSegmentedControlTableViewCell.m; sourceTree = "<group>"; };
+		A54AF9201C0B602700B10F36 /* HPFStepperTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPFStepperTableViewCell.h; path = Views/HPFStepperTableViewCell.h; sourceTree = "<group>"; };
+		A54AF9211C0B602700B10F36 /* HPFStepperTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPFStepperTableViewCell.m; path = Views/HPFStepperTableViewCell.m; sourceTree = "<group>"; };
+		A54AF9231C0B6D4700B10F36 /* HPFSubmitTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPFSubmitTableViewCell.h; path = Views/HPFSubmitTableViewCell.h; sourceTree = "<group>"; };
+		A54AF9241C0B6D4700B10F36 /* HPFSubmitTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPFSubmitTableViewCell.m; path = Views/HPFSubmitTableViewCell.m; sourceTree = "<group>"; };
+		A54AF9261C0B724500B10F36 /* HPFPaymentProductCategoriesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPFPaymentProductCategoriesTableViewController.h; sourceTree = "<group>"; };
+		A54AF9271C0B724500B10F36 /* HPFPaymentProductCategoriesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPaymentProductCategoriesTableViewController.m; sourceTree = "<group>"; };
+		A54AF9291C0B771000B10F36 /* HPFMoreOptionsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPFMoreOptionsTableViewCell.h; path = Views/HPFMoreOptionsTableViewCell.h; sourceTree = "<group>"; };
+		A54AF92A1C0B771000B10F36 /* HPFMoreOptionsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPFMoreOptionsTableViewCell.m; path = Views/HPFMoreOptionsTableViewCell.m; sourceTree = "<group>"; };
+		A57BA74E1BCD66F000F154E2 /* HPFGatewayClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFGatewayClientTests.m; sourceTree = "<group>"; };
+		A57BA7511BCD676100F154E2 /* HPFGatewayClient+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPFGatewayClient+Testing.h"; sourceTree = "<group>"; };
+		A57BA78B1BCE515E00F154E2 /* HPFAbstractSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFAbstractSerializationMapperTests.m; sourceTree = "<group>"; };
+		A57BA7D21BCEAD0B00F154E2 /* HPFPersonalInfoRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPersonalInfoRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A57BA7D41BCEAD1D00F154E2 /* HPFCustomerInfoRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFCustomerInfoRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A57BA7D61BCEAD2B00F154E2 /* HPFOrderRelatedRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFOrderRelatedRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A57BA7D81BCEAD3900F154E2 /* HPFOrderRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFOrderRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A57BA7DA1BCEAD4800F154E2 /* HPFPaymentPageRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPaymentPageRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A57BA7DE1BCEAD6500F154E2 /* HPFCardTokenPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFCardTokenPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A57BA7E91BCF8F2B00F154E2 /* HPFPersonalInfoRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPersonalInfoRequestTests.m; sourceTree = "<group>"; };
+		A57BA7EB1BCF8F4800F154E2 /* HPFCustomerInfoRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFCustomerInfoRequestTests.m; sourceTree = "<group>"; };
+		A57BA7ED1BCF8F5A00F154E2 /* HPFPaymentPageRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPaymentPageRequestTests.m; sourceTree = "<group>"; };
+		A57BA7EF1BCF8F6500F154E2 /* HPFOrderRelatedRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFOrderRelatedRequestTests.m; sourceTree = "<group>"; };
+		A57BA7F11BCF8F7000F154E2 /* HPFOrderRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFOrderRequestTests.m; sourceTree = "<group>"; };
+		A57BA7F71BCF8FB200F154E2 /* HPFCardTokenPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFCardTokenPaymentMethodRequestTests.m; sourceTree = "<group>"; };
+		A595C44B1BC800310076AF07 /* HPFFraudScreeningMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFFraudScreeningMapperTests.m; sourceTree = "<group>"; };
+		A595C44D1BC800430076AF07 /* HPFOperationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFOperationMapperTests.m; sourceTree = "<group>"; };
+		A595C44F1BC800510076AF07 /* HPFPersonalInformationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPersonalInformationMapperTests.m; sourceTree = "<group>"; };
+		A595C4511BC800600076AF07 /* HPFTransactionMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFTransactionMapperTests.m; sourceTree = "<group>"; };
+		A595C4531BC800710076AF07 /* HPFTransactionRelatedItemMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFTransactionRelatedItemMapperTests.m; sourceTree = "<group>"; };
+		A595C4591BC802DA0076AF07 /* HPFOrderMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFOrderMapperTests.m; sourceTree = "<group>"; };
+		A5A375571BD7E0DC00CEA434 /* HPFArrayMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFArrayMapperTests.m; sourceTree = "<group>"; };
+		A5A3755B1BD8E6A600CEA434 /* payment_products.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = payment_products.json; sourceTree = "<group>"; };
+		A5A3755E1BD9165300CEA434 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		A5A6EE9B1BB9604700825B19 /* HPFHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFHTTPClientTests.m; sourceTree = "<group>"; };
+		A5A6EE9F1BB972AF00825B19 /* HPFHTTPResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFHTTPResponseTests.m; sourceTree = "<group>"; };
+		A5A6EEA21BB97C8400825B19 /* example_dictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example_dictionary.json; sourceTree = "<group>"; };
+		A5ABD1131BFCE1C700D8B867 /* HPFTransactionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFTransactionTests.m; sourceTree = "<group>"; };
+		A5B076941C0C7FFE00B225C1 /* HPFInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPFInfoTableViewCell.h; sourceTree = "<group>"; };
+		A5B076951C0C7FFE00B225C1 /* HPFInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFInfoTableViewCell.m; sourceTree = "<group>"; };
+		A5B9A6E31BD54A060014B27F /* HPFTransactionDetailsMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFTransactionDetailsMapperTests.m; sourceTree = "<group>"; };
+		A5B9A6ED1BD6B2550014B27F /* HPFPaymentProductMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPaymentProductMapperTests.m; sourceTree = "<group>"; };
+		A5C657DB1BD0102B0017A2D7 /* HPFMutableDictionarySerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFMutableDictionarySerialization.m; sourceTree = "<group>"; };
+		A5C6F2971BC7F0CA00DEC43E /* HPFThreeDSecureMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFThreeDSecureMapperTests.m; sourceTree = "<group>"; };
+		A5C91F431BE2CD6D00FD8421 /* HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
+		A5C91F481BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFQiwiWalletPaymentMethodRequestTests.m; sourceTree = "<group>"; };
+		A5F605911BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFHostedPaymentPageMapperTests.m; sourceTree = "<group>"; };
+		A5F98F941BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		A5F98F961BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		A5F98F991BE91B9500F9604F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Localizable.strings; sourceTree = "<group>"; };
+		A6DE32B74EAABE271832F022 /* Pods-HiPayFullservice_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		A7FE2CBCD3A3CCF6C20228C9 /* Pods-HiPayFullservice_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		B936D89B6AB94FC4D1FE6E95 /* HiPayFullservice.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayFullservice.podspec; path = ../HiPayFullservice.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		D271450D432140C3F897A37D /* libPods-HiPayFullservice_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayFullservice_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6003F587195388D20070C39A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
+				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
+				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
+				37A10361D7F4F96732FF97C8 /* libPods-HiPayFullservice_Example.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6003F5AB195388D20070C39A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
+				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
+				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
+				631308FA94450C1088C86EC9 /* libPods-HiPayFullservice_Tests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6003F581195388D10070C39A = {
+			isa = PBXGroup;
+			children = (
+				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
+				6003F593195388D20070C39A /* Example for HiPayFullservice */,
+				6003F5B5195388D20070C39A /* Tests */,
+				6003F58C195388D20070C39A /* Frameworks */,
+				6003F58B195388D20070C39A /* Products */,
+				752DBD9D0A633ED80EF890C0 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		6003F58B195388D20070C39A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6003F58A195388D20070C39A /* HiPayFullservice_Example.app */,
+				6003F5AE195388D20070C39A /* HiPayFullservice_Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6003F58C195388D20070C39A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A5A3755E1BD9165300CEA434 /* WebKit.framework */,
+				6003F58D195388D20070C39A /* Foundation.framework */,
+				6003F58F195388D20070C39A /* CoreGraphics.framework */,
+				6003F591195388D20070C39A /* UIKit.framework */,
+				6003F5AF195388D20070C39A /* XCTest.framework */,
+				D271450D432140C3F897A37D /* libPods-HiPayFullservice_Example.a */,
+				9D5385339AE4D60949DC28E6 /* libPods-HiPayFullservice_Tests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6003F593195388D20070C39A /* Example for HiPayFullservice */ = {
+			isa = PBXGroup;
+			children = (
+				6003F59C195388D20070C39A /* HPFAppDelegate.h */,
+				6003F59D195388D20070C39A /* HPFAppDelegate.m */,
+				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
+				6003F5A5195388D20070C39A /* HPFViewController.h */,
+				6003F5A6195388D20070C39A /* HPFViewController.m */,
+				A54AF90B1C09BF3E00B10F36 /* HPFDemoTableViewController.h */,
+				A54AF90C1C09BF3E00B10F36 /* HPFDemoTableViewController.m */,
+				A54AF9261C0B724500B10F36 /* HPFPaymentProductCategoriesTableViewController.h */,
+				A54AF9271C0B724500B10F36 /* HPFPaymentProductCategoriesTableViewController.m */,
+				6003F5A8195388D20070C39A /* Images.xcassets */,
+				A54AF9101C09C59900B10F36 /* Views */,
+				A5A375591BD8E6A600CEA434 /* Resources */,
+				6003F594195388D20070C39A /* Supporting Files */,
+			);
+			name = "Example for HiPayFullservice";
+			path = HiPayFullservice;
+			sourceTree = "<group>";
+		};
+		6003F594195388D20070C39A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6003F595195388D20070C39A /* HiPayFullservice-Info.plist */,
+				6003F599195388D20070C39A /* main.m */,
+				6003F59B195388D20070C39A /* HiPayFullservice-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6003F5B5195388D20070C39A /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				A5F335261BB58ABB0082463F /* HiPayFullservice */,
+				6003F5B6195388D20070C39A /* Supporting Files */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		6003F5B6195388D20070C39A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6003F5B7195388D20070C39A /* Tests-Info.plist */,
+				6003F5B8195388D20070C39A /* InfoPlist.strings */,
+				606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
+			isa = PBXGroup;
+			children = (
+				B936D89B6AB94FC4D1FE6E95 /* HiPayFullservice.podspec */,
+				39BEBD4EC0BC4099960FF4ED /* README.md */,
+				A286DBFF34568FC4BA19F022 /* LICENSE */,
+			);
+			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		752DBD9D0A633ED80EF890C0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A6DE32B74EAABE271832F022 /* Pods-HiPayFullservice_Example.debug.xcconfig */,
+				1BCCDB71367D2362CE4675C3 /* Pods-HiPayFullservice_Example.release.xcconfig */,
+				A7FE2CBCD3A3CCF6C20228C9 /* Pods-HiPayFullservice_Tests.debug.xcconfig */,
+				1FB39614B33B04B898162649 /* Pods-HiPayFullservice_Tests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A51004B31BBD3E9C002BD3C1 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				A51004B41BBD3EC6002BD3C1 /* HPFPaymentCardTokenMapperTests.m */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
+		A51004BD1BBD67DF002BD3C1 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				A51004BE1BBD67EF002BD3C1 /* HPFMapperTests.m */,
+				A5A375571BD7E0DC00CEA434 /* HPFArrayMapperTests.m */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
+		A51004D01BBD8308002BD3C1 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				A51004DE1BBE8DB5002BD3C1 /* Extensions */,
+				A51004DB1BBE893D002BD3C1 /* HPFSecureVaultClientTests.m */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		A51004D81BBD8F43002BD3C1 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				A51004D91BBD8F4F002BD3C1 /* HPFClientConfigTests.m */,
+				A51004E41BC28714002BD3C1 /* HPFAbstractClientTest.m */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		A51004DE1BBE8DB5002BD3C1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A51004DF1BBE8DCD002BD3C1 /* HPFSecureVaultClient+Testing.h */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A53BF5C51BF22C5900E24957 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A53BF5C61BF22C6B00E24957 /* HPFPersonalInformationTests.m */,
+				A53798A61BF73E0D0029E776 /* HPFPaymentProductTests.m */,
+				A5ABD1131BFCE1C700D8B867 /* HPFTransactionTests.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A54AF9101C09C59900B10F36 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A54AF9141C0B52E000B10F36 /* HPFSwitchTableViewCell.h */,
+				A54AF9151C0B52E000B10F36 /* HPFSwitchTableViewCell.m */,
+				A54AF91A1C0B599C00B10F36 /* HPFSegmentedControlTableViewCell.h */,
+				A54AF91B1C0B599C00B10F36 /* HPFSegmentedControlTableViewCell.m */,
+				A54AF9201C0B602700B10F36 /* HPFStepperTableViewCell.h */,
+				A54AF9211C0B602700B10F36 /* HPFStepperTableViewCell.m */,
+				A54AF9231C0B6D4700B10F36 /* HPFSubmitTableViewCell.h */,
+				A54AF9241C0B6D4700B10F36 /* HPFSubmitTableViewCell.m */,
+				A54AF9291C0B771000B10F36 /* HPFMoreOptionsTableViewCell.h */,
+				A54AF92A1C0B771000B10F36 /* HPFMoreOptionsTableViewCell.m */,
+				A5B076941C0C7FFE00B225C1 /* HPFInfoTableViewCell.h */,
+				A5B076951C0C7FFE00B225C1 /* HPFInfoTableViewCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		A57BA74D1BCD66E200F154E2 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				A57BA7501BCD672A00F154E2 /* Extensions */,
+				A57BA74E1BCD66F000F154E2 /* HPFGatewayClientTests.m */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		A57BA7501BCD672A00F154E2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A57BA7511BCD676100F154E2 /* HPFGatewayClient+Testing.h */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A57BA78A1BCE506B00F154E2 /* Serialization Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				A57BA78B1BCE515E00F154E2 /* HPFAbstractSerializationMapperTests.m */,
+				A5C657DB1BD0102B0017A2D7 /* HPFMutableDictionarySerialization.m */,
+			);
+			path = "Serialization Mapper";
+			sourceTree = "<group>";
+		};
+		A57BA7B51BCEA2B500F154E2 /* Serialization Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				A57BA7D21BCEAD0B00F154E2 /* HPFPersonalInfoRequestSerializationMapperTests.m */,
+				A57BA7D41BCEAD1D00F154E2 /* HPFCustomerInfoRequestSerializationMapperTests.m */,
+				A57BA7D61BCEAD2B00F154E2 /* HPFOrderRelatedRequestSerializationMapperTests.m */,
+				A57BA7D81BCEAD3900F154E2 /* HPFOrderRequestSerializationMapperTests.m */,
+				A57BA7DA1BCEAD4800F154E2 /* HPFPaymentPageRequestSerializationMapperTests.m */,
+				A57BA7DE1BCEAD6500F154E2 /* HPFCardTokenPaymentMethodRequestSerializationMapperTests.m */,
+				A5C91F431BE2CD6D00FD8421 /* HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m */,
+				A54AF8FF1BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m */,
+			);
+			path = "Serialization Mapper";
+			sourceTree = "<group>";
+		};
+		A57BA7E81BCF8EEE00F154E2 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				A57BA7E91BCF8F2B00F154E2 /* HPFPersonalInfoRequestTests.m */,
+				A57BA7EB1BCF8F4800F154E2 /* HPFCustomerInfoRequestTests.m */,
+				A57BA7ED1BCF8F5A00F154E2 /* HPFPaymentPageRequestTests.m */,
+				A57BA7EF1BCF8F6500F154E2 /* HPFOrderRelatedRequestTests.m */,
+				A57BA7F11BCF8F7000F154E2 /* HPFOrderRequestTests.m */,
+				A57BA7F71BCF8FB200F154E2 /* HPFCardTokenPaymentMethodRequestTests.m */,
+				A5C91F481BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m */,
+				A54AF8FD1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		A5A375591BD8E6A600CEA434 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98F911BE91B8700F9604F /* Localization */,
+				A5A3755A1BD8E6A600CEA434 /* Fixtures */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A5A3755A1BD8E6A600CEA434 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				A5A3755B1BD8E6A600CEA434 /* payment_products.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		A5A6EEA11BB97C8400825B19 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				A5A6EEA21BB97C8400825B19 /* example_dictionary.json */,
+				A51546371BBA83510077296E /* example_array.json */,
+				A515463E1BBBDD1F0077296E /* example_error.json */,
+				A515463C1BBBCD6D0077296E /* plain_text_response.txt */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		A5C6F2951BC7F08D00DEC43E /* Gateway */ = {
+			isa = PBXGroup;
+			children = (
+				A53BF5C51BF22C5900E24957 /* Models */,
+				A57BA7E81BCF8EEE00F154E2 /* Requests */,
+				A57BA7B51BCEA2B500F154E2 /* Serialization Mapper */,
+				A57BA74D1BCD66E200F154E2 /* Client */,
+				A5C6F2961BC7F08D00DEC43E /* Mapper */,
+			);
+			path = Gateway;
+			sourceTree = "<group>";
+		};
+		A5C6F2961BC7F08D00DEC43E /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				A5C6F2971BC7F0CA00DEC43E /* HPFThreeDSecureMapperTests.m */,
+				A5B9A6E31BD54A060014B27F /* HPFTransactionDetailsMapperTests.m */,
+				A595C44B1BC800310076AF07 /* HPFFraudScreeningMapperTests.m */,
+				A595C44D1BC800430076AF07 /* HPFOperationMapperTests.m */,
+				A595C44F1BC800510076AF07 /* HPFPersonalInformationMapperTests.m */,
+				A595C4511BC800600076AF07 /* HPFTransactionMapperTests.m */,
+				A595C4531BC800710076AF07 /* HPFTransactionRelatedItemMapperTests.m */,
+				A595C4591BC802DA0076AF07 /* HPFOrderMapperTests.m */,
+				A5F605911BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m */,
+				A5B9A6ED1BD6B2550014B27F /* HPFPaymentProductMapperTests.m */,
+				A54938901BFC908500068D9C /* HPFTransactionCallbackMapperTests.m */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
+		A5F335261BB58ABB0082463F /* HiPayFullservice */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98FA81BEB541200F9604F /* Utilities */,
+				A5F335271BB58ABB0082463F /* Core */,
+			);
+			path = HiPayFullservice;
+			sourceTree = "<group>";
+		};
+		A5F335271BB58ABB0082463F /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				A51004D81BBD8F43002BD3C1 /* Client */,
+				A51004BD1BBD67DF002BD3C1 /* Mapper */,
+				A57BA78A1BCE506B00F154E2 /* Serialization Mapper */,
+				A5F335281BB58ABB0082463F /* Network */,
+				A5C6F2951BC7F08D00DEC43E /* Gateway */,
+				A5F335291BB58ABB0082463F /* Secure Vault */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		A5F335281BB58ABB0082463F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A5A6EEA11BB97C8400825B19 /* Fixtures */,
+				A5F335301BB9238E0082463F /* Extensions */,
+				A5A6EE9B1BB9604700825B19 /* HPFHTTPClientTests.m */,
+				A5A6EE9F1BB972AF00825B19 /* HPFHTTPResponseTests.m */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		A5F335291BB58ABB0082463F /* Secure Vault */ = {
+			isa = PBXGroup;
+			children = (
+				A51004D01BBD8308002BD3C1 /* Client */,
+				A51004B31BBD3E9C002BD3C1 /* Mapper */,
+			);
+			path = "Secure Vault";
+			sourceTree = "<group>";
+		};
+		A5F335301BB9238E0082463F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A51004DD1BBE8D7C002BD3C1 /* HPFHTTPClient+Testing.h */,
+			);
+			name = Extensions;
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		A5F98F911BE91B8700F9604F /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98F921BE91B9500F9604F /* en.lproj */,
+				A5F98F971BE91B9500F9604F /* fr.lproj */,
+			);
+			name = Localization;
+			sourceTree = "<group>";
+		};
+		A5F98F921BE91B9500F9604F /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98F931BE91B9500F9604F /* InfoPlist.strings */,
+				A5F98F951BE91B9500F9604F /* Localizable.strings */,
+			);
+			name = en.lproj;
+			path = HiPayFullservice/en.lproj;
+			sourceTree = SOURCE_ROOT;
+		};
+		A5F98F971BE91B9500F9604F /* fr.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98F981BE91B9500F9604F /* Localizable.strings */,
+			);
+			name = fr.lproj;
+			path = HiPayFullservice/fr.lproj;
+			sourceTree = SOURCE_ROOT;
+		};
+		A5F98FA81BEB541200F9604F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A5F98FA91BEB541200F9604F /* Formatter */,
+			);
+			name = Utilities;
+			path = Core/Utilities;
+			sourceTree = "<group>";
+		};
+		A5F98FA91BEB541200F9604F /* Formatter */ = {
+			isa = PBXGroup;
+			children = (
+				A53BF59E1BEB54D100E24957 /* HPFCardNumberFormatterTests.m */,
+				A53BF5C11BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m */,
+				A53BF5C31BF0FA0300E24957 /* HPFFormatterTests.m */,
+			);
+			path = Formatter;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6003F589195388D20070C39A /* HiPayFullservice_Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "HiPayFullservice_Example" */;
+			buildPhases = (
+				530BDFEE4B970F16E1E49D25 /* Check Pods Manifest.lock */,
+				6003F586195388D20070C39A /* Sources */,
+				6003F587195388D20070C39A /* Frameworks */,
+				6003F588195388D20070C39A /* Resources */,
+				8B85A950FD28ADE74DE49A15 /* Copy Pods Resources */,
+				52DB3FCFD57AA32BED803C64 /* Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HiPayFullservice_Example;
+			productName = HiPayFullservice;
+			productReference = 6003F58A195388D20070C39A /* HiPayFullservice_Example.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6003F5AD195388D20070C39A /* HiPayFullservice_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "HiPayFullservice_Tests" */;
+			buildPhases = (
+				99345066E38322D557CF63D0 /* Check Pods Manifest.lock */,
+				6003F5AA195388D20070C39A /* Sources */,
+				6003F5AB195388D20070C39A /* Frameworks */,
+				6003F5AC195388D20070C39A /* Resources */,
+				64C2B8D9D35FB1B2D4102369 /* Copy Pods Resources */,
+				C22812B2DB7D5C896AF717FE /* Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6003F5B4195388D20070C39A /* PBXTargetDependency */,
+			);
+			name = HiPayFullservice_Tests;
+			productName = HiPayFullserviceTests;
+			productReference = 6003F5AE195388D20070C39A /* HiPayFullservice_Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6003F582195388D10070C39A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = HPF;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Jonathan TIRET";
+				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = 7RLJNKW437;
+					};
+					6003F5AD195388D20070C39A = {
+						TestTargetID = 6003F589195388D20070C39A;
+					};
+				};
+			};
+			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "HiPayFullservice" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				fr,
+			);
+			mainGroup = 6003F581195388D10070C39A;
+			productRefGroup = 6003F58B195388D20070C39A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6003F589195388D20070C39A /* HiPayFullservice_Example */,
+				6003F5AD195388D20070C39A /* HiPayFullservice_Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6003F588195388D20070C39A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */,
+				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */,
+				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
+				A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6003F5AC195388D20070C39A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A51546381BBA83510077296E /* example_array.json in Resources */,
+				A5A6EEA31BB97C8400825B19 /* example_dictionary.json in Resources */,
+				A515463F1BBBDD1F0077296E /* example_error.json in Resources */,
+				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
+				A515463D1BBBCD6D0077296E /* plain_text_response.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		52DB3FCFD57AA32BED803C64 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		530BDFEE4B970F16E1E49D25 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		64C2B8D9D35FB1B2D4102369 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B85A950FD28ADE74DE49A15 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		99345066E38322D557CF63D0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C22812B2DB7D5C896AF717FE /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6003F586195388D20070C39A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A54AF9161C0B52E000B10F36 /* HPFSwitchTableViewCell.m in Sources */,
+				6003F59E195388D20070C39A /* HPFAppDelegate.m in Sources */,
+				A5B076961C0C7FFE00B225C1 /* HPFInfoTableViewCell.m in Sources */,
+				A54AF92B1C0B771000B10F36 /* HPFMoreOptionsTableViewCell.m in Sources */,
+				6003F5A7195388D20070C39A /* HPFViewController.m in Sources */,
+				A54AF91C1C0B599C00B10F36 /* HPFSegmentedControlTableViewCell.m in Sources */,
+				A54AF9221C0B602700B10F36 /* HPFStepperTableViewCell.m in Sources */,
+				6003F59A195388D20070C39A /* main.m in Sources */,
+				A54AF9281C0B724500B10F36 /* HPFPaymentProductCategoriesTableViewController.m in Sources */,
+				A54AF9251C0B6D4700B10F36 /* HPFSubmitTableViewCell.m in Sources */,
+				A54AF90D1C09BF3E00B10F36 /* HPFDemoTableViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6003F5AA195388D20070C39A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A595C4521BC800600076AF07 /* HPFTransactionMapperTests.m in Sources */,
+				A53798A71BF73E0D0029E776 /* HPFPaymentProductTests.m in Sources */,
+				A5A6EEA01BB972AF00825B19 /* HPFHTTPResponseTests.m in Sources */,
+				A57BA7DF1BCEAD6500F154E2 /* HPFCardTokenPaymentMethodRequestSerializationMapperTests.m in Sources */,
+				A5B9A6E41BD54A060014B27F /* HPFTransactionDetailsMapperTests.m in Sources */,
+				A57BA7EE1BCF8F5A00F154E2 /* HPFPaymentPageRequestTests.m in Sources */,
+				A57BA74F1BCD66F000F154E2 /* HPFGatewayClientTests.m in Sources */,
+				A57BA7DB1BCEAD4800F154E2 /* HPFPaymentPageRequestSerializationMapperTests.m in Sources */,
+				A57BA7EA1BCF8F2B00F154E2 /* HPFPersonalInfoRequestTests.m in Sources */,
+				A5ABD1141BFCE1C700D8B867 /* HPFTransactionTests.m in Sources */,
+				A53BF5C71BF22C6B00E24957 /* HPFPersonalInformationTests.m in Sources */,
+				A57BA7EC1BCF8F4800F154E2 /* HPFCustomerInfoRequestTests.m in Sources */,
+				A5F605921BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m in Sources */,
+				A57BA7F01BCF8F6500F154E2 /* HPFOrderRelatedRequestTests.m in Sources */,
+				A57BA78C1BCE515E00F154E2 /* HPFAbstractSerializationMapperTests.m in Sources */,
+				A51004E51BC28714002BD3C1 /* HPFAbstractClientTest.m in Sources */,
+				A5C657DC1BD0102B0017A2D7 /* HPFMutableDictionarySerialization.m in Sources */,
+				A57BA7D31BCEAD0B00F154E2 /* HPFPersonalInfoRequestSerializationMapperTests.m in Sources */,
+				A51004DA1BBD8F4F002BD3C1 /* HPFClientConfigTests.m in Sources */,
+				A5C6F2981BC7F0CA00DEC43E /* HPFThreeDSecureMapperTests.m in Sources */,
+				A595C44C1BC800310076AF07 /* HPFFraudScreeningMapperTests.m in Sources */,
+				A57BA7D91BCEAD3900F154E2 /* HPFOrderRequestSerializationMapperTests.m in Sources */,
+				A5C91F441BE2CD6D00FD8421 /* HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m in Sources */,
+				A595C45A1BC802DA0076AF07 /* HPFOrderMapperTests.m in Sources */,
+				A51004B51BBD3EC6002BD3C1 /* HPFPaymentCardTokenMapperTests.m in Sources */,
+				A595C4501BC800510076AF07 /* HPFPersonalInformationMapperTests.m in Sources */,
+				A54938911BFC908500068D9C /* HPFTransactionCallbackMapperTests.m in Sources */,
+				A57BA7D51BCEAD1D00F154E2 /* HPFCustomerInfoRequestSerializationMapperTests.m in Sources */,
+				A53BF59F1BEB54D100E24957 /* HPFCardNumberFormatterTests.m in Sources */,
+				A53BF5C41BF0FA0300E24957 /* HPFFormatterTests.m in Sources */,
+				A53BF5C21BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m in Sources */,
+				A5A6EE9C1BB9604700825B19 /* HPFHTTPClientTests.m in Sources */,
+				A54AF9001BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m in Sources */,
+				A5A375581BD7E0DC00CEA434 /* HPFArrayMapperTests.m in Sources */,
+				A57BA7D71BCEAD2B00F154E2 /* HPFOrderRelatedRequestSerializationMapperTests.m in Sources */,
+				A595C44E1BC800430076AF07 /* HPFOperationMapperTests.m in Sources */,
+				A54AF8FE1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m in Sources */,
+				A51004BF1BBD67EF002BD3C1 /* HPFMapperTests.m in Sources */,
+				A57BA7F21BCF8F7000F154E2 /* HPFOrderRequestTests.m in Sources */,
+				A5B9A6EE1BD6B2550014B27F /* HPFPaymentProductMapperTests.m in Sources */,
+				A57BA7F81BCF8FB200F154E2 /* HPFCardTokenPaymentMethodRequestTests.m in Sources */,
+				A5C91F491BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m in Sources */,
+				A595C4541BC800710076AF07 /* HPFTransactionRelatedItemMapperTests.m in Sources */,
+				A51004DC1BBE893D002BD3C1 /* HPFSecureVaultClientTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6003F5B4195388D20070C39A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6003F589195388D20070C39A /* HiPayFullservice_Example */;
+			targetProxy = 6003F5B3195388D20070C39A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6003F5B8195388D20070C39A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6003F5B9195388D20070C39A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A5F98F931BE91B9500F9604F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5F98F941BE91B9500F9604F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A5F98F951BE91B9500F9604F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5F98F961BE91B9500F9604F /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A5F98F981BE91B9500F9604F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5F98F991BE91B9500F9604F /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6003F5BD195388D20070C39A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6003F5BE195388D20070C39A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6003F5C0195388D20070C39A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A6DE32B74EAABE271832F022 /* Pods-HiPayFullservice_Example.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
+				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
+				MODULE_NAME = ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		6003F5C1195388D20070C39A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BCCDB71367D2362CE4675C3 /* Pods-HiPayFullservice_Example.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
+				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
+				MODULE_NAME = ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		6003F5C3195388D20070C39A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7FE2CBCD3A3CCF6C20228C9 /* Pods-HiPayFullservice_Tests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HiPayFullservice_Example.app/HiPayFullservice_Example";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		6003F5C4195388D20070C39A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1FB39614B33B04B898162649 /* Pods-HiPayFullservice_Tests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
+				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HiPayFullservice_Example.app/HiPayFullservice_Example";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6003F585195388D10070C39A /* Build configuration list for PBXProject "HiPayFullservice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6003F5BD195388D20070C39A /* Debug */,
+				6003F5BE195388D20070C39A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "HiPayFullservice_Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6003F5C0195388D20070C39A /* Debug */,
+				6003F5C1195388D20070C39A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "HiPayFullservice_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6003F5C3195388D20070C39A /* Debug */,
+				6003F5C4195388D20070C39A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6003F582195388D10070C39A /* Project object */;
+}

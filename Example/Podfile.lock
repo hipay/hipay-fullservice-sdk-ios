@@ -4,16 +4,16 @@ PODS:
     - Expecta (~> 1.0)
     - FBSnapshotTestCase/Core (~> 2.0.3)
   - FBSnapshotTestCase/Core (2.0.4)
-  - HiPayTPP (0.1.0):
-    - HiPayTPP/Core (= 0.1.0)
-    - HiPayTPP/Device-Print (= 0.1.0)
-    - HiPayTPP/Payment-Screen (= 0.1.0)
-  - HiPayTPP/Core (0.1.0)
-  - HiPayTPP/Device-Print (0.1.0)
-  - HiPayTPP/Payment-Screen (0.1.0):
-    - HiPayTPP/Core
-    - HiPayTPP/Utilities
-  - HiPayTPP/Utilities (0.1.0)
+  - HiPayFullservice (0.1.0):
+    - HiPayFullservice/Core (= 0.1.0)
+    - HiPayFullservice/Device-Print (= 0.1.0)
+    - HiPayFullservice/Payment-Screen (= 0.1.0)
+  - HiPayFullservice/Core (0.1.0)
+  - HiPayFullservice/Device-Print (0.1.0)
+  - HiPayFullservice/Payment-Screen (0.1.0):
+    - HiPayFullservice/Core
+    - HiPayFullservice/Utilities
+  - HiPayFullservice/Utilities (0.1.0)
   - OCMock (3.1.5)
   - OHHTTPStubs (4.3.0):
     - OHHTTPStubs/Default (= 4.3.0)
@@ -33,20 +33,20 @@ PODS:
 DEPENDENCIES:
   - Expecta
   - Expecta+Snapshots
-  - HiPayTPP (from `../`)
+  - HiPayFullservice (from `../`)
   - OCMock
   - OHHTTPStubs
   - Specta
 
 EXTERNAL SOURCES:
-  HiPayTPP:
+  HiPayFullservice:
     :path: ../
 
 SPEC CHECKSUMS:
   Expecta: 9d1bff6c8b0eeee73a166a2ee898892478927a15
   Expecta+Snapshots: 29b38dd695bc72a0ed2bea833937d78df41943ba
   FBSnapshotTestCase: d94cf34841c9e77390e29009e8e2713479d48753
-  HiPayTPP: f22594187c9eb9619fe3278efd5df310950beac6
+  HiPayFullservice: 9cee7116d3b9499b7dccb13f82e0c312f3859aa9
   OCMock: 4c2925291f80407c3738dd1db14d21d0cc278864
   OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
   Specta: cf3e4188cf35375c3ee2cd03f8db8f1f4ef98234

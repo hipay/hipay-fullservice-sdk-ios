@@ -11,14 +11,16 @@ Pod::Spec.new do |s|
 
                        DESC
 
-  s.homepage         = "https://github.com/hipay/hipay-fullservice-sdk-ios-dev"
+  s.homepage         = "https://github.com/hipay/hipay-fullservice-sdk-ios"
   s.license          = "MIT"
   s.author           = { "Jonathan TIRET" => "jtiret@hipay.com" }
-  s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios-dev.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios.git", :tag => s.version.to_s }
   s.social_media_url = "https://twitter.com/hipay"
 
   s.platform     = :ios, "7.0"
   s.requires_arc = true
+
+  s.pod_target_xcconfig = {"TARGETED_DEVICE_FAMILY" => "1,2"}
 
   s.source_files     = "HiPayFullservice/*.{m,h}"
 
@@ -40,9 +42,9 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "Device-Print" do |s|
-    s.ios.vendored_frameworks = "HiPayFullservice/Device Print/iovation.framework"
+    s.vendored_frameworks = "HiPayFullservice/Device Print/iovation.framework"
     s.frameworks = "CoreTelephony", "SystemConfiguration", "ExternalAccessory"
-  end  
+  end
 
   s.subspec "Payment-Screen" do |s|
     s.source_files  = "HiPayFullservice/Payment Screen/**/*.{h,m}"

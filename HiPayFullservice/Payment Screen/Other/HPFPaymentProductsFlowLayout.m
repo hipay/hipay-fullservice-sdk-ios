@@ -23,7 +23,13 @@
 {
     _collectionViewSize = collectionViewSize;
     
-    CGFloat minWidth = fmin(collectionViewSize.width / 4.0, 100.0);
+    CGFloat minWidth;
+    
+    if ([self.collectionView numberOfItemsInSection:0] > 0) {
+        minWidth = fmin(collectionViewSize.width / fmin(4.0, [self.collectionView numberOfItemsInSection:0]), 100.0);
+    } else {
+        minWidth = 100.0;
+    }
     
     CGFloat currentNumberOfVisibleItems = collectionViewSize.width / (minWidth + self.minimumInteritemSpacing);
     

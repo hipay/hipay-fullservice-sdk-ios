@@ -389,6 +389,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HPFPaymentProductsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PaymentProductsCell"];
+    cell.backgroundColor = [UIColor clearColor];
     
     paymentProductsCollectionView = cell.paymentProductsCollectionView;
 

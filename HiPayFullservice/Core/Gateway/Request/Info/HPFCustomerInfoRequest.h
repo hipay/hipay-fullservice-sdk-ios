@@ -11,11 +11,11 @@
 
 @interface HPFCustomerInfoRequest : HPFPersonalInfoRequest
 
-@property (nonatomic, copy) NSString *email;
-@property (nonatomic, copy) NSString *phone;
-@property (nonatomic, copy) NSNumber *birthDateDay;
-@property (nonatomic, copy) NSNumber *birthDateMonth;
-@property (nonatomic, copy) NSNumber *birthDateYear;
+@property (nonatomic, copy, nullable) NSString *email;
+@property (nonatomic, copy, nullable) NSString *phone;
+@property (nonatomic, copy, nullable) NSNumber *birthDateDay;
+@property (nonatomic, copy, nullable) NSNumber *birthDateMonth;
+@property (nonatomic, copy, nullable) NSNumber *birthDateYear;
 @property (nonatomic) HPFGender gender;
 
 @end

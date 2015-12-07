@@ -11,7 +11,7 @@
 
 @interface HPFOrderRequest : HPFOrderRelatedRequest
 
-@property (nonatomic, copy) NSString *paymentProductCode;
-@property (nonatomic) HPFAbstractPaymentMethodRequest *paymentMethod;
+@property (nonatomic, copy, nullable) NSString *paymentProductCode;
+@property (nonatomic, nullable) HPFAbstractPaymentMethodRequest *paymentMethod;
 
 @end

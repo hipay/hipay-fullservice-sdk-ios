@@ -20,17 +20,17 @@ typedef NS_ENUM(char, HPFGender) {
 
 @interface HPFOrder : HPFPersonalInformation
 
-@property (nonatomic, readonly) NSString *orderId;
-@property (nonatomic, readonly) NSDate *dateCreated;
+@property (nonatomic, readonly, nonnull) NSString *orderId;
+@property (nonatomic, readonly, nonnull) NSDate *dateCreated;
 @property (nonatomic, readonly) NSInteger attempts;
-@property (nonatomic, readonly) NSNumber *amount;
-@property (nonatomic, readonly) NSNumber *shipping;
-@property (nonatomic, readonly) NSNumber *tax;
-@property (nonatomic, readonly) NSNumber *decimals;
-@property (nonatomic, readonly) NSString *currency;
-@property (nonatomic, readonly) NSString *customerId;
-@property (nonatomic, readonly) NSString *language;
+@property (nonatomic, readonly, nonnull) NSNumber *amount;
+@property (nonatomic, readonly, nullable) NSNumber *shipping;
+@property (nonatomic, readonly, nullable) NSNumber *tax;
+@property (nonatomic, readonly, nonnull) NSNumber *decimals;
+@property (nonatomic, readonly, nonnull) NSString *currency;
+@property (nonatomic, readonly, nullable) NSString *customerId;
+@property (nonatomic, readonly, nullable) NSString *language;
 @property (nonatomic, readonly) HPFGender gender;
-@property (nonatomic, readonly) HPFPersonalInformation *shippingAddress;
+@property (nonatomic, readonly, nullable) HPFPersonalInformation *shippingAddress;
 
 @end

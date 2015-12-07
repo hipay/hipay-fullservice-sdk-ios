@@ -10,15 +10,15 @@
 
 @interface HPFPersonalInfoRequest : NSObject
 
-@property (nonatomic, copy) NSString *firstname;
-@property (nonatomic, copy) NSString *lastname;
-@property (nonatomic, readonly) NSString *displayName;
-@property (nonatomic, copy) NSString *streetAddress;
-@property (nonatomic, copy) NSString *streetAddress2;
-@property (nonatomic, copy) NSString *recipientInfo;
-@property (nonatomic, copy) NSString *city;
-@property (nonatomic, copy) NSString *state;
-@property (nonatomic, copy) NSString *zipCode;
-@property (nonatomic, copy) NSString *country;
+@property (nonatomic, copy, nullable) NSString *firstname;
+@property (nonatomic, copy, nullable) NSString *lastname;
+@property (nonatomic, readonly, nullable) NSString *displayName;
+@property (nonatomic, copy, nullable) NSString *streetAddress;
+@property (nonatomic, copy, nullable) NSString *streetAddress2;
+@property (nonatomic, copy, nullable) NSString *recipientInfo;
+@property (nonatomic, copy, nullable) NSString *city;
+@property (nonatomic, copy, nullable) NSString *state;
+@property (nonatomic, copy, nullable) NSString *zipCode;
+@property (nonatomic, copy, nullable) NSString *country;
 
 @end

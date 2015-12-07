@@ -33,10 +33,10 @@ typedef NS_ENUM(char, HPFThreeDSecureAuthenticationStatus) {
 @interface HPFThreeDSecure : NSObject
 
 @property (nonatomic, readonly) HPFThreeDSecureEnrollmentStatus enrollmentStatus;
-@property (nonatomic, readonly) NSString *enrollmentMessage;
+@property (nonatomic, readonly, nonnull) NSString *enrollmentMessage;
 @property (nonatomic, readonly) HPFThreeDSecureAuthenticationStatus authenticationStatus;
-@property (nonatomic, readonly) NSString *authenticationMessage;
-@property (nonatomic, readonly) NSString *authenticationToken;
-@property (nonatomic, readonly) NSString *xid;
+@property (nonatomic, readonly, nullable) NSString *authenticationMessage;
+@property (nonatomic, readonly, nullable) NSString *authenticationToken;
+@property (nonatomic, readonly, nullable) NSString *xid;
 
 @end

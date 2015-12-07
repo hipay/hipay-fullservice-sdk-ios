@@ -9,21 +9,21 @@
 #ifndef HPFErrors_h
 #define HPFErrors_h
 
-NSString * const HPFHiPayFullserviceErrorDomain;
-NSString * const HPFErrorCodeHTTPOtherDescription;
-NSString * const HPFErrorCodeHTTPNetworkUnavailableDescription;
-NSString * const HPFErrorCodeHTTPConfigDescription;
-NSString * const HPFErrorCodeHTTPConnectionFailedDescription;
-NSString * const HPFErrorCodeHTTPClientDescription;
-NSString * const HPFErrorCodeHTTPServerDescription;
+NSString * _Nonnull const HPFHiPayFullserviceErrorDomain;
+NSString * _Nonnull const HPFErrorCodeHTTPOtherDescription;
+NSString * _Nonnull const HPFErrorCodeHTTPNetworkUnavailableDescription;
+NSString * _Nonnull const HPFErrorCodeHTTPConfigDescription;
+NSString * _Nonnull const HPFErrorCodeHTTPConnectionFailedDescription;
+NSString * _Nonnull const HPFErrorCodeHTTPClientDescription;
+NSString * _Nonnull const HPFErrorCodeHTTPServerDescription;
 
-NSString * const HPFErrorCodeHTTPPlainResponseKey;
-NSString * const HPFErrorCodeHTTPParsedResponseKey;
-NSString * const HPFErrorCodeHTTPStatusCodeKey;
+NSString * _Nonnull const HPFErrorCodeHTTPPlainResponseKey;
+NSString * _Nonnull const HPFErrorCodeHTTPParsedResponseKey;
+NSString * _Nonnull const HPFErrorCodeHTTPStatusCodeKey;
 
-NSString * const HPFErrorCodeAPIDescriptionKey;
-NSString * const HPFErrorCodeAPIMessageKey;
-NSString * const HPFErrorCodeAPICodeKey;
+NSString * _Nonnull const HPFErrorCodeAPIDescriptionKey;
+NSString * _Nonnull const HPFErrorCodeAPIMessageKey;
+NSString * _Nonnull const HPFErrorCodeAPICodeKey;
 
 typedef NS_ENUM(NSInteger, HPFHTTPStatus) {
     

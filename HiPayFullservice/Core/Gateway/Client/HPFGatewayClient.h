@@ -23,14 +23,14 @@
 #define HPFGatewayClientBaseURLProduction   @"https://secure-gateway.hipay-tpp.com/rest/v1/"
 #define HPFGatewayCallbackURLPathName       @"gateway"
 
-extern NSString *const HPFGatewayClientDidRedirectSuccessfullyNotification;
-extern NSString *const HPFGatewayClientDidRedirectWithMappingErrorNotification;
+extern NSString * _Nonnull const HPFGatewayClientDidRedirectSuccessfullyNotification;
+extern NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotification;
 
-typedef void (^HPFHostedPaymentPageCompletionBlock)(HPFHostedPaymentPage *hostedPaymentPage, NSError *error);
-typedef void (^HPFOperationCompletionBlock)(HPFOperation *operation, NSError *error);
-typedef void (^HPFTransactionCompletionBlock)(HPFTransaction *transaction, NSError *error);
-typedef void (^HPFTransactionsCompletionBlock)(NSArray <HPFTransaction *> *transactions, NSError *error);
-typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> *paymentProducts, NSError *error);
+typedef void (^HPFHostedPaymentPageCompletionBlock)(HPFHostedPaymentPage  * _Nullable hostedPaymentPage, NSError * _Nullable error);
+typedef void (^HPFOperationCompletionBlock)(HPFOperation * _Nullable operation, NSError * _Nullable error);
+typedef void (^HPFTransactionCompletionBlock)(HPFTransaction * _Nullable transaction, NSError * _Nullable error);
+typedef void (^HPFTransactionsCompletionBlock)(NSArray <HPFTransaction *> * _Nullable transactions, NSError * _Nullable error);
+typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> * _Nonnull paymentProducts, NSError * _Nullable error);
 
 @interface HPFGatewayClient : HPFAbstractClient
 {
@@ -38,21 +38,22 @@ typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> 
     HPFClientConfig *clientConfig;
 }
 
-+ (instancetype)sharedClient;
-+ (BOOL)isTransactionErrorFinal:(NSError *)error;
++ (_Nonnull instancetype)sharedClient;
 
-- (id<HPFRequest>)initializeHostedPaymentPageRequest:(HPFPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPFHostedPaymentPageCompletionBlock)completionBlock;
++ (BOOL)isTransactionErrorFinal:(NSError * _Nonnull)error;
 
-- (id<HPFRequest>)requestNewOrder:(HPFOrderRequest *)orderRequest withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock;
+- (id<HPFRequest> _Nonnull)initializeHostedPaymentPageRequest:(HPFPaymentPageRequest * _Nonnull)hostedPaymentPageRequest withCompletionHandler:(HPFHostedPaymentPageCompletionBlock _Nullable)completionBlock;
 
-- (id<HPFRequest>)getTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock;
+- (id<HPFRequest> _Nonnull)requestNewOrder:(HPFOrderRequest * _Nonnull)orderRequest withCompletionHandler:(HPFTransactionCompletionBlock _Nullable)completionBlock;
 
-- (id<HPFRequest>)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPFTransactionsCompletionBlock)completionBlock;
+- (id<HPFRequest> _Nonnull)getTransactionWithReference:(NSString * _Nonnull)transactionReference withCompletionHandler:(HPFTransactionCompletionBlock _Nullable)completionBlock;
 
-- (id<HPFRequest>)performMaintenanceOperation:(HPFOperationType)operation amount:(NSNumber *)amount onTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPFOperationCompletionBlock)completionBlock;
+- (id<HPFRequest> _Nonnull)getTransactionsWithOrderId:(NSString * _Nonnull)orderId withCompletionHandler:(HPFTransactionsCompletionBlock _Nullable)completionBlock;
 
-- (id<HPFRequest>)getPaymentProductsForRequest:(HPFPaymentPageRequest *)paymentPageRequest withCompletionHandler:(HPFPaymentProductsCompletionBlock)completionBlock;
+- (id<HPFRequest> _Nonnull)performMaintenanceOperation:(HPFOperationType)operation amount:(NSNumber * _Nullable)amount onTransactionWithReference:(NSString * _Nonnull)transactionReference withCompletionHandler:(HPFOperationCompletionBlock _Nullable)completionBlock;
 
-- (BOOL)handleOpenURL:(NSURL *)URL;
+- (id<HPFRequest> _Nonnull)getPaymentProductsForRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest withCompletionHandler:(HPFPaymentProductsCompletionBlock _Nullable)completionBlock;
+
+- (BOOL)handleOpenURL:(NSURL * _Nonnull)URL;
 
 @end

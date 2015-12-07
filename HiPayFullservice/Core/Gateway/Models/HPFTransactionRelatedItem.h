@@ -56,18 +56,18 @@ typedef NS_ENUM(NSInteger, HPFTransactionStatus) {
 @interface HPFTransactionRelatedItem : NSObject
 
 @property (nonatomic, readonly) BOOL test;
-@property (nonatomic, readonly) NSString *mid;
-@property (nonatomic, readonly) NSString *authorizationCode;
-@property (nonatomic, readonly) NSString *transactionReference;
-@property (nonatomic, readonly) NSDate *dateCreated;
-@property (nonatomic, readonly) NSDate *dateUpdated;
-@property (nonatomic, readonly) NSDate *dateAuthorized;
+@property (nonatomic, readonly, nonnull) NSString *mid;
+@property (nonatomic, readonly, nullable) NSString *authorizationCode;
+@property (nonatomic, readonly, nonnull) NSString *transactionReference;
+@property (nonatomic, readonly, nonnull) NSDate *dateCreated;
+@property (nonatomic, readonly, nonnull) NSDate *dateUpdated;
+@property (nonatomic, readonly, nullable) NSDate *dateAuthorized;
 @property (nonatomic, readonly) HPFTransactionStatus status;
-@property (nonatomic, readonly) NSString *message;
-@property (nonatomic, readonly) NSNumber *authorizedAmount;
-@property (nonatomic, readonly) NSNumber *capturedAmount;
-@property (nonatomic, readonly) NSNumber *refundedAmount;
-@property (nonatomic, readonly) NSNumber *decimals;
-@property (nonatomic, readonly) NSString *currency;
+@property (nonatomic, readonly, nullable) NSString *message;
+@property (nonatomic, readonly, nullable) NSNumber *authorizedAmount;
+@property (nonatomic, readonly, nullable) NSNumber *capturedAmount;
+@property (nonatomic, readonly, nullable) NSNumber *refundedAmount;
+@property (nonatomic, readonly, nonnull) NSNumber *decimals;
+@property (nonatomic, readonly, nonnull) NSString *currency;
 
 @end

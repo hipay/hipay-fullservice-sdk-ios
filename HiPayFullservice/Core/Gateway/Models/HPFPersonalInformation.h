@@ -10,16 +10,16 @@
 
 @interface HPFPersonalInformation : NSObject
 
-@property (nonatomic, readonly) NSString *firstname;
-@property (nonatomic, readonly) NSString *lastname;
-@property (nonatomic, readonly) NSString *displayName;
-@property (nonatomic, readonly) NSString *streetAddress;
-@property (nonatomic, readonly) NSString *locality;
-@property (nonatomic, readonly) NSString *postalCode;
-@property (nonatomic, readonly) NSString *country;
-@property (nonatomic, readonly) NSString *msisdn;
-@property (nonatomic, readonly) NSString *phone;
-@property (nonatomic, readonly) NSString *phoneOperator;
-@property (nonatomic, readonly) NSString *email;
+@property (nonatomic, readonly, nullable) NSString *firstname;
+@property (nonatomic, readonly, nullable) NSString *lastname;
+@property (nonatomic, readonly, nullable) NSString *displayName;
+@property (nonatomic, readonly, nullable) NSString *streetAddress;
+@property (nonatomic, readonly, nullable) NSString *locality;
+@property (nonatomic, readonly, nullable) NSString *postalCode;
+@property (nonatomic, readonly, nullable) NSString *country;
+@property (nonatomic, readonly, nullable) NSString *msisdn;
+@property (nonatomic, readonly, nullable) NSString *phone;
+@property (nonatomic, readonly, nullable) NSString *phoneOperator;
+@property (nonatomic, readonly, nullable) NSString *email;
 
 @end

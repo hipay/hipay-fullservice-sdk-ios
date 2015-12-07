@@ -9,8 +9,8 @@
 #import "HPFPaymentPageRequest.h"
 #import "HPFPaymentProduct.h"
 
-NSString *const HPFPaymentPageRequestTemplateNameBasic = @"basic-js";
-NSString *const HPFPaymentPageRequestTemplateNameFrame = @"iframe-js";
+NSString * _Nonnull const HPFPaymentPageRequestTemplateNameBasic = @"basic-js";
+NSString * _Nonnull const HPFPaymentPageRequestTemplateNameFrame = @"iframe-js";
 
 @implementation HPFPaymentPageRequest
 

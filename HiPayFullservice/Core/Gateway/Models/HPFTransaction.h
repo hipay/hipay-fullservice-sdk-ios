@@ -64,38 +64,38 @@ typedef NS_ENUM(NSInteger, HPFTransactionState) {
 @interface HPFTransaction : HPFTransactionRelatedItem
 
 @property (nonatomic, readonly) HPFTransactionState state;
-@property (nonatomic, readonly) NSString *reason;
-@property (nonatomic, readonly) NSURL *forwardUrl;
-@property (nonatomic, readonly) NSString *attemptId;
-@property (nonatomic, readonly) NSString *referenceToPay;
-@property (nonatomic, readonly) NSString *ipAddress;
-@property (nonatomic, readonly) NSString *ipCountry;
-@property (nonatomic, readonly) NSString *deviceId;
+@property (nonatomic, readonly, nullable) NSString *reason;
+@property (nonatomic, readonly, nullable) NSURL *forwardUrl;
+@property (nonatomic, readonly, nullable) NSString *attemptId;
+@property (nonatomic, readonly, nullable) NSString *referenceToPay;
+@property (nonatomic, readonly, nullable) NSString *ipAddress;
+@property (nonatomic, readonly, nullable) NSString *ipCountry;
+@property (nonatomic, readonly, nullable) NSString *deviceId;
 @property (nonatomic, readonly) HPFAVSResult avsResult;
 @property (nonatomic, readonly) HPFCVCResult cvcResult;
 @property (nonatomic, readonly) HPFECI eci;
-@property (nonatomic, readonly) NSString *paymentProduct;
-@property (nonatomic, readonly) HPFPaymentMethod *paymentMethod;
-@property (nonatomic, readonly) HPFThreeDSecure *threeDSecure;
-@property (nonatomic, readonly) HPFFraudScreening *fraudScreening;
-@property (nonatomic, readonly) HPFOrder *order;
-@property (nonatomic, readonly) NSDictionary *debitAgreement;
+@property (nonatomic, readonly, nonnull) NSString *paymentProduct;
+@property (nonatomic, readonly, nullable) HPFPaymentMethod *paymentMethod;
+@property (nonatomic, readonly, nullable) HPFThreeDSecure *threeDSecure;
+@property (nonatomic, readonly, nullable) HPFFraudScreening *fraudScreening;
+@property (nonatomic, readonly, nonnull) HPFOrder *order;
+@property (nonatomic, readonly, nullable) NSDictionary *debitAgreement;
 
-@property (nonatomic, readonly) NSString *cdata1;
-@property (nonatomic, readonly) NSString *cdata2;
-@property (nonatomic, readonly) NSString *cdata3;
-@property (nonatomic, readonly) NSString *cdata4;
-@property (nonatomic, readonly) NSString *cdata5;
-@property (nonatomic, readonly) NSString *cdata6;
-@property (nonatomic, readonly) NSString *cdata7;
-@property (nonatomic, readonly) NSString *cdata8;
-@property (nonatomic, readonly) NSString *cdata9;
-@property (nonatomic, readonly) NSString *cdata10;
+@property (nonatomic, readonly, nullable) NSString *cdata1;
+@property (nonatomic, readonly, nullable) NSString *cdata2;
+@property (nonatomic, readonly, nullable) NSString *cdata3;
+@property (nonatomic, readonly, nullable) NSString *cdata4;
+@property (nonatomic, readonly, nullable) NSString *cdata5;
+@property (nonatomic, readonly, nullable) NSString *cdata6;
+@property (nonatomic, readonly, nullable) NSString *cdata7;
+@property (nonatomic, readonly, nullable) NSString *cdata8;
+@property (nonatomic, readonly, nullable) NSString *cdata9;
+@property (nonatomic, readonly, nullable) NSString *cdata10;
 
 @property (readonly, getter=isHandled) BOOL handled;
 
-+ (NSArray<HPFTransaction *> *)sortTransactionsByRelevance:(NSArray<HPFTransaction *> *)transactions;
++ (NSArray<HPFTransaction *> * _Nonnull)sortTransactionsByRelevance:(NSArray<HPFTransaction *> * _Nonnull)transactions;
 
-- (BOOL)isMoreRelevantThan:(HPFTransaction *)transaction;
+- (BOOL)isMoreRelevantThan:(HPFTransaction * _Nonnull)transaction;
 
 @end

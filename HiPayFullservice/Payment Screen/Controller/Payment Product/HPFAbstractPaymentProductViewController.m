@@ -38,6 +38,10 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
+    if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
+        self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+    }
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Input"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFCardNumberInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"CardNumberInput"];

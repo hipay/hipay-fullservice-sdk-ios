@@ -68,6 +68,10 @@
     [super viewDidLoad];
     
     defaultGlobalTintColor = self.view.tintColor;
+    
+    if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
+        self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

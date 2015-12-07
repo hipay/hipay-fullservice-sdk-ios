@@ -33,6 +33,15 @@
     return selectedPaymentProducts;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
+        self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+    }
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

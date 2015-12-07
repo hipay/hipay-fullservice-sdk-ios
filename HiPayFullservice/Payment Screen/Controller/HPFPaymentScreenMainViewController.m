@@ -67,11 +67,9 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    if ([paymentProductsTableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
+        paymentProductsTableView.cellLayoutMarginsFollowReadableWidth = YES;
+    }
 }
 
 - (void)setPaymentProducts:(NSArray *)paymentProducts

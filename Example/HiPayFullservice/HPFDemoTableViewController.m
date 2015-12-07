@@ -44,6 +44,7 @@
     cancelRowIndex = NSNotFound;
     
     // Default form values
+    insertResultSection = NO;
     currencies = @[@"EUR", @"USD", @"PLN", @"RUB"];
     currencySegmentIndex = 0;
     authenticationIndicatorSegmentIndex = 0;
@@ -80,7 +81,8 @@
     
     if (insertResultSection) {
         insertResultSection = NO;
-        
+        resultSectionIndex = 1;
+
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:resultSectionIndex] withRowAnimation:UITableViewRowAnimationRight];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:resultSectionIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
@@ -546,7 +548,6 @@
 
 - (void)insertResultSection
 {
-    resultSectionIndex = 1;
     insertResultSection = YES;
 }
 

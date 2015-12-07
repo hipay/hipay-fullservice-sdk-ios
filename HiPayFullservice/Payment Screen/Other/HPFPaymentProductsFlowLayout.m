@@ -14,21 +14,28 @@
 {
     [super awakeFromNib];
     
-    self.collectionViewSize = self.collectionView.frame.size;
     self.minimumInteritemSpacing = 10.;
     self.minimumLineSpacing = 10.;
     self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    self.sectionInset = UIEdgeInsetsMake(0., 10., 0., 10.);
 }
 
 - (void)setCollectionViewSize:(CGSize)collectionViewSize
 {
     _collectionViewSize = collectionViewSize;
     
-    CGFloat width = fmin(collectionViewSize.width / 4.0, 100.0);
+    CGFloat minWidth = fmin(collectionViewSize.width / 4.0, 100.0);
     
-    self.itemSize = CGSizeMake(width, 60.0);
-
+    CGFloat currentNumberOfVisibleItems = collectionViewSize.width / (minWidth + self.minimumInteritemSpacing);
+    
+    CGFloat preferredNumberOfVisibleItems = currentNumberOfVisibleItems - fmod(currentNumberOfVisibleItems, 0.5);
+    
+    if (fmod(preferredNumberOfVisibleItems, 1.0) == 0.0) {
+        preferredNumberOfVisibleItems -= 0.5;
+    }
+    
+    CGFloat preferredItemWidth = collectionViewSize.width / preferredNumberOfVisibleItems - self.minimumInteritemSpacing;
+    
+    self.itemSize = CGSizeMake(preferredItemWidth, 60.0);
 }
 
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity

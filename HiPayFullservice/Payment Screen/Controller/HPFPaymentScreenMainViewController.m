@@ -70,12 +70,16 @@
     if ([paymentProductsTableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         paymentProductsTableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
+    
+    paymentProductsTableView.hidden = YES;
 }
 
 - (void)setPaymentProducts:(NSArray *)paymentProducts
 {
     _paymentProducts = paymentProducts;
     [paymentProductsTableView reloadData];
+    [paymentProductsCollectionView reloadData];
+    paymentProductsTableView.hidden = NO;
     
     if ([paymentProducts count] > 0) {
         [self selectPaymentProduct:paymentProducts.firstObject];
@@ -94,9 +98,8 @@
 {
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         
-        ((HPFPaymentProductsFlowLayout *)paymentProductsCollectionView.collectionViewLayout).collectionViewSize = size;
         [self focusOnSelectedPaymentProductWithAnimation:NO];
-        [paymentProductsCollectionView layoutSubviews];
+        [self defineCollectionViewParams];
         
     } completion:nil];
     
@@ -130,6 +133,17 @@
 - (void)cancelRequests
 {
     [paymentProductViewController cancelRequests];
+}
+
+- (void)defineCollectionViewParams
+{
+    ((HPFPaymentProductsFlowLayout *)paymentProductsCollectionView.collectionViewLayout).collectionViewSize = paymentProductsCollectionView.bounds.size;
+    
+    if (self.paymentProducts.count > 2) {
+        ((UICollectionViewFlowLayout *)paymentProductsCollectionView.collectionViewLayout).sectionInset = UIEdgeInsetsMake(0., 10., 0., 10.);
+    } else {
+        ((UICollectionViewFlowLayout *)paymentProductsCollectionView.collectionViewLayout).sectionInset = paymentProductsTableView.separatorInset;
+    }
 }
 
 #pragma mark - Keyboard related methods
@@ -379,11 +393,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (_paymentProducts != nil) {
-        return 1;
-    }
-    
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -395,9 +405,11 @@
 {
     HPFPaymentProductsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PaymentProductsCell"];
     cell.backgroundColor = [UIColor clearColor];
-    
-    paymentProductsCollectionView = cell.paymentProductsCollectionView;
 
+    paymentProductsCollectionView = cell.paymentProductsCollectionView;
+ 
+    [self defineCollectionViewParams];
+    
     return cell;
 }
 

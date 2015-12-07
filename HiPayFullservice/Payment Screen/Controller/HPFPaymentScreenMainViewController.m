@@ -109,6 +109,13 @@
     self.loading = _loading;
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    ((HPFPaymentProductsFlowLayout *)paymentProductsCollectionView.collectionViewLayout).collectionViewSize = paymentProductsCollectionView.bounds.size;
+}
+
 - (void)setLoading:(BOOL)loading
 {
     _loading = loading;

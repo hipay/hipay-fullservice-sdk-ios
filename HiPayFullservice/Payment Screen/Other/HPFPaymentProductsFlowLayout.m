@@ -26,20 +26,27 @@
     CGFloat minWidth;
     
     if ([self.collectionView numberOfItemsInSection:0] > 0) {
-        minWidth = fmin(collectionViewSize.width / fmin(4.0, [self.collectionView numberOfItemsInSection:0]), 100.0);
+        minWidth = fmin(collectionViewSize.width / 4.0, 100.0);
     } else {
         minWidth = 100.0;
     }
     
     CGFloat currentNumberOfVisibleItems = collectionViewSize.width / (minWidth + self.minimumInteritemSpacing);
+    CGFloat preferredItemWidth;
     
-    CGFloat preferredNumberOfVisibleItems = currentNumberOfVisibleItems - fmod(currentNumberOfVisibleItems, 0.5);
-    
-    if (fmod(preferredNumberOfVisibleItems, 1.0) == 0.0) {
-        preferredNumberOfVisibleItems -= 0.5;
+    if (currentNumberOfVisibleItems < [self.collectionView numberOfItemsInSection:0]) {
+        CGFloat preferredNumberOfVisibleItems = currentNumberOfVisibleItems - fmod(currentNumberOfVisibleItems, 0.5);
+        
+        if (fmod(preferredNumberOfVisibleItems, 1.0) == 0.0) {
+            preferredNumberOfVisibleItems -= 0.5;
+        }
+        
+        preferredItemWidth = collectionViewSize.width / preferredNumberOfVisibleItems - self.minimumInteritemSpacing;
     }
     
-    CGFloat preferredItemWidth = collectionViewSize.width / preferredNumberOfVisibleItems - self.minimumInteritemSpacing;
+    else {
+        preferredItemWidth = minWidth;
+    }
     
     self.itemSize = CGSizeMake(preferredItemWidth, 60.0);
 }

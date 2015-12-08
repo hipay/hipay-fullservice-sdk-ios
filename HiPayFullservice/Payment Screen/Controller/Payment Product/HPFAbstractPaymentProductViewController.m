@@ -51,6 +51,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
     
@@ -66,12 +67,15 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [activeTextField resignFirstResponder];
-    [self determineScrollingMode];
+    
+    [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [self determineScrollingMode];
+    }];
 }
 
 - (void)determineScrollingMode
 {
-    if ((self.tableView.contentSize.height <= self.tableView.frame.size.height) && ((activeTextField == nil) || (!activeTextField.editing))) {
+    if ((self.tableView.contentSize.height <= self.tableView.frame.size.height) && ((activeTextField == nil) || (!activeTextField.editing) || !keyboardShown)) {
         self.tableView.scrollEnabled = NO;
     }
     
@@ -95,6 +99,7 @@
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    keyboardShown = YES;
     
     [UIView animateWithDuration:animationDuration animations:^{
 
@@ -117,8 +122,15 @@
                 }
             }
         }
-    
+    } completion:^(BOOL finished) {
+        [self determineScrollingMode];
     }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    keyboardShown = NO;
+    [self determineScrollingMode];
 }
 
 #pragma mark - Form

@@ -46,6 +46,7 @@
     HPFTransaction *transaction;
     BOOL defaultFormValuesDefined;
     id<HPFRequest> transactionLoadingRequest;
+    BOOL keyboardShown;
 }
 
 @property (nonatomic, readonly) HPFPaymentProduct *paymentProduct;

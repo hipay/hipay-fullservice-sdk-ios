@@ -42,6 +42,7 @@ Pod::Spec.new do |s|
     s.resource_bundles = {
       "HPFUtilitiesResources" => ["HiPayFullservice/Utilities/**/*.{plist}"],
     }
+    s.dependency "HiPayFullservice/Core"    
   end
 
   s.subspec "Device-Print" do |s|

@@ -7,7 +7,6 @@
 //
 
 #import "HPFPersonalInfoRequest.h"
-#import "NSString+HPFValidation.h"
 
 @implementation HPFPersonalInfoRequest
 
@@ -16,15 +15,19 @@
     NSString *firstname = self.firstname;
     NSString *lastname = self.lastname;
     
-    if ([firstname isDefined] && [lastname isDefined]) {
+    BOOL firstNameDefined = firstname != nil && ![[firstname stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""];
+    
+    BOOL lastNameDefined = lastname != nil && ![[lastname stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""];
+    
+    if (firstNameDefined && lastNameDefined) {
         return [NSString stringWithFormat:@"%@ %@", firstname, lastname];
     }
     
-    else if ([firstname isDefined]) {
+    else if (firstNameDefined) {
         return firstname;
     }
     
-    else if ([lastname isDefined]) {
+    else if (lastNameDefined) {
         return lastname;
     }
     

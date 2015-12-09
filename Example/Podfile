@@ -1,12 +1,12 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-target 'HiPayTPP_Example', :exclusive => true do
-  pod "HiPayTPP", :path => "../"
+target 'HiPayFullservice_Example', :exclusive => true do
+  pod "HiPayFullservice", :path => "../"
   pod 'OHHTTPStubs'
 end
 
-target 'HiPayTPP_Tests', :exclusive => true do
-  pod "HiPayTPP", :path => "../"
+target 'HiPayFullservice_Tests', :exclusive => true do
+  pod "HiPayFullservice", :path => "../"
 
   pod 'Specta'
   pod 'Expecta'

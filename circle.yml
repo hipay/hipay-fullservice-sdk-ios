@@ -2,7 +2,7 @@ machine:
   xcode:
     version: "7.0"
   environment:
-    XCODE_SCHEME: "HiPayTPP-Example"
+    XCODE_SCHEME: "HiPayFullservice-Example"
     # CocoaPods versions greater than 0.34 require
     # your terminal to be using UTF-8 encoding.
     LANG: en_US.UTF-8

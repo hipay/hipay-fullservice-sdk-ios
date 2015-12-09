@@ -1,0 +1,14 @@
+[
+ {
+ "boolean": true,
+ "number": 123,
+ },
+ {
+ "boolean": false,
+ "number": 124,
+ },
+ {
+ "boolean": true,
+ "number": 125,
+ }
+]

@@ -2,9 +2,12 @@
 
 #ifdef __OBJC__
 
-  @import Specta;
-  @import Expecta;
-  @import FBSnapshotTestCase;
-  @import Expecta_Snapshots;
+//  @import Specta;
+//  @import Expecta;
+//  @import FBSnapshotTestCase;
+//  @import Expecta_Snapshots;
 
 #endif
+
+#import <HiPayFullservice/HiPayFullservice.h>
+#import <OCMock/OCMock.h>

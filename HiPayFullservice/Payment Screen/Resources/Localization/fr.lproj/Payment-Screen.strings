@@ -1,0 +1,94 @@
+
+"PAY_WITH_THIS_METHOD" = "Payer par %@";
+
+"PAYMENT_REDIRECTION_DETAILS" = "Vous allez être redirigé afin de pouvoir procéder au paiement.";
+
+"PAYMENT_SCREEN_TITLE" = "Paiement";
+
+"TOTAL_AMOUNT" = "Montant total : %@";
+
+"TAP_TO_DEFINE" = "Touchez pour définir";
+
+"CANCEL" = "Annuler";
+
+"PAY_BUTTON_TITLE" = "Payer";
+
+"ERROR_TITLE_CONNECTION" = "Erreur de connexion";
+
+"ERROR_TITLE_DEFAULT" = "Une erreur est survenue";
+
+"ERROR_BODY_DEFAULT" = "Votre demande n'a pu aboutir.";
+
+"ERROR_BODY_NETWORK_UNAVAILABLE" = "Aucune connexion à Internet n'est disponible.";
+
+"ERROR_BUTTON_CANCEL" = "Annuler";
+
+"ERROR_BUTTON_RETRY" = "Réessayer";
+
+"ERROR_BUTTON_DISMISS" = "OK";
+
+"ALERT_TRANSACTION_LOADING_TITLE" = "Transaction en cours";
+
+"ALERT_TRANSACTION_LOADING_BODY" = "Le traitement de votre transaction est toujours en cours, êtes-vous sûr de vouloir quitter cet écran ?";
+
+"ALERT_TRANSACTION_LOADING_YES" = "Quitter";
+
+"ALERT_TRANSACTION_LOADING_NO" = "Reprendre";
+
+"TRANSACTION_ERROR_DECLINED_TITLE" = "Transaction refusée";
+
+"TRANSACTION_ERROR_DECLINED" = "Veuillez vérifier vos informations et réessayer.";
+
+"TRANSACTION_ERROR_DECLINED_RESET" = "Merci de bien vouloir utiliser un autre moyen de paiement.";
+
+"TRANSACTION_ERROR_OTHER" = "Une erreur est survenue lors du traitement de la transaction.";
+
+/* Tokenizable card */
+
+"CARD_HOLDER_LABEL" = "Titulaire";
+
+"CARD_HOLDER_PLACEHOLDER" = "Prénom et nom";
+
+"CARD_NUMBER_LABEL" = "Numéro";
+
+"CARD_NUMBER_PLACEHOLDER_VISA_MASTERCARD" = "4321987654321098";
+
+"CARD_NUMBER_PLACEHOLDER_AMEX" = "378282246310005";
+
+"CARD_NUMBER_PLACEHOLDER_MAESTRO_BCMC" = "67031233214327863";
+
+"CARD_NUMBER_PLACEHOLDER_DINERS" = "30569918225904";
+
+"CARD_EXPIRATION_LABEL" = "Expiration";
+
+"CARD_EXPIRATION_PLACEHOLDER" = "MM / AA";
+
+"CARD_SECURITY_CODE_LABEL_CVV" = "CVV";
+
+"CARD_SECURITY_CODE_LABEL_CID" = "CID";
+
+"CARD_SECURITY_CODE_PLACEHOLDER_CVV" = "123";
+
+"CARD_SECURITY_CODE_PLACEHOLDER_CID" = "1234";
+
+"CARD_SECURITY_CODE_DESCRIPTION_CVV" = "Le CVV correspond aux 3 chiffres au dos de votre carte de paiement.";
+
+"CARD_SECURITY_CODE_DESCRIPTION_CID" = "Le CID correspond aux 4 chiffres au recto de votre carte American Express.";
+
+"FORWARD_VIEW_BACK" = "Retour";
+
+"FORWARD_VIEW_FORWARD" = "Suivant";
+
+"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD" = "Carte";
+
+/* iDeal */
+
+"IDEAL_BANK" = "Banque";
+
+/* Qiwi Wallet */
+
+"QIWI_WALLET_USERNAME_LABEL" = "N° de téléphone";
+
+"QIWI_WALLET_USERNAME_PLACEHOLDER" = "+79263745223";
+
+

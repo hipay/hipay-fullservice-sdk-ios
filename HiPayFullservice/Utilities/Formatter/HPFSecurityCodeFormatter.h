@@ -7,7 +7,6 @@
 //
 
 #import "HPFFormatter.h"
-#import "HPFPaymentProduct.h"
 
 @interface HPFSecurityCodeFormatter : HPFFormatter
 

@@ -7,6 +7,8 @@
 //
 
 #import "HPFLabelTableViewCell.h"
+#import "HPFAbstractPaymentProductViewController.h"
+#import "HPFOrderRequest.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 

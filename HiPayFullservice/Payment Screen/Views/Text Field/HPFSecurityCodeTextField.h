@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayFullservice/HiPayFullservice.h>
+#import "HPFFormattedTextField.h"
 
 @interface HPFSecurityCodeTextField : HPFFormattedTextField
 

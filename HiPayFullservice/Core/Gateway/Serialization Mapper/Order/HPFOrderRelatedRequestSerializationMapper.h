@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayFullservice/HiPayFullservice.h>
+#import "HPFAbstractSerializationMapper.h"
 
 @interface HPFOrderRelatedRequestSerializationMapper : HPFAbstractSerializationMapper
 

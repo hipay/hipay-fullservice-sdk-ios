@@ -9,6 +9,7 @@
 #import "HPFCardNumberInputTableViewCell.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFCardNumberTextField.h"
+#import "HPFPaymentProduct.h"
 
 @implementation HPFCardNumberInputTableViewCell
 

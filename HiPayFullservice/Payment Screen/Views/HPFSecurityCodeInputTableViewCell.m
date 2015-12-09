@@ -9,6 +9,7 @@
 #import "HPFSecurityCodeInputTableViewCell.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFSecurityCodeTextField.h"
+#import "HPFPaymentProduct.h"
 
 @implementation HPFSecurityCodeInputTableViewCell
 

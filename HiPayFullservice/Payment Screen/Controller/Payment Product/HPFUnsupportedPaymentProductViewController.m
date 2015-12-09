@@ -9,6 +9,7 @@
 #import "HPFUnsupportedPaymentProductViewController.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "HPFPaymentScreenUtils.h"
+#import "HPFGatewayClient.h"
 
 @interface HPFUnsupportedPaymentProductViewController ()
 

@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayFullservice/HiPayFullservice.h>
+#import "HPFAbstractPaymentMethodRequest.h"
 
 @interface HPFIDealPaymentMethodRequest : HPFAbstractPaymentMethodRequest
 

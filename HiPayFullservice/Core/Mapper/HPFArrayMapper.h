@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayFullservice/HiPayFullservice.h>
+#import "HPFAbstractMapper.h"
 
 @interface HPFArrayMapper : HPFAbstractMapper
 {

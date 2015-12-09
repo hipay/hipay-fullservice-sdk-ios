@@ -10,6 +10,7 @@
 #import "HPFPaymentScreenMainViewController.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFTransactionRequestResponseManager.h"
+#import "HPFErrors.h"
 
 @interface HPFPaymentScreenViewController ()
 

@@ -98,8 +98,8 @@
 {
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         
-        [self focusOnSelectedPaymentProductWithAnimation:NO];
         [self defineCollectionViewParams];
+        [self focusOnSelectedPaymentProductWithAnimation:NO];
         
     } completion:nil];
     

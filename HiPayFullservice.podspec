@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/hipay/hipay-fullservice-sdk-ios-dev"
   s.license          = "MIT"
   s.author           = { "Jonathan TIRET" => "jtiret@hipay.com" }
-  s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios-dev.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios-dev.git", :tag => "TPPIOS-9" }
   s.social_media_url = "https://twitter.com/hipay"
 
   s.platform     = :ios, "7.0"

@@ -7,7 +7,6 @@
 //
 
 #import "HPFPaymentProduct.h"
-#import "HPFPaymentScreenUtils.h"
 
 NSString * _Nonnull const HPFPaymentProductCode3xcb                   = @"3xcb";
 NSString * _Nonnull const HPFPaymentProductCode3xcbNoFees             = @"3xcb-no-fees";

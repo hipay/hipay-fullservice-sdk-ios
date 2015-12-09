@@ -115,7 +115,7 @@ NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet = @"ewallet";
     self = [super init];
     if (self) {
         _groupedPaymentProductCodes = paymentProducts;
-        _paymentProductDescription = HPFLocalizedString(@"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD");
+        _paymentProductDescription = NSLocalizedStringFromTableInBundle(@"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD", @"Core", [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"HPFCoreLocalization" ofType:@"bundle"]], nil);
         _paymentProductCategoryCode = HPFPaymentProductCategoryCodeCreditCard;
     }
     return self;

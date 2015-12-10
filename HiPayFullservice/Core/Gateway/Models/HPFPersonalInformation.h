@@ -12,7 +12,6 @@
 
 @property (nonatomic, readonly, nullable) NSString *firstname;
 @property (nonatomic, readonly, nullable) NSString *lastname;
-@property (nonatomic, readonly, nullable) NSString *displayName;
 @property (nonatomic, readonly, nullable) NSString *streetAddress;
 @property (nonatomic, readonly, nullable) NSString *locality;
 @property (nonatomic, readonly, nullable) NSString *postalCode;

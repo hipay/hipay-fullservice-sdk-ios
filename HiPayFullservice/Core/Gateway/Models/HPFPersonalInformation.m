@@ -7,7 +7,6 @@
 //
 
 #import "HPFPersonalInformation.h"
-#import "NSString+HPFValidation.h"
 
 @implementation HPFPersonalInformation
 

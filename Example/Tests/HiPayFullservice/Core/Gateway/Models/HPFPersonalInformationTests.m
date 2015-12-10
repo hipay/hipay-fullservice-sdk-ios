@@ -25,29 +25,4 @@
     object = (HPFPersonalInformation *)mockedObject;
 }
 
-- (void)testDisplayName
-{
-    [[[mockedObject expect] andReturn:@"Jean-Pierre"] firstname];
-    [[[mockedObject expect] andReturn:@"Dupont"] lastname];
-    XCTAssertEqualObjects(object.displayName, @"Jean-Pierre Dupont");
-    [mockedObject verify];
-    
-    [[[mockedObject expect] andReturn:@""] firstname];
-    [[[mockedObject expect] andReturn:@"Dupont"] lastname];
-    XCTAssertEqualObjects(object.displayName, @"Dupont");
-    [mockedObject verify];
-    
-    [[[mockedObject expect] andReturn:@"Jean-Pierre"] firstname];
-    [[[mockedObject expect] andReturn:nil] lastname];
-    XCTAssertEqualObjects(object.displayName, @"Jean-Pierre");
-    [mockedObject verify];
-    
-    [[[mockedObject expect] andReturn:nil] firstname];
-    [[[mockedObject expect] andReturn:@""] lastname];
-    XCTAssertNil(object.displayName);
-    [mockedObject verify];
-    
-    
-}
-
 @end

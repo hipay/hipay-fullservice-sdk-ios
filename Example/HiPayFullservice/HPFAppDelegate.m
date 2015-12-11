@@ -9,6 +9,7 @@
 #import "HPFAppDelegate.h"
 #import <HiPayFullservice/HiPayFullservice.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <HockeySDK/HockeySDK.h>
 
 @implementation HPFAppDelegate
 
@@ -16,6 +17,10 @@
 {
     [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage username:@"94654727.api.hipay-tpp.com" password:@"3g4zRCgG2EY9RJHFsQ4cIqAI" appURLscheme:@"hipayexample"];
 
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"d09352639450402a83aa07b7b3d3e3fb"];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+    
     NSDictionary* environment = [[NSProcessInfo processInfo] environment];
     NSString* injectBundle = environment[@"XCInjectBundle"];
     BOOL isRunningTests = [[injectBundle pathExtension] isEqualToString:@"xctest"];

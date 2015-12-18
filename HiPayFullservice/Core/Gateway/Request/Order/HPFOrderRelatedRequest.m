@@ -24,15 +24,29 @@
         self.customer = [[HPFCustomerInfoRequest alloc] init];
         self.shippingAddress = [[HPFPersonalInfoRequest alloc] init];
         self.HTTPUserAgent = [HPFClientConfig sharedClientConfig].userAgent;
-
-        id devicePrintClass = NSClassFromString(@"DevicePrint");
-        
-        if ([devicePrintClass respondsToSelector:@selector(blackbox)]) {
-            self.deviceFingerprint = [devicePrintClass blackbox];
-        }
     }
     
     return self;
+}
+
+- (NSString *)deviceFingerprint
+{
+    if (_deviceFingerprint == nil) {
+        id devicePrintClass = NSClassFromString(@"DevicePrint");
+        
+        if ([devicePrintClass respondsToSelector:@selector(blackbox)]) {
+            static dispatch_once_t onceBlock;
+            static NSString *deviceFingerprint;
+            
+            dispatch_once (&onceBlock, ^{
+                deviceFingerprint = [devicePrintClass blackbox];
+            });
+            
+            _deviceFingerprint = deviceFingerprint;
+        }
+    }
+    
+    return _deviceFingerprint;
 }
 
 - (void)defineURLParameters

@@ -14,6 +14,9 @@
 #import "HPFCardTokenPaymentMethodRequestSerializationMapper.h"
 #import "HPFQiwiWalletPaymentMethodRequestSerializationMapper.h"
 #import "HPFIDealPaymentMethodRequestSerializationMapper.h"
+#import "HPFCardTokenPaymentMethodRequest.h"
+#import "HPFQiwiWalletPaymentMethodRequest.h"
+#import "HPFIDealPaymentMethodRequest.h"
 
 @implementation HPFOrderRequestSerializationMapper
 

@@ -383,7 +383,7 @@
         paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
         paymentPageRequest.multiUse = multiUse;
         paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
-        paymentPageRequest.customer.email = @"jtiret+456464@hipay.com";
+        paymentPageRequest.customer.email = @"jtiret+demoapp@hipay.com";
 
         switch (authenticationIndicatorSegmentIndex) {
             case 1:

@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayFullservice/HiPayFullservice.h>
+#import "HPFAbstractPaymentProductViewController.h"
 
 @interface HPFUnsupportedPaymentProductViewController : HPFAbstractPaymentProductViewController
 {

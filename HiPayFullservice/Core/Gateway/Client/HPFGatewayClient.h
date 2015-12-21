@@ -6,7 +6,6 @@
 //
 //
 
-#import <HiPayFullservice/HiPayFullservice.h>
 #import "HPFHTTPClient.h"
 #import "HPFClientConfig.h"
 #import "HPFAbstractClient.h"

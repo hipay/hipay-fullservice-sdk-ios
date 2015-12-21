@@ -11,6 +11,7 @@
 #import "HPFForwardWebViewViewController.h"
 #import "HPFGatewayClient.h"
 #import "HPFForwardViewController_Protected.h"
+#import "HPFErrors.h"
 
 @interface HPFForwardViewController ()
 

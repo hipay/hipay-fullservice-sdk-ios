@@ -6,8 +6,6 @@
 //
 //
 
-#import <HiPayFullservice/HiPayFullservice.h>
-
 @interface HPFOrderRelatedRequestSerializationMapper ()
 
 - (NSString *)getOperation;

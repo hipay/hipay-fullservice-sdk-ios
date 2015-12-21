@@ -8,7 +8,6 @@
 
 #import "HPFCardNumberFormatter.h"
 #import "HPFCardNumberFormatter_Private.h"
-#import "HPFPaymentProduct.h"
 
 HPFCardNumberFormatter *HPFCardNumberFormatterSharedInstance = nil;
 

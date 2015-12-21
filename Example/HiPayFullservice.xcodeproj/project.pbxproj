@@ -97,7 +97,7 @@
 		1BCCDB71367D2362CE4675C3 /* Pods-HiPayFullservice_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example.release.xcconfig"; sourceTree = "<group>"; };
 		1FB39614B33B04B898162649 /* Pods-HiPayFullservice_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		39BEBD4EC0BC4099960FF4ED /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		6003F58A195388D20070C39A /* HiPayFullservice_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPayFullservice_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F58A195388D20070C39A /* HiPay Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HiPay Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -236,7 +236,7 @@
 		6003F58B195388D20070C39A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6003F58A195388D20070C39A /* HiPayFullservice_Example.app */,
+				6003F58A195388D20070C39A /* HiPay Demo.app */,
 				6003F5AE195388D20070C39A /* HiPayFullservice_Tests.xctest */,
 			);
 			name = Products;
@@ -631,7 +631,7 @@
 			);
 			name = HiPayFullservice_Example;
 			productName = HiPayFullservice;
-			productReference = 6003F58A195388D20070C39A /* HiPayFullservice_Example.app */;
+			productReference = 6003F58A195388D20070C39A /* HiPay Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6003F5AD195388D20070C39A /* HiPayFullservice_Tests */ = {
@@ -1016,8 +1016,8 @@
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
 				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.HiPayFullservice;
+				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1035,8 +1035,8 @@
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
 				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.HiPayFullservice;
+				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};

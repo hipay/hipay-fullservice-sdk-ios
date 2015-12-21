@@ -12,6 +12,11 @@
 #import "HPFOrderRequestSerializationMapper.h"
 #import "HPFArrayMapper.h"
 #import "HPFTransactionCallbackMapper.h"
+#import "HPFHostedPaymentPageMapper.h"
+#import "HPFTransactionMapper.h"
+#import "HPFTransactionDetailsMapper.h"
+#import "HPFPaymentProductMapper.h"
+#import "HPFOperationMapper.h"
 
 NSString * _Nonnull const HPFGatewayClientDidRedirectSuccessfullyNotification = @"HPFGatewayClientDidRedirectSuccessfullyNotification";
 NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotification = @"HPFGatewayClientDidRedirectWithMappingErrorNotification";

@@ -11,10 +11,10 @@ Pod::Spec.new do |s|
 
                        DESC
 
-  s.homepage         = "https://github.com/hipay/hipay-fullservice-sdk-ios-dev"
+  s.homepage         = "https://github.com/hipay/hipay-fullservice-sdk-ios"
   s.license          = "MIT"
   s.author           = { "Jonathan TIRET" => "jtiret@hipay.com" }
-  s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios-dev.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios.git", :tag => s.version.to_s }
   s.social_media_url = "https://twitter.com/hipay"
 
   s.platform     = :ios, "7.0"
@@ -31,6 +31,9 @@ Pod::Spec.new do |s|
   s.subspec "Core" do |s|
     s.source_files  = "HiPayFullservice/Core/**/*.{h,m}", "HiPayFullservice/Device Print/**/*.h"
     s.public_header_files = "HiPayFullservice/Core/**/*.h"
+    s.resource_bundles = {
+      "HPFCoreLocalization" => ["HiPayFullservice/Core/**/*.lproj"]
+    }
   end
 
   s.subspec "Utilities" do |s|
@@ -39,6 +42,7 @@ Pod::Spec.new do |s|
     s.resource_bundles = {
       "HPFUtilitiesResources" => ["HiPayFullservice/Utilities/**/*.{plist}"],
     }
+    s.dependency "HiPayFullservice/Core"    
   end
 
   s.subspec "Device-Print" do |s|

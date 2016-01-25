@@ -9,9 +9,6 @@ end
 target 'HiPayFullservice_Tests', :exclusive => true do
   pod 'HiPayFullservice', :path => "../"
 
-  pod 'Specta'
-  pod 'Expecta'
-  pod 'Expecta+Snapshots'
   pod 'OCMock'
   pod 'OHHTTPStubs'
 end

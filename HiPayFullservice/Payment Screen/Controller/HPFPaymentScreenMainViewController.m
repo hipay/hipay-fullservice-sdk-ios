@@ -52,6 +52,7 @@
                                       HPFPaymentProductCodePrzelewy24: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodeBankTransfer: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodePaysafecard: HPFForwardPaymentProductViewController.class,
+                                      HPFPaymentProductCodeDexiaDirectNet: HPFForwardPaymentProductViewController.class,
                                       };
     
 }

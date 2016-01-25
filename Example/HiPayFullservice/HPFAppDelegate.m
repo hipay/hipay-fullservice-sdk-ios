@@ -108,6 +108,13 @@
                                              @"tokenizable":@NO
                                              },
                                          @{
+                                             @"id":@"C6RXY2KR",
+                                             @"code":@"dexia-directnet",
+                                             @"description":@"Belfius Direct Net",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
                                              @"id":@"XZWIGL27",
                                              @"code":@"ideal",
                                              @"description":@"iDEAL",
@@ -364,7 +371,7 @@
                     
                     if (![item.value isEqual:@"EUR"]) {
                         NSIndexSet *indexes =[currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                            return [[obj objectForKey:@"code"] isEqualToString:@"visa"] || [[obj objectForKey:@"code"] isEqualToString:@"mastercard"] || [[obj objectForKey:@"code"] isEqualToString:@"cb"] || [[obj objectForKey:@"code"] isEqualToString:@"american-express"] || [[obj objectForKey:@"code"] isEqualToString:@"diners"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc-mobile"] || [[obj objectForKey:@"code"] isEqualToString:@"maestro"] || [[obj objectForKey:@"code"] isEqualToString:@"carte-accord"] || [[obj objectForKey:@"code"] isEqualToString:@"sofort-uberweisung"] || [[obj objectForKey:@"code"] isEqualToString:@"ing-homepay"] || [[obj objectForKey:@"code"] isEqualToString:@"ideal"] || [[obj objectForKey:@"code"] isEqualToString:@"paypal"] || [[obj objectForKey:@"code"] isEqualToString:@"giropay"] || [[obj objectForKey:@"code"] isEqualToString:@"sdd"] || [[obj objectForKey:@"code"] isEqualToString:@"bank-transfer"] || [[obj objectForKey:@"code"] isEqualToString:@"paysafecard"] || [[obj objectForKey:@"code"] isEqualToString:@"sisal"] || [[obj objectForKey:@"code"] isEqualToString:@"3xcb"] || [[obj objectForKey:@"code"] isEqualToString:@"4xcb-no-fees"] || [[obj objectForKey:@"code"] isEqualToString:@"postfinance"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-a1"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-tmobile"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-orange"];
+                            return [[obj objectForKey:@"code"] isEqualToString:@"visa"] || [[obj objectForKey:@"code"] isEqualToString:@"mastercard"] || [[obj objectForKey:@"code"] isEqualToString:@"cb"] || [[obj objectForKey:@"code"] isEqualToString:@"american-express"] || [[obj objectForKey:@"code"] isEqualToString:@"diners"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc-mobile"] || [[obj objectForKey:@"code"] isEqualToString:@"maestro"] || [[obj objectForKey:@"code"] isEqualToString:@"carte-accord"] || [[obj objectForKey:@"code"] isEqualToString:@"sofort-uberweisung"] || [[obj objectForKey:@"code"] isEqualToString:@"ing-homepay"] || [[obj objectForKey:@"code"] isEqualToString:@"ideal"] || [[obj objectForKey:@"code"] isEqualToString:@"paypal"] || [[obj objectForKey:@"code"] isEqualToString:@"giropay"] || [[obj objectForKey:@"code"] isEqualToString:@"sdd"] || [[obj objectForKey:@"code"] isEqualToString:@"bank-transfer"] || [[obj objectForKey:@"code"] isEqualToString:@"paysafecard"] || [[obj objectForKey:@"code"] isEqualToString:@"sisal"] || [[obj objectForKey:@"code"] isEqualToString:@"3xcb"] || [[obj objectForKey:@"code"] isEqualToString:@"4xcb-no-fees"] || [[obj objectForKey:@"code"] isEqualToString:@"postfinance"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-a1"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-tmobile"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-orange"] || [[obj objectForKey:@"code"] isEqualToString:@"dexia-directnet"];
                         }];
                         
                         [currentResponse removeObjectsAtIndexes:indexes];

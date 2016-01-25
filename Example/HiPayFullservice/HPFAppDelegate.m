@@ -169,7 +169,91 @@
                                              @"description":@"Przelewy24",
                                              @"paymentProductCategoryCode":@"realtime-banking",
                                              @"tokenizable":@NO
-                                             },   
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"aura",
+                                             @"description":@"Aura",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"banamex",
+                                             @"description":@"Banamex",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"banco-do-brasil",
+                                             @"description":@"Banco do Brasil",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"bbva-bancomer",
+                                             @"description":@"BBVA Bancomer",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"boleto-bancario",
+                                             @"description":@"Boleto Bancario",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"bradesco",
+                                             @"description":@"Bradesco",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"caixa",
+                                             @"description":@"Caixa",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"discover",
+                                             @"description":@"Discover",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"itau",
+                                             @"description":@"Itau",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"oxxo",
+                                             @"description":@"Oxxo",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"santander-cash",
+                                             @"description":@"Santander Cash",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"santander-home-banking",
+                                             @"description":@"Santander Home Banking",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
                                          @{
                                              @"id":@"RAXLNESP",
                                              @"code":@"qiwi-wallet",
@@ -265,6 +349,14 @@
                     if (![item.value isEqual:@"RUB"]) {
                         NSIndexSet *indexes =[currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                             return [[obj objectForKey:@"code"] isEqualToString:@"qiwi-wallet"] || [[obj objectForKey:@"code"] isEqualToString:@"yandex"];
+                        }];
+                        
+                        [currentResponse removeObjectsAtIndexes:indexes];
+                    }
+                    
+                    if (![item.value isEqual:@"BRL"] && ![item.value isEqual:@"MXN"]) {
+                        NSIndexSet *indexes =[currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            return [[obj objectForKey:@"code"] isEqualToString:@"aura"] || [[obj objectForKey:@"code"] isEqualToString:@"banamex"] || [[obj objectForKey:@"code"] isEqualToString:@"banco-do-brasil"] || [[obj objectForKey:@"code"] isEqualToString:@"bbva-bancomer"] || [[obj objectForKey:@"code"] isEqualToString:@"boleto-bancario"] || [[obj objectForKey:@"code"] isEqualToString:@"bradesco"] || [[obj objectForKey:@"code"] isEqualToString:@"itau"] || [[obj objectForKey:@"code"] isEqualToString:@"santander-home-banking"] || [[obj objectForKey:@"santander-cash"] isEqualToString:@"caixa"] || [[obj objectForKey:@"code"] isEqualToString:@"discover"] || [[obj objectForKey:@"code"] isEqualToString:@"oxxo"];
                         }];
                         
                         [currentResponse removeObjectsAtIndexes:indexes];

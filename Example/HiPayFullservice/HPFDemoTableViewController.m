@@ -45,14 +45,14 @@
     
     // Default form values
     insertResultSection = NO;
-    currencies = @[@"EUR", @"USD", @"PLN", @"RUB"];
+    currencies = @[@"EUR", @"USD", @"BRL", @"RUB"];
     currencySegmentIndex = 0;
     authenticationIndicatorSegmentIndex = 0;
     colorSegmentIndex = 0;
     [self setupGlobalTintColor];
     multiUse = NO;
     groupedPaymentCard = YES;
-    amount = 25.0;
+    amount = 225.0;
     selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];
     
     [self.tableView registerClass:[HPFSwitchTableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
@@ -375,7 +375,7 @@
         
         paymentPageRequest.amount = @(amount);
         paymentPageRequest.currency = currencies[currencySegmentIndex];
-        paymentPageRequest.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%f", [NSDate date].timeIntervalSince1970];
+        paymentPageRequest.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%ld", (long) ([NSDate date].timeIntervalSince1970)];
         paymentPageRequest.shortDescription = @"Outstanding item";
         paymentPageRequest.customer.country = @"FR";
         paymentPageRequest.customer.firstname = @"John";
@@ -383,7 +383,7 @@
         paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
         paymentPageRequest.multiUse = multiUse;
         paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
-        paymentPageRequest.customer.email = @"jtiret+demoapp@hipay.com";
+        paymentPageRequest.customer.email = @"jtiret@hipay.com";
 
         switch (authenticationIndicatorSegmentIndex) {
             case 1:

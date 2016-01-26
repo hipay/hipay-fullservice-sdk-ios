@@ -15,7 +15,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage username:@"94654727.api.hipay-tpp.com" password:@"3g4zRCgG2EY9RJHFsQ4cIqAI" appURLscheme:@"hipayexample"];
+    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage username:@"94654679.api.hipay-tpp.com" password:@"U5hQh4ZT0UyXpYhG8WI4trYQ" appURLscheme:@"hipayexample"];
 
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"d09352639450402a83aa07b7b3d3e3fb"];
     [[BITHockeyManager sharedHockeyManager] startManager];
@@ -108,6 +108,13 @@
                                              @"tokenizable":@NO
                                              },
                                          @{
+                                             @"id":@"C6RXY2KR",
+                                             @"code":@"dexia-directnet",
+                                             @"description":@"Belfius Direct Net",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
                                              @"id":@"XZWIGL27",
                                              @"code":@"ideal",
                                              @"description":@"iDEAL",
@@ -169,7 +176,91 @@
                                              @"description":@"Przelewy24",
                                              @"paymentProductCategoryCode":@"realtime-banking",
                                              @"tokenizable":@NO
-                                             },   
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"aura",
+                                             @"description":@"Aura",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"banamex",
+                                             @"description":@"Banamex",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"banco-do-brasil",
+                                             @"description":@"Banco do Brasil",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"bbva-bancomer",
+                                             @"description":@"BBVA Bancomer",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"boleto-bancario",
+                                             @"description":@"Boleto Bancario",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"bradesco",
+                                             @"description":@"Bradesco",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"caixa",
+                                             @"description":@"Caixa",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"discover",
+                                             @"description":@"Discover",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"itau",
+                                             @"description":@"Itau",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"oxxo",
+                                             @"description":@"Oxxo",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"santander-cash",
+                                             @"description":@"Santander Cash",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
+                                         @{
+                                             @"id":@"SJEYVCOE",
+                                             @"code":@"santander-home-banking",
+                                             @"description":@"Santander Home Banking",
+                                             @"paymentProductCategoryCode":@"realtime-banking",
+                                             @"tokenizable":@NO
+                                             },
                                          @{
                                              @"id":@"RAXLNESP",
                                              @"code":@"qiwi-wallet",
@@ -270,9 +361,17 @@
                         [currentResponse removeObjectsAtIndexes:indexes];
                     }
                     
+                    if (![item.value isEqual:@"BRL"] && ![item.value isEqual:@"MXN"]) {
+                        NSIndexSet *indexes =[currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            return [[obj objectForKey:@"code"] isEqualToString:@"aura"] || [[obj objectForKey:@"code"] isEqualToString:@"banamex"] || [[obj objectForKey:@"code"] isEqualToString:@"banco-do-brasil"] || [[obj objectForKey:@"code"] isEqualToString:@"bbva-bancomer"] || [[obj objectForKey:@"code"] isEqualToString:@"boleto-bancario"] || [[obj objectForKey:@"code"] isEqualToString:@"bradesco"] || [[obj objectForKey:@"code"] isEqualToString:@"itau"] || [[obj objectForKey:@"code"] isEqualToString:@"santander-home-banking"] || [[obj objectForKey:@"santander-cash"] isEqualToString:@"caixa"] || [[obj objectForKey:@"code"] isEqualToString:@"discover"] || [[obj objectForKey:@"code"] isEqualToString:@"oxxo"];
+                        }];
+                        
+                        [currentResponse removeObjectsAtIndexes:indexes];
+                    }
+                    
                     if (![item.value isEqual:@"EUR"]) {
                         NSIndexSet *indexes =[currentResponse indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                            return [[obj objectForKey:@"code"] isEqualToString:@"visa"] || [[obj objectForKey:@"code"] isEqualToString:@"mastercard"] || [[obj objectForKey:@"code"] isEqualToString:@"cb"] || [[obj objectForKey:@"code"] isEqualToString:@"american-express"] || [[obj objectForKey:@"code"] isEqualToString:@"diners"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc-mobile"] || [[obj objectForKey:@"code"] isEqualToString:@"maestro"] || [[obj objectForKey:@"code"] isEqualToString:@"carte-accord"] || [[obj objectForKey:@"code"] isEqualToString:@"sofort-uberweisung"] || [[obj objectForKey:@"code"] isEqualToString:@"ing-homepay"] || [[obj objectForKey:@"code"] isEqualToString:@"ideal"] || [[obj objectForKey:@"code"] isEqualToString:@"paypal"] || [[obj objectForKey:@"code"] isEqualToString:@"giropay"] || [[obj objectForKey:@"code"] isEqualToString:@"sdd"] || [[obj objectForKey:@"code"] isEqualToString:@"bank-transfer"] || [[obj objectForKey:@"code"] isEqualToString:@"paysafecard"] || [[obj objectForKey:@"code"] isEqualToString:@"sisal"] || [[obj objectForKey:@"code"] isEqualToString:@"3xcb"] || [[obj objectForKey:@"code"] isEqualToString:@"4xcb-no-fees"] || [[obj objectForKey:@"code"] isEqualToString:@"postfinance"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-a1"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-tmobile"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-orange"];
+                            return [[obj objectForKey:@"code"] isEqualToString:@"visa"] || [[obj objectForKey:@"code"] isEqualToString:@"mastercard"] || [[obj objectForKey:@"code"] isEqualToString:@"cb"] || [[obj objectForKey:@"code"] isEqualToString:@"american-express"] || [[obj objectForKey:@"code"] isEqualToString:@"diners"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc"] || [[obj objectForKey:@"code"] isEqualToString:@"bcmc-mobile"] || [[obj objectForKey:@"code"] isEqualToString:@"maestro"] || [[obj objectForKey:@"code"] isEqualToString:@"carte-accord"] || [[obj objectForKey:@"code"] isEqualToString:@"sofort-uberweisung"] || [[obj objectForKey:@"code"] isEqualToString:@"ing-homepay"] || [[obj objectForKey:@"code"] isEqualToString:@"ideal"] || [[obj objectForKey:@"code"] isEqualToString:@"paypal"] || [[obj objectForKey:@"code"] isEqualToString:@"giropay"] || [[obj objectForKey:@"code"] isEqualToString:@"sdd"] || [[obj objectForKey:@"code"] isEqualToString:@"bank-transfer"] || [[obj objectForKey:@"code"] isEqualToString:@"paysafecard"] || [[obj objectForKey:@"code"] isEqualToString:@"sisal"] || [[obj objectForKey:@"code"] isEqualToString:@"3xcb"] || [[obj objectForKey:@"code"] isEqualToString:@"4xcb-no-fees"] || [[obj objectForKey:@"code"] isEqualToString:@"postfinance"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-a1"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-tmobile"] || [[obj objectForKey:@"code"] isEqualToString:@"dcb-at-orange"] || [[obj objectForKey:@"code"] isEqualToString:@"dexia-directnet"];
                         }];
                         
                         [currentResponse removeObjectsAtIndexes:indexes];

@@ -64,7 +64,8 @@
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         formatter.numberStyle = NSNumberFormatterNoStyle;
         formatter.roundingMode = NSNumberFormatterRoundFloor;
-        
+        formatter.groupingSeparator = @"";
+
         return [formatter stringFromNumber:object];
     }
     
@@ -78,6 +79,7 @@
     formatter.minimumFractionDigits = 2;
     formatter.maximumFractionDigits = 4;
     formatter.roundingMode = NSNumberFormatterRoundFloor;
+    formatter.groupingSeparator = @"";
     formatter.decimalSeparator = @".";
     
     return [formatter stringFromNumber:amountNumber];
@@ -163,7 +165,8 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
             formatter.numberStyle = NSNumberFormatterNoStyle;
             formatter.roundingMode = NSNumberFormatterRoundFloor;
-            
+            formatter.groupingSeparator = @"";
+
             return [formatter stringFromNumber:object];
         }
     }

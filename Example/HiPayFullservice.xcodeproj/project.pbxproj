@@ -1061,7 +1061,7 @@
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HiPayFullservice_Example.app/HiPayFullservice_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HiPay Demo.app/HiPay Demo";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1081,7 +1081,7 @@
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HiPayFullservice_Example.app/HiPayFullservice_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HiPay Demo.app/HiPay Demo";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;

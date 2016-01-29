@@ -495,6 +495,15 @@
     [mockedMapper verify];
 }
 
+- (void)testHandleOpenURLSuccessOtherStatuses
+{
+    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/accept"]]);
+    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/decline"]]);
+    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/pending"]]);
+    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/cancel"]]);
+    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/exception"]]);
+}
+
 - (void)testHandleOpenURLMappingError
 {
     NSURL *URL = [NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/TEST_SDK_IOS_1447858566.325105/accept"];
@@ -535,14 +544,13 @@
     
     [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:notifBlock];
     
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/order/TEST_SDK_IOS_1447858566.325105/accept"]]);
     
-    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/TEST_SDK_IOS_1447858566.325105"]]);
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateay/orders/TEST_SDK_IOS_1447858566.325105/decline"]]);
     
-    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/order/TEST_SDK_IOS_1447858566.325105"]]);
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/TEST_SDK_IOS_1447858566.325105/unknown"]]);
     
-    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateay/orders/TEST_SDK_IOS_1447858566.325105"]]);
-    
-    
+
 }
 
 @end

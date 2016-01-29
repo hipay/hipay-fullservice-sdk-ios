@@ -19,6 +19,16 @@
     return NO;
 }
 
+- (instancetype)initWithOrder:(HPFOrder *)order state:(HPFTransactionState)state
+{
+    self = [self init];
+    if (self) {
+        _order = order;
+        _state = state;
+    }
+    return self;
+}
+
 - (instancetype)init
 {
     self = [super init];

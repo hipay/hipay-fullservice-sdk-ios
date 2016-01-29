@@ -98,4 +98,6 @@ typedef NS_ENUM(NSInteger, HPFTransactionState) {
 
 - (BOOL)isMoreRelevantThan:(HPFTransaction * _Nonnull)transaction;
 
+- (instancetype)initWithOrder:(HPFOrder *)order state:(HPFTransactionState)state;
+
 @end

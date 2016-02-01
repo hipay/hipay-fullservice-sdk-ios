@@ -224,6 +224,13 @@ HPFGatewayClient *HPFGatewayClientSharedInstance = nil;
     return [self handleRequestWithMethod:HPFHTTPMethodGet path:@"payment_products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
 }
 
+- (BOOL)isRedirectURLComponentsPathValid:(NSArray *)pathComponents
+{
+    NSArray *existingRedirectPath = @[HPFOrderRelatedRequestRedirectPathAccept, HPFOrderRelatedRequestRedirectPathDecline, HPFOrderRelatedRequestRedirectPathPending, HPFOrderRelatedRequestRedirectPathException, HPFOrderRelatedRequestRedirectPathCancel];
+
+    return (pathComponents.count == 5) && [pathComponents[1] isEqualToString:HPFGatewayCallbackURLPathName] && [pathComponents[2] isEqualToString:HPFGatewayCallbackURLOrderPathName] && [existingRedirectPath containsObject:pathComponents[4]];
+}
+
 - (BOOL)handleOpenURL:(NSURL *)URL
 {
     NSURLComponents *URLComponents = [[NSURLComponents alloc] initWithURL:URL resolvingAgainstBaseURL:NO];
@@ -231,9 +238,8 @@ HPFGatewayClient *HPFGatewayClientSharedInstance = nil;
     if ([URLComponents.host isEqualToString:HPFClientConfigCallbackURLHost]) {
         
         NSArray *pathComponents = [URLComponents.path componentsSeparatedByString:@"/"];
-        NSArray *existingRedirectPath = @[HPFOrderRelatedRequestRedirectPathAccept, HPFOrderRelatedRequestRedirectPathDecline, HPFOrderRelatedRequestRedirectPathPending, HPFOrderRelatedRequestRedirectPathException, HPFOrderRelatedRequestRedirectPathCancel];
         
-        if ((pathComponents.count == 5) && [pathComponents[1] isEqualToString:HPFGatewayCallbackURLPathName] && [pathComponents[2] isEqualToString:HPFGatewayCallbackURLOrderPathName] && [existingRedirectPath containsObject:pathComponents[4]]) {
+        if ([self isRedirectURLComponentsPathValid:pathComponents]) {
          
             NSMutableDictionary *values = [NSMutableDictionary dictionary];
             

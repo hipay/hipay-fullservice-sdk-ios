@@ -18,6 +18,7 @@
 {
     HPFHTTPClient *mockedHTTPClient;
     HPFGatewayClient *gatewayClient;
+    OCMockObject *mockedGatewayClient;
 }
 
 @end
@@ -30,6 +31,7 @@
     mockedHTTPClient = [OCMockObject mockForClass:[HPFHTTPClient class]];
     
     gatewayClient = [OCMockObject partialMockForObject:[[HPFGatewayClient alloc] initWithHTTPClient:mockedHTTPClient clientConfig:[HPFClientConfig sharedClientConfig]]];
+    mockedGatewayClient = (OCMockObject *)gatewayClient;
 }
 
 - (void)tearDown {
@@ -455,7 +457,50 @@
     XCTAssertFalse([HPFGatewayClient isTransactionErrorFinal:notFinalError]);
 }
 
-- (void)testHandleOpenURLSuccess
+- (void)testIsRedirectURLComponentsPathValid
+{
+    NSArray *validPaths = @[
+                            @[@"hipay-fullservice", @"gateway", @"orders", @"PO9898", @"accept"],
+                            @[@"hipay-fullservice", @"gateway", @"orders", @"PO9898", @"decline"],
+                            @[@"hipay-fullservice", @"gateway", @"orders", @"PO9898", @"cancel"],
+                            @[@"hipay-fullservice", @"gateway", @"orders", @"PO9898", @"exception"],
+                            @[@"hipay-fullservice", @"gateway", @"orders", @"PO9898", @"pending"]
+                            ];
+    
+    NSArray *invalidPaths = @[
+                              @[@"hipay-fullservice", @"gateway", @"orders", @"PO9898", @"unknown"],
+                              @[@"hipay-fullservice", @"gatewa", @"orders", @"PO9898", @"accept"],
+                              @[@"hipay-fullservice", @"gateway", @"ordrs", @"PO9898", @"decline"],
+                              @[@"hipay-fullservice", @"gateway", @"orders", @"exception"],
+                              @[@"gateway", @"orders", @"PO9898", @"pending"]
+                            ];
+    
+    for (NSArray *path in validPaths) {
+        XCTAssertTrue([gatewayClient isRedirectURLComponentsPathValid:path]);
+    }
+    
+    for (NSArray *path in invalidPaths) {
+        XCTAssertFalse([gatewayClient isRedirectURLComponentsPathValid:path]);
+    }
+}
+
+- (void)testInvalidPath
+{
+    void (^notifBlock)(NSNotification *note) = ^(NSNotification * _Nonnull note) {
+        XCTFail(@"Gateway should not post %@ notification in case of malformed URL", note.name);
+    };
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:notifBlock];
+    [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:notifBlock];
+    
+    NSArray *path = @[@"hipay-fullservice", @"gateway", @"orders", @"TEST_SDK_IOS_1447858566", @"unknown"];
+    
+    [[[mockedGatewayClient expect] andReturnValue:@(NO)] isRedirectURLComponentsPathValid:path];
+
+    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/TEST_SDK_IOS_1447858566/unknown"]]);
+}
+
+- (void)testHandleOpenURLSuccessWithMapping
 {
     NSURL *URL = [NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/TEST_SDK_IOS_1447858566.325105/decline?orderid=TEST_SDK_IOS_1447858566.325105&cid=&state=declined&reason=4000011&status=113&test=1&reference=851483651903&approval=&authorized=&ip=0.0.0.0&country=&lang=fr_FR&email=support%40hipay.com&cdata1=dt1&cdata2=&cdata3=&cdata4=&cdata5=&cdata6=&cdata7=&cdata8=&cdata9=&cdata10=&score=190&fraud=CHALLENGED&review=pending&avscheck=&cvccheck=&pp=visa&eci3ds=7&veres=Y&pares=N&cardtoken=ce5f096fa6bc05989c170pamq8a94432660491bd&cardbrand=VISA&cardpan=XXXXXXXXXXXX0002&cardexpiry=201912&cardcountry=US&hash="];
     
@@ -481,10 +526,18 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         
         XCTAssertEqualObjects(note.userInfo[@"orderId"], @"TEST_SDK_IOS_1447858566.325105");
+        XCTAssertEqualObjects(note.userInfo[@"path"], @"decline");
         XCTAssertEqual(note.userInfo[@"transaction"], transaction);
         
         [expectation fulfill];
     }];
+    
+    
+    // Path validity mock
+    
+    NSArray *path = @[@"hipay-fullservice", @"gateway", @"orders", @"TEST_SDK_IOS_1447858566.325105", @"decline"];
+    [[[mockedGatewayClient expect] andReturnValue:@(YES)] isRedirectURLComponentsPathValid:path];
+    
     
     BOOL handled = [gatewayClient handleOpenURL:URL];
     
@@ -493,15 +546,6 @@
     [self waitForExpectationsWithTimeout:0.1 handler:nil];
     
     [mockedMapper verify];
-}
-
-- (void)testHandleOpenURLSuccessOtherStatuses
-{
-    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/accept"]]);
-    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/decline"]]);
-    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/pending"]]);
-    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/cancel"]]);
-    XCTAssertTrue([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/PO9898/exception"]]);
 }
 
 - (void)testHandleOpenURLMappingError
@@ -522,35 +566,20 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         
         XCTAssertEqualObjects(note.userInfo[@"orderId"], @"TEST_SDK_IOS_1447858566.325105");
+        XCTAssertEqualObjects(note.userInfo[@"path"], @"accept");
         XCTAssertNil(note.userInfo[@"transaction"]);
         
         [expectation fulfill];
     }];
+    
+    NSArray *path = @[@"hipay-fullservice", @"gateway", @"orders", @"TEST_SDK_IOS_1447858566.325105", @"accept"];
+    [[[mockedGatewayClient expect] andReturnValue:@(YES)] isRedirectURLComponentsPathValid:path];
     
     BOOL handled = [gatewayClient handleOpenURL:URL];
     
     XCTAssertTrue(handled);
     
     [self waitForExpectationsWithTimeout:0.1 handler:nil];
-}
-
-- (void)testHandleOpenURLMalformedURL
-{
-    void (^notifBlock)(NSNotification *note) = ^(NSNotification * _Nonnull note) {
-        XCTFail(@"Gateway should not post %@ notification in case of malformed URL", note.name);
-    };
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:notifBlock];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:notifBlock];
-    
-    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/order/TEST_SDK_IOS_1447858566.325105/accept"]]);
-    
-    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateay/orders/TEST_SDK_IOS_1447858566.325105/decline"]]);
-    
-    XCTAssertFalse([gatewayClient handleOpenURL:[NSURL URLWithString:@"hipayexample://hipay-fullservice/gateway/orders/TEST_SDK_IOS_1447858566.325105/unknown"]]);
-    
-
 }
 
 @end

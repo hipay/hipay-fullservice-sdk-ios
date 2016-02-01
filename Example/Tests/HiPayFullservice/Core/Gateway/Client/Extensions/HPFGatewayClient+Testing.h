@@ -16,4 +16,6 @@
 
 - (NSString *)operationValueForOperationType:(HPFOperationType)operationType;
 
+- (BOOL)isRedirectURLComponentsPathValid:(NSArray *)pathComponents;
+
 @end

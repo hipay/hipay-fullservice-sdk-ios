@@ -16,6 +16,12 @@ typedef NS_ENUM(NSInteger, HPFOrderRequestOperation) {
     HPFOrderRequestOperationSale,
 };
 
+extern NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathAccept;
+extern NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathDecline;
+extern NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathPending;
+extern NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathException;
+extern NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel;
+
 @interface HPFOrderRelatedRequest : NSObject
 
 @property (nonatomic, copy, nullable) NSString *orderId;

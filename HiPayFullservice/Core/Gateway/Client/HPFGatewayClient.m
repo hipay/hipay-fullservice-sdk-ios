@@ -224,6 +224,13 @@ HPFGatewayClient *HPFGatewayClientSharedInstance = nil;
     return [self handleRequestWithMethod:HPFHTTPMethodGet path:@"payment_products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
 }
 
+- (BOOL)isRedirectURLComponentsPathValid:(NSArray *)pathComponents
+{
+    NSArray *existingRedirectPath = @[HPFOrderRelatedRequestRedirectPathAccept, HPFOrderRelatedRequestRedirectPathDecline, HPFOrderRelatedRequestRedirectPathPending, HPFOrderRelatedRequestRedirectPathException, HPFOrderRelatedRequestRedirectPathCancel];
+
+    return (pathComponents.count == 5) && [pathComponents[1] isEqualToString:HPFGatewayCallbackURLPathName] && [pathComponents[2] isEqualToString:HPFGatewayCallbackURLOrderPathName] && [existingRedirectPath containsObject:pathComponents[4]];
+}
+
 - (BOOL)handleOpenURL:(NSURL *)URL
 {
     NSURLComponents *URLComponents = [[NSURLComponents alloc] initWithURL:URL resolvingAgainstBaseURL:NO];
@@ -232,20 +239,27 @@ HPFGatewayClient *HPFGatewayClientSharedInstance = nil;
         
         NSArray *pathComponents = [URLComponents.path componentsSeparatedByString:@"/"];
         
-        if ((pathComponents.count == 5) && [pathComponents[1] isEqualToString:HPFGatewayCallbackURLPathName] && [pathComponents[2] isEqualToString:HPFGatewayCallbackURLOrderPathName]) {
+        if ([self isRedirectURLComponentsPathValid:pathComponents]) {
          
             NSMutableDictionary *values = [NSMutableDictionary dictionary];
             
             for (NSURLQueryItem *item in URLComponents.queryItems) {
                 [values setObject:item.value forKey:item.name];
             }
+
+            NSMutableDictionary *notificationInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"orderId": pathComponents[3], @"path": pathComponents[4]}];
             
             HPFTransaction *transaction = [HPFTransactionCallbackMapper mapperWithRawData:values].mappedObject;
             
             if (transaction != nil) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil userInfo:@{@"transaction": transaction, @"orderId": pathComponents[3]}];
-            } else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:HPFGatewayClientDidRedirectWithMappingErrorNotification object:nil userInfo:@{@"orderId": pathComponents[3]}];
+                
+                [notificationInfo setObject:transaction forKey:@"transaction"];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil userInfo:notificationInfo];
+            }
+            
+            else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:HPFGatewayClientDidRedirectWithMappingErrorNotification object:nil userInfo:notificationInfo];
             }
             
             return YES;

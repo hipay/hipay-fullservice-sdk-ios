@@ -31,7 +31,7 @@
 
 + (NSDictionary *)resultMapping
 {
-    return @{@"pending": @(HPFFraudScreeningReviewPending),
+    return @{@"pending": @(HPFFraudScreeningResultPending),
              @"accepted": @(HPFFraudScreeningResultAccepted),
              @"challenged": @(HPFFraudScreeningResultChallenged),
              @"blocked": @(HPFFraudScreeningResultBlocked)};

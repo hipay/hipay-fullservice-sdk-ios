@@ -47,7 +47,7 @@
 
 - (void)testEnumMapping
 {
-    NSDictionary *resultMapping = @{@"pending": @(HPFFraudScreeningReviewPending),
+    NSDictionary *resultMapping = @{@"pending": @(HPFFraudScreeningResultPending),
                                     @"accepted": @(HPFFraudScreeningResultAccepted),
                                     @"challenged": @(HPFFraudScreeningResultChallenged),
                                     @"blocked": @(HPFFraudScreeningResultBlocked)};

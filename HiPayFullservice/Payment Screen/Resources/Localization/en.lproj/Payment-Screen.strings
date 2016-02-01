@@ -1,0 +1,94 @@
+
+"PAY_WITH_THIS_METHOD" = "Pay by %@";
+
+"PAYMENT_REDIRECTION_DETAILS" = "You will be redirected to a secure page in order to complete your payment.";
+
+"PAYMENT_SCREEN_TITLE" = "Payment";
+
+"TOTAL_AMOUNT" = "Total amount : %@";
+
+"TAP_TO_DEFINE" = "Touch to define";
+
+"CANCEL" = "Cancel";
+
+"PAY_BUTTON_TITLE" = "Pay";
+
+"ERROR_TITLE_CONNECTION" = "Network error";
+
+"ERROR_TITLE_DEFAULT" = "An error occurred";
+
+"ERROR_BODY_DEFAULT" = "Your request could not be completed.";
+
+"ERROR_BODY_NETWORK_UNAVAILABLE" = "No Internet connection is available.";
+
+"ERROR_BUTTON_CANCEL" = "Cancel";
+
+"ERROR_BUTTON_RETRY" = "Retry";
+
+"ERROR_BUTTON_DISMISS" = "OK";
+
+"ALERT_TRANSACTION_LOADING_TITLE" = "Transaction in progress";
+
+"ALERT_TRANSACTION_LOADING_BODY" = "Your transaction is still being processed. Are you sure that you want to leave this screen?";
+
+"ALERT_TRANSACTION_LOADING_YES" = "Quit";
+
+"ALERT_TRANSACTION_LOADING_NO" = "Resume";
+
+"TRANSACTION_ERROR_DECLINED_TITLE" = "Transaction declined";
+
+"TRANSACTION_ERROR_DECLINED" = "Please check your entries and try again.";
+
+"TRANSACTION_ERROR_DECLINED_RESET" = "Please use another payment method.";
+
+"TRANSACTION_ERROR_OTHER" = "An error occurred while processing your transaction.";
+
+/* Tokenizable card */
+
+"CARD_HOLDER_LABEL" = "Card holder";
+
+"CARD_HOLDER_PLACEHOLDER" = "Firstname and lastname";
+
+"CARD_NUMBER_LABEL" = "Number";
+
+"CARD_NUMBER_PLACEHOLDER_VISA_MASTERCARD" = "4321987654321098";
+
+"CARD_NUMBER_PLACEHOLDER_AMEX" = "378282246310005";
+
+"CARD_NUMBER_PLACEHOLDER_MAESTRO_BCMC" = "67031233214327863";
+
+"CARD_NUMBER_PLACEHOLDER_DINERS" = "30569918225904";
+
+"CARD_EXPIRATION_LABEL" = "Expiry date";
+
+"CARD_EXPIRATION_PLACEHOLDER" = "MM / YY";
+
+"CARD_SECURITY_CODE_LABEL_CVV" = "CVV";
+
+"CARD_SECURITY_CODE_LABEL_CID" = "CID";
+
+"CARD_SECURITY_CODE_PLACEHOLDER_CVV" = "123";
+
+"CARD_SECURITY_CODE_PLACEHOLDER_CID" = "1234";
+
+"CARD_SECURITY_CODE_DESCRIPTION_CVV" = "The CVV is the three-digit number on the back of your payment card.";
+
+"CARD_SECURITY_CODE_DESCRIPTION_CID" = "The CID is the four-digit number on the front of your American Express card.";
+
+"FORWARD_VIEW_BACK" = "Back";
+
+"FORWARD_VIEW_FORWARD" = "Forward";
+
+"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD" = "Card";
+
+/* iDeal */
+
+"IDEAL_BANK" = "Bank";
+
+/* Qiwi Wallet */
+
+"QIWI_WALLET_USERNAME_LABEL" = "Phone number";
+
+"QIWI_WALLET_USERNAME_PLACEHOLDER" = "+79263745223";
+
+

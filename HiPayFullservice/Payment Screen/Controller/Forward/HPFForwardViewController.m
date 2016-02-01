@@ -105,7 +105,26 @@
 
 - (void)didRedirectWithMappingError:(NSNotification *)notification
 {
-    [self reloadTransaction];
+    HPFOrder *order = self.transaction != nil ? self.transaction.order : self.hostedPaymentPage.order;
+    
+    NSDictionary *statesForRedirectPaths = @{
+                                           HPFOrderRelatedRequestRedirectPathAccept : @(HPFTransactionStateCompleted),
+                                           HPFOrderRelatedRequestRedirectPathDecline : @(HPFTransactionStateDeclined),
+                                           HPFOrderRelatedRequestRedirectPathCancel : @(HPFTransactionStateDeclined),
+                                           HPFOrderRelatedRequestRedirectPathException : @(HPFTransactionStateError),
+                                           HPFOrderRelatedRequestRedirectPathPending : @(HPFTransactionStatePending)
+                                           };
+    
+    NSNumber *stateNumber = statesForRedirectPaths[notification.userInfo[@"path"]];
+    
+    if (stateNumber != nil) {
+        HPFTransaction *newTransaction = [[HPFTransaction alloc] initWithOrder:order state:stateNumber.integerValue];
+        [self checkTransaction:newTransaction error:nil];
+    }
+    
+    else {
+        [self reloadTransaction];
+    }
 }
 
 #pragma mark - Background check

@@ -47,6 +47,7 @@ typedef NS_ENUM(NSInteger, HPFTransactionStatus) {
     HPFTransactionStatusCardholderEnrollmentUnknown = 160,
     HPFTransactionStatusRiskAccepted = 161,
     HPFTransactionStatusAuthorizationRefused = 163,
+    HPFTransactionStatusRefundRefused = 165,
     HPFTransactionStatusCaptureRefused = 173,
     HPFTransactionStatusPendingPayment = 200,
     

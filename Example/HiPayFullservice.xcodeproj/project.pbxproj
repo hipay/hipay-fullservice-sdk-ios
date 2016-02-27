@@ -1016,7 +1016,7 @@
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
 				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.HiPayFullservice;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1035,7 +1035,7 @@
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
 				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.HiPayFullservice;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;

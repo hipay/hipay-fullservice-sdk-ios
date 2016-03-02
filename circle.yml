@@ -10,6 +10,7 @@ machine:
     # CocoaPods versions greater than 0.34 require
     # your terminal to be using UTF-8 encoding.
     LANG: en_US.UTF-8
+    HOCKEY_APP_IDENTIFIER: $(python deployment/get_identifier.py)
 
 dependencies:
   pre:
@@ -24,7 +25,6 @@ deployment:
   distribution:
     branch: "/.*/"
     commands:
-       - export HOCKEY_APP_IDENTIFIER=$(python deployment/get_identifier.py)
        - rm Example/HiPayFullservice/Resources/Parameters/parameters.plist
        - (cd deployment/; python generate_parameters.py)
        - gym

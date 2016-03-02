@@ -26,7 +26,7 @@ deployment:
     commands:
        - export HOCKEY_APP_IDENTIFIER=$(python deployment/get_identifier.py)
        - rm Example/HiPayFullservice/Resources/Parameters/parameters.plist
-       - python deployment/generate_parameters.py
+       - (cd deployment/; python generate_parameters.py)
        - gym
        - ipa distribute:hockeyapp 
            --token            "$HOCKEY_APP_TOKEN"

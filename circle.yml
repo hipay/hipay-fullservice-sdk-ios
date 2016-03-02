@@ -24,6 +24,9 @@ deployment:
   distribution:
     branch: "/.*/"
     commands:
+       - export HOCKEY_APP_IDENTIFIER=$(python deployment/get_identifier.py)
+       - rm Example/HiPayFullservice/Resources/Parameters/parameters.plist
+       - python deployment/generate_parameters.py
        - gym
        - ipa distribute:hockeyapp 
            --token            "$HOCKEY_APP_TOKEN"
@@ -31,4 +34,4 @@ deployment:
            --commit-sha       "$CIRCLE_SHA1"
            --build-server-url "$CIRCLE_BUILD_URL"
            --repository-url   "$CIRCLE_REPOSITORY_URL" 
-           --identifier $(python deployment/get_identifier.py)
+           --identifier       $HOCKEY_APP_IDENTIFIER

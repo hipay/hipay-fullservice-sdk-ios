@@ -34,6 +34,7 @@
 		A53BF5C21BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C11BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m */; };
 		A53BF5C41BF0FA0300E24957 /* HPFFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C31BF0FA0300E24957 /* HPFFormatterTests.m */; };
 		A53BF5C71BF22C6B00E24957 /* HPFPersonalInformationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C61BF22C6B00E24957 /* HPFPersonalInformationTests.m */; };
+		A54017A41C8599A80098ED15 /* parameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = A54017A31C8599A80098ED15 /* parameters.plist */; };
 		A54938911BFC908500068D9C /* HPFTransactionCallbackMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54938901BFC908500068D9C /* HPFTransactionCallbackMapperTests.m */; };
 		A54AF8FE1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FD1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m */; };
 		A54AF9001BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FF1BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m */; };
@@ -132,6 +133,7 @@
 		A53BF5C11BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFExpiryDateFormatterTests.m; sourceTree = "<group>"; };
 		A53BF5C31BF0FA0300E24957 /* HPFFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFFormatterTests.m; sourceTree = "<group>"; };
 		A53BF5C61BF22C6B00E24957 /* HPFPersonalInformationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPersonalInformationTests.m; sourceTree = "<group>"; };
+		A54017A31C8599A80098ED15 /* parameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = parameters.plist; sourceTree = "<group>"; };
 		A54938901BFC908500068D9C /* HPFTransactionCallbackMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFTransactionCallbackMapperTests.m; sourceTree = "<group>"; };
 		A54AF8FD1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFIDealPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		A54AF8FF1BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFIDealPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
@@ -380,6 +382,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		A54017A21C8599750098ED15 /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				A54017A31C8599A80098ED15 /* parameters.plist */,
+			);
+			path = Parameters;
+			sourceTree = "<group>";
+		};
 		A54AF9101C09C59900B10F36 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -567,6 +577,7 @@
 		A5F98F911BE91B8700F9604F /* Localization */ = {
 			isa = PBXGroup;
 			children = (
+				A54017A21C8599750098ED15 /* Parameters */,
 				A5F98F921BE91B9500F9604F /* en.lproj */,
 				A5F98F971BE91B9500F9604F /* fr.lproj */,
 			);
@@ -704,6 +715,7 @@
 				A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */,
 				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
 				A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */,
+				A54017A41C8599A80098ED15 /* parameters.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

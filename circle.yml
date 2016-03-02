@@ -10,7 +10,6 @@ machine:
     # CocoaPods versions greater than 0.34 require
     # your terminal to be using UTF-8 encoding.
     LANG: en_US.UTF-8
-    HOCKEY_APP_IDENTIFIER: $(python deployment/get_identifier.py)
 
 dependencies:
   pre:
@@ -25,13 +24,15 @@ deployment:
   distribution:
     branch: "/.*/"
     commands:
-       - rm Example/HiPayFullservice/Resources/Parameters/parameters.plist
-       - (cd deployment/; python generate_parameters.py)
-       - gym
-       - ipa distribute:hockeyapp 
-           --token            "$HOCKEY_APP_TOKEN"
-           --notes            "CircleCI build $CIRCLE_BUILD_NUM"
-           --commit-sha       "$CIRCLE_SHA1"
-           --build-server-url "$CIRCLE_BUILD_URL"
-           --repository-url   "$CIRCLE_REPOSITORY_URL" 
+       - |
+          export HOCKEY_APP_IDENTIFIER=$(python deployment/get_identifier.py) &&
+          rm Example/HiPayFullservice/Resources/Parameters/parameters.plist &&
+          (cd deployment/; python generate_parameters.py) &&
+          gym &&
+          ipa distribute:hockeyapp 
+            --token            "$HOCKEY_APP_TOKEN"
+            --notes            "CircleCI build $CIRCLE_BUILD_NUM"
+            --commit-sha       "$CIRCLE_SHA1"
+            --build-server-url "$CIRCLE_BUILD_URL"
+            --repository-url   "$CIRCLE_REPOSITORY_URL" 
            --identifier       "$HOCKEY_APP_IDENTIFIER"

@@ -13,8 +13,6 @@ parameters = dict(
 filename = "Example/HiPayFullservice/Resources/Parameters/parameters.plist"
 path =  "../" + filename
 
-print os.path.dirname(os.path.realpath(__file__))
-
 # Merge with current parameters
 if os.path.isfile(path):
 	currentParameters = plistlib.readPlist(path)

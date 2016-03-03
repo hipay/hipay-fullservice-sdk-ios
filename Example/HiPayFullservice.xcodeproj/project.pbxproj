@@ -1015,6 +1015,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
 				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
@@ -1034,6 +1035,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
 				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";

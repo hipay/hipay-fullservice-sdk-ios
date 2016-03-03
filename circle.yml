@@ -26,6 +26,7 @@ deployment:
     commands:
        - python deployment/get_identifier.py > $CIRCLE_ARTIFACTS/app_identifier
        - rm Example/HiPayFullservice/Resources/Parameters/parameters.plist
+       - (cd deployment/; python set_build_number.py)
        - (export HOCKEY_APP_IDENTIFIER=$(cat $CIRCLE_ARTIFACTS/app_identifier); cd deployment/; python generate_parameters.py)
        - gym
        - ipa distribute:hockeyapp 

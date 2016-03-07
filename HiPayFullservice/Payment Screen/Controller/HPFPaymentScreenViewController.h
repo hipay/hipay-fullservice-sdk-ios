@@ -16,11 +16,11 @@
 
 @optional
 
-- (void)paymentScreenViewController:(HPFPaymentScreenViewController *)viewController didEndWithTransaction:(HPFTransaction *)transaction;
+- (void)paymentScreenViewController:(HPFPaymentScreenViewController * _Nonnull)viewController didEndWithTransaction:(HPFTransaction * _Nonnull)transaction;
 
-- (void)paymentScreenViewControllerDidCancel:(HPFPaymentScreenViewController *)viewController;
+- (void)paymentScreenViewControllerDidCancel:(HPFPaymentScreenViewController * _Nonnull)viewController;
 
-- (void)paymentScreenViewController:(HPFPaymentScreenViewController *)viewController didFailWithError:(NSError *)error;
+- (void)paymentScreenViewController:(HPFPaymentScreenViewController * _Nonnull)viewController didFailWithError:(NSError * _Nonnull)error;
 
 @end
 
@@ -41,9 +41,9 @@
     HPFTransaction *backgroundTransactionBeingReload;
 }
 
-@property (nonatomic, readonly) HPFPaymentPageRequest *paymentPageRequest;
-@property (nonatomic, weak) id<HPFPaymentScreenViewControllerDelegate> delegate;
+@property (nonatomic, readonly) HPFPaymentPageRequest * _Nonnull paymentPageRequest;
+@property (nonatomic, weak) id<HPFPaymentScreenViewControllerDelegate> _Nullable delegate;
 
-+ (instancetype)paymentScreenViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest;
++ (_Nonnull instancetype)paymentScreenViewControllerWithRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest;
 
 @end

@@ -334,7 +334,13 @@
         securityCode = [self textForIdentifier:@"security_code"];
     }
     
-    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:@"2019" cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *)[self textFieldForIdentifier:@"expiry_date"];
+    
+    NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
+    NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
+    
+    
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
        
         [self setPaymentButtonLoadingMode:NO];
         transactionLoadingRequest = nil;

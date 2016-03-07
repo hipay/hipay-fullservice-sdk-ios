@@ -8,20 +8,30 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Describes the security code type of a payment card.
+ */
 typedef NS_ENUM(NSInteger, HPFSecurityCodeType) {
     
-    // Ex. : Maestro
+    /**
+     *  No security code (e.g., for Maestro).
+     */
     HPFSecurityCodeTypeNone,
-
-    // Ex. : BCMC (for domestic networks or specific issuer payment products, we don't know if there's a security code as it depends on the card scheme)
+    
+    /**
+     *  The security code type cannot be determined because it's a domestic network. (e.g, for CB).
+     */
     HPFSecurityCodeTypeNotApplicable,
     
-    // Ex. : Visa, MasterCard
+    /**
+     *  Three-digit CVV security code (e.g., for Visa and MasterCard).
+     */
     HPFSecurityCodeTypeCVV,
     
-    // Ex. : American Express
+    /**
+     *  Four-digit CID security code (e.g., for American Express).
+     */
     HPFSecurityCodeTypeCID,
-    
 };
 
 extern NSString * _Nonnull const HPFPaymentProductCode3xcb;
@@ -92,13 +102,36 @@ extern NSString * _Nonnull const HPFPaymentProductCategoryCodeDebitCard;
 extern NSString * _Nonnull const HPFPaymentProductCategoryCodeRealtimeBanking;
 extern NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet;
 
+/**
+ *  Describes a payment product (a payment method).
+ */
 @interface HPFPaymentProduct : NSObject
 
+/**
+ *  Payment product code, refer to the HPFPaymentProductCode* constants for more information.
+ */
 @property (nonatomic, readonly, nonnull) NSString *code;
+
+/**
+ *  Payment product ID.
+ */
 @property (nonatomic, readonly, nullable) NSString *paymentProductId;
+
+/**
+ *  Payment product description.
+ */
 @property (nonatomic, readonly, nonnull) NSString *paymentProductDescription;
+
+/**
+ *  Payment product category code, refer to the HPFPaymentProductCategoryCode* constants for more information.
+ */
 @property (nonatomic, readonly, nonnull) NSString *paymentProductCategoryCode;
+
+/**
+ *  Whether this payment product is tokenizable (true for most the credit and debit cards).
+ */
 @property (nonatomic, readonly) BOOL tokenizable;
+
 @property (nonatomic, readonly, nullable) NSSet <NSString *> *groupedPaymentProductCodes;
 
 + (HPFSecurityCodeType)securityCodeTypeForPaymentProductCode:(NSString * _Nonnull)paymentProductCode;

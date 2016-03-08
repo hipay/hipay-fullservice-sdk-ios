@@ -57,8 +57,6 @@
     
     [object setValue:@([self getIntegerForKey:@"eci"]) forKey:@"eci"];
     
-    [object setValue:[self getDictionaryForKey:@"debitAgreement"] forKey:@"debitAgreement"];
-    
     return object;
 }
 

@@ -13,6 +13,18 @@
 #import "HPFErrors.h"
 
 @interface HPFPaymentScreenViewController ()
+{
+    UINavigationController *embeddedNavigationController;
+    NSArray <HPFPaymentProduct *> *paymentProducts;
+    id<HPFRequest> paymentProductsRequest;
+    BOOL loadingRequest;
+    UIAlertView *warningCancelWhileLoadingAlertView;
+
+    // Background loading
+    id<HPFRequest> backgroundOrderLoadingRequest;
+    id<HPFRequest> backgroundTransactionLoadingRequest;
+    HPFTransaction *backgroundTransactionBeingReload;
+}
 
 @end
 

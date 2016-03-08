@@ -28,7 +28,7 @@
  *  @param viewController The payment screen view controller for which the payment workflow has ended.
  *  @param transaction    The transaction generated during the payment workflow and for which you need to check the status.
  */
-- (void)paymentScreenViewController:(HPFPaymentScreenViewController *)viewController didEndWithTransaction:(HPFTransaction *)transaction;
+- (void)paymentScreenViewController:(HPFPaymentScreenViewController * _Nonnull)viewController didEndWithTransaction:(HPFTransaction * _Nonnull)transaction;
 
 /**
  *  Tells the delegate that the user cancelled the payment work-flow by touching the cancel button.
@@ -37,7 +37,7 @@
  *
  *  @param viewController The payment screen view controller for which the payment workflow has ended.
  */
-- (void)paymentScreenViewControllerDidCancel:(HPFPaymentScreenViewController *)viewController;
+- (void)paymentScreenViewControllerDidCancel:(HPFPaymentScreenViewController * _Nonnull)viewController;
 
 /**
  *  Tells the delegate that the payment workflow has ended with an error. Typically, the error may be that user has reached the maximum number of payment attempts.
@@ -47,7 +47,7 @@
  *  @param viewController The payment screen view controller for which the payment workflow has ended.
  *  @param error          Detailed error describing the issue.
  */
-- (void)paymentScreenViewController:(HPFPaymentScreenViewController *)viewController didFailWithError:(NSError *)error;
+- (void)paymentScreenViewController:(HPFPaymentScreenViewController * _Nonnull)viewController didFailWithError:(NSError * _Nonnull)error;
 
 @end
 
@@ -60,12 +60,12 @@
  *  The payment page request used to generate the payment screen.
  *  The generated payment screen presents a total amount, a list of payment products and other order-related information. The payment screen view controller is provided with these information through the payment page request during the instantiation.
  */
-@property (nonatomic, readonly) HPFPaymentPageRequest *paymentPageRequest;
+@property (nonatomic, readonly) HPFPaymentPageRequest * _Nonnull paymentPageRequest;
 
 /**
  *  The delegate which gets called once the payment workflow has ended.
  */
-@property (nonatomic, weak) id<HPFPaymentScreenViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<HPFPaymentScreenViewControllerDelegate> _Nullable delegate;
 
 /**
  *  Instantiates a payment screen with a payment page request.
@@ -74,6 +74,6 @@
  *
  *  @return The newly instantiated payment screen that you may present to your user.
  */
-+ (instancetype)paymentScreenViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest;
++ (_Nonnull instancetype)paymentScreenViewControllerWithRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest;
 
 @end

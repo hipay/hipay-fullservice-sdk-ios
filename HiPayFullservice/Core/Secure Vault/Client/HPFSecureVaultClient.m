@@ -11,6 +11,14 @@
 
 HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
 
+@interface HPFSecureVaultClient ()
+{
+    HPFHTTPClient *HTTPClient;
+    HPFClientConfig *clientConfig;
+}
+
+@end
+
 @implementation HPFSecureVaultClient
 
 + (instancetype)sharedClient

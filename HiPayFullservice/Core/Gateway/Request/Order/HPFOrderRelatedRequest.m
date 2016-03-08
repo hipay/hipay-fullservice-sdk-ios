@@ -30,6 +30,7 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
         self.customer = [[HPFCustomerInfoRequest alloc] init];
         self.shippingAddress = [[HPFPersonalInfoRequest alloc] init];
         self.HTTPUserAgent = [HPFClientConfig sharedClientConfig].userAgent;
+        self.operation = HPFOrderRequestOperationDefault;
     }
     
     return self;

@@ -23,6 +23,14 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
 
 HPFGatewayClient *HPFGatewayClientSharedInstance = nil;
 
+@interface HPFGatewayClient ()
+{
+    HPFHTTPClient *HTTPClient;
+    HPFClientConfig *clientConfig;
+}
+
+@end
+
 @implementation HPFGatewayClient
 
 + (instancetype)sharedClient

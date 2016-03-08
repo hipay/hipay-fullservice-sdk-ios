@@ -168,9 +168,6 @@
     [[[mockedMapper expect] andReturn:@(HPFCVCResultMatch)] getEnumCharForKey:@"cvcResult"];
     [[[mockedMapper expect] andReturnValue:@(HPFECIMOTO)] getIntegerForKey:@"eci"];
     
-    NSDictionary *debitAgreement = @{@"id": @"44", @"info": @"..."};
-    [[[mockedMapper expect] andReturn:debitAgreement] getDictionaryForKey:@"debitAgreement"];
-    
     XCTAssertEqualObjects(mapper.mappedObject, object);
     XCTAssertEqualObjects(object.threeDSecure, threeDSecure);
     XCTAssertEqualObjects(object.fraudScreening, fraudScreening);
@@ -202,8 +199,6 @@
     XCTAssertEqual(object.avsResult, HPFAVSResultAddressMatch);
     XCTAssertEqual(object.cvcResult, HPFCVCResultMatch);
     XCTAssertEqual(object.eci, HPFECIMOTO);
-    
-    XCTAssertEqualObjects(object.debitAgreement, debitAgreement);
     
     [mockedMapper verify];
     OCMVerify([threeDSecureClassMock mapperWithRawData:threeDSecurePayload]);

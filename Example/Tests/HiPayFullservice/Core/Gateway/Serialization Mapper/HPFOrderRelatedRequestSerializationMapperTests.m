@@ -57,7 +57,7 @@
     XCTAssertEqualObjects([mapper getOperation], @"Authorization");
     [mockedMapper verify];
     
-    [[[mockedRequest expect] andReturn:@(HPFOrderRequestOperationUndefined)] valueForKey:@"operation"];
+    [[[mockedRequest expect] andReturn:@(HPFOrderRequestOperationDefault)] valueForKey:@"operation"];
     XCTAssertNil([mapper getOperation]);
     [mockedMapper verify];
     

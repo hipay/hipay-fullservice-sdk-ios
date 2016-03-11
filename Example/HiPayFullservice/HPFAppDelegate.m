@@ -15,9 +15,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage username:@"94654679.api.hipay-tpp.com" password:@"U5hQh4ZT0UyXpYhG8WI4trYQ" appURLscheme:@"hipayexample"];
+    NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
+    
+    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage username:parameters[@"hipay"][@"username"] password:parameters[@"hipay"][@"password"] appURLscheme:@"hipayexample"];
 
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"d09352639450402a83aa07b7b3d3e3fb"];
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:parameters[@"hockeyapp"][@"app_identifier"]];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     

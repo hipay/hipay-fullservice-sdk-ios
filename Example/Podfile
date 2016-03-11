@@ -12,3 +12,7 @@ target 'HiPayFullservice_Tests', :exclusive => true do
   pod 'OCMock'
   pod 'OHHTTPStubs'
 end
+
+post_install do |installer|
+	system("python ../deployment/generate_parameters.py")
+end

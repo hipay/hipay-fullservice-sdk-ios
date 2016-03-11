@@ -18,8 +18,8 @@ NSString * _Nonnull const HPFPaymentPageRequestTemplateNameFrame = @"iframe-js";
 {
     self = [super init];
     if (self) {
-        _authenticationIndicator = HPFAuthenticationIndicatorUndefined;
-        _eci = HPFECIUndefined;
+        _authenticationIndicator = HPFAuthenticationIndicatorDefault;
+        _eci = HPFECIDefault;
         _multiUse = NO;
         _displaySelector = NO;
         _paymentCardGroupingEnabled = YES;

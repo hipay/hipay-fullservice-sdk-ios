@@ -9,10 +9,29 @@
 #import "HPFAbstractPaymentMethodRequest.h"
 #import "HPFTransaction.h"
 
+/**
+ *  Indicates if the 3-D Secure authentication should be performed.
+ */
 typedef NS_ENUM(NSInteger, HPFAuthenticationIndicator) {
-    HPFAuthenticationIndicatorUndefined = NSIntegerMax,
+    
+    /**
+     *  Default authentication indicator.
+     */
+    HPFAuthenticationIndicatorDefault = NSIntegerMax,
+    
+    /**
+     *  Bypass 3-D Secure authentication.
+     */
     HPFAuthenticationIndicatorBypass = 0,
+    
+    /**
+     *  3-D Secure authentication if available.
+     */
     HPFAuthenticationIndicatorIfAvailable = 1,
+    
+    /**
+     *  3-D Secure authentication mandatory. Transactions will be declined if card holder is not enrolled.
+     */
     HPFAuthenticationIndicatorMandatory = 2,
 };
 

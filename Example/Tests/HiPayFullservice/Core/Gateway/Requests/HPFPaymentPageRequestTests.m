@@ -55,8 +55,8 @@
     
     NSSet *groupedCardPaymentProductCodes = [NSSet setWithObjects:HPFPaymentProductCodeMasterCard, HPFPaymentProductCodeVisa, HPFPaymentProductCodeCB, HPFPaymentProductCodeMaestro, HPFPaymentProductCodeAmericanExpress, HPFPaymentProductCodeDiners, nil];
     
-    XCTAssertEqual(result.eci, HPFECIUndefined);
-    XCTAssertEqual(result.authenticationIndicator, HPFAuthenticationIndicatorUndefined);
+    XCTAssertEqual(result.eci, HPFECIDefault);
+    XCTAssertEqual(result.authenticationIndicator, HPFAuthenticationIndicatorDefault);
     XCTAssertEqual(result.multiUse, NO);
     XCTAssertEqual(result.displaySelector, NO);
     

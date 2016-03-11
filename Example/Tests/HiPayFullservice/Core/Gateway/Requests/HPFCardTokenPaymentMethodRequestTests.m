@@ -28,8 +28,8 @@
 {
     HPFCardTokenPaymentMethodRequest *object = [[HPFCardTokenPaymentMethodRequest alloc] init];
     
-    XCTAssertEqualObjects([object valueForKey:@"eci"], @(HPFECIUndefined));
-    XCTAssertEqualObjects([object valueForKey:@"authenticationIndicator"], @(HPFAuthenticationIndicatorUndefined));
+    XCTAssertEqualObjects([object valueForKey:@"eci"], @(HPFECIDefault));
+    XCTAssertEqualObjects([object valueForKey:@"authenticationIndicator"], @(HPFAuthenticationIndicatorDefault));
 }
 
 - (void)testKeyPaths

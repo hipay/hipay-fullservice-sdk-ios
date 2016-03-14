@@ -9,17 +9,16 @@
 #import "HPFClientConfig.h"
 #import "DevicePrint.h"
 
-HPFClientConfig *HPFClientConfigSharedInstance = nil;
-
 @implementation HPFClientConfig
 
-+ (instancetype _Nonnull)sharedClientConfig
++ (instancetype)sharedClientConfig
 {
-    if (HPFClientConfigSharedInstance == nil) {
-        HPFClientConfigSharedInstance = [[self alloc] init];
-    }
-    
-    return HPFClientConfigSharedInstance;
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
 }
 
 - (void)setAppURLscheme:(NSString *)appURLscheme

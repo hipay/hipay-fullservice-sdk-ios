@@ -9,17 +9,16 @@
 #import "HPFCardNumberFormatter.h"
 #import "HPFCardNumberFormatter_Private.h"
 
-HPFCardNumberFormatter *HPFCardNumberFormatterSharedInstance = nil;
-
 @implementation HPFCardNumberFormatter
 
 + (instancetype)sharedFormatter
 {
-    if (HPFCardNumberFormatterSharedInstance == nil) {
-        HPFCardNumberFormatterSharedInstance = [[HPFCardNumberFormatter alloc] init];
-    }
-    
-    return HPFCardNumberFormatterSharedInstance;
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
 }
 
 - (instancetype)init

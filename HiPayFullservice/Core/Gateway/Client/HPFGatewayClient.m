@@ -22,8 +22,6 @@
 NSString * _Nonnull const HPFGatewayClientDidRedirectSuccessfullyNotification = @"HPFGatewayClientDidRedirectSuccessfullyNotification";
 NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotification = @"HPFGatewayClientDidRedirectWithMappingErrorNotification";
 
-HPFGatewayClient *HPFGatewayClientSharedInstance = nil;
-
 @interface HPFGatewayClient ()
 {
     HPFHTTPClient *HTTPClient;
@@ -36,11 +34,12 @@ HPFGatewayClient *HPFGatewayClientSharedInstance = nil;
 
 + (instancetype)sharedClient
 {
-    if (HPFGatewayClientSharedInstance == nil) {
-        HPFGatewayClientSharedInstance = [[HPFGatewayClient alloc] init];
-    }
-    
-    return HPFGatewayClientSharedInstance;
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
 }
 
 + (BOOL)isTransactionErrorFinal:(NSError *)error

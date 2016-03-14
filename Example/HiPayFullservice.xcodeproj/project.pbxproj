@@ -1024,6 +1024,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
 				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
@@ -1031,7 +1032,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "fd28e1d1-e7cb-45b8-866e-5b03e05cd4a5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1051,7 +1052,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "fd28e1d1-e7cb-45b8-866e-5b03e05cd4a5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

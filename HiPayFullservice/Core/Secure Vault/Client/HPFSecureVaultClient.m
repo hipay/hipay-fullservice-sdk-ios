@@ -8,6 +8,7 @@
 
 #import "HPFSecureVaultClient.h"
 #import "HPFAbstractClient+Private.h"
+#import "HPFLogger.h"
 
 HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
 
@@ -140,6 +141,10 @@ HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
             }
         } else {
             resultError = [self errorForResponseBody:response.body andError:error];
+        }
+        
+        if (resultError != nil) {
+            [[HPFLogger sharedLogger] debug:@"<SecureVault>: %@", error];
         }
         
         if ([NSThread isMainThread]) {

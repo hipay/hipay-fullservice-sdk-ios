@@ -17,6 +17,7 @@
 #import "HPFTransactionDetailsMapper.h"
 #import "HPFPaymentProductMapper.h"
 #import "HPFOperationMapper.h"
+#import "HPFLogger.h"
 
 NSString * _Nonnull const HPFGatewayClientDidRedirectSuccessfullyNotification = @"HPFGatewayClientDidRedirectSuccessfullyNotification";
 NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotification = @"HPFGatewayClientDidRedirectWithMappingErrorNotification";
@@ -127,6 +128,10 @@ HPFGatewayClient *HPFGatewayClientSharedInstance = nil;
                 
             } else {
                 resultError = [self errorForResponseBody:response.body andError:error];
+            }
+            
+            if (resultError != nil) {
+                [[HPFLogger sharedLogger] debug:@"<Gateway>: %@", error];
             }
             
             if ([NSThread isMainThread]) {
@@ -261,17 +266,23 @@ HPFGatewayClient *HPFGatewayClientSharedInstance = nil;
             
             if (transaction != nil) {
                 
-                [notificationInfo setObject:transaction forKey:@"transaction"];
+                [[HPFLogger sharedLogger] debug:@"<Gateway>: Handles valid URL with mapped transaction %@", transaction.transactionReference];
                 
+                [notificationInfo setObject:transaction forKey:@"transaction"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil userInfo:notificationInfo];
             }
             
             else {
+                
+                [[HPFLogger sharedLogger] debug:@"<Gateway>: Handles valid URL without mapped transaction"];
+                
                 [[NSNotificationCenter defaultCenter] postNotificationName:HPFGatewayClientDidRedirectWithMappingErrorNotification object:nil userInfo:notificationInfo];
             }
             
             return YES;
         }
+        
+        [[HPFLogger sharedLogger] emerg:@"<Gateway>: Could not handle invalid URL: %@", URL];
     }
 
     return NO;

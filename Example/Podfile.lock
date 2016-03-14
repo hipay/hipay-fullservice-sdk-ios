@@ -39,7 +39,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  HiPayFullservice: 85bbe262a8b698aad7ad5cf2af90bae2553afec4
+  HiPayFullservice: 0389fc7e84966aa5c8f2e0fa3ca7bf87790be8ae
   HockeySDK: dd11a2b9da3372fd025643bee5bc10c8c613d169
   OCMock: 4c2925291f80407c3738dd1db14d21d0cc278864
   OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8

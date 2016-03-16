@@ -33,7 +33,7 @@
 {
     self = [super init];
     if (self) {
-        _eci = HPFECIUndefined;
+        _eci = HPFECIDefault;
         _avsResult = HPFAVSResultNotApplicable;
         _cvcResult = HPFCVCResultNotApplicable;
     }

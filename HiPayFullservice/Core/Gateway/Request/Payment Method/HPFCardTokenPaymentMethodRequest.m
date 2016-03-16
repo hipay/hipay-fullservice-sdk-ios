@@ -14,8 +14,8 @@
 {
     self = [super init];
     if (self) {
-        _authenticationIndicator = HPFAuthenticationIndicatorUndefined;
-        _eci = HPFECIUndefined;
+        _authenticationIndicator = HPFAuthenticationIndicatorDefault;
+        _eci = HPFECIDefault;
     }
     return self;
 }

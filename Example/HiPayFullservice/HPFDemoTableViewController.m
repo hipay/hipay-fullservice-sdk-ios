@@ -47,7 +47,7 @@
     insertResultSection = NO;
     currencies = @[@"EUR", @"USD", @"BRL", @"RUB"];
     currencySegmentIndex = 0;
-    authenticationIndicatorSegmentIndex = 0;
+    authenticationIndicatorSegmentIndex = 3;
     colorSegmentIndex = 0;
     [self setupGlobalTintColor];
     multiUse = NO;

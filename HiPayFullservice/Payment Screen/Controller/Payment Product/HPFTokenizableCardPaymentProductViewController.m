@@ -173,6 +173,16 @@
         return YES;
     }
     
+    if (textField == [self textFieldForIdentifier:@"number"]) {
+        [[self textFieldForIdentifier:@"expiry_date"] becomeFirstResponder];
+        return YES;
+    }
+    
+    if (textField == [self textFieldForIdentifier:@"expiry_date"]) {
+        [[self textFieldForIdentifier:@"security_code"] becomeFirstResponder];
+        return YES;
+    }
+    
     return [super textFieldShouldReturn:textField];
 }
 
@@ -384,17 +394,20 @@
         case 1:
             cell = [self dequeueInputCellWithIdentifier:@"CardNumberInput" fieldIdentifier:@"number"];
             ((HPFCardNumberInputTableViewCell *)cell).defaultPaymentProductCode = [self currentPaymentProductCode];
+            cell.textField.returnKeyType = UIReturnKeyNext;
             break;
             
         case 2:
             cell = [self dequeueInputCellWithIdentifier:@"ExpiryDateInput" fieldIdentifier:@"expiry_date"];
             cell.inputLabel.text = HPFLocalizedString(@"CARD_EXPIRATION_LABEL");
             cell.textField.placeholder = HPFLocalizedString(@"CARD_EXPIRATION_PLACEHOLDER");
+            cell.textField.returnKeyType = UIReturnKeyNext;
             break;
             
         case 3:
             cell = [self dequeueInputCellWithIdentifier:@"SecurityCodeInput" fieldIdentifier:@"security_code"];
             ((HPFSecurityCodeInputTableViewCell *)cell).paymentProductCode = [self currentPaymentProductCode];
+            cell.textField.returnKeyType = UIReturnKeyDone;
             
             break;
             

@@ -8,8 +8,7 @@
 
 #import "HPFSecureVaultClient.h"
 #import "HPFAbstractClient+Private.h"
-
-HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
+#import "HPFLogger.h"
 
 @interface HPFSecureVaultClient ()
 {
@@ -23,11 +22,12 @@ HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
 
 + (instancetype)sharedClient
 {
-    if (HPFSecureVaultClientSharedInstance == nil) {
-        HPFSecureVaultClientSharedInstance = [[HPFSecureVaultClient alloc] init];
-    }
-    
-    return HPFSecureVaultClientSharedInstance;
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
 }
 
 - (instancetype)initWithHTTPClient:(HPFHTTPClient *)theHTTPClient clientConfig:(HPFClientConfig *)theClientConfig
@@ -140,6 +140,10 @@ HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
             }
         } else {
             resultError = [self errorForResponseBody:response.body andError:error];
+        }
+        
+        if (resultError != nil) {
+            [[HPFLogger sharedLogger] debug:@"<SecureVault>: %@", error];
         }
         
         if ([NSThread isMainThread]) {

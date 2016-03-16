@@ -9,17 +9,16 @@
 #import "HPFClientConfig.h"
 #import "DevicePrint.h"
 
-HPFClientConfig *HPFClientConfigSharedInstance = nil;
-
 @implementation HPFClientConfig
 
-+ (instancetype _Nonnull)sharedClientConfig
++ (instancetype)sharedClientConfig
 {
-    if (HPFClientConfigSharedInstance == nil) {
-        HPFClientConfigSharedInstance = [[self alloc] init];
-    }
-    
-    return HPFClientConfigSharedInstance;
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
 }
 
 - (void)setAppURLscheme:(NSString *)appURLscheme
@@ -36,6 +35,22 @@ HPFClientConfig *HPFClientConfigSharedInstance = nil;
     }
 
     _appRedirectionURL = [NSURL URLWithString:[[appURLscheme stringByAppendingString:@"://"] stringByAppendingString:HPFClientConfigCallbackURLHost]];
+
+    BOOL foundURLScheme = NO;
+    NSArray *types = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
+    
+    if (types.count > 0) {
+        for (NSDictionary *type in types) {
+            foundURLScheme = [type[@"CFBundleURLSchemes"] containsObject:appURLscheme];
+        }
+    }
+    
+    // Raises an exception because the developer needs to know very early in the development cycle that there's an error.
+    
+    if (!foundURLScheme) {
+        NSString *exceptionMessage = [NSString stringWithFormat:@"The URL scheme \"%@\" seems not to exist. Check your configuration in your project settings > Info > URL Types and provide the HiPay Fullservice SDK with a valid URL scheme.", appURLscheme];
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:exceptionMessage userInfo:nil];
+    }
 }
 
 - (void)setEnvironment:(HPFEnvironment)environment username:(NSString *)username password:(NSString *)password appURLscheme:(NSString *)appURLscheme

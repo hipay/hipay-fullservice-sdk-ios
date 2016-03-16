@@ -78,9 +78,9 @@ typedef NS_ENUM(char, HPFAVSResult) {
 typedef NS_ENUM(NSInteger, HPFECI) {
    
     /**
-     *  Undefined ECI.
+     *  If you use this value, the default ECI will be used. The default ECI value can be set in the Integration section of the HiPay Fullservice merchant back office. An ECI value sent along in the transaction will overwrite the default ECI value.
      */
-    HPFECIUndefined = NSIntegerMax,
+    HPFECIDefault = NSIntegerMax,
     
     /**
      *  The merchant received the customer's financial details over the phone or via fax/mail, but he does not have the customer's card at hand.

@@ -216,7 +216,7 @@
     // Once the method gets the HTTP response, it should call the manage request method
     [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
     
-    id<HPFRequest> returnedRequest = [secureVaultClient lookupPaymentCardWithToken:token requestID:requestID andCompletionHandler:tokenCompletionBlock];
+    id<HPFRequest> returnedRequest = [secureVaultClient lookupPaymentCardWithToken:token requestID:requestID completionHandler:tokenCompletionBlock];
     
     XCTAssertEqual(request, returnedRequest);
     

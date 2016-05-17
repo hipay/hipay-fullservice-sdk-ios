@@ -47,7 +47,6 @@
     
     specificPaymentProductPaymentPageRequest = [[HPFPaymentPageRequest alloc] initWithOrderRelatedRequest:self.paymentPageRequest];
     
-    specificPaymentProductPaymentPageRequest.paymentProductCategoryList = nil;
     specificPaymentProductPaymentPageRequest.paymentProductList = @[self.paymentProduct.code];
     specificPaymentProductPaymentPageRequest.displaySelector = NO;
     specificPaymentProductPaymentPageRequest.templateName = HPFPaymentPageRequestTemplateNameFrame;

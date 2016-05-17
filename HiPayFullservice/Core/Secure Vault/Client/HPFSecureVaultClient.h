@@ -67,7 +67,7 @@ typedef void (^HPFSecureVaultClientCompletionBlock)(HPFPaymentCardToken * _Nulla
  *  @see HPFSecureVaultClientCompletionBlock
  *  @see HPFRequest
  */
-- (id<HPFRequest> _Nonnull)lookupPaymentCardWithToken:(NSString * _Nonnull)token requestID:(NSString * _Nonnull)requestID andCompletionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
+- (id<HPFRequest> _Nonnull)lookupPaymentCardWithToken:(NSString * _Nonnull)token requestID:(NSString * _Nonnull)requestID completionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
 
 /**
  *  Allows you to update the details of a credit card that you have tokenized.

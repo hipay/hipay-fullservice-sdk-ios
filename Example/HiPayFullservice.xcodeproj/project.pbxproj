@@ -468,6 +468,7 @@
 		A5A375591BD8E6A600CEA434 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A54017A21C8599750098ED15 /* Parameters */,
 				A5F98F911BE91B8700F9604F /* Localization */,
 				A5A3755A1BD8E6A600CEA434 /* Fixtures */,
 			);
@@ -577,7 +578,6 @@
 		A5F98F911BE91B8700F9604F /* Localization */ = {
 			isa = PBXGroup;
 			children = (
-				A54017A21C8599750098ED15 /* Parameters */,
 				A5F98F921BE91B9500F9604F /* en.lproj */,
 				A5F98F971BE91B9500F9604F /* fr.lproj */,
 			);

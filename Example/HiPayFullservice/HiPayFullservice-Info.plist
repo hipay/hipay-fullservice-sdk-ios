@@ -26,7 +26,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.hipay-fullservice.example</string>
+			<string>com.hipay.fullservice.demo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>hipayexample</string>

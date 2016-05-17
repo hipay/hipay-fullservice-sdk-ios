@@ -112,7 +112,7 @@
     }];
 }
 
-- (id<HPFRequest>)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID andCompletionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
+- (id<HPFRequest>)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID completionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
 {
     NSDictionary *parameters = @{@"request_id": requestID};
     

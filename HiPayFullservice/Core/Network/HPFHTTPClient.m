@@ -127,7 +127,7 @@
         [requests removeObject:request];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = (requests.count > 0);
         
-        // Cancelled by user, no callback
+        // Request cancelled, no callback
         if ((error == nil) || ![error.domain isEqualToString:NSURLErrorDomain] || (error.code != NSURLErrorCancelled)) {
             
             // Connection error

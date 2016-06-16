@@ -146,11 +146,11 @@
                     
                     NSError *responseError = nil;
                     
-                    if (NSLocationInRange(clientResponse.statusCode, (NSRange){400, 499})) {
+                    if (NSLocationInRange(clientResponse.statusCode, (NSRange){400, 100})) {
                         responseError = [NSError errorWithDomain:HPFHiPayFullserviceErrorDomain code:HPFErrorCodeHTTPClient userInfo:@{NSLocalizedDescriptionKey: HPFErrorCodeHTTPClientDescription, HPFErrorCodeHTTPStatusCodeKey: @(clientResponse.statusCode)}];
                     }
                     
-                    else if (NSLocationInRange(clientResponse.statusCode, (NSRange){500, 599})) {
+                    else if (NSLocationInRange(clientResponse.statusCode, (NSRange){500, 100})) {
                         responseError = [NSError errorWithDomain:HPFHiPayFullserviceErrorDomain code:HPFErrorCodeHTTPServer userInfo:@{NSLocalizedDescriptionKey: HPFErrorCodeHTTPServerDescription, HPFErrorCodeHTTPStatusCodeKey: @(clientResponse.statusCode)}];
                     }
                     

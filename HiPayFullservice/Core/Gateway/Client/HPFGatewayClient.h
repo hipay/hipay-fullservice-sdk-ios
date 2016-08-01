@@ -18,9 +18,14 @@
 #import "HPFOrderRequest.h"
 #import "HPFPaymentProduct.h"
 
-#define HPFGatewayClientBaseURLStage        @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/"
-#define HPFGatewayClientBaseURLProduction   @"https://secure-gateway.hipay-tpp.com/rest/v1/"
-#define HPFGatewayCallbackURLPathName       @"gateway"
+#define HPFGatewayClientBaseURLStage            @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/"
+#define HPFGatewayClientNewBaseURLStage         @"https://new-stage-secure-gateway.hipay-tpp.com/rest/v2/"
+
+#define HPFGatewayClientBaseURLProduction       @"https://secure-gateway.hipay-tpp.com/rest/v1/"
+#define HPFGatewayClientNewBaseURLProduction    @"https://new-secure-gateway.hipay-tpp.com/rest/v2/"
+
+#define HPFGatewayCallbackURLPathName           @"gateway"
+
 
 extern NSString * _Nonnull const HPFGatewayClientDidRedirectSuccessfullyNotification;
 extern NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotification;

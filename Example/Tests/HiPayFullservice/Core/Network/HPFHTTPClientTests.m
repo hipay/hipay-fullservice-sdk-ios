@@ -119,7 +119,7 @@
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
-    HPFHTTPClientRequest *clientRequest = [client performRequestWithMethod:HPFHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    HPFHTTPClientRequest *clientRequest = [client performRequestWithMethod:HPFHTTPMethodGet v2:YES path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
 
         [expectation fulfill];
     }];
@@ -173,7 +173,7 @@
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
-    [client performRequestWithMethod:HPFHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    [client performRequestWithMethod:HPFHTTPMethodGet v2:YES path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         NSDictionary *body = @{
                                @"array": @[@1, @2, @3],
@@ -209,7 +209,7 @@
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
-    [client performRequestWithMethod:HPFHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    [client performRequestWithMethod:HPFHTTPMethodGet v2:YES path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         NSArray *body = @[
                           @{
@@ -329,7 +329,7 @@
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
-    [client performRequestWithMethod:HPFHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    [client performRequestWithMethod:HPFHTTPMethodGet v2:YES path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         XCTAssertNil(response);
         XCTAssertEqualObjects(error, FullserviceError);
@@ -364,7 +364,7 @@
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
-    [client performRequestWithMethod:HPFHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    [client performRequestWithMethod:HPFHTTPMethodGet v2:YES path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         XCTAssertNil(response);
         XCTAssertEqualObjects(error.domain, HPFHiPayFullserviceErrorDomain);
@@ -391,7 +391,7 @@
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
-    [client performRequestWithMethod:HPFHTTPMethodGet path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    [client performRequestWithMethod:HPFHTTPMethodGet v2:YES path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         NSDictionary *body = @{@"error": @"error_key", @"description": @"Something bad."};
         

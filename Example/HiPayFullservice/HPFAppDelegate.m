@@ -27,6 +27,8 @@
     NSString* injectBundle = environment[@"XCInjectBundle"];
     BOOL isRunningTests = [[injectBundle pathExtension] isEqualToString:@"xctest"];
     
+    return YES;
+    
     /*
      All the code below is meant to be deleted.
      */

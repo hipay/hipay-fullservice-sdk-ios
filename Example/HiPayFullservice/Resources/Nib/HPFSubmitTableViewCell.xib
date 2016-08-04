@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="65" id="Acc-8q-xte" customClass="HPFSubmitTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="327" height="65"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Acc-8q-xte" id="R1C-cU-kKO">
+                <rect key="frame" x="0.0" y="0.0" width="327" height="64.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xJS-HP-iCN">
+                        <rect key="frame" x="0.0" y="0.0" width="327" height="64"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <state key="normal" title="Payer"/>
+                        <connections>
+                            <action selector="buttonTouched:" destination="Acc-8q-xte" eventType="touchUpInside" id="n67-RC-Ofd"/>
+                        </connections>
+                    </button>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="cOx-oe-90D">
+                        <rect key="frame" x="154" y="22" width="20" height="20"/>
+                    </activityIndicatorView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="cOx-oe-90D" firstAttribute="centerX" secondItem="R1C-cU-kKO" secondAttribute="centerX" id="1Bt-Zq-3SP"/>
+                    <constraint firstItem="xJS-HP-iCN" firstAttribute="top" secondItem="R1C-cU-kKO" secondAttribute="topMargin" constant="-8" id="EJ9-aw-PyD"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="xJS-HP-iCN" secondAttribute="trailing" constant="-8" id="Qmq-Wy-XwM"/>
+                    <constraint firstItem="cOx-oe-90D" firstAttribute="centerY" secondItem="R1C-cU-kKO" secondAttribute="centerY" id="Yqu-0O-Nbr"/>
+                    <constraint firstItem="xJS-HP-iCN" firstAttribute="leading" secondItem="R1C-cU-kKO" secondAttribute="leadingMargin" constant="-8" id="yT4-NQ-Bt5"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="xJS-HP-iCN" secondAttribute="bottom" constant="-8" id="z9B-xY-Oym"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="button" destination="xJS-HP-iCN" id="XBg-Hp-vQh"/>
+                <outlet property="spinner" destination="cOx-oe-90D" id="elo-bK-f2d"/>
+            </connections>
+            <point key="canvasLocation" x="551.5" y="529.5"/>
+        </tableViewCell>
+    </objects>
+</document>

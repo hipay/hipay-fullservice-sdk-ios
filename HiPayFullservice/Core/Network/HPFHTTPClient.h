@@ -12,6 +12,8 @@
 
 typedef void (^HPFHTTPClientCompletionBlock)(HPFHTTPResponse *response, NSError *error);
 
+extern NSString * _Nonnull const HPFGatewayClientSignature;
+
 typedef NS_ENUM(NSInteger, HPFHTTPMethod) {
     HPFHTTPMethodGet,
     HPFHTTPMethodPost

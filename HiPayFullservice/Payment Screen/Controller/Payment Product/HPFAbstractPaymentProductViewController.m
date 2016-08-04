@@ -7,12 +7,9 @@
 //
 
 #import "HPFAbstractPaymentProductViewController.h"
-#import "HPFPaymentButtonTableViewCell.h"
 #import "HPFGatewayClient.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
-#import "HPFLabelTableViewCell.h"
 #import "HPFPaymentScreenUtils.h"
-#import "HPFForwardViewController.h"
 #import "HPFTransactionRequestResponseManager.h"
 
 @interface HPFAbstractPaymentProductViewController ()
@@ -21,13 +18,14 @@
 
 @implementation HPFAbstractPaymentProductViewController
 
-- (instancetype)initWithPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct
+- (instancetype)initWithPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         _paymentPageRequest = paymentPageRequest;
         fieldIdentifiers = [NSMutableDictionary dictionary];
         _paymentProduct = paymentProduct;
+        _signature = signature;
     }
     return self;
 }
@@ -356,16 +354,17 @@
 
 - (void)submit
 {
-    [self performOrderRequest:[self createOrderRequest]];
+
+    [self performOrderRequest:[self createOrderRequest] signature:self.signature];
 }
 
-- (void)performOrderRequest:(HPFOrderRequest *)orderRequest
+- (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature
 {
     [self setPaymentButtonLoadingMode:YES];
     
     [self cancelRequests];
     
-    transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
+    transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
         
         transactionLoadingRequest = nil;
         
@@ -374,7 +373,7 @@
             
             if (transaction.forwardUrl != nil) {
                 
-                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction];
+                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:signature];
                 
                 viewController.delegate = self;
                 

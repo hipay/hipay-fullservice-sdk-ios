@@ -17,9 +17,9 @@
 
 @implementation HPFIDealPaymentProductViewController
 
--(instancetype)initWithPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct
+-(instancetype)initWithPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct
 {
-    self = [super initWithPaymentPageRequest:paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+    self = [super initWithPaymentPageRequest:paymentPageRequest signature:signature andSelectedPaymentProduct:paymentProduct];
     if (self) {
         issuerBanks = [HPFIDealPaymentMethodRequest issuerBanks];
         

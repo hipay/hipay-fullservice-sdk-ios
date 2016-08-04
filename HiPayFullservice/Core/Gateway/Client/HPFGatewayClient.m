@@ -18,6 +18,7 @@
 #import "HPFPaymentProductMapper.h"
 #import "HPFOperationMapper.h"
 #import "HPFLogger.h"
+#import "NSMutableDictionary+Serialization.h"
 
 NSString * _Nonnull const HPFGatewayClientDidRedirectSuccessfullyNotification = @"HPFGatewayClientDidRedirectSuccessfullyNotification";
 NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotification = @"HPFGatewayClientDidRedirectWithMappingErrorNotification";
@@ -119,7 +120,7 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
                 if (!isArray) {
                     result = ((HPFAbstractMapper *)[responseMapperClass mapperWithRawData:response.body]).mappedObject;
                 } else {
-                    result = ((HPFAbstractMapper *)[HPFArrayMapper mapperWithRawData:response.body objectMapperClass:responseMapperClass]).mappedObject;
+                    result = ([HPFArrayMapper mapperWithRawData:response.body objectMapperClass:responseMapperClass]).mappedObject;
                 }
                 
                 if (result != nil) {
@@ -148,23 +149,29 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
     }];
 }
 
-- (id<HPFRequest>)initializeHostedPaymentPageRequest:(HPFPaymentPageRequest *)hostedPaymentPageRequest withCompletionHandler:(HPFHostedPaymentPageCompletionBlock)completionBlock
+- (id<HPFRequest>)initializeHostedPaymentPageRequest:(HPFPaymentPageRequest *)hostedPaymentPageRequest signature:(NSString *)signature withCompletionHandler:(HPFHostedPaymentPageCompletionBlock)completionBlock
 {
     NSDictionary *parameters = [HPFPaymentPageRequestSerializationMapper mapperWithRequest:hostedPaymentPageRequest].serializedRequest;
-    
-    return [self handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"hpayment" parameters:parameters responseMapperClass:[HPFHostedPaymentPageMapper class] isArray:NO completionHandler:completionBlock];
+
+    NSMutableDictionary *signatureParam = [NSMutableDictionary dictionaryWithObject:signature forKey:HPFGatewayClientSignature];
+    [signatureParam mergeDictionary:parameters withPrefix:nil];
+
+    return [self handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"hpayment" parameters:signatureParam responseMapperClass:[HPFHostedPaymentPageMapper class] isArray:NO completionHandler:completionBlock];
 }
 
-- (id<HPFRequest>)requestNewOrder:(HPFOrderRequest *)orderRequest withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock
+- (id<HPFRequest>)requestNewOrder:(HPFOrderRequest *)orderRequest signature:(NSString *)signature withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock
 {
     NSDictionary *parameters = [HPFOrderRequestSerializationMapper mapperWithRequest:orderRequest].serializedRequest;
-        
-    return [self handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"order" parameters:parameters responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:completionBlock];
+
+    NSMutableDictionary *signatureParam = [NSMutableDictionary dictionaryWithObject:signature forKey:HPFGatewayClientSignature];
+    [signatureParam mergeDictionary:parameters withPrefix:nil];
+    return [self handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"order" parameters:signatureParam responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:completionBlock];
 }
 
-- (id<HPFRequest>)getTransactionWithReference:(NSString *)transactionReference withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock
+- (id<HPFRequest>)getTransactionWithReference:(NSString *)transactionReference signature:(NSString *)signature withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock
 {
-    return [self handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:[@"transaction/" stringByAppendingString:transactionReference] parameters:@{} responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:^(id result, NSError *error) {
+    NSDictionary *signatureParam = [NSDictionary dictionaryWithObject:signature forKey:HPFGatewayClientSignature];
+    return [self handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:[@"transaction/" stringByAppendingString:transactionReference] parameters:signatureParam responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:^(id result, NSError *error) {
         
         NSError *resultError = nil;
         id resultObject = nil;
@@ -189,9 +196,10 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
     }];
 }
 
-- (id<HPFRequest>)getTransactionsWithOrderId:(NSString *)orderId withCompletionHandler:(HPFTransactionsCompletionBlock)completionBlock
+- (id<HPFRequest>)getTransactionsWithOrderId:(NSString *)orderId signature:(NSString *)signature withCompletionHandler:(HPFTransactionsCompletionBlock)completionBlock
 {
-    return [self handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"transaction" parameters:@{@"orderid": orderId} responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:completionBlock];
+    NSDictionary *parameters = [NSDictionary dictionaryWithObjects:@[orderId, signature] forKeys:@[@"orderid", HPFGatewayClientSignature]];
+    return [self handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"transaction" parameters:parameters responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:completionBlock];
 }
 
 - (NSString *)operationValueForOperationType:(HPFOperationType)operationType
@@ -215,8 +223,6 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
             
         default:
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Unknown operation %ld, please refer to HPFOperationType to get the full list of available operation types.", (long)operationType] userInfo:nil];
-            
-            break;
     }
 }
 
@@ -237,7 +243,7 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
     
     NSDictionary *parameters = [HPFPaymentPageRequestSerializationMapper mapperWithRequest:paymentPageRequest].serializedRequest;
 
-    return [self handleRequestWithMethod:HPFHTTPMethodGet v2:YES path:@"available-payment-products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
+    return [self handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"available-payment-products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:NO completionHandler:completionBlock];
 }
 
 - (BOOL)isRedirectURLComponentsPathValid:(NSArray *)pathComponents

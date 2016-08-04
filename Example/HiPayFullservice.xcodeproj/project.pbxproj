@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		37A10361D7F4F96732FF97C8 /* libPods-HiPayFullservice_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D271450D432140C3F897A37D /* libPods-HiPayFullservice_Example.a */; };
+		438DF0D11D6740A20003E24C /* HPFSubmitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 438DF0D01D6740A20003E24C /* HPFSubmitTableViewCell.xib */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -98,6 +99,7 @@
 		1BCCDB71367D2362CE4675C3 /* Pods-HiPayFullservice_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example.release.xcconfig"; sourceTree = "<group>"; };
 		1FB39614B33B04B898162649 /* Pods-HiPayFullservice_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		39BEBD4EC0BC4099960FF4ED /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		438DF0D01D6740A20003E24C /* HPFSubmitTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPFSubmitTableViewCell.xib; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* HiPay Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HiPay Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -223,6 +225,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		438DF0CD1D673FFD0003E24C /* Nib */ = {
+			isa = PBXGroup;
+			children = (
+				438DF0D01D6740A20003E24C /* HPFSubmitTableViewCell.xib */,
+			);
+			path = Nib;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +478,7 @@
 		A5A375591BD8E6A600CEA434 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				438DF0CD1D673FFD0003E24C /* Nib */,
 				A54017A21C8599750098ED15 /* Parameters */,
 				A5F98F911BE91B8700F9604F /* Localization */,
 				A5A3755A1BD8E6A600CEA434 /* Fixtures */,
@@ -715,6 +726,7 @@
 				A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */,
 				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
 				A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */,
+				438DF0D11D6740A20003E24C /* HPFSubmitTableViewCell.xib in Resources */,
 				A54017A41C8599A80098ED15 /* parameters.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

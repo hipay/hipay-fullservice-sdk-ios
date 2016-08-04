@@ -10,6 +10,8 @@
 #import "HPFErrors.h"
 #import "HPFLogger.h"
 
+NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
+
 @implementation HPFHTTPClientRequest
 
 - (instancetype)initWithURLSessionTask:(NSURLSessionTask *)URLSessionTask
@@ -75,12 +77,25 @@
     return [parameters componentsJoinedByString: @"&"];
 }
 
-- (NSString *)createAuthHeader
-{
-    NSString *authString = [NSString stringWithFormat:@"%@:%@", username, password];
+- (NSString *)createAuthHeaderWithSignature:(NSString *)signature {
+
+    NSString *authString = [NSString stringWithFormat:@"%@:", username];
+
+    if (signature != nil) {
+        authString = [authString stringByAppendingString:signature];
+
+    } else {
+        authString = [authString stringByAppendingString:password];
+    }
+
     NSData *authData = [authString dataUsingEncoding:NSASCIIStringEncoding];
-    NSString *authHeaderValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    return authHeaderValue;
+
+    NSString *keySign = @"Basic";
+    if (signature != nil) {
+        keySign = @"HS";
+    }
+
+    return [NSString stringWithFormat:@"%@ %@", keySign, [authData base64EncodedStringWithOptions:0]];
 }
 
 - (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters
@@ -89,7 +104,9 @@
     NSString *baseURLAndPath = [NSString stringWithFormat:@"%@%@", isV2 ? self.baseURLv2 : self.baseURL, path];
     
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [URLRequest setValue:[self createAuthHeader] forHTTPHeaderField:@"Authorization"];
+
+    NSString *signature = parameters[HPFGatewayClientSignature];
+    [URLRequest setValue:[self createAuthHeaderWithSignature:signature] forHTTPHeaderField:@"Authorization"];
     
     switch (method) {
         case HPFHTTPMethodGet:
@@ -125,7 +142,7 @@
     dispatch_once (&onceBlock, ^{
         requests = [NSMutableArray array];
     });
-    
+
     NSURLRequest *request = [self createURLRequestWithMethod:method v2:isV2 path:path parameters:parameters];
     
     [requests addObject:request];

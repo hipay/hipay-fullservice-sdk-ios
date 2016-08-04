@@ -69,22 +69,24 @@
 
 - (void)testPerformRequestWihoutCompletionHandler
 {
+    
     NSError *HTTPError = [NSError errorWithDomain:HPFHiPayFullserviceErrorDomain code:HPFErrorCodeHTTPClient userInfo:@{}];
     OCMockObject *HTTPResponse = [OCMockObject mockForClass:[HPFHTTPResponse class]];
     
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        [invocation getArgument: &passedCompletionBlock atIndex: 6];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, HTTPError);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:nil];
+    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:nil];
     
     [(OCMockObject *)gatewayClient verify];
     [(OCMockObject *)mockedHTTPClient verify];
+    
 }
 
 - (void)testPerformRequestHTTPError
@@ -97,26 +99,29 @@
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
+    
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {
         XCTAssertNil(object);
         XCTAssertEqual(error, gatewayError);
         [expectation fulfill];
     };
     
+    
     [[[HTTPResponse expect] andReturn:body] body];
     
     [[[(OCMockObject *)gatewayClient expect] andReturn:gatewayError] errorForResponseBody:body andError:HTTPError];
     
+    
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        [invocation getArgument: &passedCompletionBlock atIndex: 6];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, HTTPError);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
+    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
@@ -127,6 +132,7 @@
 
 - (void)testPerformRequestMalformedResponse
 {
+    
     NSDictionary *body = @{@"response": @(1)};
     OCMockObject *HTTPResponse = [OCMockObject mockForClass:[HPFHTTPResponse class]];
     OCMockObject *mockedMapper = [OCMockObject mockForClass:[HPFAbstractMapper class]];
@@ -149,13 +155,13 @@
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        [invocation getArgument: &passedCompletionBlock atIndex: 6];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, nil);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
+    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
@@ -164,10 +170,12 @@
     [(OCMockObject *)mockedHTTPClient verify];
     [mockedMapper verify];
     OCMVerify([mapperClassMock mapperWithRawData:body]);
+    
 }
 
 - (void)testPerformRequestProperResponse
 {
+    
     NSDictionary *body = @{@"response": @(1)};
     OCMockObject *HTTPResponse = [OCMockObject mockForClass:[HPFHTTPResponse class]];
     OCMockObject *mockedMapper = [OCMockObject mockForClass:[HPFAbstractMapper class]];
@@ -192,13 +200,13 @@
     [[[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        [invocation getArgument: &passedCompletionBlock atIndex: 6];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, nil);
         
-    }] andReturn:clientRequest] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] andReturn:clientRequest] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    id<HPFRequest> returnedRequest = [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
+    id<HPFRequest> returnedRequest = [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
@@ -209,10 +217,12 @@
     [(OCMockObject *)mockedHTTPClient verify];
     [mockedMapper verify];
     OCMVerify([mapperClassMock mapperWithRawData:body]);
+    
 }
 
 - (void)testPerformRequestProperResponseWithArray
 {
+    
     NSDictionary *body = @{@"response": @(1)};
     OCMockObject *HTTPResponse = [OCMockObject mockForClass:[HPFHTTPResponse class]];
     OCMockObject *mockedMapper = [OCMockObject mockForClass:[HPFAbstractMapper class]];
@@ -235,13 +245,13 @@
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        [invocation getArgument: &passedCompletionBlock atIndex: 6];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, nil);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:YES completionHandler:completionBlock];
+    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:YES completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
@@ -250,6 +260,7 @@
     [(OCMockObject *)mockedHTTPClient verify];
     [mockedMapper verify];
     OCMVerify([mapperClassMock mapperWithRawData:body objectMapperClass:([HPFAbstractMapper class])]);
+     
 }
 
 - (void)testInitiateHostedPaymentPage
@@ -257,7 +268,7 @@
     id request = [[NSObject alloc] init];
     OCMockObject *mockedSerializationMapper = [OCMockObject mockForClass:[HPFAbstractSerializationMapper class]];
     
-    NSDictionary *parameters = @{};
+    NSDictionary *parameters = @{HPFGatewayClientSignature:@"signature"};
     [[[mockedSerializationMapper expect] andReturn:parameters] serializedRequest];
     
     id mapperClassMock = OCMClassMock([HPFPaymentPageRequestSerializationMapper class]);
@@ -266,9 +277,9 @@
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
     HPFHTTPClientRequest *clientRequest = [[HPFHTTPClientRequest alloc] init];
-    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodPost path:[OCMArg isEqual:@"hpayment"] parameters:parameters responseMapperClass:[HPFHostedPaymentPageMapper class] isArray:NO completionHandler:completionBlock];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"hpayment"] parameters:parameters responseMapperClass:[HPFHostedPaymentPageMapper class] isArray:NO completionHandler:completionBlock];
     
-    HPFHTTPClientRequest *returnedRequest = [gatewayClient initializeHostedPaymentPageRequest:request withCompletionHandler:completionBlock];
+    HPFHTTPClientRequest *returnedRequest = [gatewayClient initializeHostedPaymentPageRequest:request signature:@"signature" withCompletionHandler:completionBlock];
     
     XCTAssertEqual(clientRequest, returnedRequest);
     
@@ -281,7 +292,7 @@
     id request = [[NSObject alloc] init];
     OCMockObject *mockedSerializationMapper = [OCMockObject mockForClass:[HPFAbstractSerializationMapper class]];
     
-    NSDictionary *parameters = @{};
+    NSDictionary *parameters = @{HPFGatewayClientSignature : @"signature"};
     [[[mockedSerializationMapper expect] andReturn:parameters] serializedRequest];
     
     id mapperClassMock = OCMClassMock([HPFOrderRequestSerializationMapper class]);
@@ -290,9 +301,9 @@
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
     HPFHTTPClientRequest *clientRequest = [[HPFHTTPClientRequest alloc] init];
-    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodPost path:[OCMArg isEqual:@"order"] parameters:parameters responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:completionBlock];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"order"] parameters:parameters responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:completionBlock];
     
-    HPFHTTPClientRequest *returnedRequest = [gatewayClient requestNewOrder:request withCompletionHandler:completionBlock];
+    HPFHTTPClientRequest *returnedRequest = [gatewayClient requestNewOrder:request signature:@"signature" withCompletionHandler:completionBlock];
     
     XCTAssertEqual(clientRequest, returnedRequest);
 
@@ -317,13 +328,13 @@
     [[[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] andDo:^(NSInvocation *invocation) {
         
         HPFTransactionsCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 7];
+        [invocation getArgument: &passedCompletionBlock atIndex: 8];
         
         passedCompletionBlock(mappedArray, nil);
         
-    }] handleRequestWithMethod:HPFHTTPMethodGet path:@"transaction/trId" parameters:@{} responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:OCMOCK_ANY];
+    }] handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"transaction/trId" parameters:@{HPFGatewayClientSignature:@"signature"} responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:OCMOCK_ANY];
     
-    HPFHTTPClientRequest *returnedRequest = [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+    HPFHTTPClientRequest *returnedRequest = [gatewayClient getTransactionWithReference:@"trId" signature:@"signature" withCompletionHandler:completionBlock];
     
     XCTAssertEqual(clientRequest, returnedRequest);
 
@@ -346,13 +357,13 @@
     [[[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] andDo:^(NSInvocation *invocation) {
         
         HPFTransactionsCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 7];
+        [invocation getArgument: &passedCompletionBlock atIndex: 8];
         
         passedCompletionBlock(nil, theError);
         
-    }] handleRequestWithMethod:HPFHTTPMethodGet path:@"transaction/trId" parameters:@{} responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:OCMOCK_ANY];
+    }] handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"transaction/trId" parameters:@{HPFGatewayClientSignature:@"signature"} responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:OCMOCK_ANY];
     
-    HPFHTTPClientRequest *returnedRequest = [gatewayClient getTransactionWithReference:@"trId" withCompletionHandler:completionBlock];
+    HPFHTTPClientRequest *returnedRequest = [gatewayClient getTransactionWithReference:@"trId" signature:@"signature" withCompletionHandler:completionBlock];
     
     XCTAssertEqual(clientRequest, returnedRequest);
 
@@ -365,9 +376,9 @@
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
     HPFHTTPClientRequest *clientRequest = [[HPFHTTPClientRequest alloc] init];
-    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodGet path:@"transaction" parameters:@{@"orderid":@"orderId"} responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:completionBlock];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"transaction" parameters:@{@"orderid":@"orderId", HPFGatewayClientSignature:@"signature"} responseMapperClass:[HPFTransactionDetailsMapper class] isArray:NO completionHandler:completionBlock];
     
-    HPFHTTPClientRequest *returnedRequest = [gatewayClient getTransactionsWithOrderId:@"orderId" withCompletionHandler:completionBlock];
+    HPFHTTPClientRequest *returnedRequest = [gatewayClient getTransactionsWithOrderId:@"orderId" signature:@"signature" withCompletionHandler:completionBlock];
     
     XCTAssertEqual(clientRequest, returnedRequest);
 
@@ -390,7 +401,7 @@
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
     HPFHTTPClientRequest *clientRequest = [[HPFHTTPClientRequest alloc] init];
-    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture"} responseMapperClass:[HPFOperationMapper class] isArray:NO completionHandler:completionBlock];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture"} responseMapperClass:[HPFOperationMapper class] isArray:NO completionHandler:completionBlock];
     
     [[[(OCMockObject *)gatewayClient expect] andReturn:@"capture"] operationValueForOperationType:HPFOperationTypeCapture];
     
@@ -406,7 +417,7 @@
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
     HPFHTTPClientRequest *clientRequest = [[HPFHTTPClientRequest alloc] init];
-    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodPost path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture", @"amount": @"15.00"} responseMapperClass:[HPFOperationMapper class] isArray:NO completionHandler:completionBlock];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"maintenance/transaction/trId" parameters:@{@"operation": @"capture", @"amount": @"15.00"} responseMapperClass:[HPFOperationMapper class] isArray:NO completionHandler:completionBlock];
     
     [[[(OCMockObject *)gatewayClient expect] andReturn:@"capture"] operationValueForOperationType:HPFOperationTypeCapture];
 
@@ -436,7 +447,7 @@
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
     HPFHTTPClientRequest *clientRequest = [[HPFHTTPClientRequest alloc] init];
-    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodGet path:@"payment_products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"available-payment-products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:NO completionHandler:completionBlock];
     
     HPFHTTPClientRequest *returnedRequest = [gatewayClient getPaymentProductsForRequest:request withCompletionHandler:completionBlock];
     

@@ -97,7 +97,7 @@ typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> 
  *  @see HPFHostedPaymentPageCompletionBlock
  *  @see HPFRequest
  */
-- (id<HPFRequest> _Nonnull)initializeHostedPaymentPageRequest:(HPFPaymentPageRequest * _Nonnull)hostedPaymentPageRequest withCompletionHandler:(HPFHostedPaymentPageCompletionBlock _Nullable)completionBlock;
+- (id<HPFRequest> _Nonnull)initializeHostedPaymentPageRequest:(HPFPaymentPageRequest * _Nonnull)hostedPaymentPageRequest signature:(NSString * _Nonnull)signature withCompletionHandler:(HPFHostedPaymentPageCompletionBlock _Nullable)completionBlock;
 
 /**
  *  This method creates an order, execute a payment and returns the details of the transaction. Depending on the payment method or the transaction state, you may be provided with a forward URL (if the payment process needs a few additional steps to complete).
@@ -110,7 +110,7 @@ typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> 
  *  @see HPFTransactionCompletionBlock
  *  @see HPFRequest
  */
-- (id<HPFRequest> _Nonnull)requestNewOrder:(HPFOrderRequest * _Nonnull)orderRequest withCompletionHandler:(HPFTransactionCompletionBlock _Nullable)completionBlock;
+- (id<HPFRequest> _Nonnull)requestNewOrder:(HPFOrderRequest * _Nonnull)orderRequest signature:(NSString * _Nonnull)signature withCompletionHandler:(HPFTransactionCompletionBlock _Nullable)completionBlock;
 
 /**
  *  To get the details of an existing transaction.
@@ -123,7 +123,7 @@ typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> 
  *  @see HPFTransactionCompletionBlock
  *  @see HPFRequest
  */
-- (id<HPFRequest> _Nonnull)getTransactionWithReference:(NSString * _Nonnull)transactionReference withCompletionHandler:(HPFTransactionCompletionBlock _Nullable)completionBlock;
+- (id<HPFRequest> _Nonnull)getTransactionWithReference:(NSString * _Nonnull)transactionReference signature:(NSString * _Nonnull)signature withCompletionHandler:(HPFTransactionCompletionBlock _Nullable)completionBlock;
 
 /**
  *  To get the details of existing transactions related to a specific order.
@@ -136,7 +136,7 @@ typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> 
  *  @see HPFTransactionsCompletionBlock
  *  @see HPFRequest
  */
-- (id<HPFRequest> _Nonnull)getTransactionsWithOrderId:(NSString * _Nonnull)orderId withCompletionHandler:(HPFTransactionsCompletionBlock _Nullable)completionBlock;
+- (id<HPFRequest> _Nonnull)getTransactionsWithOrderId:(NSString * _Nonnull)orderId signature:(NSString * _Nonnull)signature withCompletionHandler:(HPFTransactionsCompletionBlock _Nullable)completionBlock;
 
 /**
  *  To perform a maintenance on an existing transaction (e.g., a capture).

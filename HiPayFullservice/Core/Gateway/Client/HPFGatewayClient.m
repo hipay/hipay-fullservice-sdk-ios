@@ -243,7 +243,7 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
     
     NSDictionary *parameters = [HPFPaymentPageRequestSerializationMapper mapperWithRequest:paymentPageRequest].serializedRequest;
 
-    return [self handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"available-payment-products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:NO completionHandler:completionBlock];
+    return [self handleRequestWithMethod:HPFHTTPMethodGet v2:YES path:@"available-payment-products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
 }
 
 - (BOOL)isRedirectURLComponentsPathValid:(NSArray *)pathComponents

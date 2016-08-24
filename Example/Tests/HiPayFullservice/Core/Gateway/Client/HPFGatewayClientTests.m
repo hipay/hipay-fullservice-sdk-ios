@@ -63,7 +63,7 @@
 
 - (void)testEndpoints
 {
-    XCTAssertEqualObjects(HPFGatewayClientBaseURLStage, @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/");
+    XCTAssertEqualObjects(HPFGatewayClientBaseURLStage, @"https://preprod-secure-gateway.allopass.com/rest/v1/");
     XCTAssertEqualObjects(HPFGatewayClientBaseURLProduction, @"https://secure-gateway.hipay-tpp.com/rest/v1/");
 }
 
@@ -447,7 +447,7 @@
     void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
     
     HPFHTTPClientRequest *clientRequest = [[HPFHTTPClientRequest alloc] init];
-    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"available-payment-products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:NO completionHandler:completionBlock];
+    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodGet v2:YES path:@"available-payment-products" parameters:parameters responseMapperClass:[HPFPaymentProductMapper class] isArray:YES completionHandler:completionBlock];
     
     HPFHTTPClientRequest *returnedRequest = [gatewayClient getPaymentProductsForRequest:request withCompletionHandler:completionBlock];
     

@@ -1,18 +1,19 @@
 source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
 
-target 'HiPayFullservice_Example', :exclusive => true do
+target 'HiPayFullservice_Example' do
   pod 'HiPayFullservice', :path => '../'
   pod 'HockeySDK'
-  pod 'OHHTTPStubs'
-end
 
-target 'HiPayFullservice_Tests', :exclusive => true do
-  pod 'HiPayFullservice', :path => "../"
+  target 'HiPayFullservice_Tests' do
+  	 inherit! :search_paths
 
-  pod 'OCMock'
-  pod 'OHHTTPStubs'
+     pod 'HiPayFullservice', :path => '../'
+	 pod 'OCMock'
+	 pod 'OHHTTPStubs'
+  end
 end
 
 post_install do |installer|
-	system("python ../deployment/generate_parameters.py")
+  system("python ../deployment/generate_parameters.py")
 end

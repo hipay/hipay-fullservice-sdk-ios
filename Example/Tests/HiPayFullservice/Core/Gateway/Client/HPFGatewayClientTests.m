@@ -79,7 +79,7 @@
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, HTTPError);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
     [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:nil];
     
@@ -114,7 +114,7 @@
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, HTTPError);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
     [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
@@ -153,7 +153,7 @@
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, nil);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
     [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
@@ -196,7 +196,7 @@
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, nil);
         
-    }] andReturn:clientRequest] performRequestWithMethod:HPFHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] andReturn:clientRequest] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
     id<HPFRequest> returnedRequest = [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
@@ -239,7 +239,7 @@
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, nil);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:YES path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
     [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:YES completionHandler:completionBlock];
     

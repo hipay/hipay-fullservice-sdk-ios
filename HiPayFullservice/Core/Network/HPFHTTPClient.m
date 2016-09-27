@@ -30,6 +30,18 @@
 
 @implementation HPFHTTPClient
 
+- (instancetype)initWithBaseURL:(NSURL *)URL newBaseURL:(NSURL *)newURL username:(NSString *)theUsername password:(NSString *)thePassword
+{
+    self = [super init];
+    if (self) {
+        _baseURL = URL;
+        _baseURLv2 = newURL;
+        username = theUsername;
+        password = thePassword;
+    }
+    return self;
+}
+
 - (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)thePassword
 {
     self = [super init];
@@ -71,10 +83,10 @@
     return authHeaderValue;
 }
 
-- (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters
+- (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters
 {
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] init];
-    NSString *baseURLAndPath = [NSString stringWithFormat:@"%@%@", self.baseURL, path];
+    NSString *baseURLAndPath = [NSString stringWithFormat:@"%@%@", isV2 ? self.baseURLv2 : self.baseURL, path];
     
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [URLRequest setValue:[self createAuthHeader] forHTTPHeaderField:@"Authorization"];
@@ -105,7 +117,7 @@
     return URLRequest;
 }
 
-- (HPFHTTPClientRequest *)performRequestWithMethod:(HPFHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPFHTTPClientCompletionBlock)completionBlock
+- (HPFHTTPClientRequest *)performRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPFHTTPClientCompletionBlock)completionBlock
 {
     static dispatch_once_t onceBlock;
     static NSMutableArray *requests;
@@ -114,7 +126,7 @@
         requests = [NSMutableArray array];
     });
     
-    NSURLRequest *request = [self createURLRequestWithMethod:method path:path parameters:parameters];
+    NSURLRequest *request = [self createURLRequestWithMethod:method v2:isV2 path:path parameters:parameters];
     
     [requests addObject:request];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;

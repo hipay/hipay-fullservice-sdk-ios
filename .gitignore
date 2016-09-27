@@ -34,4 +34,9 @@ Carthage
 
 Example/Pods/
 
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
+*.iml
+
+## Directory-based project format:
+.idea/
 

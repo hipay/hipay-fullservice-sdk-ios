@@ -62,6 +62,7 @@
  */
 @property (nonatomic, readonly) HPFPaymentPageRequest * _Nonnull paymentPageRequest;
 
+@property (nonatomic, readonly) NSString * _Nonnull signature;
 /**
  *  The delegate which gets called once the payment workflow has ended.
  */
@@ -74,6 +75,6 @@
  *
  *  @return The newly instantiated payment screen that you may present to your user.
  */
-+ (_Nonnull instancetype)paymentScreenViewControllerWithRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest;
++ (_Nonnull instancetype)paymentScreenViewControllerWithRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest signature:(NSString * _Nonnull)signature;
 
 @end

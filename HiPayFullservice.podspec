@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios.git", :tag => s.version.to_s }
   s.social_media_url = "https://twitter.com/hipay"
 
-  s.platform     = :ios, "7.0"
+  s.platform     = :ios, "8.0"
   s.requires_arc = true
 
   s.pod_target_xcconfig = {"TARGETED_DEVICE_FAMILY" => "1,2"}

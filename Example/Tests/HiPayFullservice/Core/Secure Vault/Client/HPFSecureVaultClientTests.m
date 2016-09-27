@@ -47,7 +47,7 @@
                    @"card_expiry_year": year,
                    @"card_holder": holder,
                    @"cvc": code,
-                   @"multi_use": @(multiUse).stringValue,
+                   @"multi_use": @(multiUse).stringValue
                    };
 }
 
@@ -101,11 +101,11 @@
     [[[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        [invocation getArgument: &passedCompletionBlock atIndex: 6];
         
         passedCompletionBlock(HTTPResponse, error);
         
-    }] andReturn:request] performRequestWithMethod:HPFHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:OCMOCK_ANY];
+    }] andReturn:request] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"token/create" parameters:parameters completionHandler:OCMOCK_ANY];
     
     // Once the method gets the HTTP response, it should call the manage request method
     [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
@@ -133,11 +133,11 @@
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        [invocation getArgument: &passedCompletionBlock atIndex: 6];
         
         passedCompletionBlock(HTTPResponse, error);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost path:@"token/create" parameters:paramtersNoCVC completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"token/create" parameters:paramtersNoCVC completionHandler:OCMOCK_ANY];
     
     // Once the method gets the HTTP response, it should call the manage request method
     [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
@@ -173,11 +173,11 @@
     [[[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        [invocation getArgument: &passedCompletionBlock atIndex: 6];
         
         passedCompletionBlock(HTTPResponse, error);
         
-    }] andReturn:request] performRequestWithMethod:HPFHTTPMethodPost path:@"token/update" parameters:HTTPParameters completionHandler:OCMOCK_ANY];
+    }] andReturn:request] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"token/update" parameters:HTTPParameters completionHandler:OCMOCK_ANY];
     
     // Once the method gets the HTTP response, it should call the manage request method
     [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];
@@ -207,11 +207,11 @@
     [[[[((OCMockObject *)mockedHTTPClient) expect] andDo: ^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 5];
+        [invocation getArgument: &passedCompletionBlock atIndex: 6];
         
         passedCompletionBlock(HTTPResponse, error);
         
-    }] andReturn:request] performRequestWithMethod:HPFHTTPMethodGet path:@"token/b57dad30b32a0026bd036b359cf70a80436a3b10" parameters:@{@"request_id": requestID} completionHandler:OCMOCK_ANY];
+    }] andReturn:request] performRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"token/b57dad30b32a0026bd036b359cf70a80436a3b10" parameters:@{@"request_id": requestID} completionHandler:OCMOCK_ANY];
     
     // Once the method gets the HTTP response, it should call the manage request method
     [[((OCMockObject *)secureVaultClient) expect] manageRequestWithHTTPResponse:HTTPResponse error:error andCompletionHandler:tokenCompletionBlock];

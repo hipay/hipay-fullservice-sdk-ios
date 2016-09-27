@@ -41,6 +41,8 @@
 	<dict>
 		<key>NSExceptionRequiresForwardSecrecy</key>
 		<false/>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 	</dict>
 	<key>UILaunchStoryboardName</key>
 	<string>Main</string>

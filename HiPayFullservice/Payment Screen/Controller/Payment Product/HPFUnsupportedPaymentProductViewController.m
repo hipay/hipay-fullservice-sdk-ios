@@ -51,13 +51,13 @@
     specificPaymentProductPaymentPageRequest.displaySelector = NO;
     specificPaymentProductPaymentPageRequest.templateName = HPFPaymentPageRequestTemplateNameFrame;
     
-    transactionLoadingRequest = [[HPFGatewayClient sharedClient] initializeHostedPaymentPageRequest:specificPaymentProductPaymentPageRequest withCompletionHandler:^(HPFHostedPaymentPage *hostedPaymentPage, NSError *error) {
+    transactionLoadingRequest = [[HPFGatewayClient sharedClient] initializeHostedPaymentPageRequest:specificPaymentProductPaymentPageRequest signature:self.signature withCompletionHandler:^(HPFHostedPaymentPage *hostedPaymentPage, NSError *error) {
         
         if (hostedPaymentPage != nil) {
             
             if (hostedPaymentPage.forwardUrl != nil) {
                 
-                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithHostedPaymentPage:hostedPaymentPage];
+                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithHostedPaymentPage:hostedPaymentPage signature:self.signature];
                 
                 viewController.delegate = self;
                 

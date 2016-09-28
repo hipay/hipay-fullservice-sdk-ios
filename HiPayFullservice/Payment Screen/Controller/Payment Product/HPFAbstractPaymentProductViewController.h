@@ -51,9 +51,10 @@
 
 @property (nonatomic, readonly) HPFPaymentProduct *paymentProduct;
 @property (nonatomic, readonly) HPFPaymentPageRequest *paymentPageRequest;
+@property (nonatomic, readonly) NSString *signature;
 @property (nonatomic, weak) id<HPFPaymentProductViewControllerDelegate> delegate;
 
-- (instancetype)initWithPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct;
+- (instancetype)initWithPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct;
 
 - (void)cancelRequests;
 

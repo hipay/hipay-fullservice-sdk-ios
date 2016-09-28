@@ -14,18 +14,18 @@
 
 #pragma mark - Init
 
-- (instancetype)initWithTransaction:(HPFTransaction *)transaction
+- (instancetype)initWithTransaction:(HPFTransaction *)transaction signature:(NSString *)signature
 {
-    self = [super initWithTransaction:transaction];
+    self = [super initWithTransaction:transaction signature:signature];
     if (self) {
         [self initializeComponentsWithURL:transaction.forwardUrl];
     }
     return self;
 }
 
-- (instancetype)initWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage
+- (instancetype)initWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage signature:(NSString *)signature
 {
-    self = [super initWithHostedPaymentPage:hostedPaymentPage];
+    self = [super initWithHostedPaymentPage:hostedPaymentPage signature:signature];
     if (self) {
         [self initializeComponentsWithURL:hostedPaymentPage.forwardUrl];
     }

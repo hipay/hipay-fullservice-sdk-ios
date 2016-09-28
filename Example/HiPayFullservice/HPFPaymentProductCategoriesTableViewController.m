@@ -101,7 +101,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *currentCode = nil;
-    
+
     switch (indexPath.row) {
         case 0:
             currentCode = HPFPaymentProductCategoryCodeCreditCard;

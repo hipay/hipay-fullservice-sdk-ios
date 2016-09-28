@@ -8,12 +8,10 @@
 
 #import "HPFTokenizableCardPaymentProductViewController.h"
 #import "HPFOrderRequest.h"
-#import "HPFForwardPaymentProductViewController_Protected.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPFValidation.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFSecureVaultClient.h"
-#import "HPFCardTokenPaymentMethodRequest.h"
 #import "HPFCardNumberTextField.h"
 #import "HPFExpiryDateTextField.h"
 #import "HPFSecurityCodeInputTableViewCell.h"
@@ -363,7 +361,7 @@
             
             orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
             
-            [self performOrderRequest:orderRequest];
+            [self performOrderRequest:orderRequest signature:self.signature];
             
         } else {
             [self checkTransactionError:error];

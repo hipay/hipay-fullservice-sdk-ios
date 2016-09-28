@@ -8,11 +8,11 @@
 
 @interface HPFHTTPClient (Testing)
 
-- (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters;
+- (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters;
 
 - (NSString *)queryStringForDictionary:(NSDictionary *)dictionary;
 
-- (NSString *)createAuthHeader;
+- (NSString *)createAuthHeaderWithSignature:(NSString *)signature;
 
 - (NSError *)errorFromURLConnectionError:(NSError *)error;
 

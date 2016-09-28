@@ -70,3 +70,5 @@
 
 "RESULT_STATE_DECLINED" = "Refusée";
 
+"SERVER_URL" = "http://www.hipay-pos-platform.com:8012/index.php/order_info?amount=%@&currency=%@";
+

@@ -1,10 +1,3 @@
-//
-//  HPFForwardViewController.m
-//  Pods
-//
-//  Created by Jonathan TIRET on 29/10/2015.
-//
-//
 
 #import "HPFForwardViewController.h"
 #import "HPFForwardSafariViewController.h"
@@ -20,21 +13,23 @@
 
 @implementation HPFForwardViewController
 
-- (instancetype)initWithTransaction:(HPFTransaction *)transaction
+- (instancetype)initWithTransaction:(HPFTransaction *)transaction signature:(NSString *)signature
 {
     self = [super init];
     if (self) {
         _transaction = transaction;
+        _signature = signature;
         [self doInit];
     }
     return self;
 }
 
-- (instancetype)initWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage
+- (instancetype)initWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage signature:(NSString *)signature
 {
     self = [super init];
     if (self) {
         _hostedPaymentPage = hostedPaymentPage;
+        _signature = signature;
         [self doInit];
     }
     return self;
@@ -59,21 +54,21 @@
     // Dispose of any resources that can be recreated.
 }
 
-+ (HPFForwardViewController *)relevantForwardViewControllerWithTransaction:(HPFTransaction *)transaction
++ (HPFForwardViewController *)relevantForwardViewControllerWithTransaction:(HPFTransaction *)transaction signature:(NSString *)signature;
 {
     if ([HPFForwardSafariViewController isCompatible]) {
-        return [[HPFForwardSafariViewController alloc] initWithTransaction:transaction];
+        return [[HPFForwardSafariViewController alloc] initWithTransaction:transaction signature:signature];
     } else {
-        return [[HPFForwardWebViewViewController alloc] initWithTransaction:transaction];
+        return [[HPFForwardWebViewViewController alloc] initWithTransaction:transaction signature:signature];
     }
 }
 
-+ (HPFForwardViewController *)relevantForwardViewControllerWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage
++ (HPFForwardViewController *)relevantForwardViewControllerWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage signature:(NSString *)signature;
 {
     if ([HPFForwardSafariViewController isCompatible]) {
-        return [[HPFForwardSafariViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
+        return [[HPFForwardSafariViewController alloc] initWithHostedPaymentPage:hostedPaymentPage signature:signature];
     } else {
-        return [[HPFForwardWebViewViewController alloc] initWithHostedPaymentPage:hostedPaymentPage];
+        return [[HPFForwardWebViewViewController alloc] initWithHostedPaymentPage:hostedPaymentPage signature:signature];
     }
 }
 
@@ -157,7 +152,7 @@
     [self cancelBackgroundTransactionLoading];
     
     if (self.transaction != nil) {
-        backgroundRequest = [[HPFGatewayClient sharedClient] getTransactionWithReference:self.transaction.transactionReference withCompletionHandler:^(HPFTransaction *transaction, NSError *error) {
+        backgroundRequest = [[HPFGatewayClient sharedClient] getTransactionWithReference:self.transaction.transactionReference signature:self.signature withCompletionHandler:^(HPFTransaction *transaction, NSError *error) {
             
             [self checkTransaction:transaction error:error];
             
@@ -165,7 +160,7 @@
     }
     
     else {
-        backgroundRequest = [[HPFGatewayClient sharedClient] getTransactionsWithOrderId:self.hostedPaymentPage.order.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
+        backgroundRequest = [[HPFGatewayClient sharedClient] getTransactionsWithOrderId:self.hostedPaymentPage.order.orderId signature:self.signature withCompletionHandler:^(NSArray *transactions, NSError *error) {
             
             if (error != nil || ((transactions.count > 0) && ([transactions.firstObject isHandled]))) {
                 [self checkTransaction:transactions.firstObject error:error];

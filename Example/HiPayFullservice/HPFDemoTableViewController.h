@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <HiPayFullservice/HiPayFullservice.h>
 #import "HPFPaymentProductCategoriesTableViewController.h"
+#import "HPFSubmitTableViewCell.h"
 
-@interface HPFDemoTableViewController : UITableViewController <HPFPaymentScreenViewControllerDelegate>
+@interface HPFDemoTableViewController : UITableViewController <HPFPaymentScreenViewControllerDelegate, HPFSubmitableViewCellDelegate>
 {
     // Form rows
     NSUInteger groupedPaymentCardRowIndex;
@@ -47,7 +48,8 @@
     CGFloat amount;
     NSSet *selectedPaymentProducts;
     UIColor *defaultGlobalTintColor;
-    
+    BOOL loading;
+
     HPFPaymentProductCategoriesTableViewController *productCategoriesViewController;
 }
 

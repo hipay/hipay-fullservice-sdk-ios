@@ -107,12 +107,21 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 
     NSString *signature = parameters[HPFGatewayClientSignature];
     [URLRequest setValue:[self createAuthHeaderWithSignature:signature] forHTTPHeaderField:@"Authorization"];
-    
+
+
+
     switch (method) {
         case HPFHTTPMethodGet:
             URLRequest.HTTPMethod = @"GET";
             
             if (parameters != nil) {
+
+                if (signature != nil) {
+                    NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:parameters];
+                    [mutableDictionary removeObjectForKey:HPFGatewayClientSignature];
+                    parameters = mutableDictionary;
+                }
+
                 NSString *URL = [NSString stringWithFormat:@"%@?%@", baseURLAndPath, [self queryStringForDictionary:parameters]];
                 
                 URLRequest.URL = [NSURL URLWithString:URL];

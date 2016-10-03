@@ -418,7 +418,8 @@
 
     [self setSubmitButtonLoadingMode:YES];
 
-    NSString *dataUrl = [NSString stringWithFormat:NSLocalizedString(@"SERVER_URL", nil), @(amount), currencies[currencySegmentIndex]];
+    static NSString * const serverUrl = @"https://developer.hipay.com/misc/public_credentials_signature.php?amount=%@&currency=%@";
+    NSString *dataUrl = [NSString stringWithFormat:serverUrl, @(amount), currencies[currencySegmentIndex]];
     NSURL *url = [NSURL URLWithString:dataUrl];
 
     NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]

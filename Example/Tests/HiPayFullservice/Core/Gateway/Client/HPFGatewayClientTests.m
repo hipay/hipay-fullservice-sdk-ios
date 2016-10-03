@@ -63,7 +63,7 @@
 
 - (void)testEndpoints
 {
-    XCTAssertEqualObjects(HPFGatewayClientBaseURLStage, @"https://preprod-secure-gateway.allopass.com/rest/v1/");
+    XCTAssertEqualObjects(HPFGatewayClientBaseURLStage, @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/");
     XCTAssertEqualObjects(HPFGatewayClientBaseURLProduction, @"https://secure-gateway.hipay-tpp.com/rest/v1/");
 }
 

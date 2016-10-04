@@ -18,14 +18,10 @@
 #import "HPFOrderRequest.h"
 #import "HPFPaymentProduct.h"
 
-//#define HPFGatewayClientBaseURLStage            @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/"
-#define HPFGatewayClientBaseURLStage            @"https://preprod-secure-gateway.allopass.com/rest/v1/"
-
-//#define HPFGatewayClientNewBaseURLStage         @"https://new-stage-secure-gateway.hipay-tpp.com/rest/v2/"
-#define HPFGatewayClientNewBaseURLStage         @"https://preprod-secure-gateway.allopass.com/rest/v2/"
+#define HPFGatewayClientBaseURLStage            @"https://stage-secure-gateway.hipay-tpp.com/rest/v1/"
+#define HPFGatewayClientNewBaseURLStage         @"https://stage-secure-gateway.hipay-tpp.com/rest/v2/"
 
 #define HPFGatewayClientBaseURLProduction       @"https://secure-gateway.hipay-tpp.com/rest/v1/"
-
 #define HPFGatewayClientNewBaseURLProduction    @"https://new-secure-gateway.hipay-tpp.com/rest/v2/"
 
 #define HPFGatewayCallbackURLPathName           @"gateway"

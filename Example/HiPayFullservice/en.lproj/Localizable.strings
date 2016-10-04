@@ -69,5 +69,3 @@
 "RESULT_STATE_PENDING" = "Pending";
 
 "RESULT_STATE_DECLINED" = "Declined";
-
-"SERVER_URL" = "http://www.hipay-pos-platform.com:8012/index.php/order_info?amount=%@&currency=%@";

@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,37 +14,32 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w59-uK-QFy" id="MaH-gz-ssl">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <frame key="frameInset" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eac-vp-4Tq" customClass="HPFSecurityCodeTextField">
-                        <rect key="frame" x="111" y="0.0" width="201" height="44"/>
-                        <animations/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="textColor" white="0.41999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eac-vp-4Tq" customClass="HPFSecurityCodeTextField">
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.41999998688697815" green="0.41999998688697815" blue="0.41999998688697815" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" ambiguous="YES" misplaced="YES" text="Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="mJ1-Rv-Yaq">
-                        <rect key="frame" x="15" y="11" width="88" height="21"/>
-                        <animations/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="mJ1-Rv-Yaq">
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <animations/>
                 <constraints>
-                    <constraint firstItem="eac-vp-4Tq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mJ1-Rv-Yaq" secondAttribute="trailing" constant="8" id="NhL-dh-aJ1"/>
-                    <constraint firstItem="eac-vp-4Tq" firstAttribute="top" secondItem="MaH-gz-ssl" secondAttribute="top" id="O1e-eM-GOe"/>
-                    <constraint firstItem="eac-vp-4Tq" firstAttribute="trailing" secondItem="MaH-gz-ssl" secondAttribute="trailingMargin" id="g5k-7L-bV2"/>
-                    <constraint firstItem="eac-vp-4Tq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="centerXWithinMargins" multiplier="0.74" priority="750" id="pSD-sT-qFU"/>
-                    <constraint firstAttribute="bottom" secondItem="eac-vp-4Tq" secondAttribute="bottom" id="xed-JG-ZTW"/>
-                    <constraint firstItem="mJ1-Rv-Yaq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="leading" constant="15" id="zbd-YD-dxq"/>
+                    <constraint firstAttribute="bottom" secondItem="eac-vp-4Tq" secondAttribute="bottom" id="8We-ws-SsY"/>
+                    <constraint firstItem="mJ1-Rv-Yaq" firstAttribute="trailing" secondItem="MaH-gz-ssl" secondAttribute="centerX" multiplier="0.8" id="Bme-ok-JuX"/>
+                    <constraint firstItem="mJ1-Rv-Yaq" firstAttribute="centerY" secondItem="MaH-gz-ssl" secondAttribute="centerY" id="Cln-lu-qgp"/>
+                    <constraint firstItem="eac-vp-4Tq" firstAttribute="top" secondItem="MaH-gz-ssl" secondAttribute="top" id="FEW-FF-69a"/>
+                    <constraint firstAttribute="trailing" secondItem="eac-vp-4Tq" secondAttribute="trailing" id="I8S-s7-teQ"/>
+                    <constraint firstItem="mJ1-Rv-Yaq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="leadingMargin" id="YlQ-nT-4n9"/>
+                    <constraint firstItem="eac-vp-4Tq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="centerX" multiplier="0.8" id="hTB-X9-qwv"/>
                 </constraints>
             </tableViewCellContentView>
-            <animations/>
             <connections>
                 <outlet property="inputLabel" destination="mJ1-Rv-Yaq" id="MnJ-HS-v56"/>
                 <outlet property="textField" destination="eac-vp-4Tq" id="Ch2-CJ-n3i"/>

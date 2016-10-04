@@ -22,6 +22,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     // Section indexes
     formSectionIndex = 0;
     resultSectionIndex = NSNotFound;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		435B2F371DAB849F00C6EB0F /* parameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = 435B2F361DAB849F00C6EB0F /* parameters.plist */; };
 		438DF0D11D6740A20003E24C /* HPFSubmitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 438DF0D01D6740A20003E24C /* HPFSubmitTableViewCell.xib */; };
 		5B3EC66D9C33FF4B942F5C67 /* libPods-HiPayFullservice_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44AAA92EA141406B34AC8579 /* libPods-HiPayFullservice_Tests.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -35,7 +36,6 @@
 		A53BF5C21BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C11BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m */; };
 		A53BF5C41BF0FA0300E24957 /* HPFFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C31BF0FA0300E24957 /* HPFFormatterTests.m */; };
 		A53BF5C71BF22C6B00E24957 /* HPFPersonalInformationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A53BF5C61BF22C6B00E24957 /* HPFPersonalInformationTests.m */; };
-		A54017A41C8599A80098ED15 /* parameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = A54017A31C8599A80098ED15 /* parameters.plist */; };
 		A54938911BFC908500068D9C /* HPFTransactionCallbackMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54938901BFC908500068D9C /* HPFTransactionCallbackMapperTests.m */; };
 		A54AF8FE1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FD1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m */; };
 		A54AF9001BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54AF8FF1BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m */; };
@@ -98,7 +98,9 @@
 /* Begin PBXFileReference section */
 		2AC00D9CA901B76DD7605139 /* Pods-HiPayFullservice_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		39BEBD4EC0BC4099960FF4ED /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		435B2F361DAB849F00C6EB0F /* parameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = parameters.plist; sourceTree = "<group>"; };
 		438DF0D01D6740A20003E24C /* HPFSubmitTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPFSubmitTableViewCell.xib; sourceTree = "<group>"; };
+		43CA19611DA419830016B46B /* HiPay Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "HiPay Demo.entitlements"; sourceTree = "<group>"; };
 		44AAA92EA141406B34AC8579 /* libPods-HiPayFullservice_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayFullservice_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5005FCBA67B9F8B6B520C597 /* Pods-HiPayFullservice_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		50333978F04B0EAAC8630F85 /* Pods-HiPayFullservice_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -136,7 +138,6 @@
 		A53BF5C11BF0F1A400E24957 /* HPFExpiryDateFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFExpiryDateFormatterTests.m; sourceTree = "<group>"; };
 		A53BF5C31BF0FA0300E24957 /* HPFFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFFormatterTests.m; sourceTree = "<group>"; };
 		A53BF5C61BF22C6B00E24957 /* HPFPersonalInformationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFPersonalInformationTests.m; sourceTree = "<group>"; };
-		A54017A31C8599A80098ED15 /* parameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = parameters.plist; sourceTree = "<group>"; };
 		A54938901BFC908500068D9C /* HPFTransactionCallbackMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFTransactionCallbackMapperTests.m; sourceTree = "<group>"; };
 		A54AF8FD1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFIDealPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		A54AF8FF1BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFIDealPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
@@ -236,6 +237,7 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
+				43CA19611DA419830016B46B /* HiPay Demo.entitlements */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Example for HiPayFullservice */,
 				6003F5B5195388D20070C39A /* Tests */,
@@ -395,7 +397,7 @@
 		A54017A21C8599750098ED15 /* Parameters */ = {
 			isa = PBXGroup;
 			children = (
-				A54017A31C8599A80098ED15 /* parameters.plist */,
+				435B2F361DAB849F00C6EB0F /* parameters.plist */,
 			);
 			path = Parameters;
 			sourceTree = "<group>";
@@ -689,6 +691,12 @@
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
 						DevelopmentTeam = 7RLJNKW437;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
@@ -726,8 +734,8 @@
 				A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */,
 				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
 				A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */,
+				435B2F371DAB849F00C6EB0F /* parameters.plist in Resources */,
 				438DF0D11D6740A20003E24C /* HPFSubmitTableViewCell.xib in Resources */,
-				A54017A41C8599A80098ED15 /* parameters.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -974,7 +982,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nicolas Fillion (SF285W8B52)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nicolas Fillion (SF285W8B52)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1020,7 +1029,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nicolas Fillion (SF285W8B52)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nicolas Fillion (SF285W8B52)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1046,8 +1056,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 7RLJNKW437;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1057,7 +1068,8 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "f6f8bf39-f646-463f-8e3e-72f2b41390d7";
+				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1068,7 +1080,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 7RLJNKW437;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
@@ -1077,7 +1091,8 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "f6f8bf39-f646-463f-8e3e-72f2b41390d7";
+				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -217,6 +217,17 @@ NSDictionary *HPFPaymentProductButtonPaymentProductMatrix;
                                                         HPFPaymentProductCodeVisa:                  @{@"y": @(0), @"x": @(1)},
                                                         HPFPaymentProductCodeWebmoneyTransfer:      @{@"y": @(2), @"x": @(2)},
                                                         HPFPaymentProductCodeYandex:                @{@"y": @(2), @"x": @(1)},
+                                                        HPFPaymentProductCodeAura:                  @{@"y": @(6), @"x": @(4)},
+                                                        HPFPaymentProductCodeBanamex:               @{@"y": @(6), @"x": @(5)},
+                                                        HPFPaymentProductCodeBancoDoBrasil:         @{@"y": @(6), @"x": @(7)},
+                                                        HPFPaymentProductCodeBBVABancomer:          @{@"y": @(6), @"x": @(6)},
+                                                        HPFPaymentProductCodeBoletoBancario:        @{@"y": @(6), @"x": @(8)},
+                                                        HPFPaymentProductCodeBradesco:              @{@"y": @(7), @"x": @(0)},
+                                                        HPFPaymentProductCodeCaixa:                 @{@"y": @(7), @"x": @(8)},
+                                                        HPFPaymentProductCodeDiscover:              @{@"y": @(7), @"x": @(1)},
+                                                        HPFPaymentProductCodeItau:                  @{@"y": @(7), @"x": @(3)},
+                                                        HPFPaymentProductCodeSantanderCash:         @{@"y": @(7), @"x": @(5)},
+                                                        HPFPaymentProductCodeSantanderHomeBanking:  @{@"y": @(7), @"x": @(5)},
                                                         };
     }
 

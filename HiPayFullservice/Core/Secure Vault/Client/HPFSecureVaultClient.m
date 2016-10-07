@@ -8,18 +8,26 @@
 
 #import "HPFSecureVaultClient.h"
 #import "HPFAbstractClient+Private.h"
+#import "HPFLogger.h"
 
-HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
+@interface HPFSecureVaultClient ()
+{
+    HPFHTTPClient *HTTPClient;
+    HPFClientConfig *clientConfig;
+}
+
+@end
 
 @implementation HPFSecureVaultClient
 
 + (instancetype)sharedClient
 {
-    if (HPFSecureVaultClientSharedInstance == nil) {
-        HPFSecureVaultClientSharedInstance = [[HPFSecureVaultClient alloc] init];
-    }
-    
-    return HPFSecureVaultClientSharedInstance;
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
 }
 
 - (instancetype)initWithHTTPClient:(HPFHTTPClient *)theHTTPClient clientConfig:(HPFClientConfig *)theClientConfig
@@ -80,7 +88,7 @@ HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
                                  @"multi_use": @(multiUse).stringValue,
                                  };
     
-    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost path:@"token/create" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"token/create" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
@@ -97,18 +105,18 @@ HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
                                  @"card_holder": cardHolder,
                                  };
     
-    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost path:@"token/update" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"token/update" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
     }];
 }
 
-- (id<HPFRequest>)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID andCompletionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
+- (id<HPFRequest>)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID completionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
 {
     NSDictionary *parameters = @{@"request_id": requestID};
     
-    return [HTTPClient performRequestWithMethod:HPFHTTPMethodGet path:[@"token/" stringByAppendingString:token] parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodGet v2:NO path:[@"token/" stringByAppendingString:token] parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
@@ -132,6 +140,10 @@ HPFSecureVaultClient *HPFSecureVaultClientSharedInstance = nil;
             }
         } else {
             resultError = [self errorForResponseBody:response.body andError:error];
+        }
+        
+        if (resultError != nil) {
+            [[HPFLogger sharedLogger] debug:@"<SecureVault>: %@", error];
         }
         
         if ([NSThread isMainThread]) {

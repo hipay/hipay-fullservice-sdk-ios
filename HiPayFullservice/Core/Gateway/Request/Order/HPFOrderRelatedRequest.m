@@ -13,6 +13,12 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 
+NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathAccept      = @"accept";
+NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathDecline     = @"decline";
+NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathPending     = @"pending";
+NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathException   = @"exception";
+NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"cancel";
+
 @implementation HPFOrderRelatedRequest
 
 - (instancetype)init
@@ -24,15 +30,30 @@
         self.customer = [[HPFCustomerInfoRequest alloc] init];
         self.shippingAddress = [[HPFPersonalInfoRequest alloc] init];
         self.HTTPUserAgent = [HPFClientConfig sharedClientConfig].userAgent;
-
-        id devicePrintClass = NSClassFromString(@"DevicePrint");
-        
-        if ([devicePrintClass respondsToSelector:@selector(blackbox)]) {
-            self.deviceFingerprint = [devicePrintClass blackbox];
-        }
+        self.operation = HPFOrderRequestOperationDefault;
     }
     
     return self;
+}
+
+- (NSString *)deviceFingerprint
+{
+    if (_deviceFingerprint == nil) {
+        id devicePrintClass = NSClassFromString(@"DevicePrint");
+        
+        if ([devicePrintClass respondsToSelector:@selector(blackbox)]) {
+            static dispatch_once_t onceBlock;
+            static NSString *deviceFingerprint;
+            
+            dispatch_once (&onceBlock, ^{
+                deviceFingerprint = [devicePrintClass blackbox];
+            });
+            
+            _deviceFingerprint = deviceFingerprint;
+        }
+    }
+    
+    return _deviceFingerprint;
 }
 
 - (void)defineURLParameters
@@ -49,11 +70,11 @@
     
     NSURL *orderURL = [appURL URLByAppendingPathComponent:baseString];
     
-    self.acceptURL = [orderURL URLByAppendingPathComponent:@"/accept"];
-    self.declineURL = [orderURL URLByAppendingPathComponent:@"/decline"];
-    self.pendingURL = [orderURL URLByAppendingPathComponent:@"/pending"];
-    self.exceptionURL = [orderURL URLByAppendingPathComponent:@"/exception"];
-    self.cancelURL = [orderURL URLByAppendingPathComponent:@"/cancel"];
+    self.acceptURL = [orderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"/%@", HPFOrderRelatedRequestRedirectPathAccept]];
+    self.declineURL = [orderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"/%@", HPFOrderRelatedRequestRedirectPathDecline]];
+    self.pendingURL = [orderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"/%@", HPFOrderRelatedRequestRedirectPathPending]];
+    self.exceptionURL = [orderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"/%@", HPFOrderRelatedRequestRedirectPathException]];
+    self.cancelURL = [orderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"/%@", HPFOrderRelatedRequestRedirectPathCancel]];
 }
 
 - (void)setOrderId:(NSString *)orderId

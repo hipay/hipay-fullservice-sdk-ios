@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayFullservice/HiPayFullservice.h>
+#import "HPFInputTableViewCell.h"
 
 @interface HPFSecurityCodeInputTableViewCell : HPFInputTableViewCell
 

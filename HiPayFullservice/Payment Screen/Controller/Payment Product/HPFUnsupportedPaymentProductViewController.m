@@ -9,6 +9,7 @@
 #import "HPFUnsupportedPaymentProductViewController.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "HPFPaymentScreenUtils.h"
+#import "HPFGatewayClient.h"
 
 @interface HPFUnsupportedPaymentProductViewController ()
 
@@ -46,18 +47,17 @@
     
     specificPaymentProductPaymentPageRequest = [[HPFPaymentPageRequest alloc] initWithOrderRelatedRequest:self.paymentPageRequest];
     
-    specificPaymentProductPaymentPageRequest.paymentProductCategoryList = nil;
     specificPaymentProductPaymentPageRequest.paymentProductList = @[self.paymentProduct.code];
     specificPaymentProductPaymentPageRequest.displaySelector = NO;
     specificPaymentProductPaymentPageRequest.templateName = HPFPaymentPageRequestTemplateNameFrame;
     
-    transactionLoadingRequest = [[HPFGatewayClient sharedClient] initializeHostedPaymentPageRequest:specificPaymentProductPaymentPageRequest withCompletionHandler:^(HPFHostedPaymentPage *hostedPaymentPage, NSError *error) {
+    transactionLoadingRequest = [[HPFGatewayClient sharedClient] initializeHostedPaymentPageRequest:specificPaymentProductPaymentPageRequest signature:self.signature withCompletionHandler:^(HPFHostedPaymentPage *hostedPaymentPage, NSError *error) {
         
         if (hostedPaymentPage != nil) {
             
             if (hostedPaymentPage.forwardUrl != nil) {
                 
-                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithHostedPaymentPage:hostedPaymentPage];
+                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithHostedPaymentPage:hostedPaymentPage signature:self.signature];
                 
                 viewController.delegate = self;
                 

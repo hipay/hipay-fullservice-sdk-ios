@@ -1,2 +1,71 @@
 /* Localized versions of Info.plist keys */
 
+"APP_TITLE" = "HiPay m-commerce demo";
+
+"FORM_TITLE" = "Generate a payment screen";
+
+"FORM_CURRENCY" = "Currency";
+
+"FORM_GROUP_PAYMENT_CARDS" = "Group cards";
+
+"FORM_AMOUNT" = "Amount";
+
+"FORM_MULTI_USE" = "Reusable token";
+
+"FORM_COLOR" = "Color";
+
+"FORM_COLOR_DEFAULT" = "Default";
+
+"FORM_COLOR_RED" = "Red";
+
+"FORM_COLOR_PURPLE" = "Purple";
+
+"FORM_AUTH" = "3DS";
+
+"FORM_PAYMENT_PRODUCT_CATEGORIES" = "Payment product categories";
+
+"FORM_AUTH_IF_AVAILABLE" = "If avail.";
+
+"FORM_AUTH_MANDATORY" = "Oblig.";
+
+"FORM_AUTH_NONE" = "None";
+
+"FORM_AUTH_DEFAULT" = "Default";
+
+"FORM_SUBMIT" = "Generate payment screen";
+
+"FORM_PAYMENT_PRODUCTS_CREDIT_CARD" = "Credit card";
+
+"FORM_PAYMENT_PRODUCTS_DEBIT_CARD" = "Debit card";
+
+"FORM_PAYMENT_PRODUCTS_EWALLET" = "E-Wallet";
+
+"FORM_PAYMENT_PRODUCTS_REALTIME_BANKING" = "Real-time banking";
+
+"RESULT_CANCEL" = "Cancelled by user";
+
+"RESULT_TITLE" = "Payment workflow result";
+
+"RESULT_ERROR" = "Error";
+
+"RESULT_FRAUD" = "Fraud screening";
+
+"RESULT_FRAUD_PENDING" = "Pending";
+
+"RESULT_FRAUD_ACCEPTED" = "Accepted";
+
+"RESULT_FRAUD_BLOCKED" = "Blocked";
+
+"RESULT_FRAUD_CHALLENGED" = "Challenged";
+
+"RESULT_STATE" = "Transaction state";
+
+"RESULT_STATE_ERROR" = "Error";
+
+"RESULT_STATE_COMPLETED" = "Completed";
+
+"RESULT_STATE_FORWARDING" = "Forwarding";
+
+"RESULT_STATE_PENDING" = "Pending";
+
+"RESULT_STATE_DECLINED" = "Declined";

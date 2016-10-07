@@ -7,7 +7,6 @@
 //
 
 #import "HPFPaymentProduct.h"
-#import "HPFPaymentScreenUtils.h"
 
 NSString * _Nonnull const HPFPaymentProductCode3xcb                   = @"3xcb";
 NSString * _Nonnull const HPFPaymentProductCode3xcbNoFees             = @"3xcb-no-fees";
@@ -42,7 +41,6 @@ NSString * _Nonnull const HPFPaymentProductCodeKlarnaInvoice          = @"klarna
 NSString * _Nonnull const HPFPaymentProductCodeMaestro                = @"maestro";
 NSString * _Nonnull const HPFPaymentProductCodeMasterCard             = @"mastercard";
 NSString * _Nonnull const HPFPaymentProductCodeNaranja                = @"naranja";
-NSString * _Nonnull const HPFPaymentProductCodeOxxo                   = @"oxxo";
 NSString * _Nonnull const HPFPaymentProductCodePagoFacil              = @"pago-facil";
 NSString * _Nonnull const HPFPaymentProductCodePayPal                 = @"paypal";
 NSString * _Nonnull const HPFPaymentProductCodePaysafecard            = @"paysafecard";
@@ -59,19 +57,18 @@ NSString * _Nonnull const HPFPaymentProductCodeTarjetaShopping        = @"tarjet
 NSString * _Nonnull const HPFPaymentProductCodeVisa                   = @"visa";
 NSString * _Nonnull const HPFPaymentProductCodeWebmoneyTransfer       = @"webmoney-transfer";
 NSString * _Nonnull const HPFPaymentProductCodeYandex                 = @"yandex";
-NSString * _Nonnull const HPFPaymentProductCodeDCBAustriaA1           = @"dcb-at-a1";
-NSString * _Nonnull const HPFPaymentProductCodeDCBAustriaTMobile      = @"dcb-at-tmobile";
-NSString * _Nonnull const HPFPaymentProductCodeDCBAustriaOrange       = @"dcb-at-orange";
-NSString * _Nonnull const HPFPaymentProductCodeDCBAustriaDrei         = @"dcb-at-drei";
-NSString * _Nonnull const HPFPaymentProductCodeDCBCzetchTMobile       = @"dcb-cz-tmobile";
-NSString * _Nonnull const HPFPaymentProductCodeDCBCzetchO2            = @"dcb-cz-o2";
-NSString * _Nonnull const HPFPaymentProductCodeDCBCzetchVodafone      = @"dcb-cz-vodafone";
-NSString * _Nonnull const HPFPaymentProductCodeDCBBelgiumProximus     = @"dcb-be-proximus";
-NSString * _Nonnull const HPFPaymentProductCodeDCBBelgiumMobistar     = @"dcb-be-mobistar";
-NSString * _Nonnull const HPFPaymentProductCodeDCBSpainPagosMovistar  = @"dcb-es-pagosmovistar";
-NSString * _Nonnull const HPFPaymentProductCodeDCBSingaporeSingtel    = @"dcb-sg-singtel";
-NSString * _Nonnull const HPFPaymentProductCodeDCBSwissEasyPay        = @"dcb-ch-easypay";
-NSString * _Nonnull const HPFPaymentProductCodeDCBItalyMobilePay      = @"dcb-it-mobilepay";
+NSString * _Nonnull const HPFPaymentProductCodeAura                   = @"aura";
+NSString * _Nonnull const HPFPaymentProductCodeBanamex                = @"banamex";
+NSString * _Nonnull const HPFPaymentProductCodeBancoDoBrasil          = @"banco-do-brasil";
+NSString * _Nonnull const HPFPaymentProductCodeBBVABancomer           = @"bbva-bancomer";
+NSString * _Nonnull const HPFPaymentProductCodeBoletoBancario         = @"boleto-bancario";
+NSString * _Nonnull const HPFPaymentProductCodeBradesco               = @"bradesco";
+NSString * _Nonnull const HPFPaymentProductCodeCaixa                  = @"caixa";
+NSString * _Nonnull const HPFPaymentProductCodeDiscover               = @"discover";
+NSString * _Nonnull const HPFPaymentProductCodeItau                   = @"itau";
+NSString * _Nonnull const HPFPaymentProductCodeOxxo                   = @"oxxo";
+NSString * _Nonnull const HPFPaymentProductCodeSantanderCash          = @"santander-cash";
+NSString * _Nonnull const HPFPaymentProductCodeSantanderHomeBanking   = @"santander-home-banking";
 
 NSString * _Nonnull const HPFPaymentProductCategoryCodeCreditCard = @"credit-card";
 NSString * _Nonnull const HPFPaymentProductCategoryCodeDebitCard = @"debit-card";
@@ -115,7 +112,7 @@ NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet = @"ewallet";
     self = [super init];
     if (self) {
         _groupedPaymentProductCodes = paymentProducts;
-        _paymentProductDescription = HPFLocalizedString(@"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD");
+        _paymentProductDescription = NSLocalizedStringFromTableInBundle(@"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD", @"Core", [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"HPFCoreLocalization" ofType:@"bundle"]], nil);
         _paymentProductCategoryCode = HPFPaymentProductCategoryCodeCreditCard;
     }
     return self;

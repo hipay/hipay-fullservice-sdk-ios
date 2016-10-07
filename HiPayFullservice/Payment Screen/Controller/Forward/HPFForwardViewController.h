@@ -32,14 +32,14 @@
 
 @property (nonatomic, readonly) HPFTransaction *transaction;
 @property (nonatomic, readonly) HPFHostedPaymentPage *hostedPaymentPage;
+@property (nonatomic, readonly) NSString *signature;
 @property (nonatomic, weak) id<HPFForwardViewControllerDelegate> delegate;
 
-+ (HPFForwardViewController *)relevantForwardViewControllerWithTransaction:(HPFTransaction *)transaction;
++ (HPFForwardViewController *)relevantForwardViewControllerWithTransaction:(HPFTransaction *)transaction signature:(NSString *)signature;
 
-+ (HPFForwardViewController *)relevantForwardViewControllerWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage;
++ (HPFForwardViewController *)relevantForwardViewControllerWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage signature:(NSString *)signature;
+- (instancetype)initWithTransaction:(HPFTransaction *)transaction signature:(NSString *)signature;
 
-- (instancetype)initWithTransaction:(HPFTransaction *)transaction;
-
-- (instancetype)initWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage;
+- (instancetype)initWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage signature:(NSString *)signature;
 
 @end

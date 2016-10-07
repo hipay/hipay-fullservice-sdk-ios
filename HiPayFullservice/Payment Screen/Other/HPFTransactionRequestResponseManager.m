@@ -10,6 +10,7 @@
 #import "HPFErrors.h"
 #import "HPFGatewayClient.h"
 #import "HPFPaymentScreenUtils.h"
+#import "HPFPaymentCardToken.h"
 
 @implementation HPFTransactionRequestResponseManager
 

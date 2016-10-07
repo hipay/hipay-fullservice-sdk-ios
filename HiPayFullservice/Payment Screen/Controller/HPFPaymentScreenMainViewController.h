@@ -42,6 +42,7 @@
 
 @property (nonatomic) NSArray <HPFPaymentProduct *> *paymentProducts;
 @property (nonatomic) HPFPaymentPageRequest *paymentPageRequest;
+@property (nonatomic) NSString *signature;
 @property (nonatomic) BOOL loading;
 
 @end

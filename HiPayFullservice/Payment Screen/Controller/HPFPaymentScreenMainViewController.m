@@ -7,7 +7,6 @@
 //
 
 #import "HPFPaymentScreenMainViewController.h"
-#import "HPFPaymentProductButton.h"
 #import "HPFPaymentProductsTableViewCell.h"
 
 #import "HPFPaymentScreenUtils.h"
@@ -52,6 +51,7 @@
                                       HPFPaymentProductCodePrzelewy24: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodeBankTransfer: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodePaysafecard: HPFForwardPaymentProductViewController.class,
+                                      HPFPaymentProductCodeDexiaDirectNet: HPFForwardPaymentProductViewController.class,
                                       };
     
 }
@@ -268,12 +268,12 @@
         
         // Supported payment product with specific view controller
         if (paymentProductViewControllerClass != nil) {
-            paymentProductViewController = [[paymentProductViewControllerClass alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+            paymentProductViewController = [[paymentProductViewControllerClass alloc] initWithPaymentPageRequest:_paymentPageRequest signature:_signature andSelectedPaymentProduct:paymentProduct];
         }
         
         // Payment product which is natively unsupported, fallback controller
         else {
-            paymentProductViewController = [[HPFUnsupportedPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest andSelectedPaymentProduct:paymentProduct];
+            paymentProductViewController = [[HPFUnsupportedPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest signature:_signature andSelectedPaymentProduct:paymentProduct];
         }
 
         id<HPFPaymentProductViewControllerDelegate> paymentProductViewDelegate = (id<HPFPaymentProductViewControllerDelegate>) self.parentViewController.parentViewController;

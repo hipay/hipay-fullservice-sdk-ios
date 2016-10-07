@@ -8,6 +8,9 @@
 
 #import "HPFHTTPClient.h"
 #import "HPFErrors.h"
+#import "HPFLogger.h"
+
+NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 
 @implementation HPFHTTPClientRequest
 
@@ -28,6 +31,18 @@
 @end
 
 @implementation HPFHTTPClient
+
+- (instancetype)initWithBaseURL:(NSURL *)URL newBaseURL:(NSURL *)newURL username:(NSString *)theUsername password:(NSString *)thePassword
+{
+    self = [super init];
+    if (self) {
+        _baseURL = URL;
+        _baseURLv2 = newURL;
+        username = theUsername;
+        password = thePassword;
+    }
+    return self;
+}
 
 - (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)thePassword
 {
@@ -62,27 +77,51 @@
     return [parameters componentsJoinedByString: @"&"];
 }
 
-- (NSString *)createAuthHeader
-{
-    NSString *authString = [NSString stringWithFormat:@"%@:%@", username, password];
+- (NSString *)createAuthHeaderWithSignature:(NSString *)signature {
+
+    NSString *authString = [NSString stringWithFormat:@"%@:", username];
+
+    if (signature != nil) {
+        authString = [authString stringByAppendingString:signature];
+
+    } else {
+        authString = [authString stringByAppendingString:password];
+    }
+
     NSData *authData = [authString dataUsingEncoding:NSASCIIStringEncoding];
-    NSString *authHeaderValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    return authHeaderValue;
+
+    NSString *keySign = @"Basic";
+    if (signature != nil) {
+        keySign = @"HS";
+    }
+
+    return [NSString stringWithFormat:@"%@ %@", keySign, [authData base64EncodedStringWithOptions:0]];
 }
 
-- (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters
+- (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters
 {
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] init];
-    NSString *baseURLAndPath = [NSString stringWithFormat:@"%@%@", self.baseURL, path];
+    NSString *baseURLAndPath = [NSString stringWithFormat:@"%@%@", isV2 ? self.baseURLv2 : self.baseURL, path];
     
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [URLRequest setValue:[self createAuthHeader] forHTTPHeaderField:@"Authorization"];
-    
+
+    NSString *signature = parameters[HPFGatewayClientSignature];
+    [URLRequest setValue:[self createAuthHeaderWithSignature:signature] forHTTPHeaderField:@"Authorization"];
+
+
+
     switch (method) {
         case HPFHTTPMethodGet:
             URLRequest.HTTPMethod = @"GET";
             
             if (parameters != nil) {
+
+                if (signature != nil) {
+                    NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:parameters];
+                    [mutableDictionary removeObjectForKey:HPFGatewayClientSignature];
+                    parameters = mutableDictionary;
+                }
+
                 NSString *URL = [NSString stringWithFormat:@"%@?%@", baseURLAndPath, [self queryStringForDictionary:parameters]];
                 
                 URLRequest.URL = [NSURL URLWithString:URL];
@@ -104,7 +143,7 @@
     return URLRequest;
 }
 
-- (HPFHTTPClientRequest *)performRequestWithMethod:(HPFHTTPMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPFHTTPClientCompletionBlock)completionBlock
+- (HPFHTTPClientRequest *)performRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPFHTTPClientCompletionBlock)completionBlock
 {
     static dispatch_once_t onceBlock;
     static NSMutableArray *requests;
@@ -112,19 +151,21 @@
     dispatch_once (&onceBlock, ^{
         requests = [NSMutableArray array];
     });
-    
-    NSURLRequest *request = [self createURLRequestWithMethod:method path:path parameters:parameters];
+
+    NSURLRequest *request = [self createURLRequestWithMethod:method v2:isV2 path:path parameters:parameters];
     
     [requests addObject:request];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
+    [[HPFLogger sharedLogger] debug:@"<HTTP>: Performs %@ %@", request.HTTPMethod, path];
+    
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
+                
         // Network activity
         [requests removeObject:request];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = (requests.count > 0);
         
-        // Cancelled by user, no callback
+        // Request cancelled, no callback
         if ((error == nil) || ![error.domain isEqualToString:NSURLErrorDomain] || (error.code != NSURLErrorCancelled)) {
             
             // Connection error
@@ -143,11 +184,11 @@
                     
                     NSError *responseError = nil;
                     
-                    if (NSLocationInRange(clientResponse.statusCode, (NSRange){400, 499})) {
+                    if (NSLocationInRange(clientResponse.statusCode, (NSRange){400, 100})) {
                         responseError = [NSError errorWithDomain:HPFHiPayFullserviceErrorDomain code:HPFErrorCodeHTTPClient userInfo:@{NSLocalizedDescriptionKey: HPFErrorCodeHTTPClientDescription, HPFErrorCodeHTTPStatusCodeKey: @(clientResponse.statusCode)}];
                     }
                     
-                    else if (NSLocationInRange(clientResponse.statusCode, (NSRange){500, 599})) {
+                    else if (NSLocationInRange(clientResponse.statusCode, (NSRange){500, 100})) {
                         responseError = [NSError errorWithDomain:HPFHiPayFullserviceErrorDomain code:HPFErrorCodeHTTPServer userInfo:@{NSLocalizedDescriptionKey: HPFErrorCodeHTTPServerDescription, HPFErrorCodeHTTPStatusCodeKey: @(clientResponse.statusCode)}];
                     }
                     

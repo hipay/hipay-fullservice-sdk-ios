@@ -10,8 +10,21 @@
 #import "HPFPaymentScreenMainViewController.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFTransactionRequestResponseManager.h"
+#import "HPFErrors.h"
 
 @interface HPFPaymentScreenViewController ()
+{
+    UINavigationController *embeddedNavigationController;
+    NSArray <HPFPaymentProduct *> *paymentProducts;
+    id<HPFRequest> paymentProductsRequest;
+    BOOL loadingRequest;
+    UIAlertView *warningCancelWhileLoadingAlertView;
+
+    // Background loading
+    id<HPFRequest> backgroundOrderLoadingRequest;
+    id<HPFRequest> backgroundTransactionLoadingRequest;
+    HPFTransaction *backgroundTransactionBeingReload;
+}
 
 @end
 
@@ -19,27 +32,29 @@
 
 #pragma mark - Init and loading payment products
 
-+ (instancetype)paymentScreenViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest
++ (instancetype)paymentScreenViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPFPaymentScreenViewsBundle()];
-    HPFPaymentScreenViewController *viewController = (HPFPaymentScreenViewController *)[storyboard instantiateInitialViewController];
+    HPFPaymentScreenViewController *viewController = [storyboard instantiateInitialViewController];
     
-    [viewController loadPaymentProducts:paymentPageRequest];
+    [viewController loadPaymentProducts:paymentPageRequest signature:signature];
     
     return viewController;
 }
 
 - (instancetype)init
 {
-    @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"The class %@ should be instantiated using %@ and NOT %@.", self.class, NSStringFromSelector(@selector(paymentScreenViewControllerWithRequest:)), NSStringFromSelector(_cmd)] userInfo:nil];
+    @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"The class %@ should be instantiated using %@ and NOT %@.", self.class, NSStringFromSelector(@selector(paymentScreenViewControllerWithRequest:signature:)), NSStringFromSelector(_cmd)] userInfo:nil];
 }
 
-- (void)loadPaymentProducts:(HPFPaymentPageRequest *)paymentPageRequest
+- (void)loadPaymentProducts:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature
 {
     _paymentPageRequest = paymentPageRequest;
-    
+    _signature = signature;
+
     [self mainViewController].loading = YES;
-    
+    [self mainViewController].signature = _signature;
+
     [[HPFTransactionRequestResponseManager sharedManager] flushHistory];
     
     paymentProductsRequest = [[HPFGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
@@ -102,9 +117,10 @@
     if (paymentProductsRequest != nil) {
         mainViewController.loading = YES;
     }
-    
+
     if ((mainViewController != nil) && (paymentProducts != nil)) {
         mainViewController.paymentPageRequest = _paymentPageRequest;
+        mainViewController.signature = _signature;
         mainViewController.paymentProducts = paymentProducts;
     }
 }
@@ -209,7 +225,7 @@
         }
         
         else {
-            [self loadPaymentProducts:self.paymentPageRequest];
+            [self loadPaymentProducts:self.paymentPageRequest signature:self.signature];
         }
     }
 }
@@ -319,7 +335,7 @@
 {
     [self cancelBackgroundReload];
     
-    backgroundOrderLoadingRequest = [[HPFGatewayClient sharedClient] getTransactionsWithOrderId:self.paymentPageRequest.orderId withCompletionHandler:^(NSArray *transactions, NSError *error) {
+    backgroundOrderLoadingRequest = [[HPFGatewayClient sharedClient] getTransactionsWithOrderId:self.paymentPageRequest.orderId signature:self.signature withCompletionHandler:^(NSArray *transactions, NSError *error) {
         
         [self checkTransaction:transactions.firstObject error:error];
     }];
@@ -331,7 +347,7 @@
 
     backgroundTransactionBeingReload = transaction;
 
-    backgroundTransactionLoadingRequest = [[HPFGatewayClient sharedClient] getTransactionWithReference:transaction.transactionReference withCompletionHandler:^(HPFTransaction *transaction, NSError *error) {
+    backgroundTransactionLoadingRequest = [[HPFGatewayClient sharedClient] getTransactionWithReference:transaction.transactionReference signature:self.signature withCompletionHandler:^(HPFTransaction *transaction, NSError *error) {
         
         [self checkTransaction:transaction error:error];
     }];

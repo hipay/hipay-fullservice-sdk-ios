@@ -33,12 +33,12 @@
 
 - (void)testSettingValues
 {
-    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"testapp"];
+    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"hipayexample"];
 
     XCTAssertEqualObjects([HPFClientConfig sharedClientConfig].username, @"username");
     XCTAssertEqualObjects([HPFClientConfig sharedClientConfig].password, @"passwd");
     XCTAssertTrue([HPFClientConfig sharedClientConfig].environment == HPFEnvironmentProduction);
-    XCTAssertEqualObjects([HPFClientConfig sharedClientConfig].appRedirectionURL, [NSURL URLWithString:@"testapp://hipay-fullservice"]);
+    XCTAssertEqualObjects([HPFClientConfig sharedClientConfig].appRedirectionURL, [NSURL URLWithString:@"hipayexample://hipay-fullservice"]);
     XCTAssertNotNil([HPFClientConfig sharedClientConfig].userAgent);
     XCTAssertFalse([[HPFClientConfig sharedClientConfig] isEqual:@""]);
 }
@@ -46,8 +46,8 @@
 - (void)testInitSchemeError
 {
     XCTAssertThrows([[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"hello-test"]);
-
     XCTAssertThrows([[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"test1"]);
+    XCTAssertThrows([[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"donotexist"]);
 }
 
 @end

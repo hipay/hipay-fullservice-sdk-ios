@@ -19,11 +19,21 @@
     return NO;
 }
 
+- (instancetype)initWithOrder:(HPFOrder *)order state:(HPFTransactionState)state
+{
+    self = [self init];
+    if (self) {
+        _order = order;
+        _state = state;
+    }
+    return self;
+}
+
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        _eci = HPFECIUndefined;
+        _eci = HPFECIDefault;
         _avsResult = HPFAVSResultNotApplicable;
         _cvcResult = HPFCVCResultNotApplicable;
     }

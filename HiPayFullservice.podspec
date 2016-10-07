@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "HiPayFullservice"
-  s.version          = "0.1.0"
+  s.version          = "0.2.0"
   s.summary          = "HiPay Fullservice SDK for iOS lets you accept payments in your iOS application."
   s.description      = <<-DESC
                        HiPay Fullservice is a new generation of payment platform optimized for todays’ e-tailers.
@@ -11,13 +11,13 @@ Pod::Spec.new do |s|
 
                        DESC
 
-  s.homepage         = "https://github.com/hipay/hipay-fullservice-sdk-ios-dev"
-  s.license          = "MIT"
+  s.homepage         = "https://github.com/hipay/hipay-fullservice-sdk-ios/wiki"
+  s.license          = "Apache-2.0"
   s.author           = { "Jonathan TIRET" => "jtiret@hipay.com" }
-  s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios-dev.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios.git", :tag => s.version.to_s }
   s.social_media_url = "https://twitter.com/hipay"
 
-  s.platform     = :ios, "7.0"
+  s.platform     = :ios, "8.0"
   s.requires_arc = true
 
   s.pod_target_xcconfig = {"TARGETED_DEVICE_FAMILY" => "1,2"}
@@ -31,6 +31,9 @@ Pod::Spec.new do |s|
   s.subspec "Core" do |s|
     s.source_files  = "HiPayFullservice/Core/**/*.{h,m}", "HiPayFullservice/Device Print/**/*.h"
     s.public_header_files = "HiPayFullservice/Core/**/*.h"
+    s.resource_bundles = {
+      "HPFCoreLocalization" => ["HiPayFullservice/Core/**/*.lproj"]
+    }
   end
 
   s.subspec "Utilities" do |s|
@@ -39,6 +42,7 @@ Pod::Spec.new do |s|
     s.resource_bundles = {
       "HPFUtilitiesResources" => ["HiPayFullservice/Utilities/**/*.{plist}"],
     }
+    s.dependency "HiPayFullservice/Core"    
   end
 
   s.subspec "Device-Print" do |s|

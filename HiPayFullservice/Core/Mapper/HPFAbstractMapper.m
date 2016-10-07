@@ -218,7 +218,13 @@
     [dateFormatter setLocale:enUSPOSIXLocale];
     [dateFormatter setDateFormat:@"yyyyMM"];
     
-    return [[NSCalendar currentCalendar] components:NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[dateFormatter dateFromString:stringDate]];
+    NSDate *date = [dateFormatter dateFromString:stringDate];
+    
+    if (date == nil) {
+        return nil;
+    }
+    
+    return [[NSCalendar currentCalendar] components:NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
 }
 
 - (NSURL *)getURLForKey:(NSString *)key

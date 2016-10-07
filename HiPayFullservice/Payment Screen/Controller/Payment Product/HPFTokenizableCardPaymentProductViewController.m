@@ -8,12 +8,10 @@
 
 #import "HPFTokenizableCardPaymentProductViewController.h"
 #import "HPFOrderRequest.h"
-#import "HPFForwardPaymentProductViewController_Protected.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPFValidation.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFSecureVaultClient.h"
-#import "HPFCardTokenPaymentMethodRequest.h"
 #import "HPFCardNumberTextField.h"
 #import "HPFExpiryDateTextField.h"
 #import "HPFSecurityCodeInputTableViewCell.h"
@@ -170,6 +168,16 @@
 {
     if (textField == [self textFieldForIdentifier:@"holder"]) {
         [[self textFieldForIdentifier:@"number"] becomeFirstResponder];
+        return YES;
+    }
+    
+    if (textField == [self textFieldForIdentifier:@"number"]) {
+        [[self textFieldForIdentifier:@"expiry_date"] becomeFirstResponder];
+        return YES;
+    }
+    
+    if (textField == [self textFieldForIdentifier:@"expiry_date"]) {
+        [[self textFieldForIdentifier:@"security_code"] becomeFirstResponder];
         return YES;
     }
     
@@ -334,7 +342,13 @@
         securityCode = [self textForIdentifier:@"security_code"];
     }
     
-    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:@"2019" cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *)[self textFieldForIdentifier:@"expiry_date"];
+    
+    NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
+    NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
+    
+    
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
        
         [self setPaymentButtonLoadingMode:NO];
         transactionLoadingRequest = nil;
@@ -347,7 +361,7 @@
             
             orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
             
-            [self performOrderRequest:orderRequest];
+            [self performOrderRequest:orderRequest signature:self.signature];
             
         } else {
             [self checkTransactionError:error];
@@ -378,17 +392,20 @@
         case 1:
             cell = [self dequeueInputCellWithIdentifier:@"CardNumberInput" fieldIdentifier:@"number"];
             ((HPFCardNumberInputTableViewCell *)cell).defaultPaymentProductCode = [self currentPaymentProductCode];
+            cell.textField.returnKeyType = UIReturnKeyNext;
             break;
             
         case 2:
             cell = [self dequeueInputCellWithIdentifier:@"ExpiryDateInput" fieldIdentifier:@"expiry_date"];
             cell.inputLabel.text = HPFLocalizedString(@"CARD_EXPIRATION_LABEL");
             cell.textField.placeholder = HPFLocalizedString(@"CARD_EXPIRATION_PLACEHOLDER");
+            cell.textField.returnKeyType = UIReturnKeyNext;
             break;
             
         case 3:
             cell = [self dequeueInputCellWithIdentifier:@"SecurityCodeInput" fieldIdentifier:@"security_code"];
             ((HPFSecurityCodeInputTableViewCell *)cell).paymentProductCode = [self currentPaymentProductCode];
+            cell.textField.returnKeyType = UIReturnKeyDone;
             
             break;
             

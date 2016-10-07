@@ -7,6 +7,8 @@
 //
 
 #import "HPFLabelTableViewCell.h"
+#import "HPFAbstractPaymentProductViewController.h"
+#import "HPFOrderRequest.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 
@@ -21,7 +23,7 @@
 - (HPFLabelTableViewCell *)dequeueLabelCell;
 - (HPFOrderRequest *)createOrderRequest;
 - (BOOL)submitButtonEnabled;
-- (void)performOrderRequest:(HPFOrderRequest *)orderRequest;
+- (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature;
 - (void)textFieldDidChange:(UITextField *)textField;
 - (UITextField *)textFieldForIdentifier:(NSString *)fieldIdentifier;
 - (HPFInputTableViewCell *)cellWithTextField:(UITextField *)textField;

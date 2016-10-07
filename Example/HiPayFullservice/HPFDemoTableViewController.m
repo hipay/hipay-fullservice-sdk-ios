@@ -45,22 +45,27 @@
     
     // Default form values
     insertResultSection = NO;
-    currencies = @[@"EUR", @"USD", @"PLN", @"RUB"];
+    currencies = @[@"EUR", @"USD", @"BRL", @"RUB"];
     currencySegmentIndex = 0;
-    authenticationIndicatorSegmentIndex = 0;
+    authenticationIndicatorSegmentIndex = 3;
     colorSegmentIndex = 0;
     [self setupGlobalTintColor];
     multiUse = NO;
     groupedPaymentCard = YES;
-    amount = 25.0;
+    amount = 225.0;
     selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];
     
     [self.tableView registerClass:[HPFSwitchTableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
     [self.tableView registerClass:[HPFStepperTableViewCell class] forCellReuseIdentifier:@"StepperCell"];
     [self.tableView registerClass:[HPFSegmentedControlTableViewCell class] forCellReuseIdentifier:@"SegmentedControlCell"];
-    [self.tableView registerClass:[HPFSubmitTableViewCell class] forCellReuseIdentifier:@"SubmitCell"];
+    //[self.tableView registerClass:[HPFSubmitTableViewCell class] forCellReuseIdentifier:@"SubmitCell"];
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"OptionsCell"];
     [self.tableView registerClass:[HPFInfoTableViewCell class] forCellReuseIdentifier:@"LabelCell"];
+
+    //NSBundle * demoScreenBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"HPFPaymentScreenViews" ofType:@"bundle"]];
+
+    //[self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFSubmitTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SubmitCell"];
 
     self.title = NSLocalizedString(@"APP_TITLE", nil);
 }
@@ -142,6 +147,29 @@
     }
     
     return nil;
+}
+
+- (void)setSubmitButtonLoadingMode:(BOOL)isLoading
+{
+    loading = isLoading;
+
+    for (UITableViewCell *cell in self.tableView.visibleCells) {
+        if ([cell isKindOfClass:[HPFSubmitTableViewCell class]]) {
+            ((HPFSubmitTableViewCell *)cell).loading = isLoading;
+        }
+
+        //if ([cell isKindOfClass:[HPFInputTableViewCell class]]) {
+            //((HPFInputTableViewCell *)cell).enabled = !isLoading;
+            //[((HPFInputTableViewCell *)cell).textField resignFirstResponder];
+        //}
+    }
+
+    //[self.delegate paymentProductViewController:self isLoading:isLoading];
+}
+
+- (BOOL)submitButtonEnabled
+{
+    return !loading;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -238,10 +266,15 @@
         }
         
         else if (indexPath.row == submitRowIndex) {
-            
-            HPFSubmitTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SubmitCell" forIndexPath:indexPath];
-            
-            cell.textLabel.text = NSLocalizedString(@"FORM_SUBMIT", nil);
+
+            HPFSubmitTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SubmitCell"];
+
+            cell.loading = loading;
+            cell.enabled = [self submitButtonEnabled];
+            cell.delegate = self;
+
+            //HPFSubmitTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SubmitCell" forIndexPath:indexPath];
+            //cell.textLabel.text = NSLocalizedString(@"FORM_SUBMIT", nil);
             
             return cell;
         }
@@ -346,11 +379,8 @@
             
             return cell;
         }
-        
-        
     }
-    
-    
+
     return nil;
 }
 
@@ -367,58 +397,109 @@
     return nil;
 }
 
+- (void)submitTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell
+{
+    [self requestSignature];
+
+    if (resultSectionIndex != NSNotFound) {
+        errorDescriptionRowIndex = NSNotFound;
+        transactionStateRowIndex = NSNotFound;
+        fraudReviewRowIndex = NSNotFound;
+        cancelRowIndex = NSNotFound;
+
+        resultSectionIndex = NSNotFound;
+        formSectionIndex = 0;
+
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationRight];
+    }
+}
+
+- (void) requestSignature {
+
+    [self setSubmitButtonLoadingMode:YES];
+
+    static NSString * const serverUrl = @"https://developer.hipay.com/misc/public_credentials_signature.php?amount=%@&currency=%@";
+    NSString *dataUrl = [NSString stringWithFormat:serverUrl, @(amount), currencies[currencySegmentIndex]];
+    NSURL *url = [NSURL URLWithString:dataUrl];
+
+    NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
+            dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+
+                    NSError *jsonError = nil;
+                    if (data == nil || error != nil) {
+                        // Handle Error and return
+                        [self setSubmitButtonLoadingMode:NO];
+                        return;
+                    }
+
+                    NSDictionary* signatureDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+
+                    if (jsonError == nil) {
+
+                        NSString *orderId = signatureDictionary[@"order_id"];
+                        NSString *signature = signatureDictionary[@"signature"];
+
+                        HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
+
+                        HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
+                        paymentScreen.delegate = self;
+
+                        [self presentViewController:paymentScreen animated:YES completion:^{
+                            [self setSubmitButtonLoadingMode:NO];
+                        }];
+
+                    } else {
+
+                        [self setSubmitButtonLoadingMode:NO];
+                    }
+
+                });
+
+            }];
+
+    [downloadTask resume];
+
+}
+
+- (HPFPaymentPageRequest *) buildPageRequestWithOrderId:(NSString *)orderId {
+
+    HPFPaymentPageRequest *paymentPageRequest = [[HPFPaymentPageRequest alloc] init];
+    paymentPageRequest.orderId = orderId;
+    //paymentPageRequest.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%ld", (long) ([NSDate date].timeIntervalSince1970)];
+
+    paymentPageRequest.amount = @(amount);
+    paymentPageRequest.currency = currencies[currencySegmentIndex];
+    paymentPageRequest.shortDescription = @"Outstanding item";
+    paymentPageRequest.customer.country = @"FR";
+    paymentPageRequest.customer.firstname = @"John";
+    paymentPageRequest.customer.lastname = @"Doe";
+    paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
+    paymentPageRequest.multiUse = multiUse;
+    paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
+
+    switch (authenticationIndicatorSegmentIndex) {
+        case 1:
+            paymentPageRequest.authenticationIndicator = HPFAuthenticationIndicatorIfAvailable;
+            break;
+        case 2:
+            paymentPageRequest.authenticationIndicator = HPFAuthenticationIndicatorMandatory;
+            break;
+        case 3:
+            paymentPageRequest.authenticationIndicator = HPFAuthenticationIndicatorBypass;
+            break;
+    }
+
+    return paymentPageRequest;
+
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == submitRowIndex) {
-        
-        HPFPaymentPageRequest *paymentPageRequest = [[HPFPaymentPageRequest alloc] init];
-        
-        paymentPageRequest.amount = @(amount);
-        paymentPageRequest.currency = currencies[currencySegmentIndex];
-        paymentPageRequest.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%f", [NSDate date].timeIntervalSince1970];
-        paymentPageRequest.shortDescription = @"Outstanding item";
-        paymentPageRequest.customer.country = @"FR";
-        paymentPageRequest.customer.firstname = @"John";
-        paymentPageRequest.customer.lastname = @"Doe";
-        paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
-        paymentPageRequest.multiUse = multiUse;
-        paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
-        paymentPageRequest.customer.email = @"jtiret+456464@hipay.com";
+    //if (indexPath.row == submitRowIndex) {}
 
-        switch (authenticationIndicatorSegmentIndex) {
-            case 1:
-                paymentPageRequest.authenticationIndicator = HPFAuthenticationIndicatorIfAvailable;
-                break;
-            case 2:
-                paymentPageRequest.authenticationIndicator = HPFAuthenticationIndicatorMandatory;
-                break;
-            case 3:
-                paymentPageRequest.authenticationIndicator = HPFAuthenticationIndicatorBypass;
-                break;
-        }
-        
-        
-        
-        HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest];
-        
-        paymentScreen.delegate = self;
-        
-        [self presentViewController:paymentScreen animated:YES completion:nil];
-        
-        if (resultSectionIndex != NSNotFound) {
-            errorDescriptionRowIndex = NSNotFound;
-            transactionStateRowIndex = NSNotFound;
-            fraudReviewRowIndex = NSNotFound;
-            cancelRowIndex = NSNotFound;
-            
-            resultSectionIndex = NSNotFound;
-            formSectionIndex = 0;
-            
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationRight];
-        }
-    }
-    
-    else if (indexPath.row == productCategoryRowIndex) {
+    if (indexPath.row == productCategoryRowIndex) {
         productCategoriesViewController = [[HPFPaymentProductCategoriesTableViewController alloc] initWithSelectedPaymentProducts:selectedPaymentProducts];
         
         [self.navigationController pushViewController:productCategoriesViewController animated:YES];

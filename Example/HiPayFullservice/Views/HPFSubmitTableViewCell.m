@@ -7,9 +7,53 @@
 //
 
 #import "HPFSubmitTableViewCell.h"
+//#import "HPFPaymentScreenUtils.h"
 
 @implementation HPFSubmitTableViewCell
 
+- (void)awakeFromNib
+{
+    [button setTitle:NSLocalizedString(@"FORM_SUBMIT", nil) forState:UIControlStateNormal];
+    //[button setTitle:HPFLocalizedString(@"PAY_BUTTON_TITLE") forState:UIControlStateNormal];
+}
+
+- (IBAction)buttonTouched:(id)sender {
+    if (self.delegate != nil) {
+        [self.delegate submitTableViewCellDidTouchButton:self];
+    }
+}
+
+- (BOOL)isLoading
+{
+    return [spinner isAnimating];
+}
+
+- (void)setLoading:(BOOL)loading
+{
+    if (loading) {
+        [spinner startAnimating];
+    } else {
+        [spinner stopAnimating];
+    }
+
+    button.hidden = loading;
+}
+
+- (BOOL)isEnabled
+{
+    return button.enabled;
+}
+
+- (void)setEnabled:(BOOL)enabled
+{
+    button.enabled = enabled;
+}
+
+/*
+- (void)awakeFromNib
+{
+    [button setTitle:HPFLocalizedString(@"PAY_BUTTON_TITLE") forState:UIControlStateNormal];
+}
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
@@ -32,5 +76,9 @@
         self.textLabel.textColor = self.tintColor;
     }
 }
+*/
 
 @end
+
+
+

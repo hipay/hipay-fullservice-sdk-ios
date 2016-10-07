@@ -7,9 +7,6 @@
 //
 
 #import "HPFViewController.h"
-#import <WebKit/WebKit.h>
-#import <SafariServices/SafariServices.h>
-#import <HiPayFullservice/HPFPaymentScreenUtils.h>
 
 @interface HPFViewController ()
 

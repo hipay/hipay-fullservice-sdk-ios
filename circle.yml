@@ -2,15 +2,31 @@ machine:
   xcode:
     version: "7.0"
   environment:
+    GYM_CODE_SIGNING_IDENTITY: "iPhone Distribution: HiPay Group (7RLJNKW437)"
+    GYM_PROVISIONING_PROFILE_PATH: "deployment/distribution.mobileprovision"
+    GYM_SCHEME: "HiPayFullservice-Example"
+    GYM_WORKSPACE: "Example/HiPayFullservice.xcworkspace"
     XCODE_SCHEME: "HiPayFullservice-Example"
-    # CocoaPods versions greater than 0.34 require
-    # your terminal to be using UTF-8 encoding.
     LANG: en_US.UTF-8
+
 dependencies:
   pre:
-    - sudo gem install cocoapods --version 0.39.0
-    # CocoaPods sometimes has issues using caches
-    # between different versions of CocoaPods.
-    - pod setup
     - cd Example; pod install
     - brew uninstall xctool && brew install --HEAD xctool
+
+deployment:
+  distribution:
+    branch: "/.*/"
+    commands:
+       - python deployment/get_identifier.py > $CIRCLE_ARTIFACTS/app_identifier
+       - rm Example/HiPayFullservice/Resources/Parameters/parameters.plist
+       - (cd deployment/; python set_build_number.py)
+       - (export HOCKEY_APP_IDENTIFIER=$(cat $CIRCLE_ARTIFACTS/app_identifier); cd deployment/; python generate_parameters.py)
+       - gym
+       - ipa distribute:hockeyapp 
+           --token            "$HOCKEY_APP_TOKEN"
+           --notes            "CircleCI build $CIRCLE_BUILD_NUM"
+           --commit-sha       "$CIRCLE_SHA1"
+           --build-server-url "$CIRCLE_BUILD_URL"
+           --repository-url   "$CIRCLE_REPOSITORY_URL" 
+           --identifier       "$(cat $CIRCLE_ARTIFACTS/app_identifier)"

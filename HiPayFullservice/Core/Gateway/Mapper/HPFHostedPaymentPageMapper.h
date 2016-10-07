@@ -6,7 +6,7 @@
 //
 //
 
-#import <HiPayFullservice/HiPayFullservice.h>
+#import "HPFOrderMapper.h"
 
 @interface HPFHostedPaymentPageMapper : HPFAbstractMapper
 

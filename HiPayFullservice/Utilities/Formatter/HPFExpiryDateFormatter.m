@@ -8,17 +8,16 @@
 
 #import "HPFExpiryDateFormatter.h"
 
-HPFExpiryDateFormatter *HPFExpiryDateFormatterSharedInstance = nil;
-
 @implementation HPFExpiryDateFormatter
 
 + (instancetype)sharedFormatter
 {
-    if (HPFExpiryDateFormatterSharedInstance == nil) {
-        HPFExpiryDateFormatterSharedInstance = [[HPFExpiryDateFormatter alloc] init];
-    }
-    
-    return HPFExpiryDateFormatterSharedInstance;
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
 }
 
 - (NSAttributedString *)formattedDateWithPlainText:(NSString *)plainText

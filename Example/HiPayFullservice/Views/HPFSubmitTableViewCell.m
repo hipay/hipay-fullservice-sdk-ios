@@ -13,6 +13,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     [button setTitle:NSLocalizedString(@"FORM_SUBMIT", nil) forState:UIControlStateNormal];
     //[button setTitle:HPFLocalizedString(@"PAY_BUTTON_TITLE") forState:UIControlStateNormal];
 }

@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,37 +14,32 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lLj-mf-I6F" id="u2t-NZ-XO0">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <frame key="frameInset" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
-                        <rect key="frame" x="111" y="0.0" width="201" height="44"/>
-                        <animations/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="textColor" white="0.41999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.41999998688697815" green="0.41999998688697815" blue="0.41999998688697815" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" ambiguous="YES" misplaced="YES" text="Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="VaG-B8-8hX">
-                        <rect key="frame" x="15" y="11" width="88" height="21"/>
-                        <animations/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="VaG-B8-8hX">
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <animations/>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="puq-qj-JZP" secondAttribute="bottom" id="AEs-xw-eAA"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerXWithinMargins" multiplier="0.74" priority="750" id="SFh-Ca-N3F"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="trailingMargin" id="hxP-ii-EhB"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="top" secondItem="u2t-NZ-XO0" secondAttribute="top" id="ipM-VQ-y5U"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VaG-B8-8hX" secondAttribute="trailing" constant="8" id="oBm-VQ-Pao"/>
-                    <constraint firstItem="VaG-B8-8hX" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leading" constant="15" id="zEI-2y-WHy"/>
+                    <constraint firstItem="VaG-B8-8hX" firstAttribute="centerY" secondItem="u2t-NZ-XO0" secondAttribute="centerY" id="AVE-UV-bp8"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="bottom" secondItem="u2t-NZ-XO0" secondAttribute="bottom" id="D2h-P3-HaZ"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerX" multiplier="0.8" id="SYR-7R-kiS"/>
+                    <constraint firstItem="VaG-B8-8hX" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leadingMargin" id="iN7-E7-lcP"/>
+                    <constraint firstItem="VaG-B8-8hX" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="centerX" multiplier="0.8" id="mJb-Fm-IWE"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="top" secondItem="u2t-NZ-XO0" secondAttribute="top" id="oRk-g9-ohe"/>
+                    <constraint firstAttribute="trailing" secondItem="puq-qj-JZP" secondAttribute="trailing" id="pFm-R1-RKq"/>
                 </constraints>
             </tableViewCellContentView>
-            <animations/>
             <connections>
                 <outlet property="inputLabel" destination="VaG-B8-8hX" id="OIF-cg-hQv"/>
                 <outlet property="textField" destination="puq-qj-JZP" id="h55-tB-NVv"/>

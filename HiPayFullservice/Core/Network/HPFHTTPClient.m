@@ -108,8 +108,6 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
     NSString *signature = parameters[HPFGatewayClientSignature];
     [URLRequest setValue:[self createAuthHeaderWithSignature:signature] forHTTPHeaderField:@"Authorization"];
 
-
-
     switch (method) {
         case HPFHTTPMethodGet:
             URLRequest.HTTPMethod = @"GET";

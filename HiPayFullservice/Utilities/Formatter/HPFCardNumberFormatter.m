@@ -26,7 +26,7 @@
     self = [super init];
     if (self) {
         
-        NSBundle *utilitiesBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"HPFUtilitiesResources" ofType:@"bundle"]];
+        NSBundle *utilitiesBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"HPFUtilitiesResources" ofType:@"bundle"]];
         
         NSString *filePath = [utilitiesBundle pathForResource:@"card-numbers-info" ofType:@"plist"];
         NSDictionary *cardNumbersInfo = [[NSDictionary alloc] initWithContentsOfFile:filePath];

@@ -62,6 +62,8 @@
     
     [result mergeDictionary:[[HPFPersonalInfoRequestSerializationMapper mapperWithRequest:[self.request valueForKey:@"shippingAddress"]] serializedRequest] withPrefix:@"shipto_"];
     
+    [result setNullableObject:[self getSerializedJSONForKey:@"source"] forKey:@"source"];
+    
     return result;
 }
 

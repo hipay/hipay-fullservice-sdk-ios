@@ -233,6 +233,9 @@ extern NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel;
  */
 @property (nonatomic, copy, nullable) NSString *cdata10;
 
+@property (nonatomic, copy, readonly, nullable) NSDictionary *source;
+
+
 - (instancetype _Nonnull)initWithOrderRelatedRequest:(HPFOrderRelatedRequest * _Nonnull)orderRelatedRequest;
 
 @end

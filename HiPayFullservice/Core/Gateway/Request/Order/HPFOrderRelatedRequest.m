@@ -19,6 +19,7 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathPending     = @"pend
 NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathException   = @"exception";
 NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"cancel";
 
+
 @implementation HPFOrderRelatedRequest
 
 - (instancetype)init
@@ -122,6 +123,21 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
     request.cdata8 = orderRelatedRequest.cdata8;
     request.cdata9 = orderRelatedRequest.cdata9;
     request.cdata10 = orderRelatedRequest.cdata10;
+    
+    NSString * source = @"CSDK";
+    NSString * brand = @"ios";
+    NSProcessInfo *brand_version = [NSString stringWithFormat:@"%d.%d.%d", [[NSProcessInfo processInfo] operatingSystemVersion].majorVersion, [[NSProcessInfo processInfo] operatingSystemVersion].minorVersion, [[NSProcessInfo processInfo] operatingSystemVersion].patchVersion];
+    
+    NSBundle *utilitiesBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"HPFUtilitiesResources" ofType:@"bundle"]];
+    NSString *integration_version = [utilitiesBundle objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+    
+    NSDictionary *sourceDictionary = @{
+                              @"source" : source,
+                              @"brand" : brand,
+                              @"brand_version" : brand_version,
+                              @"integration_version" : integration_version
+                              };
+    _source = sourceDictionary;
     
     return request;
 }

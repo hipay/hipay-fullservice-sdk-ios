@@ -6,14 +6,21 @@
 //
 //
 
+#import "HPFAbstractClient.h"
+
+
 #import "HPFErrors.h"
+#import "HPFHTTPClient.h"
+#import "HPFClientConfig.h"
+
 
 @interface HPFAbstractClient (Private)
 
-- (NSError *)errorForResponseBody:(NSDictionary *)body andError:(NSError *)error;
+- (NSError * _Nonnull)errorForResponseBody:(NSDictionary * _Nonnull)body andError:(NSError * _Nonnull)error;
 
-- (HPFErrorCode)errorCodeForNumber:(NSString *)codeNumber;
+- (instancetype _Nonnull)initWithHTTPClient:(HPFHTTPClient * _Nonnull)HTTPClient clientConfig:(HPFClientConfig * _Nonnull)theClientConfig;
 
-- (instancetype)initWithHTTPClient:(HPFHTTPClient *)HTTPClient clientConfig:(HPFClientConfig *)theClientConfig;
+- (HPFErrorCode)errorCodeForNumber:(NSString * _Nonnull)codeNumber;
+
 
 @end

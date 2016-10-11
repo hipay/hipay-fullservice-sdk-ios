@@ -13,6 +13,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     [button setTitle:HPFLocalizedString(@"PAY_BUTTON_TITLE") forState:UIControlStateNormal];
 }
 

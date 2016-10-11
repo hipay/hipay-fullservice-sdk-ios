@@ -10,7 +10,7 @@
 #import "HPFHTTPResponse.h"
 #import "HPFRequest.h"
 
-typedef void (^HPFHTTPClientCompletionBlock)(HPFHTTPResponse *response, NSError *error);
+typedef void (^HPFHTTPClientCompletionBlock)( HPFHTTPResponse  * _Nullable response, NSError *_Nonnull error);
 
 extern NSString * _Nonnull const HPFGatewayClientSignature;
 
@@ -21,9 +21,9 @@ typedef NS_ENUM(NSInteger, HPFHTTPMethod) {
 
 @interface HPFHTTPClientRequest : NSObject <HPFRequest>
 
-@property (nonatomic, readonly) NSURLSessionTask *URLSessionTask;
+@property (nonatomic, readonly) NSURLSessionTask  * _Nonnull URLSessionTask;
 
-- (instancetype)initWithURLSessionTask:(NSURLSessionTask *)URLSessionTask;
+- (instancetype _Nonnull)initWithURLSessionTask:(NSURLSessionTask * _Nonnull )URLSessionTask;
 
 @end
 
@@ -34,12 +34,12 @@ typedef NS_ENUM(NSInteger, HPFHTTPMethod) {
     NSString *password;
 }
 
-@property (nonatomic) NSURL *baseURL;
-@property (nonatomic) NSURL *baseURLv2;
+@property (nonatomic) NSURL  * _Nonnull baseURL;
+@property (nonatomic) NSURL  * _Nonnull baseURLv2;
 
-- (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)thePassword;
-- (instancetype)initWithBaseURL:(NSURL *)URL newBaseURL:(NSURL *)newURL username:(NSString *)theUsername password:(NSString *)thePassword;
+- (instancetype _Nonnull)initWithBaseURL:( NSURL * _Nonnull )URL username:(NSString * _Nonnull)theUsername password:(NSString * _Nonnull)thePassword;
+- (instancetype _Nonnull)initWithBaseURL:(NSURL * _Nonnull)URL newBaseURL:(NSURL * _Nonnull)newURL username:(NSString * _Nonnull)theUsername password:(NSString * _Nonnull)thePassword;
 
-- (HPFHTTPClientRequest *)performRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPFHTTPClientCompletionBlock)completionBlock;
+- (HPFHTTPClientRequest  * _Nonnull )performRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString * _Nonnull)path parameters:(NSDictionary * _Nonnull)parameters completionHandler:(HPFHTTPClientCompletionBlock _Nonnull)completionBlock;
 
 @end

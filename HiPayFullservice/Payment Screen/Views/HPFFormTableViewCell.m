@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     defaultTextLabelColor = self.textLabel.textColor;
 }
 

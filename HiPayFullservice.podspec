@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
                        DESC
 
-  s.homepage         = "https://github.com/hipay/hipay-fullservice-sdk-ios/wiki"
+  s.homepage         = "https://developer.hipay.com"
   s.license          = "Apache-2.0"
   s.author           = { "Jonathan TIRET" => "jtiret@hipay.com" }
   s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios.git", :tag => s.version.to_s }

@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     [super setDelegate:self];
     
     [self addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];

@@ -22,7 +22,7 @@
 #define HPFGatewayClientNewBaseURLStage         @"https://stage-secure-gateway.hipay-tpp.com/rest/v2/"
 
 #define HPFGatewayClientBaseURLProduction       @"https://secure-gateway.hipay-tpp.com/rest/v1/"
-#define HPFGatewayClientNewBaseURLProduction    @"https://new-secure-gateway.hipay-tpp.com/rest/v2/"
+#define HPFGatewayClientNewBaseURLProduction    @"https://secure-gateway.hipay-tpp.com/rest/v2/"
 
 #define HPFGatewayCallbackURLPathName           @"gateway"
 

@@ -64,9 +64,6 @@
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"OptionsCell"];
     [self.tableView registerClass:[HPFInfoTableViewCell class] forCellReuseIdentifier:@"LabelCell"];
 
-    //NSBundle * demoScreenBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"HPFPaymentScreenViews" ofType:@"bundle"]];
-
-    //[self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSubmitTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SubmitCell"];
 
     self.title = NSLocalizedString(@"APP_TITLE", nil);
@@ -159,14 +156,7 @@
         if ([cell isKindOfClass:[HPFSubmitTableViewCell class]]) {
             ((HPFSubmitTableViewCell *)cell).loading = isLoading;
         }
-
-        //if ([cell isKindOfClass:[HPFInputTableViewCell class]]) {
-            //((HPFInputTableViewCell *)cell).enabled = !isLoading;
-            //[((HPFInputTableViewCell *)cell).textField resignFirstResponder];
-        //}
     }
-
-    //[self.delegate paymentProductViewController:self isLoading:isLoading];
 }
 
 - (BOOL)submitButtonEnabled

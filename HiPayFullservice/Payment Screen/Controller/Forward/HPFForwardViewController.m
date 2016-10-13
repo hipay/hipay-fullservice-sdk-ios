@@ -150,23 +150,25 @@
 - (void)reloadTransaction
 {
     [self cancelBackgroundTransactionLoading];
-    
-    if (self.transaction != nil) {
-        backgroundRequest = [[HPFGatewayClient sharedClient] getTransactionWithReference:self.transaction.transactionReference signature:self.signature withCompletionHandler:^(HPFTransaction *transaction, NSError *error) {
-            
-            [self checkTransaction:transaction error:error];
-            
-        }];
-    }
-    
-    else {
-        backgroundRequest = [[HPFGatewayClient sharedClient] getTransactionsWithOrderId:self.hostedPaymentPage.order.orderId signature:self.signature withCompletionHandler:^(NSArray *transactions, NSError *error) {
-            
-            if (error != nil || ((transactions.count > 0) && ([transactions.firstObject isHandled]))) {
-                [self checkTransaction:transactions.firstObject error:error];
-            }
-            
-        }];
+ 
+    if (self.presentingViewController != nil) {
+        if (self.transaction != nil) {
+            backgroundRequest = [[HPFGatewayClient sharedClient] getTransactionWithReference:self.transaction.transactionReference signature:self.signature withCompletionHandler:^(HPFTransaction *transaction, NSError *error) {
+                
+                [self checkTransaction:transaction error:error];
+                
+            }];
+        }
+        
+        else {
+            backgroundRequest = [[HPFGatewayClient sharedClient] getTransactionsWithOrderId:self.hostedPaymentPage.order.orderId signature:self.signature withCompletionHandler:^(NSArray *transactions, NSError *error) {
+                
+                if (error != nil || ((transactions.count > 0) && ([transactions.firstObject isHandled]))) {
+                    [self checkTransaction:transactions.firstObject error:error];
+                }
+                
+            }];
+        }
     }
 }
 
@@ -178,6 +180,9 @@
         if (transaction.state != HPFTransactionStateForwarding) {
             [self.delegate forwardViewController:self didEndWithTransaction:transaction];
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        
+        } else {
+            [self performSelector:@selector(reloadTransaction) withObject:nil afterDelay:5.0];
         }
     }
     
@@ -198,8 +203,21 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self performSelector:@selector(reloadTransaction) withObject:nil afterDelay:5.0];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self cancelBackgroundTransactionLoading];
+}
+
 - (void)dealloc
 {
+    [self cancelBackgroundTransactionLoading];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

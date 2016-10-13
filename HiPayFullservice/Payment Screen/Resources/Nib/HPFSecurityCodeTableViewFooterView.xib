@@ -25,7 +25,7 @@
                 <constraint firstItem="jDi-Ad-lNW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="05S-SP-Zhw"/>
                 <constraint firstAttribute="bottom" secondItem="jDi-Ad-lNW" secondAttribute="bottom" constant="8" id="4IW-9A-qld"/>
                 <constraint firstItem="SNq-Go-Pow" firstAttribute="leading" secondItem="jDi-Ad-lNW" secondAttribute="trailing" constant="8" id="9LJ-sy-0iH"/>
-                <constraint firstItem="jDi-Ad-lNW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="IBm-Pl-haT"/>
+                <constraint firstItem="jDi-Ad-lNW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IBm-Pl-haT"/>
                 <constraint firstAttribute="trailing" secondItem="SNq-Go-Pow" secondAttribute="trailing" constant="8" id="Lga-Is-lZB"/>
                 <constraint firstItem="SNq-Go-Pow" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="XDX-Oq-itA"/>
             </constraints>

@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w59-uK-QFy" id="MaH-gz-ssl">
-                <frame key="frameInset" width="320" height="44"/>
+                <frame key="frameInset" width="320" height="44.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eac-vp-4Tq" customClass="HPFSecurityCodeTextField">
@@ -36,7 +35,7 @@
                     <constraint firstItem="mJ1-Rv-Yaq" firstAttribute="centerY" secondItem="MaH-gz-ssl" secondAttribute="centerY" id="Cln-lu-qgp"/>
                     <constraint firstItem="eac-vp-4Tq" firstAttribute="top" secondItem="MaH-gz-ssl" secondAttribute="top" id="FEW-FF-69a"/>
                     <constraint firstAttribute="trailing" secondItem="eac-vp-4Tq" secondAttribute="trailing" id="I8S-s7-teQ"/>
-                    <constraint firstItem="mJ1-Rv-Yaq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="leadingMargin" id="YlQ-nT-4n9"/>
+                    <constraint firstItem="mJ1-Rv-Yaq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="leading" id="YlQ-nT-4n9"/>
                     <constraint firstItem="eac-vp-4Tq" firstAttribute="leading" secondItem="MaH-gz-ssl" secondAttribute="centerX" multiplier="0.8" id="hTB-X9-qwv"/>
                 </constraints>
             </tableViewCellContentView>

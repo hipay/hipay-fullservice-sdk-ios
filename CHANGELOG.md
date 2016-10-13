@@ -1,3 +1,6 @@
+# Version 0.6.0
+Sixth test version.
+
 # Version 0.5.0
 Fifth test version.
 

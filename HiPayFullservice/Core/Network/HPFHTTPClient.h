@@ -10,7 +10,7 @@
 #import "HPFHTTPResponse.h"
 #import "HPFRequest.h"
 
-typedef void (^HPFHTTPClientCompletionBlock)( HPFHTTPResponse  * _Nullable response, NSError *_Nonnull error);
+typedef void (^HPFHTTPClientCompletionBlock)( HPFHTTPResponse  * _Nullable response, NSError *_Nullable error);
 
 extern NSString * _Nonnull const HPFGatewayClientSignature;
 

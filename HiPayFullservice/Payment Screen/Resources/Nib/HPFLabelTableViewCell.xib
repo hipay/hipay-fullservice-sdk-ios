@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lLj-mf-I6F" id="u2t-NZ-XO0">
-                <frame key="frameInset" width="320" height="44"/>
+                <frame key="frameInset" width="320" height="44.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" text="Selected info" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
@@ -33,7 +33,7 @@
                     <constraint firstItem="VaG-B8-8hX" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="centerX" multiplier="0.8" id="83U-T4-8e4"/>
                     <constraint firstAttribute="trailingMargin" secondItem="puq-qj-JZP" secondAttribute="trailing" id="AxD-dD-mwT"/>
                     <constraint firstItem="VaG-B8-8hX" firstAttribute="centerY" secondItem="u2t-NZ-XO0" secondAttribute="centerY" id="C7R-lX-aFr"/>
-                    <constraint firstItem="VaG-B8-8hX" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leadingMargin" id="Eo7-xQ-nPI"/>
+                    <constraint firstItem="VaG-B8-8hX" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leading" id="Eo7-xQ-nPI"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerX" multiplier="0.8" id="GBB-nx-lOU"/>
                     <constraint firstAttribute="bottom" secondItem="puq-qj-JZP" secondAttribute="bottom" id="cy7-8S-jXq"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="top" secondItem="u2t-NZ-XO0" secondAttribute="top" id="wX9-PL-hZg"/>

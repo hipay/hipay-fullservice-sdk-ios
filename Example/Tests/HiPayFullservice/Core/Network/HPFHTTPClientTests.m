@@ -11,6 +11,7 @@
 #import "HPFHTTPClient+Testing.h"
 #import <OCMock/OCMock.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/OHPathHelpers.h>
 
 @interface HPFHTTPClientTests : XCTestCase
 {
@@ -362,7 +363,10 @@
 - (void)testPerformRequestWithMalformedJSONResponse
 {
     [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
-        return [OHHTTPStubsResponse responseWithFileAtPath:@"plain_text_response.txt" statusCode:200 headers:@{}];
+        
+        NSString* plainText = OHPathForFile(@"plain_text_response.txt", self.class);
+        //.return [OHHTTPStubsResponse responseWithFileAtPath:plainText statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return [OHHTTPStubsResponse responseWithFileAtPath:plainText statusCode:200 headers:@{}];
     }];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];

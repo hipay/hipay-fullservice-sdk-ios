@@ -30,7 +30,7 @@ Read the **[project documentation][doc-home]** for comprehensive information abo
 
 The **HiPay Fullservice SDK for iOS** is available under the **Apache 2.0 License**. Check out the [license file][project-license] for more information.
 
-[doc-home]: https://github.com/hipay/hipay-fullservice-sdk-ios/wiki
+[doc-home]: https://developer.hipay.com/doc/hipay-fullservice-sdk-ios/
 
 [hipay-help]: http://help.hipay.com
 

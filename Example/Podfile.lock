@@ -1,32 +1,32 @@
 PODS:
-  - HiPayFullservice (0.6.0):
-    - HiPayFullservice/Core (= 0.6.0)
-    - HiPayFullservice/Device-Print (= 0.6.0)
-    - HiPayFullservice/Payment-Screen (= 0.6.0)
-  - HiPayFullservice/Core (0.6.0)
-  - HiPayFullservice/Device-Print (0.6.0)
-  - HiPayFullservice/Payment-Screen (0.6.0):
+  - HiPayFullservice (1.0.0):
+    - HiPayFullservice/Core (= 1.0.0)
+    - HiPayFullservice/Device-Print (= 1.0.0)
+    - HiPayFullservice/Payment-Screen (= 1.0.0)
+  - HiPayFullservice/Core (1.0.0)
+  - HiPayFullservice/Device-Print (1.0.0)
+  - HiPayFullservice/Payment-Screen (1.0.0):
     - HiPayFullservice/Core
     - HiPayFullservice/Utilities
-  - HiPayFullservice/Utilities (0.6.0):
+  - HiPayFullservice/Utilities (1.0.0):
     - HiPayFullservice/Core
-  - HockeySDK (3.8.5):
-    - HockeySDK/AllFeaturesLib (= 3.8.5)
-  - HockeySDK/AllFeaturesLib (3.8.5)
-  - OCMock (3.1.5)
-  - OHHTTPStubs (4.3.0):
-    - OHHTTPStubs/Default (= 4.3.0)
-  - OHHTTPStubs/Core (4.3.0)
-  - OHHTTPStubs/Default (4.3.0):
+  - HockeySDK (4.1.2):
+    - HockeySDK/DefaultLib (= 4.1.2)
+  - HockeySDK/DefaultLib (4.1.2)
+  - OCMock (3.3.1)
+  - OHHTTPStubs (5.2.1):
+    - OHHTTPStubs/Default (= 5.2.1)
+  - OHHTTPStubs/Core (5.2.1)
+  - OHHTTPStubs/Default (5.2.1):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.3.0):
+  - OHHTTPStubs/JSON (5.2.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.3.0):
+  - OHHTTPStubs/NSURLSession (5.2.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.3.0)
+  - OHHTTPStubs/OHPathHelpers (5.2.1)
 
 DEPENDENCIES:
   - HiPayFullservice (from `../`)
@@ -39,10 +39,10 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  HiPayFullservice: 1d825a161429ae4812014e6b806de15af5c15aaa
-  HockeySDK: dd11a2b9da3372fd025643bee5bc10c8c613d169
-  OCMock: 4c2925291f80407c3738dd1db14d21d0cc278864
-  OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
+  HiPayFullservice: efe00e5a0edbe432faaab36f553fdfa2a6433202
+  HockeySDK: c7523379550a4305cefc1cdfa7b5f9a5a3538180
+  OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
+  OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
 
 PODFILE CHECKSUM: fb984d9ca19a1ad7c9ee10ea5e57b7e365920c24
 

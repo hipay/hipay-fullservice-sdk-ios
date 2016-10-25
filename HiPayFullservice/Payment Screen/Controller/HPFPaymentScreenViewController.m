@@ -11,6 +11,7 @@
 #import "HPFPaymentScreenUtils.h"
 #import "HPFTransactionRequestResponseManager.h"
 #import "HPFErrors.h"
+#import "HPFPaymentCardsScreenViewController.h"
 
 @interface HPFPaymentScreenViewController ()
 {
@@ -36,10 +37,16 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPFPaymentScreenViewsBundle()];
     HPFPaymentScreenViewController *viewController = [storyboard instantiateInitialViewController];
-    
-    [viewController loadPaymentProducts:paymentPageRequest signature:signature];
-    
+
+    [viewController setParameters:paymentPageRequest signature:signature];
+
     return viewController;
+}
+
+- (void)setParameters:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature {
+
+    _paymentPageRequest = paymentPageRequest;
+    _signature = signature;
 }
 
 - (instancetype)init
@@ -47,33 +54,31 @@
     @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"The class %@ should be instantiated using %@ and NOT %@.", self.class, NSStringFromSelector(@selector(paymentScreenViewControllerWithRequest:signature:)), NSStringFromSelector(_cmd)] userInfo:nil];
 }
 
-- (void)loadPaymentProducts:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature
+- (void)loadPaymentProductsToMainViewController:(HPFPaymentScreenMainViewController *)mainViewController
 {
-    _paymentPageRequest = paymentPageRequest;
-    _signature = signature;
 
-    [self mainViewController].loading = YES;
-    [self mainViewController].signature = _signature;
+    mainViewController.loading = YES;
+    mainViewController.signature = [self signature];
 
     [[HPFTransactionRequestResponseManager sharedManager] flushHistory];
-    
-    paymentProductsRequest = [[HPFGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
 
-        [self mainViewController].loading = NO;
+    paymentProductsRequest = [[HPFGatewayClient sharedClient] getPaymentProductsForRequest:[self paymentPageRequest] withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
+
+        mainViewController.loading = NO;
         paymentProductsRequest = nil;
-        
+
         if ((error == nil) && (thePaymentProducts.count > 0)) {
-            paymentProducts = [self fullPaymentProductsListWithPaymentProducts:thePaymentProducts andRequest:paymentPageRequest];
-            
-            [self setPaymentProductsToMainViewController];
+            paymentProducts = [self fullPaymentProductsListWithPaymentProducts:thePaymentProducts andRequest:[self paymentPageRequest]];
+
+            [self setPaymentProductsToMainViewController:mainViewController];
         }
-        
+
         else {
-            
+
             if (error != nil) {
                 [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPFLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_CANCEL") otherButtonTitles:HPFLocalizedString(@"ERROR_BUTTON_RETRY"), nil] show];
             }
-            
+
             else {
                 [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT") message:HPFLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil] show];
             }
@@ -110,10 +115,9 @@
     return thePaymentProducts;
 }
 
-- (void)setPaymentProductsToMainViewController
+- (void)setPaymentProductsToMainViewController:(HPFPaymentScreenMainViewController *)mainViewController
 {
-    HPFPaymentScreenMainViewController *mainViewController = [self mainViewController];
-    
+
     if (paymentProductsRequest != nil) {
         mainViewController.loading = YES;
     }
@@ -125,12 +129,18 @@
     }
 }
 
-
 - (HPFPaymentScreenMainViewController *)mainViewController
 {
-    return embeddedNavigationController.viewControllers.firstObject;
-}
 
+    for (UIViewController *viewController in embeddedNavigationController.viewControllers) {
+
+        if ([viewController isMemberOfClass:[HPFPaymentScreenMainViewController class]]) {
+            return (HPFPaymentScreenMainViewController *)viewController;
+        }
+    }
+    
+    return nil;
+}
 
 #pragma mark - View related methods
 
@@ -143,16 +153,20 @@
 {
     [super viewWillAppear:animated];
     
-    HPFPaymentScreenMainViewController *mainViewController = [self mainViewController];
-    
-    if ([self isModal]) {
-        mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
-    } else {
-        mainViewController.navigationItem.rightBarButtonItem = nil;
-    }
+    //UIViewController *lastViewController = embeddedNavigationController.viewControllers.lastObject;
+    //if ([self isModal]) {
+        //lastViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
+    //} else {
+        //lastViewController.navigationItem.rightBarButtonItem = nil;
+    //}
 }
 
 - (BOOL)isModal {
+
+    //BOOL first = self.presentingViewController.presentedViewController == self;
+    //BOOL second = (self.navigationController != nil && self.navigationController.presentingViewController.presentedViewController == self.navigationController);
+    //BOOL third = [self.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]];
+
     return self.presentingViewController.presentedViewController == self
     || (self.navigationController != nil && self.navigationController.presentingViewController.presentedViewController == self.navigationController)
     || [self.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]];
@@ -163,13 +177,23 @@
     if ([segue.identifier isEqualToString:@"contained_controller"]) {
         embeddedNavigationController = segue.destinationViewController;
         embeddedNavigationController.delegate = self;
+
+        // launch registered cards loader
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPFPaymentScreenViewsBundle()];
+        HPFPaymentCardsScreenViewController *paymentCardsScreenViewController = [storyboard instantiateViewControllerWithIdentifier:@"PaymentCards"];
+        paymentCardsScreenViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
+        [embeddedNavigationController pushViewController:paymentCardsScreenViewController animated:NO];
+
     }
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     if ([viewController isKindOfClass:[HPFPaymentScreenMainViewController class]]) {
-        [self setPaymentProductsToMainViewController];
+
+        HPFPaymentScreenMainViewController *mainViewController = (HPFPaymentScreenMainViewController *)viewController;
+        mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
+        [self loadPaymentProductsToMainViewController:mainViewController];
     }
 }
 
@@ -202,6 +226,7 @@
 
 - (void)cancelActivity
 {
+    // check about cancel request on both screens
     [[self mainViewController] cancelRequests];
     [self cancelBackgroundReload];
     [[HPFTransactionRequestResponseManager sharedManager] removeAlerts];
@@ -225,7 +250,12 @@
         }
         
         else {
-            [self loadPaymentProducts:self.paymentPageRequest signature:self.signature];
+
+            //check about both screens thing.
+            HPFPaymentScreenMainViewController *mainViewController = self.mainViewController;
+            if (mainViewController != nil) {
+                [self loadPaymentProductsToMainViewController:mainViewController];
+            }
         }
     }
 }
@@ -282,11 +312,11 @@
         [self cancelBackgroundReload];
     }
     
-    HPFPaymentScreenMainViewController *mainViewController = embeddedNavigationController.viewControllers.firstObject;
-    
-    [mainViewController focusOnSelectedPaymentProductWithAnimation:YES];
-    
-    [mainViewController setPaymentProductSelectionEnabled:!isLoading];
+    HPFPaymentScreenMainViewController *mainViewController = self.mainViewController;
+    if (mainViewController != nil) {
+        [mainViewController focusOnSelectedPaymentProductWithAnimation:YES];
+        [mainViewController setPaymentProductSelectionEnabled:!isLoading];
+    }
 }
 
 - (HPFPaymentProduct *)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController paymentProductForInferredPaymentProductCode:(NSString *)paymentProductCode
@@ -304,7 +334,11 @@
 
 - (void)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController changeSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct
 {
-    [[self mainViewController] changeSelectedPaymentProductTo:paymentProduct];
+
+    HPFPaymentScreenMainViewController *mainViewController = self.mainViewController;
+    if (mainViewController != nil) {
+        [mainViewController changeSelectedPaymentProductTo:paymentProduct];
+    }
 }
 
 - (void)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController needsBackgroundReloadingOfTransaction:(HPFTransaction *)transaction

@@ -30,6 +30,7 @@
     [super viewDidLoad];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
 }
 
 - (void)viewDidLayoutSubviews
@@ -373,7 +374,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 1) {
-        return [super dequeuePaymentButtonCell];
+
+        switch (indexPath.row) {
+
+            case 0: {
+                return [super dequeuePaymentButtonCell];
+
+            }
+        }
+
     }
     
     HPFInputTableViewCell *cell;
@@ -424,9 +433,22 @@
         
         return footer;
     }
-    
+
     return nil;
 }
+
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 1) {
+
+        HPFSecurityCodeTableViewFooterView *header = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PaymentCardSwitch"];
+        return header;
+    }
+
+    return nil;
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -437,4 +459,12 @@
     return 0.0;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 1) {
+        return 56.0f;
+    }
+
+    return 0.0;
+}
 @end

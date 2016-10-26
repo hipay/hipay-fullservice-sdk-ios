@@ -75,6 +75,8 @@
 
 "CARD_SECURITY_CODE_DESCRIPTION_CID" = "Le CID correspond aux 4 chiffres au recto de votre carte American Express.";
 
+"CARD_SWITCH_STORE_DESCRIPTION" = "Mémoriser cette carte pour les prochaines utilisations";
+
 "FORWARD_VIEW_BACK" = "Retour";
 
 "FORWARD_VIEW_FORWARD" = "Suivant";

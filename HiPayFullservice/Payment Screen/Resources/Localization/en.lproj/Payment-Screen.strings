@@ -75,6 +75,8 @@
 
 "CARD_SECURITY_CODE_DESCRIPTION_CID" = "The CID is the four-digit number on the front of your American Express card.";
 
+"CARD_SWITCH_STORE_DESCRIPTION" = "Store this card for future use";
+
 "FORWARD_VIEW_BACK" = "Back";
 
 "FORWARD_VIEW_FORWARD" = "Forward";

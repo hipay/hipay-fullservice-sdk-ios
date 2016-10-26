@@ -69,18 +69,15 @@
     switch (section) {
         case 0:
             return 4;
-            break;
-            
+
         case 1:
             return 1;
-            break;
-            
+
         case 2:
             return 1;
-            break;
-            
+
         default:
-            break;
+            return 0;
     }
 }
 
@@ -100,7 +97,7 @@
             if ([boolValue boolValue] == YES) {
                 cardCell.accessoryType = UITableViewCellAccessoryCheckmark;
             } else {
-                cardCell.accessoryType = nil;
+                cardCell.accessoryType = UITableViewCellAccessoryNone;
             }
             
             return cardCell;
@@ -128,6 +125,7 @@
         }
 
         default:
+            return nil;
             break;
     }
 }

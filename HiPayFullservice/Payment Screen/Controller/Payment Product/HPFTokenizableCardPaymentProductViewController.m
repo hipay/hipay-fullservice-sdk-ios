@@ -375,14 +375,7 @@
     
     if (indexPath.section == 1) {
 
-        switch (indexPath.row) {
-
-            case 0: {
-                return [super dequeuePaymentButtonCell];
-
-            }
-        }
-
+        return [super dequeuePaymentButtonCell];
     }
     
     HPFInputTableViewCell *cell;

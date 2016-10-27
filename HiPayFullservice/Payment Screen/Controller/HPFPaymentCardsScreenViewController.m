@@ -9,11 +9,17 @@
 #import "HPFPaymentCardsScreenViewController.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFPaymentScreenMainViewController.h"
+#import "HPFPaymentCardTokenDatabase.h"
+#import "HPFPaymentCardToken.h"
+#import "HPFPaymentCardTokenDoc.h"
+#import "HPFPaymentCardTableViewCell.h"
 
 @interface HPFPaymentCardsScreenViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView *tableCards;
 @property (nonatomic, strong) NSMutableArray *selectedCards;
+@property (nonatomic, strong) NSMutableArray *selectedCardsObjects;
+@property (nonatomic, strong) NSMutableArray *selectedCardsDocs;
 @property (nonatomic) BOOL isPayButtonActive;
 @property (nonatomic) BOOL isPayButtonLoading;
 
@@ -28,26 +34,26 @@
     self.isPayButtonLoading = NO;
     
     self.title = HPFLocalizedString(@"PAYMENT_SCREEN_TITLE");
-    NSMutableArray *cards = [NSMutableArray array];
-    [cards addObject:@NO];
-    [cards addObject:@NO];
-    [cards addObject:@NO];
-    [cards addObject:@NO];
-    
+
+    self.selectedCardsObjects = [HPFPaymentCardTokenDatabase paymentCardTokens];
+    self.selectedCardsDocs = [HPFPaymentCardTokenDatabase loadPaymentCardTokenDocs];
+
+    NSMutableArray *cards = [NSMutableArray arrayWithCapacity:[self.selectedCardsObjects count]];
+    for (int i = 0; i < self.selectedCardsObjects.count; ++i) {
+        [cards addObject:@NO];
+    }
+
     self.selectedCards = cards;
-    
+
     [self.tableCards registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
+
 }
-
-
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell {
     
     self.isPayButtonLoading = YES;
     [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-
 }
-
 
 #pragma mark - Table view data source
 
@@ -58,7 +64,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return @"Select a payment card";
+        return HPFLocalizedString(@"CARD_STORED_SELECTION");
     }
     
     return nil;
@@ -68,7 +74,7 @@
 {
     switch (section) {
         case 0:
-            return 4;
+            return self.selectedCards.count;
 
         case 1:
             return 1;
@@ -81,25 +87,60 @@
     }
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return YES;
+    } else {
+        return FALSE;
+    }
+}
+
+- (UIImage *) brandToImage:(NSString *)brand {
+
+    if (brand != nil && brand.length > 0) {
+        if ([brand caseInsensitiveCompare:@"mastercard"] == NSOrderedSame) {
+            return [UIImage imageNamed:@"ic_credit_card_mastercard.png" inBundle:HPFPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
+
+        } else if ([brand caseInsensitiveCompare:@"visa"] == NSOrderedSame) {
+            return [UIImage imageNamed:@"ic_credit_card_visa.png" inBundle:HPFPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
+        }
+    }
+
+    return [UIImage imageNamed:@"ic_credit_card.png" inBundle:HPFPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    //static NSString *CellIdentifier = @"Cell";
-    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
     switch (indexPath.section) {
         case 0: {
-            
-            UITableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
-            cardCell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
+
+            HPFPaymentCardTableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
+
+            HPFPaymentCardToken *paymentCardToken = self.selectedCardsObjects[indexPath.row];
+            cardCell.panLabel.text = [paymentCardToken pan];
+
+            NSString *issuer = [paymentCardToken issuer];
+            if (issuer != nil && issuer.length > 0) {
+
+                cardCell.bankLabel.text = issuer;
+
+            } else {
+
+                // remove constraints in the same time
+                [cardCell.bankLabel removeFromSuperview];
+                //cardCell.bankLabel.text = nil;
+            }
+
+            cardCell.cardImageView.image = [self brandToImage:paymentCardToken.brand];
+
             NSNumber *boolValue = self.selectedCards[indexPath.row];
             if ([boolValue boolValue] == YES) {
                 cardCell.accessoryType = UITableViewCellAccessoryCheckmark;
             } else {
                 cardCell.accessoryType = UITableViewCellAccessoryNone;
             }
-            
+
             return cardCell;
             
         }
@@ -120,20 +161,14 @@
             
             UITableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"AnotherPaymentCell" forIndexPath:indexPath];
             cardCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cardCell.textLabel.text = HPFLocalizedString(@"CARD_STORED_ANOTHER_SELECTION");
             return cardCell;
             
         }
 
         default:
             return nil;
-            break;
     }
-}
-
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
 }
 
 #pragma mark - Table view delegate
@@ -147,15 +182,13 @@
         case 0: {
             
             int index = -1;
-            BOOL isPayButtonActive = NO;
-            
+
             for (int i = 0; i < self.selectedCards.count; i++) {
                 
                 if (indexPath.row != i) {
                     NSNumber *boolValue = self.selectedCards[i];
                     if ([boolValue boolValue] == YES) {
                         
-                        isPayButtonActive = YES;
                         index = i;
                         [self.selectedCards replaceObjectAtIndex:i withObject:@NO];
                     }
@@ -175,7 +208,8 @@
             if (index != -1) {
                 [indexesPath addObject:[NSIndexPath indexPathForItem:index inSection:0]];
             }
-            
+
+            [self.tableCards beginUpdates];
             [self.tableCards reloadRowsAtIndexPaths:indexesPath withRowAnimation:UITableViewRowAnimationFade];
             
             BOOL activePayButton = [self.selectedCards[indexPath.row] boolValue];
@@ -185,13 +219,12 @@
                 self.isPayButtonActive = activePayButton;
                 [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
             }
-            
+            [self.tableCards endUpdates];
+
         } break;
             
         case 2: {
-            
-            
-            
+
         } break;
             
         default:
@@ -207,6 +240,25 @@
 }
 
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+
+        HPFPaymentCardTokenDoc *paymentCardTokenDoc = self.selectedCardsDocs[indexPath.row];
+        [paymentCardTokenDoc deleteDoc];
+
+        [self.selectedCardsObjects removeObjectAtIndex:indexPath.row];
+        [self.selectedCards removeObjectAtIndex:indexPath.row];
+        [self.selectedCardsDocs removeObjectAtIndex:indexPath.row];
+
+        [self.tableCards deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    return UITableViewCellEditingStyleDelete;
+}
 
 #pragma mark - Navigation
 
@@ -220,30 +272,7 @@
 // ------------------------------------------------------------------------------
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
     [super prepareForSegue:segue sender:sender];
-
-    /*
-    if ([segue.identifier isEqualToString:@"ToPlaceCaptureFlowNextStep"]) {
-        [self.placesCaptured addObjectsFromArray:self.selectedPlaces];
-    }
-    
-    HPFPaymentScreenMainViewController *mainViewController = [segue destinationViewController];
-
-
-
-
-    if ([destinationController isKindOfClass:[MCAddPlacesViewController class]]) {
-
-        MCAddPlacesViewController *controller = (MCAddPlacesViewController *) destinationController;
-        controller.type = self.type + 1;
-        controller.placesCaptured = [self placesCaptured];
-    }
-
-    */
 }
 
 /*
@@ -260,41 +289,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-- (void)loadPaymentProducts:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature
-{
-    _paymentPageRequest = paymentPageRequest;
-    _signature = signature;
-
-    [self mainViewController].loading = YES;
-    [self mainViewController].signature = _signature;
-
-    [[HPFTransactionRequestResponseManager sharedManager] flushHistory];
-
-    paymentProductsRequest = [[HPFGatewayClient sharedClient] getPaymentProductsForRequest:paymentPageRequest withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
-
-        [self mainViewController].loading = NO;
-        paymentProductsRequest = nil;
-
-        if ((error == nil) && (thePaymentProducts.count > 0)) {
-            paymentProducts = [self fullPaymentProductsListWithPaymentProducts:thePaymentProducts andRequest:paymentPageRequest];
-
-            [self setPaymentProductsToMainViewController];
-        }
-
-        else {
-
-            if (error != nil) {
-                [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPFLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_CANCEL") otherButtonTitles:HPFLocalizedString(@"ERROR_BUTTON_RETRY"), nil] show];
-            }
-
-            else {
-                [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT") message:HPFLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil] show];
-            }
-        }
-    }];
-}
-*/
 
 @end

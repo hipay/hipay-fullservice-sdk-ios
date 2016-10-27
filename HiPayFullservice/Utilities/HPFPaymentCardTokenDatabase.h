@@ -10,5 +10,6 @@
 
 + (NSMutableArray *)loadPaymentCardTokenDocs;
 + (NSString *)nextPaymentCardTokenDocPath;
++ (NSMutableArray *) paymentCardTokens;
 
 @end

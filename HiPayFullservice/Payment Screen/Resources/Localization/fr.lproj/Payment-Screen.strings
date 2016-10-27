@@ -77,6 +77,10 @@
 
 "CARD_SWITCH_STORE_DESCRIPTION" = "Mémoriser cette carte pour les prochaines utilisations";
 
+"CARD_STORED_SELECTION" = "Sélectionner une carte";
+
+"CARD_STORED_ANOTHER_SELECTION" = "Autre moyen de paiement";
+
 "FORWARD_VIEW_BACK" = "Retour";
 
 "FORWARD_VIEW_FORWARD" = "Suivant";

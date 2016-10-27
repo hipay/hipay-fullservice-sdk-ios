@@ -12,6 +12,7 @@
 #import "HPFTransactionRequestResponseManager.h"
 #import "HPFErrors.h"
 #import "HPFPaymentCardsScreenViewController.h"
+#import "HPFPaymentCardTokenDatabase.h"
 
 @interface HPFPaymentScreenViewController ()
 {
@@ -152,20 +153,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    //UIViewController *lastViewController = embeddedNavigationController.viewControllers.lastObject;
-    //if ([self isModal]) {
-        //lastViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
-    //} else {
-        //lastViewController.navigationItem.rightBarButtonItem = nil;
-    //}
 }
 
 - (BOOL)isModal {
-
-    //BOOL first = self.presentingViewController.presentedViewController == self;
-    //BOOL second = (self.navigationController != nil && self.navigationController.presentingViewController.presentedViewController == self.navigationController);
-    //BOOL third = [self.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]];
 
     return self.presentingViewController.presentedViewController == self
     || (self.navigationController != nil && self.navigationController.presentingViewController.presentedViewController == self.navigationController)
@@ -178,11 +168,20 @@
         embeddedNavigationController = segue.destinationViewController;
         embeddedNavigationController.delegate = self;
 
-        // launch registered cards loader
+        NSMutableArray *paymentCardTokens = [HPFPaymentCardTokenDatabase paymentCardTokens];
+        UIViewController *viewController;
+
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPFPaymentScreenViewsBundle()];
-        HPFPaymentCardsScreenViewController *paymentCardsScreenViewController = [storyboard instantiateViewControllerWithIdentifier:@"PaymentCards"];
-        paymentCardsScreenViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
-        [embeddedNavigationController pushViewController:paymentCardsScreenViewController animated:NO];
+
+        if (paymentCardTokens != nil && paymentCardTokens.count > 0) {
+            viewController = [storyboard instantiateViewControllerWithIdentifier:@"PaymentCards"];
+
+        } else {
+            viewController = [storyboard instantiateViewControllerWithIdentifier:@"Products"];
+        }
+
+        viewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
+        [embeddedNavigationController pushViewController:viewController animated:NO];
 
     }
 }

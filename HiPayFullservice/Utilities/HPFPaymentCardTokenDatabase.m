@@ -45,8 +45,23 @@
     }
 
     return retval;
-
 }
+
++ (NSMutableArray *) paymentCardTokens {
+
+    NSMutableArray *cardTokenDocs = [self loadPaymentCardTokenDocs];
+    if (cardTokenDocs != nil && cardTokenDocs.count > 0) {
+
+        NSMutableArray *paymentCardTokens = [NSMutableArray arrayWithCapacity:cardTokenDocs.count];
+        for (HPFPaymentCardTokenDoc *doc in cardTokenDocs) {
+            [paymentCardTokens addObject:[doc data]];
+        }
+        return paymentCardTokens;
+    }
+
+    return nil;
+}
+
 
 + (NSString *)nextPaymentCardTokenDocPath {
 

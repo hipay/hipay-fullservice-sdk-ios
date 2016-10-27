@@ -18,6 +18,7 @@
 #import "HPFSecurityCodeTableViewFooterView.h"
 #import "HPFSecurityCodeTextField.h"
 #import "HPFCardNumberInputTableViewCell.h"
+#import "HPFPaymentCardTokenDoc.h"
 
 @interface HPFTokenizableCardPaymentProductViewController ()
 
@@ -355,7 +356,10 @@
         transactionLoadingRequest = nil;
         
         if (cardToken != nil) {
-            
+
+            HPFPaymentCardTokenDoc *doc = [[HPFPaymentCardTokenDoc alloc] initWithPaymentCardToken:cardToken];
+            [doc saveData];
+
             HPFOrderRequest *orderRequest = [self createOrderRequest];
             
             orderRequest.paymentProductCode = inferedPaymentProductCode;
@@ -454,10 +458,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 1) {
+    if (section == 1 || section == 0) {
         return 56.0f;
     }
 
-    return 0.0;
+    return 0.0f;
 }
 @end

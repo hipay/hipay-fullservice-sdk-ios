@@ -77,6 +77,10 @@
 
 "CARD_SWITCH_STORE_DESCRIPTION" = "Store this card for future use";
 
+"CARD_STORED_SELECTION" = "Select a payment card";
+
+"CARD_STORED_ANOTHER_SELECTION" = "Another payment method";
+
 "FORWARD_VIEW_BACK" = "Back";
 
 "FORWARD_VIEW_FORWARD" = "Forward";

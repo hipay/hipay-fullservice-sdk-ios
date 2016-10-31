@@ -22,13 +22,11 @@
 
 - (void)removeDependency {
 
-    //[self removeConstraint:_dependencyConstraint];
     _dependencyConstraint.active = NO;
 }
 
 - (void)addDependency {
 
-    //[self removeConstraint:_dependencyConstraint];
     _dependencyConstraint.active = YES;
 }
 

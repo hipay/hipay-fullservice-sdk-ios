@@ -8,12 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPFPaymentCardTableViewCell : UITableViewCell {
-
-    //__weak IBOutlet UIImageView *cardImageView;
-    //__weak IBOutlet UILabel *panLabel;
-    //__weak IBOutlet UILabel *bankLabel;
-}
+@interface HPFPaymentCardTableViewCell : UITableViewCell
 
 @property (nonatomic) IBOutlet UIImageView *cardImageView;
 @property (nonatomic) IBOutlet UILabel *panLabel;

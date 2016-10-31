@@ -59,39 +59,63 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+
+    if (self.selectedCardsObjects.count == 0) {
+        return 1;
+    }
+
     return 3;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return HPFLocalizedString(@"CARD_STORED_SELECTION");
+
+    if (self.selectedCardsObjects.count > 0) {
+
+        if (section == 0) {
+            return HPFLocalizedString(@"CARD_STORED_SELECTION");
+        }
     }
-    
+
     return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    switch (section) {
-        case 0:
-            return self.selectedCards.count;
 
-        case 1:
-            return 1;
+    if (self.selectedCardsObjects.count == 0) {
+        return 1;
 
-        case 2:
-            return 1;
+    } else {
+        switch (section) {
+            case 0:
+                return self.selectedCardsObjects.count;
 
-        default:
-            return 0;
+            case 1:
+                return 1;
+
+            case 2:
+                return 1;
+
+            default:
+                return 0;
+        }
     }
+
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return YES;
+
+    if (self.selectedCardsObjects.count == 0) {
+
+        return NO;
+
     } else {
-        return FALSE;
+
+        if (indexPath.section == 0) {
+            return YES;
+        } else {
+            return NO;
+        }
     }
 }
 
@@ -112,62 +136,73 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case 0: {
 
-            HPFPaymentCardTableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
+    if (self.selectedCardsObjects.count == 0) {
 
-            HPFPaymentCardToken *paymentCardToken = self.selectedCardsObjects[indexPath.row];
-            cardCell.panLabel.text = [paymentCardToken pan];
+        UITableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"AnotherPaymentCell" forIndexPath:indexPath];
+        cardCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cardCell.textLabel.text = HPFLocalizedString(@"CARD_STORED_ANOTHER_SELECTION");
+        return cardCell;
 
-            NSString *issuer = [paymentCardToken issuer];
-            if (issuer != nil && issuer.length > 0) {
+    } else {
 
-                cardCell.bankLabel.text = issuer;
-                [cardCell addDependency];
+        switch (indexPath.section) {
+            case 0: {
 
-            } else {
+                HPFPaymentCardTableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
 
-                cardCell.bankLabel.text = @"";
-                [cardCell removeDependency];
+                HPFPaymentCardToken *paymentCardToken = self.selectedCardsObjects[indexPath.row];
+                cardCell.panLabel.text = [paymentCardToken pan];
+
+                NSString *issuer = [paymentCardToken issuer];
+                if (issuer != nil && issuer.length > 0) {
+
+                    cardCell.bankLabel.text = issuer;
+                    [cardCell addDependency];
+
+                } else {
+
+                    cardCell.bankLabel.text = @"";
+                    [cardCell removeDependency];
+                }
+
+                cardCell.cardImageView.image = [self brandToImage:paymentCardToken.brand];
+
+                NSNumber *boolValue = self.selectedCards[indexPath.row];
+                if ([boolValue boolValue] == YES) {
+                    cardCell.accessoryType = UITableViewCellAccessoryCheckmark;
+                } else {
+                    cardCell.accessoryType = UITableViewCellAccessoryNone;
+                }
+
+                return cardCell;
+
             }
 
-            cardCell.cardImageView.image = [self brandToImage:paymentCardToken.brand];
+            case 1: {
 
-            NSNumber *boolValue = self.selectedCards[indexPath.row];
-            if ([boolValue boolValue] == YES) {
-                cardCell.accessoryType = UITableViewCellAccessoryCheckmark;
-            } else {
-                cardCell.accessoryType = UITableViewCellAccessoryNone;
+                HPFPaymentButtonTableViewCell *payCell = [self.tableCards dequeueReusableCellWithIdentifier:@"PaymentButton"];
+                payCell.delegate = self;
+
+                payCell.enabled = self.isPayButtonActive;
+                payCell.loading = self.isPayButtonLoading;
+
+                return payCell;
+
             }
 
-            return cardCell;
-            
-        }
-            
-        case 1: {
-            
-            HPFPaymentButtonTableViewCell *payCell = [self.tableCards dequeueReusableCellWithIdentifier:@"PaymentButton"];
-            payCell.delegate = self;
-            
-            payCell.enabled = self.isPayButtonActive;
-            payCell.loading = self.isPayButtonLoading;
-            
-            return payCell;
-            
-        }
-            
-        case 2: {
-            
-            UITableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"AnotherPaymentCell" forIndexPath:indexPath];
-            cardCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cardCell.textLabel.text = HPFLocalizedString(@"CARD_STORED_ANOTHER_SELECTION");
-            return cardCell;
-            
-        }
+            case 2: {
 
-        default:
-            return nil;
+                UITableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"AnotherPaymentCell" forIndexPath:indexPath];
+                cardCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cardCell.textLabel.text = HPFLocalizedString(@"CARD_STORED_ANOTHER_SELECTION");
+                return cardCell;
+
+            }
+
+            default:
+                return nil;
+        }
     }
 }
 
@@ -176,62 +211,63 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    switch (indexPath.section) {
-            
-        case 0: {
-            
-            int index = -1;
 
-            for (int i = 0; i < self.selectedCards.count; i++) {
-                
-                if (indexPath.row != i) {
-                    NSNumber *boolValue = self.selectedCards[i];
-                    if ([boolValue boolValue] == YES) {
-                        
-                        index = i;
-                        [self.selectedCards replaceObjectAtIndex:i withObject:@NO];
+    if (self.selectedCardsObjects.count > 0) {
+
+        switch (indexPath.section) {
+
+            case 0: {
+
+                int index = -1;
+
+                for (int i = 0; i < self.selectedCards.count; i++) {
+
+                    if (indexPath.row != i) {
+                        NSNumber *boolValue = self.selectedCards[i];
+                        if ([boolValue boolValue] == YES) {
+
+                            index = i;
+                            [self.selectedCards replaceObjectAtIndex:i withObject:@NO];
+                        }
                     }
                 }
-            }
-            
-            NSNumber *boolValue = self.selectedCards[indexPath.row];
-            
-            if ([boolValue boolValue] == YES) {
-                [self.selectedCards replaceObjectAtIndex:indexPath.row withObject:@NO];
-            } else {
-                [self.selectedCards replaceObjectAtIndex:indexPath.row withObject:@YES];
-            }
-            
-            NSMutableArray *indexesPath = [NSMutableArray array];
-            [indexesPath addObject:indexPath];
-            if (index != -1) {
-                [indexesPath addObject:[NSIndexPath indexPathForItem:index inSection:0]];
-            }
 
-            [self.tableCards beginUpdates];
-            [self.tableCards reloadRowsAtIndexPaths:indexesPath withRowAnimation:UITableViewRowAnimationFade];
-            
-            BOOL activePayButton = [self.selectedCards[indexPath.row] boolValue];
-            
-            if (self.isPayButtonActive != activePayButton) {
-                
-                self.isPayButtonActive = activePayButton;
-                [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-            }
-            [self.tableCards endUpdates];
+                NSNumber *boolValue = self.selectedCards[indexPath.row];
 
-        } break;
-            
-        case 2: {
+                if ([boolValue boolValue] == YES) {
+                    [self.selectedCards replaceObjectAtIndex:indexPath.row withObject:@NO];
+                } else {
+                    [self.selectedCards replaceObjectAtIndex:indexPath.row withObject:@YES];
+                }
 
-        } break;
-            
-        default:
-            break;
+                NSMutableArray *indexesPath = [NSMutableArray array];
+                [indexesPath addObject:indexPath];
+                if (index != -1) {
+                    [indexesPath addObject:[NSIndexPath indexPathForItem:index inSection:0]];
+                }
+
+                [self.tableCards beginUpdates];
+                [self.tableCards reloadRowsAtIndexPaths:indexesPath withRowAnimation:UITableViewRowAnimationFade];
+
+                BOOL activePayButton = [self.selectedCards[indexPath.row] boolValue];
+
+                if (self.isPayButtonActive != activePayButton) {
+
+                    self.isPayButtonActive = activePayButton;
+                    [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+                }
+                [self.tableCards endUpdates];
+
+            } break;
+
+            case 2: {
+
+            } break;
+
+            default:
+                break;
+        }
     }
-    
-    
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -248,10 +284,27 @@
         [paymentCardTokenDoc deleteDoc];
 
         [self.selectedCardsObjects removeObjectAtIndex:indexPath.row];
+
+        BOOL isPayActive = [self.selectedCards[indexPath.row] boolValue];
+
         [self.selectedCards removeObjectAtIndex:indexPath.row];
         [self.selectedCardsDocs removeObjectAtIndex:indexPath.row];
 
-        [self.tableCards deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        if (self.selectedCardsDocs.count == 0) {
+
+            // sections removed
+            [self.tableCards deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,2)] withRowAnimation:UITableViewRowAnimationFade];
+
+        } else {
+
+            [self.tableCards deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
+            // disable pay button if row is removed
+            if (isPayActive) {
+                self.isPayButtonActive = NO;
+                [self.tableCards reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
+            }
+        }
     }
 }
 

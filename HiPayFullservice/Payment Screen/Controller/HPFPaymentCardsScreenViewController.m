@@ -33,7 +33,7 @@
     self.isPayButtonActive = NO;
     self.isPayButtonLoading = NO;
     
-    self.title = HPFLocalizedString(@"PAYMENT_SCREEN_TITLE");
+    self.title = HPFLocalizedString(@"PAYMENT_CARDS_SCREEN_TITLE");
 
     self.selectedCardsObjects = [HPFPaymentCardTokenDatabase paymentCardTokens];
     self.selectedCardsDocs = [HPFPaymentCardTokenDatabase loadPaymentCardTokenDocs];
@@ -42,7 +42,7 @@
     for (int i = 0; i < self.selectedCardsObjects.count; ++i) {
         [cards addObject:@NO];
     }
-
+ 
     self.selectedCards = cards;
 
     [self.tableCards registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
@@ -124,12 +124,12 @@
             if (issuer != nil && issuer.length > 0) {
 
                 cardCell.bankLabel.text = issuer;
+                [cardCell addDependency];
 
             } else {
 
-                // remove constraints in the same time
-                [cardCell.bankLabel removeFromSuperview];
-                //cardCell.bankLabel.text = nil;
+                cardCell.bankLabel.text = @"";
+                [cardCell removeDependency];
             }
 
             cardCell.cardImageView.image = [self brandToImage:paymentCardToken.brand];

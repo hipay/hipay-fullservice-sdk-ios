@@ -366,6 +366,11 @@
     NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
     NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
 
+    BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    if (paymentCardEnabled && [self isSwitchOn]) {
+        self.paymentPageRequest.multiUse = YES;
+    }
+
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
        
         [self setPaymentButtonLoadingMode:NO];
@@ -373,7 +378,6 @@
         
         if (cardToken != nil) {
 
-            BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
             if (paymentCardEnabled && [self isSwitchOn]) {
                 [[[HPFPaymentCardTokenDoc alloc] initWithPaymentCardToken:cardToken] saveData];
             }

@@ -179,7 +179,7 @@
             }
             
             else if (indexPath.row == multiUseRowIndex) {
-                cell.textLabel.text = NSLocalizedString(@"FORM_MULTI_USE", nil);
+                cell.textLabel.text = NSLocalizedString(@"FORM_CARD_STORAGE", nil);
                 cell.switchControl.on = multiUse;
             }
             
@@ -468,7 +468,10 @@
     paymentPageRequest.customer.firstname = @"John";
     paymentPageRequest.customer.lastname = @"Doe";
     paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
+
     paymentPageRequest.multiUse = multiUse;
+    [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
+
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
 
     switch (authenticationIndicatorSegmentIndex) {

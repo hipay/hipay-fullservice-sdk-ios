@@ -168,17 +168,18 @@
         embeddedNavigationController = segue.destinationViewController;
         embeddedNavigationController.delegate = self;
 
-        NSMutableArray *paymentCardTokens = [HPFPaymentCardTokenDatabase paymentCardTokens];
-        UIViewController *viewController;
+
+        NSString *controllerIdentifier = @"Products";
+
+        if ([HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled]) {
+            NSMutableArray *paymentCardTokens = [HPFPaymentCardTokenDatabase paymentCardTokens];
+            if (paymentCardTokens != nil && paymentCardTokens.count > 0) {
+                controllerIdentifier = @"PaymentCards";
+            }
+        }
 
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPFPaymentScreenViewsBundle()];
-
-        if (paymentCardTokens != nil && paymentCardTokens.count > 0) {
-            viewController = [storyboard instantiateViewControllerWithIdentifier:@"PaymentCards"];
-
-        } else {
-            viewController = [storyboard instantiateViewControllerWithIdentifier:@"Products"];
-        }
+        UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:controllerIdentifier];
 
         viewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
         [embeddedNavigationController pushViewController:viewController animated:NO];

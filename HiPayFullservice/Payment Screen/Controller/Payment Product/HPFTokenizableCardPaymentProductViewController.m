@@ -235,12 +235,10 @@
         if (newInferredPaymentProduct != inferedPaymentProduct) {
             inferedPaymentProduct = newInferredPaymentProduct;
 
-            if ([inferedPaymentProductCode isEqualToString:@"maestro"]) {
-
-                //remove header;
+            BOOL isCardStorageEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+            if (isCardStorageEnabled && [inferedPaymentProductCode isEqualToString:@"maestro"]) {
                 UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:1];
                 if (headerView != nil) {
-
                     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
                 }
             }
@@ -375,7 +373,8 @@
         
         if (cardToken != nil) {
 
-            if ([self isSwitchOn]) {
+            BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+            if (paymentCardEnabled && [self isSwitchOn]) {
                 [[[HPFPaymentCardTokenDoc alloc] initWithPaymentCardToken:cardToken] saveData];
             }
 
@@ -456,7 +455,9 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == 1) {
+
+    BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    if (section == 1 && paymentCardEnabled) {
 
         if (![inferedPaymentProductCode isEqualToString:@"maestro"]) {
 
@@ -497,7 +498,8 @@
 
         case 1: {
 
-            if (![inferedPaymentProductCode isEqualToString:@"maestro"]) {
+            BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+            if (![inferedPaymentProductCode isEqualToString:@"maestro"] && paymentCardEnabled) {
                 return 56.f;
             }
         }

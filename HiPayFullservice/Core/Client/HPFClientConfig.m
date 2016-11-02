@@ -21,6 +21,13 @@
     return sharedInstance;
 }
 
+- (id)init {
+    if (self = [super init]) {
+        self.paymentCardStorageEnabled = YES;
+    }
+    return self;
+}
+
 - (void)setAppURLscheme:(NSString *)appURLscheme
 {
     if (appURLscheme == nil) {

@@ -19,8 +19,11 @@
 #import "HPFSecurityCodeTextField.h"
 #import "HPFCardNumberInputTableViewCell.h"
 #import "HPFPaymentCardTokenDoc.h"
+#import "HPFPaymentCardSwitchTableHeaderView.h"
 
 @interface HPFTokenizableCardPaymentProductViewController ()
+
+@property (nonatomic) BOOL isSwitchOn;
 
 @end
 
@@ -32,6 +35,8 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
+
+    self.isSwitchOn = NO;
 }
 
 - (void)viewDidLayoutSubviews
@@ -217,6 +222,8 @@
     BOOL securityCodeSectionEnabled = [self securityCodeSectionEnabled];
     HPFSecurityCodeType currentSecurityCodeType = [self currentSecurityCodeType];
 
+    [self.tableView beginUpdates];
+
     if ((cardNumberTextField.paymentProductCodes.count == 1) && [[HPFCardNumberFormatter sharedFormatter] plainTextNumber:cardNumberTextField.text isInRangeForPaymentProductCode:cardNumberTextField.paymentProductCodes.anyObject]) {
         
         inferedPaymentProductCode = cardNumberTextField.paymentProductCodes.anyObject;
@@ -227,6 +234,16 @@
         
         if (newInferredPaymentProduct != inferedPaymentProduct) {
             inferedPaymentProduct = newInferredPaymentProduct;
+
+            if ([inferedPaymentProductCode isEqualToString:@"maestro"]) {
+
+                //remove header;
+                UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:1];
+                if (headerView != nil) {
+
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+                }
+            }
 
             if (!isDomestic) {
                 [self updateTitleHeader];
@@ -274,6 +291,8 @@
             }
         }
     }
+
+    [self.tableView endUpdates];
 }
 
 - (HPFSecurityCodeType)currentSecurityCodeType
@@ -348,8 +367,7 @@
     
     NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
     NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
-    
-    
+
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
        
         [self setPaymentButtonLoadingMode:NO];
@@ -357,8 +375,9 @@
         
         if (cardToken != nil) {
 
-            HPFPaymentCardTokenDoc *doc = [[HPFPaymentCardTokenDoc alloc] initWithPaymentCardToken:cardToken];
-            [doc saveData];
+            if ([self isSwitchOn]) {
+                [[[HPFPaymentCardTokenDoc alloc] initWithPaymentCardToken:cardToken] saveData];
+            }
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
             
@@ -439,11 +458,22 @@
 {
     if (section == 1) {
 
-        HPFSecurityCodeTableViewFooterView *header = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PaymentCardSwitch"];
-        return header;
+        if (![inferedPaymentProductCode isEqualToString:@"maestro"]) {
+
+            HPFPaymentCardSwitchTableHeaderView *header = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PaymentCardSwitch"];
+            [[header saveSwitch] addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+            return header;
+        }
+
+        self.isSwitchOn = NO;
     }
 
     return nil;
+}
+
+- (void) switchChanged:(UISwitch *)sender {
+
+    self.isSwitchOn = sender.isOn;
 }
 
 
@@ -458,10 +488,23 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 1 || section == 0) {
-        return 56.0f;
-    }
 
-    return 0.0f;
+    switch (section) {
+
+        case 0: {
+            return 56.f;
+        }
+
+        case 1: {
+
+            if (![inferedPaymentProductCode isEqualToString:@"maestro"]) {
+                return 56.f;
+            }
+        }
+
+        default: {
+            return 0.f;
+        }
+    }
 }
 @end

@@ -18,4 +18,14 @@
     saveTextLabel.text = HPFLocalizedString(@"CARD_SWITCH_STORE_DESCRIPTION");
 }
 
+- (BOOL)isEnabled
+{
+    return [self.saveSwitch isEnabled];
+}
+
+- (void)setEnabled:(BOOL)enabled
+{
+    self.saveSwitch.enabled = enabled;
+}
+
 @end

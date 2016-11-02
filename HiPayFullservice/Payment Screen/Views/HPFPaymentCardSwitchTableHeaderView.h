@@ -11,7 +11,9 @@
 @interface HPFPaymentCardSwitchTableHeaderView : UITableViewHeaderFooterView
 {
     __weak IBOutlet UILabel *saveTextLabel;
-    __weak IBOutlet UISwitch *saveSwitch;
 }
+
+@property (nonatomic) __weak IBOutlet UISwitch *saveSwitch;
+@property (nonatomic, getter=isEnabled) BOOL enabled;
 
 @end

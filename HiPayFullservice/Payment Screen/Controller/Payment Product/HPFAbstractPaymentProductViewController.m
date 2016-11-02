@@ -147,7 +147,12 @@
             [((HPFInputTableViewCell *)cell).textField resignFirstResponder];
         }
     }
-    
+
+    HPFPaymentCardSwitchTableHeaderView *headerView = [self.tableView headerViewForSection:1];
+    if (headerView != nil) {
+        headerView.enabled = !isLoading;
+    }
+
     [self.delegate paymentProductViewController:self isLoading:isLoading];
 }
 

@@ -30,10 +30,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = HPFLocalizedString(@"PAYMENT_CARDS_SCREEN_TITLE");
+    [self.tableCards registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
+}
+
+- (void) setupCards {
+
     self.isPayButtonActive = NO;
     self.isPayButtonLoading = NO;
-    
-    self.title = HPFLocalizedString(@"PAYMENT_CARDS_SCREEN_TITLE");
 
     self.selectedCardsObjects = [HPFPaymentCardTokenDatabase paymentCardTokens];
     self.selectedCardsDocs = [HPFPaymentCardTokenDatabase loadPaymentCardTokenDocs];
@@ -42,11 +46,16 @@
     for (int i = 0; i < self.selectedCardsObjects.count; ++i) {
         [cards addObject:@NO];
     }
- 
+
     self.selectedCards = cards;
+    [self.tableCards reloadData];
+}
 
-    [self.tableCards registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 
+    //[self.tableCards reloadData];
+    [self setupCards];
 }
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell {
@@ -290,6 +299,7 @@
         [self.selectedCards removeObjectAtIndex:indexPath.row];
         [self.selectedCardsDocs removeObjectAtIndex:indexPath.row];
 
+        [self.tableCards beginUpdates];
         if (self.selectedCardsDocs.count == 0) {
 
             // sections removed
@@ -305,6 +315,7 @@
                 [self.tableCards reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
             }
         }
+        [self.tableCards endUpdates];
     }
 }
 

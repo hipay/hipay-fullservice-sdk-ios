@@ -52,7 +52,7 @@
     authenticationIndicatorSegmentIndex = 3;
     colorSegmentIndex = 0;
     [self setupGlobalTintColor];
-    multiUse = NO;
+    multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
     groupedPaymentCard = YES;
     amount = 225.0;
     selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];

@@ -143,6 +143,19 @@
     return nil;
 }
 
+- (HPFPaymentCardsScreenViewController *)paymentCardViewController
+{
+
+    for (UIViewController *viewController in embeddedNavigationController.viewControllers) {
+
+        if ([viewController isMemberOfClass:[HPFPaymentCardsScreenViewController class]]) {
+            return (HPFPaymentCardsScreenViewController *)viewController;
+        }
+    }
+
+    return nil;
+}
+
 #pragma mark - View related methods
 
 - (void)viewDidLoad {
@@ -167,7 +180,6 @@
     if ([segue.identifier isEqualToString:@"contained_controller"]) {
         embeddedNavigationController = segue.destinationViewController;
         embeddedNavigationController.delegate = self;
-
 
         NSString *controllerIdentifier = @"Products";
 
@@ -194,6 +206,12 @@
         HPFPaymentScreenMainViewController *mainViewController = (HPFPaymentScreenMainViewController *)viewController;
         mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
         [self loadPaymentProductsToMainViewController:mainViewController];
+
+    } else if ([viewController isKindOfClass:[HPFPaymentCardsScreenViewController class]]) {
+
+        HPFPaymentCardsScreenViewController *cardsScreenViewController = (HPFPaymentCardsScreenViewController *)viewController;
+        cardsScreenViewController.paymentPageRequest = [self paymentPageRequest];
+        cardsScreenViewController.signature = [self signature];
     }
 }
 
@@ -226,8 +244,9 @@
 
 - (void)cancelActivity
 {
-    // check about cancel request on both screens
     [[self mainViewController] cancelRequests];
+    [[self paymentCardViewController] cancelRequests];
+
     [self cancelBackgroundReload];
     [[HPFTransactionRequestResponseManager sharedManager] removeAlerts];
 }

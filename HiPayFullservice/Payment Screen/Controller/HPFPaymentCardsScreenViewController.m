@@ -9,19 +9,26 @@
 #import "HPFPaymentCardsScreenViewController.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFPaymentScreenMainViewController.h"
-#import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardToken.h"
-#import "HPFPaymentCardTokenDoc.h"
+#import "HPFOrderRequest.h"
+#import "HPFGatewayClient.h"
+#import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardTableViewCell.h"
+#import "HPFPaymentCardTokenDoc.h"
+#import "HPFTransactionRequestResponseManager.h"
 
-@interface HPFPaymentCardsScreenViewController ()
+@interface HPFPaymentCardsScreenViewController () {
+
+    id<HPFRequest> transactionLoadingRequest;
+    HPFTransaction *transaction;
+}
 
 @property (strong, nonatomic) IBOutlet UITableView *tableCards;
 @property (nonatomic, strong) NSMutableArray *selectedCards;
 @property (nonatomic, strong) NSMutableArray *selectedCardsObjects;
 @property (nonatomic, strong) NSMutableArray *selectedCardsDocs;
-@property (nonatomic) BOOL isPayButtonActive;
-@property (nonatomic) BOOL isPayButtonLoading;
+@property (nonatomic, getter=isPayButtonActive) BOOL payButtonActive;
+@property (nonatomic, getter=isPayButtonLoading) BOOL payButtonLoading;
 
 @end
 
@@ -32,12 +39,15 @@
     
     self.title = HPFLocalizedString(@"PAYMENT_CARDS_SCREEN_TITLE");
     [self.tableCards registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
+
+    id<HPFPaymentProductViewControllerDelegate> paymentProductViewDelegate = (id<HPFPaymentProductViewControllerDelegate>) self.parentViewController.parentViewController;
+    self.delegate = paymentProductViewDelegate;
 }
 
 - (void) setupCards {
 
-    self.isPayButtonActive = NO;
-    self.isPayButtonLoading = NO;
+    self.payButtonActive = NO;
+    self.payButtonLoading = NO;
 
     self.selectedCardsObjects = [HPFPaymentCardTokenDatabase paymentCardTokens];
     self.selectedCardsDocs = [HPFPaymentCardTokenDatabase loadPaymentCardTokenDocs];
@@ -54,14 +64,144 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    //[self.tableCards reloadData];
     [self setupCards];
 }
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell {
-    
-    self.isPayButtonLoading = YES;
+
+    [self submit];
+}
+
+- (void)cancelRequests
+{
+    [transactionLoadingRequest cancel];
+}
+
+#pragma mark - Handle transaction
+
+
+- (void)checkTransactionError:(NSError *)transactionError
+{
+    [[HPFTransactionRequestResponseManager sharedManager] manageError:transactionError withCompletionHandler:^(HPFTransactionErrorResult *result) {
+
+        if(result.formAction == HPFFormActionQuit) {
+            [self.delegate paymentProductViewController:self didFailWithError:transactionError];
+        }
+
+        [self checkRequestResultStatus:result];
+
+    }];
+}
+
+- (void)checkTransactionStatus:(HPFTransaction *)theTransaction
+{
+    [[HPFTransactionRequestResponseManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPFTransactionErrorResult *result) {
+
+        if(result.formAction == HPFFormActionQuit) {
+
+            [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
+        }
+
+        [self checkRequestResultStatus:result];
+
+    }];
+}
+
+- (void)checkRequestResultStatus:(HPFTransactionErrorResult *)result
+{
+    switch (result.formAction) {
+        case HPFFormActionReset:
+            // do nothing
+            //[self resetForm];
+            break;
+
+        case HPFFormActionFormReload:
+            //retry manually
+            [self submit];
+            break;
+
+        case HPFFormActionBackgroundReload:
+            [self needsBackgroundTransactionOrOrderReload];
+            break;
+
+        default:
+            break;
+    }
+}
+
+- (void)submit
+{
+
+    self.payButtonLoading = YES;
+    self.payButtonActive = NO;
+
+    int index = -1;
+    for (int i = 0; i < self.selectedCards.count; ++i) {
+        if ([self.selectedCards[i] isEqual:@YES]) {
+            index = i;
+            break;
+        }
+    }
+
     [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+
+    HPFPaymentCardToken *paymentCardToken = self.selectedCardsObjects[index];
+
+    NSMutableString *productCode = [paymentCardToken.brand mutableCopy];
+    [productCode replaceOccurrencesOfString:@" " withString:@"_" options:NSCaseInsensitiveSearch range:NSMakeRange(0, productCode.length)];
+
+    HPFOrderRequest *orderRequest = [[HPFOrderRequest alloc] initWithOrderRelatedRequest:self.paymentPageRequest];
+    orderRequest.paymentProductCode = [productCode lowercaseString];
+    orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:paymentCardToken.token eci:HPFECIRecurringECommerce authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
+
+    [self cancelRequests];
+
+    transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:[self signature] withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
+
+        transactionLoadingRequest = nil;
+
+        if (theTransaction != nil) {
+
+            transaction = theTransaction;
+
+            /*
+            if (transaction.forwardUrl != nil) {
+
+                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:[self signature]];
+                viewController.delegate = self;
+
+                [self presentViewController:viewController animated:YES completion:nil];
+            }
+
+            else {
+                [self checkTransactionStatus:transaction];
+            }
+            */
+
+            [self checkTransactionStatus:transaction];
+        }
+
+        else {
+            [self checkTransactionError:error];
+        }
+
+        self.payButtonActive = YES;
+        self.payButtonLoading = NO;
+        [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+
+    }];
+
+}
+
+- (void)needsBackgroundTransactionOrOrderReload
+{
+    if (transaction != nil) {
+        [self.delegate paymentProductViewController:self needsBackgroundReloadingOfTransaction:transaction];
+    }
+
+    else {
+        [self.delegate paymentProductViewControllerNeedsBackgroundOrderReload:self];
+    }
 }
 
 #pragma mark - Table view data source
@@ -262,10 +402,15 @@
 
                 if (self.isPayButtonActive != activePayButton) {
 
-                    self.isPayButtonActive = activePayButton;
+                    self.payButtonActive = activePayButton;
                     [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
                 }
                 [self.tableCards endUpdates];
+
+            } break;
+
+            case 1: {
+
 
             } break;
 
@@ -311,7 +456,7 @@
 
             // disable pay button if row is removed
             if (isPayActive) {
-                self.isPayButtonActive = NO;
+                self.payButtonActive = NO;
                 [self.tableCards reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
             }
         }

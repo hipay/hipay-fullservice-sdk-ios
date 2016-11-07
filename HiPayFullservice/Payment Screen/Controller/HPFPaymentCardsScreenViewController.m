@@ -187,10 +187,12 @@
 
         self.payButtonActive = YES;
         self.payButtonLoading = NO;
-        [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+
+        [self.tableCards reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)] withRowAnimation:UITableViewRowAnimationNone];
 
     }];
 
+    [self.delegate paymentProductViewController:nil isLoading:true];
 }
 
 - (void)needsBackgroundTransactionOrOrderReload
@@ -345,6 +347,7 @@
                 UITableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"AnotherPaymentCell" forIndexPath:indexPath];
                 cardCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 cardCell.textLabel.text = HPFLocalizedString(@"CARD_STORED_ANOTHER_SELECTION");
+
                 return cardCell;
 
             }
@@ -425,7 +428,11 @@
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
+    if (self.isPayButtonLoading) {
+        return nil;
+    }
+
     return indexPath;
 }
 

@@ -3,92 +3,76 @@
 //
 
 #import "HPFPaymentCardTokenDatabase.h"
-#import "HPFPaymentCardTokenDoc.h"
+#import "FXKeychain.h"
+#import "HPFPaymentCardToken.h"
 
 @implementation HPFPaymentCardTokenDatabase
 
-+ (NSString *)getPrivateDocsDir {
++ (BOOL) clearPaymentCardTokens {
 
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    documentsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Private Documents"];
-
-    NSError *error;
-    [[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectory withIntermediateDirectories:YES attributes:nil error:&error];
-
-    return documentsDirectory;
-
+    FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
+    return [fxKeychain removeObjectForKey:@"paymentCardToken"];
 }
 
-+ (NSMutableArray *)loadPaymentCardTokenDocs {
++ (NSArray *) paymentCardTokens {
 
-    // Get private docs dir
-    NSString *documentsDirectory = [HPFPaymentCardTokenDatabase getPrivateDocsDir];
-    //NSLog(@"Loading bugs from %@", documentsDirectory);
+    FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
 
-    // Get contents of documents directory
-    NSError *error;
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:&error];
-    if (files == nil) {
-        //NSLog(@"Error reading contents of documents directory: %@", [error localizedDescription]);
-        return nil;
-    }
-
-    // Create HPFPaymentCardTokenDoc for each file
-    NSMutableArray *retval = [NSMutableArray arrayWithCapacity:files.count];
-    for (NSString *file in files) {
-        if ([file.pathExtension compare:@"paymentCardToken" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
-            NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:file];
-            HPFPaymentCardTokenDoc *doc = [[HPFPaymentCardTokenDoc alloc] initWithDocPath:fullPath];
-            [retval addObject:doc];
-        }
-    }
-
-    return retval;
-}
-
-+ (NSMutableArray *) paymentCardTokens {
-
-    NSMutableArray *cardTokenDocs = [self loadPaymentCardTokenDocs];
-    if (cardTokenDocs != nil && cardTokenDocs.count > 0) {
-
-        NSMutableArray *paymentCardTokens = [NSMutableArray arrayWithCapacity:cardTokenDocs.count];
-        for (HPFPaymentCardTokenDoc *doc in cardTokenDocs) {
-            [paymentCardTokens addObject:[doc data]];
-        }
-        return paymentCardTokens;
+    NSArray *tokens = [fxKeychain objectForKey:@"paymentCardToken"];
+    if (tokens != nil && tokens.count > 0) {
+        return tokens;
     }
 
     return nil;
 }
 
++ (void) save:(HPFPaymentCardToken *)paymentCardToken {
 
-+ (NSString *)nextPaymentCardTokenDocPath {
+    FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
 
-    // Get private docs dir
-    NSString *documentsDirectory = [HPFPaymentCardTokenDatabase getPrivateDocsDir];
+    NSArray *tokens = [self paymentCardTokens];
 
-    // Get contents of documents directory
-    NSError *error;
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:&error];
-    if (files == nil) {
-        NSLog(@"Error reading contents of documents directory: %@", [error localizedDescription]);
-        return nil;
-    }
+    BOOL alreadyThere = NO;
+    for (HPFPaymentCardToken *cardToken in tokens) {
 
-    // Search for an available name
-    int maxNumber = 0;
-    for (NSString *file in files) {
-        if ([file.pathExtension compare:@"paymentCardToken" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
-            NSString *fileName = [file stringByDeletingPathExtension];
-            maxNumber = MAX(maxNumber, fileName.intValue);
+        if ([cardToken isEqualToPaymentCardToken:paymentCardToken]) {
+            alreadyThere = YES;
         }
     }
 
-    // Get available name
-    NSString *availableName = [NSString stringWithFormat:@"%d.paymentCardToken", maxNumber+1];
-    return [documentsDirectory stringByAppendingPathComponent:availableName];
+    if (alreadyThere == NO) {
 
+        if (tokens != nil && tokens.count > 0) {
+            [fxKeychain setObject:[tokens arrayByAddingObject:paymentCardToken] forKey:@"paymentCardToken"];
+
+        } else {
+            [fxKeychain setObject:[NSArray arrayWithObject:paymentCardToken] forKey:@"paymentCardToken"];
+        }
+    }
+}
+
++ (void) delete:(HPFPaymentCardToken *)paymentCardToken {
+
+    int index = -1;
+    NSArray *tokens = [self paymentCardTokens];
+    if (tokens != nil) {
+
+        for (int i = 0; i < tokens.count; ++i) {
+
+            if ([tokens[i] isEqualToPaymentCardToken:paymentCardToken]) {
+                index = i;
+            }
+        }
+
+        if (index != -1) {
+
+            NSMutableArray *mutableTokens = [tokens mutableCopy];
+            [mutableTokens removeObjectAtIndex:index];
+
+            FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
+            [fxKeychain setObject:[NSArray arrayWithArray:mutableTokens] forKey:@"paymentCardToken"];
+        }
+    }
 }
 
 @end

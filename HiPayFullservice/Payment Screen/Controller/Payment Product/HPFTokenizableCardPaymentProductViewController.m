@@ -18,8 +18,9 @@
 #import "HPFSecurityCodeTableViewFooterView.h"
 #import "HPFSecurityCodeTextField.h"
 #import "HPFCardNumberInputTableViewCell.h"
-#import "HPFPaymentCardTokenDoc.h"
 #import "HPFPaymentCardSwitchTableHeaderView.h"
+#import "FXKeychain.h"
+#import "HPFPaymentCardTokenDatabase.h"
 
 @interface HPFTokenizableCardPaymentProductViewController ()
 
@@ -379,7 +380,7 @@
         if (cardToken != nil) {
 
             if (paymentCardEnabled && [self isSwitchOn]) {
-                [[[HPFPaymentCardTokenDoc alloc] initWithPaymentCardToken:cardToken] saveData];
+                [HPFPaymentCardTokenDatabase save:cardToken];
             }
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];

@@ -8,6 +8,7 @@
 
 #import "HPFClientConfig.h"
 #import "DevicePrint.h"
+#import "HPFPaymentCardTokenDatabase.h"
 
 @implementation HPFClientConfig
 
@@ -26,6 +27,11 @@
         self.paymentCardStorageEnabled = YES;
     }
     return self;
+}
+
+- (void)clearStoredPaymentCard {
+
+    [HPFPaymentCardTokenDatabase clearPaymentCardTokens];
 }
 
 - (void)setAppURLscheme:(NSString *)appURLscheme

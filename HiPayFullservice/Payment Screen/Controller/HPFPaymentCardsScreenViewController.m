@@ -14,7 +14,6 @@
 #import "HPFGatewayClient.h"
 #import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardTableViewCell.h"
-#import "HPFPaymentCardTokenDoc.h"
 #import "HPFTransactionRequestResponseManager.h"
 
 @interface HPFPaymentCardsScreenViewController () {
@@ -26,7 +25,6 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableCards;
 @property (nonatomic, strong) NSMutableArray *selectedCards;
 @property (nonatomic, strong) NSMutableArray *selectedCardsObjects;
-@property (nonatomic, strong) NSMutableArray *selectedCardsDocs;
 @property (nonatomic, getter=isPayButtonActive) BOOL payButtonActive;
 @property (nonatomic, getter=isPayButtonLoading) BOOL payButtonLoading;
 
@@ -49,8 +47,7 @@
     self.payButtonActive = NO;
     self.payButtonLoading = NO;
 
-    self.selectedCardsObjects = [HPFPaymentCardTokenDatabase paymentCardTokens];
-    self.selectedCardsDocs = [HPFPaymentCardTokenDatabase loadPaymentCardTokenDocs];
+    self.selectedCardsObjects = [[HPFPaymentCardTokenDatabase paymentCardTokens] mutableCopy];
 
     NSMutableArray *cards = [NSMutableArray arrayWithCapacity:[self.selectedCardsObjects count]];
     for (int i = 0; i < self.selectedCardsObjects.count; ++i) {
@@ -441,18 +438,19 @@
 
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 
-        HPFPaymentCardTokenDoc *paymentCardTokenDoc = self.selectedCardsDocs[indexPath.row];
-        [paymentCardTokenDoc deleteDoc];
+        //HPFPayment *paymentCardTokenDoc = self.selectedCardsDocs[indexPath.row];
+        //[paymentCardTokenDoc deleteDoc];
+
+        HPFPaymentCardToken * cardToken = self.selectedCardsObjects[indexPath.row];
+        [HPFPaymentCardTokenDatabase delete:cardToken];
 
         [self.selectedCardsObjects removeObjectAtIndex:indexPath.row];
-
         BOOL isPayActive = [self.selectedCards[indexPath.row] boolValue];
 
         [self.selectedCards removeObjectAtIndex:indexPath.row];
-        [self.selectedCardsDocs removeObjectAtIndex:indexPath.row];
 
         [self.tableCards beginUpdates];
-        if (self.selectedCardsDocs.count == 0) {
+        if (self.selectedCardsObjects.count == 0) {
 
             // sections removed
             [self.tableCards deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,2)] withRowAnimation:UITableViewRowAnimationFade];

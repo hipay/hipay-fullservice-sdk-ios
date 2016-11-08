@@ -63,6 +63,8 @@ typedef NS_ENUM(NSInteger, HPFEnvironment) {
 
 - (void)setEnvironment:(HPFEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password appURLscheme:(NSString * _Nonnull)appURLscheme;
 
+- (void)clearStoredPaymentCard;
+
 /**
  *  The parameter to enable payment card token storage for future use
  */

@@ -4,12 +4,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class HPFPaymentCardToken;
+
 @interface HPFPaymentCardTokenDatabase : NSObject {
 
 }
 
-+ (NSMutableArray *)loadPaymentCardTokenDocs;
-+ (NSString *)nextPaymentCardTokenDocPath;
 + (NSMutableArray *) paymentCardTokens;
++ (BOOL) clearPaymentCardTokens;
++ (void) save:(HPFPaymentCardToken *)paymentCardToken;
++ (void) delete:(HPFPaymentCardToken *)paymentCardToken;
 
 @end

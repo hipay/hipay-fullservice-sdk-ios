@@ -106,7 +106,7 @@
             
             if (cell != nil) {
                 NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-                
+
                 UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
                 
                 // Last row of section before payment button; scroll to top

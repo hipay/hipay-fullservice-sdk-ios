@@ -187,6 +187,7 @@
 
         [self.tableCards reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)] withRowAnimation:UITableViewRowAnimationNone];
 
+        [self.delegate paymentProductViewController:nil isLoading:false];
     }];
 
     [self.delegate paymentProductViewController:nil isLoading:true];
@@ -217,11 +218,25 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
-    if (self.selectedCardsObjects.count > 0) {
+    switch (section) {
+        case 0: {
 
-        if (section == 0) {
-            return HPFLocalizedString(@"CARD_STORED_SELECTION");
+            if (self.selectedCardsObjects.count > 0) {
+                return HPFLocalizedString(@"CARD_STORED_SELECTION");
+            }
+
+        } break;
+
+        case 1: {
+            NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+            numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
+            numberFormatter.currencyCode = self.paymentPageRequest.currency;
+
+            return [NSString stringWithFormat:HPFLocalizedString(@"TOTAL_AMOUNT"), [numberFormatter stringFromNumber:self.paymentPageRequest.amount]];
         }
+
+        default:
+            return nil;
     }
 
     return nil;

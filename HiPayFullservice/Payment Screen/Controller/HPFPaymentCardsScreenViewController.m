@@ -285,11 +285,17 @@
 - (UIImage *) brandToImage:(NSString *)brand {
 
     if (brand != nil && brand.length > 0) {
-        if ([brand caseInsensitiveCompare:@"mastercard"] == NSOrderedSame) {
+        if ([brand caseInsensitiveCompare:HPFPaymentProductCodeMasterCard] == NSOrderedSame) {
             return [UIImage imageNamed:@"ic_credit_card_mastercard.png" inBundle:HPFPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
 
-        } else if ([brand caseInsensitiveCompare:@"visa"] == NSOrderedSame) {
+        } else if ([brand caseInsensitiveCompare:HPFPaymentProductCodeVisa] == NSOrderedSame) {
             return [UIImage imageNamed:@"ic_credit_card_visa.png" inBundle:HPFPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
+
+        } else if ([brand caseInsensitiveCompare:HPFPaymentProductCodeAmericanExpress] == NSOrderedSame) {
+            return [UIImage imageNamed:@"ic_credit_card_amex.png" inBundle:HPFPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
+
+        } else if ([brand caseInsensitiveCompare:HPFPaymentProductCodeDiners] == NSOrderedSame) {
+            return [UIImage imageNamed:@"ic_credit_card_diners.png" inBundle:HPFPaymentScreenViewsBundle() compatibleWithTraitCollection:nil];
         }
     }
 
@@ -329,7 +335,7 @@
                     [cardCell removeDependency];
                 }
 
-                cardCell.cardImageView.image = [self brandToImage:paymentCardToken.brand];
+                cardCell.cardImageView.image = [self brandToImage:[paymentCardToken.brand stringByReplacingOccurrencesOfString:@" " withString:@"-"]];
 
                 NSNumber *boolValue = self.selectedCards[indexPath.row];
                 if ([boolValue boolValue] == YES) {

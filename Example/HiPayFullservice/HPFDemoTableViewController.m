@@ -52,7 +52,6 @@
     authenticationIndicatorSegmentIndex = 3;
     colorSegmentIndex = 0;
     [self setupGlobalTintColor];
-    multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
     groupedPaymentCard = YES;
     amount = 225.0;
     selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];
@@ -73,7 +72,7 @@
     [super viewDidLoad];
     
     defaultGlobalTintColor = self.view.tintColor;
-    
+
     if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
@@ -100,7 +99,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
+    multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+
     if (productCategoriesViewController != nil) {
         selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationFade];

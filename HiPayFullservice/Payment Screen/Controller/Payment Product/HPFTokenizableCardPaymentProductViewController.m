@@ -222,6 +222,7 @@
     BOOL wasPaymentProductDisallowed = paymentProductDisallowed;
     BOOL securityCodeSectionEnabled = [self securityCodeSectionEnabled];
     HPFSecurityCodeType currentSecurityCodeType = [self currentSecurityCodeType];
+    BOOL isCardStorageEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
 
     [self.tableView beginUpdates];
 
@@ -236,8 +237,7 @@
         if (newInferredPaymentProduct != inferedPaymentProduct) {
             inferedPaymentProduct = newInferredPaymentProduct;
 
-            BOOL isCardStorageEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
-            if (isCardStorageEnabled && [inferedPaymentProductCode isEqualToString:@"maestro"]) {
+            if (isCardStorageEnabled) {
                 UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:1];
                 if (headerView != nil) {
                     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
@@ -263,6 +263,10 @@
         paymentProductDisallowed = NO;
         [self updateTitleHeader];
         [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:self.paymentProduct];
+
+        if (isCardStorageEnabled) {
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
     
     if (!paymentProductDisallowed) {
@@ -302,6 +306,15 @@
     
     // Default behavior for selected payment product
     return [HPFPaymentProduct securityCodeTypeForPaymentProductCode:self.paymentProduct.code];
+}
+
+- (BOOL)paymentCardStorageEnabled
+{
+    if (inferedPaymentProductCode != nil) {
+        return [HPFPaymentProduct isPaymentCardStorageEnabledForPaymentProductCode:inferedPaymentProductCode];
+    }
+
+    return [HPFPaymentProduct isPaymentCardStorageEnabledForPaymentProductCode:self.paymentProduct.code];
 }
 
 - (BOOL)securityCodeSectionEnabled
@@ -464,7 +477,7 @@
     BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
     if (section == 1 && paymentCardEnabled) {
 
-        if (![inferedPaymentProductCode isEqualToString:@"maestro"]) {
+        if ([self paymentCardStorageEnabled]) {
 
             HPFPaymentCardSwitchTableHeaderView *header = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PaymentCardSwitch"];
             [[header saveSwitch] addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
@@ -504,7 +517,8 @@
         case 1: {
 
             BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
-            if (![inferedPaymentProductCode isEqualToString:@"maestro"] && paymentCardEnabled) {
+
+            if ([self paymentCardStorageEnabled] && paymentCardEnabled) {
                 return 56.f;
             }
         }

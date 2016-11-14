@@ -4,6 +4,7 @@
 "PAYMENT_REDIRECTION_DETAILS" = "You will be redirected to a secure page in order to complete your payment.";
 
 "PAYMENT_SCREEN_TITLE" = "Payment";
+"PAYMENT_CARDS_SCREEN_TITLE" = "Payment cards";
 
 "TOTAL_AMOUNT" = "Total amount: %@";
 
@@ -74,6 +75,12 @@
 "CARD_SECURITY_CODE_DESCRIPTION_CVV" = "The CVV is the three-digit number on the back of your payment card.";
 
 "CARD_SECURITY_CODE_DESCRIPTION_CID" = "The CID is the four-digit number on the front of your American Express card.";
+
+"CARD_SWITCH_STORE_DESCRIPTION" = "Store this card for future use";
+
+"CARD_STORED_SELECTION" = "Select a payment card";
+
+"CARD_STORED_ANOTHER_SELECTION" = "Another payment method";
 
 "FORWARD_VIEW_BACK" = "Back";
 

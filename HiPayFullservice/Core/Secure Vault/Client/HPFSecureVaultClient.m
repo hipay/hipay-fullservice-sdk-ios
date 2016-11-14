@@ -132,7 +132,7 @@
         
         if (error == nil) {
             HPFPaymentCardToken *newToken = [self paymentCardTokenWithData:response.body];
-            
+
             if (newToken != nil) {
                 resultObject = newToken;
             } else {

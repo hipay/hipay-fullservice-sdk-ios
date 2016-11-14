@@ -16,7 +16,11 @@
 {
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
     
-    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage username:parameters[@"hipay"][@"username"] password:parameters[@"hipay"][@"password"] appURLscheme:@"hipayexample"];
+    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage
+                                                username:parameters[@"hipay"][@"username"]
+                                                password:parameters[@"hipay"][@"password"]
+                                            appURLscheme:@"hipayexample"
+                               paymentCardStorageEnabled:true];
 
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:parameters[@"hockeyapp"][@"app_identifier"]];
     [[BITHockeyManager sharedHockeyManager] startManager];

@@ -8,6 +8,8 @@
 
 #import "HPFClientConfig.h"
 #import "DevicePrint.h"
+#import "HPFPaymentCardTokenDatabase.h"
+#import "FXKeychain.h"
 
 @implementation HPFClientConfig
 
@@ -19,6 +21,17 @@
         sharedInstance = [[self alloc] init];
     });
     return sharedInstance;
+}
+
+- (id)init {
+    if (self = [super init]) {
+    }
+    return self;
+}
+
+- (void)clearStoredPaymentCard {
+
+    [HPFPaymentCardTokenDatabase clearPaymentCardTokens];
 }
 
 - (void)setAppURLscheme:(NSString *)appURLscheme
@@ -53,13 +66,33 @@
     }
 }
 
-- (void)setEnvironment:(HPFEnvironment)environment username:(NSString *)username password:(NSString *)password appURLscheme:(NSString *)appURLscheme
+- (void)setPaymentCardStorageEnabled:(BOOL)enabled {
+
+    _paymentCardStorageEnabled = enabled;
+
+    if (enabled) {
+
+        FXKeychain *keychain = [FXKeychain defaultKeychain];
+
+        if ([keychain setObject:@"hello" forKey:@"world"]) {
+            [keychain removeObjectForKey:@"world"];
+
+        } else {
+
+            NSString *exceptionMessage = [NSString stringWithFormat:@"The Keychain Sharing seems disabled. Check your configuration in your project settings > Capabilities and switch Keychain Sharing to ON."];
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:exceptionMessage userInfo:nil];
+        }
+    }
+}
+
+- (void)setEnvironment:(HPFEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password appURLscheme:(NSString * _Nonnull)appURLscheme paymentCardStorageEnabled:(BOOL)enabled
 {
     _environment = environment;
     _username = username;
     _password = password;
     
     [self setAppURLscheme:appURLscheme];
+    [self setPaymentCardStorageEnabled:enabled];
     
     id devicePrintClass = NSClassFromString(@"DevicePrint");
     

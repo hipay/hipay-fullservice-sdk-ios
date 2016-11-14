@@ -52,7 +52,6 @@
     authenticationIndicatorSegmentIndex = 3;
     colorSegmentIndex = 0;
     [self setupGlobalTintColor];
-    multiUse = NO;
     groupedPaymentCard = YES;
     amount = 225.0;
     selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];
@@ -73,7 +72,7 @@
     [super viewDidLoad];
     
     defaultGlobalTintColor = self.view.tintColor;
-    
+
     if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
@@ -100,7 +99,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
+    multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+
     if (productCategoriesViewController != nil) {
         selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationFade];
@@ -179,7 +180,7 @@
             }
             
             else if (indexPath.row == multiUseRowIndex) {
-                cell.textLabel.text = NSLocalizedString(@"FORM_MULTI_USE", nil);
+                cell.textLabel.text = NSLocalizedString(@"FORM_CARD_STORAGE", nil);
                 cell.switchControl.on = multiUse;
             }
             
@@ -468,7 +469,10 @@
     paymentPageRequest.customer.firstname = @"John";
     paymentPageRequest.customer.lastname = @"Doe";
     paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
+
     paymentPageRequest.multiUse = multiUse;
+    [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
+
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
 
     switch (authenticationIndicatorSegmentIndex) {

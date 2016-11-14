@@ -11,6 +11,7 @@
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFTransactionRequestResponseManager.h"
+#import "HPFPaymentCardSwitchTableHeaderView.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 
@@ -46,8 +47,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFExpiryDateInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ExpiryDateInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"SecurityCodeInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
@@ -106,7 +106,7 @@
             
             if (cell != nil) {
                 NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-                
+
                 UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
                 
                 // Last row of section before payment button; scroll to top
@@ -147,7 +147,12 @@
             [((HPFInputTableViewCell *)cell).textField resignFirstResponder];
         }
     }
-    
+
+    HPFPaymentCardSwitchTableHeaderView *headerView = [self.tableView headerViewForSection:1];
+    if (headerView != nil) {
+        headerView.enabled = !isLoading;
+    }
+
     [self.delegate paymentProductViewController:self isLoading:isLoading];
 }
 

@@ -59,8 +59,16 @@ typedef NS_ENUM(NSInteger, HPFEnvironment) {
  */
 @property (nonatomic, readonly, nullable) NSURL *appRedirectionURL;
 
-+ (instancetype _Nonnull)sharedClientConfig;
 
-- (void)setEnvironment:(HPFEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password appURLscheme:(NSString * _Nonnull)appURLscheme;
+/**
+ *  The parameter to enable payment card token storage for future use
+ */
+@property (nonatomic, getter=isPaymentCardStorageEnabled) BOOL paymentCardStorageEnabled;
+
+- (void)setEnvironment:(HPFEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password appURLscheme:(NSString * _Nonnull)appURLScheme paymentCardStorageEnabled:(BOOL)enabled;
+
+- (void)clearStoredPaymentCard;
+
++ (instancetype _Nonnull)sharedClientConfig;
 
 @end

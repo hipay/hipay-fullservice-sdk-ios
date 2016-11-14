@@ -18,8 +18,13 @@
 #import "HPFSecurityCodeTableViewFooterView.h"
 #import "HPFSecurityCodeTextField.h"
 #import "HPFCardNumberInputTableViewCell.h"
+#import "HPFPaymentCardSwitchTableHeaderView.h"
+#import "FXKeychain.h"
+#import "HPFPaymentCardTokenDatabase.h"
 
 @interface HPFTokenizableCardPaymentProductViewController ()
+
+@property (nonatomic) BOOL isSwitchOn;
 
 @end
 
@@ -30,6 +35,9 @@
     [super viewDidLoad];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
+
+    self.isSwitchOn = NO;
 }
 
 - (void)viewDidLayoutSubviews
@@ -215,6 +223,8 @@
     BOOL securityCodeSectionEnabled = [self securityCodeSectionEnabled];
     HPFSecurityCodeType currentSecurityCodeType = [self currentSecurityCodeType];
 
+    [self.tableView beginUpdates];
+
     if ((cardNumberTextField.paymentProductCodes.count == 1) && [[HPFCardNumberFormatter sharedFormatter] plainTextNumber:cardNumberTextField.text isInRangeForPaymentProductCode:cardNumberTextField.paymentProductCodes.anyObject]) {
         
         inferedPaymentProductCode = cardNumberTextField.paymentProductCodes.anyObject;
@@ -225,6 +235,14 @@
         
         if (newInferredPaymentProduct != inferedPaymentProduct) {
             inferedPaymentProduct = newInferredPaymentProduct;
+
+            BOOL isCardStorageEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+            if (isCardStorageEnabled && [inferedPaymentProductCode isEqualToString:@"maestro"]) {
+                UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:1];
+                if (headerView != nil) {
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+                }
+            }
 
             if (!isDomestic) {
                 [self updateTitleHeader];
@@ -272,6 +290,8 @@
             }
         }
     }
+
+    [self.tableView endUpdates];
 }
 
 - (HPFSecurityCodeType)currentSecurityCodeType
@@ -346,15 +366,23 @@
     
     NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
     NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
-    
-    
+
+    BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    if (paymentCardEnabled && [self isSwitchOn]) {
+        self.paymentPageRequest.multiUse = YES;
+    }
+
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
        
         [self setPaymentButtonLoadingMode:NO];
         transactionLoadingRequest = nil;
         
         if (cardToken != nil) {
-            
+
+            if (paymentCardEnabled && [self isSwitchOn]) {
+                [HPFPaymentCardTokenDatabase save:cardToken];
+            }
+
             HPFOrderRequest *orderRequest = [self createOrderRequest];
             
             orderRequest.paymentProductCode = inferedPaymentProductCode;
@@ -373,6 +401,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 1) {
+
         return [super dequeuePaymentButtonCell];
     }
     
@@ -424,9 +453,35 @@
         
         return footer;
     }
-    
+
     return nil;
 }
+
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+
+    BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    if (section == 1 && paymentCardEnabled) {
+
+        if (![inferedPaymentProductCode isEqualToString:@"maestro"]) {
+
+            HPFPaymentCardSwitchTableHeaderView *header = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PaymentCardSwitch"];
+            [[header saveSwitch] addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+            return header;
+        }
+
+        self.isSwitchOn = NO;
+    }
+
+    return nil;
+}
+
+- (void) switchChanged:(UISwitch *)sender {
+
+    self.isSwitchOn = sender.isOn;
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -437,4 +492,26 @@
     return 0.0;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+
+    switch (section) {
+
+        case 0: {
+            return 56.f;
+        }
+
+        case 1: {
+
+            BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+            if (![inferedPaymentProductCode isEqualToString:@"maestro"] && paymentCardEnabled) {
+                return 56.f;
+            }
+        }
+
+        default: {
+            return 0.f;
+        }
+    }
+}
 @end

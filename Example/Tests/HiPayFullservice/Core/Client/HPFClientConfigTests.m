@@ -33,21 +33,22 @@
 
 - (void)testSettingValues
 {
-    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"hipayexample"];
+    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"hipayexample" paymentCardStorageEnabled:true];
 
     XCTAssertEqualObjects([HPFClientConfig sharedClientConfig].username, @"username");
     XCTAssertEqualObjects([HPFClientConfig sharedClientConfig].password, @"passwd");
     XCTAssertTrue([HPFClientConfig sharedClientConfig].environment == HPFEnvironmentProduction);
     XCTAssertEqualObjects([HPFClientConfig sharedClientConfig].appRedirectionURL, [NSURL URLWithString:@"hipayexample://hipay-fullservice"]);
     XCTAssertNotNil([HPFClientConfig sharedClientConfig].userAgent);
+    XCTAssertTrue([HPFClientConfig sharedClientConfig].isPaymentCardStorageEnabled);
     XCTAssertFalse([[HPFClientConfig sharedClientConfig] isEqual:@""]);
 }
 
 - (void)testInitSchemeError
 {
-    XCTAssertThrows([[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"hello-test"]);
-    XCTAssertThrows([[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"test1"]);
-    XCTAssertThrows([[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"donotexist"]);
+    XCTAssertThrows([[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"hello-test" paymentCardStorageEnabled:true] );
+    XCTAssertThrows([[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"test1" paymentCardStorageEnabled:true]);
+    XCTAssertThrows([[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction username:@"username" password:@"passwd" appURLscheme:@"donotexist" paymentCardStorageEnabled:true]);
 }
 
 @end

@@ -363,7 +363,6 @@
             case 2: {
 
                 UITableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"AnotherPaymentCell" forIndexPath:indexPath];
-                cardCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 cardCell.textLabel.text = HPFLocalizedString(@"CARD_STORED_ANOTHER_SELECTION");
 
                 return cardCell;

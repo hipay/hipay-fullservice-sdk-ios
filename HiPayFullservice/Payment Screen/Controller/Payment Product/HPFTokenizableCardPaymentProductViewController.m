@@ -393,7 +393,7 @@
         if (cardToken != nil) {
 
             if (paymentCardEnabled && [self isSwitchOn]) {
-                [HPFPaymentCardTokenDatabase save:cardToken];
+                [HPFPaymentCardTokenDatabase save:cardToken forCurrency:self.paymentPageRequest.currency];
             }
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];

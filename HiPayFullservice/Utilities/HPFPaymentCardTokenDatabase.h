@@ -10,9 +10,9 @@
 
 }
 
-+ (NSMutableArray *) paymentCardTokens;
-+ (BOOL) clearPaymentCardTokens;
-+ (void) save:(HPFPaymentCardToken *)paymentCardToken;
-+ (void) delete:(HPFPaymentCardToken *)paymentCardToken;
++ (NSArray *) paymentCardTokensForCurrency:(NSString *)currency;
++ (BOOL) clearPaymentCardTokensForCurrency:(NSString *)currency;
++ (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
++ (void) delete:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
 
 @end

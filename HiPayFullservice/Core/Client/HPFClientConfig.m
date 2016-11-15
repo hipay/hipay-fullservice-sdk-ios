@@ -29,9 +29,9 @@
     return self;
 }
 
-- (void)clearStoredPaymentCard {
+- (void)clearStoredPaymentCardForCurrency:(NSString *)currency {
 
-    [HPFPaymentCardTokenDatabase clearPaymentCardTokens];
+    [HPFPaymentCardTokenDatabase clearPaymentCardTokensForCurrency:currency];
 }
 
 - (void)setAppURLscheme:(NSString *)appURLscheme

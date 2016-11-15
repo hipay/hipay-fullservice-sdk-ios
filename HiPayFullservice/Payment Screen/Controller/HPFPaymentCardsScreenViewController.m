@@ -47,7 +47,7 @@
     self.payButtonActive = NO;
     self.payButtonLoading = NO;
 
-    self.selectedCardsObjects = [[HPFPaymentCardTokenDatabase paymentCardTokens] mutableCopy];
+    self.selectedCardsObjects = [[HPFPaymentCardTokenDatabase paymentCardTokensForCurrency:self.paymentPageRequest.currency] mutableCopy];
 
     NSMutableArray *cards = [NSMutableArray arrayWithCapacity:[self.selectedCardsObjects count]];
     for (int i = 0; i < self.selectedCardsObjects.count; ++i) {
@@ -458,11 +458,8 @@
 
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 
-        //HPFPayment *paymentCardTokenDoc = self.selectedCardsDocs[indexPath.row];
-        //[paymentCardTokenDoc deleteDoc];
-
         HPFPaymentCardToken * cardToken = self.selectedCardsObjects[indexPath.row];
-        [HPFPaymentCardTokenDatabase delete:cardToken];
+        [HPFPaymentCardTokenDatabase delete:cardToken forCurrency:self.paymentPageRequest.currency];
 
         [self.selectedCardsObjects removeObjectAtIndex:indexPath.row];
         BOOL isPayActive = [self.selectedCards[indexPath.row] boolValue];

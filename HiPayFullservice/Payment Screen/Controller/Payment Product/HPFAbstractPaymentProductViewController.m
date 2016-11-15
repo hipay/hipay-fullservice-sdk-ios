@@ -148,7 +148,7 @@
         }
     }
 
-    HPFPaymentCardSwitchTableHeaderView *headerView = [self.tableView headerViewForSection:1];
+    HPFPaymentCardSwitchTableHeaderView *headerView = (HPFPaymentCardSwitchTableHeaderView *)[self.tableView headerViewForSection:1];
     if (headerView != nil) {
         headerView.enabled = !isLoading;
     }

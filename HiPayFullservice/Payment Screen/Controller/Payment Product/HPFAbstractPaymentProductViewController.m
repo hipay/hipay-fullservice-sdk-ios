@@ -62,6 +62,15 @@
     [self determineScrollingMode];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+
+    [self cancelRequests];
+
+    [self.delegate cancelActivity];
+    self.delegate = nil;
+}
+
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [activeTextField resignFirstResponder];

@@ -58,6 +58,15 @@
     [self.tableCards reloadData];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+
+    [self cancelRequests];
+
+    [self.delegate cancelActivity];
+    self.delegate = nil;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 

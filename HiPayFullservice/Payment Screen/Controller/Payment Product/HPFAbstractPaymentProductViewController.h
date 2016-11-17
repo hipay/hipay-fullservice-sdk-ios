@@ -34,6 +34,8 @@
 
 - (void)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController needsBackgroundReloadingOfTransaction:(HPFTransaction *)transaction;
 
+- (void)cancelActivity;
+
 
 
 @end

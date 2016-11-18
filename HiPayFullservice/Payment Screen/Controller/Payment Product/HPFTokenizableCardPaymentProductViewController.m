@@ -19,7 +19,6 @@
 #import "HPFSecurityCodeTextField.h"
 #import "HPFCardNumberInputTableViewCell.h"
 #import "HPFPaymentCardSwitchTableHeaderView.h"
-#import "FXKeychain.h"
 #import "HPFPaymentCardTokenDatabase.h"
 
 @interface HPFTokenizableCardPaymentProductViewController ()

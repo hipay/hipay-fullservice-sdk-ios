@@ -65,10 +65,16 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 
-    [self cancelRequests];
+    UINavigationController *navigationController = self.navigationController;
+    NSArray *controllers = navigationController.viewControllers;
 
-    [self.delegate cancelActivity];
-    self.delegate = nil;
+    if (navigationController == nil || controllers == nil) {
+        [self cancelRequests];
+
+        [self.delegate cancelActivity];
+        self.delegate = nil;
+    }
+
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator

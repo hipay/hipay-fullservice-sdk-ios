@@ -221,7 +221,7 @@
     BOOL wasPaymentProductDisallowed = paymentProductDisallowed;
     BOOL securityCodeSectionEnabled = [self securityCodeSectionEnabled];
     HPFSecurityCodeType currentSecurityCodeType = [self currentSecurityCodeType];
-    BOOL isCardStorageEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    BOOL isCardStorageEnabled = [self paymentCardStorageConfigEnabled];
 
     [self.tableView beginUpdates];
 
@@ -316,6 +316,14 @@
     return [HPFPaymentProduct isPaymentCardStorageEnabledForPaymentProductCode:self.paymentProduct.code];
 }
 
+- (BOOL)paymentCardStorageConfigEnabled
+{
+    BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    BOOL paymentPageRequestECI = self.paymentPageRequest.eci == HPFECISecureECommerce ? YES : NO;
+
+    return paymentCardEnabled && paymentPageRequestECI;
+}
+
 - (BOOL)securityCodeSectionEnabled
 {
     return [self currentSecurityCodeType] != HPFSecurityCodeTypeNone;
@@ -379,7 +387,7 @@
     NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
     NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
 
-    BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
     if (paymentCardEnabled && [self isSwitchOn]) {
         self.paymentPageRequest.multiUse = YES;
     }
@@ -473,7 +481,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
 
-    BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
     if (section == 1 && paymentCardEnabled) {
 
         if ([self paymentCardStorageEnabled]) {
@@ -515,7 +523,7 @@
 
         case 1: {
 
-            BOOL paymentCardEnabled = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+            BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
 
             if ([self paymentCardStorageEnabled] && paymentCardEnabled) {
                 return 56.f;

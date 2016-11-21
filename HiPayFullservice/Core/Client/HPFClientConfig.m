@@ -8,7 +8,6 @@
 
 #import "HPFClientConfig.h"
 #import "DevicePrint.h"
-#import "HPFPaymentCardTokenDatabase.h"
 #import "FXKeychain.h"
 
 @implementation HPFClientConfig
@@ -27,11 +26,6 @@
     if (self = [super init]) {
     }
     return self;
-}
-
-- (void)clearStoredPaymentCardForCurrency:(NSString *)currency {
-
-    [HPFPaymentCardTokenDatabase clearPaymentCardTokensForCurrency:currency];
 }
 
 - (void)setAppURLscheme:(NSString *)appURLscheme

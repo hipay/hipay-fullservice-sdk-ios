@@ -7,11 +7,10 @@
 @class HPFPaymentCardToken;
 
 @interface HPFPaymentCardTokenDatabase : NSObject {
-
 }
 
 + (NSArray *) paymentCardTokensForCurrency:(NSString *)currency;
-+ (BOOL) clearPaymentCardTokensForCurrency:(NSString *)currency;
++ (void) clearPaymentCardTokens;
 + (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
 + (void) delete:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
 

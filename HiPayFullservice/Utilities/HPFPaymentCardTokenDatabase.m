@@ -28,6 +28,60 @@
     return nil;
 }
 
++ (void) clearPaymentCardTokens {
+
+    NSArray *currencyList = [self paymentCardTokensCurrencyList];
+    if (currencyList != nil && currencyList.count > 0) {
+
+        for (NSString *currency in currencyList) {
+            [self clearPaymentCardTokensForCurrency:currency];
+        }
+    }
+}
+
++ (void) removeCurrencyInList:(NSString *)currency {
+
+    FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
+    NSString *key = @"paymentCardTokenCurrencyList";
+
+    NSArray *currencyList = [self paymentCardTokensCurrencyList];
+    if (currencyList != nil && currencyList.count > 0) {
+
+        NSMutableArray *mutableList = [currencyList mutableCopy];
+        [mutableList removeObject:currency];
+        [fxKeychain setObject:[NSArray arrayWithArray:mutableList] forKey:key];
+    }
+}
+
++ (void) addCurrencyInList:(NSString *)currency {
+
+    FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
+    NSString *key = @"paymentCardTokenCurrencyList";
+
+    NSArray *currencyList = [self paymentCardTokensCurrencyList];
+    if (currencyList != nil && currencyList.count > 0) {
+
+        NSMutableArray *mutableList = [currencyList mutableCopy];
+        [mutableList addObject:currency];
+        [fxKeychain setObject:[NSArray arrayWithArray:mutableList] forKey:key];
+
+    } else {
+
+        [fxKeychain setObject:[NSArray arrayWithObject:currency] forKey:key];
+    }
+}
+
++ (NSArray *) paymentCardTokensCurrencyList {
+
+    FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
+    NSArray *tokens = [fxKeychain objectForKey:@"paymentCardTokenCurrencyList"];
+    if (tokens != nil && tokens.count > 0) {
+        return tokens;
+    }
+
+    return nil;
+}
+
 + (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency {
 
     FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
@@ -35,10 +89,12 @@
     NSArray *tokens = [self paymentCardTokensForCurrency:currency];
 
     BOOL alreadyThere = NO;
-    for (HPFPaymentCardToken *cardToken in tokens) {
+    if (tokens != nil && tokens.count > 0) {
+        for (HPFPaymentCardToken *cardToken in tokens) {
 
-        if ([cardToken isEqualToPaymentCardToken:paymentCardToken]) {
-            alreadyThere = YES;
+            if ([cardToken isEqualToPaymentCardToken:paymentCardToken]) {
+                alreadyThere = YES;
+            }
         }
     }
 
@@ -49,6 +105,10 @@
             [fxKeychain setObject:[tokens arrayByAddingObject:paymentCardToken] forKey:key];
 
         } else {
+
+            //add currency to list
+            [self addCurrencyInList:currency];
+
             [fxKeychain setObject:[NSArray arrayWithObject:paymentCardToken] forKey:key];
         }
     }
@@ -58,7 +118,7 @@
 
     int index = -1;
     NSArray *tokens = [self paymentCardTokensForCurrency:currency];
-    if (tokens != nil) {
+    if (tokens != nil && tokens.count > 0) {
 
         for (int i = 0; i < tokens.count; ++i) {
 
@@ -71,6 +131,11 @@
 
             NSMutableArray *mutableTokens = [tokens mutableCopy];
             [mutableTokens removeObjectAtIndex:index];
+
+            //remove currency from list
+            if (mutableTokens.count == 0) {
+                [self removeCurrencyInList:currency];
+            }
 
             FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
             NSString *key = [NSString stringWithFormat:@"paymentCardToken_%@", currency];

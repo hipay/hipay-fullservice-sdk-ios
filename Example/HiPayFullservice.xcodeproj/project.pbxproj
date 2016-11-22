@@ -244,6 +244,8 @@
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				7E85CFACC7EE312E26235F78 /* Pods */,
+				6FCE5089450EA1604F8C81F7 /* HPFPaymentCardTokenDatabase_Private.m */,
+				6FCE5E893A929B40232C0CF4 /* HPFPaymentCardTokenDatabase_Private.h */,
 			);
 			sourceTree = "<group>";
 		};

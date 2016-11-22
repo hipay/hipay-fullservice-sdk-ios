@@ -11,7 +11,6 @@
 
 + (NSArray *) paymentCardTokensForCurrency:(NSString *)currency;
 + (void) clearPaymentCardTokens;
-+ (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
 + (void) delete:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
 
 @end

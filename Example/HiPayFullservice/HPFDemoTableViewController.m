@@ -10,7 +10,6 @@
 #import "HPFSwitchTableViewCell.h"
 #import "HPFSegmentedControlTableViewCell.h"
 #import "HPFStepperTableViewCell.h"
-#import "HPFSubmitTableViewCell.h"
 #import "HPFMoreOptionsTableViewCell.h"
 #import "HPFInfoTableViewCell.h"
 
@@ -76,6 +75,7 @@
     if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
+
 }
 
 - (void)viewDidAppear:(BOOL)animated

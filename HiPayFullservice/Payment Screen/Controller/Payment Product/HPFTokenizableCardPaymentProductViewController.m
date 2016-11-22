@@ -20,6 +20,7 @@
 #import "HPFCardNumberInputTableViewCell.h"
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardTokenDatabase.h"
+#import "HPFPaymentCardTokenDatabase_Private.h"
 
 @interface HPFTokenizableCardPaymentProductViewController ()
 

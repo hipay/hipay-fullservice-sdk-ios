@@ -68,8 +68,8 @@
 
         FXKeychain *keychain = [FXKeychain defaultKeychain];
 
-        if ([keychain setObject:@"hello" forKey:@"world"]) {
-            [keychain removeObjectForKey:@"world"];
+        if ([keychain setObject:@"test" forKey:@"com.hipay.test"]) {
+            [keychain removeObjectForKey:@"com.hipay.test"];
 
         } else {
 

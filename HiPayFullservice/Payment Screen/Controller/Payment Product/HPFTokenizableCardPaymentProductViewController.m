@@ -25,6 +25,7 @@
 @interface HPFTokenizableCardPaymentProductViewController ()
 
 @property (nonatomic) BOOL isSwitchOn;
+@property (nonatomic, strong) HPFPaymentCardToken *paymentCardToken;
 
 @end
 
@@ -401,7 +402,7 @@
         if (cardToken != nil) {
 
             if (paymentCardEnabled && [self isSwitchOn]) {
-                [HPFPaymentCardTokenDatabase save:cardToken forCurrency:self.paymentPageRequest.currency];
+                self.paymentCardToken = cardToken;
             }
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
@@ -417,6 +418,24 @@
         }
         
     }];
+}
+
+- (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
+
+    if ([paymentMethod isMemberOfClass:[HPFPaymentCardToken class]]) {
+        HPFPaymentCardToken *cardToken = (HPFPaymentCardToken *)paymentMethod;
+
+        if (self.paymentCardToken != nil) {
+
+            if ([cardToken isEqualToPaymentCardToken:[self paymentCardToken]]) {
+
+                if ([self paymentCardStorageConfigEnabled] && [self isSwitchOn]) {
+
+                    [HPFPaymentCardTokenDatabase save:[self paymentCardToken] forCurrency:self.paymentPageRequest.currency];
+                }
+            }
+        }
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

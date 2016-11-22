@@ -12,8 +12,11 @@
 #import "HPFPaymentScreenUtils.h"
 #import "HPFTransactionRequestResponseManager.h"
 #import "HPFPaymentCardSwitchTableHeaderView.h"
+#import "HPFPaymentCardToken.h"
 
 @interface HPFAbstractPaymentProductViewController ()
+
+@property (nonatomic, strong) HPFPaymentCardToken *paymentCardToken;
 
 @end
 
@@ -280,6 +283,11 @@
     [self.tableView reloadData];
 }
 
+- (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
+    //abstract method
+    [self doesNotRecognizeSelector:_cmd];
+}
+
 #pragma mark - Transaction results, errors
 
 - (void)checkTransactionStatus:(HPFTransaction *)theTransaction
@@ -287,6 +295,11 @@
     [[HPFTransactionRequestResponseManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPFTransactionErrorResult *result) {
         
         if(result.formAction == HPFFormActionQuit) {
+
+            HPFPaymentMethod *paymentMethod = theTransaction.paymentMethod;
+            if (paymentMethod != nil) {
+                [self savePaymentMethod:paymentMethod];
+            }
             [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
         }
         

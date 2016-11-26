@@ -405,12 +405,15 @@
             transaction = theTransaction;
             
             if (transaction.forwardUrl != nil) {
-                
-                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:signature];
-                
-                viewController.delegate = self;
-                
-                [self presentViewController:viewController animated:YES completion:nil];
+
+                UINavigationController *navigationController = self.navigationController;
+                NSArray *controllers = navigationController.viewControllers;
+                if (navigationController != nil && controllers != nil) {
+                    HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:signature];
+                    viewController.delegate = self;
+
+                    [self presentViewController:viewController animated:YES completion:nil];
+                }
             }
             
             else {

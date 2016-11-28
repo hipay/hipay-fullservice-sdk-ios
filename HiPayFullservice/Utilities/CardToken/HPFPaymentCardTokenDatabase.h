@@ -12,5 +12,6 @@
 + (NSArray *) paymentCardTokensForCurrency:(NSString *)currency;
 + (void) clearPaymentCardTokens;
 + (void) delete:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
++ (BOOL) isKeychainActive;
 
 @end

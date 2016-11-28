@@ -91,7 +91,7 @@
     [[HPFTransactionRequestResponseManager sharedManager] manageError:transactionError withCompletionHandler:^(HPFTransactionErrorResult *result) {
 
         if(result.formAction == HPFFormActionQuit) {
-            [self.delegate paymentProductViewController:self didFailWithError:transactionError];
+            [self.delegate paymentProductViewController:nil didFailWithError:transactionError];
         }
 
         [self checkRequestResultStatus:result];
@@ -105,7 +105,7 @@
 
         if(result.formAction == HPFFormActionQuit) {
 
-            [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
+            [self.delegate paymentProductViewController:nil didEndWithTransaction:theTransaction];
         }
 
         [self checkRequestResultStatus:result];
@@ -205,11 +205,11 @@
 - (void)needsBackgroundTransactionOrOrderReload
 {
     if (transaction != nil) {
-        [self.delegate paymentProductViewController:self needsBackgroundReloadingOfTransaction:transaction];
+        [self.delegate paymentProductViewController:nil needsBackgroundReloadingOfTransaction:transaction];
     }
 
     else {
-        [self.delegate paymentProductViewControllerNeedsBackgroundOrderReload:self];
+        [self.delegate paymentProductViewControllerNeedsBackgroundOrderReload:nil];
     }
 }
 

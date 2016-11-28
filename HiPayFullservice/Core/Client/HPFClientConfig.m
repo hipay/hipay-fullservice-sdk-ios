@@ -8,7 +8,7 @@
 
 #import "HPFClientConfig.h"
 #import "DevicePrint.h"
-#import "FXKeychain.h"
+#import "HPFPaymentCardTokenDatabase.h"
 
 @implementation HPFClientConfig
 
@@ -66,12 +66,7 @@
 
     if (enabled) {
 
-        FXKeychain *keychain = [FXKeychain defaultKeychain];
-
-        if ([keychain setObject:@"test" forKey:@"com.hipay.test"]) {
-            [keychain removeObjectForKey:@"com.hipay.test"];
-
-        } else {
+        if (![HPFPaymentCardTokenDatabase isKeychainActive]) {
 
             NSString *exceptionMessage = [NSString stringWithFormat:@"The Keychain Sharing seems disabled. Check your configuration in your project settings > Capabilities and switch Keychain Sharing to ON."];
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:exceptionMessage userInfo:nil];

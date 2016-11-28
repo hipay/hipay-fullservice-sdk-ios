@@ -29,8 +29,8 @@ Pod::Spec.new do |s|
   s.public_header_files = "HiPayFullservice/*.h"
 
   s.subspec "Core" do |s|
-    s.source_files  = "HiPayFullservice/Core/**/*.{h,m}", "HiPayFullservice/Device Print/**/*.h"
-    s.public_header_files = "HiPayFullservice/Core/**/*.h"
+    s.source_files  = "HiPayFullservice/Core/**/*.{h,m}", "HiPayFullservice/Device Print/**/*.h", "HiPayFullservice/Utilities/**/*.{h,m}" 
+    s.public_header_files = "HiPayFullservice/Core/**/*.h", "HiPayFullservice/Utilities/**/*.h"
     s.resource_bundles = {
       "HPFCoreLocalization" => ["HiPayFullservice/Core/**/*.lproj"]
     }

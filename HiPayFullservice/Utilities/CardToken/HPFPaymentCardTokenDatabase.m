@@ -39,6 +39,17 @@
     }
 }
 
++ (BOOL) isKeychainActive {
+
+    FXKeychain *keychain = [FXKeychain defaultKeychain];
+    if ([keychain setObject:@"test" forKey:@"com.hipay.test"]) {
+        return [keychain removeObjectForKey:@"com.hipay.test"];
+    }
+
+    return NO;
+}
+
+
 + (void) removeCurrencyInList:(NSString *)currency {
 
     FXKeychain *fxKeychain = [FXKeychain defaultKeychain];

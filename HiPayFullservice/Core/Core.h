@@ -47,3 +47,4 @@
 #import <HiPayFullservice/HPFIDealPaymentMethodRequest.h>
 
 #import <HiPayFullservice/HPFAbstractSerializationMapper.h>
+#import <HiPayFullservice/HPFPaymentCardTokenDatabase.h>

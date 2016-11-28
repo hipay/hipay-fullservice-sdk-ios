@@ -20,19 +20,19 @@
 
 @required
 
-- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController didEndWithTransaction:(HPFTransaction *)transaction;
+- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController * _Nullable)viewController didEndWithTransaction:(HPFTransaction * _Nonnull)transaction;
 
-- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController didFailWithError:(NSError *)error;
+- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController * _Nullable)viewController didFailWithError:(NSError * _Nonnull)error;
 
-- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController isLoading:(BOOL)isLoading;
+- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController * _Nullable)viewController isLoading:(BOOL)isLoading;
 
-- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController changeSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct;
+- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController * _Nullable)viewController changeSelectedPaymentProduct:(HPFPaymentProduct * _Nonnull)paymentProduct;
 
-- (HPFPaymentProduct *)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController paymentProductForInferredPaymentProductCode:(NSString *)paymentProductCode;
+- (HPFPaymentProduct * _Nullable)paymentProductViewController:(HPFAbstractPaymentProductViewController * _Nullable)viewController paymentProductForInferredPaymentProductCode:(NSString * _Nonnull)paymentProductCode;
 
-- (void)paymentProductViewControllerNeedsBackgroundOrderReload:(HPFAbstractPaymentProductViewController *)viewController;
+- (void)paymentProductViewControllerNeedsBackgroundOrderReload:(HPFAbstractPaymentProductViewController * _Nullable)viewController;
 
-- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController *)viewController needsBackgroundReloadingOfTransaction:(HPFTransaction *)transaction;
+- (void)paymentProductViewController:(HPFAbstractPaymentProductViewController * _Nullable)viewController needsBackgroundReloadingOfTransaction:(HPFTransaction * _Nonnull)transaction;
 
 - (void)cancelActivity;
 
@@ -51,12 +51,12 @@
     BOOL keyboardShown;
 }
 
-@property (nonatomic, readonly) HPFPaymentProduct *paymentProduct;
-@property (nonatomic, readonly) HPFPaymentPageRequest *paymentPageRequest;
-@property (nonatomic, readonly) NSString *signature;
-@property (nonatomic, weak) id<HPFPaymentProductViewControllerDelegate> delegate;
+@property (nonatomic, readonly, nullable) HPFPaymentProduct *paymentProduct;
+@property (nonatomic, readonly, nullable) HPFPaymentPageRequest *paymentPageRequest;
+@property (nonatomic, readonly, nullable) NSString *signature;
+@property (nonatomic, weak, nullable) id<HPFPaymentProductViewControllerDelegate> delegate;
 
-- (instancetype)initWithPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct;
+- (instancetype _Nonnull)initWithPaymentPageRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest signature:(NSString * _Nonnull)signature andSelectedPaymentProduct:(HPFPaymentProduct * _Nonnull)paymentProduct;
 
 - (void)cancelRequests;
 

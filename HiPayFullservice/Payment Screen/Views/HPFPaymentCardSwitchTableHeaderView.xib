@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="oyl-pg-jR0" customClass="HPFPaymentCardSwitchTableHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="438" height="169"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save card" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G27-sf-NiI">
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fzO-IO-GvG"/>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="fzO-IO-GvG" firstAttribute="centerY" secondItem="oyl-pg-jR0" secondAttribute="centerY" id="4tF-rg-4Uo"/>
+                <constraint firstAttribute="trailingMargin" secondItem="fzO-IO-GvG" secondAttribute="trailing" id="BAR-pf-dlV"/>
+                <constraint firstItem="G27-sf-NiI" firstAttribute="centerY" secondItem="oyl-pg-jR0" secondAttribute="centerY" id="HgY-3i-ZYA"/>
+                <constraint firstItem="fzO-IO-GvG" firstAttribute="leading" secondItem="G27-sf-NiI" secondAttribute="trailing" constant="10" id="WWt-4R-oFt"/>
+                <constraint firstItem="G27-sf-NiI" firstAttribute="leading" secondItem="oyl-pg-jR0" secondAttribute="leadingMargin" id="Xvd-o2-Moy"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="saveSwitch" destination="fzO-IO-GvG" id="Rye-Z9-eAg"/>
+                <outlet property="saveTextLabel" destination="G27-sf-NiI" id="4Kb-WT-Yj4"/>
+            </connections>
+            <point key="canvasLocation" x="165" y="204.5"/>
+        </view>
+    </objects>
+</document>

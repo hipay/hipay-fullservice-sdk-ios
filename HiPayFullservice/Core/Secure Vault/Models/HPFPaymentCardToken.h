@@ -12,7 +12,7 @@
 /**
  *  Describes a payment method and its related information.
  */
-@interface HPFPaymentCardToken : HPFPaymentMethod
+@interface HPFPaymentCardToken : HPFPaymentMethod <NSCoding>
 
 /**
  *  Token that was created.

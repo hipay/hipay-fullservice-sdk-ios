@@ -10,8 +10,6 @@
 #import "HPFClientConfig.h"
 #import "HPFGatewayClient.h"
 #import "DevicePrint.h"
-#include <ifaddrs.h>
-#include <arpa/inet.h>
 
 NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathAccept      = @"accept";
 NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathDecline     = @"decline";

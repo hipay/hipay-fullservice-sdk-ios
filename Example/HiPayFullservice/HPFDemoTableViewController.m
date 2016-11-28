@@ -10,7 +10,6 @@
 #import "HPFSwitchTableViewCell.h"
 #import "HPFSegmentedControlTableViewCell.h"
 #import "HPFStepperTableViewCell.h"
-#import "HPFSubmitTableViewCell.h"
 #import "HPFMoreOptionsTableViewCell.h"
 #import "HPFInfoTableViewCell.h"
 
@@ -52,7 +51,6 @@
     authenticationIndicatorSegmentIndex = 3;
     colorSegmentIndex = 0;
     [self setupGlobalTintColor];
-    multiUse = NO;
     groupedPaymentCard = YES;
     amount = 225.0;
     selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];
@@ -60,7 +58,6 @@
     [self.tableView registerClass:[HPFSwitchTableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
     [self.tableView registerClass:[HPFStepperTableViewCell class] forCellReuseIdentifier:@"StepperCell"];
     [self.tableView registerClass:[HPFSegmentedControlTableViewCell class] forCellReuseIdentifier:@"SegmentedControlCell"];
-    //[self.tableView registerClass:[HPFSubmitTableViewCell class] forCellReuseIdentifier:@"SubmitCell"];
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"OptionsCell"];
     [self.tableView registerClass:[HPFInfoTableViewCell class] forCellReuseIdentifier:@"LabelCell"];
 
@@ -73,10 +70,11 @@
     [super viewDidLoad];
     
     defaultGlobalTintColor = self.view.tintColor;
-    
+
     if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -100,7 +98,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
+    multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+
     if (productCategoriesViewController != nil) {
         selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationFade];
@@ -179,7 +179,7 @@
             }
             
             else if (indexPath.row == multiUseRowIndex) {
-                cell.textLabel.text = NSLocalizedString(@"FORM_MULTI_USE", nil);
+                cell.textLabel.text = NSLocalizedString(@"FORM_CARD_STORAGE", nil);
                 cell.switchControl.on = multiUse;
             }
             
@@ -468,7 +468,10 @@
     paymentPageRequest.customer.firstname = @"John";
     paymentPageRequest.customer.lastname = @"Doe";
     paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
+
     paymentPageRequest.multiUse = multiUse;
+    [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
+
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
 
     switch (authenticationIndicatorSegmentIndex) {

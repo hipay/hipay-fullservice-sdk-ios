@@ -94,6 +94,15 @@ NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet = @"ewallet";
     return HPFSecurityCodeTypeNotApplicable;
 }
 
++ (BOOL)isPaymentCardStorageEnabledForPaymentProductCode:(NSString *)paymentProductCode
+{
+    if ([paymentProductCode isEqualToString:HPFPaymentProductCodeBCMC] || [paymentProductCode isEqualToString:HPFPaymentProductCodeMaestro]) {
+        return NO;
+    }
+
+    return YES;
+}
+
 + (BOOL)isPaymentProductCode:(NSString *)domesticPaymentProductCode domesticNetworkOfPaymentProductCode:(NSString *)paymentProductCode
 {
     if ([domesticPaymentProductCode isEqualToString:HPFPaymentProductCodeBCMC]) {

@@ -41,6 +41,10 @@
     return [super dequeuePaymentButtonCell];
 }
 
+- (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
+    //no-op
+}
+
 - (void)paymentButtonTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell
 {
     [self setPaymentButtonLoadingMode:YES];

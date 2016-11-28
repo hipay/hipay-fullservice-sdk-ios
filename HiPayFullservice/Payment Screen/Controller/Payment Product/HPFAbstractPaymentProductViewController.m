@@ -11,8 +11,12 @@
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFTransactionRequestResponseManager.h"
+#import "HPFPaymentCardSwitchTableHeaderView.h"
+#import "HPFPaymentCardToken.h"
 
 @interface HPFAbstractPaymentProductViewController ()
+
+@property (nonatomic, strong) HPFPaymentCardToken *paymentCardToken;
 
 @end
 
@@ -46,8 +50,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFExpiryDateInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ExpiryDateInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"SecurityCodeInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
@@ -60,6 +63,21 @@
     [super viewDidAppear:animated];
     
     [self determineScrollingMode];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+
+    UINavigationController *navigationController = self.navigationController;
+    NSArray *controllers = navigationController.viewControllers;
+
+    if (navigationController == nil || controllers == nil) {
+        [self cancelRequests];
+
+        [self.delegate cancelActivity];
+        self.delegate = nil;
+    }
+
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -106,7 +124,7 @@
             
             if (cell != nil) {
                 NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-                
+
                 UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
                 
                 // Last row of section before payment button; scroll to top
@@ -147,7 +165,12 @@
             [((HPFInputTableViewCell *)cell).textField resignFirstResponder];
         }
     }
-    
+
+    HPFPaymentCardSwitchTableHeaderView *headerView = (HPFPaymentCardSwitchTableHeaderView *)[self.tableView headerViewForSection:1];
+    if (headerView != nil) {
+        headerView.enabled = !isLoading;
+    }
+
     [self.delegate paymentProductViewController:self isLoading:isLoading];
 }
 
@@ -260,6 +283,11 @@
     [self.tableView reloadData];
 }
 
+- (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
+    //abstract method
+    [self doesNotRecognizeSelector:_cmd];
+}
+
 #pragma mark - Transaction results, errors
 
 - (void)checkTransactionStatus:(HPFTransaction *)theTransaction
@@ -267,6 +295,11 @@
     [[HPFTransactionRequestResponseManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPFTransactionErrorResult *result) {
         
         if(result.formAction == HPFFormActionQuit) {
+
+            HPFPaymentMethod *paymentMethod = theTransaction.paymentMethod;
+            if (paymentMethod != nil) {
+                [self savePaymentMethod:paymentMethod];
+            }
             [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
         }
         
@@ -372,12 +405,15 @@
             transaction = theTransaction;
             
             if (transaction.forwardUrl != nil) {
-                
-                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:signature];
-                
-                viewController.delegate = self;
-                
-                [self presentViewController:viewController animated:YES completion:nil];
+
+                UINavigationController *navigationController = self.navigationController;
+                NSArray *controllers = navigationController.viewControllers;
+                if (navigationController != nil && controllers != nil) {
+                    HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:signature];
+                    viewController.delegate = self;
+
+                    [self presentViewController:viewController animated:YES completion:nil];
+                }
             }
             
             else {

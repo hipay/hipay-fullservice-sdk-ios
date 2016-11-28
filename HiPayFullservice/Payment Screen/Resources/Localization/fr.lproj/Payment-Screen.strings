@@ -4,6 +4,7 @@
 "PAYMENT_REDIRECTION_DETAILS" = "Vous allez être redirigé afin de pouvoir procéder au paiement.";
 
 "PAYMENT_SCREEN_TITLE" = "Paiement";
+"PAYMENT_CARDS_SCREEN_TITLE" = "Cartes enregistrées";
 
 "TOTAL_AMOUNT" = "Montant total : %@";
 
@@ -74,6 +75,12 @@
 "CARD_SECURITY_CODE_DESCRIPTION_CVV" = "Le CVV correspond aux 3 chiffres au dos de votre carte de paiement.";
 
 "CARD_SECURITY_CODE_DESCRIPTION_CID" = "Le CID correspond aux 4 chiffres au recto de votre carte American Express.";
+
+"CARD_SWITCH_STORE_DESCRIPTION" = "Enregistrer cette carte";
+
+"CARD_STORED_SELECTION" = "Sélectionner une carte";
+
+"CARD_STORED_ANOTHER_SELECTION" = "Autre moyen de paiement";
 
 "FORWARD_VIEW_BACK" = "Retour";
 

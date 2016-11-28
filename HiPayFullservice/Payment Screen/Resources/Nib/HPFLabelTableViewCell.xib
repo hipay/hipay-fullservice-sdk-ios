@@ -3,8 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,25 +17,26 @@
                 <frame key="frameInset" width="320" height="44.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" text="Selected info" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" red="0.41999998688697815" green="0.41999998688697815" blue="0.41999998688697815" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="VaG-B8-8hX">
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" text="Selected info" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="puq-qj-JZP">
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.41999998688697815" green="0.41999998688697815" blue="0.41999998688697815" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="VaG-B8-8hX" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="centerX" multiplier="0.8" id="83U-T4-8e4"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="puq-qj-JZP" secondAttribute="trailing" id="AxD-dD-mwT"/>
+                    <constraint firstItem="VaG-B8-8hX" firstAttribute="trailing" secondItem="u2t-NZ-XO0" secondAttribute="centerX" id="83U-T4-8e4"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="puq-qj-JZP" secondAttribute="trailing" constant="10" id="AxD-dD-mwT"/>
                     <constraint firstItem="VaG-B8-8hX" firstAttribute="centerY" secondItem="u2t-NZ-XO0" secondAttribute="centerY" id="C7R-lX-aFr"/>
-                    <constraint firstItem="VaG-B8-8hX" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leading" id="Eo7-xQ-nPI"/>
-                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerX" multiplier="0.8" id="GBB-nx-lOU"/>
+                    <constraint firstItem="VaG-B8-8hX" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="leadingMargin" constant="10" id="Eo7-xQ-nPI"/>
+                    <constraint firstItem="puq-qj-JZP" firstAttribute="leading" secondItem="u2t-NZ-XO0" secondAttribute="centerX" id="GBB-nx-lOU"/>
                     <constraint firstAttribute="bottom" secondItem="puq-qj-JZP" secondAttribute="bottom" id="cy7-8S-jXq"/>
+                    <constraint firstAttribute="bottom" secondItem="VaG-B8-8hX" secondAttribute="bottom" id="raF-oM-fKI"/>
                     <constraint firstItem="puq-qj-JZP" firstAttribute="top" secondItem="u2t-NZ-XO0" secondAttribute="top" id="wX9-PL-hZg"/>
                 </constraints>
             </tableViewCellContentView>

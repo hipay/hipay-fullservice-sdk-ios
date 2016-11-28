@@ -58,7 +58,6 @@
     [self.tableView registerClass:[HPFSwitchTableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
     [self.tableView registerClass:[HPFStepperTableViewCell class] forCellReuseIdentifier:@"StepperCell"];
     [self.tableView registerClass:[HPFSegmentedControlTableViewCell class] forCellReuseIdentifier:@"SegmentedControlCell"];
-    //[self.tableView registerClass:[HPFSubmitTableViewCell class] forCellReuseIdentifier:@"SubmitCell"];
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"OptionsCell"];
     [self.tableView registerClass:[HPFInfoTableViewCell class] forCellReuseIdentifier:@"LabelCell"];
 

@@ -25,6 +25,7 @@
 @interface HPFTokenizableCardPaymentProductViewController ()
 
 @property (nonatomic) BOOL isSwitchOn;
+@property (nonatomic) BOOL isTouchIDOn;
 @property (nonatomic, strong) HPFPaymentCardToken *paymentCardToken;
 
 @end
@@ -39,6 +40,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
 
     self.isSwitchOn = NO;
+    self.isTouchIDOn = NO;
 }
 
 - (void)viewDidLayoutSubviews
@@ -309,6 +311,11 @@
     return [HPFPaymentProduct securityCodeTypeForPaymentProductCode:self.paymentProduct.code];
 }
 
+- (BOOL)touchIDEnabled
+{
+    return [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+}
+
 - (BOOL)paymentCardStorageEnabled
 {
     if (inferedPaymentProductCode != nil) {
@@ -518,6 +525,8 @@
 }
 
 - (void) switchChanged:(UISwitch *)sender {
+
+    NSLog([NSString stringWithFormat:@"%d", [self touchIDEnabled]]);
 
     self.isSwitchOn = sender.isOn;
 }

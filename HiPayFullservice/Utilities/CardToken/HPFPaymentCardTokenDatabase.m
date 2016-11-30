@@ -28,6 +28,19 @@
     return nil;
 }
 
++ (NSArray *) paymentCardTokensTouchIDForCurrency:(NSString *)currency {
+
+    FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
+
+    NSString *key = [NSString stringWithFormat:@"paymentCardTokenTouchID_%@", currency];
+    NSArray *tokens = [fxKeychain objectForKey:key];
+    if (tokens != nil && tokens.count > 0) {
+        return tokens;
+    }
+
+    return nil;
+}
+
 + (void) clearPaymentCardTokens {
 
     NSArray *currencyList = [self paymentCardTokensCurrencyList];
@@ -73,8 +86,12 @@
     if (currencyList != nil && currencyList.count > 0) {
 
         NSMutableArray *mutableList = [currencyList mutableCopy];
-        [mutableList addObject:currency];
-        [fxKeychain setObject:[NSArray arrayWithArray:mutableList] forKey:key];
+
+        if (![mutableList containsObject:currency]) {
+
+            [mutableList addObject:currency];
+            [fxKeychain setObject:[NSArray arrayWithArray:mutableList] forKey:key];
+        }
 
     } else {
 
@@ -93,7 +110,7 @@
     return nil;
 }
 
-+ (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency {
++ (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency withTouchID:(BOOL)touchID {
 
     FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
 
@@ -112,8 +129,13 @@
     if (alreadyThere == NO) {
 
         NSString *key = [NSString stringWithFormat:@"paymentCardToken_%@", currency];
+        NSString *keyTouchID = [NSString stringWithFormat:@"paymentCardTokenTouchID_%@", currency];
+
         if (tokens != nil && tokens.count > 0) {
             [fxKeychain setObject:[tokens arrayByAddingObject:paymentCardToken] forKey:key];
+
+            // add the same for touchID booleans
+            [fxKeychain setObject:[tokens arrayByAddingObject:@(touchID)] forKey:keyTouchID];
 
         } else {
 
@@ -121,6 +143,9 @@
             [self addCurrencyInList:currency];
 
             [fxKeychain setObject:[NSArray arrayWithObject:paymentCardToken] forKey:key];
+
+            // add the same for touchID booleans
+            [fxKeychain setObject:[NSArray arrayWithObject:@(touchID)] forKey:keyTouchID];
         }
     }
 }
@@ -143,6 +168,9 @@
             NSMutableArray *mutableTokens = [tokens mutableCopy];
             [mutableTokens removeObjectAtIndex:index];
 
+            NSMutableArray *mutableTouchID = [[self paymentCardTokensTouchIDForCurrency:currency] mutableCopy];
+            [mutableTouchID removeObjectAtIndex:index];
+
             //remove currency from list
             if (mutableTokens.count == 0) {
                 [self removeCurrencyInList:currency];
@@ -151,6 +179,10 @@
             FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
             NSString *key = [NSString stringWithFormat:@"paymentCardToken_%@", currency];
             [fxKeychain setObject:[NSArray arrayWithArray:mutableTokens] forKey:key];
+
+            NSString *keyTouchID = [NSString stringWithFormat:@"paymentCardTokenTouchID_%@", currency];
+            [fxKeychain setObject:[NSArray arrayWithArray:mutableTouchID] forKey:keyTouchID];
+
         }
     }
 }

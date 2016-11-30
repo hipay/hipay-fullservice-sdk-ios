@@ -25,6 +25,9 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableCards;
 @property (nonatomic, strong) NSMutableArray *selectedCards;
 @property (nonatomic, strong) NSMutableArray *selectedCardsObjects;
+
+@property (nonatomic, strong) NSArray *cardsTouchID;
+
 @property (nonatomic, getter=isPayButtonActive) BOOL payButtonActive;
 @property (nonatomic, getter=isPayButtonLoading) BOOL payButtonLoading;
 
@@ -49,12 +52,15 @@
 
     self.selectedCardsObjects = [[HPFPaymentCardTokenDatabase paymentCardTokensForCurrency:self.paymentPageRequest.currency] mutableCopy];
 
+    self.cardsTouchID = [HPFPaymentCardTokenDatabase paymentCardTokensTouchIDForCurrency:self.paymentPageRequest.currency];
+
     NSMutableArray *cards = [NSMutableArray arrayWithCapacity:[self.selectedCardsObjects count]];
     for (int i = 0; i < self.selectedCardsObjects.count; ++i) {
         [cards addObject:@NO];
     }
 
     self.selectedCards = cards;
+
     [self.tableCards reloadData];
 }
 
@@ -148,6 +154,11 @@
             break;
         }
     }
+
+
+#warning check if we need touchID or not.
+
+
 
     [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 
@@ -387,7 +398,10 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
+    //NSArray *array = [HPFPaymentCardTokenDatabase paymentCardTokensTouchIDForCurrency:self.paymentPageRequest.currency];
+    //[HPFPaymentCardTokenDatabase clearPaymentCardTokens];
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if (self.selectedCardsObjects.count > 0) {

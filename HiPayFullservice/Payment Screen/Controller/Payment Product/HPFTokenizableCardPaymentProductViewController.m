@@ -438,7 +438,7 @@
 
                 if ([self paymentCardStorageConfigEnabled] && [self isSwitchOn]) {
 
-                    [HPFPaymentCardTokenDatabase save:[self paymentCardToken] forCurrency:self.paymentPageRequest.currency];
+                    [HPFPaymentCardTokenDatabase save:[self paymentCardToken] forCurrency:self.paymentPageRequest.currency withTouchID:NO];
                 }
             }
         }

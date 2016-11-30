@@ -135,7 +135,7 @@
             [fxKeychain setObject:[tokens arrayByAddingObject:paymentCardToken] forKey:key];
 
             // add the same for touchID booleans
-            [fxKeychain setObject:[tokens arrayByAddingObject:@(touchID)] forKey:keyTouchID];
+            [fxKeychain setObject:[[HPFPaymentCardTokenDatabase paymentCardTokensTouchIDForCurrency:currency] arrayByAddingObject:@(touchID)] forKey:keyTouchID];
 
         } else {
 

@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, HPFEnvironment) {
 /**
  *  The payment card storage option.
  */
-@property (nonatomic, readonly, getter=isPaymentCardStorageEnabled) BOOL paymentCardStorageEnabled;
+@property (nonatomic, getter=isPaymentCardStorageEnabled) BOOL paymentCardStorageEnabled;
 
 @property (nonatomic, getter=isTouchIDEnabled) BOOL touchIDEnabled;
 

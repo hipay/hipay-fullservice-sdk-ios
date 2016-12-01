@@ -15,6 +15,8 @@
 #import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardTableViewCell.h"
 #import "HPFTransactionRequestResponseManager.h"
+#import <LocalAuthentication/LAContext.h>
+#import <LocalAuthentication/LAError.h>
 
 @interface HPFPaymentCardsScreenViewController () {
 
@@ -81,7 +83,8 @@
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell {
 
-    [self submit];
+    //[self submit];
+    [self checkTouchID];
 }
 
 - (void)cancelRequests
@@ -141,6 +144,77 @@
     }
 }
 
+- (void) checkTouchID {
+
+    int index = -1;
+    for (int i = 0; i < self.selectedCards.count; ++i) {
+        if ([self.selectedCards[i] isEqual:@YES]) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index != -1 && self.cardsTouchID != nil && self.cardsTouchID.count > index ) {
+
+        NSNumber *touchIdEnabled = self.cardsTouchID[index];
+        if ([touchIdEnabled boolValue] == YES) {
+
+            NSLog(@"true");
+#warning ask for touchID
+
+            if ([self canEvaluatePolicy]) {
+
+                [self evaluatePolicy];
+
+            } else {
+
+#warning no way, you need touchID to make it work.
+
+                return;
+            }
+
+        } else {
+
+            NSLog(@"false");
+            [self submit];
+        }
+
+    } else {
+        //should not happen
+        [self submit];
+    }
+}
+
+- (BOOL)canEvaluatePolicy {
+
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error;
+    // test if we can evaluate the policy, this test will tell us if Touch ID is available and enrolled
+    return [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+
+}
+
+- (void)evaluatePolicy {
+    LAContext *context = [[LAContext alloc] init];
+    __block NSString *message;
+
+    // Set text for the localized fallback button.
+    context.localizedFallbackTitle = @"Enter PIN";
+
+    // Show the authentication UI with our reason string.
+    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"Unlock access to locked feature" reply:^(BOOL success, NSError *authenticationError) {
+        if (success) {
+
+            [self submit];
+        }
+        else {
+
+#warning fail then return
+            return;
+        }
+    }];
+}
+
 - (void)submit
 {
 
@@ -154,11 +228,6 @@
             break;
         }
     }
-
-
-#warning check if we need touchID or not.
-
-
 
     [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 
@@ -401,6 +470,8 @@
 
     //NSArray *array = [HPFPaymentCardTokenDatabase paymentCardTokensTouchIDForCurrency:self.paymentPageRequest.currency];
     //[HPFPaymentCardTokenDatabase clearPaymentCardTokens];
+    NSLog([self.cardsTouchID description]);
+
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 

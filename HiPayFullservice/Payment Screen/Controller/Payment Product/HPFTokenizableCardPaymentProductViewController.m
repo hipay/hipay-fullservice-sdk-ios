@@ -383,6 +383,11 @@
 
 - (void)submit
 {
+
+#warning check if we need to fire a question
+
+    self.isTouchIDOn = YES;
+
     [self setPaymentButtonLoadingMode:YES];
     
     NSString *securityCode = nil;
@@ -438,7 +443,7 @@
 
                 if ([self paymentCardStorageConfigEnabled] && [self isSwitchOn]) {
 
-                    [HPFPaymentCardTokenDatabase save:[self paymentCardToken] forCurrency:self.paymentPageRequest.currency withTouchID:NO];
+                    [HPFPaymentCardTokenDatabase save:[self paymentCardToken] forCurrency:self.paymentPageRequest.currency withTouchID:[self isTouchIDOn]];
                 }
             }
         }
@@ -525,8 +530,6 @@
 }
 
 - (void) switchChanged:(UISwitch *)sender {
-
-    NSLog([NSString stringWithFormat:@"%d", [self touchIDEnabled]]);
 
     self.isSwitchOn = sender.isOn;
 }

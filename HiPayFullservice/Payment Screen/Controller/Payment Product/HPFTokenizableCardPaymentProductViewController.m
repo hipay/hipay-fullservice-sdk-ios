@@ -24,8 +24,8 @@
 
 @interface HPFTokenizableCardPaymentProductViewController ()
 
-@property (nonatomic) BOOL isSwitchOn;
-@property (nonatomic) BOOL isTouchIDOn;
+@property (nonatomic, getter=isSwitchOn) BOOL switchOn;
+@property (nonatomic, getter=isTouchIDOn) BOOL touchIDOn;
 @property (nonatomic, strong) HPFPaymentCardToken *paymentCardToken;
 
 @end
@@ -39,8 +39,8 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
 
-    self.isSwitchOn = NO;
-    self.isTouchIDOn = NO;
+    self.switchOn = NO;
+    self.touchIDOn = NO;
 }
 
 - (void)viewDidLayoutSubviews
@@ -386,8 +386,6 @@
 
 #warning check if we need to fire a question
 
-    self.isTouchIDOn = YES;
-
     [self setPaymentButtonLoadingMode:YES];
     
     NSString *securityCode = nil;
@@ -523,7 +521,7 @@
             return header;
         }
 
-        self.isSwitchOn = NO;
+        self.switchOn = NO;
     }
 
     return nil;
@@ -531,7 +529,31 @@
 
 - (void) switchChanged:(UISwitch *)sender {
 
-    self.isSwitchOn = sender.isOn;
+    self.switchOn = sender.isOn;
+
+    if (self.isSwitchOn) {
+
+        [[[UIAlertView alloc] initWithTitle:@"Sécuriser avec Touch ID"
+                                    message:@"Souhaitez-vous activer Touch ID sur cette carte de paiment pour les futures utilisations ?"
+                                   delegate:self
+                          cancelButtonTitle:@"No"
+                          otherButtonTitles:@"Yes", nil]
+                show];
+
+    } else {
+
+        self.touchIDOn = NO;
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex) {
+        self.touchIDOn = NO;
+
+    } else {
+        self.touchIDOn = YES;
+    }
 }
 
 

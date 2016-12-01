@@ -16,7 +16,6 @@
 #import "HPFPaymentCardTableViewCell.h"
 #import "HPFTransactionRequestResponseManager.h"
 #import <LocalAuthentication/LAContext.h>
-#import <LocalAuthentication/LAError.h>
 
 @interface HPFPaymentCardsScreenViewController () {
 
@@ -159,23 +158,23 @@
         NSNumber *touchIdEnabled = self.cardsTouchID[index];
         if ([touchIdEnabled boolValue] == YES) {
 
-            NSLog(@"true");
-#warning ask for touchID
-
             if ([self canEvaluatePolicy]) {
 
                 [self evaluatePolicy];
 
             } else {
 
-#warning no way, you need touchID to make it work.
-
-                return;
+                [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
+                                            message:HPFLocalizedString(@"CARD_STORED_TOUCHID_NOT_ACTIVATED")
+                                           delegate:nil
+                                  cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                  otherButtonTitles:nil]
+                        show];
             }
 
         } else {
 
-            NSLog(@"false");
+            //no touchId found, you can pay directly with this card
             [self submit];
         }
 
@@ -189,28 +188,24 @@
 
     LAContext *context = [[LAContext alloc] init];
     NSError *error;
+
     // test if we can evaluate the policy, this test will tell us if Touch ID is available and enrolled
     return [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
-
 }
 
 - (void)evaluatePolicy {
     LAContext *context = [[LAContext alloc] init];
-    __block NSString *message;
 
     // Set text for the localized fallback button.
-    context.localizedFallbackTitle = @"Enter PIN";
+    context.localizedFallbackTitle = @"";
 
     // Show the authentication UI with our reason string.
-    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"Unlock access to locked feature" reply:^(BOOL success, NSError *authenticationError) {
+    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:HPFLocalizedString(@"CARD_STORED_TOUCHID_REASON") reply:^(BOOL success, NSError *authenticationError) {
         if (success) {
 
-            [self submit];
-        }
-        else {
-
-#warning fail then return
-            return;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self submit];
+            });
         }
     }];
 }
@@ -249,20 +244,6 @@
         if (theTransaction != nil) {
 
             transaction = theTransaction;
-
-            /*
-            if (transaction.forwardUrl != nil) {
-
-                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:[self signature]];
-                viewController.delegate = self;
-
-                [self presentViewController:viewController animated:YES completion:nil];
-            }
-
-            else {
-                [self checkTransactionStatus:transaction];
-            }
-            */
 
             [self checkTransactionStatus:transaction];
         }
@@ -467,10 +448,6 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    //NSArray *array = [HPFPaymentCardTokenDatabase paymentCardTokensTouchIDForCurrency:self.paymentPageRequest.currency];
-    //[HPFPaymentCardTokenDatabase clearPaymentCardTokens];
-    NSLog([self.cardsTouchID description]);
 
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

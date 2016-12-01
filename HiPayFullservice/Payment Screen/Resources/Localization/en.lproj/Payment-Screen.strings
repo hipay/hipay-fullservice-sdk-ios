@@ -80,6 +80,10 @@
 
 "CARD_STORED_SELECTION" = "Select a payment card";
 
+"CARD_STORED_TOUCHID_REASON" = "Unlock access to pay with this card";
+
+"CARD_STORED_TOUCHID_NOT_ACTIVATED" = "Please check that Touch ID is activated";
+
 "CARD_STORED_ANOTHER_SELECTION" = "Another payment method";
 
 "FORWARD_VIEW_BACK" = "Back";

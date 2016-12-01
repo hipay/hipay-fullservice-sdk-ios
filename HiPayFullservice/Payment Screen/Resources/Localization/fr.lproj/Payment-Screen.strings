@@ -80,7 +80,11 @@
 
 "CARD_STORED_SELECTION" = "Sélectionner une carte";
 
+"CARD_STORED_TOUCHID_REASON" = "Déverouiller pour payer avec cette carte";
+
 "CARD_STORED_ANOTHER_SELECTION" = "Autre moyen de paiement";
+
+"CARD_STORED_TOUCHID_NOT_ACTIVATED" = "Merci de vérifier que Touch ID est bien activé";
 
 "FORWARD_VIEW_BACK" = "Retour";
 

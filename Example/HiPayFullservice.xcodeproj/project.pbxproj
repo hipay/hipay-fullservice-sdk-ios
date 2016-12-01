@@ -244,8 +244,6 @@
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				7E85CFACC7EE312E26235F78 /* Pods */,
-				6FCE5089450EA1604F8C81F7 /* HPFPaymentCardTokenDatabase_Private.m */,
-				6FCE5E893A929B40232C0CF4 /* HPFPaymentCardTokenDatabase_Private.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1074,8 +1072,8 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
-				PROVISIONING_PROFILE = "f6f8bf39-f646-463f-8e3e-72f2b41390d7";
-				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
+				PROVISIONING_PROFILE = "b5f5e1d9-0226-4f24-9af4-38bc9d0dcc48";
+				PROVISIONING_PROFILE_SPECIFIER = Team;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

@@ -80,7 +80,7 @@
 
 "CARD_SWITCH_STORE_DESCRIPTION" = "Enregistrer cette carte";
 "CARD_SWITCH_TOUCHID_TITLE" = "Sécuriser avec Touch ID";
-"CARD_SWITCH_TOUCHID_DESCRIPTION" = "Souhaitez-vous activer Touch ID sur cette carte de paiment ? Une lecture d'empreinte digitale sera exigée lors de futures utilisations.";
+"CARD_SWITCH_TOUCHID_DESCRIPTION" = "Souhaitez-vous activer Touch ID pour sécuriser les paiements futurs avec cette carte ? Une lecture d'empreinte digitale sera exigée lors de futures utilisations.";
 
 "CARD_STORED_SELECTION" = "Sélectionner une carte";
 

@@ -25,7 +25,7 @@
 - (id)init {
     if (self = [super init]) {
 
-        _touchIDEnabled = YES;
+        _touchIDEnabled = NO;
     }
     return self;
 }

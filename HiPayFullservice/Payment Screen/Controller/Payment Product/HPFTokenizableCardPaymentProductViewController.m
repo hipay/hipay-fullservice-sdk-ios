@@ -398,8 +398,6 @@
 - (void)submit
 {
 
-#warning check if we need to fire a question
-
     [self setPaymentButtonLoadingMode:YES];
     
     NSString *securityCode = nil;

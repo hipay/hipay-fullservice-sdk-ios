@@ -8,6 +8,6 @@
 
 @interface HPFPaymentCardTokenDatabase ()
 
-+ (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
++ (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency withTouchID:(BOOL)touchID;
 
 @end

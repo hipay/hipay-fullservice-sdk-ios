@@ -15,6 +15,7 @@
 #import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardTableViewCell.h"
 #import "HPFTransactionRequestResponseManager.h"
+#import <LocalAuthentication/LAContext.h>
 
 @interface HPFPaymentCardsScreenViewController () {
 
@@ -25,6 +26,9 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableCards;
 @property (nonatomic, strong) NSMutableArray *selectedCards;
 @property (nonatomic, strong) NSMutableArray *selectedCardsObjects;
+
+@property (nonatomic, strong) NSArray *cardsTouchID;
+
 @property (nonatomic, getter=isPayButtonActive) BOOL payButtonActive;
 @property (nonatomic, getter=isPayButtonLoading) BOOL payButtonLoading;
 
@@ -49,12 +53,15 @@
 
     self.selectedCardsObjects = [[HPFPaymentCardTokenDatabase paymentCardTokensForCurrency:self.paymentPageRequest.currency] mutableCopy];
 
+    self.cardsTouchID = [HPFPaymentCardTokenDatabase paymentCardTokensTouchIDForCurrency:self.paymentPageRequest.currency];
+
     NSMutableArray *cards = [NSMutableArray arrayWithCapacity:[self.selectedCardsObjects count]];
     for (int i = 0; i < self.selectedCardsObjects.count; ++i) {
         [cards addObject:@NO];
     }
 
     self.selectedCards = cards;
+
     [self.tableCards reloadData];
 }
 
@@ -75,7 +82,7 @@
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell {
 
-    [self submit];
+    [self checkTouchID];
 }
 
 - (void)cancelRequests
@@ -135,6 +142,91 @@
     }
 }
 
+- (void) checkTouchID {
+
+    int index = -1;
+    for (int i = 0; i < self.selectedCards.count; ++i) {
+        if ([self.selectedCards[i] isEqual:@YES]) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index != -1 && self.cardsTouchID != nil && self.cardsTouchID.count > index ) {
+
+        NSNumber *touchIdEnabled = self.cardsTouchID[index];
+        if ([touchIdEnabled boolValue] == YES) {
+
+            if ([self canEvaluatePolicy]) {
+
+                [self evaluatePolicy];
+
+            } else {
+
+                [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
+                                            message:HPFLocalizedString(@"CARD_STORED_TOUCHID_NOT_ACTIVATED")
+                                           delegate:nil
+                                  cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                  otherButtonTitles:nil]
+                        show];
+            }
+
+        } else {
+
+            //no touchId found, you can pay directly with this card
+            [self submit];
+        }
+
+    } else {
+        //should not happen
+        [self submit];
+    }
+}
+
+- (BOOL)canEvaluatePolicy {
+
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error;
+
+    // test if we can evaluate the policy, this test will tell us if Touch ID is available and enrolled
+    return [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+}
+
+- (void) userInputsEnabled:(BOOL)enabled {
+
+    self.tableCards.userInteractionEnabled = enabled;
+    self.navigationItem.rightBarButtonItem.enabled = enabled;
+}
+
+- (void)evaluatePolicy {
+    LAContext *context = [[LAContext alloc] init];
+
+    // Set text for the localized fallback button.
+    context.localizedFallbackTitle = @"";
+
+    [self userInputsEnabled:NO];
+    self.payButtonActive = NO;
+
+    [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+
+    // Show the authentication UI with our reason string.
+    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:HPFLocalizedString(@"CARD_STORED_TOUCHID_REASON") reply:^(BOOL success, NSError *authenticationError) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            [self userInputsEnabled:YES];
+
+            if (success) {
+                [self submit];
+
+            } else {
+
+                self.payButtonActive = YES;
+                [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+            }
+        });
+    }];
+}
+
 - (void)submit
 {
 
@@ -169,20 +261,6 @@
         if (theTransaction != nil) {
 
             transaction = theTransaction;
-
-            /*
-            if (transaction.forwardUrl != nil) {
-
-                HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:[self signature]];
-                viewController.delegate = self;
-
-                [self presentViewController:viewController animated:YES completion:nil];
-            }
-
-            else {
-                [self checkTransactionStatus:transaction];
-            }
-            */
 
             [self checkTransactionStatus:transaction];
         }
@@ -387,7 +465,8 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if (self.selectedCardsObjects.count > 0) {

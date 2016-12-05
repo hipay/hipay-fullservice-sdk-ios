@@ -10,6 +10,7 @@
 }
 
 + (NSArray *) paymentCardTokensForCurrency:(NSString *)currency;
++ (NSArray *) paymentCardTokensTouchIDForCurrency:(NSString *)currency;
 + (void) clearPaymentCardTokens;
 + (void) delete:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
 + (BOOL) isKeychainActive;

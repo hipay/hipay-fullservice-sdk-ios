@@ -22,6 +22,8 @@
                                             appURLscheme:@"hipayexample"
                                paymentCardStorageEnabled:true];
 
+    [[HPFClientConfig sharedClientConfig] setTouchIDEnabled:YES];
+
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:parameters[@"hockeyapp"][@"app_identifier"]];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];

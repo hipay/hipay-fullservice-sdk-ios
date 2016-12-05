@@ -11,6 +11,8 @@
 "TAP_TO_DEFINE" = "Touchez pour définir";
 
 "CANCEL" = "Annuler";
+"YES" = "Oui";
+"NO" = "Non";
 
 "PAY_BUTTON_TITLE" = "Payer";
 
@@ -77,10 +79,16 @@
 "CARD_SECURITY_CODE_DESCRIPTION_CID" = "Le CID correspond aux 4 chiffres au recto de votre carte American Express.";
 
 "CARD_SWITCH_STORE_DESCRIPTION" = "Enregistrer cette carte";
+"CARD_SWITCH_TOUCHID_TITLE" = "Sécuriser avec Touch ID";
+"CARD_SWITCH_TOUCHID_DESCRIPTION" = "Souhaitez-vous activer Touch ID pour sécuriser les paiements futurs avec cette carte ? Une lecture d'empreinte digitale sera exigée lors de futures utilisations.";
 
 "CARD_STORED_SELECTION" = "Sélectionner une carte";
 
+"CARD_STORED_TOUCHID_REASON" = "Déverouiller pour payer avec cette carte";
+
 "CARD_STORED_ANOTHER_SELECTION" = "Autre moyen de paiement";
+
+"CARD_STORED_TOUCHID_NOT_ACTIVATED" = "Merci de vérifier que Touch ID est bien activé";
 
 "FORWARD_VIEW_BACK" = "Retour";
 

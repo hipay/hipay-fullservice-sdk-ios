@@ -21,10 +21,12 @@
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardTokenDatabase_Private.h"
+#import <LocalAuthentication/LAContext.h>
 
 @interface HPFTokenizableCardPaymentProductViewController ()
 
-@property (nonatomic) BOOL isSwitchOn;
+@property (nonatomic, getter=isSwitchOn) BOOL switchOn;
+@property (nonatomic, getter=isTouchIDOn) BOOL touchIDOn;
 @property (nonatomic, strong) HPFPaymentCardToken *paymentCardToken;
 
 @end
@@ -38,7 +40,8 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
 
-    self.isSwitchOn = NO;
+    self.switchOn = NO;
+    self.touchIDOn = NO;
 }
 
 - (void)viewDidLayoutSubviews
@@ -242,6 +245,8 @@
                 UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:1];
                 if (headerView != nil) {
                     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+                    self.touchIDOn = NO;
+                    self.switchOn = NO;
                 }
             }
 
@@ -267,6 +272,8 @@
 
         if (isCardStorageEnabled) {
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+            self.touchIDOn = NO;
+            self.switchOn = NO;
         }
     }
     
@@ -307,6 +314,20 @@
     
     // Default behavior for selected payment product
     return [HPFPaymentProduct securityCodeTypeForPaymentProductCode:self.paymentProduct.code];
+}
+
+- (BOOL)isTouchIDEnabled
+{
+    return [HPFClientConfig.sharedClientConfig isTouchIDEnabled] && [self canEvaluatePolicy];
+}
+
+- (BOOL)canEvaluatePolicy {
+
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error;
+
+    // test if we can evaluate the policy, this test will tell us if Touch ID is available and enrolled
+    return [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
 }
 
 - (BOOL)paymentCardStorageEnabled
@@ -376,6 +397,9 @@
 
 - (void)submit
 {
+
+#warning check if we need to fire a question
+
     [self setPaymentButtonLoadingMode:YES];
     
     NSString *securityCode = nil;
@@ -431,7 +455,7 @@
 
                 if ([self paymentCardStorageConfigEnabled] && [self isSwitchOn]) {
 
-                    [HPFPaymentCardTokenDatabase save:[self paymentCardToken] forCurrency:self.paymentPageRequest.currency];
+                    [HPFPaymentCardTokenDatabase save:[self paymentCardToken] forCurrency:self.paymentPageRequest.currency withTouchID:[self isTouchIDOn]];
                 }
             }
         }
@@ -510,8 +534,6 @@
             [[header saveSwitch] addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
             return header;
         }
-
-        self.isSwitchOn = NO;
     }
 
     return nil;
@@ -519,7 +541,32 @@
 
 - (void) switchChanged:(UISwitch *)sender {
 
-    self.isSwitchOn = sender.isOn;
+    self.switchOn = sender.isOn;
+
+    // if touchID is not enabled, don't ask for it
+    if (self.isSwitchOn && self.isTouchIDEnabled) {
+
+        [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
+                                    message:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_DESCRIPTION")
+                                   delegate:self
+                          cancelButtonTitle:HPFLocalizedString(@"NO")
+                          otherButtonTitles:HPFLocalizedString(@"YES"), nil]
+                show];
+
+    } else {
+
+        self.touchIDOn = NO;
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex) {
+        self.touchIDOn = NO;
+
+    } else {
+        self.touchIDOn = YES;
+    }
 }
 
 

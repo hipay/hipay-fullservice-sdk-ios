@@ -82,7 +82,6 @@
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell {
 
-    //[self submit];
     [self checkTouchID];
 }
 
@@ -193,20 +192,38 @@
     return [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
 }
 
+- (void) userInputsEnabled:(BOOL)enabled {
+
+    self.tableCards.userInteractionEnabled = enabled;
+    self.navigationItem.rightBarButtonItem.enabled = enabled;
+}
+
 - (void)evaluatePolicy {
     LAContext *context = [[LAContext alloc] init];
 
     // Set text for the localized fallback button.
     context.localizedFallbackTitle = @"";
 
+    [self userInputsEnabled:NO];
+    self.payButtonActive = NO;
+
+    [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+
     // Show the authentication UI with our reason string.
     [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:HPFLocalizedString(@"CARD_STORED_TOUCHID_REASON") reply:^(BOOL success, NSError *authenticationError) {
-        if (success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
 
-            dispatch_async(dispatch_get_main_queue(), ^{
+            [self userInputsEnabled:YES];
+
+            if (success) {
                 [self submit];
-            });
-        }
+
+            } else {
+
+                self.payButtonActive = YES;
+                [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+            }
+        });
     }];
 }
 

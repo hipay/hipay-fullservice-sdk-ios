@@ -47,7 +47,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    //[CardIOUtilities preloadCardIO];
+    [CardIOUtilities preloadCardIO];
 }
 
 - (void)viewDidLayoutSubviews
@@ -545,8 +545,21 @@
 
 - (void) switchChanged:(UISwitch *)sender {
 
-    CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
-    [self presentViewController:scanViewController animated:YES completion:nil];
+    if ([CardIOUtilities canReadCardWithCamera]) {
+
+        CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
+
+        scanViewController.hideCardIOLogo = YES;
+        scanViewController.suppressScanConfirmation = YES;
+        scanViewController.disableManualEntryButtons = YES;
+
+        [self presentViewController:scanViewController animated:YES completion:nil];
+
+    } else {
+
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
+    }
+
 
     /*
     self.switchOn = sender.isOn;

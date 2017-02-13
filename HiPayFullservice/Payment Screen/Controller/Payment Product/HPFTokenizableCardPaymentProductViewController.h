@@ -7,8 +7,9 @@
 //
 
 #import "HPFAbstractPaymentProductViewController.h"
+#import "CardIO.h"
 
-@interface HPFTokenizableCardPaymentProductViewController : HPFAbstractPaymentProductViewController
+@interface HPFTokenizableCardPaymentProductViewController : HPFAbstractPaymentProductViewController <CardIOPaymentViewControllerDelegate>
 {
     CGFloat footerHeight;
     

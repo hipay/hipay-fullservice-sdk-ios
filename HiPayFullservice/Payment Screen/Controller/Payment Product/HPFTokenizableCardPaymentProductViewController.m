@@ -44,6 +44,12 @@
     self.touchIDOn = NO;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    //[CardIOUtilities preloadCardIO];
+}
+
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -539,6 +545,10 @@
 
 - (void) switchChanged:(UISwitch *)sender {
 
+    CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
+    [self presentViewController:scanViewController animated:YES completion:nil];
+
+    /*
     self.switchOn = sender.isOn;
 
     // if touchID is not enabled, don't ask for it
@@ -555,6 +565,7 @@
 
         self.touchIDOn = NO;
     }
+     */
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -600,4 +611,19 @@
         }
     }
 }
+
+- (void)userDidCancelPaymentViewController:(CardIOPaymentViewController *)scanViewController {
+    NSLog(@"User canceled payment info");
+    // Handle user cancellation here...
+    [scanViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)userDidProvideCreditCardInfo:(CardIOCreditCardInfo *)info inPaymentViewController:(CardIOPaymentViewController *)scanViewController {
+    // The full card number is available as info.cardNumber, but don't log that!
+    NSLog(@"Received card info. Number: %@, expiry: %02i/%i, cvv: %@.", info.redactedCardNumber, info.expiryMonth, info.expiryYear, info.cvv);
+    // Use the card info...
+    [scanViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 @end

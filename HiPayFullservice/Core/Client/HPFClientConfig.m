@@ -26,6 +26,8 @@
     if (self = [super init]) {
 
         _touchIDEnabled = NO;
+        _paymentCardScanEnabled = YES;
+        _paymentCardStorageEnabled = YES;
     }
     return self;
 }
@@ -71,6 +73,20 @@
         if (![HPFPaymentCardTokenDatabase isKeychainActive]) {
 
             NSString *exceptionMessage = [NSString stringWithFormat:@"The Keychain Sharing seems disabled. Check your configuration in your project settings > Capabilities and switch Keychain Sharing to ON."];
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:exceptionMessage userInfo:nil];
+        }
+    }
+}
+
+- (void)setPaymentCardScanEnabled:(BOOL)paymentCardScanEnabled {
+
+    _paymentCardScanEnabled = paymentCardScanEnabled;
+
+    if (_paymentCardScanEnabled) {
+
+        if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSCameraUsageDescription"] == nil) {
+
+            NSString *exceptionMessage = [NSString stringWithFormat:@"The app's Info.plist must contain an NSCameraUsageDescription key with a string value explaining to the user how the app uses this data. (e.g. \"To scan credit cards.\")"];
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:exceptionMessage userInfo:nil];
         }
     }

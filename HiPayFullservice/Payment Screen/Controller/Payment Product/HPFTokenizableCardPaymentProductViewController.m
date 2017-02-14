@@ -47,7 +47,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [CardIOUtilities preloadCardIO];
+    if (self.isScanConfigEnabled
+            && self.isCameraFeatureAllowed
+            && self.canReadCardWithCamera) {
+
+        [CardIOUtilities preloadCardIO];
+    }
 }
 
 - (void)viewDidLayoutSubviews
@@ -367,6 +372,26 @@
     }
 }
 
+- (BOOL)isCameraFeatureAllowed
+{
+    if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSCameraUsageDescription"] != nil)
+    {
+        return YES;
+    }
+
+    return false;
+}
+
+- (BOOL)isScanConfigEnabled
+{
+    return [HPFClientConfig.sharedClientConfig isPaymentCardScanEnabled];
+}
+
+- (BOOL) canReadCardWithCamera
+{
+    return [CardIOUtilities canReadCardWithCamera];
+}
+
 #pragma mark - Table View delegate and data source
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -543,9 +568,14 @@
     return nil;
 }
 
+//TODO here we put a button (header?) that we can remove
+//self.isCameraFeatureAllowed
+
 - (void) switchChanged:(UISwitch *)sender {
 
-    if ([CardIOUtilities canReadCardWithCamera]) {
+    // Hide your "Scan Card" button, or take other appropriate action...
+    // if user has put the appropriate permission
+    if (self.canReadCardWithCamera) {
 
         CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
 

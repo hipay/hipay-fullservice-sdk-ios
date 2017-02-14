@@ -23,6 +23,7 @@
                                paymentCardStorageEnabled:true];
 
     [[HPFClientConfig sharedClientConfig] setTouchIDEnabled:YES];
+    [[HPFClientConfig sharedClientConfig] setPaymentCardScanEnabled:YES];
 
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:parameters[@"hockeyapp"][@"app_identifier"]];
     [[BITHockeyManager sharedHockeyManager] startManager];

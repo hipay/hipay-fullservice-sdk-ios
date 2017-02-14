@@ -66,6 +66,8 @@ typedef NS_ENUM(NSInteger, HPFEnvironment) {
 
 @property (nonatomic, getter=isTouchIDEnabled) BOOL touchIDEnabled;
 
+@property (nonatomic, getter=isPaymentCardScanEnabled) BOOL paymentCardScanEnabled;
+
 - (void)setEnvironment:(HPFEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password appURLscheme:(NSString * _Nonnull)appURLScheme paymentCardStorageEnabled:(BOOL)enabled;
 
 + (instancetype _Nonnull)sharedClientConfig;

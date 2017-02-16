@@ -13,6 +13,7 @@
 #import "HPFTransactionRequestResponseManager.h"
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardToken.h"
+#import "HPFScanCardTableViewCell.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 
@@ -164,14 +165,32 @@
             ((HPFInputTableViewCell *)cell).enabled = !isLoading;
             [((HPFInputTableViewCell *)cell).textField resignFirstResponder];
         }
+
+        if ([cell isKindOfClass:[HPFScanCardTableViewCell class]]) {
+            ((HPFScanCardTableViewCell *)cell).enabled = !isLoading;
+        }
     }
 
-    HPFPaymentCardSwitchTableHeaderView *headerView = (HPFPaymentCardSwitchTableHeaderView *)[self.tableView headerViewForSection:1];
+    HPFPaymentCardSwitchTableHeaderView *headerView = (HPFPaymentCardSwitchTableHeaderView *)[self.tableView headerViewForSection:[self paySection]];
     if (headerView != nil) {
         headerView.enabled = !isLoading;
     }
 
     [self.delegate paymentProductViewController:self isLoading:isLoading];
+}
+
+- (NSInteger) formSection
+{
+    return 1;
+}
+
+- (NSInteger) paySection
+{
+    return 2;
+}
+
+- (NSInteger) scanSection {
+    return 0;
 }
 
 - (void)editingDoneButtonTouched:(id)sender

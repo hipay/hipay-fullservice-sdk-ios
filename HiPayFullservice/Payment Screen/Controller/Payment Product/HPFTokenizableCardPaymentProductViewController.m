@@ -212,24 +212,24 @@
 
 #pragma mark - Security code fields behavior
 
+- (void)updateTitleHeader
+{
+    [self.tableView headerViewForSection:[self formSection]].textLabel.text = [[self tableView:self.tableView titleForHeaderInSection:[self formSection]] uppercaseString];
+    [[self.tableView headerViewForSection:[self formSection]] layoutSubviews];
+}
+
 - (NSString *)currentPaymentProductCode
 {
     if (inferedPaymentProductCode != nil) {
         return inferedPaymentProductCode;
     }
-    
+
     return self.paymentProduct.code;
 }
 
 - (HPFSecurityCodeTableViewFooterView *)securityCodeFooter
 {
     return (HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:[self formSection]];
-}
-
-- (void)updateTitleHeader
-{
-    [self.tableView headerViewForSection:[self formSection]].textLabel.text = [[self tableView:self.tableView titleForHeaderInSection:[self formSection]] uppercaseString];
-    [[self.tableView headerViewForSection:[self formSection]] layoutSubviews];
 }
 
 - (void)inferPaymentProductCode
@@ -397,20 +397,6 @@
 
 #pragma mark - Table View delegate and data source
 
-- (NSInteger) formSection
-{
-    return 1;
-}
-
-- (NSInteger) paySection
-{
-    return 2;
-}
-
-- (NSInteger) scanSection {
-    return 0;
-}
-
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == [self formSection]) {
@@ -568,10 +554,6 @@
 - (HPFScanCardTableViewCell *)dequeueScanCardCell
 {
     HPFScanCardTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ScanCard"];
-
-    //cell.loading = loading;
-    //TODO check later
-    //cell.enabled = [self submitButtonEnabled];
     cell.delegate = self;
 
     return cell;
@@ -680,14 +662,14 @@
 
     if (section == self.formSection) {
 
-        return 56.f;
+        return 32.f;
 
     } else if (section == self.paySection) {
 
         BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
 
         if ([self paymentCardStorageEnabled] && paymentCardEnabled) {
-            return 56.f;
+            return 48.f;
         }
 
     } else {

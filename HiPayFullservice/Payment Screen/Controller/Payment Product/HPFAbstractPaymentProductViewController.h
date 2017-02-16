@@ -60,4 +60,8 @@
 
 - (void)cancelRequests;
 
+- (NSInteger) formSection;
+- (NSInteger) paySection;
+- (NSInteger) scanSection;
+
 @end

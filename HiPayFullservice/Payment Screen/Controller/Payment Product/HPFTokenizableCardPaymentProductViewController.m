@@ -21,6 +21,7 @@
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardTokenDatabase_Private.h"
+#import "HPFScanCardTableViewCell.h"
 #import <LocalAuthentication/LAContext.h>
 
 @interface HPFTokenizableCardPaymentProductViewController ()
@@ -39,6 +40,8 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
+
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFScanCardTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ScanCard"];
 
     self.switchOn = NO;
     self.touchIDOn = NO;
@@ -396,16 +399,16 @@
 
 - (NSInteger) formSection
 {
-    return 0;
+    return 1;
 }
 
 - (NSInteger) paySection
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger) scanSection {
-    return -1;
+    return 0;
 }
 
 
@@ -426,7 +429,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     //TODO important line
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -513,7 +516,8 @@
     if (indexPath.section == [self scanSection]) {
 
         //TODO first
-        return [super dequeuePaymentButtonCell];
+        return [self dequeueScanCardCell];
+        //return [super dequeuePaymentButtonCell];
     }
 
     if (indexPath.section == [self paySection]) {
@@ -561,6 +565,41 @@
     return cell;
 }
 
+- (HPFScanCardTableViewCell *)dequeueScanCardCell
+{
+    HPFScanCardTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ScanCard"];
+
+    //cell.loading = loading;
+    //TODO check later
+    //cell.enabled = [self submitButtonEnabled];
+    cell.delegate = self;
+
+    return cell;
+}
+
+- (void)scanCardTableViewCellDidTouchButton:(HPFScanCardTableViewCell *)cell {
+
+    //TODO check here
+    //[self submit];
+
+    // Hide your "Scan Card" button, or take other appropriate action...
+    // if user has put the appropriate permission
+    if (self.canReadCardWithCamera) {
+
+        CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
+
+        scanViewController.hideCardIOLogo = YES;
+        scanViewController.suppressScanConfirmation = YES;
+        scanViewController.disableManualEntryButtons = YES;
+
+        [self presentViewController:scanViewController animated:YES completion:nil];
+
+    } else {
+
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
+    }
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == [self formSection]) {
@@ -598,25 +637,6 @@
 
 - (void) switchChanged:(UISwitch *)sender {
 
-    // Hide your "Scan Card" button, or take other appropriate action...
-    // if user has put the appropriate permission
-    if (self.canReadCardWithCamera) {
-
-        CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
-
-        scanViewController.hideCardIOLogo = YES;
-        scanViewController.suppressScanConfirmation = YES;
-        scanViewController.disableManualEntryButtons = YES;
-
-        [self presentViewController:scanViewController animated:YES completion:nil];
-
-    } else {
-
-        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
-    }
-
-
-    /*
     self.switchOn = sender.isOn;
 
     // if touchID is not enabled, don't ask for it
@@ -633,7 +653,6 @@
 
         self.touchIDOn = NO;
     }
-     */
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

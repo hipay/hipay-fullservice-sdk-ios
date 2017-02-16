@@ -14,7 +14,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    //[button setTitle:HPFLocalizedString(@"PAY_BUTTON_TITLE") forState:UIControlStateNormal];
+    [button setTitle:HPFLocalizedString(@"SCAN_PAYMENT_CARD") forState:UIControlStateNormal];
 }
 
 - (IBAction)buttonTouched:(id)sender {

@@ -10,6 +10,8 @@
 
 "TAP_TO_DEFINE" = "Touchez pour définir";
 
+"SCAN_PAYMENT_CARD" = "Scanner votre carte";
+
 "CANCEL" = "Annuler";
 "YES" = "Oui";
 "NO" = "Non";

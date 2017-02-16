@@ -20,7 +20,8 @@
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8BC-Em-Hel">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="86.5"/>
-                        <state key="normal" title="Scan Card"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
+                        <state key="normal" title="Scan your card" image="ic_camera.png"/>
                         <connections>
                             <action selector="buttonTouched:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Ey1-9U-rGQ"/>
                         </connections>
@@ -39,4 +40,7 @@
             <point key="canvasLocation" x="-77" y="72.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_camera.png" width="23" height="18"/>
+    </resources>
 </document>

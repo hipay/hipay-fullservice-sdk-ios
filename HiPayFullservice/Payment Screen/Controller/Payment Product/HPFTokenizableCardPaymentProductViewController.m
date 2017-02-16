@@ -65,7 +65,7 @@
         defaultFormValuesDefined = YES;
     }
     
-    ((HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:0]).separatorInset = self.tableView.separatorInset;
+    ((HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:[self formSection]]).separatorInset = self.tableView.separatorInset;
 }
 
 - (BOOL)submitButtonEnabled
@@ -220,13 +220,13 @@
 
 - (HPFSecurityCodeTableViewFooterView *)securityCodeFooter
 {
-    return (HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:0];
+    return (HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:[self formSection]];
 }
 
 - (void)updateTitleHeader
 {
-    [self.tableView headerViewForSection:0].textLabel.text = [[self tableView:self.tableView titleForHeaderInSection:0] uppercaseString];
-    [[self.tableView headerViewForSection:0] layoutSubviews];
+    [self.tableView headerViewForSection:[self formSection]].textLabel.text = [[self tableView:self.tableView titleForHeaderInSection:[self formSection]] uppercaseString];
+    [[self.tableView headerViewForSection:[self formSection]] layoutSubviews];
 }
 
 - (void)inferPaymentProductCode
@@ -253,9 +253,9 @@
             inferedPaymentProduct = newInferredPaymentProduct;
 
             if (isCardStorageEnabled) {
-                UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:1];
+                UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:[self paySection]];
                 if (headerView != nil) {
-                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
                     self.touchIDOn = NO;
                     self.switchOn = NO;
                 }
@@ -282,7 +282,7 @@
         [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:self.paymentProduct];
 
         if (isCardStorageEnabled) {
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
             self.touchIDOn = NO;
             self.switchOn = NO;
         }
@@ -298,17 +298,17 @@
         if (!wasPaymentProductDisallowed) {
             if (securityCodeSectionEnabled != [self securityCodeSectionEnabled]) {
                 if ([self securityCodeSectionEnabled]) {
-                    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationTop];
                 }
                 
                 else {
-                    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationTop];
                 }
             }
             
             else {
                 if (currentSecurityCodeType != [self currentSecurityCodeType]) {
-                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationNone];
                 }
             }
         }
@@ -394,8 +394,23 @@
 
 #pragma mark - Table View delegate and data source
 
+- (NSInteger) formSection
+{
+    return 0;
+}
+
+- (NSInteger) paySection
+{
+    return 1;
+}
+
+- (NSInteger) scanSection {
+    return -1;
+}
+
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == [self formSection]) {
         
         NSString *description = self.paymentProduct.paymentProductDescription;
         
@@ -410,19 +425,21 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    //TODO important line
     return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (section == 0) {
+    if (section == [self formSection]) {
         if ([self securityCodeSectionEnabled]) {
             return 4;
         } else {
             return 3;
         }
     }
-    
+
+    // pay section and scan section are 1 line
     return 1;
 }
 
@@ -492,12 +509,20 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.section == 1) {
+
+    if (indexPath.section == [self scanSection]) {
+
+        //TODO first
+        return [super dequeuePaymentButtonCell];
+    }
+
+    if (indexPath.section == [self paySection]) {
 
         return [super dequeuePaymentButtonCell];
     }
-    
+
+    // next is for FORM SECTION
+
     HPFInputTableViewCell *cell;
     
     switch (indexPath.row) {
@@ -538,7 +563,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == [self formSection]) {
         
         HPFSecurityCodeTableViewFooterView *footer = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SecurityCode"];
         footer.paymentProductCode = [self currentPaymentProductCode];
@@ -555,7 +580,7 @@
 {
 
     BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
-    if (section == 1 && paymentCardEnabled) {
+    if (section == [self paySection] && paymentCardEnabled) {
 
         if ([self paymentCardStorageEnabled]) {
 
@@ -624,7 +649,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == [self formSection]) {
         return footerHeight;
     }
     
@@ -634,24 +659,21 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
 
-    switch (section) {
+    if (section == self.formSection) {
 
-        case 0: {
+        return 56.f;
+
+    } else if (section == self.paySection) {
+
+        BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
+
+        if ([self paymentCardStorageEnabled] && paymentCardEnabled) {
             return 56.f;
         }
 
-        case 1: {
+    } else {
 
-            BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
-
-            if ([self paymentCardStorageEnabled] && paymentCardEnabled) {
-                return 56.f;
-            }
-        }
-
-        default: {
-            return 0.f;
-        }
+        return 0.f;
     }
 }
 

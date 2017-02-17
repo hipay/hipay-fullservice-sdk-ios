@@ -22,6 +22,7 @@
 #import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardTokenDatabase_Private.h"
 #import "HPFScanCardTableViewCell.h"
+#import "HPFExpiryDateFormatter.h"
 #import <LocalAuthentication/LAContext.h>
 
 @interface HPFTokenizableCardPaymentProductViewController ()
@@ -37,11 +38,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
 
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFScanCardTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ScanCard"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
 
     self.switchOn = NO;
     self.touchIDOn = NO;
@@ -688,6 +688,33 @@
     // The full card number is available as info.cardNumber, but don't log that!
     NSLog(@"Received card info. Number: %@, expiry: %02i/%i, cvv: %@.", info.redactedCardNumber, info.expiryMonth, info.expiryYear, info.cvv);
     // Use the card info...
+
+    HPFCardNumberTextField *cardNumberTextField = (HPFCardNumberTextField *) [self textFieldForIdentifier:@"number"];
+    cardNumberTextField.text = info.cardNumber;
+    [cardNumberTextField textFieldDidChange:nil];
+    [self textFieldDidChange:cardNumberTextField];
+
+    if (info.expiryMonth != 0 && info.expiryYear != 0) {
+        HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
+
+        NSString *expiryYear = [NSString stringWithFormat:@"%i", info.expiryYear];
+
+        expiryYear = [NSString stringWithFormat:@"%02i%@", info.expiryMonth, [expiryYear substringFromIndex: [expiryYear length] - 2]];
+        expiryYear = [[HPFExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:expiryYear];
+
+        expiryDateTextField.attributedText = expiryYear;
+
+        [self textFieldDidChange:expiryDateTextField];
+
+    }
+
+    if (info.cvv != nil && info.cvv.length > 0) {
+        HPFSecurityCodeTextField *securityCodeTextField = (HPFSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
+        securityCodeTextField.attributedText = info.cvv;
+
+        [self textFieldDidChange:securityCodeTextField];
+    }
+
     [scanViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -181,15 +181,18 @@
 
 - (NSInteger) formSection
 {
+    //return 0;
     return 1;
 }
 
 - (NSInteger) paySection
 {
+    //return 1;
     return 2;
 }
 
 - (NSInteger) scanSection {
+    //return -1;
     return 0;
 }
 

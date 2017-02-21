@@ -9,6 +9,7 @@
 #import "HPFClientConfig.h"
 #import "DevicePrint.h"
 #import "HPFPaymentCardTokenDatabase.h"
+#import "HPFLogger.h"
 
 @implementation HPFClientConfig
 
@@ -87,7 +88,9 @@
         if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSCameraUsageDescription"] == nil) {
 
             NSString *exceptionMessage = [NSString stringWithFormat:@"The app's Info.plist must contain an NSCameraUsageDescription key with a string value explaining to the user how the app uses this data. (e.g. \"To scan credit cards.\")"];
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:exceptionMessage userInfo:nil];
+            //@throw [NSException exceptionWithName:NSInvalidArgumentException reason:exceptionMessage userInfo:nil];
+
+            [[HPFLogger sharedLogger] warning:exceptionMessage];
         }
     }
 }

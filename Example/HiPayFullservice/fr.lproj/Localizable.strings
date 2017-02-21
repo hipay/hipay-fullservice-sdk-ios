@@ -12,6 +12,8 @@
 
 "FORM_CARD_STORAGE" = "Enregistrement de carte";
 
+"FORM_CARD_SCAN" = "Scan de carte";
+
 "FORM_COLOR" = "Couleur";
 
 "FORM_COLOR_DEFAULT" = "Défaut";

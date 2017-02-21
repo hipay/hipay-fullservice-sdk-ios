@@ -18,6 +18,7 @@
     NSUInteger currencyRowIndex;
     NSUInteger amountRowIndex;
     NSUInteger multiUseRowIndex;
+    NSUInteger cardScanRowIndex;
     NSUInteger authRowIndex;
     NSUInteger productCategoryRowIndex;
     NSUInteger submitRowIndex;
@@ -42,6 +43,8 @@
     NSArray *currencies;
     BOOL groupedPaymentCard;
     BOOL multiUse;
+    BOOL cardScan;
+
     NSUInteger currencySegmentIndex;
     NSUInteger colorSegmentIndex;
     NSUInteger authenticationIndicatorSegmentIndex;

@@ -12,6 +12,8 @@
 
 "FORM_CARD_STORAGE" = "Payment cards storage";
 
+"FORM_CARD_SCAN" = "Payment cards scan";
+
 "FORM_COLOR" = "Color";
 
 "FORM_COLOR_DEFAULT" = "Default";

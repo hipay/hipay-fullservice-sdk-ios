@@ -24,6 +24,7 @@
 #import "HPFScanCardTableViewCell.h"
 #import "HPFExpiryDateFormatter.h"
 #import <LocalAuthentication/LAContext.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface HPFTokenizableCardPaymentProductViewController ()
 
@@ -382,7 +383,7 @@
         return YES;
     }
 
-    return false;
+    return NO;
 }
 
 - (BOOL)isScanConfigEnabled
@@ -395,8 +396,44 @@
     return [CardIOUtilities canReadCardWithCamera];
 }
 
+- (BOOL) isCameraScanDisplayed {
+
+    NSString *mediaType = AVMediaTypeVideo;
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+
+    BOOL canReadCard = YES;
+    if (self.canReadCardWithCamera == NO) {
+
+        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
+                && authStatus == AVAuthorizationStatusDenied) {
+
+            canReadCard = YES;
+
+        } else {
+
+            canReadCard = NO;
+        }
+    }
+    return self.isScanConfigEnabled && self.isCameraFeatureAllowed && canReadCard;
+}
+
 #pragma mark - Table View delegate and data source
 
+
+- (NSInteger) formSection
+{
+    return self.isCameraScanDisplayed ? 1 : 0;
+}
+
+- (NSInteger) paySection
+{
+    return self.isCameraScanDisplayed ? 2 : 1;
+}
+
+- (NSInteger) scanSection
+{
+    return self.isCameraScanDisplayed ? 0 : -1;
+}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == [self formSection]) {
@@ -414,8 +451,14 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    //TODO important line
-    return 3;
+
+    if (self.isCameraScanDisplayed) {
+        return 3;
+
+    } else {
+
+        return 2;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -499,15 +542,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.section == [self scanSection]) {
-
-        //TODO first
+    if (indexPath.section == [self scanSection])
+    {
         return [self dequeueScanCardCell];
-        //return [super dequeuePaymentButtonCell];
     }
 
-    if (indexPath.section == [self paySection]) {
-
+    if (indexPath.section == [self paySection])
+    {
         return [super dequeuePaymentButtonCell];
     }
 
@@ -561,12 +602,43 @@
 
 - (void)scanCardTableViewCellDidTouchButton:(HPFScanCardTableViewCell *)cell {
 
-    //TODO check here
-    //[self submit];
+    NSString *mediaType = AVMediaTypeVideo;
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+/*
+    BOOL canReadCard = YES;
+    if (self.canReadCardWithCamera == NO) {
 
-    // Hide your "Scan Card" button, or take other appropriate action...
-    // if user has put the appropriate permission
-    if (self.canReadCardWithCamera) {
+        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
+                && authStatus == AVAuthorizationStatusDenied) {
+
+            canReadCard = YES;
+
+        } else {
+
+            canReadCard = NO;
+        }
+    }
+    */
+
+    // this method checks if the user has the appropriate permission
+    if (!self.canReadCardWithCamera) {
+
+        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
+                && authStatus == AVAuthorizationStatusDenied) {
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
+                                                                message:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_DESCRIPTION")
+                                                               delegate:self
+                                                      cancelButtonTitle:HPFLocalizedString(@"NO")
+                                                      otherButtonTitles:HPFLocalizedString(@"YES"), nil];
+            alertView.tag = 1;
+            [alertView show];
+
+        } else {
+            // should not happen
+        }
+
+    } else {
 
         CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
 
@@ -575,10 +647,6 @@
         scanViewController.disableManualEntryButtons = YES;
 
         [self presentViewController:scanViewController animated:YES completion:nil];
-
-    } else {
-
-        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
     }
 }
 
@@ -624,12 +692,13 @@
     // if touchID is not enabled, don't ask for it
     if (self.isSwitchOn && self.isTouchIDEnabled) {
 
-        [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
                                     message:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_DESCRIPTION")
                                    delegate:self
                           cancelButtonTitle:HPFLocalizedString(@"NO")
-                          otherButtonTitles:HPFLocalizedString(@"YES"), nil]
-                show];
+                          otherButtonTitles:HPFLocalizedString(@"YES"), nil];
+        alertView.tag = 0;
+        [alertView show];
 
     } else {
 
@@ -639,11 +708,27 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == alertView.cancelButtonIndex) {
-        self.touchIDOn = NO;
 
-    } else {
-        self.touchIDOn = YES;
+    switch (alertView.tag) {
+
+        case 0: {
+
+            if (buttonIndex == alertView.cancelButtonIndex) {
+                self.touchIDOn = NO;
+
+            } else {
+                self.touchIDOn = YES;
+            }
+
+        } break;
+
+        case 1: {
+
+            if (buttonIndex != alertView.cancelButtonIndex) {
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
+            }
+
+        } break;
     }
 }
 

@@ -183,17 +183,20 @@
 {
     //return 0;
     return 1;
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (NSInteger) paySection
 {
     //return 1;
     return 2;
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (NSInteger) scanSection {
     //return -1;
     return 0;
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)editingDoneButtonTouched:(id)sender

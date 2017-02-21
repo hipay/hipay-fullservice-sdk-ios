@@ -9,7 +9,6 @@
 #import "HPFClientConfig.h"
 #import "DevicePrint.h"
 #import "HPFPaymentCardTokenDatabase.h"
-#import "HPFLogger.h"
 
 @implementation HPFClientConfig
 
@@ -26,9 +25,9 @@
 - (id)init {
     if (self = [super init]) {
 
+        _paymentCardStorageEnabled = YES;
         _touchIDEnabled = NO;
         _paymentCardScanEnabled = YES;
-        _paymentCardStorageEnabled = YES;
     }
     return self;
 }
@@ -79,6 +78,12 @@
     }
 }
 
+- (void)setPaymentCardStorageEnabled:(BOOL)enabled withTouchID:(BOOL)touchIDEnabled {
+
+    self.paymentCardStorageEnabled = enabled;
+    self.touchIDEnabled = touchIDEnabled;
+}
+
 - (void)setPaymentCardScanEnabled:(BOOL)paymentCardScanEnabled {
 
     _paymentCardScanEnabled = paymentCardScanEnabled;
@@ -88,9 +93,9 @@
         if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSCameraUsageDescription"] == nil) {
 
             NSString *exceptionMessage = [NSString stringWithFormat:@"The app's Info.plist must contain an NSCameraUsageDescription key with a string value explaining to the user how the app uses this data. (e.g. \"To scan credit cards.\")"];
-            //@throw [NSException exceptionWithName:NSInvalidArgumentException reason:exceptionMessage userInfo:nil];
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:exceptionMessage userInfo:nil];
 
-            [[HPFLogger sharedLogger] warning:exceptionMessage];
+            //[[HPFLogger sharedLogger] warning:exceptionMessage];
         }
     }
 }
@@ -110,6 +115,23 @@
         [(Class)devicePrintClass start];
     }
     
+    [self performSelectorOnMainThread:@selector(determineUserAgent) withObject:nil waitUntilDone:YES];
+}
+
+- (void)setEnvironment:(HPFEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password appURLscheme:(NSString * _Nonnull)appURLscheme
+{
+    _environment = environment;
+    _username = username;
+    _password = password;
+
+    [self setAppURLscheme:appURLscheme];
+
+    id devicePrintClass = NSClassFromString(@"DevicePrint");
+
+    if ([devicePrintClass respondsToSelector:@selector(start)]) {
+        [(Class)devicePrintClass start];
+    }
+
     [self performSelectorOnMainThread:@selector(determineUserAgent) withObject:nil waitUntilDone:YES];
 }
 

@@ -21,7 +21,6 @@
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardTokenDatabase_Private.h"
-#import "HPFScanCardTableViewCell.h"
 #import "HPFExpiryDateFormatter.h"
 #import <LocalAuthentication/LAContext.h>
 #import <AVFoundation/AVFoundation.h>
@@ -604,21 +603,6 @@
 
     NSString *mediaType = AVMediaTypeVideo;
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
-/*
-    BOOL canReadCard = YES;
-    if (self.canReadCardWithCamera == NO) {
-
-        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
-                && authStatus == AVAuthorizationStatusDenied) {
-
-            canReadCard = YES;
-
-        } else {
-
-            canReadCard = NO;
-        }
-    }
-    */
 
     // this method checks if the user has the appropriate permission
     if (!self.canReadCardWithCamera) {
@@ -626,11 +610,11 @@
         if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
                 && authStatus == AVAuthorizationStatusDenied) {
 
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
-                                                                message:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_DESCRIPTION")
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SCAN")
+                                                                message:HPFLocalizedString(@"CARD_SCAN_PERMISSION")
                                                                delegate:self
-                                                      cancelButtonTitle:HPFLocalizedString(@"NO")
-                                                      otherButtonTitles:HPFLocalizedString(@"YES"), nil];
+                                                      cancelButtonTitle:HPFLocalizedString(@"CANCEL")
+                                                      otherButtonTitles:HPFLocalizedString(@"SETTINGS"), nil];
             alertView.tag = 1;
             [alertView show];
 
@@ -711,6 +695,7 @@
 
     switch (alertView.tag) {
 
+        //TouchID
         case 0: {
 
             if (buttonIndex == alertView.cancelButtonIndex) {
@@ -722,6 +707,7 @@
 
         } break;
 
+            //card scan
         case 1: {
 
             if (buttonIndex != alertView.cancelButtonIndex) {
@@ -770,9 +756,6 @@
 }
 
 - (void)userDidProvideCreditCardInfo:(CardIOCreditCardInfo *)info inPaymentViewController:(CardIOPaymentViewController *)scanViewController {
-    // The full card number is available as info.cardNumber, but don't log that!
-    NSLog(@"Received card info. Number: %@, expiry: %02i/%i, cvv: %@.", info.redactedCardNumber, info.expiryMonth, info.expiryYear, info.cvv);
-    // Use the card info...
 
     HPFCardNumberTextField *cardNumberTextField = (HPFCardNumberTextField *) [self textFieldForIdentifier:@"number"];
     cardNumberTextField.text = info.cardNumber;

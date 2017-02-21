@@ -15,7 +15,7 @@
 "CANCEL" = "Cancel";
 "YES" = "Yes";
 "NO" = "No";
-
+"SETTINGS" = "Settings";
 "PAY_BUTTON_TITLE" = "Pay";
 
 "ERROR_TITLE_CONNECTION" = "Network error";
@@ -83,6 +83,9 @@
 "CARD_SWITCH_STORE_DESCRIPTION" = "Store this card for future use";
 "CARD_SWITCH_TOUCHID_TITLE" = "Secure with Touch ID";
 "CARD_SWITCH_TOUCHID_DESCRIPTION" = "Would you like to activate Touch ID for securing future payments with this card? A fingerprint recognition will be required for further use.";
+
+"CARD_SCAN" = "Scan card";
+"CARD_SCAN_PERMISSION" = "To scan your payment card, allow camera permission.";
 
 "CARD_STORED_SELECTION" = "Select a payment card";
 

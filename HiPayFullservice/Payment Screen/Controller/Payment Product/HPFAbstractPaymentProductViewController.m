@@ -37,7 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
@@ -181,21 +182,15 @@
 
 - (NSInteger) formSection
 {
-    //return 0;
-    return 1;
     [self doesNotRecognizeSelector:_cmd];
 }
 
 - (NSInteger) paySection
 {
-    //return 1;
-    return 2;
     [self doesNotRecognizeSelector:_cmd];
 }
 
 - (NSInteger) scanSection {
-    //return -1;
-    return 0;
     [self doesNotRecognizeSelector:_cmd];
 }
 
@@ -461,11 +456,19 @@
 }
 
 #pragma mark - Table view data source
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+
+
     if (section == 0) {
-        
-        return [NSString stringWithFormat:HPFLocalizedString(@"PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
+
+        if (section == [self scanSection]) {
+
+            return @"";
+
+        } else {
+
+            return [NSString stringWithFormat:HPFLocalizedString(@"PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
+        }
     }
     
     return nil;

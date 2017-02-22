@@ -36,6 +36,19 @@
     return nil;
 }
 
+- (NSInteger) formSection
+{
+    return 0;
+}
+
+- (NSInteger) paySection
+{
+    //no-op
+}
+
+- (NSInteger) scanSection {
+    //no-op
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     return [super dequeuePaymentButtonCell];

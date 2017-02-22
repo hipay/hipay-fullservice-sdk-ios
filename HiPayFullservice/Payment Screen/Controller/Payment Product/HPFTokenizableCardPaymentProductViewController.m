@@ -50,10 +50,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (self.isScanConfigEnabled
-            && self.isCameraFeatureAllowed
-            && self.canReadCardWithCamera) {
-
+    if (self.isCameraScanDisplayed)
+    {
         [CardIOUtilities preloadCardIO];
     }
 }
@@ -445,7 +443,7 @@
         
         return [NSString stringWithFormat:HPFLocalizedString(@"PAY_WITH_THIS_METHOD"), description];
     }
-    
+
     return [super tableView:tableView titleForHeaderInSection:section];
 }
 
@@ -745,7 +743,7 @@
 
     } else {
 
-        return 0.f;
+        return 7.0f;
     }
 }
 

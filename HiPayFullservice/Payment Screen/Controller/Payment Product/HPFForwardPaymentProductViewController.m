@@ -39,6 +39,20 @@
     return 1;
 }
 
+- (NSInteger) formSection
+{
+    //no-op
+}
+
+- (NSInteger) paySection
+{
+    return 0;
+}
+
+- (NSInteger) scanSection {
+    //no-op
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     
     if (section == (self.tableView.numberOfSections - 1)) {

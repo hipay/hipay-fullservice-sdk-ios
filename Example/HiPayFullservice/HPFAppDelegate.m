@@ -19,10 +19,11 @@
     [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage
                                                 username:parameters[@"hipay"][@"username"]
                                                 password:parameters[@"hipay"][@"password"]
-                                            appURLscheme:@"hipayexample"
-                               paymentCardStorageEnabled:true];
+                                            appURLscheme:@"hipayexample"];
 
-    [[HPFClientConfig sharedClientConfig] setTouchIDEnabled:YES];
+
+    [[HPFClientConfig sharedClientConfig] setPaymentCardStorageEnabled:YES withTouchID:YES];
+    [[HPFClientConfig sharedClientConfig] setPaymentCardScanEnabled:YES];
 
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:parameters[@"hockeyapp"][@"app_identifier"]];
     [[BITHockeyManager sharedHockeyManager] startManager];

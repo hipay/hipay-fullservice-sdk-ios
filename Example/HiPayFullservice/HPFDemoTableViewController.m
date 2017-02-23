@@ -32,10 +32,11 @@
     currencyRowIndex = 1;
     amountRowIndex = 2;
     multiUseRowIndex = 3;
-    authRowIndex = 4;
-    colorRowIndex = 5;
-    productCategoryRowIndex = 6;
-    submitRowIndex = 7;
+    cardScanRowIndex = 4;
+    authRowIndex = 5;
+    colorRowIndex = 6;
+    productCategoryRowIndex = 7;
+    submitRowIndex = 8;
     
     // Error row indexes
     resultSectionIndex = NSNotFound;
@@ -101,6 +102,8 @@
 
     multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
 
+    cardScan = [HPFClientConfig.sharedClientConfig isPaymentCardScanEnabled];
+
     if (productCategoriesViewController != nil) {
         selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationFade];
@@ -121,7 +124,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == formSectionIndex) {
-        return 8;
+        return 9;
     }
     
     if (section == resultSectionIndex) {
@@ -168,7 +171,7 @@
     
     if (indexPath.section == formSectionIndex) {
 
-        if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex)) {
+        if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
             
             HPFSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
             [cell.switchControl addTarget:self action:@selector(controlValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -182,7 +185,12 @@
                 cell.textLabel.text = NSLocalizedString(@"FORM_CARD_STORAGE", nil);
                 cell.switchControl.on = multiUse;
             }
-            
+
+            else if (indexPath.row == cardScanRowIndex) {
+                cell.textLabel.text = NSLocalizedString(@"FORM_CARD_SCAN", nil);
+                cell.switchControl.on = cardScan;
+            }
+
             [cell layoutSubviews];
             
             return cell;
@@ -470,7 +478,10 @@
     paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
 
     paymentPageRequest.multiUse = multiUse;
+
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
+
+    [HPFClientConfig.sharedClientConfig setPaymentCardScanEnabled:cardScan];
 
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
 
@@ -543,7 +554,11 @@
     else if (indexPath.row == multiUseRowIndex) {
         multiUse = [sender isOn];
     }
-    
+
+    else if (indexPath.row == cardScanRowIndex) {
+        cardScan = [sender isOn];
+    }
+
     else if (indexPath.row == authRowIndex) {
         authenticationIndicatorSegmentIndex = [sender selectedSegmentIndex];
     }

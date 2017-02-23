@@ -13,6 +13,6 @@
 
 @interface HPFCardNumberTextField : HPFFormattedTextField
 
-@property (nonatomic, readonly) NSSet *paymentProductCodes;
-
+@property (nonatomic, readonly) NSSet *paymentProductCodes;//
+- (void)textFieldDidChange:(id)sender;
 @end

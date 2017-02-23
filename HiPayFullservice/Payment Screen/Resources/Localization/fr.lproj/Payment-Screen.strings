@@ -10,9 +10,12 @@
 
 "TAP_TO_DEFINE" = "Touchez pour définir";
 
+"SCAN_PAYMENT_CARD" = "Scanner votre carte";
+
 "CANCEL" = "Annuler";
 "YES" = "Oui";
 "NO" = "Non";
+"SETTINGS" = "Réglages";
 
 "PAY_BUTTON_TITLE" = "Payer";
 
@@ -81,6 +84,9 @@
 "CARD_SWITCH_STORE_DESCRIPTION" = "Enregistrer cette carte";
 "CARD_SWITCH_TOUCHID_TITLE" = "Sécuriser avec Touch ID";
 "CARD_SWITCH_TOUCHID_DESCRIPTION" = "Souhaitez-vous activer Touch ID pour sécuriser les paiements futurs avec cette carte ? Une lecture d'empreinte digitale sera exigée lors de futures utilisations.";
+
+"CARD_SCAN" = "Scan de carte";
+"CARD_SCAN_PERMISSION" = "Pour scanner votre carte, activez la permission Appareil photo.";
 
 "CARD_STORED_SELECTION" = "Sélectionner une carte";
 

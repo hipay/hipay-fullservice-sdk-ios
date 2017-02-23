@@ -79,6 +79,20 @@
     }
 }
 
+- (NSInteger) formSection
+{
+    return 0;
+}
+
+- (NSInteger) paySection
+{
+    return 1;
+}
+
+- (NSInteger) scanSection {
+    //no-op
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 1) {

@@ -41,7 +41,7 @@
 
 - (NSInteger) formSection
 {
-    //no-op
+    return -1;
 }
 
 - (NSInteger) paySection
@@ -50,7 +50,7 @@
 }
 
 - (NSInteger) scanSection {
-    //no-op
+    return -1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {

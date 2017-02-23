@@ -43,11 +43,12 @@
 
 - (NSInteger) paySection
 {
-    //no-op
+    return -1;
 }
 
-- (NSInteger) scanSection {
-    //no-op
+- (NSInteger) scanSection
+{
+    return -1;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     

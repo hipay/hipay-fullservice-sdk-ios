@@ -745,6 +745,8 @@
 
         return 7.0f;
     }
+
+    return 0.f;
 }
 
 - (void)userDidCancelPaymentViewController:(CardIOPaymentViewController *)scanViewController {
@@ -763,12 +765,12 @@
     if (info.expiryMonth != 0 && info.expiryYear != 0) {
         HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
 
-        NSString *expiryYear = [NSString stringWithFormat:@"%i", info.expiryYear];
+        NSString *expiryYear = [NSString stringWithFormat:@"%lu", (unsigned long)info.expiryYear];
 
-        expiryYear = [NSString stringWithFormat:@"%02i%@", info.expiryMonth, [expiryYear substringFromIndex: [expiryYear length] - 2]];
-        expiryYear = [[HPFExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:expiryYear];
+        expiryYear = [NSString stringWithFormat:@"%02lu%@", (unsigned long)info.expiryMonth, [expiryYear substringFromIndex: [expiryYear length] - 2]];
+        NSAttributedString *expiryYearAttributed = [[HPFExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:expiryYear];
 
-        expiryDateTextField.attributedText = expiryYear;
+        expiryDateTextField.attributedText = expiryYearAttributed;
 
         [self textFieldDidChange:expiryDateTextField];
 
@@ -776,7 +778,7 @@
 
     if (info.cvv != nil && info.cvv.length > 0) {
         HPFSecurityCodeTextField *securityCodeTextField = (HPFSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
-        securityCodeTextField.attributedText = info.cvv;
+        securityCodeTextField.text = info.cvv;
 
         [self textFieldDidChange:securityCodeTextField];
     }

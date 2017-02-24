@@ -1,15 +1,16 @@
 PODS:
   - CardIO (5.4.1)
-  - HiPayFullservice (1.2.1):
-    - HiPayFullservice/Core (= 1.2.1)
-    - HiPayFullservice/Device-Print (= 1.2.1)
-    - HiPayFullservice/Payment-Screen (= 1.2.1)
-  - HiPayFullservice/Core (1.2.1)
-  - HiPayFullservice/Device-Print (1.2.1)
-  - HiPayFullservice/Payment-Screen (1.2.1):
+  - HiPayFullservice (1.3.0):
+    - HiPayFullservice/Core (= 1.3.0)
+    - HiPayFullservice/Device-Print (= 1.3.0)
+    - HiPayFullservice/Payment-Screen (= 1.3.0)
+  - HiPayFullservice/Core (1.3.0)
+  - HiPayFullservice/Device-Print (1.3.0)
+  - HiPayFullservice/Payment-Screen (1.3.0):
+    - CardIO
     - HiPayFullservice/Core
     - HiPayFullservice/Utilities
-  - HiPayFullservice/Utilities (1.2.1):
+  - HiPayFullservice/Utilities (1.3.0):
     - HiPayFullservice/Core
   - HockeySDK (4.1.2):
     - HockeySDK/DefaultLib (= 4.1.2)
@@ -30,7 +31,6 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (5.2.1)
 
 DEPENDENCIES:
-  - CardIO
   - HiPayFullservice (from `../`)
   - HockeySDK
   - OCMock
@@ -42,11 +42,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   CardIO: 56983b39b62f495fc6dae9ad7cf875143df06443
-  HiPayFullservice: caa3415afbe95e2215d7278e3484d11c7df452ce
+  HiPayFullservice: 30a3481f4e5d83e8dda7dc63d5f0d1f2f7bb96f8
   HockeySDK: c7523379550a4305cefc1cdfa7b5f9a5a3538180
   OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
   OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
 
-PODFILE CHECKSUM: 6e9d6870da7e3c6cb74c914a63724730e85d9a33
+PODFILE CHECKSUM: fb984d9ca19a1ad7c9ee10ea5e57b7e365920c24
 
-COCOAPODS: 1.1.0.rc.2
+COCOAPODS: 1.2.0

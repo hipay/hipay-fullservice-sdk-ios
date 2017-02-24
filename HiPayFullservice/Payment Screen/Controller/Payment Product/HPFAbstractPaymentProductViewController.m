@@ -183,15 +183,18 @@
 - (NSInteger) formSection
 {
     [self doesNotRecognizeSelector:_cmd];
+    return -1;
 }
 
 - (NSInteger) paySection
 {
     [self doesNotRecognizeSelector:_cmd];
+    return -1;
 }
 
 - (NSInteger) scanSection {
     [self doesNotRecognizeSelector:_cmd];
+    return -1;
 }
 
 - (void)editingDoneButtonTouched:(id)sender

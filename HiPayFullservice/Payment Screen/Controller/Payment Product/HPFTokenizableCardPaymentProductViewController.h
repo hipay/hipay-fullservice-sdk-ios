@@ -7,8 +7,8 @@
 //
 
 #import "HPFAbstractPaymentProductViewController.h"
-#import "CardIO.h"
 #import "HPFScanCardTableViewCell.h"
+#import "CardIO.h"
 
 @interface HPFTokenizableCardPaymentProductViewController : HPFAbstractPaymentProductViewController <CardIOPaymentViewControllerDelegate, HPFScanCardTableViewCellDelegate>
 {

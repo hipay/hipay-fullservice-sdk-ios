@@ -38,6 +38,20 @@
     return 1;
 }
 
+- (NSInteger) formSection
+{
+    return 0;
+}
+
+- (NSInteger) paySection
+{
+    return 1;
+}
+
+- (NSInteger) scanSection {
+    return -1;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 1) {

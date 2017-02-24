@@ -13,6 +13,7 @@
 #import "HPFTransactionRequestResponseManager.h"
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardToken.h"
+#import "HPFScanCardTableViewCell.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 
@@ -36,7 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
@@ -164,14 +166,35 @@
             ((HPFInputTableViewCell *)cell).enabled = !isLoading;
             [((HPFInputTableViewCell *)cell).textField resignFirstResponder];
         }
+
+        if ([cell isKindOfClass:[HPFScanCardTableViewCell class]]) {
+            ((HPFScanCardTableViewCell *)cell).enabled = !isLoading;
+        }
     }
 
-    HPFPaymentCardSwitchTableHeaderView *headerView = (HPFPaymentCardSwitchTableHeaderView *)[self.tableView headerViewForSection:1];
+    HPFPaymentCardSwitchTableHeaderView *headerView = (HPFPaymentCardSwitchTableHeaderView *)[self.tableView headerViewForSection:[self paySection]];
     if (headerView != nil) {
         headerView.enabled = !isLoading;
     }
 
     [self.delegate paymentProductViewController:self isLoading:isLoading];
+}
+
+- (NSInteger) formSection
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return -1;
+}
+
+- (NSInteger) paySection
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return -1;
+}
+
+- (NSInteger) scanSection {
+    [self doesNotRecognizeSelector:_cmd];
+    return -1;
 }
 
 - (void)editingDoneButtonTouched:(id)sender
@@ -436,11 +459,19 @@
 }
 
 #pragma mark - Table view data source
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+
+
     if (section == 0) {
-        
-        return [NSString stringWithFormat:HPFLocalizedString(@"PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
+
+        if (section == [self scanSection]) {
+
+            return @"";
+
+        } else {
+
+            return [NSString stringWithFormat:HPFLocalizedString(@"PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
+        }
     }
     
     return nil;

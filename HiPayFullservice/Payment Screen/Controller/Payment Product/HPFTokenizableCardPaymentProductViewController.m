@@ -21,7 +21,9 @@
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardTokenDatabase.h"
 #import "HPFPaymentCardTokenDatabase_Private.h"
+#import "HPFExpiryDateFormatter.h"
 #import <LocalAuthentication/LAContext.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface HPFTokenizableCardPaymentProductViewController ()
 
@@ -36,12 +38,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFScanCardTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ScanCard"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
 
     self.switchOn = NO;
     self.touchIDOn = NO;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    if (self.isCameraScanDisplayed)
+    {
+        [CardIOUtilities preloadCardIO];
+    }
 }
 
 - (void)viewDidLayoutSubviews
@@ -54,7 +66,7 @@
         defaultFormValuesDefined = YES;
     }
     
-    ((HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:0]).separatorInset = self.tableView.separatorInset;
+    ((HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:[self formSection]]).separatorInset = self.tableView.separatorInset;
 }
 
 - (BOOL)submitButtonEnabled
@@ -198,24 +210,24 @@
 
 #pragma mark - Security code fields behavior
 
+- (void)updateTitleHeader
+{
+    [self.tableView headerViewForSection:[self formSection]].textLabel.text = [[self tableView:self.tableView titleForHeaderInSection:[self formSection]] uppercaseString];
+    [[self.tableView headerViewForSection:[self formSection]] layoutSubviews];
+}
+
 - (NSString *)currentPaymentProductCode
 {
     if (inferedPaymentProductCode != nil) {
         return inferedPaymentProductCode;
     }
-    
+
     return self.paymentProduct.code;
 }
 
 - (HPFSecurityCodeTableViewFooterView *)securityCodeFooter
 {
-    return (HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:0];
-}
-
-- (void)updateTitleHeader
-{
-    [self.tableView headerViewForSection:0].textLabel.text = [[self tableView:self.tableView titleForHeaderInSection:0] uppercaseString];
-    [[self.tableView headerViewForSection:0] layoutSubviews];
+    return (HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:[self formSection]];
 }
 
 - (void)inferPaymentProductCode
@@ -242,9 +254,9 @@
             inferedPaymentProduct = newInferredPaymentProduct;
 
             if (isCardStorageEnabled) {
-                UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:1];
+                UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:[self paySection]];
                 if (headerView != nil) {
-                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
                     self.touchIDOn = NO;
                     self.switchOn = NO;
                 }
@@ -271,7 +283,7 @@
         [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:self.paymentProduct];
 
         if (isCardStorageEnabled) {
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
             self.touchIDOn = NO;
             self.switchOn = NO;
         }
@@ -287,17 +299,17 @@
         if (!wasPaymentProductDisallowed) {
             if (securityCodeSectionEnabled != [self securityCodeSectionEnabled]) {
                 if ([self securityCodeSectionEnabled]) {
-                    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationTop];
                 }
                 
                 else {
-                    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationTop];
                 }
             }
             
             else {
                 if (currentSecurityCodeType != [self currentSecurityCodeType]) {
-                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationNone];
                 }
             }
         }
@@ -361,10 +373,67 @@
     }
 }
 
+- (BOOL)isCameraFeatureAllowed
+{
+    if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSCameraUsageDescription"] != nil)
+    {
+        return YES;
+    }
+
+    return NO;
+}
+
+- (BOOL)isScanConfigEnabled
+{
+    return [HPFClientConfig.sharedClientConfig isPaymentCardScanEnabled];
+}
+
+- (BOOL) canReadCardWithCamera
+{
+    return [CardIOUtilities canReadCardWithCamera];
+}
+
+- (BOOL) isCameraScanDisplayed {
+
+    NSString *mediaType = AVMediaTypeVideo;
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+
+    BOOL canReadCard = YES;
+    if (self.canReadCardWithCamera == NO) {
+
+        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
+                && authStatus == AVAuthorizationStatusDenied) {
+
+            canReadCard = YES;
+
+        } else {
+
+            canReadCard = NO;
+        }
+    }
+    return self.isScanConfigEnabled && self.isCameraFeatureAllowed && canReadCard;
+}
+
 #pragma mark - Table View delegate and data source
 
+
+- (NSInteger) formSection
+{
+    return self.isCameraScanDisplayed ? 1 : 0;
+}
+
+- (NSInteger) paySection
+{
+    return self.isCameraScanDisplayed ? 2 : 1;
+}
+
+- (NSInteger) scanSection
+{
+    return self.isCameraScanDisplayed ? 0 : -1;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == [self formSection]) {
         
         NSString *description = self.paymentProduct.paymentProductDescription;
         
@@ -374,24 +443,32 @@
         
         return [NSString stringWithFormat:HPFLocalizedString(@"PAY_WITH_THIS_METHOD"), description];
     }
-    
+
     return [super tableView:tableView titleForHeaderInSection:section];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+
+    if (self.isCameraScanDisplayed) {
+        return 3;
+
+    } else {
+
+        return 2;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (section == 0) {
+    if (section == [self formSection]) {
         if ([self securityCodeSectionEnabled]) {
             return 4;
         } else {
             return 3;
         }
     }
-    
+
+    // pay section and scan section are 1 line
     return 1;
 }
 
@@ -461,12 +538,19 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.section == 1) {
 
+    if (indexPath.section == [self scanSection])
+    {
+        return [self dequeueScanCardCell];
+    }
+
+    if (indexPath.section == [self paySection])
+    {
         return [super dequeuePaymentButtonCell];
     }
-    
+
+    // next is for FORM SECTION
+
     HPFInputTableViewCell *cell;
     
     switch (indexPath.row) {
@@ -505,9 +589,52 @@
     return cell;
 }
 
+- (HPFScanCardTableViewCell *)dequeueScanCardCell
+{
+    HPFScanCardTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ScanCard"];
+    cell.delegate = self;
+
+    return cell;
+}
+
+- (void)scanCardTableViewCellDidTouchButton:(HPFScanCardTableViewCell *)cell {
+
+    NSString *mediaType = AVMediaTypeVideo;
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+
+    // this method checks if the user has the appropriate permission
+    if (!self.canReadCardWithCamera) {
+
+        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
+                && authStatus == AVAuthorizationStatusDenied) {
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SCAN")
+                                                                message:HPFLocalizedString(@"CARD_SCAN_PERMISSION")
+                                                               delegate:self
+                                                      cancelButtonTitle:HPFLocalizedString(@"CANCEL")
+                                                      otherButtonTitles:HPFLocalizedString(@"SETTINGS"), nil];
+            alertView.tag = 1;
+            [alertView show];
+
+        } else {
+            // should not happen
+        }
+
+    } else {
+
+        CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
+
+        scanViewController.hideCardIOLogo = YES;
+        scanViewController.suppressScanConfirmation = YES;
+        scanViewController.disableManualEntryButtons = YES;
+
+        [self presentViewController:scanViewController animated:YES completion:nil];
+    }
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == [self formSection]) {
         
         HPFSecurityCodeTableViewFooterView *footer = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SecurityCode"];
         footer.paymentProductCode = [self currentPaymentProductCode];
@@ -524,7 +651,7 @@
 {
 
     BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
-    if (section == 1 && paymentCardEnabled) {
+    if (section == [self paySection] && paymentCardEnabled) {
 
         if ([self paymentCardStorageEnabled]) {
 
@@ -537,6 +664,9 @@
     return nil;
 }
 
+//TODO here we put a button (header?) that we can remove
+//self.isCameraFeatureAllowed
+
 - (void) switchChanged:(UISwitch *)sender {
 
     self.switchOn = sender.isOn;
@@ -544,12 +674,13 @@
     // if touchID is not enabled, don't ask for it
     if (self.isSwitchOn && self.isTouchIDEnabled) {
 
-        [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
                                     message:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_DESCRIPTION")
                                    delegate:self
                           cancelButtonTitle:HPFLocalizedString(@"NO")
-                          otherButtonTitles:HPFLocalizedString(@"YES"), nil]
-                show];
+                          otherButtonTitles:HPFLocalizedString(@"YES"), nil];
+        alertView.tag = 0;
+        [alertView show];
 
     } else {
 
@@ -559,18 +690,36 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == alertView.cancelButtonIndex) {
-        self.touchIDOn = NO;
 
-    } else {
-        self.touchIDOn = YES;
+    switch (alertView.tag) {
+
+        //TouchID
+        case 0: {
+
+            if (buttonIndex == alertView.cancelButtonIndex) {
+                self.touchIDOn = NO;
+
+            } else {
+                self.touchIDOn = YES;
+            }
+
+        } break;
+
+            //card scan
+        case 1: {
+
+            if (buttonIndex != alertView.cancelButtonIndex) {
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
+            }
+
+        } break;
     }
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == [self formSection]) {
         return footerHeight;
     }
     
@@ -580,24 +729,62 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
 
-    switch (section) {
+    if (section == self.formSection) {
 
-        case 0: {
-            return 56.f;
+        return 32.f;
+
+    } else if (section == self.paySection) {
+
+        BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
+
+        if ([self paymentCardStorageEnabled] && paymentCardEnabled) {
+            return 48.f;
         }
 
-        case 1: {
+    } else {
 
-            BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
-
-            if ([self paymentCardStorageEnabled] && paymentCardEnabled) {
-                return 56.f;
-            }
-        }
-
-        default: {
-            return 0.f;
-        }
+        return 7.0f;
     }
+
+    return 0.f;
 }
+
+- (void)userDidCancelPaymentViewController:(CardIOPaymentViewController *)scanViewController {
+    NSLog(@"User canceled payment info");
+    // Handle user cancellation here...
+    [scanViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)userDidProvideCreditCardInfo:(CardIOCreditCardInfo *)info inPaymentViewController:(CardIOPaymentViewController *)scanViewController {
+
+    HPFCardNumberTextField *cardNumberTextField = (HPFCardNumberTextField *) [self textFieldForIdentifier:@"number"];
+    cardNumberTextField.text = info.cardNumber;
+    [cardNumberTextField textFieldDidChange:nil];
+    [self textFieldDidChange:cardNumberTextField];
+
+    if (info.expiryMonth != 0 && info.expiryYear != 0) {
+        HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
+
+        NSString *expiryYear = [NSString stringWithFormat:@"%lu", (unsigned long)info.expiryYear];
+
+        expiryYear = [NSString stringWithFormat:@"%02lu%@", (unsigned long)info.expiryMonth, [expiryYear substringFromIndex: [expiryYear length] - 2]];
+        NSAttributedString *expiryYearAttributed = [[HPFExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:expiryYear];
+
+        expiryDateTextField.attributedText = expiryYearAttributed;
+
+        [self textFieldDidChange:expiryDateTextField];
+
+    }
+
+    if (info.cvv != nil && info.cvv.length > 0) {
+        HPFSecurityCodeTextField *securityCodeTextField = (HPFSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
+        securityCodeTextField.text = info.cvv;
+
+        [self textFieldDidChange:securityCodeTextField];
+    }
+
+    [scanViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 @end

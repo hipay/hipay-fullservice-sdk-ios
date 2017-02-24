@@ -59,6 +59,7 @@ Pod::Spec.new do |s|
     }
     s.dependency "HiPayFullservice/Core"
     s.dependency "HiPayFullservice/Utilities"
+    s.dependency 'CardIO'
     s.frameworks = "UIKit"
     s.weak_frameworks = "WebKit"
   end

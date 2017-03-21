@@ -19,6 +19,7 @@
 #import "HPFOperationMapper.h"
 #import "HPFLogger.h"
 #import "NSMutableDictionary+Serialization.h"
+#import "HPFFormatter.h"
 
 NSString * _Nonnull const HPFGatewayClientDidRedirectSuccessfullyNotification = @"HPFGatewayClientDidRedirectSuccessfullyNotification";
 NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotification = @"HPFGatewayClientDidRedirectWithMappingErrorNotification";
@@ -134,7 +135,7 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
             }
             
             if (resultError != nil) {
-                [[HPFLogger sharedLogger] debug:@"<Gateway>: %@", error];
+                [HPFFormatter logFromError:resultError client:@"<Gateway>"];
             }
             
             if ([NSThread isMainThread]) {

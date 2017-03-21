@@ -11,5 +11,6 @@
 @interface HPFFormatter : NSObject
 
 - (NSString *)digitsOnlyFromPlainText:(NSString *)plainTextNumber;
++ (void)logFromError:(NSError *)error client:(NSString *)client;
 
 @end

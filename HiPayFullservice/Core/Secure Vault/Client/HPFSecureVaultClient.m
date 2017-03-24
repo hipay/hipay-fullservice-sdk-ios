@@ -9,6 +9,7 @@
 #import "HPFSecureVaultClient.h"
 #import "HPFAbstractClient+Private.h"
 #import "HPFLogger.h"
+#import "HPFFormatter.h"
 
 @interface HPFSecureVaultClient ()
 {
@@ -143,7 +144,7 @@
         }
         
         if (resultError != nil) {
-            [[HPFLogger sharedLogger] debug:@"<SecureVault>: %@", error];
+            [HPFFormatter logFromError:resultError client:@"<SecureVault>"];
         }
         
         if ([NSThread isMainThread]) {

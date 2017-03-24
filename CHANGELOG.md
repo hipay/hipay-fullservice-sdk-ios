@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.4.0
+-----
+* Add more logging to errors.
+
 1.3.0
 -----
 * Add the scan card camera feature.

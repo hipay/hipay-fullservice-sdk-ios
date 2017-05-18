@@ -28,7 +28,7 @@
  * distribute the iovation ReputationShield™ SDK solely as necessary to use
  * the the iovation DevicePrint™ and ReputationManager™ services and platform
  * from within software created and distributed by Client, pursuant to the
- * <a href="https://help.iovation.com/Downloads/iovation_SDK_License>License</a>
+ * <a href="https://help.iovation.com/Downloads/iovation_SDK_License">License</a>
  * and Service Agreement between iovation and Client.
  *
  */

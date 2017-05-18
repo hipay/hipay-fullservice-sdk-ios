@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.source_files     = "HiPayFullservice/*.{m,h}"
 
-  s.default_subspecs = %w[Core Payment-Screen Device-Print]
+  s.default_subspec = 'Core', 'Payment-Screen'#,'Device-Print', 'CardIO'
 
   s.public_header_files = "HiPayFullservice/*.h"
 
@@ -46,22 +46,35 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "Device-Print" do |s|
-    s.vendored_frameworks = "HiPayFullservice/Device Print/iovation.framework"
+      s.vendored_frameworks = "HiPayFullservice/Device Print/iovation.framework"
     s.frameworks = "CoreTelephony", "SystemConfiguration", "ExternalAccessory"
   end
 
   s.subspec "Payment-Screen" do |s|
-    s.source_files  = "HiPayFullservice/Payment Screen/**/*.{h,m}"
+    s.source_files  = ['HiPayFullservice/Payment Screen/**/*.{h,m}']
     s.public_header_files = "HiPayFullservice/Payment Screen/**/*.h"
     s.resource_bundles = {
       "HPFPaymentScreenViews" => ["HiPayFullservice/Payment Screen/**/*.{xib,png,storyboard}"],
       "HPFPaymentScreenLocalization" => ["HiPayFullservice/Payment Screen/**/*.lproj"]
     }
+
     s.dependency "HiPayFullservice/Core"
     s.dependency "HiPayFullservice/Utilities"
-    s.dependency 'CardIO'
-    s.frameworks = "UIKit"
     s.weak_frameworks = "WebKit"
+    
+    s.frameworks       = 'UIKit', 'Accelerate', 'AudioToolbox', 'AVFoundation', 'CoreLocation', 'CoreMedia', 'MessageUI', 'MobileCoreServices', 'SystemConfiguration'
+    
+    s.vendored_libraries = ['HiPayFullservice/Payment Screen/CardIO/*.a']
+    
+    s.compiler_flags   = '-fmodules'#,  '-fmodules-autolink'
+    s.xcconfig         = { 'OTHER_LDFLAGS' => '-lc++ -ObjC'}
+
+    
+  end
+  
+  s.subspec 'CardIO' do |s|
+      s.dependency       'CardIO', '~> 5.4.1'
+      
   end
 
 end

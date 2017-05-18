@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.4.1
+-----
+* Resolves static library error on swift projects.
+
 1.4.0
 -----
 * Add more logging to errors.

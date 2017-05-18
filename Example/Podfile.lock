@@ -1,34 +1,30 @@
 PODS:
-  - CardIO (5.4.1)
-  - HiPayFullservice (1.4.0):
-    - HiPayFullservice/Core (= 1.4.0)
-    - HiPayFullservice/Device-Print (= 1.4.0)
-    - HiPayFullservice/Payment-Screen (= 1.4.0)
-  - HiPayFullservice/Core (1.4.0)
-  - HiPayFullservice/Device-Print (1.4.0)
-  - HiPayFullservice/Payment-Screen (1.4.0):
-    - CardIO
+  - HiPayFullservice (1.4.1):
+    - HiPayFullservice/Core (= 1.4.1)
+    - HiPayFullservice/Payment-Screen (= 1.4.1)
+  - HiPayFullservice/Core (1.4.1)
+  - HiPayFullservice/Payment-Screen (1.4.1):
     - HiPayFullservice/Core
     - HiPayFullservice/Utilities
-  - HiPayFullservice/Utilities (1.4.0):
+  - HiPayFullservice/Utilities (1.4.1):
     - HiPayFullservice/Core
-  - HockeySDK (4.1.2):
-    - HockeySDK/DefaultLib (= 4.1.2)
-  - HockeySDK/DefaultLib (4.1.2)
-  - OCMock (3.3.1)
-  - OHHTTPStubs (5.2.1):
-    - OHHTTPStubs/Default (= 5.2.1)
-  - OHHTTPStubs/Core (5.2.1)
-  - OHHTTPStubs/Default (5.2.1):
+  - HockeySDK (4.1.5):
+    - HockeySDK/DefaultLib (= 4.1.5)
+  - HockeySDK/DefaultLib (4.1.5)
+  - OCMock (3.4)
+  - OHHTTPStubs (6.0.0):
+    - OHHTTPStubs/Default (= 6.0.0)
+  - OHHTTPStubs/Core (6.0.0)
+  - OHHTTPStubs/Default (6.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (5.2.1):
+  - OHHTTPStubs/JSON (6.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (5.2.1):
+  - OHHTTPStubs/NSURLSession (6.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (5.2.1)
+  - OHHTTPStubs/OHPathHelpers (6.0.0)
 
 DEPENDENCIES:
   - HiPayFullservice (from `../`)
@@ -41,12 +37,11 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  CardIO: 56983b39b62f495fc6dae9ad7cf875143df06443
-  HiPayFullservice: e6e5faa929182db2678a55a37c6b8821ed270983
-  HockeySDK: c7523379550a4305cefc1cdfa7b5f9a5a3538180
-  OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
-  OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
+  HiPayFullservice: 54af9eb04b037485038c2e0a9dd1f7837833aee5
+  HockeySDK: 606b537bbfbe454ee440e92cc93bc634b3c77151
+  OCMock: 35ae71d6a8fcc1b59434d561d1520b9dd4f15765
+  OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
 
-PODFILE CHECKSUM: fb984d9ca19a1ad7c9ee10ea5e57b7e365920c24
+PODFILE CHECKSUM: 7c1b99c91ddcd69d0a249503ae64fe91a344f92f
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1

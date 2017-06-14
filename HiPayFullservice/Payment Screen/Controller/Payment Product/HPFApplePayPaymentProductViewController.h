@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HPFAbstractPaymentProductViewController.h"
+#import <PassKit/PassKit.h>
 
 @interface HPFApplePayPaymentProductViewController : HPFAbstractPaymentProductViewController
 

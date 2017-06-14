@@ -14,13 +14,25 @@
 
 @implementation HPFApplePayPaymentProductViewController
 
+- (instancetype)initWithPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct
+{
+    self = [super initWithPaymentPageRequest:paymentPageRequest signature:signature andSelectedPaymentProduct:paymentProduct];
+    
+    if (self) {
+        
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.tableView.separatorColor = [UIColor clearColor];
+    }
+    return self;
+}
+
 - (HPFOrderRequest *)createOrderRequest
 {
 
     // we gonna call this order as soon as we get the right callback.
 
     HPFOrderRequest *orderRequest = [super createOrderRequest];
-
+    
     //orderRequest.paymentMethod = [HPFQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:[self textForIdentifier:@"username"]];
 
     return orderRequest;
@@ -57,20 +69,26 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    if (YES) {
-        return [super dequeueApplePayCell];
-    }
-
-    HPFInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"username"];
-
+    
     /*
-    cell.inputLabel.text = HPFLocalizedString(@"QIWI_WALLET_USERNAME_LABEL");
-    cell.textField.placeholder = HPFLocalizedString(@"QIWI_WALLET_USERNAME_PLACEHOLDER");
-    cell.textField.keyboardType = UIKeyboardTypePhonePad;
-    */
+    if (indexPath.section == 1) {
+        return [super dequeuePaymentButtonCell];
+    }
+     */
+    
+    return [self dequeueApplePayCell];
 
-    return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    
+    return @"You will be redirected";
+    
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    return nil;
 }
 
 @end

@@ -294,6 +294,25 @@
 - (HPFApplePayTableViewCell *)dequeueApplePayCell
 {
     HPFApplePayTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ApplePay"];
+    PKPaymentButton *paymentButton = [[PKPaymentButton alloc] initWithPaymentButtonType:PKPaymentButtonTypePlain paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];
+
+    //cell.backgroundView = paymentButton;
+    
+    [cell.contentView addSubview:paymentButton];
+    
+    //cell.contentView.backgroundColor = [UIColor greenColor];
+
+    paymentButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+
+    CGRect payButtonFrame = paymentButton.frame;
+    payButtonFrame.size.width = cell.contentView.frame.size.width;
+    payButtonFrame.size.height = 44;
+    
+    paymentButton.frame = payButtonFrame;
+    
+    
+    //paymentButton.center = [cell.contentView convertPoint:cell.contentView.center
+                                                 //fromView:cell.contentView.superview];
 
     return cell;
 }

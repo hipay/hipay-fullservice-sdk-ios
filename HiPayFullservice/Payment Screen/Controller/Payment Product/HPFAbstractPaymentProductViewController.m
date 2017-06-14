@@ -14,6 +14,7 @@
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardToken.h"
 #import "HPFScanCardTableViewCell.h"
+#import "HPFApplePayTableViewCell.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 
@@ -52,6 +53,8 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFExpiryDateInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ExpiryDateInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"SecurityCodeInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFApplePayTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ApplePay"];
+
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -285,6 +288,13 @@
 {
     HPFLabelTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Label"];
     
+    return cell;
+}
+
+- (HPFApplePayTableViewCell *)dequeueApplePayCell
+{
+    HPFApplePayTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ApplePay"];
+
     return cell;
 }
 

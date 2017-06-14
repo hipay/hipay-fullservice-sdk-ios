@@ -21,6 +21,7 @@
 - (NSString *)textForIdentifier:(NSString *)fieldIdentifier;
 - (HPFInputTableViewCell *)dequeueInputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier;
 - (HPFLabelTableViewCell *)dequeueLabelCell;
+- (HPFLabelTableViewCell *)dequeueApplePayCell;
 - (HPFOrderRequest *)createOrderRequest;
 - (BOOL)submitButtonEnabled;
 - (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature;

@@ -15,6 +15,7 @@
 #import "HPFPaymentProduct.h"
 
 @class HPFAbstractPaymentProductViewController;
+@class HPFApplePayTableViewCell;
 
 @protocol HPFPaymentProductViewControllerDelegate <NSObject>
 

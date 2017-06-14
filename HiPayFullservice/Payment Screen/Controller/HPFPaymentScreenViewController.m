@@ -108,7 +108,10 @@
             [newPaymentProducts removeObjectsAtIndexes:groupedProductsToRemoveIndexes];
             
             [newPaymentProducts insertObject:[[HPFPaymentProduct alloc] initWithGroupedProducts:groupedPaymentCardProductCodes] atIndex:groupedProductsToRemoveIndexes.firstIndex];
-            
+
+            HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] initWithApplePayProduct];
+            [newPaymentProducts insertObject:paymentProduct atIndex:0];
+
             return newPaymentProducts;
         }
     }

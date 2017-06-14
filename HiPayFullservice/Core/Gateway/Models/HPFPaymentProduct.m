@@ -127,6 +127,15 @@ NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet = @"ewallet";
     return self;
 }
 
+- (instancetype)initWithApplePayProduct {
+    self = [super init];
+    if (self) {
+        _paymentProductDescription = @"Apple Pay";
+        //_paymentProductCategoryCode = HPFPaymentProductCategoryCodeCreditCard;
+    }
+    return self;
+}
+
 - (BOOL)isEqualToPaymentProduct:(HPFPaymentProduct *)object
 {
     if (![object isKindOfClass:[HPFPaymentProduct class]]) {

@@ -141,4 +141,6 @@ extern NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet;
 
 - (instancetype _Nonnull)initWithGroupedProducts:(NSSet <NSString *> * _Nonnull)paymentProducts;
 
+- (instancetype _Nonnull)initWithApplePayProduct;
+
 @end

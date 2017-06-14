@@ -97,10 +97,13 @@ extern NSString * _Nonnull const HPFPaymentProductCodeSantanderCash;
 extern NSString * _Nonnull const HPFPaymentProductCodeSantanderHomeBanking;
 extern NSString * _Nonnull const HPFPaymentProductCodeDexiaDirectNet;
 
+extern NSString * _Nonnull const HPFPaymentProductCodeApplePay;
+
 extern NSString * _Nonnull const HPFPaymentProductCategoryCodeCreditCard;
 extern NSString * _Nonnull const HPFPaymentProductCategoryCodeDebitCard;
 extern NSString * _Nonnull const HPFPaymentProductCategoryCodeRealtimeBanking;
 extern NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet;
+
 
 /**
  *  Describes a payment product (a payment method).

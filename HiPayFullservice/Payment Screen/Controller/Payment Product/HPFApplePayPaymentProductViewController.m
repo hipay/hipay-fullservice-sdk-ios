@@ -8,30 +8,66 @@
 
 #import "HPFApplePayPaymentProductViewController.h"
 
-@interface HPFApplePayPaymentProductViewController ()
-
-@end
+#import "HPFOrderRequest.h"
+#import "HPFAbstractPaymentProductViewController_Protected.h"
+#import "NSString+HPFValidation.h"
+#import "HPFPaymentScreenUtils.h"
+#import "HPFQiwiWalletPaymentMethodRequest.h"
 
 @implementation HPFApplePayPaymentProductViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+- (HPFOrderRequest *)createOrderRequest
+{
+
+    // we gonna call this order as soon as we get the right callback.
+
+    HPFOrderRequest *orderRequest = [super createOrderRequest];
+
+    orderRequest.paymentMethod = [HPFQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:[self textForIdentifier:@"username"]];
+
+    return orderRequest;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (BOOL)submitButtonEnabled
+{
+    return [[self textForIdentifier:@"username"] isDefined];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
-*/
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (NSInteger) formSection
+{
+    return 0;
+}
+
+- (NSInteger) paySection
+{
+    return 1;
+}
+
+- (NSInteger) scanSection {
+    return -1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (indexPath.section == 1) {
+        return [super dequeuePaymentButtonCell];
+    }
+
+    HPFInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"username"];
+
+    cell.inputLabel.text = HPFLocalizedString(@"QIWI_WALLET_USERNAME_LABEL");
+    cell.textField.placeholder = HPFLocalizedString(@"QIWI_WALLET_USERNAME_PLACEHOLDER");
+    cell.textField.keyboardType = UIKeyboardTypePhonePad;
+
+    return cell;
+}
 
 @end

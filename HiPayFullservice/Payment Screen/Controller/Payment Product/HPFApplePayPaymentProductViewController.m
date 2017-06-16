@@ -11,6 +11,7 @@
 #import "HPFOrderRequest.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPFValidation.h"
+#import "HPFPaymentScreenUtils.h"
 
 @implementation HPFApplePayPaymentProductViewController
 
@@ -70,20 +71,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    /*
-    if (indexPath.section == 1) {
-        return [super dequeuePaymentButtonCell];
-    }
-     */
-    
     return [self dequeueApplePayCell];
-
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    
-    return @"You will be redirected";
-    
+
+    return HPFLocalizedString(@"PAYMENT_APPLE_PAY_DETAILS");
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {

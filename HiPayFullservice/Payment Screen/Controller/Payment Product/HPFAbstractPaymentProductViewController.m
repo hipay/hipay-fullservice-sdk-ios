@@ -230,8 +230,8 @@
     if (activeTextField == textField) {
         activeTextField = nil;
     }
-
     [self determineScrollingMode];
+
 }
 
 - (void)textFieldDidChange:(UITextField *)textField
@@ -294,19 +294,7 @@
 - (HPFApplePayTableViewCell *)dequeueApplePayCell
 {
     HPFApplePayTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ApplePay"];
-
-    PKPaymentButton *paymentButton = [[PKPaymentButton alloc] initWithPaymentButtonType:PKPaymentButtonTypeBuy paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];
-
-    [cell.contentView addSubview:paymentButton];
-
-    paymentButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    CGRect payButtonFrame = paymentButton.frame;
-    payButtonFrame.size.width = MAX(CGRectGetWidth(payButtonFrame), 160.f);
-    payButtonFrame.size.height = MAX(CGRectGetHeight(payButtonFrame), 44.f);
-
-    paymentButton.frame = payButtonFrame;
-    paymentButton.center = [cell.contentView convertPoint:cell.contentView.center
-                                                 fromView:cell.contentView.superview];
+    cell.delegate = self;
 
     return cell;
 }

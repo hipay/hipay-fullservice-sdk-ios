@@ -13,6 +13,7 @@
 #import "HPFPaymentButtonTableViewCell.h"
 #import "HPFForwardViewController.h"
 #import "HPFPaymentProduct.h"
+#import "HPFApplePayTableViewCell.h"
 
 @class HPFAbstractPaymentProductViewController;
 @class HPFApplePayTableViewCell;
@@ -41,7 +42,7 @@
 
 @end
 
-@interface HPFAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate, HPFPaymentButtonTableViewCellDelegate, HPFForwardViewControllerDelegate>
+@interface HPFAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate, HPFPaymentButtonTableViewCellDelegate, HPFForwardViewControllerDelegate, HPFApplePayTableViewCellDelegate>
 {
     UITextField *activeTextField;
     BOOL loading;

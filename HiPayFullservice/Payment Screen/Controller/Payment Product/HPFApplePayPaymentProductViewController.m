@@ -39,6 +39,11 @@
     return orderRequest;
 }
 
+- (void)applePayButtonTableViewCellDidTouchButton:(HPFApplePayTableViewCell *)cell {
+
+    NSLog(@"called");
+}
+
 - (BOOL)submitButtonEnabled
 {
     return [[self textForIdentifier:@"username"] isDefined];
@@ -70,8 +75,8 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return [self dequeueApplePayCell];
+
+    return self.dequeueApplePayCell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {

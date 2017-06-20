@@ -14,16 +14,7 @@
 {
     [super awakeFromNib];
 
-    PKPaymentButtonType type;
-    if (PKPaymentAuthorizationController.canMakePayments)
-    {
-        type = PKPaymentButtonTypeBuy;
-
-    } else
-    {
-        type = PKPaymentButtonTypeSetUp;
-
-    }
+    PKPaymentButtonType type = PKPaymentAuthorizationController.canMakePayments ? PKPaymentButtonTypeBuy : PKPaymentButtonTypeSetUp;
 
     PKPaymentButton *button = [[PKPaymentButton alloc] initWithPaymentButtonType:type paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];
     button.translatesAutoresizingMaskIntoConstraints = NO;

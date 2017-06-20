@@ -41,7 +41,15 @@
 
 - (void)applePayButtonTableViewCellDidTouchButton:(HPFApplePayTableViewCell *)cell {
 
-    NSLog(@"called");
+    if (PKPaymentAuthorizationController.canMakePayments) {
+
+
+
+    } else {
+
+        PKPassLibrary *passLibrary = [PKPassLibrary new];
+        [passLibrary openPaymentSetup];
+    }
 }
 
 - (BOOL)submitButtonEnabled

@@ -693,6 +693,9 @@
 						DevelopmentTeam = 7RLJNKW437;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};

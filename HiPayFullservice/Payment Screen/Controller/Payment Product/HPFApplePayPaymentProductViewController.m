@@ -63,8 +63,7 @@
 
         [self presentViewController:vc animated:YES completion:^{
 
-            NSLog(@"Presented payment controller");
-            NSLog(@"Presented payment controller");
+            //NSLog(@"Presented payment controller");
             /*
             if presented {
         } else {
@@ -118,16 +117,78 @@
     }
 }
 
-- (void)paymentAuthorizationController:(PKPaymentAuthorizationController *)controller
+/*
+- (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
+                   didSelectShippingContact:(CNContact *)contact
+                                 completion:(void (^)(PKPaymentAuthorizationStatus, NSArray *, NSArray *))completion
+{
+    //self.selectedContact = contact;
+    //[self updateShippingCost];
+    //NSArray *shippingMethods = [self shippingMethodsForContact:contact];
+    //completion(PKPaymentAuthorizationStatusSuccess, shippingMethods, self.summaryItems);
+}
+
+- (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
+                    didSelectShippingMethod:(PKShippingMethod *)shippingMethod
+                                 completion:(void (^)(PKPaymentAuthorizationStatus, NSArray *))completion
+{
+    //self.selectedShippingMethod = shippingMethod;
+    //[self updateShippingCost];
+    //completion(PKPaymentAuthorizationStatusSuccess, self.summaryItems);
+}
+*/
+
+- (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
+                        didAuthorizePayment:(PKPayment *)payment
+                                 completion:(void (^)(PKPaymentAuthorizationStatus))completion
+{
+    //NSError *error;
+    //ABMultiValueRef addressMultiValue = ABRecordCopyValue(payment.billingAddress, kABPersonAddressProperty);
+    //NSDictionary *addressDictionary = (__bridge_transfer NSDictionary *) ABMultiValueCopyValueAtIndex(addressMultiValue, 0);
+    //NSData *json = [NSJSONSerialization dataWithJSONObject:addressDictionary options:NSJSONWritingPrettyPrinted error: &error];
+
+    // ... Send payment token, shipping and billing address, and order information to your server ...
+
+    //PKPaymentAuthorizationStatus status;  // From your server
+    //completion(status);
+}
+
+- (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+// remove everything
+/*
+- (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
+                    didSelectShippingMethod:(PKShippingMethod *)shippingMethod
+                                 completion:(void (^)(PKPaymentAuthorizationStatus, NSArray *))completion
+{
+    //self.selectedShippingMethod = shippingMethod;
+    //[self updateShippingCost];
+    //completion(PKPaymentAuthorizationStatusSuccess, self.summaryItems);
+    NSLog(@"Presented payment controller 2");
+}
+
+- (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)paymentAuthorizationViewControllerController:(PKPaymentAuthorizationController *)controller
                    didAuthorizePayment:(PKPayment *)payment
                             completion:(void (^)(PKPaymentAuthorizationStatus status))completion {
 
-
+    NSLog(@"Presented payment controller 2");
 }
 
 - (void)paymentAuthorizationControllerDidFinish:(PKPaymentAuthorizationController *)controller {
 
+    [controller dismissWithCompletion:nil];
+    NSLog(@"Presented payment controller");
 }
+*/
 
 - (BOOL)submitButtonEnabled
 {

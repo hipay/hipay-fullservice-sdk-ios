@@ -10,8 +10,8 @@
 
 #import "HPFOrderRequest.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
-#import "NSString+HPFValidation.h"
 #import "HPFPaymentScreenUtils.h"
+#import "HPFSecureVaultClient.h"
 
 @implementation HPFApplePayPaymentProductViewController
 
@@ -117,27 +117,6 @@
     }
 }
 
-/*
-- (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
-                   didSelectShippingContact:(CNContact *)contact
-                                 completion:(void (^)(PKPaymentAuthorizationStatus, NSArray *, NSArray *))completion
-{
-    //self.selectedContact = contact;
-    //[self updateShippingCost];
-    //NSArray *shippingMethods = [self shippingMethodsForContact:contact];
-    //completion(PKPaymentAuthorizationStatusSuccess, shippingMethods, self.summaryItems);
-}
-
-- (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
-                    didSelectShippingMethod:(PKShippingMethod *)shippingMethod
-                                 completion:(void (^)(PKPaymentAuthorizationStatus, NSArray *))completion
-{
-    //self.selectedShippingMethod = shippingMethod;
-    //[self updateShippingCost];
-    //completion(PKPaymentAuthorizationStatusSuccess, self.summaryItems);
-}
-*/
-
 - (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
                         didAuthorizePayment:(PKPayment *)payment
                                  completion:(void (^)(PKPaymentAuthorizationStatus))completion
@@ -155,50 +134,72 @@
 
 
 
+
+
     completion(PKPaymentAuthorizationStatusSuccess);
 }
 
+
+- (void)submit
+{
+
+    /*
+    [self setPaymentButtonLoadingMode:YES];
+
+    NSString *securityCode = nil;
+
+    if ([self securityCodeSectionEnabled]) {
+        securityCode = [self textForIdentifier:@"security_code"];
+    }
+
+    HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *)[self textFieldForIdentifier:@"expiry_date"];
+
+    NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
+    NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
+
+    BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
+    if (paymentCardEnabled && [self isSwitchOn]) {
+        self.paymentPageRequest.multiUse = YES;
+    }
+    */
+
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:@"101" multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+
+        [self setPaymentButtonLoadingMode:NO];
+        transactionLoadingRequest = nil;
+
+        if (cardToken != nil) {
+
+            if (paymentCardEnabled && [self isSwitchOn]) {
+                self.paymentCardToken = cardToken;
+            }
+
+            HPFOrderRequest *orderRequest = [self createOrderRequest];
+
+            orderRequest.paymentProductCode = inferedPaymentProductCode;
+
+            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
+
+            [self performOrderRequest:orderRequest signature:self.signature];
+
+        } else {
+            [self checkTransactionError:error];
+        }
+
+    }];
+}
+
 - (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
 {
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
-
-// remove everything
 /*
-- (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
-                    didSelectShippingMethod:(PKShippingMethod *)shippingMethod
-                                 completion:(void (^)(PKPaymentAuthorizationStatus, NSArray *))completion
-{
-    //self.selectedShippingMethod = shippingMethod;
-    //[self updateShippingCost];
-    //completion(PKPaymentAuthorizationStatusSuccess, self.summaryItems);
-    NSLog(@"Presented payment controller 2");
-}
-
-- (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
-{
-    [controller dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)paymentAuthorizationViewControllerController:(PKPaymentAuthorizationController *)controller
-                   didAuthorizePayment:(PKPayment *)payment
-                            completion:(void (^)(PKPaymentAuthorizationStatus status))completion {
-
-    NSLog(@"Presented payment controller 2");
-}
-
-- (void)paymentAuthorizationControllerDidFinish:(PKPaymentAuthorizationController *)controller {
-
-    [controller dismissWithCompletion:nil];
-    NSLog(@"Presented payment controller");
-}
-*/
-
 - (BOOL)submitButtonEnabled
 {
     return [[self textForIdentifier:@"username"] isDefined];
 }
+ */
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

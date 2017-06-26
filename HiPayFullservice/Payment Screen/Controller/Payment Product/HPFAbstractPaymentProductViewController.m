@@ -14,7 +14,6 @@
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardToken.h"
 #import "HPFScanCardTableViewCell.h"
-#import "HPFApplePayTableViewCell.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 
@@ -294,7 +293,6 @@
 - (HPFApplePayTableViewCell *)dequeueApplePayCell
 {
     HPFApplePayTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ApplePay"];
-    cell.delegate = self;
 
     return cell;
 }

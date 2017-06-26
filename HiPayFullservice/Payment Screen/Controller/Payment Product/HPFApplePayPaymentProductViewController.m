@@ -151,6 +151,11 @@
 
     //PKPaymentAuthorizationStatus status;  // From your server
     //completion(status);
+
+
+
+
+    completion(PKPaymentAuthorizationStatusSuccess);
 }
 
 - (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
@@ -222,7 +227,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return self.dequeueApplePayCell;
+    HPFApplePayTableViewCell *applePayTableViewCell = self.dequeueApplePayCell;
+    applePayTableViewCell.delegate = self;
+
+    return applePayTableViewCell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {

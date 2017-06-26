@@ -42,7 +42,7 @@
 
 @end
 
-@interface HPFAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate, HPFPaymentButtonTableViewCellDelegate, HPFForwardViewControllerDelegate, HPFApplePayTableViewCellDelegate>
+@interface HPFAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate, HPFPaymentButtonTableViewCellDelegate, HPFForwardViewControllerDelegate>
 {
     UITextField *activeTextField;
     BOOL loading;

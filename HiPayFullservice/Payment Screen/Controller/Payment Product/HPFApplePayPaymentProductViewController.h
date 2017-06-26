@@ -10,6 +10,6 @@
 #import "HPFAbstractPaymentProductViewController.h"
 #import <PassKit/PassKit.h>
 
-@interface HPFApplePayPaymentProductViewController : HPFAbstractPaymentProductViewController <PKPaymentAuthorizationViewControllerDelegate>
+@interface HPFApplePayPaymentProductViewController : HPFAbstractPaymentProductViewController <PKPaymentAuthorizationViewControllerDelegate, HPFApplePayTableViewCellDelegate>
 
 @end

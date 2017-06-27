@@ -12,6 +12,11 @@
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFSecureVaultClient.h"
+#import "HPFGatewayClient.h"
+
+@interface HPFApplePayPaymentProductViewController ()
+@property (nonatomic, strong) NSError *error;
+@end
 
 @implementation HPFApplePayPaymentProductViewController
 
@@ -117,6 +122,52 @@
     }
 }
 
+
+- (void)submit
+{
+
+}
+
+
+- (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature
+{
+    [self setPaymentButtonLoadingMode:YES];
+
+    [self cancelRequests];
+
+    transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
+
+        transactionLoadingRequest = nil;
+
+        if (theTransaction != nil) {
+            transaction = theTransaction;
+
+            if (transaction.forwardUrl != nil) {
+
+                UINavigationController *navigationController = self.navigationController;
+                NSArray *controllers = navigationController.viewControllers;
+                if (navigationController != nil && controllers != nil) {
+                    HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:signature];
+                    viewController.delegate = self;
+
+                    [self presentViewController:viewController animated:YES completion:nil];
+                }
+            }
+
+            else {
+                [self checkTransactionStatus:transaction];
+            }
+        }
+
+        else {
+            [self checkTransactionError:error];
+        }
+
+        [self setPaymentButtonLoadingMode:NO];
+
+    }];
+}
+
 - (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
                         didAuthorizePayment:(PKPayment *)payment
                                  completion:(void (^)(PKPaymentAuthorizationStatus))completion
@@ -131,75 +182,52 @@
     //PKPaymentAuthorizationStatus status;  // From your server
     //completion(status);
 
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1111 1111 11111" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
-
-
-
-
-    completion(PKPaymentAuthorizationStatusSuccess);
-}
-
-
-- (void)submit
-{
-
-    /*
-    [self setPaymentButtonLoadingMode:YES];
-
-    NSString *securityCode = nil;
-
-    if ([self securityCodeSectionEnabled]) {
-        securityCode = [self textForIdentifier:@"security_code"];
-    }
-
-    HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *)[self textFieldForIdentifier:@"expiry_date"];
-
-    NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
-    NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
-
-    BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
-    if (paymentCardEnabled && [self isSwitchOn]) {
-        self.paymentPageRequest.multiUse = YES;
-    }
-    */
-
-    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:@"12" cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:@"101" multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
-
-        [self setPaymentButtonLoadingMode:NO];
+        //[self setPaymentButtonLoadingMode:NO];
         transactionLoadingRequest = nil;
 
         if (cardToken != nil) {
 
-            if (paymentCardEnabled && [self isSwitchOn]) {
-                self.paymentCardToken = cardToken;
-            }
+            self.error = nil;
+            //HPFOrderRequest *orderRequest = [self createOrderRequest];
 
-            HPFOrderRequest *orderRequest = [self createOrderRequest];
+            //orderRequest.paymentProductCode = inferedPaymentProductCode;
 
-            orderRequest.paymentProductCode = inferedPaymentProductCode;
+            //orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
 
-            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
+            //[self performOrderRequest:orderRequest signature:self.signature];
 
-            [self performOrderRequest:orderRequest signature:self.signature];
+            completion(PKPaymentAuthorizationStatusSuccess);
 
         } else {
-            [self checkTransactionError:error];
-        }
 
+            self.error = error;
+            completion(PKPaymentAuthorizationStatusFailure);
+        }
     }];
 }
 
 - (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
 {
-    [controller dismissViewControllerAnimated:YES completion:nil];
-}
+    [controller dismissViewControllerAnimated:YES completion:^{
 
-/*
-- (BOOL)submitButtonEnabled
-{
-    return [[self textForIdentifier:@"username"] isDefined];
+        if (self.error != nil) {
+            [self checkTransactionError:self.error];
+        }
+
+        self.error = nil;
+        /*
+        [self dismissViewControllerAnimated:YES completion:nil];
+        //NSLog(@"Presented payment controller");
+            if presented {
+        } else {
+            NSLog("Failed to present payment controller")
+            self.completionHandler!(false)
+        }
+    */
+    }];
 }
- */
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

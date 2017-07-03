@@ -129,45 +129,6 @@
 }
 
 
-- (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature
-{
-    [self setPaymentButtonLoadingMode:YES];
-
-    [self cancelRequests];
-
-    transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
-
-        transactionLoadingRequest = nil;
-
-        if (theTransaction != nil) {
-            transaction = theTransaction;
-
-            if (transaction.forwardUrl != nil) {
-
-                UINavigationController *navigationController = self.navigationController;
-                NSArray *controllers = navigationController.viewControllers;
-                if (navigationController != nil && controllers != nil) {
-                    HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:signature];
-                    viewController.delegate = self;
-
-                    [self presentViewController:viewController animated:YES completion:nil];
-                }
-            }
-
-            else {
-                [self checkTransactionStatus:transaction];
-            }
-        }
-
-        else {
-            [self checkTransactionError:error];
-        }
-
-        [self setPaymentButtonLoadingMode:NO];
-
-    }];
-}
-
 - (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
                         didAuthorizePayment:(PKPayment *)payment
                                  completion:(void (^)(PKPaymentAuthorizationStatus))completion
@@ -185,7 +146,7 @@
     NSString *decodedString = [[NSString alloc] initWithData:payment.token.paymentData encoding:NSUTF8StringEncoding];
 
     //transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1111 1111 1111" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
-    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:@"test" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:@"test" andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
         //[self setPaymentButtonLoadingMode:NO];
         transactionLoadingRequest = nil;
@@ -193,11 +154,43 @@
         if (cardToken != nil) {
 
             self.error = nil;
-            //HPFOrderRequest *orderRequest = [self createOrderRequest];
+
+            HPFOrderRequest *orderRequest = [self createOrderRequest];
 
             //orderRequest.paymentProductCode = inferedPaymentProductCode;
 
-            //orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
+            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
+
+
+            [self cancelRequests];
+
+            transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
+
+                transactionLoadingRequest = nil;
+
+                if (theTransaction != nil) {
+                    transaction = theTransaction;
+                    [self checkTransactionStatus:transaction];
+                }
+
+                else {
+
+                    self.error = error;
+                    completion(PKPaymentAuthorizationStatusFailure);
+
+                    //[self checkTransactionError:error];
+                }
+
+                //[self setPaymentButtonLoadingMode:NO];
+
+            }];
+
+
+
+            // IMPORTANT
+            // needs to override submit method to handle properly the transactions
+
+
 
             //[self performOrderRequest:orderRequest signature:self.signature];
 
@@ -209,6 +202,12 @@
             completion(PKPaymentAuthorizationStatusFailure);
         }
     }];
+}
+
+- (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature
+{
+    //[self setPaymentButtonLoadingMode:YES];
+
 }
 
 - (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller

@@ -23,6 +23,7 @@ NSString * _Nonnull const HPFPaymentPageRequestTemplateNameFrame = @"iframe-js";
         _multiUse = NO;
         _displaySelector = NO;
         _paymentCardGroupingEnabled = YES;
+        _applePayEnabled = YES;
         _groupedPaymentCardProductCodes = [NSMutableSet setWithObjects:HPFPaymentProductCodeCB, HPFPaymentProductCodeMasterCard, HPFPaymentProductCodeVisa, HPFPaymentProductCodeAmericanExpress, HPFPaymentProductCodeMaestro, HPFPaymentProductCodeDiners, nil];
     }
     return self;

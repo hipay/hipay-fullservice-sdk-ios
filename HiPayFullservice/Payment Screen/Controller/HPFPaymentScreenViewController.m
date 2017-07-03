@@ -109,11 +109,24 @@
             
             [newPaymentProducts insertObject:[[HPFPaymentProduct alloc] initWithGroupedProducts:groupedPaymentCardProductCodes] atIndex:groupedProductsToRemoveIndexes.firstIndex];
 
-            HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] initWithApplePayProduct];
-            [newPaymentProducts insertObject:paymentProduct atIndex:0];
+
+            if (paymentPageRequest.applePayEnabled) {
+
+                HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] initWithApplePayProduct];
+                [newPaymentProducts insertObject:paymentProduct atIndex:0];
+            }
 
             return newPaymentProducts;
         }
+    }
+
+    if (paymentPageRequest.applePayEnabled) {
+
+        HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] initWithApplePayProduct];
+
+        NSMutableArray *mutablePaymentProducts = [thePaymentProducts mutableCopy];
+        [mutablePaymentProducts insertObject:paymentProduct atIndex:0];
+        thePaymentProducts = [mutablePaymentProducts copy];
     }
     
     return thePaymentProducts;

@@ -96,6 +96,16 @@
     }];
 }
 
+- (id<HPFRequest>)generateTokenWithApplePayToken:(NSString *)applePayToken privateKeyPass:(NSString *)cardExpiryMonth multiUse:(BOOL)multiUse andCompletionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
+{
+
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"token/create" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+
+        [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
+
+    }];
+}
+
 - (id<HPFRequest>)updatePaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID setCardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder completionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
 {
     NSDictionary *parameters = @{

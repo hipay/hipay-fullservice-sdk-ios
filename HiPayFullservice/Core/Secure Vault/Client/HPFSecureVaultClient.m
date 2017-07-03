@@ -96,10 +96,14 @@
     }];
 }
 
-- (id<HPFRequest>)generateTokenWithApplePayToken:(NSString *)applePayToken privateKeyPass:(NSString *)cardExpiryMonth multiUse:(BOOL)multiUse andCompletionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
+- (id<HPFRequest>)generateTokenWithApplePayToken:(NSString *)applePayToken privateKeyPass:(NSString *)privateKeyPass multiUse:(BOOL)multiUse andCompletionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
 {
+    NSDictionary *parameters = @{
+            @"apple_pay_token": applePayToken,
+            @"private_key_pass":privateKeyPass
+    };
 
-    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"token/create" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"apple-pay/token" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
 
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
 

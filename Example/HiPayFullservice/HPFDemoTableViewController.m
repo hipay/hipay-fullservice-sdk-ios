@@ -31,12 +31,13 @@
     groupedPaymentCardRowIndex = 0;
     currencyRowIndex = 1;
     amountRowIndex = 2;
-    multiUseRowIndex = 3;
-    cardScanRowIndex = 4;
-    authRowIndex = 5;
-    colorRowIndex = 6;
-    productCategoryRowIndex = 7;
-    submitRowIndex = 8;
+    applePayRowIndex = 3;
+    multiUseRowIndex = 4;
+    cardScanRowIndex = 5;
+    authRowIndex = 6;
+    colorRowIndex = 7;
+    productCategoryRowIndex = 8;
+    submitRowIndex = 9;
     
     // Error row indexes
     resultSectionIndex = NSNotFound;
@@ -104,6 +105,8 @@
 
     cardScan = [HPFClientConfig.sharedClientConfig isPaymentCardScanEnabled];
 
+    applePay = [HPFClientConfig.sharedClientConfig isApplePayEnabled];
+
     if (productCategoriesViewController != nil) {
         selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationFade];
@@ -124,7 +127,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == formSectionIndex) {
-        return 9;
+        return 10;
     }
     
     if (section == resultSectionIndex) {
@@ -171,7 +174,7 @@
     
     if (indexPath.section == formSectionIndex) {
 
-        if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
+        if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == applePayRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
             
             HPFSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
             [cell.switchControl addTarget:self action:@selector(controlValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -180,7 +183,12 @@
                 cell.textLabel.text = NSLocalizedString(@"FORM_GROUP_PAYMENT_CARDS", nil);
                 cell.switchControl.on = groupedPaymentCard;
             }
-            
+
+            else if (indexPath.row == applePayRowIndex) {
+                cell.textLabel.text = NSLocalizedString(@"FORM_APPLE_PAY", nil);
+                cell.switchControl.on = applePay;
+            }
+
             else if (indexPath.row == multiUseRowIndex) {
                 cell.textLabel.text = NSLocalizedString(@"FORM_CARD_STORAGE", nil);
                 cell.switchControl.on = multiUse;
@@ -483,6 +491,8 @@
 
     [HPFClientConfig.sharedClientConfig setPaymentCardScanEnabled:cardScan];
 
+    [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay];
+
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
 
     switch (authenticationIndicatorSegmentIndex) {
@@ -550,7 +560,11 @@
     if (indexPath.row == groupedPaymentCardRowIndex) {
         groupedPaymentCard = [sender isOn];
     }
-    
+
+    else if (indexPath.row == applePayRowIndex) {
+        applePay = [sender isOn];
+    }
+
     else if (indexPath.row == multiUseRowIndex) {
         multiUse = [sender isOn];
     }

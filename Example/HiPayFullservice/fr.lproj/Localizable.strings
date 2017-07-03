@@ -14,6 +14,8 @@
 
 "FORM_CARD_SCAN" = "Scan de carte";
 
+"FORM_APPLE_PAY" = "Apple Pay";
+
 "FORM_COLOR" = "Couleur";
 
 "FORM_COLOR_DEFAULT" = "Défaut";

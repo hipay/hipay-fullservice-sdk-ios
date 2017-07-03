@@ -182,8 +182,10 @@
     //PKPaymentAuthorizationStatus status;  // From your server
     //completion(status);
 
+    NSString *decodedString = [[NSString alloc] initWithData:payment.token.paymentData encoding:NSUTF8StringEncoding];
+
     //transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1111 1111 1111" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
-    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:payment.token.transactionIdentifier privateKeyPass:@"test" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:@"test" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
         //[self setPaymentButtonLoadingMode:NO];
         transactionLoadingRequest = nil;

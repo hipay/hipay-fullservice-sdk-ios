@@ -14,6 +14,7 @@
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardToken.h"
 #import "HPFScanCardTableViewCell.h"
+#import "HPFTransactionErrorResult.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 
@@ -37,7 +38,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
 
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
@@ -469,7 +469,6 @@
 
 #pragma mark - Table view data source
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-
 
     if (section == 0) {
 

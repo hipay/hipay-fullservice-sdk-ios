@@ -10,10 +10,13 @@
 #import "HPFAbstractPaymentProductViewController.h"
 #import "HPFOrderRequest.h"
 
+@class HPFTransactionErrorResult;
+
 @interface HPFAbstractPaymentProductViewController ()
 
 - (void)checkTransactionStatus:(HPFTransaction *)transaction;
 - (void)checkTransactionError:(NSError *)transactionError;
+- (void)checkRequestResultStatus:(HPFTransactionErrorResult *)result;
 
 - (void)editingDoneButtonTouched:(id)sender;
 - (HPFPaymentButtonTableViewCell *)dequeuePaymentButtonCell;

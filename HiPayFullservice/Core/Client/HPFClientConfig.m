@@ -29,7 +29,7 @@
         _paymentCardStorageEnabled = YES;
         _touchIDEnabled = NO;
         _paymentCardScanEnabled = YES;
-        _applePayEnabled = YES;
+        _applePayEnabled = NO;
     }
     return self;
 }

@@ -33,17 +33,6 @@
     return self;
 }
 
-- (HPFOrderRequest *)createOrderRequest
-{
-
-    // we gonna call this order as soon as we get the right callback.
-
-    HPFOrderRequest *orderRequest = [super createOrderRequest];
-    
-    //orderRequest.paymentMethod = [HPFQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:[self textForIdentifier:@"username"]];
-
-    return orderRequest;
-}
 
 - (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
     //do nothing
@@ -143,7 +132,8 @@
 
     NSString *decodedString = [[NSString alloc] initWithData:payment.token.paymentData encoding:NSUTF8StringEncoding];
 
-    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1133 3333 3333" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    //transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1133 3333 3333" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1111 1111 1111" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
     //transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:@"test" andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
         transactionLoadingRequest = nil;
@@ -209,24 +199,36 @@
 - (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature
 {
     //[self setPaymentButtonLoadingMode:YES];
+}
 
+- (HPFOrderRequest *)createOrderRequest
+{
+    // we gonna call this order as soon as we get the right callback.
+
+    HPFOrderRequest *orderRequest = [super createOrderRequest];
+
+    //orderRequest.paymentMethod = [HPFQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:[self textForIdentifier:@"username"]];
+
+    return orderRequest;
 }
 
 - (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
 {
+
     [controller dismissViewControllerAnimated:YES completion:^{
 
         if (self.error != nil) {
             [self checkTransactionError:self.error];
 
-        }
-        self.error = nil;
+        } else if (transaction != nil) {
 
-        if (transaction != nil) {
+            [self cancelRequests];
             [self checkTransactionStatus:transaction];
-        }
-        transaction = nil;
 
+        }
+
+        self.error = nil;
+        transaction = nil;
     }];
 }
 

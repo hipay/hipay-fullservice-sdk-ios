@@ -14,9 +14,11 @@
 #import "HPFSecureVaultClient.h"
 #import "HPFGatewayClient.h"
 #import "HPFTransactionRequestResponseManager.h"
+#import "HPFErrors.h"
 
 @interface HPFApplePayPaymentProductViewController ()
 @property (nonatomic, strong) NSError *error;
+@property (nonatomic, assign) BOOL authorized;
 @end
 
 @implementation HPFApplePayPaymentProductViewController
@@ -31,11 +33,6 @@
         self.tableView.separatorColor = [UIColor clearColor];
     }
     return self;
-}
-
-
-- (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
-    //do nothing
 }
 
 - (void)applePayButtonTableViewCellDidTouchButton:(HPFApplePayTableViewCell *)cell {
@@ -132,7 +129,7 @@
 
     NSString *decodedString = [[NSString alloc] initWithData:payment.token.paymentData encoding:NSUTF8StringEncoding];
 
-    //transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1133 3333 3333" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    //transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1133 3333 33331" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1111 1111 1111" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
     //transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:@"test" andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
@@ -144,7 +141,6 @@
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
 
-            orderRequest.paymentProductCode = HPFPaymentProductCodeCB;
             orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
 
             [self cancelRequests];
@@ -176,11 +172,6 @@
                 }
             }];
 
-            // IMPORTANT
-            // needs to override submit method to handle properly the transactions
-
-            //[self performOrderRequest:orderRequest signature:self.signature];
-
         } else {
 
             transaction = nil;
@@ -191,29 +182,32 @@
     }];
 }
 
-- (void)submit
-{
-    [self performOrderRequest:[self createOrderRequest] signature:self.signature];
-}
 
 - (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature
 {
-    //[self setPaymentButtonLoadingMode:YES];
+    //no-op
+}
+
+- (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
+    //no-op
 }
 
 - (HPFOrderRequest *)createOrderRequest
 {
-    // we gonna call this order as soon as we get the right callback.
-
     HPFOrderRequest *orderRequest = [super createOrderRequest];
-
-    //orderRequest.paymentMethod = [HPFQiwiWalletPaymentMethodRequest qiwiWalletPaymentMethodRequestWithUsername:[self textForIdentifier:@"username"]];
+    orderRequest.paymentProductCode = HPFPaymentProductCodeCB;
 
     return orderRequest;
 }
 
+- (void)paymentAuthorizationViewControllerWillAuthorizePayment:(PKPaymentAuthorizationViewController *)controller
+{
+    self.authorized = YES;
+}
+
 - (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
 {
+    [self cancelRequests];
 
     [controller dismissViewControllerAnimated:YES completion:^{
 
@@ -221,15 +215,30 @@
             [self checkTransactionError:self.error];
 
         } else if (transaction != nil) {
-
-            [self cancelRequests];
             [self checkTransactionStatus:transaction];
 
+        } else {
+
+            if (self.authorized) {
+                [self needsBackgroundTransactionOrOrderReload];
+            }
         }
 
         self.error = nil;
         transaction = nil;
+        self.authorized = NO;
+
     }];
+}
+
+- (void)submit
+{
+    //no-op
+}
+
+- (void)resetForm
+{
+    //no-op
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

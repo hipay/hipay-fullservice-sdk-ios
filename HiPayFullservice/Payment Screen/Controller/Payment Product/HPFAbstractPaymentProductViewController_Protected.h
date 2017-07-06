@@ -16,8 +16,8 @@
 
 - (void)checkTransactionStatus:(HPFTransaction *)transaction;
 - (void)checkTransactionError:(NSError *)transactionError;
-- (void)checkRequestResultStatus:(HPFTransactionErrorResult *)result;
 
+- (void)needsBackgroundTransactionOrOrderReload;
 - (void)editingDoneButtonTouched:(id)sender;
 - (HPFPaymentButtonTableViewCell *)dequeuePaymentButtonCell;
 - (void)setPaymentButtonLoadingMode:(BOOL)isLoading;

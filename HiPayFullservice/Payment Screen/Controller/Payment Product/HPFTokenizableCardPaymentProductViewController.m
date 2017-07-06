@@ -664,9 +664,6 @@
     return nil;
 }
 
-//TODO here we put a button (header?) that we can remove
-//self.isCameraFeatureAllowed
-
 - (void) switchChanged:(UISwitch *)sender {
 
     self.switchOn = sender.isOn;

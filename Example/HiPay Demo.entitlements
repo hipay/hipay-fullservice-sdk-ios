@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.in-app-payments</key>
 	<array>
-		<string>merchant.com.hipay.HiApplePay</string>
+		<string>merchant.com.hipay.qa</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array/>

@@ -54,19 +54,23 @@
 + (HPFHTTPClient *)createClient
 {
     NSString *baseURL;
+    NSString *newBaseURL;
     
     switch ([HPFClientConfig sharedClientConfig].environment) {
         case HPFEnvironmentProduction:
             baseURL = HPFSecureVaultClientBaseURLProduction;
+            newBaseURL = HPFSecureVaultClientNewBaseURLProduction;
             break;
             
         case HPFEnvironmentStage:
             baseURL = HPFSecureVaultClientBaseURLStage;
+            newBaseURL = HPFSecureVaultClientNewBaseURLStage;
             break;
     }
     
-    return [[HPFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL] username:[HPFClientConfig sharedClientConfig].username password:[HPFClientConfig sharedClientConfig].password];
-    
+    //return [[HPFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL] username:[HPFClientConfig sharedClientConfig].username password:[HPFClientConfig sharedClientConfig].password];
+    return [[HPFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL] newBaseURL:[NSURL URLWithString:newBaseURL] username:[HPFClientConfig sharedClientConfig].username password:[HPFClientConfig sharedClientConfig].password];
+
 }
 
 - (HPFPaymentCardToken *)paymentCardTokenWithData:(NSDictionary *)rawData
@@ -103,7 +107,7 @@
             @"private_key_pass":privateKeyPass
     };
 
-    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"apple-pay/token" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:YES path:@"apple-pay/token.json" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
 
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
 

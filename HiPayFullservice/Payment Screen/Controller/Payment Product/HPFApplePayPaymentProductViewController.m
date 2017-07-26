@@ -47,7 +47,7 @@
 
         paymentRequest.paymentSummaryItems = @[item];
 
-        paymentRequest.merchantIdentifier = @"merchant.com.hipay.HiApplePay";
+        paymentRequest.merchantIdentifier = @"merchant.com.hipay.qa";
         paymentRequest.merchantCapabilities = PKMerchantCapability3DS;
         paymentRequest.countryCode = @"FR";
         paymentRequest.currencyCode = @"EUR";
@@ -57,18 +57,28 @@
         PKPaymentAuthorizationViewController *vc = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
         vc.delegate = self;
 
-        [self presentViewController:vc animated:YES completion:^{
-
-            //NSLog(@"Presented payment controller");
-            /*
-            if presented {
-        } else {
-            NSLog("Failed to present payment controller")
-            self.completionHandler!(false)
+        if (vc != nil) {
+            [self presentViewController:vc animated:YES completion:nil];
         }
-            */
+
+        /*
+        if (!vc) {
+
+            [[HPFLogger sharedLogger] err:HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")];
+
+            [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
+                                        message:HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")
+                                       delegate:nil
+                              cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                              otherButtonTitles:nil]
+                    show];
+
+        }
+
 
         }];
+
+        */
         /*
                 let fare = PKPaymentSummaryItem(label: "Item", amount: NSDecimalNumber(string: "0.02"), type: .final)
         //let tax = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(string: "0.01"), type: .final)
@@ -117,21 +127,10 @@
                         didAuthorizePayment:(PKPayment *)payment
                                  completion:(void (^)(PKPaymentAuthorizationStatus))completion
 {
-    //NSError *error;
-    //ABMultiValueRef addressMultiValue = ABRecordCopyValue(payment.billingAddress, kABPersonAddressProperty);
-    //NSDictionary *addressDictionary = (__bridge_transfer NSDictionary *) ABMultiValueCopyValueAtIndex(addressMultiValue, 0);
-    //NSData *json = [NSJSONSerialization dataWithJSONObject:addressDictionary options:NSJSONWritingPrettyPrinted error: &error];
-
-    // ... Send payment token, shipping and billing address, and order information to your server ...
-
-    //PKPaymentAuthorizationStatus status;  // From your server
-    //completion(status);
-
+    
     NSString *decodedString = [[NSString alloc] initWithData:payment.token.paymentData encoding:NSUTF8StringEncoding];
 
-    //transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1133 3333 33331" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
-    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:@"4111 1111 1111 1111" cardExpiryMonth:@"12" cardExpiryYear:@"2020" cardHolder:@"Marti Dupont" securityCode:@"101" multiUse:YES andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
-    //transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:@"test" andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:@"test" andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
         transactionLoadingRequest = nil;
 
@@ -203,6 +202,7 @@
 - (void)paymentAuthorizationViewControllerWillAuthorizePayment:(PKPaymentAuthorizationViewController *)controller
 {
     self.authorized = YES;
+    NSLog(@"logged");
 }
 
 - (void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller

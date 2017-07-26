@@ -1065,7 +1065,7 @@
 				CODE_SIGN_ENTITLEMENTS = "HiPay Demo.entitlements";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7RLJNKW437;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1090,7 +1090,7 @@
 				CODE_SIGN_ENTITLEMENTS = "HiPay Demo.entitlements";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7RLJNKW437;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";

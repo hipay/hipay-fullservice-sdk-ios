@@ -109,8 +109,7 @@
             
             [newPaymentProducts insertObject:[[HPFPaymentProduct alloc] initWithGroupedProducts:groupedPaymentCardProductCodes] atIndex:groupedProductsToRemoveIndexes.firstIndex];
 
-
-            if (paymentPageRequest.applePayEnabled) {
+            if (paymentPageRequest.applePayEnabled && PKPaymentAuthorizationViewController.canMakePayments) {
 
                 HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] initWithApplePayProduct];
                 [newPaymentProducts insertObject:paymentProduct atIndex:0];

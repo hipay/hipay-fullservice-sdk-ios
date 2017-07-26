@@ -16,6 +16,9 @@
 #define HPFSecureVaultClientBaseURLStage        @"https://stage-secure-vault.hipay-tpp.com/rest/v1/"
 #define HPFSecureVaultClientBaseURLProduction   @"https://secure-vault.hipay-tpp.com/rest/v1/"
 
+#define HPFSecureVaultClientNewBaseURLStage        @"https://stage-secure2-vault.hipay-tpp.com/rest/v2/"
+#define HPFSecureVaultClientNewBaseURLProduction   @"https://secure2-vault.hipay-tpp.com/rest/v2/"
+
 /**
  *  This type of block is executed once a credit card token-related request finishes.
  *

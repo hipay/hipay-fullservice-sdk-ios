@@ -39,87 +39,61 @@
 
     if (PKPaymentAuthorizationController.canMakePayments) {
 
-        PKPaymentSummaryItem *item = [PKPaymentSummaryItem summaryItemWithLabel:@"Item"
-                                                                         amount:[NSDecimalNumber decimalNumberWithString:@"0.02"]
-                                                                           type:PKPaymentSummaryItemTypeFinal];
+        NSArray *array = @[PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
+        if ([PKPaymentAuthorizationController canMakePaymentsUsingNetworks:array]) {
 
-        PKPaymentRequest *paymentRequest = [[PKPaymentRequest alloc] init];
+            NSDecimalNumber *decimalNumber = [NSDecimalNumber decimalNumberWithDecimal:[self.paymentPageRequest.amount decimalValue]];
 
-        paymentRequest.paymentSummaryItems = @[item];
+            NSString *label = self.paymentPageRequest.shortDescription ? self.paymentPageRequest.shortDescription : @"";
+            PKPaymentSummaryItem *item = [PKPaymentSummaryItem summaryItemWithLabel:label
+                                                                             amount:decimalNumber];
 
-        paymentRequest.merchantIdentifier = @"merchant.com.hipay.qa";
-        paymentRequest.merchantCapabilities = PKMerchantCapability3DS;
-        paymentRequest.countryCode = @"FR";
-        paymentRequest.currencyCode = @"EUR";
+            PKPaymentRequest *paymentRequest = [[PKPaymentRequest alloc] init];
 
-        paymentRequest.supportedNetworks = @[PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
+            paymentRequest.paymentSummaryItems = @[item];
 
-        PKPaymentAuthorizationViewController *vc = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
-        vc.delegate = self;
+            paymentRequest.merchantIdentifier = @"merchant.com.hipay.qa";
+            paymentRequest.merchantCapabilities = PKMerchantCapability3DS;
 
-        if (vc != nil) {
-            [self presentViewController:vc animated:YES completion:nil];
-        }
-
-        /*
-        if (!vc) {
-
-            [[HPFLogger sharedLogger] err:HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")];
-
-            [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                        message:HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")
-                                       delegate:nil
-                              cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
-                              otherButtonTitles:nil]
-                    show];
-
-        }
-
-
-        }];
-
-        */
-        /*
-                let fare = PKPaymentSummaryItem(label: "Item", amount: NSDecimalNumber(string: "0.02"), type: .final)
-        //let tax = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(string: "0.01"), type: .final)
-        //let total = PKPaymentSummaryItem(label: "HiApplePay", amount: NSDecimalNumber(string: "0.51"), type: .final)
-
-        paymentSummaryItems = [fare];
-        completionHandler = completion
-
-        // Create our payment request
-        let paymentRequest = PKPaymentRequest()
-        paymentRequest.paymentSummaryItems = paymentSummaryItems
-
-        //"merchant.\(MainBundle.prefix).Emporium"
-
-        //paymentRequest.merchantIdentifier = Configuration.Merchant.identififer
-        //paymentRequest.merchantIdentifier = "merchant.com.hipay.HiApplePay"
-        paymentRequest.merchantIdentifier = "merchant.com.hipay.qa"
-
-        paymentRequest.merchantCapabilities = .capability3DS
-        paymentRequest.countryCode = "FR"
-        paymentRequest.currencyCode = "EUR"
-        //paymentRequest.requiredShippingAddressFields = [.phone, .email]
-        paymentRequest.supportedNetworks = PaymentHandler.supportedNetworks
-
-        // Display our payment request
-        paymentController = PKPaymentAuthorizationController(paymentRequest: paymentRequest)
-        paymentController?.delegate = self
-        paymentController?.present(completion: { (presented: Bool) in
-            if presented {
-                NSLog("Presented payment controller")
-            } else {
-                NSLog("Failed to present payment controller")
-                self.completionHandler!(false)
+            NSString *country = self.paymentPageRequest.customer.country;
+            if (country == nil) {
+                country = self.paymentPageRequest.shippingAddress.country;
             }
-        })
-        */
+            paymentRequest.countryCode = country ? country : @"FR";
+            paymentRequest.currencyCode = self.paymentPageRequest.currency;
 
+            paymentRequest.supportedNetworks = @[PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
+
+            PKPaymentAuthorizationViewController *vc = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
+            vc.delegate = self;
+
+            if (vc != nil) {
+                [self presentViewController:vc animated:YES completion:nil];
+
+            } else {
+
+                [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
+                                            message:HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")
+                                           delegate:nil
+                                  cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                  otherButtonTitles:nil]
+                        show];
+            }
+
+        } else {
+
+            PKPassLibrary *passLibrary = [PKPassLibrary new];
+            [passLibrary openPaymentSetup];
+        }
     } else {
 
-        PKPassLibrary *passLibrary = [PKPassLibrary new];
-        [passLibrary openPaymentSetup];
+        [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
+                                    message:nil//HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")
+                                   delegate:nil
+                          cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                          otherButtonTitles:nil]
+                show];
+
     }
 }
 
@@ -140,7 +114,7 @@
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
 
-            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
+            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:HPFECISecureECommerce];
 
             [self cancelRequests];
             transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:self.signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {

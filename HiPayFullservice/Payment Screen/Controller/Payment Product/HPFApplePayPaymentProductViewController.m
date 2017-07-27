@@ -13,8 +13,6 @@
 #import "HPFPaymentScreenUtils.h"
 #import "HPFSecureVaultClient.h"
 #import "HPFGatewayClient.h"
-#import "HPFTransactionRequestResponseManager.h"
-#import "HPFErrors.h"
 
 @interface HPFApplePayPaymentProductViewController ()
 @property (nonatomic, strong) NSError *error;
@@ -104,7 +102,7 @@
     
     NSString *decodedString = [[NSString alloc] initWithData:payment.token.paymentData encoding:NSUTF8StringEncoding];
 
-    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:@"test" andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:[HPFClientConfig.sharedClientConfig applePayPrivateKeyPassword] andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
         transactionLoadingRequest = nil;
 

@@ -86,6 +86,12 @@
     self.touchIDEnabled = touchIDEnabled;
 }
 
+- (void)setApplePayEnabled:(BOOL)enabled privateKeyPassword:(NSString *)privateKeyPassword {
+
+    _applePayEnabled = enabled;
+    _applePayPrivateKeyPassword = _applePayEnabled ? privateKeyPassword : nil;
+}
+
 - (void)setPaymentCardScanEnabled:(BOOL)paymentCardScanEnabled {
 
     _paymentCardScanEnabled = paymentCardScanEnabled;

@@ -491,7 +491,7 @@
 
     [HPFClientConfig.sharedClientConfig setPaymentCardScanEnabled:cardScan];
 
-    [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay];
+    [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay privateKeyPassword:@"test"];
 
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
 

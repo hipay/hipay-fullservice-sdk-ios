@@ -89,6 +89,6 @@ typedef void (^HPFSecureVaultClientCompletionBlock)(HPFPaymentCardToken * _Nulla
  */
 - (id<HPFRequest> _Nonnull)updatePaymentCardWithToken:(NSString * _Nonnull)token requestID:(NSString * _Nonnull)requestID setCardExpiryMonth:(NSString * _Nonnull)cardExpiryMonth cardExpiryYear:(NSString * _Nonnull)cardExpiryYear cardHolder:(NSString * _Nonnull)cardHolder completionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
 
-- (id<HPFRequest> _Nonnull)generateTokenWithApplePayToken:(NSString * _Nonnull)applePayToken privateKeyPass:(NSString * _Nonnull)privateKeyPassword andCompletionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
+- (id<HPFRequest> _Nonnull)generateTokenWithApplePayToken:(NSString * _Nonnull)applePayToken privateKeyPassword:(NSString * _Nonnull)privateKeyPassword andCompletionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
 
 @end

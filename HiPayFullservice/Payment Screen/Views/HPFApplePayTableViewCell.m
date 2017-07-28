@@ -15,18 +15,15 @@
     [super awakeFromNib];
 
     PKPaymentButtonType type;
-
-    if ([PKPaymentAuthorizationController canMakePayments]) {
-
-        NSArray *array = @[PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
-        if ([PKPaymentAuthorizationController canMakePaymentsUsingNetworks:array])
-        {
-            type = PKPaymentButtonTypeBuy;
-
-        } else {
-
-            type = PKPaymentButtonTypeSetUp;
-        }
+    
+    NSArray *array = @[PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
+    if ([PKPaymentAuthorizationController canMakePaymentsUsingNetworks:array])
+    {
+        type = PKPaymentButtonTypeBuy;
+        
+    } else {
+        
+        type = PKPaymentButtonTypeSetUp;
     }
 
     PKPaymentButton *button = [[PKPaymentButton alloc] initWithPaymentButtonType:type paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];

@@ -102,7 +102,7 @@
     
     NSString *decodedString = [[NSString alloc] initWithData:payment.token.paymentData encoding:NSUTF8StringEncoding];
 
-    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPass:[HPFClientConfig.sharedClientConfig applePayPrivateKeyPassword] andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPassword:[HPFClientConfig.sharedClientConfig applePayPrivateKeyPassword] andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
         transactionLoadingRequest = nil;
 
@@ -112,7 +112,7 @@
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
 
-            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:HPFECISecureECommerce];
+            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:HPFECISecureECommerce authenticationIndicator:HPFAuthenticationIndicatorDefault];
 
             [self cancelRequests];
             transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:self.signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {

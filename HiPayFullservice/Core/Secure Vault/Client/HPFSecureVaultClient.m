@@ -100,7 +100,7 @@
     }];
 }
 
-- (id<HPFRequest>)generateTokenWithApplePayToken:(NSString *)applePayToken privateKeyPass:(NSString *)privateKeyPassword andCompletionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
+- (id<HPFRequest>)generateTokenWithApplePayToken:(NSString *)applePayToken privateKeyPassword:(NSString *)privateKeyPassword andCompletionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
 {
     NSDictionary *parameters = @{
             @"apple_pay_token": applePayToken,

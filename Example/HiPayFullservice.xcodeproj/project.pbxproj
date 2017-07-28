@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1DDAAE7469FAC50D2CC28FCE /* libPods-HiPayFullservice_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A1EC66AABF36F8DC730F2C /* libPods-HiPayFullservice_Example.a */; };
+		4353367D1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4353367B1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m */; };
+		4353367E1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4353367C1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib */; };
 		435B2F371DAB849F00C6EB0F /* parameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = 435B2F361DAB849F00C6EB0F /* parameters.plist */; };
 		438DF0D11D6740A20003E24C /* HPFSubmitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 438DF0D01D6740A20003E24C /* HPFSubmitTableViewCell.xib */; };
 		52459A6D3F09D1D8A76FDC80 /* libPods-HiPayFullservice_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B07A4FB55F8888186E27442 /* libPods-HiPayFullservice_Tests.a */; };
@@ -99,6 +101,9 @@
 		28A1EC66AABF36F8DC730F2C /* libPods-HiPayFullservice_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayFullservice_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39BEBD4EC0BC4099960FF4ED /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		3C36F2B430CCCB7ED7884D52 /* Pods-HiPayFullservice_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		4353367A1F30879A005CB999 /* HPFSwitchInfosTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPFSwitchInfosTableViewCell.h; sourceTree = "<group>"; };
+		4353367B1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFSwitchInfosTableViewCell.m; sourceTree = "<group>"; };
+		4353367C1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HPFSwitchInfosTableViewCell.xib; path = ../../HPFSwitchInfosTableViewCell.xib; sourceTree = "<group>"; };
 		435B2F361DAB849F00C6EB0F /* parameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = parameters.plist; sourceTree = "<group>"; };
 		438DF0D01D6740A20003E24C /* HPFSubmitTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPFSubmitTableViewCell.xib; sourceTree = "<group>"; };
 		43CA19611DA419830016B46B /* HiPay Demo.entitlements */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text.plist.entitlements; path = "HiPay Demo.entitlements"; sourceTree = "<group>"; };
@@ -229,6 +234,7 @@
 		438DF0CD1D673FFD0003E24C /* Nib */ = {
 			isa = PBXGroup;
 			children = (
+				4353367C1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib */,
 				438DF0D01D6740A20003E24C /* HPFSubmitTableViewCell.xib */,
 			);
 			path = Nib;
@@ -406,6 +412,8 @@
 				A54AF92A1C0B771000B10F36 /* HPFMoreOptionsTableViewCell.m */,
 				A5B076941C0C7FFE00B225C1 /* HPFInfoTableViewCell.h */,
 				A5B076951C0C7FFE00B225C1 /* HPFInfoTableViewCell.m */,
+				4353367A1F30879A005CB999 /* HPFSwitchInfosTableViewCell.h */,
+				4353367B1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -740,6 +748,7 @@
 				A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */,
 				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
 				A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */,
+				4353367E1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib in Resources */,
 				435B2F371DAB849F00C6EB0F /* parameters.plist in Resources */,
 				438DF0D11D6740A20003E24C /* HPFSubmitTableViewCell.xib in Resources */,
 			);
@@ -859,6 +868,7 @@
 			files = (
 				A54AF9161C0B52E000B10F36 /* HPFSwitchTableViewCell.m in Sources */,
 				6003F59E195388D20070C39A /* HPFAppDelegate.m in Sources */,
+				4353367D1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m in Sources */,
 				A5B076961C0C7FFE00B225C1 /* HPFInfoTableViewCell.m in Sources */,
 				A54AF92B1C0B771000B10F36 /* HPFMoreOptionsTableViewCell.m in Sources */,
 				6003F5A7195388D20070C39A /* HPFViewController.m in Sources */,
@@ -1064,7 +1074,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "HiPay Demo.entitlements";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nicolas Fillion (SF285W8B52)";
 				DEVELOPMENT_TEAM = 7RLJNKW437;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = NO;
@@ -1075,7 +1085,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
-				PROVISIONING_PROFILE = "4fd3f5ad-19a7-4478-9c55-de5f7e2fbfd9";
+				PROVISIONING_PROFILE = "b5f5e1d9-0226-4f24-9af4-38bc9d0dcc48";
 				PROVISIONING_PROFILE_SPECIFIER = Team;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1089,7 +1099,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "HiPay Demo.entitlements";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: HiPay Group (7RLJNKW437)";
 				DEVELOPMENT_TEAM = 7RLJNKW437;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1099,8 +1109,8 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
-				PROVISIONING_PROFILE = "4fd3f5ad-19a7-4478-9c55-de5f7e2fbfd9";
-				PROVISIONING_PROFILE_SPECIFIER = Team;
+				PROVISIONING_PROFILE = "662f5d6d-4aef-4e0e-82e0-a9d820a6cfd4";
+				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

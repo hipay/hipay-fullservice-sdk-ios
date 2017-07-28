@@ -16,6 +16,8 @@
 
 "FORM_APPLE_PAY" = "Apple Pay";
 
+"FORM_APPLE_PAY_INFOS" = "You need an HiPay Enterprise account configured with Apple Pay to get this functionality";
+
 "FORM_COLOR" = "Color";
 
 "FORM_COLOR_DEFAULT" = "Default";

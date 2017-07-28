@@ -12,6 +12,7 @@
 #import "HPFStepperTableViewCell.h"
 #import "HPFMoreOptionsTableViewCell.h"
 #import "HPFInfoTableViewCell.h"
+#import "HPFSwitchInfosTableViewCell.h"
 
 @interface HPFDemoTableViewController ()
 
@@ -65,6 +66,8 @@
 
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSubmitTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SubmitCell"];
 
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFSwitchInfosTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SwitchInfosCell"];
+    
     self.title = NSLocalizedString(@"APP_TITLE", nil);
 }
 
@@ -174,7 +177,7 @@
     
     if (indexPath.section == formSectionIndex) {
 
-        if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == applePayRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
+        if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
             
             HPFSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
             [cell.switchControl addTarget:self action:@selector(controlValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -203,9 +206,18 @@
             
             return cell;
 
-        }
-        
-        else if ((indexPath.row == authRowIndex) || (indexPath.row == currencyRowIndex) || (indexPath.row == colorRowIndex)) {
+        } else if (indexPath.row == applePayRowIndex) {
+            
+            HPFSwitchInfosTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchInfosCell" forIndexPath:indexPath];
+            cell.label.text = NSLocalizedString(@"FORM_APPLE_PAY", nil);
+            cell.labelInfos.text = NSLocalizedString(@"FORM_APPLE_PAY_INFOS", nil);
+
+            [cell.switchControl addTarget:self action:@selector(controlValueChanged:) forControlEvents:UIControlEventValueChanged];
+            cell.switchControl.on = applePay;
+            
+            return cell;
+            
+        } else if ((indexPath.row == authRowIndex) || (indexPath.row == currencyRowIndex) || (indexPath.row == colorRowIndex)) {
             
             HPFSegmentedControlTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SegmentedControlCell" forIndexPath:indexPath];
             [cell.segmentedControl addTarget:self action:@selector(controlValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -403,6 +415,15 @@
     }
     
     return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == applePayRowIndex) {
+        return 72.f;
+    }
+    
+    return UITableViewAutomaticDimension;
 }
 
 - (void)submitTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell

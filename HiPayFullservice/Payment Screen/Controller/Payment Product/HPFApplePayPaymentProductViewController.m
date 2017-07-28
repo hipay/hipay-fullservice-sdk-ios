@@ -15,7 +15,8 @@
 #import "HPFGatewayClient.h"
 
 @interface HPFApplePayPaymentProductViewController ()
-@property (nonatomic, strong) NSError *error;
+@property (nonatomic, strong) NSError *transactionError;
+@property (nonatomic, strong) NSError *tokenError;
 @property (nonatomic, assign) BOOL authorized;
 @end
 
@@ -108,7 +109,7 @@
 
         if (cardToken != nil) {
 
-            self.error = nil;
+            self.tokenError = nil;
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
 
@@ -122,7 +123,7 @@
                 if (theTransaction != nil) {
 
                     transaction = theTransaction;
-                    self.error = nil;
+                    self.transactionError = nil;
 
                     if (transaction.isHandled) {
 
@@ -137,7 +138,7 @@
                 else {
 
                     transaction = nil;
-                    self.error = error;
+                    self.transactionError = error;
 
                     completion(PKPaymentAuthorizationStatusFailure);
                 }
@@ -146,7 +147,7 @@
         } else {
 
             transaction = nil;
-            self.error = error;
+            self.tokenError = error;
             completion(PKPaymentAuthorizationStatusFailure);
 
         }
@@ -183,11 +184,20 @@
 
     [controller dismissViewControllerAnimated:YES completion:^{
 
-        if (self.error != nil) {
-            [self checkTransactionError:self.error];
-
-        } else if (transaction != nil) {
+        if (transaction != nil) {
             [self checkTransactionStatus:transaction];
+
+        } else if (self.tokenError != nil) {
+
+            [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
+                                        message:HPFLocalizedString(@"ERROR_BODY_DEFAULT")
+                                       delegate:self
+                              cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                              otherButtonTitles:nil] show];
+
+        } else if( self.transactionError != nil) {
+
+            [self checkTransactionError:self.transactionError];
 
         } else {
 
@@ -196,7 +206,8 @@
             }
         }
 
-        self.error = nil;
+        self.tokenError = nil;
+        self.transactionError = nil;
         transaction = nil;
         self.authorized = NO;
 

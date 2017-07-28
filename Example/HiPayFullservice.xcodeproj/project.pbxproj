@@ -691,7 +691,7 @@
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
 						DevelopmentTeam = 7RLJNKW437;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 1;
@@ -1075,8 +1075,8 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "4fd3f5ad-19a7-4478-9c55-de5f7e2fbfd9";
+				PROVISIONING_PROFILE_SPECIFIER = Team;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1099,8 +1099,8 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "4fd3f5ad-19a7-4478-9c55-de5f7e2fbfd9";
+				PROVISIONING_PROFILE_SPECIFIER = Team;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

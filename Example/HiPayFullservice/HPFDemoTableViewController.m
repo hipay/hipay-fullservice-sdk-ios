@@ -512,7 +512,7 @@
 
     [HPFClientConfig.sharedClientConfig setPaymentCardScanEnabled:cardScan];
 
-    [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay privateKeyPassword:@"test"];
+    [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay privateKeyPassword:@"test" merchantIdentifier:@"merchant.com.hipay.qa"];
 
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
 

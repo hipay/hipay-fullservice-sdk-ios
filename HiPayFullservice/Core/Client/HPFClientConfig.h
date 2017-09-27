@@ -70,13 +70,16 @@ typedef NS_ENUM(NSInteger, HPFEnvironment) {
 @property (nonatomic, readonly, getter=isApplePayEnabled) BOOL applePayEnabled;
 
 @property (nonatomic, readonly, nonnull) NSString *applePayPrivateKeyPassword;
+@property (nonatomic, readonly, nonnull) NSString *merchantIdentifier;
+
 
 - (void)setEnvironment:(HPFEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password appURLscheme:(NSString * _Nonnull)appURLScheme paymentCardStorageEnabled:(BOOL)enabled;
 - (void)setEnvironment:(HPFEnvironment)environment username:( NSString * _Nonnull )username password:( NSString * _Nonnull )password appURLscheme:(NSString * _Nonnull)appURLscheme;
 
 - (void)setPaymentCardStorageEnabled:(BOOL)enabled withTouchID:(BOOL)touchIDEnabled;
 
-- (void)setApplePayEnabled:(BOOL)enabled privateKeyPassword:(NSString * _Nonnull)privateKeyPassword;
+- (void)setApplePayEnabled:(BOOL)enabled privateKeyPassword:(NSString * _Nonnull)privateKeyPassword merchantIdentifier:(NSString * _Nonnull)merchantIdentifier;
+
 
 + (instancetype _Nonnull)sharedClientConfig;
 

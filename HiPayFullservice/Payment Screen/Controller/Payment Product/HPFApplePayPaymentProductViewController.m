@@ -51,7 +51,8 @@
 
             paymentRequest.paymentSummaryItems = @[item];
 
-            paymentRequest.merchantIdentifier = @"merchant.com.hipay.qa";
+            paymentRequest.merchantIdentifier = [[HPFClientConfig sharedClientConfig] merchantIdentifier];
+
             paymentRequest.merchantCapabilities = PKMerchantCapability3DS;
 
             NSString *country = self.paymentPageRequest.customer.country;

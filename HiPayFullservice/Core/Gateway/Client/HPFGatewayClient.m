@@ -44,6 +44,18 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
     return sharedInstance;
 }
 
++ (instancetype)resetConfig
+{
+    [self.sharedClient setClientConfig];
+    return self.sharedClient;
+}
+
+- (void)setClientConfig {
+
+    HTTPClient = [HPFGatewayClient createClient];
+    clientConfig = [HPFClientConfig sharedClientConfig];
+}
+
 + (BOOL)isTransactionErrorFinal:(NSError *)error
 {
     if ([error.domain isEqual:HPFHiPayFullserviceErrorDomain]) {

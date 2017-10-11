@@ -91,8 +91,8 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
 {
     self = [super init];
     if (self) {
-        HTTPClient = [HPFGatewayClient createClient];
-        clientConfig = [HPFClientConfig sharedClientConfig];
+        
+        [self setClientConfig];
     }
     return self;
 }

@@ -83,6 +83,9 @@ typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> 
  */
 + (_Nonnull instancetype)sharedClient;
 
+/**
+ *  Resets the ClientConfig username and password associated with the Gateway client.
+ */
 + (_Nonnull instancetype)resetConfig;
 
 + (BOOL)isTransactionErrorFinal:(NSError * _Nonnull)error;

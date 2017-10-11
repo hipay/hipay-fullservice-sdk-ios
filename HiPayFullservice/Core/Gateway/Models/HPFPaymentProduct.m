@@ -70,6 +70,8 @@ NSString * _Nonnull const HPFPaymentProductCodeOxxo                   = @"oxxo";
 NSString * _Nonnull const HPFPaymentProductCodeSantanderCash          = @"santander-cash";
 NSString * _Nonnull const HPFPaymentProductCodeSantanderHomeBanking   = @"santander-home-banking";
 
+NSString * _Nonnull const HPFPaymentProductCodeApplePay   = @"apple-pay";
+
 NSString * _Nonnull const HPFPaymentProductCategoryCodeCreditCard = @"credit-card";
 NSString * _Nonnull const HPFPaymentProductCategoryCodeDebitCard = @"debit-card";
 NSString * _Nonnull const HPFPaymentProductCategoryCodeRealtimeBanking = @"realtime-banking";
@@ -123,6 +125,16 @@ NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet = @"ewallet";
         _groupedPaymentProductCodes = paymentProducts;
         _paymentProductDescription = NSLocalizedStringFromTableInBundle(@"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD", @"Core", [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"HPFCoreLocalization" ofType:@"bundle"]], nil);
         _paymentProductCategoryCode = HPFPaymentProductCategoryCodeCreditCard;
+    }
+    return self;
+}
+
+- (instancetype)initWithApplePayProduct {
+    self = [super init];
+    if (self) {
+        _paymentProductDescription = @"Apple Pay";
+        _paymentProductCategoryCode = HPFPaymentProductCodeApplePay;
+        _code = HPFPaymentProductCodeApplePay;
     }
     return self;
 }

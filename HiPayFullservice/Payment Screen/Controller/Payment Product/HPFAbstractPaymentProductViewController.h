@@ -13,8 +13,10 @@
 #import "HPFPaymentButtonTableViewCell.h"
 #import "HPFForwardViewController.h"
 #import "HPFPaymentProduct.h"
+#import "HPFApplePayTableViewCell.h"
 
 @class HPFAbstractPaymentProductViewController;
+@class HPFApplePayTableViewCell;
 
 @protocol HPFPaymentProductViewControllerDelegate <NSObject>
 

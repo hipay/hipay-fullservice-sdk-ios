@@ -3,6 +3,10 @@
 
 "PAYMENT_REDIRECTION_DETAILS" = "Vous allez être redirigé afin de pouvoir procéder au paiement.";
 
+"PAYMENT_APPLE_PAY_DETAILS" = "Achetez avec Apple Pay en utilisant la fonctionalité Touch ID.";
+
+"PAYMENT_APPLE_PAY_ERROR" = "Impossible d'afficher l'interface de paiement";
+
 "PAYMENT_SCREEN_TITLE" = "Paiement";
 "PAYMENT_CARDS_SCREEN_TITLE" = "Cartes enregistrées";
 

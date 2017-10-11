@@ -11,6 +11,7 @@ machine:
 dependencies:
   pre:
     - cd Example; pod install
+    - brew update
     - brew uninstall xctool && brew install --HEAD xctool
 
 deployment:

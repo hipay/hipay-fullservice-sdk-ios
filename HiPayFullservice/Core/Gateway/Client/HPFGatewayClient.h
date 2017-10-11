@@ -83,6 +83,8 @@ typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> 
  */
 + (_Nonnull instancetype)sharedClient;
 
++ (_Nonnull instancetype)resetConfig;
+
 + (BOOL)isTransactionErrorFinal:(NSError * _Nonnull)error;
 
 /**

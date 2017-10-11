@@ -57,6 +57,8 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 
 - (NSString *)URLEncodeString:(NSString *)string usingEncoding:(NSStringEncoding)encoding {
     return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)string, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding(encoding)));
+    
+    //return string;
 }
 
 - (NSString *)queryStringForDictionary:(NSDictionary *)dictionary {
@@ -66,9 +68,8 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
     for (id key in [dictionary allKeys]) {
 
         NSString *encodedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
         NSString *encodedValue = [self URLEncodeString:[dictionary objectForKey:key] usingEncoding:NSUTF8StringEncoding];
-
+        
         NSString *part = [NSString stringWithFormat: @"%@=%@", encodedKey, encodedValue];
         
         [parameters addObject: part];

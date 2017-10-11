@@ -14,6 +14,7 @@
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardToken.h"
 #import "HPFScanCardTableViewCell.h"
+#import "HPFTransactionErrorResult.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 
@@ -38,9 +39,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    
+    // iOS 11 patch
+    self.tableView.estimatedRowHeight = 0;
+    self.tableView.estimatedSectionFooterHeight = 0;
+    self.tableView.estimatedSectionHeaderHeight = 0;
     
     if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
@@ -52,6 +57,8 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFExpiryDateInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ExpiryDateInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"SecurityCodeInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFApplePayTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ApplePay"];
+
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -227,8 +234,8 @@
     if (activeTextField == textField) {
         activeTextField = nil;
     }
-
     [self determineScrollingMode];
+
 }
 
 - (void)textFieldDidChange:(UITextField *)textField
@@ -285,6 +292,13 @@
 {
     HPFLabelTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Label"];
     
+    return cell;
+}
+
+- (HPFApplePayTableViewCell *)dequeueApplePayCell
+{
+    HPFApplePayTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ApplePay"];
+
     return cell;
 }
 
@@ -460,7 +474,6 @@
 
 #pragma mark - Table view data source
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-
 
     if (section == 0) {
 

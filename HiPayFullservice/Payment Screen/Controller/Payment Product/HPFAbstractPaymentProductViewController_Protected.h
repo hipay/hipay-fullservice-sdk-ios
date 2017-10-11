@@ -10,17 +10,21 @@
 #import "HPFAbstractPaymentProductViewController.h"
 #import "HPFOrderRequest.h"
 
+@class HPFTransactionErrorResult;
+
 @interface HPFAbstractPaymentProductViewController ()
 
 - (void)checkTransactionStatus:(HPFTransaction *)transaction;
 - (void)checkTransactionError:(NSError *)transactionError;
 
+- (void)needsBackgroundTransactionOrOrderReload;
 - (void)editingDoneButtonTouched:(id)sender;
 - (HPFPaymentButtonTableViewCell *)dequeuePaymentButtonCell;
 - (void)setPaymentButtonLoadingMode:(BOOL)isLoading;
 - (NSString *)textForIdentifier:(NSString *)fieldIdentifier;
 - (HPFInputTableViewCell *)dequeueInputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier;
 - (HPFLabelTableViewCell *)dequeueLabelCell;
+- (HPFApplePayTableViewCell *)dequeueApplePayCell;
 - (HPFOrderRequest *)createOrderRequest;
 - (BOOL)submitButtonEnabled;
 - (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature;

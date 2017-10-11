@@ -240,7 +240,6 @@
     HPFSecurityCodeType currentSecurityCodeType = [self currentSecurityCodeType];
     BOOL isCardStorageEnabled = [self paymentCardStorageConfigEnabled];
 
-    [self.tableView beginUpdates];
 
     if ((cardNumberTextField.paymentProductCodes.count == 1) && [[HPFCardNumberFormatter sharedFormatter] plainTextNumber:cardNumberTextField.text isInRangeForPaymentProductCode:cardNumberTextField.paymentProductCodes.anyObject]) {
         
@@ -256,7 +255,9 @@
             if (isCardStorageEnabled) {
                 UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:[self paySection]];
                 if (headerView != nil) {
+                    [self.tableView beginUpdates];
                     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
+                    [self.tableView endUpdates];
                     self.touchIDOn = NO;
                     self.switchOn = NO;
                 }
@@ -283,7 +284,11 @@
         [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:self.paymentProduct];
 
         if (isCardStorageEnabled) {
+
+            [self.tableView beginUpdates];
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView endUpdates];
+
             self.touchIDOn = NO;
             self.switchOn = NO;
         }
@@ -299,23 +304,28 @@
         if (!wasPaymentProductDisallowed) {
             if (securityCodeSectionEnabled != [self securityCodeSectionEnabled]) {
                 if ([self securityCodeSectionEnabled]) {
+                    [self.tableView beginUpdates];
                     [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationTop];
+                    [self.tableView endUpdates];
                 }
                 
                 else {
+                    [self.tableView beginUpdates];
                     [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationTop];
+                    [self.tableView endUpdates];
                 }
             }
             
             else {
                 if (currentSecurityCodeType != [self currentSecurityCodeType]) {
+                    [self.tableView beginUpdates];
                     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationNone];
+                    [self.tableView endUpdates];
                 }
             }
         }
     }
 
-    [self.tableView endUpdates];
 }
 
 - (HPFSecurityCodeType)currentSecurityCodeType
@@ -494,7 +504,7 @@
     }
 
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
-       
+
         [self setPaymentButtonLoadingMode:NO];
         transactionLoadingRequest = nil;
         
@@ -663,9 +673,6 @@
 
     return nil;
 }
-
-//TODO here we put a button (header?) that we can remove
-//self.isCameraFeatureAllowed
 
 - (void) switchChanged:(UISwitch *)sender {
 

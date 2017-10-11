@@ -16,6 +16,9 @@
 #define HPFSecureVaultClientBaseURLStage        @"https://stage-secure-vault.hipay-tpp.com/rest/v1/"
 #define HPFSecureVaultClientBaseURLProduction   @"https://secure-vault.hipay-tpp.com/rest/v1/"
 
+#define HPFSecureVaultClientNewBaseURLStage        @"https://stage-secure2-vault.hipay-tpp.com/rest/v2/"
+#define HPFSecureVaultClientNewBaseURLProduction   @"https://secure2-vault.hipay-tpp.com/rest/v2/"
+
 /**
  *  This type of block is executed once a credit card token-related request finishes.
  *
@@ -85,5 +88,7 @@ typedef void (^HPFSecureVaultClientCompletionBlock)(HPFPaymentCardToken * _Nulla
  *  @see HPFRequest
  */
 - (id<HPFRequest> _Nonnull)updatePaymentCardWithToken:(NSString * _Nonnull)token requestID:(NSString * _Nonnull)requestID setCardExpiryMonth:(NSString * _Nonnull)cardExpiryMonth cardExpiryYear:(NSString * _Nonnull)cardExpiryYear cardHolder:(NSString * _Nonnull)cardHolder completionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
+
+- (id<HPFRequest> _Nonnull)generateTokenWithApplePayToken:(NSString * _Nonnull)applePayToken privateKeyPassword:(NSString * _Nonnull)privateKeyPassword andCompletionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
 
 @end

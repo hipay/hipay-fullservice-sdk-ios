@@ -506,7 +506,6 @@
     paymentPageRequest.customer.lastname = @"Doe";
     paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
     paymentPageRequest.multiUse = multiUse;
-    paymentPageRequest.applePayEnabled = applePay;
 
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
 

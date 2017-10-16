@@ -1,3 +1,4 @@
+
 //
 //  HPFClientConfig.m
 //  Pods
@@ -28,6 +29,7 @@
         _paymentCardStorageEnabled = YES;
         _touchIDEnabled = NO;
         _paymentCardScanEnabled = YES;
+        _applePayEnabled = NO;
     }
     return self;
 }
@@ -49,13 +51,13 @@
 
     BOOL foundURLScheme = NO;
     NSArray *types = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
-    
+
     if (types.count > 0) {
         for (NSDictionary *type in types) {
             foundURLScheme = [type[@"CFBundleURLSchemes"] containsObject:appURLscheme];
         }
     }
-    
+
     // Raises an exception because the developer needs to know very early in the development cycle that there's an error.
     
     if (!foundURLScheme) {
@@ -82,6 +84,14 @@
 
     self.paymentCardStorageEnabled = enabled;
     self.touchIDEnabled = touchIDEnabled;
+}
+
+- (void)setApplePayEnabled:(BOOL)enabled privateKeyPassword:(NSString * _Nonnull)privateKeyPassword merchantIdentifier:(NSString * _Nonnull)merchantIdentifier {
+
+    _applePayEnabled = enabled;
+    _applePayPrivateKeyPassword = _applePayEnabled ? privateKeyPassword : nil;
+    _merchantIdentifier = _applePayEnabled ? merchantIdentifier : nil;
+
 }
 
 - (void)setPaymentCardScanEnabled:(BOOL)paymentCardScanEnabled {

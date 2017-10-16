@@ -3,6 +3,10 @@
 
 "PAYMENT_REDIRECTION_DETAILS" = "You will be redirected to a secure page in order to complete your payment.";
 
+"PAYMENT_APPLE_PAY_DETAILS" = "Purchase with Apple Pay simply by using Touch ID.";
+
+"PAYMENT_APPLE_PAY_ERROR" = "Failed to present in-app payment interface";
+
 "PAYMENT_SCREEN_TITLE" = "Payment";
 "PAYMENT_CARDS_SCREEN_TITLE" = "Payment cards";
 

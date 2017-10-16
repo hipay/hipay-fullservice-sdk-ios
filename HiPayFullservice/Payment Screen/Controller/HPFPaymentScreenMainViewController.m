@@ -17,6 +17,7 @@
 #import "HPFTokenizableCardPaymentProductViewController.h"
 #import "HPFUnsupportedPaymentProductViewController.h"
 #import "HPFPaymentProductsFlowLayout.h"
+#import "HPFApplePayPaymentProductViewController.h"
 
 @interface HPFPaymentScreenMainViewController ()
 
@@ -52,6 +53,8 @@
                                       HPFPaymentProductCodeBankTransfer: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodePaysafecard: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodeDexiaDirectNet: HPFForwardPaymentProductViewController.class,
+
+                                      HPFPaymentProductCodeApplePay: HPFApplePayPaymentProductViewController.class,
                                       };
     
 }

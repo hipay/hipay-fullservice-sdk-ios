@@ -64,6 +64,8 @@ extern NSString * _Nonnull const HPFPaymentPageRequestTemplateNameFrame;
  */
 @property (nonatomic) BOOL paymentCardGroupingEnabled;
 
+@property (nonatomic) BOOL applePayEnabled;
+
 /**
  *  When the paymentCardGroupingEnabled option is activated, this set is used to define the codes of payment products that should be grouped in the single "card" payment product selection.
  *  Available payment product codes are defined in HPFPaymentProduct.h.

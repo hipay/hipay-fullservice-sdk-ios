@@ -8,10 +8,7 @@
 
 #import "HPFIDealPaymentProductViewController.h"
 #import "HPFOrderRequest.h"
-#import "HPFForwardPaymentProductViewController_Protected.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
-#import "NSString+HPFValidation.h"
-#import "HPFLabelTableViewCell.h"
 #import "HPFPaymentScreenUtils.h"
 #import "HPFIDealPaymentMethodRequest.h"
 

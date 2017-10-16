@@ -17,6 +17,7 @@
     NSUInteger groupedPaymentCardRowIndex;
     NSUInteger currencyRowIndex;
     NSUInteger amountRowIndex;
+    NSUInteger applePayRowIndex;
     NSUInteger multiUseRowIndex;
     NSUInteger cardScanRowIndex;
     NSUInteger authRowIndex;
@@ -42,6 +43,7 @@
     // Form values
     NSArray *currencies;
     BOOL groupedPaymentCard;
+    BOOL applePay;
     BOOL multiUse;
     BOOL cardScan;
 

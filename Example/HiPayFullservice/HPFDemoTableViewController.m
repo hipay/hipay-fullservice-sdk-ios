@@ -55,7 +55,7 @@
     colorSegmentIndex = 0;
     [self setupGlobalTintColor];
     groupedPaymentCard = YES;
-    amount = 225.0;
+    amount = 10.f;
     selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];
     
     [self.tableView registerClass:[HPFSwitchTableViewCell class] forCellReuseIdentifier:@"SwitchCell"];

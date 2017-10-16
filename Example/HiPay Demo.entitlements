@@ -7,6 +7,8 @@
 		<string>merchant.com.hipay.qa</string>
 	</array>
 	<key>keychain-access-groups</key>
-	<array/>
+	<array>
+		<string>$(AppIdentifierPrefix)com.hipay.fullservice.demo</string>
+	</array>
 </dict>
 </plist>

@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.5.0
+-----
+* Add the Apple Pay feature.
+
 1.4.1
 -----
 * Resolves static library error on swift projects.

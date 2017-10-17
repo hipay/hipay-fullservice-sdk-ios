@@ -1,16 +1,16 @@
 PODS:
-  - HiPayFullservice (1.5.0):
-    - HiPayFullservice/Core (= 1.5.0)
-    - HiPayFullservice/Payment-Screen (= 1.5.0)
-  - HiPayFullservice/Core (1.5.0)
-  - HiPayFullservice/Payment-Screen (1.5.0):
+  - HiPayFullservice (1.5.1):
+    - HiPayFullservice/Core (= 1.5.1)
+    - HiPayFullservice/Payment-Screen (= 1.5.1)
+  - HiPayFullservice/Core (1.5.1)
+  - HiPayFullservice/Payment-Screen (1.5.1):
     - HiPayFullservice/Core
     - HiPayFullservice/Utilities
-  - HiPayFullservice/Utilities (1.5.0):
+  - HiPayFullservice/Utilities (1.5.1):
     - HiPayFullservice/Core
-  - HockeySDK (4.1.6):
-    - HockeySDK/DefaultLib (= 4.1.6)
-  - HockeySDK/DefaultLib (4.1.6)
+  - HockeySDK (5.0.0):
+    - HockeySDK/DefaultLib (= 5.0.0)
+  - HockeySDK/DefaultLib (5.0.0)
   - OCMock (3.4)
   - OHHTTPStubs (6.0.0):
     - OHHTTPStubs/Default (= 6.0.0)
@@ -37,8 +37,8 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  HiPayFullservice: d4d3c4174c2073a55f2f6a733e478f9430dfe1a4
-  HockeySDK: 95db557d54489a570dcdefae0d02f98eecc279a3
+  HiPayFullservice: 40573e14630e78480304b1d2f44d05b2d93f6c41
+  HockeySDK: 82bf8dcbe1af3c87c24dc98924fcf2e2ba5be8c4
   OCMock: 35ae71d6a8fcc1b59434d561d1520b9dd4f15765
   OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
 

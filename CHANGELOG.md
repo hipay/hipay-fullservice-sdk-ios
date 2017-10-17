@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.5.1
+-----
+* Let the client config handle Apple Pay option.
+
 1.5.0
 -----
 * Add the Apple Pay feature.

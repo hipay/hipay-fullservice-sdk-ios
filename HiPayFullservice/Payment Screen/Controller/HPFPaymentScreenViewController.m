@@ -13,6 +13,7 @@
 #import "HPFErrors.h"
 #import "HPFPaymentCardsScreenViewController.h"
 #import "HPFPaymentCardTokenDatabase.h"
+#import "HPFClientConfig.h"
 
 @interface HPFPaymentScreenViewController ()
 {
@@ -109,7 +110,7 @@
             
             [newPaymentProducts insertObject:[[HPFPaymentProduct alloc] initWithGroupedProducts:groupedPaymentCardProductCodes] atIndex:groupedProductsToRemoveIndexes.firstIndex];
 
-            if (paymentPageRequest.applePayEnabled && PKPaymentAuthorizationViewController.canMakePayments) {
+            if ([HPFClientConfig.sharedClientConfig isApplePayEnabled] && PKPaymentAuthorizationViewController.canMakePayments) {
 
                 HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] initWithApplePayProduct];
                 [newPaymentProducts insertObject:paymentProduct atIndex:0];
@@ -119,7 +120,7 @@
         }
     }
 
-    if (paymentPageRequest.applePayEnabled) {
+    if ([HPFClientConfig.sharedClientConfig isApplePayEnabled]) {
 
         HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] initWithApplePayProduct];
 

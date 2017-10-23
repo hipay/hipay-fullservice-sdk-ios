@@ -6,12 +6,28 @@
 //
 
 #import "HPFStoreCardViewController.h"
+#import "HPFPaymentScreenUtils.h"
 
 @interface HPFStoreCardViewController ()
 
 @end
 
 @implementation HPFStoreCardViewController
+
++ (instancetype)storeCardViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature
+{
+    //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"StoreCard" bundle:HPFPaymentScreenViewsBundle()];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPFPaymentScreenViewsBundle()];
+
+    //HPFStoreCardViewController *viewController = [storyboard instantiateInitialViewController];
+    
+    HPFStoreCardViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"StoreCard"];
+
+    //[viewController setParameters:paymentPageRequest signature:signature];
+    
+    return viewController;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

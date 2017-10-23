@@ -13,7 +13,6 @@
 #import "HPFErrors.h"
 #import "HPFPaymentCardsScreenViewController.h"
 #import "HPFPaymentCardTokenDatabase.h"
-#import "HPFClientConfig.h"
 
 @interface HPFPaymentScreenViewController ()
 {

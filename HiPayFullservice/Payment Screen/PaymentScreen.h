@@ -7,4 +7,4 @@
 //
 
 #import <HiPayFullservice/HPFPaymentScreenViewController.h>
-
+#import <HiPayFullservice/HPFStoreCardViewController.h>

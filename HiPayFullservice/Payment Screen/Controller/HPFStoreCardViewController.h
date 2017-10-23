@@ -6,7 +6,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPFTokenizableCardPaymentProductViewController.h"
 
-@interface HPFStoreCardViewController : UIViewController
+@interface HPFStoreCardViewController : UINavigationController
+
++ (_Nonnull instancetype)storeCardViewControllerWithRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest signature:(NSString * _Nonnull)signature;
 
 @end

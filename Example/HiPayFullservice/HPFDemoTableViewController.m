@@ -13,6 +13,7 @@
 #import "HPFMoreOptionsTableViewCell.h"
 #import "HPFInfoTableViewCell.h"
 #import "HPFSwitchInfosTableViewCell.h"
+#import "HPFTokenizableCardPaymentProductViewController.h"
 
 @interface HPFDemoTableViewController ()
 
@@ -472,12 +473,25 @@
 
                         HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
 
-                        HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
-                        paymentScreen.delegate = self;
+                        //HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
+                        //paymentScreen.delegate = self;
 
-                        [self presentViewController:paymentScreen animated:YES completion:^{
+                        /*
+                        HPFTokenizableCardPaymentProductViewController *paymentProductViewController = [[HPFTokenizableCardPaymentProductViewController alloc] initWithPaymentPageRequest:paymentPageRequest signature:signature andSelectedPaymentProduct:[[HPFPaymentProduct alloc] initWithApplePayProduct] ];
+
+                        UIStoryboard *storyboard = [UIStoryboad storyboardWithName:@"StoreCard" bundle:HPFPaymentScreenViewsBundle()];
+                        HPFPaymentScreenViewController *viewController = [storyboard instantiateInitialViewController];
+                        
+                        [viewController setParameters:paymentPageRequest signature:signature];
+                        */
+                        HPFStoreCardViewController *storeCardViewController = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest signature:signature];
+
+                        
+                        [self presentViewController:storeCardViewController animated:YES completion:^{
                             [self setSubmitButtonLoadingMode:NO];
                         }];
+                        
+                        
 
                     } else {
 

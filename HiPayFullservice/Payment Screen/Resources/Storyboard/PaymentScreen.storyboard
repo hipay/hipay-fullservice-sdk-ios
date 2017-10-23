@@ -129,7 +129,7 @@
         <!--Payment Screen View Controller-->
         <scene sceneID="00c-Eg-Qfn">
             <objects>
-                <viewController id="x3v-0z-yzu" customClass="HPFPaymentScreenViewController" sceneMemberID="viewController">
+                <viewController autoresizesArchivedViewToFullSize="NO" id="x3v-0z-yzu" customClass="HPFPaymentScreenViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5G5-Mb-Fs9"/>
                         <viewControllerLayoutGuide type="bottom" id="W8l-mT-HL9"/>
@@ -139,7 +139,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kz-Wz-2xI">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <connections>
                                     <segue destination="6yy-Ye-aDf" kind="embed" identifier="contained_controller" id="jYe-67-ifp"/>
                                 </connections>
@@ -149,8 +149,8 @@
                         <constraints>
                             <constraint firstItem="9Kz-Wz-2xI" firstAttribute="leading" secondItem="DQr-CJ-mnf" secondAttribute="leading" id="Bvd-rI-7gC"/>
                             <constraint firstItem="9Kz-Wz-2xI" firstAttribute="top" secondItem="DQr-CJ-mnf" secondAttribute="top" id="RAl-JW-Yn9"/>
-                            <constraint firstItem="W8l-mT-HL9" firstAttribute="top" secondItem="9Kz-Wz-2xI" secondAttribute="bottom" constant="99" id="bu9-D1-OzI"/>
-                            <constraint firstAttribute="trailing" secondItem="9Kz-Wz-2xI" secondAttribute="trailing" constant="55" id="pVy-02-oD9"/>
+                            <constraint firstItem="W8l-mT-HL9" firstAttribute="top" secondItem="9Kz-Wz-2xI" secondAttribute="bottom" id="bu9-D1-OzI"/>
+                            <constraint firstAttribute="trailing" secondItem="9Kz-Wz-2xI" secondAttribute="trailing" id="pVy-02-oD9"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -163,7 +163,7 @@
             <objects>
                 <navigationController id="6yy-Ye-aDf" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DIc-w1-trW">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                 </navigationController>
@@ -312,7 +312,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2eU-uL-Yl3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="322" y="676"/>
+            <point key="canvasLocation" x="494" y="785"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="2VT-7e-3hZ">
@@ -333,50 +333,50 @@
             </objects>
             <point key="canvasLocation" x="1593" y="1181"/>
         </scene>
-        <!--Root View Controller-->
-        <scene sceneID="pIj-ME-9mm">
+        <!--Store Card-->
+        <scene sceneID="Qyc-ZS-FWb">
             <objects>
-                <tableViewController id="D9o-BB-1SI" customClass="HPFTokenizableCardPaymentProductViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="lEy-WU-XIc">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="8D5-e5-QIb" customClass="HPFStoreTokenizableCardViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="sEE-Ge-M7L">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wW4-1K-gaI">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="VEZ-QN-KTd">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wW4-1K-gaI" id="mI4-2Y-ksb">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VEZ-QN-KTd" id="gnU-Va-bn5">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="D9o-BB-1SI" id="wwY-Jr-ccq"/>
-                            <outlet property="delegate" destination="D9o-BB-1SI" id="bal-xX-TBF"/>
+                            <outlet property="dataSource" destination="8D5-e5-QIb" id="9Zg-Uo-ubD"/>
+                            <outlet property="delegate" destination="8D5-e5-QIb" id="JFb-Mo-dyX"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="9en-zo-Oas"/>
+                    <navigationItem key="navigationItem" title="Store Card" id="PVd-cG-1Ah"/>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fuZ-yC-NJT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zsT-Gi-zsQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-378" y="743"/>
+            <point key="canvasLocation" x="-903" y="820"/>
         </scene>
-        <!--Store Card View Controller-->
+        <!--Store Card-->
         <scene sceneID="ti1-78-RHA">
             <objects>
-                <navigationController storyboardIdentifier="StoreCard" id="iWO-bH-uqy" customClass="HPFStoreCardViewController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="StoreCard" title="Store Card" id="iWO-bH-uqy" customClass="HPFStoreCardViewController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mK0-6T-Gzf">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="D9o-BB-1SI" kind="relationship" relationship="rootViewController" id="7FT-qs-htW"/>
+                        <segue destination="8D5-e5-QIb" kind="relationship" relationship="rootViewController" id="AZg-zg-11b"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7M4-46-fLf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1119" y="743"/>
+            <point key="canvasLocation" x="-1692" y="820"/>
         </scene>
     </scenes>
     <resources>

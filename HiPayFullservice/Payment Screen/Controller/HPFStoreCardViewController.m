@@ -7,6 +7,7 @@
 
 #import "HPFStoreCardViewController.h"
 #import "HPFPaymentScreenUtils.h"
+#import "HPFStoreTokenizableCardViewController.h"
 
 @interface HPFStoreCardViewController ()
 
@@ -14,24 +15,46 @@
 
 @implementation HPFStoreCardViewController
 
-+ (instancetype)storeCardViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature
++ (UINavigationController *)storeCardViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature
 {
     //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"StoreCard" bundle:HPFPaymentScreenViewsBundle()];
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPFPaymentScreenViewsBundle()];
+    //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPFPaymentScreenViewsBundle()];
 
     //HPFStoreCardViewController *viewController = [storyboard instantiateInitialViewController];
     
-    HPFStoreCardViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"StoreCard"];
+    //HPFStoreCardViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"StoreCard"];
 
     //[viewController setParameters:paymentPageRequest signature:signature];
     
-    return viewController;
+    HPFStoreTokenizableCardViewController *storevc = [[HPFStoreCardViewController alloc] initWithPaymentPageRequest:nil signature:nil andSelectedPaymentProduct:nil];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:storevc];
+    return navigationController;
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    self.title = @"Store Card";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doCancel)];
+}
+
+- (void)doCancel
+{
+    //[paymentProductsRequest cancel];
+    //[self cancelActivity];
+    
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    /*
+     if ([self.delegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
+     [self.delegate paymentScreenViewControllerDidCancel:self];
+     }
+     */
 }
 
 - (void)didReceiveMemoryWarning {

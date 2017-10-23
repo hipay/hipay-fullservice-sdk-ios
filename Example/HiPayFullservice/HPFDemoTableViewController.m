@@ -473,8 +473,7 @@
 
                         HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
 
-                        //HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
-                        //paymentScreen.delegate = self;
+                        
 
                         /*
                         HPFTokenizableCardPaymentProductViewController *paymentProductViewController = [[HPFTokenizableCardPaymentProductViewController alloc] initWithPaymentPageRequest:paymentPageRequest signature:signature andSelectedPaymentProduct:[[HPFPaymentProduct alloc] initWithApplePayProduct] ];
@@ -484,15 +483,15 @@
                         
                         [viewController setParameters:paymentPageRequest signature:signature];
                         */
-                        HPFStoreCardViewController *storeCardViewController = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest signature:signature];
-
                         
-                        [self presentViewController:storeCardViewController animated:YES completion:^{
+                        HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
+                        paymentScreen.delegate = self;
+                        HPFStoreCardViewController *storeCardViewController = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest signature:signature];
+                        
+                        [self presentViewController:paymentScreen animated:YES completion:^{
                             [self setSubmitButtonLoadingMode:NO];
                         }];
                         
-                        
-
                     } else {
 
                         [self setSubmitButtonLoadingMode:NO];

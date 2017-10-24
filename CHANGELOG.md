@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.5.2
+-----
+* Fix the payment form with Maestro cards.
+
 1.5.1
 -----
 * Let the client config handle Apple Pay option.

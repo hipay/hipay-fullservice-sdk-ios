@@ -255,9 +255,6 @@
             if (isCardStorageEnabled) {
                 UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:[self paySection]];
                 if (headerView != nil) {
-                    [self.tableView beginUpdates];
-                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
-                    [self.tableView endUpdates];
                     self.touchIDOn = NO;
                     self.switchOn = NO;
                 }
@@ -284,11 +281,6 @@
         [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:self.paymentProduct];
 
         if (isCardStorageEnabled) {
-
-            [self.tableView beginUpdates];
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView endUpdates];
-
             self.touchIDOn = NO;
             self.switchOn = NO;
         }
@@ -306,12 +298,14 @@
                 if ([self securityCodeSectionEnabled]) {
                     [self.tableView beginUpdates];
                     [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationTop];
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
                     [self.tableView endUpdates];
                 }
                 
                 else {
                     [self.tableView beginUpdates];
                     [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationTop];
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
                     [self.tableView endUpdates];
                 }
             }
@@ -320,6 +314,7 @@
                 if (currentSecurityCodeType != [self currentSecurityCodeType]) {
                     [self.tableView beginUpdates];
                     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:[self formSection]]] withRowAnimation:UITableViewRowAnimationNone];
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self paySection]] withRowAnimation:UITableViewRowAnimationFade];
                     [self.tableView endUpdates];
                 }
             }

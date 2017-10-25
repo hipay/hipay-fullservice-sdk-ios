@@ -33,6 +33,11 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
 
+- (HPFPaymentProduct *) getPaymentProductFromInferedCode:(NSString *)inferedCode
+{
+    return [self.delegate paymentProductViewController:self paymentProductForInferredPaymentProductCode:inferedCode];
+}
+
 - (void)doCancel
 {
     //[paymentProductsRequest cancel];

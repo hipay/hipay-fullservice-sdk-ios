@@ -6,7 +6,6 @@
 //
 
 #import "HPFStoreCardViewController.h"
-#import "HPFPaymentScreenUtils.h"
 #import "HPFStoreTokenizableCardViewController.h"
 
 @interface HPFStoreCardViewController ()
@@ -32,6 +31,35 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:storevc];
     return navigationController;
     
+}
+
+- (HPFPaymentProduct *) getPaymentProductFromInferedCode:(NSString *)inferedCode
+{
+    //return [self.delegate paymentProductViewController:self paymentProductForInferredPaymentProductCode:inferedCode];
+
+    // add visa mastercard diners american express, no maestro.
+
+    if ([inferedPaymentProductCode isEqualToString:HPFPaymentProductCodeVisa]) {
+
+        HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] init];
+        //paymentProduct.code = HPFPaymentProductCodeVisa;
+        [paymentProduct setValue:HPFPaymentProductCodeVisa forKey:@"code"];
+        [paymentProduct setValue:HPFPaymentProductCodeVisa forKey:@"paymentProductDescription"];
+
+        return paymentProduct;
+    }
+
+    if ([inferedPaymentProductCode isEqualToString:HPFPaymentProductCodeMasterCard]) {
+
+        HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] init];
+        //paymentProduct.code = HPFPaymentProductCodeVisa;
+        [paymentProduct setValue:HPFPaymentProductCodeMasterCard forKey:@"code"];
+        [paymentProduct setValue:[HPFPaymentProductCodeMasterCard capitalizedString] forKey:@"paymentProductDescription"];
+
+        return paymentProduct;
+    }
+
+    return nil;
 }
 
 - (void)viewDidLoad {

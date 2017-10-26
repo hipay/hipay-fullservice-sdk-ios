@@ -85,6 +85,8 @@
 "CARD_SECURITY_CODE_DESCRIPTION_CID" = "The CID is the four-digit number on the front of your American Express card.";
 
 "CARD_SWITCH_STORE_DESCRIPTION" = "Store this card for future use";
+"CARD_STORE_DESCRIPTION" = "Store the card for future use";
+"CARD_STORE_TITLE" = "Payment card storing";
 "CARD_SWITCH_TOUCHID_TITLE" = "Secure with Touch ID";
 "CARD_SWITCH_TOUCHID_DESCRIPTION" = "Would you like to activate Touch ID for securing future payments with this card? A fingerprint recognition will be required for further use.";
 

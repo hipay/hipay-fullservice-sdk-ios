@@ -10,6 +10,6 @@
 
 @interface HPFStoreCardViewController : HPFTokenizableCardPaymentProductViewController
 
-+ (UINavigationController *)storeCardViewControllerWithRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest signature:(NSString * _Nonnull)signature;
++ (UINavigationController *)storeCardViewController;
 
 @end

@@ -16,7 +16,7 @@
 
 @implementation HPFStoreCardViewController
 
-+ (UINavigationController *)storeCardViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature
++ (UINavigationController *)storeCardViewController
 {
     //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"StoreCard" bundle:HPFPaymentScreenViewsBundle()];
     
@@ -41,7 +41,7 @@
     // Do any additional setup after loading the view.
 
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.title = @"Store Card";
+    self.title = HPFLocalizedString(@"CARD_STORE_TITLE");
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doCancel)];
 }
 
@@ -73,7 +73,7 @@
         HPFPaymentButtonTableViewCell *cell = [super dequeuePaymentButtonCell];
 
         // just change the title.
-        cell.title = HPFLocalizedString(@"CARD_SWITCH_STORE_DESCRIPTION")
+        cell.title = HPFLocalizedString(@"CARD_STORE_DESCRIPTION");
         return cell;
     }
 

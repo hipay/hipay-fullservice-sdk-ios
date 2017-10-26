@@ -473,7 +473,6 @@
 
                         HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
 
-                        
 
                         /*
                         HPFTokenizableCardPaymentProductViewController *paymentProductViewController = [[HPFTokenizableCardPaymentProductViewController alloc] initWithPaymentPageRequest:paymentPageRequest signature:signature andSelectedPaymentProduct:[[HPFPaymentProduct alloc] initWithApplePayProduct] ];

@@ -39,27 +39,52 @@
 
     // add visa mastercard diners american express, no maestro.
 
-    if ([inferedPaymentProductCode isEqualToString:HPFPaymentProductCodeVisa]) {
+    if ([inferedCode isEqualToString:HPFPaymentProductCodeVisa]) {
 
         HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] init];
-        //paymentProduct.code = HPFPaymentProductCodeVisa;
         [paymentProduct setValue:HPFPaymentProductCodeVisa forKey:@"code"];
         [paymentProduct setValue:HPFPaymentProductCodeVisa forKey:@"paymentProductDescription"];
 
         return paymentProduct;
     }
 
-    if ([inferedPaymentProductCode isEqualToString:HPFPaymentProductCodeMasterCard]) {
+    if ([inferedCode isEqualToString:HPFPaymentProductCodeMasterCard]) {
 
         HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] init];
-        //paymentProduct.code = HPFPaymentProductCodeVisa;
         [paymentProduct setValue:HPFPaymentProductCodeMasterCard forKey:@"code"];
         [paymentProduct setValue:[HPFPaymentProductCodeMasterCard capitalizedString] forKey:@"paymentProductDescription"];
 
         return paymentProduct;
     }
 
+    if ([inferedCode isEqualToString:HPFPaymentProductCodeDiners]) {
+
+        HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] init];
+        [paymentProduct setValue:HPFPaymentProductCodeDiners forKey:@"code"];
+        [paymentProduct setValue:[HPFPaymentProductCodeDiners capitalizedString] forKey:@"paymentProductDescription"];
+
+        return paymentProduct;
+    }
+
+    if ([inferedCode isEqualToString:HPFPaymentProductCodeAmericanExpress])
+    {
+        HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] init];
+        [paymentProduct setValue:HPFPaymentProductCodeAmericanExpress forKey:@"code"];
+
+        NSMutableString *paymentProductAmex = [HPFPaymentProductCodeAmericanExpress mutableCopy];
+        [paymentProductAmex replaceOccurrencesOfString:@"-" withString:@" " options:NSCaseInsensitiveSearch range:NSMakeRange(0, paymentProductAmex.length)];
+
+        [paymentProduct setValue:paymentProductAmex forKey:@"paymentProductDescription"];
+
+        return paymentProduct;
+    }
+
     return nil;
+}
+
+- (BOOL)paymentCardStorageConfigEnabled
+{
+    return NO;
 }
 
 - (void)viewDidLoad {

@@ -7,6 +7,7 @@
 
 #import "HPFStoreCardViewController.h"
 #import "HPFStoreTokenizableCardViewController.h"
+#import "HPFAbstractPaymentProductViewController_Protected.h"
 
 @interface HPFStoreCardViewController ()
 
@@ -33,14 +34,45 @@
     
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+
+    self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    self.title = @"Store Card";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doCancel)];
+}
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+
+    if (section == [self formSection])
+    {
+        if ((inferedPaymentProduct != nil)) {
+            return inferedPaymentProduct.paymentProductDescription;
+        }
+    }
+
+    return @"";
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (indexPath.section == [self paySection])
+    {
+        return [super dequeuePaymentButtonCell];
+    }
+
+    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+}
+
 - (HPFPaymentProduct *) getPaymentProductFromInferedCode:(NSString *)inferedCode
 {
-    //return [self.delegate paymentProductViewController:self paymentProductForInferredPaymentProductCode:inferedCode];
 
     // add visa mastercard diners american express, no maestro.
 
-    if ([inferedCode isEqualToString:HPFPaymentProductCodeVisa]) {
-
+    if ([inferedCode isEqualToString:HPFPaymentProductCodeVisa])
+    {
         HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] init];
         [paymentProduct setValue:HPFPaymentProductCodeVisa forKey:@"code"];
         [paymentProduct setValue:HPFPaymentProductCodeVisa forKey:@"paymentProductDescription"];
@@ -48,8 +80,8 @@
         return paymentProduct;
     }
 
-    if ([inferedCode isEqualToString:HPFPaymentProductCodeMasterCard]) {
-
+    if ([inferedCode isEqualToString:HPFPaymentProductCodeMasterCard])
+    {
         HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] init];
         [paymentProduct setValue:HPFPaymentProductCodeMasterCard forKey:@"code"];
         [paymentProduct setValue:[HPFPaymentProductCodeMasterCard capitalizedString] forKey:@"paymentProductDescription"];
@@ -57,8 +89,8 @@
         return paymentProduct;
     }
 
-    if ([inferedCode isEqualToString:HPFPaymentProductCodeDiners]) {
-
+    if ([inferedCode isEqualToString:HPFPaymentProductCodeDiners])
+    {
         HPFPaymentProduct *paymentProduct = [[HPFPaymentProduct alloc] init];
         [paymentProduct setValue:HPFPaymentProductCodeDiners forKey:@"code"];
         [paymentProduct setValue:[HPFPaymentProductCodeDiners capitalizedString] forKey:@"paymentProductDescription"];
@@ -85,15 +117,6 @@
 - (BOOL)paymentCardStorageConfigEnabled
 {
     return NO;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.title = @"Store Card";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doCancel)];
 }
 
 - (void)doCancel

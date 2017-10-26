@@ -8,6 +8,7 @@
 #import "HPFStoreCardViewController.h"
 #import "HPFStoreTokenizableCardViewController.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
+#import "HPFPaymentScreenUtils.h"
 
 @interface HPFStoreCardViewController ()
 
@@ -34,7 +35,8 @@
     
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
@@ -44,8 +46,8 @@
 }
 
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
     if (section == [self formSection])
     {
         if ((inferedPaymentProduct != nil)) {
@@ -56,11 +58,23 @@
     return @"";
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)submit
+{
+// submit pay button overriden
+    NSLog(@"submit");
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // we will just override the paySection and keep the scan and form sections.
 
     if (indexPath.section == [self paySection])
     {
-        return [super dequeuePaymentButtonCell];
+        HPFPaymentButtonTableViewCell *cell = [super dequeuePaymentButtonCell];
+
+        // just change the title.
+        cell.title = HPFLocalizedString(@"CARD_SWITCH_STORE_DESCRIPTION")
+        return cell;
     }
 
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -133,19 +147,10 @@
      */
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

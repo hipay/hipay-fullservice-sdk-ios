@@ -133,6 +133,27 @@
     return NO;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == self.formSection)
+    {
+        // set higher when there is no scan card.
+        if (self.scanSection == -1)
+        {
+            return 32.f;
+        } else {
+            return 0.f;
+        }
+    }
+
+    if (section == self.scanSection)
+    {
+        return 0.f;
+    }
+
+    return [super tableView:tableView heightForFooterInSection:section];
+}
+
 - (void)doCancel
 {
     //[paymentProductsRequest cancel];

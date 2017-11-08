@@ -11,7 +11,7 @@ PODS:
   - HockeySDK (5.0.0):
     - HockeySDK/DefaultLib (= 5.0.0)
   - HockeySDK/DefaultLib (5.0.0)
-  - OCMock (3.4)
+  - OCMock (3.4.1)
   - OHHTTPStubs (6.0.0):
     - OHHTTPStubs/Default (= 6.0.0)
   - OHHTTPStubs/Core (6.0.0)
@@ -39,7 +39,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   HiPayFullservice: 16b513b2e8a55faad37e4af3bd3415576efe3fb6
   HockeySDK: 82bf8dcbe1af3c87c24dc98924fcf2e2ba5be8c4
-  OCMock: 35ae71d6a8fcc1b59434d561d1520b9dd4f15765
+  OCMock: 2cd0716969bab32a2283ff3a46fd26a8c8b4c5e3
   OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
 
 PODFILE CHECKSUM: 7c1b99c91ddcd69d0a249503ae64fe91a344f92f

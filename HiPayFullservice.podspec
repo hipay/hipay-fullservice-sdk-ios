@@ -72,5 +72,10 @@ Pod::Spec.new do |s|
       s.dependency       'CardIO', '~> 5.4.1'
       
   end
+  
+  s.subspec "Datecs-POS" do |s|
+      s.vendored_frameworks = "HiPayFullservice/POS/Datecs/DatecsLibrary.framework"
+      s.frameworks = "SystemConfiguration", "ExternalAccessory"
+  end
 
 end

@@ -322,9 +322,15 @@ typedef enum {
 
 -(void)receivedEcrId:(NSString *)ecrId;
 
+-(void)updateProgress:(NSString *)progress percentage:(NSUInteger)percentage;
+
 -(void)batteryCapacity:(int)capacity;
 
 -(void)deviceUID:(NSString *)deviceUID;
+
+-(void)currentSoftwareVersion:(NSString *)currentSoftwareVersion;
+
+-(void)availableSoftwareVersion:(NSString *)availableSoftwareVersion;
 
 /**@}*/
 
@@ -363,8 +369,17 @@ typedef enum {
     int batteryCapacity;
 
     bool waitingForDeviceUID;
+    bool waitingForCurrentSoftwareVersion;
+    bool waitingForAvailableSoftwareVersion;
+    bool waitingForUpdateResponse;
+    bool waitingForKeyResponse;
+    uint8_t lastKeyPressed;
+    bool updatingSoftware;
+    int updateResult;
     dispatch_semaphore_t semaDeviceUID;
     NSString *deviceUID;
+    NSString *currentSoftwareVersion;
+    NSString *availableSoftwareVersion;
     
     bool allowConnectMessage;
     dispatch_queue_t myBackgroundQueue;
@@ -403,6 +418,11 @@ typedef enum {
 -(void)removeDelegate:(id)delegateToBeRemoved;
 
 /**
+ Re-fires the ppadConnectionState event
+ **/
+-(void)requestConnectionState;
+
+/**
  Tries to connect to PPad in the background, connection status notifications will be passed through the delegate.
  Once connect is called, it will automatically try to reconnect until disconnect is called.
  Note that "connect" call works in background and will notify the caller of connection success via connectionState delegate.
@@ -435,6 +455,12 @@ typedef enum {
 -(BOOL)getBatteryCapacity:(int *)capacity voltage:(float *)voltage error:(NSError **)error;
 
 -(NSString *)getDeviceUID;
+-(NSString *)requestCurrentSoftwareVersion;
+-(NSString *)requestAvailableSoftwareVersion;
+-(void)kick;
+
+-(BOOL)startSoftwareUpdate;
+-(void)connectTest;
 
 /**
  Plays a sound using the built-in speaker on the active device

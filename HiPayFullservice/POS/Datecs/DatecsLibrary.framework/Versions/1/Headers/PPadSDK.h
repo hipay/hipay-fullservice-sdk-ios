@@ -318,6 +318,10 @@ typedef enum {
 
 -(void)deviceUID:(NSString *)deviceUID;
 
+-(void)currentSoftwareVersion:(NSString *)currentSoftwareVersion;
+
+-(void)availableSoftwareVersion:(NSString *)availableSoftwareVersion;
+
 /**@}*/
 
 @end
@@ -351,9 +355,14 @@ typedef enum {
 
 /**
  Removes delegate, previously added with addDelegate
- @param newDelegate - the delegate to be removed
+ @param delegateToBeRemoved - the delegate to be removed
  **/
 -(void)removeDelegate:(id)delegateToBeRemoved;
+
+/**
+ Re-fires the ppadConnectionState event
+ **/
+-(void)requestConnectionState;
 
 /**
  Tries to connect to PPad in the background, connection status notifications will be passed through the delegate.
@@ -388,6 +397,13 @@ typedef enum {
 -(BOOL)getBatteryCapacity:(int *)capacity voltage:(float *)voltage error:(NSError **)error;
 
 -(NSString *)getDeviceUID;
+-(NSString *)requestCurrentSoftwareVersion;
+-(NSString *)requestAvailableSoftwareVersion;
+-(void)kick;
+
+-(BOOL)startSoftwareUpdate;
+
+-(void)connectTest;
 
 /**
  Plays a sound using the built-in speaker on the active device

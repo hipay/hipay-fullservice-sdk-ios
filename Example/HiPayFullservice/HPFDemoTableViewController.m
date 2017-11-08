@@ -13,6 +13,7 @@
 #import "HPFMoreOptionsTableViewCell.h"
 #import "HPFInfoTableViewCell.h"
 #import "HPFSwitchInfosTableViewCell.h"
+#import "DatecsLibrary/PPadSDK.h"
 
 @interface HPFDemoTableViewController ()
 
@@ -80,6 +81,10 @@
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
 
+    PPadCustom *ppad = [PPadCustom sharedDevice];
+    [ppad addDelegate:self];
+    [ppad connect];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated

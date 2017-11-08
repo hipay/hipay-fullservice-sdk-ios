@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.source_files     = "HiPayFullservice/*.{m,h}"
 
-  s.default_subspec = 'Core', 'Payment-Screen'#,'Device-Print', 'CardIO'
+  s.default_subspec = 'Core', 'Payment-Screen', 'Datecs-POS'#,'Device-Print', 'CardIO'
 
   s.public_header_files = "HiPayFullservice/*.h"
 

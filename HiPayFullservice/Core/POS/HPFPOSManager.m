@@ -5,16 +5,16 @@
 //  Created by Nicolas FILLION on 08/11/2017.
 //
 
-#import "HPFPosManager.h"
+#import "HPFPOSManager.h"
 
-@interface HPFPosManager ()
+@interface HPFPOSManager ()
 {
     PPadCustom *ppad;
 }
 
 @end
 
-@implementation HPFPosManager
+@implementation HPFPOSManager
 
 NSString * const HPFPOSStateChangeNotification = @"HPFPOSStateChangeNotification";
 NSString * const HPFPOSConnectionStateKey = @"HPFPOSConnectionStateKey";
@@ -76,16 +76,17 @@ NSString * const HPFPOSBarCodeTypeKey = @"HPFPOSStateBarCodeTypeKey";
     NSDictionary *userInfo = @{
                     HPFPOSBarCodeKey: barcode,
                     HPFPOSBarCodeTypeKey: [ppad barcodeType2Text:type]};
-
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:HPFPOSBarCodeNotification object:nil userInfo:userInfo];
-
-    //[[[UIAlertView alloc] initWithTitle:@"New barcode read" message:barcodeText delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+    
 }
 
 - (void)ppadConnectionState:(int)state {
 
     NSDictionary *userInfo = @{HPFPOSConnectionStateKey: @(state)};
 
+    [[[UIAlertView alloc] initWithTitle:@"New barcode read" message:@"hello" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:HPFPOSStateChangeNotification object:nil userInfo:userInfo];
 
     switch (state) {

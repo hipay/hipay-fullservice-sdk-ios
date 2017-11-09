@@ -13,7 +13,7 @@
 #import "HPFMoreOptionsTableViewCell.h"
 #import "HPFInfoTableViewCell.h"
 #import "HPFSwitchInfosTableViewCell.h"
-#import "DatecsLibrary/PPadSDK.h"
+#import "HPFPOSManager.h"
 
 @interface HPFDemoTableViewController ()
 
@@ -81,10 +81,34 @@
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
 
-    PPadCustom *ppad = [PPadCustom sharedDevice];
-    [ppad addDelegate:self];
-    [ppad connect];
+    [[HPFPOSManager sharedManager] connect];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationEvent:)
+                                                 name:HPFPOSStateChangeNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationBarCode:)
+                                                 name:HPFPOSBarCodeNotification object:nil];
+    
+}
+
+- (void)notificationEvent:(NSNotification *)notification
+{
+    NSDictionary *dict = [notification userInfo];
+    NSNumber *state = dict[HPFPOSConnectionStateKey];
+    
+    CONN_STATES k = [state intValue];
+    
+    self.title = [NSString stringWithFormat:@"state : %d", k];
+}
+
+- (void)notificationBarCode:(NSNotification *)notification
+{
+    NSDictionary *userInfo = [notification userInfo];
+    NSString *barCode = userInfo[HPFPOSBarCodeKey];
+    
+    NSString *barCodeType = userInfo[HPFPOSBarCodeTypeKey];
+    
+    self.title = [NSString stringWithFormat:@"barCode : %@, barCodeType : %@", barCodeType, barCode];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -433,6 +457,12 @@
 
 - (void)submitTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell
 {
+    
+    //self.title = [NSString stringWithFormat:@"new title"];
+
+    [[HPFPOSManager sharedManager] wakeUp];
+    
+    /*
     [self requestSignature];
 
     if (resultSectionIndex != NSNotFound) {
@@ -446,6 +476,7 @@
 
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationRight];
     }
+    */
 }
 
 - (void) requestSignature {

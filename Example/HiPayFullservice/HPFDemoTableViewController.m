@@ -13,7 +13,6 @@
 #import "HPFMoreOptionsTableViewCell.h"
 #import "HPFInfoTableViewCell.h"
 #import "HPFSwitchInfosTableViewCell.h"
-#import "HPFPOSManager.h"
 
 @interface HPFDemoTableViewController ()
 
@@ -70,7 +69,6 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSwitchInfosTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SwitchInfosCell"];
     
     self.title = NSLocalizedString(@"APP_TITLE", nil);
-    
 }
 
 - (void)viewDidLoad {
@@ -82,34 +80,6 @@
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
 
-    [[HPFPOSManager sharedManager] connect];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateChangeNotification:)
-                                                 name:HPFPOSStateChangeNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(barCodeNotification:)
-                                                 name:HPFPOSBarCodeNotification object:nil];
-    
-}
-
-- (void)stateChangeNotification:(NSNotification *)notification
-{
-    NSDictionary *dict = [notification userInfo];
-    NSNumber *state = dict[HPFPOSConnectionStateKey];
-    
-    CONN_STATES k = [state intValue];
-    
-    self.title = [NSString stringWithFormat:@"state : %d", k];
-}
-
-- (void)barCodeNotification:(NSNotification *)notification
-{
-    NSDictionary *userInfo = [notification userInfo];
-    NSString *barCode = userInfo[HPFPOSBarCodeKey];
-    
-    NSString *barCodeType = userInfo[HPFPOSBarCodeTypeKey];
-    
-    self.title = [NSString stringWithFormat:@"barCode : %@, barCodeType : %@", barCodeType, barCode];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -458,12 +428,6 @@
 
 - (void)submitTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell
 {
-    
-    //self.title = [NSString stringWithFormat:@"new title"];
-
-    [[HPFPOSManager sharedManager] wakeUp];
-    
-    /*
     [self requestSignature];
 
     if (resultSectionIndex != NSNotFound) {
@@ -477,7 +441,6 @@
 
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationRight];
     }
-    //*/
 }
 
 - (void) requestSignature {

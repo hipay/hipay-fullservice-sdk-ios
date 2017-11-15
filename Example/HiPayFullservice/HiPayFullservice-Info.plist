@@ -65,6 +65,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UISupportedExternalAccessoryProtocols</key>
+	<array>
+		<string>com.datecs.pinpad</string>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>To scan credit cards.</string>
 </dict>

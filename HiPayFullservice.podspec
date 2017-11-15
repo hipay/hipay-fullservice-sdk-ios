@@ -24,12 +24,12 @@ Pod::Spec.new do |s|
 
   s.source_files     = "HiPayFullservice/*.{m,h}"
 
-  s.default_subspec = 'Core', 'Payment-Screen'#,'Device-Print', 'CardIO'
+s.default_subspec = 'Core', 'Payment-Screen'#, 'Datecs-POS'#,'Device-Print', 'CardIO'
 
   s.public_header_files = "HiPayFullservice/*.h"
 
   s.subspec "Core" do |s|
-    s.source_files  = "HiPayFullservice/Core/**/*.{h,m}", "HiPayFullservice/Device Print/**/*.h", "HiPayFullservice/Utilities/**/*.{h,m}" 
+    s.source_files  = "HiPayFullservice/Core/**/*.{h,m}", "HiPayFullservice/Device Print/**/*.h", "HiPayFullservice/Utilities/**/*.{h,m}"
     s.public_header_files = "HiPayFullservice/Core/**/*.h", "HiPayFullservice/Utilities/**/*.h"
     s.resource_bundles = {
       "HPFCoreLocalization" => ["HiPayFullservice/Core/**/*.lproj"]
@@ -65,12 +65,16 @@ Pod::Spec.new do |s|
     s.vendored_libraries = ['HiPayFullservice/Payment Screen/CardIO/*.a']
     s.compiler_flags   = '-fmodules'#,  '-fmodules-autolink'
     s.xcconfig         = { 'OTHER_LDFLAGS' => '-lc++ -ObjC'}
-    
   end
   
   s.subspec 'CardIO' do |s|
       s.dependency       'CardIO', '~> 5.4.1'
-      
+  end
+  
+  s.subspec 'Datecs-POS' do |s|
+      s.source_files  = ['HiPayFullservice/POS/*.{h,m}']
+      s.vendored_frameworks = "HiPayFullservice/POS/Datecs/DatecsLibrary.framework"
+      s.xcconfig         = { 'OTHER_LDFLAGS' => '-lresolv'}
   end
 
 end

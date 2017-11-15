@@ -11,7 +11,7 @@
 
 @interface HPFForwardSafariViewController : HPFForwardViewController <SFSafariViewControllerDelegate>
 {
-    SFSafariViewController *safariViewController;
+    SFSafariViewController NS_AVAILABLE_IOS(9.0) *safariViewController;
     UIActivityIndicatorView *spinner;
 }
 

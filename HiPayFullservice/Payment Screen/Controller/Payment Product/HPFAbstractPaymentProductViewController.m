@@ -48,7 +48,9 @@
     self.tableView.estimatedSectionHeaderHeight = 0;
     
     if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
-        self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+        if (@available(iOS 9.0, *)) {
+            self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+        }
     }
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];

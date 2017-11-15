@@ -36,10 +36,10 @@
 
 - (void)applePayButtonTableViewCellDidTouchButton:(HPFApplePayTableViewCell *)cell {
 
-    if (PKPaymentAuthorizationController.canMakePayments) {
+    if (PKPaymentAuthorizationViewController.canMakePayments) {
 
         NSArray *array = @[PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
-        if ([PKPaymentAuthorizationController canMakePaymentsUsingNetworks:array]) {
+        if ([PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:array]) {
 
             NSDecimalNumber *decimalNumber = [NSDecimalNumber decimalNumberWithDecimal:[self.paymentPageRequest.amount decimalValue]];
 
@@ -85,6 +85,7 @@
             PKPassLibrary *passLibrary = [PKPassLibrary new];
             [passLibrary openPaymentSetup];
         }
+        
     } else {
 
         [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")

@@ -71,7 +71,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     if ([paymentProductsTableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
-        paymentProductsTableView.cellLayoutMarginsFollowReadableWidth = YES;
+        if (@available(iOS 9.0, *)) {
+            paymentProductsTableView.cellLayoutMarginsFollowReadableWidth = YES;
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     paymentProductsTableView.hidden = YES;

@@ -17,16 +17,29 @@
     PKPaymentButtonType type;
     
     NSArray *array = @[PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
-    if ([PKPaymentAuthorizationController canMakePaymentsUsingNetworks:array])
+    if ([PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:array])
     {
         type = PKPaymentButtonTypeBuy;
         
     } else {
         
-        type = PKPaymentButtonTypeSetUp;
+        if (@available(iOS 9.0, *)) {
+            type = PKPaymentButtonTypeSetUp;
+        } else {
+            // Fallback on earlier versions
+            type = PKPaymentButtonTypeBuy;
+        }
     }
 
-    PKPaymentButton *button = [[PKPaymentButton alloc] initWithPaymentButtonType:type paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];
+    PKPaymentButton *button;
+    
+    if (@available(iOS 9.0, *)) {
+        button = [[PKPaymentButton alloc] initWithPaymentButtonType:type paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];
+    } else {
+        
+        button = [PKPaymentButton buttonWithType:PKPaymentButtonTypeBuy style:PKPaymentButtonStyleWhiteOutline];
+    }
+    
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
 

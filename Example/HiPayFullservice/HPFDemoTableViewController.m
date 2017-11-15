@@ -70,6 +70,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSwitchInfosTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SwitchInfosCell"];
     
     self.title = NSLocalizedString(@"APP_TITLE", nil);
+    
 }
 
 - (void)viewDidLoad {
@@ -83,15 +84,15 @@
 
     [[HPFPOSManager sharedManager] connect];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationEvent:)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateChangeNotification:)
                                                  name:HPFPOSStateChangeNotification object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationBarCode:)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(barCodeNotification:)
                                                  name:HPFPOSBarCodeNotification object:nil];
     
 }
 
-- (void)notificationEvent:(NSNotification *)notification
+- (void)stateChangeNotification:(NSNotification *)notification
 {
     NSDictionary *dict = [notification userInfo];
     NSNumber *state = dict[HPFPOSConnectionStateKey];
@@ -101,7 +102,7 @@
     self.title = [NSString stringWithFormat:@"state : %d", k];
 }
 
-- (void)notificationBarCode:(NSNotification *)notification
+- (void)barCodeNotification:(NSNotification *)notification
 {
     NSDictionary *userInfo = [notification userInfo];
     NSString *barCode = userInfo[HPFPOSBarCodeKey];
@@ -476,7 +477,7 @@
 
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationRight];
     }
-    */
+    //*/
 }
 
 - (void) requestSignature {

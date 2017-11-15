@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DatecsLibrary/PPadSDK.h"
+#import "DatecsLibrary.h"
 
 @interface HPFPOSManager : NSObject <PPadCustomDelegate>
 

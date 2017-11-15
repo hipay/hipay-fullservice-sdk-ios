@@ -69,37 +69,30 @@ NSString * const HPFPOSBarCodeTypeKey = @"HPFPOSStateBarCodeTypeKey";
 
 - (void)barcodeData:(NSString *)barcode type:(int)type
 {
-    NSLog(@"barcode data: %@\nBarcode type %d", barcode, type);
-
-    //NSString *barcodeText = [NSString stringWithFormat:@"Barcode type: %@\nBar code data: %@", [ppad barcodeType2Text:type], barcode];
-
     NSDictionary *userInfo = @{
                     HPFPOSBarCodeKey: barcode,
                     HPFPOSBarCodeTypeKey: [ppad barcodeType2Text:type]};
     
     [[NSNotificationCenter defaultCenter] postNotificationName:HPFPOSBarCodeNotification object:nil userInfo:userInfo];
-    
 }
 
 - (void)ppadConnectionState:(int)state {
 
     NSDictionary *userInfo = @{HPFPOSConnectionStateKey: @(state)};
 
-    [[[UIAlertView alloc] initWithTitle:@"New barcode read" message:@"hello" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:HPFPOSStateChangeNotification object:nil userInfo:userInfo];
 
     switch (state) {
         case CONN_DISCONNECTED:
-            NSLog(@"Accessory Disconnected");
+            //NSLog(@"Accessory Disconnected");
             break;
         case CONN_CONNECTING:
-            NSLog(@"Waiting for Accessory");
+            //NSLog(@"Waiting for Accessory");
             [[UIApplication sharedApplication] setIdleTimerDisabled: NO];
             break;
         case CONN_CONNECTED:
             [[UIApplication sharedApplication] setIdleTimerDisabled: YES];
-            NSLog(@"Accessory Connected");
+            //NSLog(@"Accessory Connected");
             break;
     }
 }

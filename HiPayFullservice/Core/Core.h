@@ -10,7 +10,6 @@
 #import <HiPayFullservice/HPFHTTPResponse.h>
 
 #import <HiPayFullservice/HPFClientConfig.h>
-#import <HiPayFullservice/HPFPOSManager.h>
 #import <HiPayFullservice/HPFAbstractMapper.h>
 #import <HiPayFullservice/HPFPaymentCardToken.h>
 #import <HiPayFullservice/HPFPaymentCardTokenMapper.h>

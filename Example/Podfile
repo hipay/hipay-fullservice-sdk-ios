@@ -3,6 +3,7 @@ platform :ios, '8.0'
 
 target 'HiPayFullservice_Example' do
   pod 'HiPayFullservice', :path => '../'
+  pod 'HiPayFullservice/Datecs-POS', :path => '../'
   pod 'HockeySDK'
 
   target 'HiPayFullservice_Tests' do

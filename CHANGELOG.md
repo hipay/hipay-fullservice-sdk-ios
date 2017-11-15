@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.6.0
+-----
+* Integrate the Datecs library the make the BluePad-500 work.
+
 1.5.2
 -----
 * Fix the payment form with Maestro cards.

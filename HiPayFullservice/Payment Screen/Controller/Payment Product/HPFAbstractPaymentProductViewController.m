@@ -331,6 +331,8 @@
 
 - (void)checkTransactionStatus:(HPFTransaction *)theTransaction
 {
+    
+    [HPFTransactionRequestResponseManager sharedManager].delegate = self;
     [[HPFTransactionRequestResponseManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPFTransactionErrorResult *result) {
         
         if(result.formAction == HPFFormActionQuit) {
@@ -349,6 +351,8 @@
 
 - (void)checkTransactionError:(NSError *)transactionError
 {
+    
+    [HPFTransactionRequestResponseManager sharedManager].delegate = self;
     [[HPFTransactionRequestResponseManager sharedManager] manageError:transactionError withCompletionHandler:^(HPFTransactionErrorResult *result) {
        
         if(result.formAction == HPFFormActionQuit) {
@@ -490,6 +494,13 @@
     }
     
     return nil;
+}
+
+#pragma mark - HPFTransactionRequestResponseManagerDelegate
+
+- (void)showAlertView:(UIAlertController *)alert
+{
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

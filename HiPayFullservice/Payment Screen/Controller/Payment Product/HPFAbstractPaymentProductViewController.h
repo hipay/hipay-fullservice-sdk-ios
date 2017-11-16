@@ -14,6 +14,7 @@
 #import "HPFForwardViewController.h"
 #import "HPFPaymentProduct.h"
 #import "HPFApplePayTableViewCell.h"
+#import "HPFTransactionRequestResponseManager.h"
 
 @class HPFAbstractPaymentProductViewController;
 @class HPFApplePayTableViewCell;
@@ -39,10 +40,9 @@
 - (void)cancelActivity;
 
 
-
 @end
 
-@interface HPFAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate, HPFPaymentButtonTableViewCellDelegate, HPFForwardViewControllerDelegate>
+@interface HPFAbstractPaymentProductViewController : UITableViewController <UITextFieldDelegate, HPFPaymentButtonTableViewCellDelegate, HPFForwardViewControllerDelegate, HPFTransactionRequestResponseManagerDelegate>
 {
     UITextField *activeTextField;
     BOOL loading;

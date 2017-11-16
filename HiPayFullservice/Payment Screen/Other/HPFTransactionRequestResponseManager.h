@@ -12,12 +12,24 @@
 
 typedef void (^HPFTransactionErrorsManagerCompletionBlock)(HPFTransactionErrorResult *result);
 
+@protocol HPFTransactionRequestResponseManagerDelegate <NSObject>
+
+@required
+
+- (void)showAlertView:(UIAlertController *)alert;
+
+@end
+
 @interface HPFTransactionRequestResponseManager : NSObject <UIAlertViewDelegate>
 {
     NSMutableArray *history;
     NSMutableArray <NSDictionary <NSString *, id> *> *completionBlocks;
-    UIAlertView *alertView;
+    //UIAlertView *alertView;
+    
+    UIAlertController *alertViewController;
 }
+
+@property (nonatomic, weak) id<HPFTransactionRequestResponseManagerDelegate> delegate;
 
 + (instancetype)sharedManager;
 

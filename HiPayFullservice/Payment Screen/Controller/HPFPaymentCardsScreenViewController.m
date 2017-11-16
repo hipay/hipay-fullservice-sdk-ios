@@ -583,6 +583,13 @@
     return UITableViewCellEditingStyleDelete;
 }
 
+#pragma mark - HPFTransactionRequestResponseManager method
+
+- (void)showAlertView:(UIAlertController *)alert
+{
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 #pragma mark - Navigation
 
 

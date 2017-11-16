@@ -35,11 +35,8 @@
 
 - (void)initializeComponentsWithURL:(NSURL *)URL
 {
-    if (@available(iOS 9.0, *)) {
-        safariViewController = [[SFSafariViewController alloc] initWithURL:URL];
-    } else {
-        // Fallback on earlier versions
-    }
+   
+    safariViewController = [[SFSafariViewController alloc] initWithURL:URL];
     safariViewController.delegate = self;
 }
 
@@ -74,7 +71,7 @@
     
 }
 
-- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller NS_AVAILABLE_IOS(9.0)
+- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller
 {
     [self cancelBackgroundTransactionLoading];
     [self.delegate forwardViewControllerDidCancel:self];

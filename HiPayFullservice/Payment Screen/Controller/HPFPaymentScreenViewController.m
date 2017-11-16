@@ -399,7 +399,8 @@
 {
     //[warningCancelWhileLoadingAlertView dismissWithClickedButtonIndex:warningCancelWhileLoadingAlertView.cancelButtonIndex animated:YES];
     
-    [warningCancelWhileLoadingAlertView dismissViewControllerAnimated:YES completion:nil];
+    //TODO verify if there's no animation problem
+    //[warningCancelWhileLoadingAlertView dismissViewControllerAnimated:NO completion:nil];
     
     [self cancelActivity];
     
@@ -415,7 +416,9 @@
 - (void)endWithTransaction:(HPFTransaction *)transaction
 {
     //[warningCancelWhileLoadingAlertView dismissWithClickedButtonIndex:warningCancelWhileLoadingAlertView.cancelButtonIndex animated:YES];
-    [warningCancelWhileLoadingAlertView dismissViewControllerAnimated:YES completion:nil];
+
+    //TODO verify if there's no animation problem
+    //[warningCancelWhileLoadingAlertView dismissViewControllerAnimated:NO completion:nil];
     
     [self cancelActivity];
     

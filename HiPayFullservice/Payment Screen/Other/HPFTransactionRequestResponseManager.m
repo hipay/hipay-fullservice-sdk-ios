@@ -116,8 +116,6 @@
                                         handler:^(UIAlertAction * action) {
                                             //Handle no, thanks button
                                             
-                                            //TODO toutes ces methodes doivent appeler la meme methode de callback
-                                            
                                         }];
         
         [alertViewController addAction:dismissButton];
@@ -325,7 +323,7 @@
 - (void)removeAlerts
 {
     //[alertView dismissWithClickedButtonIndex:alertView.cancelButtonIndex animated:YES];
-    [alertViewController dismissViewControllerAnimated:YES completion:nil];
+    [alertViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

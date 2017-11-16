@@ -613,6 +613,7 @@
         if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
                 && authStatus == AVAuthorizationStatusDenied) {
 
+            /*
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SCAN")
                                                                 message:HPFLocalizedString(@"CARD_SCAN_PERMISSION")
                                                                delegate:self
@@ -620,6 +621,32 @@
                                                       otherButtonTitles:HPFLocalizedString(@"SETTINGS"), nil];
             alertView.tag = 1;
             [alertView show];
+            */
+            
+            UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"CARD_SCAN")
+                                                                      message:HPFLocalizedString(@"CARD_SCAN_PERMISSION")
+                                                               preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* cancelButton = [UIAlertAction
+                                            actionWithTitle:HPFLocalizedString(@"CANCEL")
+                                            style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction * action) {
+                                                
+                                                //[self alertView:alertViewController clickedCancelButton:true];
+                                            }];
+            
+            UIAlertAction* settingsButton = [UIAlertAction
+                                          actionWithTitle:HPFLocalizedString(@"SETTINGS")
+                                          style:UIAlertActionStyleDefault
+                                          handler:^(UIAlertAction * action) {
+                                              
+                                              [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
+
+                                          }];
+            
+            [alertViewController addAction:cancelButton];
+            [alertViewController addAction:settingsButton];
+            
+            [self presentViewController:alertViewController animated:YES completion:nil];
 
         } else {
             // should not happen
@@ -676,6 +703,7 @@
     // if touchID is not enabled, don't ask for it
     if (self.isSwitchOn && self.isTouchIDEnabled) {
 
+        /*
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
                                     message:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_DESCRIPTION")
                                    delegate:self
@@ -683,6 +711,34 @@
                           otherButtonTitles:HPFLocalizedString(@"YES"), nil];
         alertView.tag = 0;
         [alertView show];
+        */
+        
+        UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
+                                                                                     message:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_DESCRIPTION")
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* cancelButton = [UIAlertAction
+                                       actionWithTitle:HPFLocalizedString(@"NO")
+                                       style:UIAlertActionStyleCancel
+                                       handler:^(UIAlertAction * action) {
+                                           
+                                           //[self alertView:alertViewController clickedCancelButton:true];
+                                           self.touchIDOn = NO;
+                                           
+                                       }];
+        
+        UIAlertAction* settingsButton = [UIAlertAction
+                                         actionWithTitle:HPFLocalizedString(@"YES")
+                                         style:UIAlertActionStyleDefault
+                                         handler:^(UIAlertAction * action) {
+                                             
+                                             self.touchIDOn = YES;
+                                         }];
+        
+        [alertViewController addAction:cancelButton];
+        [alertViewController addAction:settingsButton];
+        
+        [self presentViewController:alertViewController animated:YES completion:nil];
+        
 
     } else {
 
@@ -690,6 +746,7 @@
     }
 }
 
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 
@@ -717,6 +774,7 @@
         } break;
     }
 }
+*/
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

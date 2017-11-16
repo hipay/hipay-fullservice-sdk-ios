@@ -22,23 +22,11 @@
         type = PKPaymentButtonTypeBuy;
         
     } else {
-        
-        if (@available(iOS 9.0, *)) {
-            type = PKPaymentButtonTypeSetUp;
-        } else {
-            // Fallback on earlier versions
-            type = PKPaymentButtonTypeBuy;
-        }
+        type = PKPaymentButtonTypeSetUp;
     }
 
     PKPaymentButton *button;
-    
-    if (@available(iOS 9.0, *)) {
-        button = [[PKPaymentButton alloc] initWithPaymentButtonType:type paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];
-    } else {
-        
-        button = [PKPaymentButton buttonWithType:PKPaymentButtonTypeBuy style:PKPaymentButtonStyleWhiteOutline];
-    }
+    button = [[PKPaymentButton alloc] initWithPaymentButtonType:type paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];
     
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];

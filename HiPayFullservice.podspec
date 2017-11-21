@@ -75,6 +75,8 @@ s.default_subspec = 'Core', 'Payment-Screen'#, 'Datecs-POS'#,'Device-Print', 'Ca
       s.source_files  = ['HiPayFullservice/POS/*.{h,m}']
       s.vendored_frameworks = "HiPayFullservice/POS/Datecs/DatecsLibrary.framework"
       s.xcconfig         = { 'OTHER_LDFLAGS' => '-lresolv'}
+      s.frameworks       = 'SystemConfiguration'
+      s.libraries = 'c++'
   end
 
 end

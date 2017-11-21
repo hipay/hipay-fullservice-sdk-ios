@@ -13,7 +13,8 @@
     NSDictionary *issuerBanks;
     NSString *selectedIssuerBank;
     
-    UIActionSheet *issuerBanksActionSheet;
+    //UIActionSheet *issuerBanksActionSheet;
+    UIAlertController *issuerBanksActionSheet;
 }
 
 @end

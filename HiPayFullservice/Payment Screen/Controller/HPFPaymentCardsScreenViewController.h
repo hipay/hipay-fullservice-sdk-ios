@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "HPFPaymentButtonTableViewCell.h"
+#import "HPFTransactionRequestResponseManager.h"
 
 @class HPFPaymentPageRequest;
 @protocol HPFPaymentProductViewControllerDelegate;
 
-@interface HPFPaymentCardsScreenViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, HPFPaymentButtonTableViewCellDelegate>
+@interface HPFPaymentCardsScreenViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, HPFPaymentButtonTableViewCellDelegate, HPFTransactionRequestResponseManagerDelegate>
 
 @property (nonatomic, strong) HPFPaymentPageRequest *paymentPageRequest;
 @property (nonatomic, strong) NSString *signature;

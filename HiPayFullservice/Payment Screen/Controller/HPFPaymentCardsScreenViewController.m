@@ -95,6 +95,8 @@
 
 - (void)checkTransactionError:(NSError *)transactionError
 {
+    
+    [HPFTransactionRequestResponseManager sharedManager].delegate = self;
     [[HPFTransactionRequestResponseManager sharedManager] manageError:transactionError withCompletionHandler:^(HPFTransactionErrorResult *result) {
 
         if(result.formAction == HPFFormActionQuit) {
@@ -108,6 +110,8 @@
 
 - (void)checkTransactionStatus:(HPFTransaction *)theTransaction
 {
+    
+    [HPFTransactionRequestResponseManager sharedManager].delegate = self;
     [[HPFTransactionRequestResponseManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPFTransactionErrorResult *result) {
 
         if(result.formAction == HPFFormActionQuit) {
@@ -163,12 +167,27 @@
 
             } else {
 
+                /*
                 [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
                                             message:HPFLocalizedString(@"CARD_STORED_TOUCHID_NOT_ACTIVATED")
                                            delegate:nil
                                   cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
                                   otherButtonTitles:nil]
                         show];
+                */
+                
+                UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
+                                                                              message:HPFLocalizedString(@"CARD_STORED_TOUCHID_NOT_ACTIVATED")
+                                                                                      preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction* dismissButton = [UIAlertAction
+                                                actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                                style:UIAlertActionStyleCancel
+                                                handler:^(UIAlertAction * action) {
+                                                }];
+                
+                [alertViewController addAction:dismissButton];
+                [self presentViewController:alertViewController animated:YES completion:nil];
             }
 
         } else {
@@ -577,6 +596,13 @@
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     return UITableViewCellEditingStyleDelete;
+}
+
+#pragma mark - HPFTransactionRequestResponseManager method
+
+- (void)showAlertView:(UIAlertController *)alert
+{
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Navigation

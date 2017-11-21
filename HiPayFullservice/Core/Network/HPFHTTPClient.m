@@ -56,9 +56,13 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 }
 
 - (NSString *)URLEncodeString:(NSString *)string usingEncoding:(NSStringEncoding)encoding {
-    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)string, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding(encoding)));
+    //return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)string, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding(encoding)));
     
-    //return string;
+    //return [string stringByAddingPercentEncodingWithAllowedCharacters:
+            //[NSCharacterSet characterSetWithCharactersInString:@"!*'\"();:@&=+$,/?%#[]% "]];
+    
+    NSCharacterSet *set = [NSCharacterSet URLHostAllowedCharacterSet];
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:set];
 }
 
 - (NSString *)queryStringForDictionary:(NSDictionary *)dictionary {
@@ -67,7 +71,13 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
     
     for (id key in [dictionary allKeys]) {
 
-        NSString *encodedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        //NSString *encodedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSCharacterSet *set = [NSCharacterSet URLHostAllowedCharacterSet];
+        NSString *encodedKey = [key stringByAddingPercentEncodingWithAllowedCharacters:set];
+
+        //stringByAddingPercentEncodingWithAllowedCharacters:
+        
         NSString *encodedValue = [self URLEncodeString:[dictionary objectForKey:key] usingEncoding:NSUTF8StringEncoding];
         
         NSString *part = [NSString stringWithFormat: @"%@=%@", encodedKey, encodedValue];
@@ -260,7 +270,7 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
             case NSURLErrorBadURL:
             case NSURLErrorCannotConnectToHost:
             case NSURLErrorDNSLookupFailed:
-            case NSURLErrorAppTransportSecurityRequiresSecureConnection:
+            //case NSURLErrorAppTransportSecurityRequiresSecureConnection:
             case NSURLErrorBackgroundSessionRequiresSharedContainer:
                 code = HPFErrorCodeHTTPConfig;
                 description = HPFErrorCodeHTTPConfigDescription;

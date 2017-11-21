@@ -34,6 +34,7 @@ s.default_subspec = 'Core', 'Payment-Screen'#, 'Datecs-POS'#,'Device-Print', 'Ca
     s.resource_bundles = {
       "HPFCoreLocalization" => ["HiPayFullservice/Core/**/*.lproj"]
     }
+    s.libraries = 'c++'
   end
 
   s.subspec "Utilities" do |s|

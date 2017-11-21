@@ -8,6 +8,13 @@
 #import <Foundation/Foundation.h>
 #import "DatecsLibrary.h"
 
+typedef NS_ENUM(NSUInteger, HPFPOSConnectionState) {
+    
+    HPFPOSConnectionStateDisconnected,
+    HPFPOSConnectionStateConnecting,
+    HPFPOSConnectionStateConnected
+};
+
 @interface HPFPOSManager : NSObject <PPadCustomDelegate>
 
 extern NSString * _Nonnull const HPFPOSStateChangeNotification;
@@ -23,6 +30,6 @@ extern NSString * _Nonnull const HPFPOSBarCodeTypeKey;
 - (void)connect;
 - (void)disconnect;
 - (void)wakeUp;
-- (void)connectionState;
+- (HPFPOSConnectionState)connectionState;
 
 @end

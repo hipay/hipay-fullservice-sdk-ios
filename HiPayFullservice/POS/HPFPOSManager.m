@@ -60,9 +60,23 @@ NSString * const HPFPOSBarCodeTypeKey = @"HPFPOSStateBarCodeTypeKey";
     [ppad kick];
 }
 
-- (void)connectionState
+- (HPFPOSConnectionState)connectionState
 {
-    [ppad connstate];
+    CONN_STATES connState = [ppad connstate];
+    switch (connState){
+            
+        case CONN_DISCONNECTED:
+            return HPFPOSConnectionStateDisconnected;
+            break;
+            
+        case CONN_CONNECTING:
+            return HPFPOSConnectionStateConnecting;
+            break;
+            
+        case CONN_CONNECTED:
+            return HPFPOSConnectionStateConnected;
+            break;
+    }
 }
 
 #pragma mark - mPOS delegate methods
@@ -83,14 +97,14 @@ NSString * const HPFPOSBarCodeTypeKey = @"HPFPOSStateBarCodeTypeKey";
     [[NSNotificationCenter defaultCenter] postNotificationName:HPFPOSStateChangeNotification object:nil userInfo:userInfo];
 
     switch (state) {
-        case CONN_DISCONNECTED:
+        case HPFPOSConnectionStateDisconnected:
             //NSLog(@"Accessory Disconnected");
             break;
-        case CONN_CONNECTING:
+        case HPFPOSConnectionStateConnecting:
             //NSLog(@"Waiting for Accessory");
             [[UIApplication sharedApplication] setIdleTimerDisabled: NO];
             break;
-        case CONN_CONNECTED:
+        case HPFPOSConnectionStateConnected:
             [[UIApplication sharedApplication] setIdleTimerDisabled: YES];
             //NSLog(@"Accessory Connected");
             break;

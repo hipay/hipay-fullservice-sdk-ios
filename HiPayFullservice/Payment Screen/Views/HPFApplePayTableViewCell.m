@@ -17,16 +17,17 @@
     PKPaymentButtonType type;
     
     NSArray *array = @[PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
-    if ([PKPaymentAuthorizationController canMakePaymentsUsingNetworks:array])
+    if ([PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:array])
     {
         type = PKPaymentButtonTypeBuy;
         
     } else {
-        
         type = PKPaymentButtonTypeSetUp;
     }
 
-    PKPaymentButton *button = [[PKPaymentButton alloc] initWithPaymentButtonType:type paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];
+    PKPaymentButton *button;
+    button = [[PKPaymentButton alloc] initWithPaymentButtonType:type paymentButtonStyle:PKPaymentButtonStyleWhiteOutline];
+    
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
 

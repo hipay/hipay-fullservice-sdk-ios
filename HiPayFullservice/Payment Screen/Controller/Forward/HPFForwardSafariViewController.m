@@ -35,6 +35,7 @@
 
 - (void)initializeComponentsWithURL:(NSURL *)URL
 {
+   
     safariViewController = [[SFSafariViewController alloc] initWithURL:URL];
     safariViewController.delegate = self;
 }

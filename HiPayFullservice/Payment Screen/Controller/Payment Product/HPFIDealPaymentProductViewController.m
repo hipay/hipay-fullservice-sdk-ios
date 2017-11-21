@@ -20,13 +20,55 @@
     if (self) {
         issuerBanks = [HPFIDealPaymentMethodRequest issuerBanks];
         
-        issuerBanksActionSheet = [[UIActionSheet alloc] initWithTitle:HPFLocalizedString(@"IDEAL_BANK") delegate:self cancelButtonTitle:HPFLocalizedString(@"CANCEL") destructiveButtonTitle:nil otherButtonTitles:nil];
         
+        
+        
+        issuerBanksActionSheet = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"IDEAL_BANK")
+                                                                  message:nil
+                                                           preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction* cancelButton = [UIAlertAction
+                                        actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                        style:UIAlertActionStyleCancel
+                                        handler:^(UIAlertAction * action) {
+                                            
+                                        }];
+        
+        [issuerBanksActionSheet addAction:cancelButton];
+        
+        /*
+        issuerBanksActionSheet = [[UIActionSheet alloc] initWithTitle:HPFLocalizedString(@"IDEAL_BANK") delegate:self cancelButtonTitle:HPFLocalizedString(@"CANCEL") destructiveButtonTitle:nil otherButtonTitles:nil];
+        */
+        
+        UIAlertAction *action;
+        
+        int index = 0;
         for (NSString *key in issuerBanks.allKeys) {
-            [issuerBanksActionSheet addButtonWithTitle:[issuerBanks objectForKey:key]];
+            
+            action = [UIAlertAction
+                                           actionWithTitle:[issuerBanks objectForKey:key]
+                                           style:UIAlertActionStyleDefault
+                                           handler:^(UIAlertAction * action) {
+                                               
+                                               BOOL shouldRefresh = selectedIssuerBank == nil;
+                                               //selectedIssuerBank = [issuerBanks.allKeys objectAtIndex:(buttonIndex - 1)];
+                                               
+                                               selectedIssuerBank = [issuerBanks.allKeys objectAtIndex:index];
+                                               
+                                               [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+                                               
+                                               if (shouldRefresh) {
+                                                   [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
+                                               }
+                                               
+                                           }];
+            
+            [issuerBanksActionSheet addAction:action];
+            
+            //[issuerBanksActionSheet addButtonWithTitle:[issuerBanks objectForKey:key]];
+            index++;
         }
         
-        issuerBanksActionSheet.cancelButtonIndex = 0;
+        //issuerBanksActionSheet.cancelButtonIndex = 0;
 
     }
     return self;
@@ -57,12 +99,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ((indexPath.section) == 0 && (indexPath.row == 0)) {
-        [issuerBanksActionSheet showInView:self.view];
+        
+        [self presentViewController:issuerBanksActionSheet animated:YES completion:nil];
+        
+        //[issuerBanksActionSheet showInView:self.view];
         
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != actionSheet.cancelButtonIndex) {
@@ -75,6 +121,7 @@
         }
     }
 }
+*/
 
 - (NSInteger) formSection
 {

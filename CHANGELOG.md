@@ -3,7 +3,11 @@ HiPay iOS SDK change log and release notes
 
 1.6.0
 -----
-* Integrate the Datecs library the make the BluePad-500 work.
+* Resolves i386 architectures warnings.
+
+1.6.0
+-----
+* Integrate the Datecs library to make the BluePad-500 work.
 
 1.5.2
 -----

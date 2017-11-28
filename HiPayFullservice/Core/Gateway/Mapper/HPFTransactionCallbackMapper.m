@@ -12,6 +12,8 @@
 #import "HPFTransactionMapper.h"
 #import "HPFFraudScreeningMapper.h"
 #import "HPFPaymentCardTokenMapper.h"
+#import "HPFReasonMapper.h"
+#import "HPFReason.h"
 
 @implementation HPFTransactionCallbackMapper
 
@@ -59,7 +61,23 @@
 
         [transaction setValue:order forKey:@"order"];
     }
-    
+
+    /*
+if ([self getObjectForKey:@"reason"] != nil) {
+
+    HPFReason *reason = [[HPFReason alloc] init];
+    [reason setValue:[self getStringForKey:@"reason"] forKey:@"reason"];
+
+    HPFFraudScreening *fraudScreening = [[HPFFraudScreening alloc] init];
+
+    [fraudScreening setValue:@([self getIntegerForKey:@"score"]) forKey:@"scoring"];
+    [fraudScreening setValue:@([self getIntegerEnumValueWithKey:@"fraud" defaultEnumValue:HPFFraudScreeningResultUnknown allValues:[HPFFraudScreeningMapper resultMapping]]) forKey:@"result"];
+    [fraudScreening setValue:@([self getIntegerEnumValueWithKey:@"review" defaultEnumValue:HPFFraudScreeningReviewNone allValues:[HPFFraudScreeningMapper reviewMapping]]) forKey:@"review"];
+
+    [transaction setValue:[self getStringForKey:@"lang"] forKey:@"reason"];
+    }
+    */
+
     // Fraud screening
 
     if ([self getObjectForKey:@"score"] != nil) {

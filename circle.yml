@@ -14,7 +14,12 @@ dependencies:
     - brew update
     - brew uninstall xctool && brew install --HEAD xctool
   override:
-    - brew install git-lfs
+    #- brew install git-lfs
+    #- curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+    #- sudo apt-get install git-lfs
+    #Get lfs files
+    - git lfs pull
+    #- ssh git@github.com git-lfs-authenticate <user>/<project>.git download
 
 deployment:
   distribution:

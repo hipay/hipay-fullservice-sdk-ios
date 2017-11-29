@@ -35,7 +35,7 @@
     [transaction setValue:[self getEnumCharForKey:@"cvccheck"] forKey:@"cvcResult"];
 
     [transaction setValue:[self getStringForKey:@"pp"] forKey:@"paymentProduct"];
-    [transaction setValue:[self getStringForKey:@"reason"] forKey:@"reason"];
+    [transaction setValue:[self getStringForKey:@"reason"] forKey:@"reasonCode"];
     
     [transaction setValue:[self getStringForKey:@"cdata1"] forKey:@"cdata1"];
     [transaction setValue:[self getStringForKey:@"cdata2"] forKey:@"cdata2"];
@@ -61,22 +61,6 @@
 
         [transaction setValue:order forKey:@"order"];
     }
-
-    /*
-if ([self getObjectForKey:@"reason"] != nil) {
-
-    HPFReason *reason = [[HPFReason alloc] init];
-    [reason setValue:[self getStringForKey:@"reason"] forKey:@"reason"];
-
-    HPFFraudScreening *fraudScreening = [[HPFFraudScreening alloc] init];
-
-    [fraudScreening setValue:@([self getIntegerForKey:@"score"]) forKey:@"scoring"];
-    [fraudScreening setValue:@([self getIntegerEnumValueWithKey:@"fraud" defaultEnumValue:HPFFraudScreeningResultUnknown allValues:[HPFFraudScreeningMapper resultMapping]]) forKey:@"result"];
-    [fraudScreening setValue:@([self getIntegerEnumValueWithKey:@"review" defaultEnumValue:HPFFraudScreeningReviewNone allValues:[HPFFraudScreeningMapper reviewMapping]]) forKey:@"review"];
-
-    [transaction setValue:[self getStringForKey:@"lang"] forKey:@"reason"];
-    }
-    */
 
     // Fraud screening
 

@@ -36,7 +36,7 @@
     // we got message and code to stay backward compatible
     HPFReason *reasonObject = [[HPFReasonMapper mapperWithRawData:[self getDictionaryForKey:@"reason"]] mappedObject];
     [object setValue:reasonObject.message forKey:@"reason"];
-    //[object setValue:reasonObject.code forKey:@"reasonCode"];
+    [object setValue:reasonObject.code forKey:@"reasonCode"];
 
     [object setValue:[[HPFPaymentCardTokenMapper mapperWithRawData:[self getDictionaryForKey:@"paymentMethod"]] mappedObject] forKey:@"paymentMethod"];
     

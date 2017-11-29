@@ -208,6 +208,11 @@ typedef NS_ENUM(NSInteger, HPFTransactionState) {
 @property (nonatomic, readonly, nullable) NSString *reason;
 
 /**
+ *  Optional element. Reason code why transaction was declined.
+ */
+@property (nonatomic, readonly, nullable) NSString *reasonCode;
+
+/**
  *  If returned, merchant must redirect the customer's browser to this URL.
  */
 @property (nonatomic, readonly, nullable) NSURL *forwardUrl;

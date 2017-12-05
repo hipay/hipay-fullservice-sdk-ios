@@ -35,7 +35,7 @@
     [transaction setValue:[self getEnumCharForKey:@"cvccheck"] forKey:@"cvcResult"];
 
     [transaction setValue:[self getStringForKey:@"pp"] forKey:@"paymentProduct"];
-    [transaction setValue:[self getStringForKey:@"reason"] forKey:@"reasonCode"];
+    [transaction setValue:[self getStringForKey:@"reasonCode"] forKey:@"reasonCode"];
     
     [transaction setValue:[self getStringForKey:@"cdata1"] forKey:@"cdata1"];
     [transaction setValue:[self getStringForKey:@"cdata2"] forKey:@"cdata2"];

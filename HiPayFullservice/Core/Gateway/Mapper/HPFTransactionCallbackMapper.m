@@ -12,6 +12,8 @@
 #import "HPFTransactionMapper.h"
 #import "HPFFraudScreeningMapper.h"
 #import "HPFPaymentCardTokenMapper.h"
+#import "HPFReasonMapper.h"
+#import "HPFReason.h"
 
 @implementation HPFTransactionCallbackMapper
 
@@ -33,7 +35,7 @@
     [transaction setValue:[self getEnumCharForKey:@"cvccheck"] forKey:@"cvcResult"];
 
     [transaction setValue:[self getStringForKey:@"pp"] forKey:@"paymentProduct"];
-    [transaction setValue:[self getStringForKey:@"reason"] forKey:@"reason"];
+    [transaction setValue:[self getStringForKey:@"reasonCode"] forKey:@"reasonCode"];
     
     [transaction setValue:[self getStringForKey:@"cdata1"] forKey:@"cdata1"];
     [transaction setValue:[self getStringForKey:@"cdata2"] forKey:@"cdata2"];
@@ -59,7 +61,7 @@
 
         [transaction setValue:order forKey:@"order"];
     }
-    
+
     // Fraud screening
 
     if ([self getObjectForKey:@"score"] != nil) {

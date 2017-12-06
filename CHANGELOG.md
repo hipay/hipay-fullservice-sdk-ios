@@ -1,7 +1,11 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
-1.6.0
+1.6.2
+-----
+* Resolves the empty reason in transactions.
+
+1.6.1
 -----
 * Resolves i386 architectures warnings.
 

@@ -19,6 +19,7 @@
 #import <HiPayFullservice/HPFGatewayClient.h>
 
 #import <HiPayFullservice/HPFFraudScreening.h>
+#import <HiPayFullservice/HPFReason.h>
 #import <HiPayFullservice/HPFOperation.h>
 #import <HiPayFullservice/HPFOrder.h>
 #import <HiPayFullservice/HPFPersonalInformation.h>
@@ -29,6 +30,7 @@
 #import <HiPayFullservice/HPFPaymentProduct.h>
 
 #import <HiPayFullservice/HPFThreeDSecureMapper.h>
+#import <HiPayFullservice/HPFReasonMapper.h>
 #import <HiPayFullservice/HPFFraudScreeningMapper.h>
 #import <HiPayFullservice/HPFOperationMapper.h>
 #import <HiPayFullservice/HPFOrderMapper.h>

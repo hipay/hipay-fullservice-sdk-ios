@@ -14,6 +14,8 @@
 #import "HPFFraudScreeningMapper.h"
 #import "HPFOrderMapper.h"
 #import "HPFPaymentCardTokenMapper.h"
+#import "HPFReasonMapper.h"
+#import "HPFReason.h"
 
 @implementation HPFTransactionMapper
 
@@ -30,6 +32,13 @@
     [object setValue:[[HPFPaymentCardTokenMapper mapperWithRawData:[self getDictionaryForKey:@"paymentMethod"]] mappedObject] forKey:@"paymentMethod"];
     
     [object setValue:@([self getIntegerEnumValueWithKey:@"state" defaultEnumValue:HPFTransactionStateError allValues:[HPFTransactionMapper transactionStateMapping]]) forKey:@"state"];
+
+    // we got message and code to stay backward compatible
+    HPFReason *reasonObject = [[HPFReasonMapper mapperWithRawData:[self getDictionaryForKey:@"reason"]] mappedObject];
+    [object setValue:reasonObject.message forKey:@"reason"];
+    [object setValue:reasonObject.code forKey:@"reasonCode"];
+
+    [object setValue:[[HPFPaymentCardTokenMapper mapperWithRawData:[self getDictionaryForKey:@"paymentMethod"]] mappedObject] forKey:@"paymentMethod"];
     
     [object setValue:[self getStringForKey:@"cdata1"] forKey:@"cdata1"];
     [object setValue:[self getStringForKey:@"cdata2"] forKey:@"cdata2"];
@@ -42,7 +51,6 @@
     [object setValue:[self getStringForKey:@"cdata9"] forKey:@"cdata9"];
     [object setValue:[self getStringForKey:@"cdata10"] forKey:@"cdata10"];
     
-    [object setValue:[self getStringForKey:@"reason"] forKey:@"reason"];
     [object setValue:[self getStringForKey:@"attemptId"] forKey:@"attemptId"];
     [object setValue:[self getStringForKey:@"referenceToPay"] forKey:@"referenceToPay"];
     [object setValue:[self getStringForKey:@"ipAddress"] forKey:@"ipAddress"];

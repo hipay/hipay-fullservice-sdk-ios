@@ -35,7 +35,7 @@
     [[[mockedMapper expect] andReturn:@"country ex"] getStringForKey:@"country"];
     [[[mockedMapper expect] andReturn:@(HPFAVSResultAddressMatch)] getEnumCharForKey:@"avscheck"];
     [[[mockedMapper expect] andReturn:@(HPFCVCResultMissing)] getEnumCharForKey:@"cvccheck"];
-    [[[mockedMapper expect] andReturn:@"reason test"] getStringForKey:@"reason"];
+    [[[mockedMapper expect] andReturn:@"reason test"] getStringForKey:@"reasonCode"];
     [[[mockedMapper expect] andReturn:@"mastercard"] getStringForKey:@"pp"];
     [[[mockedMapper expect] andReturn:@"cdata1 ex"] getStringForKey:@"cdata1"];
     [[[mockedMapper expect] andReturn:@"cdata2 ex"] getStringForKey:@"cdata2"];

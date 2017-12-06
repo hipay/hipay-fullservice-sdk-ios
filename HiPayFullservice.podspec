@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "HiPayFullservice"
-  s.version          = "1.6.1"
+  s.version          = "1.6.2"
   s.summary          = "HiPay Fullservice SDK for iOS lets you accept payments in your iOS application."
   s.description      = <<-DESC
                        HiPay Fullservice is a new generation of payment platform optimized for todays’ e-tailers.
@@ -76,7 +76,7 @@ s.default_subspec = 'Core', 'Payment-Screen'#, 'Datecs-POS'#,'Device-Print', 'Ca
       s.source_files  = ['HiPayFullservice/POS/*.{h,m}']
       s.vendored_frameworks = "HiPayFullservice/POS/Datecs/DatecsLibrary.framework"
       s.xcconfig         = { 'OTHER_LDFLAGS' => '-lresolv'}
-      s.frameworks       = 'SystemConfiguration'
+      s.frameworks       = 'SystemConfiguration', 'Security', 'CoreTelephony'
       s.libraries = 'c++'
   end
 

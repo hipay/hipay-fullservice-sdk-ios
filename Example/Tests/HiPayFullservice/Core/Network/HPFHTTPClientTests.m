@@ -157,7 +157,7 @@
 
 - (void)testURLEncodeString
 {
-    XCTAssertEqualObjects([((HPFHTTPClient *)mockedClient) URLEncodeString:@"Hello + World" usingEncoding:NSUTF8StringEncoding], @"Hello%20%2B%20World");
+    XCTAssertEqualObjects([((HPFHTTPClient *)mockedClient) URLEncodeString:@"Hello + World" usingEncoding:NSUTF8StringEncoding], @"Hello%20+%20World");
 }
 
 - (void)testPerformRequestDictionary

@@ -270,7 +270,7 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
             case NSURLErrorBadURL:
             case NSURLErrorCannotConnectToHost:
             case NSURLErrorDNSLookupFailed:
-            //case NSURLErrorAppTransportSecurityRequiresSecureConnection:
+            case NSURLErrorAppTransportSecurityRequiresSecureConnection:
             case NSURLErrorBackgroundSessionRequiresSharedContainer:
                 code = HPFErrorCodeHTTPConfig;
                 description = HPFErrorCodeHTTPConfigDescription;

@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.6.3
+-----
+* Fix the UTF8 URL string encoding.
+
 1.6.2
 -----
 * Resolves the empty reason in transactions.

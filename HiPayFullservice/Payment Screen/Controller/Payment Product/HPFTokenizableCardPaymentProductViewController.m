@@ -20,7 +20,6 @@
 #import "HPFCardNumberInputTableViewCell.h"
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardTokenDatabase.h"
-#import "HPFPaymentCardTokenDatabase_Private.h"
 #import "HPFExpiryDateFormatter.h"
 #import <LocalAuthentication/LAContext.h>
 #import <AVFoundation/AVFoundation.h>

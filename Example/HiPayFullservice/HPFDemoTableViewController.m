@@ -486,10 +486,10 @@
                         HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
                         paymentScreen.delegate = self;
                         
-                        
                         UINavigationController *storeCardViewController = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest];
+                        storeCardViewController.delegate = self;
                         
-                        [self presentViewController:paymentScreen animated:YES completion:^{
+                        [self presentViewController:storeCardViewController animated:YES completion:^{
                             [self setSubmitButtonLoadingMode:NO];
                         }];
                         
@@ -497,13 +497,10 @@
 
                         [self setSubmitButtonLoadingMode:NO];
                     }
-
                 });
-
             }];
 
     [downloadTask resume];
-
 }
 
 - (HPFPaymentPageRequest *) buildPageRequestWithOrderId:(NSString *)orderId {

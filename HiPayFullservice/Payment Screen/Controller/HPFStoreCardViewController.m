@@ -82,12 +82,7 @@
     NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
     NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
     
-    // card storage there by default
-    
-    //BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
-    //if (paymentCardEnabled && [self isSwitchOn]) {
-        self.paymentPageRequest.multiUse = YES;
-    //}
+    self.paymentPageRequest.multiUse = YES;
     
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
         
@@ -96,47 +91,18 @@
         
         if (cardToken != nil) {
             
-            //self.paymentCardToken = cardToken;
+            //callback win
             
             [HPFPaymentCardTokenDatabase save:cardToken forCurrency:self.paymentPageRequest.currency withTouchID:NO];
             
-            /*
-            HPFOrderRequest *orderRequest = [self createOrderRequest];
-            
-            orderRequest.paymentProductCode = inferedPaymentProductCode;
-            
-            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
-            
-            [self performOrderRequest:orderRequest signature:self.signature];
-            */
-            
         } else {
-            [self checkTransactionError:error];
+            
+            // callback error
+            
+            //[self checkTransactionError:error];
         }
-        
     }];
 }
-
-/*
-- (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
-    
-    if ([paymentMethod isMemberOfClass:[HPFPaymentCardToken class]]) {
-        HPFPaymentCardToken *cardToken = (HPFPaymentCardToken *)paymentMethod;
-        
-        if (self.paymentCardToken != nil) {
-            
-            if ([cardToken isEqualToPaymentCardToken:[self paymentCardToken]]) {
-                
-                if ([self paymentCardStorageConfigEnabled] && [self isSwitchOn]) {
-                    
-                    [HPFPaymentCardTokenDatabase save:[self paymentCardToken] forCurrency:self.paymentPageRequest.currency withTouchID:[self isTouchIDOn]];
-                }
-            }
-        }
-    }
-}
-*/
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -232,6 +198,8 @@
 {
     //[paymentProductsRequest cancel];
     //[self cancelActivity];
+    
+    //cancel callback
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     

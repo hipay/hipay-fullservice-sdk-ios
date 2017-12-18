@@ -6,9 +6,11 @@
 //
 
 #import "HPFStoreCardViewController.h"
-#import "HPFStoreTokenizableCardViewController.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "HPFPaymentScreenUtils.h"
+#import "HPFSecureVaultClient.h"
+#import "HPFExpiryDateTextField.h"
+#import "HPFPaymentCardTokenDatabase.h"
 
 @interface HPFStoreCardViewController ()
 
@@ -16,7 +18,7 @@
 
 @implementation HPFStoreCardViewController
 
-+ (UINavigationController *)storeCardViewController
++ (UINavigationController *)storeCardViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest
 {
     //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"StoreCard" bundle:HPFPaymentScreenViewsBundle()];
     
@@ -28,11 +30,10 @@
 
     //[viewController setParameters:paymentPageRequest signature:signature];
     
-    HPFStoreTokenizableCardViewController *storevc = [[HPFStoreCardViewController alloc] initWithPaymentPageRequest:nil signature:nil andSelectedPaymentProduct:nil];
+    HPFStoreCardViewController *storevc = [[HPFStoreCardViewController alloc] initWithPaymentPageRequest:paymentPageRequest signature:nil andSelectedPaymentProduct:nil];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:storevc];
     return navigationController;
-    
 }
 
 - (void)viewDidLoad
@@ -58,11 +59,84 @@
     return @"";
 }
 
+/*
 - (void)submit
 {
 // submit pay button overriden
     NSLog(@"submit");
 }
+*/
+
+- (void)submit
+{
+    [self setPaymentButtonLoadingMode:YES];
+    
+    NSString *securityCode = [self textForIdentifier:@"security_code"];
+    
+    // security code necessary
+    //if ([self securityCodeSectionEnabled]) {
+    //}
+    
+    HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *)[self textFieldForIdentifier:@"expiry_date"];
+    
+    NSString *year = [NSString stringWithFormat: @"%ld", (long)expiryDateTextField.dateComponents.year];
+    NSString *month = [NSString stringWithFormat: @"%02ld", (long)expiryDateTextField.dateComponents.month];
+    
+    // card storage there by default
+    
+    //BOOL paymentCardEnabled = [self paymentCardStorageConfigEnabled];
+    //if (paymentCardEnabled && [self isSwitchOn]) {
+        self.paymentPageRequest.multiUse = YES;
+    //}
+    
+    transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
+        
+        [self setPaymentButtonLoadingMode:NO];
+        transactionLoadingRequest = nil;
+        
+        if (cardToken != nil) {
+            
+            //self.paymentCardToken = cardToken;
+            
+            [HPFPaymentCardTokenDatabase save:cardToken forCurrency:self.paymentPageRequest.currency withTouchID:NO];
+            
+            /*
+            HPFOrderRequest *orderRequest = [self createOrderRequest];
+            
+            orderRequest.paymentProductCode = inferedPaymentProductCode;
+            
+            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
+            
+            [self performOrderRequest:orderRequest signature:self.signature];
+            */
+            
+        } else {
+            [self checkTransactionError:error];
+        }
+        
+    }];
+}
+
+/*
+- (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
+    
+    if ([paymentMethod isMemberOfClass:[HPFPaymentCardToken class]]) {
+        HPFPaymentCardToken *cardToken = (HPFPaymentCardToken *)paymentMethod;
+        
+        if (self.paymentCardToken != nil) {
+            
+            if ([cardToken isEqualToPaymentCardToken:[self paymentCardToken]]) {
+                
+                if ([self paymentCardStorageConfigEnabled] && [self isSwitchOn]) {
+                    
+                    [HPFPaymentCardTokenDatabase save:[self paymentCardToken] forCurrency:self.paymentPageRequest.currency withTouchID:[self isTouchIDOn]];
+                }
+            }
+        }
+    }
+}
+*/
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

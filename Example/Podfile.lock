@@ -9,9 +9,9 @@ PODS:
     - HiPayFullservice/Utilities
   - HiPayFullservice/Utilities (1.6.3):
     - HiPayFullservice/Core
-  - HockeySDK (5.0.0):
-    - HockeySDK/DefaultLib (= 5.0.0)
-  - HockeySDK/DefaultLib (5.0.0)
+  - HockeySDK (5.1.0):
+    - HockeySDK/DefaultLib (= 5.1.0)
+  - HockeySDK/DefaultLib (5.1.0)
   - OCMock (3.4.1)
   - OHHTTPStubs (6.1.0):
     - OHHTTPStubs/Default (= 6.1.0)
@@ -40,7 +40,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   HiPayFullservice: 3dd8fc57c23f1f31caad3a2aeb64aee4da148a21
-  HockeySDK: 82bf8dcbe1af3c87c24dc98924fcf2e2ba5be8c4
+  HockeySDK: 2139ac09f39477966a58a76410990b64e6d880e2
   OCMock: 2cd0716969bab32a2283ff3a46fd26a8c8b4c5e3
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
 

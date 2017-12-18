@@ -485,9 +485,11 @@
                         
                         HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
                         paymentScreen.delegate = self;
-                        HPFStoreCardViewController *storeCardViewController = [HPFStoreCardViewController storeCardViewController];
                         
-                        [self presentViewController:storeCardViewController animated:YES completion:^{
+                        
+                        UINavigationController *storeCardViewController = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest];
+                        
+                        [self presentViewController:paymentScreen animated:YES completion:^{
                             [self setSubmitButtonLoadingMode:NO];
                         }];
                         

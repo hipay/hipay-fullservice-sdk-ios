@@ -40,10 +40,10 @@
                                 <color key="sectionIndexTrackingBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PaymentProductsCell" id="T3t-Vm-6UX" customClass="HPFPaymentProductsTableViewCell">
-                                        <rect key="frame" x="0.0" y="55.5" width="600" height="60"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T3t-Vm-6UX" id="TaL-fo-NW0">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7me-MC-uEC">
@@ -336,6 +336,7 @@
         <!--Store Card-->
         <scene sceneID="Qyc-ZS-FWb">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zsT-Gi-zsQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="8D5-e5-QIb" customClass="HPFStoreTokenizableCardViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="sEE-Ge-M7L">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -358,13 +359,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Store Card" id="PVd-cG-1Ah"/>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zsT-Gi-zsQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-903" y="820"/>
         </scene>
         <!--Store Card-->
         <scene sceneID="ti1-78-RHA">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7M4-46-fLf" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="StoreCard" title="Store Card" id="iWO-bH-uqy" customClass="HPFStoreCardViewController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mK0-6T-Gzf">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -374,7 +375,6 @@
                         <segue destination="8D5-e5-QIb" kind="relationship" relationship="rootViewController" id="AZg-zg-11b"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7M4-46-fLf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1692" y="820"/>
         </scene>

@@ -25,6 +25,7 @@
     NSUInteger productCategoryRowIndex;
     NSUInteger submitRowIndex;
     NSUInteger colorRowIndex;
+    NSUInteger storeCardIndex;
     
     // Error rows
     NSUInteger errorDescriptionRowIndex;

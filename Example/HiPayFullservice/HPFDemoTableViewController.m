@@ -39,7 +39,9 @@
     authRowIndex = 6;
     colorRowIndex = 7;
     productCategoryRowIndex = 8;
-    submitRowIndex = 9;
+    storeCardIndex = 9;
+    submitRowIndex = 10;
+    
     
     // Error row indexes
     resultSectionIndex = NSNotFound;
@@ -131,7 +133,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == formSectionIndex) {
-        return 10;
+        return 11;
     }
     
     if (section == resultSectionIndex) {
@@ -300,6 +302,15 @@
             return cell;
         }
         
+        else if (indexPath.row == storeCardIndex) {
+            
+            HPFMoreOptionsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OptionsCell" forIndexPath:indexPath];
+            
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)selectedPaymentProducts.count];
+            cell.textLabel.text = NSLocalizedString(@"FORM_PAYMENT_PRODUCT_CATEGORIES", nil);
+            
+            return cell;
+        }
     }
 
     else {
@@ -485,16 +496,7 @@
                         HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
                         paymentScreen.delegate = self;
                         
-                        HPFStoreCardViewController *storevc = [[HPFStoreCardViewController alloc] initWithPaymentPageRequest:paymentPageRequest signature:nil andSelectedPaymentProduct:nil];
-                        storevc.storeCardDelegate = self;
-                        
-                        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:storevc];
-                        
-                        /*
-                        UINavigationController *storeCardViewController = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest];
-                        storeCardViewController.delegate = self;
-                        */
-                        [self presentViewController:navigationController animated:YES completion:^{
+                        [self presentViewController:paymentScreen animated:YES completion:^{
                             [self setSubmitButtonLoadingMode:NO];
                         }];
                         
@@ -517,6 +519,8 @@
         // inspect the HPFPaymentCardToken object
         
     }];
+    
+    [viewController.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)storeCardViewController:(HPFStoreCardViewController *)viewController didFailWithError:(NSError *)theError
@@ -526,7 +530,7 @@
 
 - (void)storeCardViewControllerDidCancel:(HPFStoreCardViewController *)viewController
 {
-    [viewController dismissViewControllerAnimated:YES completion:nil];
+    [viewController.navigationController popViewControllerAnimated:YES];
 }
 
 - (HPFPaymentPageRequest *) buildPageRequestWithOrderId:(NSString *)orderId {
@@ -570,12 +574,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //if (indexPath.row == submitRowIndex) {}
 
     if (indexPath.row == productCategoryRowIndex) {
         productCategoriesViewController = [[HPFPaymentProductCategoriesTableViewController alloc] initWithSelectedPaymentProducts:selectedPaymentProducts];
         
         [self.navigationController pushViewController:productCategoriesViewController animated:YES];
+        
+    } else if (indexPath.row == storeCardIndex) {
+        
+        HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:@"tempID"];
+        
+        HPFStoreCardViewController *storevc = [[HPFStoreCardViewController alloc] initWithPaymentPageRequest:paymentPageRequest signature:nil andSelectedPaymentProduct:nil];
+        storevc.storeCardDelegate = self;
+        
+        [self.navigationController pushViewController:storevc animated:YES];
     }
 }
 

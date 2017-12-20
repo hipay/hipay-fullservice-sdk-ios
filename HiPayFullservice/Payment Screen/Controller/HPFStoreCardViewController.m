@@ -67,15 +67,38 @@
 }
 */
 
+/*
+- (id<HPFRequest>)requestNewOrder:(HPFOrderRequest *)orderRequest signature:(NSString *)signature withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock
+{
+    NSDictionary *parameters = [HPFOrderRequestSerializationMapper mapperWithRequest:orderRequest].serializedRequest;
+    
+    NSMutableDictionary *signatureParam = [NSMutableDictionary dictionaryWithObject:signature forKey:HPFGatewayClientSignature];
+    [signatureParam mergeDictionary:parameters withPrefix:nil];
+    return [self handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"order" parameters:signatureParam responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:completionBlock];
+}
+*/
+
+- (void)storeCardViewController:(HPFStoreCardViewController * _Nonnull)viewController shouldValidateCardToken:(HPFPaymentCardToken * _Nonnull)theCardToken withCompletionHandler:(HPFStoreCardViewControllerValidateCompletionHandler _Nullable * _Nonnull)completionBlock
+{
+    /*
+    if ([NSThread isMainThread]) {
+        completionBlock(resultObject, resultError);
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionBlock(resultObject, resultError);
+        });
+    }
+    
+    completionBlock();
+    */
+}
+
 - (void)submit
 {
     [self setPaymentButtonLoadingMode:YES];
     
     NSString *securityCode = [self textForIdentifier:@"security_code"];
-    
-    // security code necessary
-    //if ([self securityCodeSectionEnabled]) {
-    //}
     
     HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *)[self textFieldForIdentifier:@"expiry_date"];
     
@@ -84,6 +107,8 @@
     
     self.paymentPageRequest.multiUse = YES;
     
+    [self cancelRequests];
+    
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
         
         [self setPaymentButtonLoadingMode:NO];
@@ -91,15 +116,13 @@
         
         if (cardToken != nil) {
             
-            //callback win
-            
             [HPFPaymentCardTokenDatabase save:cardToken forCurrency:self.paymentPageRequest.currency withTouchID:NO];
+            [self.storeCardDelegate storeCardViewController:self didEndWithCardToken:cardToken];
             
         } else {
             
             // callback error
-            
-            //[self checkTransactionError:error];
+            [self.storeCardDelegate storeCardViewController:self didFailWithError:error];
         }
     }];
 }
@@ -168,6 +191,11 @@
     return nil;
 }
 
+- (void)cancelRequests
+{
+    [transactionLoadingRequest cancel];
+}
+
 - (BOOL)paymentCardStorageConfigEnabled
 {
     return NO;
@@ -196,18 +224,9 @@
 
 - (void)doCancel
 {
-    //[paymentProductsRequest cancel];
-    //[self cancelActivity];
+    [self cancelRequests];
     
-    //cancel callback
-    
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    
-    /*
-     if ([self.delegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
-     [self.delegate paymentScreenViewControllerDidCancel:self];
-     }
-     */
+    [self.storeCardDelegate storeCardViewControllerDidCancel:self];
 }
 
 - (void)didReceiveMemoryWarning

@@ -30,6 +30,8 @@
 
 "FORM_PAYMENT_PRODUCT_CATEGORIES" = "Payment product categories";
 
+"FORM_STORE_PAYMENT_CARD" = "Store payment card";
+
 "FORM_AUTH_IF_AVAILABLE" = "If avail.";
 
 "FORM_AUTH_MANDATORY" = "Oblig.";

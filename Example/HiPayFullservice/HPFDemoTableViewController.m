@@ -65,6 +65,7 @@
     [self.tableView registerClass:[HPFStepperTableViewCell class] forCellReuseIdentifier:@"StepperCell"];
     [self.tableView registerClass:[HPFSegmentedControlTableViewCell class] forCellReuseIdentifier:@"SegmentedControlCell"];
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"OptionsCell"];
+    [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"StoreCardCell"];
     [self.tableView registerClass:[HPFInfoTableViewCell class] forCellReuseIdentifier:@"LabelCell"];
 
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSubmitTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SubmitCell"];
@@ -288,6 +289,15 @@
             return cell;
         }
         
+        else if (indexPath.row == storeCardIndex) {
+            
+            HPFMoreOptionsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"StoreCardCell" forIndexPath:indexPath];
+            
+            cell.textLabel.text = NSLocalizedString(@"FORM_STORE_PAYMENT_CARD", nil);
+            
+            return cell;
+        }
+        
         else if (indexPath.row == submitRowIndex) {
 
             HPFSubmitTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SubmitCell"];
@@ -302,15 +312,6 @@
             return cell;
         }
         
-        else if (indexPath.row == storeCardIndex) {
-            
-            HPFMoreOptionsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OptionsCell" forIndexPath:indexPath];
-            
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)selectedPaymentProducts.count];
-            cell.textLabel.text = NSLocalizedString(@"FORM_PAYMENT_PRODUCT_CATEGORIES", nil);
-            
-            return cell;
-        }
     }
 
     else {

@@ -12,8 +12,6 @@
 
 @protocol HPFStoreCardDelegate <NSObject>
 
-@optional
-
 - (void)storeCardViewController:(HPFStoreCardViewController *_Nonnull)viewController didEndWithCardToken:(HPFPaymentCardToken * _Nonnull)theToken;
 
 - (void)storeCardViewController:(HPFStoreCardViewController * _Nonnull)viewController didFailWithError:(NSError *_Nonnull)theError;
@@ -30,6 +28,6 @@ typedef void (^HPFStoreCardViewControllerValidateCompletionHandler)(NSError * _N
 
 - (void)storeCardViewController:(HPFStoreCardViewController * _Nonnull)viewController shouldValidateCardToken:(HPFPaymentCardToken * _Nonnull)theCardToken withCompletionHandler:(HPFStoreCardViewControllerValidateCompletionHandler _Nullable * _Nonnull)completionBlock;
 
-+ (UINavigationController * _Nonnull)storeCardViewControllerWithRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest;
++ (_Nonnull instancetype)storeCardViewControllerWithRequest:(HPFPaymentPageRequest *_Nonnull)paymentPageRequest;
 
 @end

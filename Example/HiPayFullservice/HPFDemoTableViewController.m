@@ -484,15 +484,6 @@
                         NSString *signature = signatureDictionary[@"signature"];
 
                         HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
-
-                        /*
-                        HPFTokenizableCardPaymentProductViewController *paymentProductViewController = [[HPFTokenizableCardPaymentProductViewController alloc] initWithPaymentPageRequest:paymentPageRequest signature:signature andSelectedPaymentProduct:[[HPFPaymentProduct alloc] initWithApplePayProduct] ];
-
-                        UIStoryboard *storyboard = [UIStoryboad storyboardWithName:@"StoreCard" bundle:HPFPaymentScreenViewsBundle()];
-                        HPFPaymentScreenViewController *viewController = [storyboard instantiateInitialViewController];
-                        
-                        [viewController setParameters:paymentPageRequest signature:signature];
-                        */
                         
                         HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
                         paymentScreen.delegate = self;
@@ -511,28 +502,7 @@
     [downloadTask resume];
 }
 
-- (void)storeCardViewController:(HPFStoreCardViewController *)viewController didEndWithCardToken:(HPFPaymentCardToken *)theToken
-{
-    [viewController dismissViewControllerAnimated:YES completion:^{
-        
-        NSLog(@"%@", theToken);
-        
-        // inspect the HPFPaymentCardToken object
-        
-    }];
-    
-    [viewController.navigationController popViewControllerAnimated:YES];
-}
 
-- (void)storeCardViewController:(HPFStoreCardViewController *)viewController didFailWithError:(NSError *)theError
-{
-    NSLog(@"%@", theError);
-}
-
-- (void)storeCardViewControllerDidCancel:(HPFStoreCardViewController *)viewController
-{
-    [viewController.navigationController popViewControllerAnimated:YES];
-}
 
 - (HPFPaymentPageRequest *) buildPageRequestWithOrderId:(NSString *)orderId {
 
@@ -585,11 +555,34 @@
         
         HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:@"tempID"];
         
-        HPFStoreCardViewController *storevc = [[HPFStoreCardViewController alloc] initWithPaymentPageRequest:paymentPageRequest signature:nil andSelectedPaymentProduct:nil];
+        HPFStoreCardViewController *storevc = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest];
         storevc.storeCardDelegate = self;
         
         [self.navigationController pushViewController:storevc animated:YES];
     }
+}
+
+#pragma mark - Card storing delegate methods
+
+- (void)storeCardViewController:(HPFStoreCardViewController *)viewController didEndWithCardToken:(HPFPaymentCardToken *)theToken
+{
+    [viewController dismissViewControllerAnimated:YES completion:^{
+        
+        // inspect the HPFPaymentCardToken object
+        
+    }];
+    
+    [viewController.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)storeCardViewController:(HPFStoreCardViewController *)viewController didFailWithError:(NSError *)theError
+{
+    NSLog(@"%@", theError);
+}
+
+- (void)storeCardViewControllerDidCancel:(HPFStoreCardViewController *)viewController
+{
+    [viewController.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Values

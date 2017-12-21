@@ -18,22 +18,11 @@
 
 @implementation HPFStoreCardViewController
 
-+ (UINavigationController *)storeCardViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest
++ (_Nonnull instancetype)storeCardViewControllerWithRequest:(HPFPaymentPageRequest *)paymentPageRequest
 {
-    //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"StoreCard" bundle:HPFPaymentScreenViewsBundle()];
-    
-    //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PaymentScreen" bundle:HPFPaymentScreenViewsBundle()];
-
-    //HPFStoreCardViewController *viewController = [storyboard instantiateInitialViewController];
-    
-    //HPFStoreCardViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"StoreCard"];
-
-    //[viewController setParameters:paymentPageRequest signature:signature];
-    
     HPFStoreCardViewController *storevc = [[HPFStoreCardViewController alloc] initWithPaymentPageRequest:paymentPageRequest signature:nil andSelectedPaymentProduct:nil];
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:storevc];
-    return navigationController;
+    return storevc;
 }
 
 - (void)viewDidLoad
@@ -45,7 +34,6 @@
     self.title = HPFLocalizedString(@"CARD_STORE_TITLE");
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doCancel)];
 }
-
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {

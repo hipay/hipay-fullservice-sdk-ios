@@ -1145,7 +1145,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "662f5d6d-4aef-4e0e-82e0-a9d820a6cfd4";
-				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
+        PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

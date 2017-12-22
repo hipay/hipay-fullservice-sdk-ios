@@ -39,6 +39,11 @@
     button.hidden = loading;
 }
 
+- (void)setTitle:(NSString *)title
+{
+    [button setTitle:title forState:UIControlStateNormal];
+}
+
 - (BOOL)isEnabled
 {
     return button.enabled;

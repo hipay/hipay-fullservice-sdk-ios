@@ -14,5 +14,6 @@
 + (void) clearPaymentCardTokens;
 + (void) delete:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency;
 + (BOOL) isKeychainActive;
++ (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency withTouchID:(BOOL)touchID;
 
 @end

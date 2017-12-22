@@ -10,8 +10,9 @@
 #import <HiPayFullservice/HiPayFullservice.h>
 #import "HPFPaymentProductCategoriesTableViewController.h"
 #import "HPFSubmitTableViewCell.h"
+#import "HPFStoreCardViewController.h"
 
-@interface HPFDemoTableViewController : UITableViewController <HPFPaymentScreenViewControllerDelegate, HPFSubmitableViewCellDelegate>
+@interface HPFDemoTableViewController : UITableViewController <HPFPaymentScreenViewControllerDelegate, HPFSubmitableViewCellDelegate, HPFStoreCardDelegate>
 {
     // Form rows
     NSUInteger groupedPaymentCardRowIndex;
@@ -24,6 +25,7 @@
     NSUInteger productCategoryRowIndex;
     NSUInteger submitRowIndex;
     NSUInteger colorRowIndex;
+    NSUInteger storeCardIndex;
     
     // Error rows
     NSUInteger errorDescriptionRowIndex;

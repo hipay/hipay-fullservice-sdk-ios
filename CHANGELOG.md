@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.7.0
+-----
+* Add the card storage screen.
+
 1.6.3
 -----
 * Fix the UTF8 URL string encoding.

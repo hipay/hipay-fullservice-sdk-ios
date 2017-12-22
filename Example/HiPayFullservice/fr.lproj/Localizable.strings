@@ -30,6 +30,8 @@
 
 "FORM_PAYMENT_PRODUCT_CATEGORIES" = "Moyens de paiement";
 
+"FORM_STORE_PAYMENT_CARD" = "Enregistrer une carte bancaire";
+
 "FORM_AUTH_IF_AVAILABLE" = "Si disp.";
 
 "FORM_AUTH_MANDATORY" = "Oblig.";

@@ -229,6 +229,11 @@
     return (HPFSecurityCodeTableViewFooterView *) [self.tableView footerViewForSection:[self formSection]];
 }
 
+- (HPFPaymentProduct *) getPaymentProductFromInferedCode:(NSString *)inferedCode
+{
+    return [self.delegate paymentProductViewController:self paymentProductForInferredPaymentProductCode:inferedCode];
+}
+
 - (void)inferPaymentProductCode
 {
     HPFCardNumberTextField *cardNumberTextField = (HPFCardNumberTextField *) [self textFieldForIdentifier:@"number"];
@@ -241,13 +246,13 @@
 
 
     if ((cardNumberTextField.paymentProductCodes.count == 1) && [[HPFCardNumberFormatter sharedFormatter] plainTextNumber:cardNumberTextField.text isInRangeForPaymentProductCode:cardNumberTextField.paymentProductCodes.anyObject]) {
-        
+
         inferedPaymentProductCode = cardNumberTextField.paymentProductCodes.anyObject;
-        
-        HPFPaymentProduct *newInferredPaymentProduct = [self.delegate paymentProductViewController:self paymentProductForInferredPaymentProductCode:inferedPaymentProductCode];
-        
+
+        HPFPaymentProduct *newInferredPaymentProduct = [self getPaymentProductFromInferedCode:inferedPaymentProductCode];
+
         BOOL isDomestic = [HPFPaymentProduct isPaymentProductCode:self.paymentProduct.code domesticNetworkOfPaymentProductCode:inferedPaymentProductCode];
-        
+
         if (newInferredPaymentProduct != inferedPaymentProduct) {
             inferedPaymentProduct = newInferredPaymentProduct;
 

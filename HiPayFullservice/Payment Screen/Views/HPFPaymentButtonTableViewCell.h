@@ -26,6 +26,7 @@
 
 @property (nonatomic, getter=isEnabled) BOOL enabled;
 @property (nonatomic, getter=isLoading) BOOL loading;
+@property (nonatomic) NSString *title;
 @property (nonatomic, weak) id<HPFPaymentButtonTableViewCellDelegate> delegate;
 
 @end

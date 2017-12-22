@@ -13,6 +13,7 @@
 #import "HPFMoreOptionsTableViewCell.h"
 #import "HPFInfoTableViewCell.h"
 #import "HPFSwitchInfosTableViewCell.h"
+#import "HPFTokenizableCardPaymentProductViewController.h"
 
 @interface HPFDemoTableViewController ()
 
@@ -38,7 +39,9 @@
     authRowIndex = 6;
     colorRowIndex = 7;
     productCategoryRowIndex = 8;
-    submitRowIndex = 9;
+    storeCardIndex = 9;
+    submitRowIndex = 10;
+    
     
     // Error row indexes
     resultSectionIndex = NSNotFound;
@@ -62,6 +65,7 @@
     [self.tableView registerClass:[HPFStepperTableViewCell class] forCellReuseIdentifier:@"StepperCell"];
     [self.tableView registerClass:[HPFSegmentedControlTableViewCell class] forCellReuseIdentifier:@"SegmentedControlCell"];
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"OptionsCell"];
+    [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"StoreCardCell"];
     [self.tableView registerClass:[HPFInfoTableViewCell class] forCellReuseIdentifier:@"LabelCell"];
 
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSubmitTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SubmitCell"];
@@ -130,7 +134,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == formSectionIndex) {
-        return 10;
+        return 11;
     }
     
     if (section == resultSectionIndex) {
@@ -281,6 +285,15 @@
             
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)selectedPaymentProducts.count];
             cell.textLabel.text = NSLocalizedString(@"FORM_PAYMENT_PRODUCT_CATEGORIES", nil);
+            
+            return cell;
+        }
+        
+        else if (indexPath.row == storeCardIndex) {
+            
+            HPFMoreOptionsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"StoreCardCell" forIndexPath:indexPath];
+            
+            cell.textLabel.text = NSLocalizedString(@"FORM_STORE_PAYMENT_CARD", nil);
             
             return cell;
         }
@@ -471,25 +484,22 @@
                         NSString *signature = signatureDictionary[@"signature"];
 
                         HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
-
+                        
                         HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
                         paymentScreen.delegate = self;
-
+                        
                         [self presentViewController:paymentScreen animated:YES completion:^{
                             [self setSubmitButtonLoadingMode:NO];
                         }];
-
+                        
                     } else {
 
                         [self setSubmitButtonLoadingMode:NO];
                     }
-
                 });
-
             }];
 
     [downloadTask resume];
-
 }
 
 - (HPFPaymentPageRequest *) buildPageRequestWithOrderId:(NSString *)orderId {
@@ -533,13 +543,47 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //if (indexPath.row == submitRowIndex) {}
 
     if (indexPath.row == productCategoryRowIndex) {
         productCategoriesViewController = [[HPFPaymentProductCategoriesTableViewController alloc] initWithSelectedPaymentProducts:selectedPaymentProducts];
         
         [self.navigationController pushViewController:productCategoriesViewController animated:YES];
+        
+    } else if (indexPath.row == storeCardIndex) {
+        
+        HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:@"tempID"];
+        
+        HPFStoreCardViewController *storevc = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest];
+        storevc.storeCardDelegate = self;
+        
+        [self.navigationController pushViewController:storevc animated:YES];
     }
+}
+
+#pragma mark - Card storing delegate methods
+
+- (void)storeCardViewController:(HPFStoreCardViewController *)viewController didEndWithCardToken:(HPFPaymentCardToken *)theToken
+{
+    // inspect the HPFPaymentCardToken object
+    [viewController.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)storeCardViewController:(HPFStoreCardViewController *)viewController didFailWithError:(NSError *)theError
+{
+    NSLog(@"error : %@", theError);
+    [viewController.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)storeCardViewControllerDidCancel:(HPFStoreCardViewController *)viewController
+{
+    [viewController.navigationController popViewControllerAnimated:YES];
+}
+
+// optional delegate method
+- (void) storeCardViewController:(HPFStoreCardViewController *)viewController shouldValidateCardToken:(HPFPaymentCardToken *)theCardToken withCompletionHandler:(HPFStoreCardViewControllerValidateCompletionHandler)completionBlock {
+    
+    // typically an async call to check the payment card validity before calling the completionBlock.
+    completionBlock(NO);
 }
 
 #pragma mark - Values

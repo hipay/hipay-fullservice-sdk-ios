@@ -58,7 +58,7 @@
 @property (nonatomic, readonly, nullable) NSString *signature;
 @property (nonatomic, weak, nullable) id<HPFPaymentProductViewControllerDelegate> delegate;
 
-- (instancetype _Nonnull)initWithPaymentPageRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest signature:(NSString * _Nonnull)signature andSelectedPaymentProduct:(HPFPaymentProduct * _Nonnull)paymentProduct;
+- (instancetype _Nonnull)initWithPaymentPageRequest:(HPFPaymentPageRequest * _Nonnull)paymentPageRequest signature:(NSString * _Nullable)signature andSelectedPaymentProduct:(HPFPaymentProduct * _Nullable)paymentProduct;
 
 - (void)cancelRequests;
 

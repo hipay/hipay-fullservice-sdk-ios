@@ -10,23 +10,28 @@
 @class HPFPaymentCardToken;
 @class HPFStoreCardViewController;
 
+typedef void (^HPFStoreCardViewControllerValidateCompletionHandler)(BOOL result);
+
 @protocol HPFStoreCardDelegate <NSObject>
+
+@required
 
 - (void)storeCardViewController:(HPFStoreCardViewController *_Nonnull)viewController didEndWithCardToken:(HPFPaymentCardToken * _Nonnull)theToken;
 
-- (void)storeCardViewController:(HPFStoreCardViewController * _Nonnull)viewController didFailWithError:(NSError *_Nonnull)theError;
+- (void)storeCardViewController:(HPFStoreCardViewController * _Nonnull)viewController didFailWithError:(NSError *_Nullable)theError;
 
 - (void)storeCardViewControllerDidCancel:(HPFStoreCardViewController *_Nonnull)viewController;
 
+@optional
+
+- (void)storeCardViewController:(HPFStoreCardViewController * _Nonnull)viewController shouldValidateCardToken:(HPFPaymentCardToken * _Nonnull)theCardToken withCompletionHandler:(HPFStoreCardViewControllerValidateCompletionHandler _Nonnull)completionBlock;
+
 @end
 
-typedef void (^HPFStoreCardViewControllerValidateCompletionHandler)(NSError * _Nullable error);
 
 @interface HPFStoreCardViewController : HPFTokenizableCardPaymentProductViewController
 
 @property (nonatomic, weak, nullable) id<HPFStoreCardDelegate> storeCardDelegate;
-
-- (void)storeCardViewController:(HPFStoreCardViewController * _Nonnull)viewController shouldValidateCardToken:(HPFPaymentCardToken * _Nonnull)theCardToken withCompletionHandler:(HPFStoreCardViewControllerValidateCompletionHandler _Nullable * _Nonnull)completionBlock;
 
 + (_Nonnull instancetype)storeCardViewControllerWithRequest:(HPFPaymentPageRequest *_Nonnull)paymentPageRequest;
 

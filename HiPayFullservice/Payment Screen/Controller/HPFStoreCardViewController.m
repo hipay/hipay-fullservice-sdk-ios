@@ -35,6 +35,14 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doCancel)];
 }
 
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [self cancelRequests];
+    
+    [self.storeCardDelegate storeCardViewControllerDidCancel:self];
+    self.storeCardDelegate = nil;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == [self formSection])
@@ -66,24 +74,9 @@
 }
 */
 
-- (void)storeCardViewController:(HPFStoreCardViewController * _Nonnull)viewController shouldValidateCardToken:(HPFPaymentCardToken * _Nonnull)theCardToken withCompletionHandler:(HPFStoreCardViewControllerValidateCompletionHandler _Nullable * _Nonnull)completionBlock
-{
-    /*
-    if ([NSThread isMainThread]) {
-        completionBlock(resultObject, resultError);
-    }
-    else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completionBlock(resultObject, resultError);
-        });
-    }
-    
-    completionBlock();
-    */
-}
-
 - (void)submit
 {
+    
     [self setPaymentButtonLoadingMode:YES];
     
     NSString *securityCode = [self textForIdentifier:@"security_code"];
@@ -99,13 +92,32 @@
     
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
         
-        [self setPaymentButtonLoadingMode:NO];
         transactionLoadingRequest = nil;
         
         if (cardToken != nil) {
             
             [HPFPaymentCardTokenDatabase save:cardToken forCurrency:self.paymentPageRequest.currency withTouchID:NO];
-            [self.storeCardDelegate storeCardViewController:self didEndWithCardToken:cardToken];
+            
+            if ([self.storeCardDelegate respondsToSelector:@selector(storeCardViewController:shouldValidateCardToken:withCompletionHandler:)])
+            {
+                [self.storeCardDelegate storeCardViewController:self shouldValidateCardToken:cardToken withCompletionHandler:^(BOOL result) {
+                   
+                    if (result)
+                    {
+                        [self.storeCardDelegate storeCardViewController:self didEndWithCardToken:cardToken];
+                        
+                    } else
+                    {
+                        [self.storeCardDelegate storeCardViewController:self didFailWithError:nil];
+                    }
+                }];
+                
+            } else {
+                
+                [self setPaymentButtonLoadingMode:NO];
+                
+                [self.storeCardDelegate storeCardViewController:self didEndWithCardToken:cardToken];
+            }
             
         } else {
             
@@ -113,6 +125,7 @@
             [self.storeCardDelegate storeCardViewController:self didFailWithError:error];
         }
     }];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -215,6 +228,7 @@
     [self cancelRequests];
     
     [self.storeCardDelegate storeCardViewControllerDidCancel:self];
+    self.storeCardDelegate = nil;
 }
 
 - (void)didReceiveMemoryWarning

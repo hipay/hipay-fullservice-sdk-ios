@@ -565,13 +565,12 @@
 - (void)storeCardViewController:(HPFStoreCardViewController *)viewController didEndWithCardToken:(HPFPaymentCardToken *)theToken
 {
     // inspect the HPFPaymentCardToken object
-    NSLog(@"felicitationes");
     [viewController.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)storeCardViewController:(HPFStoreCardViewController *)viewController didFailWithError:(NSError *)theError
 {
-    NSLog(@"%@", theError);
+    NSLog(@"error : %@", theError);
     [viewController.navigationController popViewControllerAnimated:YES];
 }
 
@@ -579,31 +578,13 @@
 {
     [viewController.navigationController popViewControllerAnimated:YES];
 }
-//*
+
+// optional delegate method
 - (void) storeCardViewController:(HPFStoreCardViewController *)viewController shouldValidateCardToken:(HPFPaymentCardToken *)theCardToken withCompletionHandler:(HPFStoreCardViewControllerValidateCompletionHandler)completionBlock {
     
-    [self performSelectorInBackground:@selector(justWait:) withObject:completionBlock];
+    // typically an async call to check the payment card validity before calling the completionBlock.
+    completionBlock(NO);
 }
-
-- (void) justWait:(HPFStoreCardViewControllerValidateCompletionHandler)block
-{
-    NSLog(@"hello world");
-    //[self performSelector:@selector(justGo:) withObject:block afterDelay:10];
-    
-    [self performSelectorOnMainThread:@selector(justGo:) withObject:block waitUntilDone:YES];
-}
-
-- (void) justGo:(HPFStoreCardViewControllerValidateCompletionHandler)block
-{
-    [self performSelector:@selector(justDone:) withObject:block afterDelay:8];
-}
-
-- (void) justDone:(HPFStoreCardViewControllerValidateCompletionHandler)block
-{
-    block(YES);
-}
-//*/
-
 
 #pragma mark - Values
 

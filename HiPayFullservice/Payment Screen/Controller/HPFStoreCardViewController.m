@@ -102,6 +102,8 @@
             {
                 [self.storeCardDelegate storeCardViewController:self shouldValidateCardToken:cardToken withCompletionHandler:^(BOOL result) {
                    
+                    [self setPaymentButtonLoadingMode:NO];
+                    
                     if (result)
                     {
                         [self.storeCardDelegate storeCardViewController:self didEndWithCardToken:cardToken];

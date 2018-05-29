@@ -58,7 +58,7 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 - (NSString *)URLEncodeString:(NSString *)string usingEncoding:(NSStringEncoding)encoding {
     
     NSCharacterSet * queryKVSet = [NSCharacterSet
-                                   characterSetWithCharactersInString:@"!*'\"();:@&=+$,/?%#[]% "
+                                   characterSetWithCharactersInString:@"{}!*'\"();:@&=+$,/?%#[]% "
                                    ].invertedSet;
     
     return [string stringByAddingPercentEncodingWithAllowedCharacters:queryKVSet];

@@ -93,7 +93,7 @@
                                  @"multi_use": @(multiUse).stringValue,
                                  };
     
-    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"token/create" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:YES path:@"token/create" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
@@ -124,7 +124,7 @@
                                  @"card_holder": cardHolder,
                                  };
     
-    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"token/update" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:YES path:@"token/update" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         
@@ -135,7 +135,7 @@
 {
     NSDictionary *parameters = @{@"request_id": requestID};
     
-    return [HTTPClient performRequestWithMethod:HPFHTTPMethodGet v2:NO path:[@"token/" stringByAppendingString:token] parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodGet v2:YES path:[@"token/" stringByAppendingString:token] parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         

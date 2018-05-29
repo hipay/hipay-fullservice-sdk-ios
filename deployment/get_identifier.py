@@ -2,8 +2,9 @@ import json
 import httplib, urllib
 import os, sys
 
+environment=sys.argv[1]
 public_identifier = None;
-bundle_identifier = "com.hipay.fullservice.demo." + os.environ.get('CIRCLE_BRANCH')
+bundle_identifier = "com.hipay.fullservice.demo." + os.environ.get('CIRCLE_BRANCH') + "." + environment
 
 log_file = open(os.environ.get('CIRCLE_ARTIFACTS') + '/get_app_identifer.log', 'w');
 
@@ -26,7 +27,7 @@ for app in appsResponse["apps"]:
 if public_identifier is None:
 
     params = urllib.urlencode({
-			"title": "HiPay Demo (" + os.environ.get('CIRCLE_BRANCH') + ")",
+			"title": "HiPay Demo (" + os.environ.get('CIRCLE_BRANCH') + "-" + environment +")",
 			"bundle_identifier": bundle_identifier,
 			"platform": "iOS",
 			"release_type": "2"

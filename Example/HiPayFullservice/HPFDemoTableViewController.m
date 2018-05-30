@@ -516,6 +516,8 @@
     paymentPageRequest.customer.lastname = @"Doe";
     paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
     paymentPageRequest.multiUse = multiUse;
+    
+     paymentPageRequest.customData = @{@"hello": @"world"};
 
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
 

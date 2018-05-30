@@ -56,7 +56,12 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 }
 
 - (NSString *)URLEncodeString:(NSString *)string usingEncoding:(NSStringEncoding)encoding {
-    return [string  stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    NSString *encodedValue = [string  stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    NSCharacterSet * queryKVSet = [NSCharacterSet
+                                   characterSetWithCharactersInString:@"!*'\();&=+$,[]"
+                                   ].invertedSet;
+    
+    return [encodedValue stringByAddingPercentEncodingWithAllowedCharacters:queryKVSet];
 }
 
 - (NSString *)queryStringForDictionary:(NSDictionary *)dictionary {

@@ -56,12 +56,12 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 }
 
 - (NSString *)URLEncodeString:(NSString *)string usingEncoding:(NSStringEncoding)encoding {
-    
+    NSString *encodedValue = [string  stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     NSCharacterSet * queryKVSet = [NSCharacterSet
-                                   characterSetWithCharactersInString:@"{}!*'\"();:@&=+$,/?%#[]% "
+                                   characterSetWithCharactersInString:@"!*'\();&=+$,[]"
                                    ].invertedSet;
     
-    return [string stringByAddingPercentEncodingWithAllowedCharacters:queryKVSet];
+    return [encodedValue stringByAddingPercentEncodingWithAllowedCharacters:queryKVSet];
 }
 
 - (NSString *)queryStringForDictionary:(NSDictionary *)dictionary {
@@ -69,13 +69,8 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
     NSMutableArray *parameters = [NSMutableArray array];
     
     for (id key in [dictionary allKeys]) {
-
-        //NSString *encodedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
         NSCharacterSet *set = [NSCharacterSet URLHostAllowedCharacterSet];
         NSString *encodedKey = [key stringByAddingPercentEncodingWithAllowedCharacters:set];
-
-        //stringByAddingPercentEncodingWithAllowedCharacters:
         
         NSString *encodedValue = [self URLEncodeString:[dictionary objectForKey:key] usingEncoding:NSUTF8StringEncoding];
         

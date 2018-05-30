@@ -1,5 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
+1.8.0
+-----
+* Add support Mastercard BIN 2.
+* Use Secure vault V2.
+* Fix uri encoding for request.
 
 1.7.0
 -----

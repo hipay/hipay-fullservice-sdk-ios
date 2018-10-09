@@ -1,5 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
+1.8.1
+-----
+* Update Datesc Library (1.08.4701)
+* Remove old function lookup
+
 1.8.0
 -----
 * Add support Mastercard BIN 2.

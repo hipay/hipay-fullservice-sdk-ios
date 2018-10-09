@@ -654,7 +654,6 @@
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				33653B4032B05D9DAFEB4872 /* [CP] Embed Pods Frameworks */,
 				D72326C9D3E4DA48554C1271 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -674,7 +673,6 @@
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				B8BCAE23B9EBEC60B82D531A /* [CP] Embed Pods Frameworks */,
 				3F8349F6F3A2536B759A58A6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -769,21 +767,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		33653B4032B05D9DAFEB4872 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3F8349F6F3A2536B759A58A6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -791,14 +774,17 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/HiPayFullservice.common/HPFCoreLocalization.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/HiPayFullservice.common/HPFPaymentScreenViews.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/HiPayFullservice.common/HPFPaymentScreenLocalization.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/HiPayFullservice.common/HPFUtilitiesResources.bundle,
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFCoreLocalization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFPaymentScreenViews.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFPaymentScreenLocalization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFUtilitiesResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HPFCoreLocalization.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HPFPaymentScreenViews.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HPFPaymentScreenLocalization.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HPFUtilitiesResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -821,21 +807,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B8BCAE23B9EBEC60B82D531A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CFE6F224125B2D29DC4F5C29 /* [CP] Check Pods Manifest.lock */ = {
@@ -863,15 +834,19 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/HiPayFullservice.common-Datecs-POS/HPFCoreLocalization.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/HiPayFullservice.common-Datecs-POS/HPFPaymentScreenViews.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/HiPayFullservice.common-Datecs-POS/HPFPaymentScreenLocalization.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/HiPayFullservice.common-Datecs-POS/HPFUtilitiesResources.bundle",
-				$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle,
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFCoreLocalization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFPaymentScreenViews.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFPaymentScreenLocalization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFUtilitiesResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HPFCoreLocalization.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HPFPaymentScreenViews.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HPFPaymentScreenLocalization.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HPFUtilitiesResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1145,7 +1120,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "662f5d6d-4aef-4e0e-82e0-a9d820a6cfd4";
-        PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
+				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -17,6 +17,11 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathPending     = @"pend
 NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathException   = @"exception";
 NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"cancel";
 
+@interface HPFOrderRelatedRequest()
+
+@property (nonatomic, copy, nullable) NSDictionary *source;
+
+@end
 
 @implementation HPFOrderRelatedRequest
 
@@ -135,8 +140,8 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
                               @"brand_version" : brand_version,
                               @"integration_version" : integration_version
                               };
-    _source = sourceDictionary;
-    
+    request.source = sourceDictionary;
+
     return request;
 }
 

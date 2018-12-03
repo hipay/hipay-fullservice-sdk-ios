@@ -89,9 +89,8 @@
 - (void)setApplePayEnabled:(BOOL)enabled privateKeyPassword:(NSString * _Nonnull)privateKeyPassword merchantIdentifier:(NSString * _Nonnull)merchantIdentifier {
 
     _applePayEnabled = enabled;
-    _applePayPrivateKeyPassword = _applePayEnabled ? privateKeyPassword : nil;
-    _merchantIdentifier = _applePayEnabled ? merchantIdentifier : nil;
-
+    _applePayPrivateKeyPassword = _applePayEnabled ? privateKeyPassword : @"";
+    _merchantIdentifier = _applePayEnabled ? merchantIdentifier : @"";
 }
 
 - (void)setPaymentCardScanEnabled:(BOOL)paymentCardScanEnabled {

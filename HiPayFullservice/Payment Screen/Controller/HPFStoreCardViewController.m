@@ -37,6 +37,8 @@
 
 - (void) viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    
     [self cancelRequests];
     
     [self.storeCardDelegate storeCardViewControllerDidCancel:self];

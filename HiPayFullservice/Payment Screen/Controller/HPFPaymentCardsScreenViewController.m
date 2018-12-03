@@ -476,7 +476,8 @@
             }
 
             default:
-                return nil;
+                NSLog(@"Unexpected tableView error");
+                abort();
         }
     }
 }

@@ -552,8 +552,7 @@
     {
         return [self dequeueScanCardCell];
     }
-
-    if (indexPath.section == [self paySection])
+    else if (indexPath.section == [self paySection])
     {
         return [super dequeuePaymentButtonCell];
     }
@@ -595,7 +594,13 @@
             
     }
     
-    return cell;
+    if (cell) {
+        return cell;
+    }
+    else {
+        NSLog(@"Unexpected tableView error");
+        abort();
+    }
 }
 
 - (HPFScanCardTableViewCell *)dequeueScanCardCell

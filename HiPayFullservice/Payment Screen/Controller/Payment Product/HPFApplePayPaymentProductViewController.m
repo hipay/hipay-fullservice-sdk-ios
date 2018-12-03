@@ -144,7 +144,9 @@
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
 
-            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:HPFECIRecurringECommerce authenticationIndicator:HPFAuthenticationIndicatorDefault];
+            orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token
+                                                                                                              eci:HPFECISecureECommerce
+                                                                                          authenticationIndicator:HPFAuthenticationIndicatorBypass];
 
             [self cancelRequests];
             transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:self.signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {

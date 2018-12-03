@@ -414,7 +414,8 @@
         }
     }
 
-    return nil;
+    NSLog(@"Unexpected tableView error");
+    abort();
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

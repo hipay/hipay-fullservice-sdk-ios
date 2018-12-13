@@ -1,0 +1,39 @@
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    setup_circle_ci
+  end
+  lane :beta do
+    # Sync certificates and profiles
+    match
+
+    # Set Build Number
+    set_info_plist_value(
+      path: "Example/HiPayFullservice/HiPayFullservice-Info.plist",
+      key: "CFBundleVersion",
+      value: ENV['CIRCLE_BUILD_NUM']
+    )
+
+    set_info_plist_value(
+      path: "Example/HiPayFullservice/HiPayFullservice-Info.plist",
+      key: "CFBundleDisplayName",
+      value: "HiPay Demo ("+ git_branch.gsub(/[^a-zA-Z0-9\-]/,"") + ")"
+    )
+
+    # Get HockeyApp public identifier
+    HOCKEY_PUBLIC_IDENTIFIER = ""
+    Dir.chdir("..") do
+      HOCKEY_PUBLIC_IDENTIFIER = sh("python deployment/get_identifier.py")
+    end
+    # scan
+    gym
+    hockey(
+      api_token: ENV['HOCKEY_APP_TOKEN'],
+      public_identifier: HOCKEY_PUBLIC_IDENTIFIER,
+      bundle_version: "1",
+      bundle_short_version: "1.0",
+      notify: "0"
+    )
+  end
+end

@@ -1,0 +1,60 @@
+version: 2
+jobs:
+  build-and-test:
+    working_directory: ~/hipay/hipay-fullservice-sdk-ios
+    parallelism: 1
+    shell: /bin/bash --login
+    environment:
+      LANG: en_US.UTF-8
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      FASTLANE_LANE: beta
+      FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
+      FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
+      FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
+      FASTLANE_CERTIFICATES_TYPE: adhoc
+      FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
+      FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
+      FASTLANE_INFO_PLIST_PATH: Example/HiPayFullservice/HiPayFullservice-Info.plist
+      FASTLANE_TESTS_OUTPUT_TYPES: junit
+      APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
+    macos:
+      xcode: '10.1.0'
+    steps:
+      - checkout
+      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+      - run:
+          working_directory: ~/hipay/hipay-fullservice-sdk-ios
+          command: xcodebuild -version
+      - restore_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - restore_cache:
+          key: 1-pods-{{ checksum "Example/Podfile.lock" }}
+      - run:
+          name: Install CocoaPods
+          command: |
+            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
+            bundle exec pod install --project-directory=Example/
+      - save_cache:
+          key: 1-pods-{{ checksum "Example/Podfile.lock" }}
+          paths:
+            - Example/Pods
+      - add_ssh_keys:
+          fingerprints:
+            - "38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6"
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE --verbose
+      - store_test_results:
+          path: fastlane/test_output
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build-and-test

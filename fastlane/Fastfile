@@ -26,8 +26,14 @@ platform :ios do
     Dir.chdir("..") do
       HOCKEY_PUBLIC_IDENTIFIER = sh("python deployment/get_identifier.py")
     end
-    # scan
+
+    # Execute tests
+    scan
+
+    # Build app
     gym
+
+    # Send .IPA to HockeyApp
     hockey(
       api_token: ENV['HOCKEY_APP_TOKEN'],
       public_identifier: HOCKEY_PUBLIC_IDENTIFIER,

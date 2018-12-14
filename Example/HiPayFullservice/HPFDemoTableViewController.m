@@ -30,17 +30,18 @@
     resultSectionIndex = NSNotFound;
     
     // Form row indexes
-    groupedPaymentCardRowIndex = 0;
-    currencyRowIndex = 1;
-    amountRowIndex = 2;
-    applePayRowIndex = 3;
-    multiUseRowIndex = 4;
-    cardScanRowIndex = 5;
-    authRowIndex = 6;
-    colorRowIndex = 7;
-    productCategoryRowIndex = 8;
-    storeCardIndex = 9;
-    submitRowIndex = 10;
+    environmentRowIndex = 0;
+    groupedPaymentCardRowIndex = 1;
+    currencyRowIndex = 2;
+    amountRowIndex = 3;
+    applePayRowIndex = 4;
+    multiUseRowIndex = 5;
+    cardScanRowIndex = 6;
+    authRowIndex = 7;
+    colorRowIndex = 8;
+    productCategoryRowIndex = 9;
+    storeCardIndex = 10;
+    submitRowIndex = 11;
     
     
     // Error row indexes
@@ -61,6 +62,7 @@
     amount = 10.f;
     selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];
     
+    [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"EnvironmentCell"];
     [self.tableView registerClass:[HPFSwitchTableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
     [self.tableView registerClass:[HPFStepperTableViewCell class] forCellReuseIdentifier:@"StepperCell"];
     [self.tableView registerClass:[HPFSegmentedControlTableViewCell class] forCellReuseIdentifier:@"SegmentedControlCell"];
@@ -119,6 +121,8 @@
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationFade];
         productCategoriesViewController = nil;
     }
+    
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:environmentRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark - Table view data source
@@ -132,9 +136,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     if (section == formSectionIndex) {
-        return 11;
+        return 12;
     }
     
     if (section == resultSectionIndex) {
@@ -181,7 +184,25 @@
     
     if (indexPath.section == formSectionIndex) {
 
-        if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
+        if (indexPath.row == environmentRowIndex) {
+            HPFMoreOptionsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EnvironmentCell" forIndexPath:indexPath];
+            
+            cell.textLabel.text = @"Environment";
+
+            switch ([HPFClientConfig sharedClientConfig].environment) {
+                    case HPFEnvironmentStage:
+                        cell.detailTextLabel.text = @"Stage";
+                    break;
+                    case HPFEnvironmentProduction:
+                        cell.detailTextLabel.text = @"Production";
+                    break;
+                default:
+                    break;
+            }
+            
+            return cell;
+        }
+        else if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
             
             HPFSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
             [cell.switchControl addTarget:self action:@selector(controlValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -313,9 +334,7 @@
         }
         
     }
-
     else {
-        
         if (indexPath.row == cancelRowIndex) {
             
             HPFSubmitTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LabelCell" forIndexPath:indexPath];
@@ -546,8 +565,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-    if (indexPath.row == productCategoryRowIndex) {
+    if (indexPath.row == environmentRowIndex) {
+        HPFEnvironmentViewController *environmentVC = [[HPFEnvironmentViewController alloc] init];
+        [self.navigationController pushViewController:environmentVC animated:YES];
+        
+    } else if (indexPath.row == productCategoryRowIndex) {
         productCategoriesViewController = [[HPFPaymentProductCategoriesTableViewController alloc] initWithSelectedPaymentProducts:selectedPaymentProducts];
         
         [self.navigationController pushViewController:productCategoriesViewController animated:YES];

@@ -5,6 +5,7 @@
 	<key>com.apple.developer.in-app-payments</key>
 	<array>
 		<string>merchant.com.hipay.qa</string>
+		<string>merchant.com.hipay.prod</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>

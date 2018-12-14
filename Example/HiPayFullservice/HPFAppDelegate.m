@@ -9,6 +9,7 @@
 #import "HPFAppDelegate.h"
 #import <HiPayFullservice/HiPayFullservice.h>
 #import <HockeySDK/HockeySDK.h>
+#import "HPFEnvironmentViewController.h"
 
 @implementation HPFAppDelegate
 
@@ -16,10 +17,24 @@
 {
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
     
-    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage
-                                                username:parameters[@"hipay"][@"username"]
-                                                password:parameters[@"hipay"][@"password"]
-                                            appURLscheme:@"hipayexample"];
+    if ([[HPFEnvironmentViewController environmentUserDefaults] isEqualToString:HPFEnvironmentViewControllerValueProd]) {
+        [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction
+                                                    username:parameters[@"hipayProd"][@"username"]
+                                                    password:parameters[@"hipayProd"][@"password"]
+                                                appURLscheme:parameters[@"appURLscheme"]];
+    }
+    else if ([[HPFEnvironmentViewController environmentUserDefaults] isEqualToString:HPFEnvironmentViewControllerValueStage]) {
+        [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage
+                                                    username:parameters[@"hipayStage"][@"username"]
+                                                    password:parameters[@"hipayStage"][@"password"]
+                                                appURLscheme:parameters[@"appURLscheme"]];
+    }
+    else {
+        [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage
+                                                    username:[HPFEnvironmentViewController usernameUserDefaults]
+                                                    password:[HPFEnvironmentViewController passwordUserDefaults]
+                                                appURLscheme:parameters[@"appURLscheme"]];
+    }
 
     [[HPFClientConfig sharedClientConfig] setPaymentCardStorageEnabled:YES withTouchID:YES];
     [[HPFClientConfig sharedClientConfig] setPaymentCardScanEnabled:YES];

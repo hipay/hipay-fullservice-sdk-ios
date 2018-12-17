@@ -200,7 +200,6 @@
 		A5C91F431BE2CD6D00FD8421 /* HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A5C91F481BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFQiwiWalletPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		A5F605911BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFHostedPaymentPageMapperTests.m; sourceTree = "<group>"; };
-		A5F98F941BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		A5F98F961BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		A5F98F991BE91B9500F9604F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Localizable.strings; sourceTree = "<group>"; };
 		B936D89B6AB94FC4D1FE6E95 /* HiPayFullservice.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayFullservice.podspec; path = ../HiPayFullservice.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -947,14 +946,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				6003F5B9195388D20070C39A /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		A5F98F931BE91B9500F9604F /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A5F98F941BE91B9500F9604F /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

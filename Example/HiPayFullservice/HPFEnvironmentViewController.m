@@ -13,6 +13,7 @@
 @interface HPFEnvironmentViewController ()
 
 @property (nonatomic,assign) NSUInteger selectedEnvironment;
+@property (nonatomic,strong) NSDictionary *plistDictionary;
 
 @property (nonatomic,assign) NSUInteger prodRowIndex;
 @property (nonatomic,assign) NSUInteger stageRowIndex;
@@ -34,11 +35,7 @@
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-        self.title = @"Choix environment";
-        [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
-        [self.tableView registerNib:[UINib nibWithNibName:@"HPFTextInputTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"Input"];
-        
-        self.credentialsSectionEnabled = NSNotFound;
+        self.title = @"Environment choice";
         
         self.stageRowIndex = 0;
         self.prodRowIndex = 1;
@@ -47,6 +44,9 @@
         self.usernameRowIndex = 0;
         self.passwordRowIndex = 1;
         self.urlRowIndex = 2;
+        
+        [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+        [self.tableView registerNib:[UINib nibWithNibName:@"HPFTextInputTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"Input"];
     }
     return self;
 }
@@ -58,7 +58,18 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveButtonTapped:)];
     
-    self.selectedEnvironment = 0;
+    self.plistDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
+
+    if ([HPFEnvironmentViewController isEnvironmentStage]) {
+        self.selectedEnvironment = self.stageRowIndex;
+    }
+    else if ([HPFEnvironmentViewController isEnvironmentProduction]) {
+        self.selectedEnvironment = self.prodRowIndex;
+    }
+    else if ([HPFEnvironmentViewController isEnvironmentCustom]) {
+        self.selectedEnvironment = self.customRowIndex;
+    }
+    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -69,11 +80,9 @@
     if (section == 0) {
         return 3;
     }
-    else if (self.credentialsSectionEnabled != NSNotFound) {
+    else {
         return 3;
     }
-    
-    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -98,13 +107,25 @@
         
         return cell;
         
-    } else if (self.credentialsSectionEnabled != NSNotFound) {
+    }
+    else if (indexPath.section == 1) {
         
         if (indexPath.row == self.usernameRowIndex) {
             HPFTextInputTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Input" forIndexPath:indexPath];
             
             cell.title.text = @"Username";
-            cell.detailTextLabel.text = [HPFEnvironmentViewController usernameUserDefaults];
+            
+            if (self.selectedEnvironment == self.stageRowIndex) {
+                cell.textfield.text = self.plistDictionary[@"hipayStage"][@"username"];
+            }
+            else if (self.selectedEnvironment == self.prodRowIndex) {
+                cell.textfield.text = self.plistDictionary[@"hipayProd"][@"username"];
+            }
+            else {
+                cell.textfield.text = [HPFEnvironmentViewController usernameUserDefaults];
+            }
+            
+            cell.userInteractionEnabled = (self.selectedEnvironment == self.customRowIndex);
             
             return cell;
         }
@@ -112,7 +133,18 @@
             HPFTextInputTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Input" forIndexPath:indexPath];
             
             cell.title.text = @"Password";
-            cell.detailTextLabel.text = [HPFEnvironmentViewController passwordUserDefaults];
+            
+            if (self.selectedEnvironment == self.stageRowIndex) {
+                cell.textfield.text = self.plistDictionary[@"hipayStage"][@"password"];
+            }
+            else if (self.selectedEnvironment == self.prodRowIndex) {
+                cell.textfield.text = self.plistDictionary[@"hipayProd"][@"password"];
+            }
+            else {
+                cell.textfield.text = [HPFEnvironmentViewController passwordUserDefaults];
+            }
+            
+            cell.userInteractionEnabled = (self.selectedEnvironment == self.customRowIndex);
             
             return cell;
         }
@@ -123,7 +155,18 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             cell.textLabel.text = @"URL";
-            cell.detailTextLabel.text = [HPFEnvironmentViewController isStageUrlUserDefaults] ? HPFGatewayClientBaseURLStage : HPFGatewayClientBaseURLProduction;
+            
+            if (self.selectedEnvironment == self.stageRowIndex) {
+                cell.detailTextLabel.text = HPFGatewayClientBaseURLStage;
+            }
+            else if (self.selectedEnvironment == self.prodRowIndex) {
+                cell.detailTextLabel.text = HPFGatewayClientBaseURLProduction;
+            }
+            else {
+                cell.detailTextLabel.text = [HPFEnvironmentViewController isStageUrlUserDefaults] ? HPFGatewayClientBaseURLStage : HPFGatewayClientBaseURLProduction;
+            }
+            
+            cell.userInteractionEnabled = (self.selectedEnvironment == self.customRowIndex);
             
             return cell;
         }
@@ -151,17 +194,7 @@
         
         self.selectedEnvironment = indexPath.row;
         
-        if (indexPath.row == self.customRowIndex) {
-            self.credentialsSectionEnabled = 1;
-            [self.tableView beginUpdates];
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObjects:
-                                                    [NSIndexPath indexPathForRow:0 inSection:1],
-                                                    [NSIndexPath indexPathForRow:1 inSection:1],
-                                                    [NSIndexPath indexPathForRow:2 inSection:1],
-                                                    nil]
-                                  withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView endUpdates];
-        }
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
     }
     else if (indexPath.section == 1) {
         if (indexPath.row == self.urlRowIndex) {
@@ -174,7 +207,7 @@
                 self.isStageUrl = NO;
                 cell.detailTextLabel.text = HPFGatewayClientBaseURLProduction;
             }]];
-            
+
             [alertVC addAction:[UIAlertAction actionWithTitle:@"Stage URL" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 self.isStageUrl = YES;
                 cell.detailTextLabel.text = HPFGatewayClientBaseURLStage;
@@ -185,6 +218,30 @@
             [self.navigationController presentViewController:alertVC animated:YES completion:nil];
         }
     }
+}
+
++(BOOL)isEnvironmentStage {
+    return [[HPFEnvironmentViewController environmentUserDefaults] isEqualToString:HPFEnvironmentViewControllerValueStage];
+}
+
++(BOOL)isEnvironmentProduction {
+    return [[HPFEnvironmentViewController environmentUserDefaults] isEqualToString:HPFEnvironmentViewControllerValueProduction];
+}
+
++(BOOL)isEnvironmentCustom {
+    return [[HPFEnvironmentViewController environmentUserDefaults] isEqualToString:HPFEnvironmentViewControllerValueCustom];
+}
+
++(NSString *)environmentUserDefaults {
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:HPFEnvironmentKey] == nil) {
+        [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueStage];
+    }
+    return [[NSUserDefaults standardUserDefaults] stringForKey:HPFEnvironmentKey];
+}
+
++(void)updateEnvironmentUserDefaults:(NSString *)environment {
+    [[NSUserDefaults standardUserDefaults] setObject:environment forKey:HPFEnvironmentKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(NSString *)usernameUserDefaults {
@@ -199,15 +256,6 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:HPFEnvironmentViewControllerKeyIsStageUrl];
 }
 
-+(NSString *)environmentUserDefaults {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:HPFEnvironmentKey];
-}
-
-+(void)updateEnvironmentUserDefaults:(NSString *)key {
-    [[NSUserDefaults standardUserDefaults] setObject:key forKey:HPFEnvironmentKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
 +(void)updateUserDefaultsUsername:(NSString * _Nonnull)username password:(NSString * _Nonnull)password isStageUrl:(BOOL)isStageUrl {
     [[NSUserDefaults standardUserDefaults] setObject:username forKey:HPFEnvironmentViewControllerKeyUsername];
     [[NSUserDefaults standardUserDefaults] setObject:password forKey:HPFEnvironmentViewControllerKeyPassword];
@@ -215,37 +263,41 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(void)updateUserDefaultsStageUrl:(BOOL)isStage {
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
 -(void)saveButtonTapped:(id)sender {
-    NSLog(@"OK");
+    HPFTextInputTableViewCell *username;
+    HPFTextInputTableViewCell *password;
+    
+    if (self.selectedEnvironment == self.customRowIndex) {
+        username = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.usernameRowIndex inSection:1]];
+        password = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.passwordRowIndex inSection:1]];
+        
+        if (username.textfield.text.length == 0 || password.textfield.text.length == 0) {
+            UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"⚠️ Warning ⚠️" message:@"Username or password empty" preferredStyle:UIAlertControllerStyleAlert];
+            [alertVC addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+            [self.navigationController presentViewController:alertVC animated:YES completion:nil];
+            
+            return;
+        }
+    }
+    
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"⚠️ Warning ⚠️" message:@"HiPay Demo will stop to save environment" preferredStyle:UIAlertControllerStyleAlert];
     
     [alertVC addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         if (self.selectedEnvironment == self.prodRowIndex) {
-            [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueProd];
+            [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueProduction];
         }
         else if (self.selectedEnvironment == self.stageRowIndex) {
             [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueStage];
         }
         else if (self.selectedEnvironment == self.customRowIndex) {
             [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueCustom];
-            
-            HPFTextInputTableViewCell *username = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.usernameRowIndex inSection:1]];
-            HPFTextInputTableViewCell *password = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.passwordRowIndex inSection:1]];
-            
             [HPFEnvironmentViewController updateUserDefaultsUsername:username.textfield.text
                                                             password:password.textfield.text
                                                           isStageUrl:self.isStageUrl];
         }
-        
         abort();
     }]];
-    
     [alertVC addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-    
     [self.navigationController presentViewController:alertVC animated:YES completion:nil];
 }
 

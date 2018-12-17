@@ -189,17 +189,16 @@
             
             cell.textLabel.text = @"Environment";
 
-            switch ([HPFClientConfig sharedClientConfig].environment) {
-                    case HPFEnvironmentStage:
-                        cell.detailTextLabel.text = @"Stage";
-                    break;
-                    case HPFEnvironmentProduction:
-                        cell.detailTextLabel.text = @"Production";
-                    break;
-                default:
-                    break;
+            if ([HPFEnvironmentViewController isEnvironmentStage]) {
+                cell.detailTextLabel.text = @"Stage";
             }
-            
+            else if ([HPFEnvironmentViewController isEnvironmentProduction]) {
+                cell.detailTextLabel.text = @"Production";
+            }
+            else if ([HPFEnvironmentViewController isEnvironmentCustom]) {
+                cell.detailTextLabel.text = @"Custom";
+            }
+
             return cell;
         }
         else if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
@@ -543,8 +542,18 @@
 
     [HPFClientConfig.sharedClientConfig setPaymentCardScanEnabled:cardScan];
 
-    [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay privateKeyPassword:@"test" merchantIdentifier:@"merchant.com.hipay.qa"];
-
+    NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
+    if ([HPFEnvironmentViewController isEnvironmentStage]) {
+        [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay
+                                            privateKeyPassword:parameters[@"hipayStage"][@"privateKeyPassword"]
+                                            merchantIdentifier:parameters[@"hipayStage"][@"merchantIdentifier"]];
+    }
+    else if ([HPFEnvironmentViewController isEnvironmentProduction]) {
+        [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay
+                                            privateKeyPassword:parameters[@"hipayProd"][@"privateKeyPassword"]
+                                            merchantIdentifier:parameters[@"hipayProd"][@"merchantIdentifier"]];
+    }
+    
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
 
     switch (authenticationIndicatorSegmentIndex) {

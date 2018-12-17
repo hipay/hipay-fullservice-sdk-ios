@@ -8,20 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-#define HPFEnvironmentKey @"hipay_environment"
+#define HPFEnvironmentKey @"hpfe_environment"
 
-#define HPFEnvironmentViewControllerValueProd @"production"
-#define HPFEnvironmentViewControllerValueStage @"stage"
-#define HPFEnvironmentViewControllerValueCustom @"custom"
+#define HPFEnvironmentViewControllerValueProduction @"hpfe_production"
+#define HPFEnvironmentViewControllerValueStage @"hpfe_stage"
+#define HPFEnvironmentViewControllerValueCustom @"hpfe_custom"
 
-#define HPFEnvironmentViewControllerKeyUsername @"username"
-#define HPFEnvironmentViewControllerKeyPassword @"password"
-#define HPFEnvironmentViewControllerKeyIsStageUrl @"stageUrl"
+#define HPFEnvironmentViewControllerKeyUsername @"hpfe_username"
+#define HPFEnvironmentViewControllerKeyPassword @"hpfe_password"
+#define HPFEnvironmentViewControllerKeyIsStageUrl @"hpfe_is_stageUrl"
 
 @interface HPFEnvironmentViewController : UITableViewController
 
++(BOOL)isEnvironmentStage;
++(BOOL)isEnvironmentProduction;
++(BOOL)isEnvironmentCustom;
+
 +(NSString *)usernameUserDefaults;
 +(NSString *)passwordUserDefaults;
-+(NSString *)environmentUserDefaults;
++(BOOL)isStageUrlUserDefaults;
 
 @end

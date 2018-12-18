@@ -55,6 +55,9 @@ jobs:
       xcode: 10.1.0
       working_directory: ~/hipay/hipay-fullservice-sdk-ios
     steps:
+      - checkout
+      - restore_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           key: ipa_cache
       - run:

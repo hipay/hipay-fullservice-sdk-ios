@@ -4,8 +4,6 @@ executors:
   my-exectutor:
     shell: /bin/bash --login
     working_directory: ~/hipay/hipay-fullservice-sdk-ios
-    macos:
-      xcode: 10.1.0
 
 jobs:
   build-and-test:
@@ -23,6 +21,8 @@ jobs:
       FASTLANE_INFO_PLIST_PATH: Example/HiPayFullservice/HiPayFullservice-Info.plist
       FASTLANE_TESTS_OUTPUT_TYPES: junit
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
+    macos:
+      xcode: 10.1.0
     steps:
       - checkout
       - restore_cache:

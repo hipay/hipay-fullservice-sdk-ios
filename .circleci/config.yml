@@ -49,8 +49,13 @@ jobs:
       - run:
           name: Fastlane
           command: bundle exec fastlane build --verbose
+      - run:
+          command: ls
+      - run:
+          command: pwd
       - persist_to_workspace:
           root: .
+          paths: hipay/hipay-fullservice-sdk-ios
 
   deploy:
     macos:

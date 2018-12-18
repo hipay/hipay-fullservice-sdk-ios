@@ -1,9 +1,12 @@
-version: 2
+version: 2.1
+
+executors:
+  my-exectutor:
+    shell: /bin/bash --login
+    working_directory: ~/hipay/hipay-fullservice-sdk-ios
+
 jobs:
   build-and-test:
-    working_directory: ~/hipay/hipay-fullservice-sdk-ios
-    parallelism: 1
-    shell: /bin/bash --login
     environment:
       LANG: en_US.UTF-8
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
@@ -46,21 +49,15 @@ jobs:
       - run:
           name: Fastlane
           command: bundle exec fastlane build --verbose
-      - save_cache:
-          key: ipa_cache
-          paths:
-            - HiPay Demo.ipa
+      - persist_to_workspace:
+          root: ~/hipay/hipay-fullservice-sdk-ios
+
   deploy:
     macos:
       xcode: 10.1.0
-      working_directory: ~/hipay/hipay-fullservice-sdk-ios
     steps:
-      - checkout
-      - restore_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
-      - run: bundle check || bundle install --path vendor/bundle
-      - restore_cache:
-          key: ipa_cache
+      - attach_workspace:
+          at: ~/hipay/hipay-fullservice-sdk-ios
       - run:
           name: Deploy HockeyApp
           command: bundle exec fastlane deploy --verbose

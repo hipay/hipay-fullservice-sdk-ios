@@ -55,7 +55,7 @@ jobs:
           command: pwd
       - persist_to_workspace:
           root: .
-          paths: hipay/hipay-fullservice-sdk-ios
+          paths: .
 
   deploy:
     macos:

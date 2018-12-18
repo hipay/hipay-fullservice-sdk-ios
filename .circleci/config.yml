@@ -6,7 +6,7 @@ executors:
     working_directory: ~/hipay/hipay-fullservice-sdk-ios
 
 jobs:
-  build-and-test:
+  test:
     environment:
       LANG: en_US.UTF-8
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
@@ -48,7 +48,7 @@ jobs:
             - "38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6"
       - run:
           name: Fastlane
-          command: bundle exec fastlane build --verbose
+          command: bundle exec fastlane test --verbose
       - run:
           command: ls
       - run:
@@ -56,6 +56,20 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: .
+
+  build:
+    macos:
+      xcode: 10.1.0
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Build application
+          command: bundle exec fastlane deploy --verbose
+      - persist_to_workspace:
+          root: .
+          paths:
+            - HiPay Demo.ipa
 
   deploy:
     macos:
@@ -71,7 +85,10 @@ workflows:
   version: 2
   build:
     jobs:
-      - build-and-test
+      - test
+      - build:
+          requires:
+            - test
       - deploy:
           requires:
-            - build-and-test
+            - build

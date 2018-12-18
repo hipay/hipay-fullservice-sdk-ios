@@ -5,9 +5,15 @@ platform :ios do
     setup_circle_ci
   end
 
-  lane :build do
+  lane :test do
     # Sync certificates and profiles
     match
+    # Run tests
+    scan
+  end
+
+  lane :build do
+
 
     # Set Build Number
     set_info_plist_value(

@@ -65,7 +65,7 @@ jobs:
           at: .
       - run:
           name: Build application
-          command: bundle exec fastlane deploy --verbose
+          command: bundle exec fastlane build --verbose
       - persist_to_workspace:
           root: .
           paths:

@@ -58,6 +58,10 @@ jobs:
           paths: .
 
   build:
+    environment:
+      FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
+      FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
+      FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
     macos:
       xcode: 10.1.0
     steps:

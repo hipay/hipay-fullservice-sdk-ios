@@ -62,7 +62,7 @@ jobs:
       xcode: 10.1.0
     steps:
       - attach_workspace:
-          at: ~/hipay/hipay-fullservice-sdk-ios
+          at: .
       - run:
           name: Deploy HockeyApp
           command: bundle exec fastlane deploy --verbose

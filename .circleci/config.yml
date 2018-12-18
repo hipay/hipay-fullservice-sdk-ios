@@ -19,13 +19,9 @@ jobs:
       FASTLANE_TESTS_OUTPUT_TYPES: junit
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: '10.1.0'
+      xcode: 10.1.0
     steps:
       - checkout
-      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-      - run:
-          working_directory: ~/hipay/hipay-fullservice-sdk-ios
-          command: xcodebuild -version
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
       - run: bundle check || bundle install --path vendor/bundle
@@ -49,12 +45,27 @@ jobs:
             - "38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6"
       - run:
           name: Fastlane
-          command: bundle exec fastlane $FASTLANE_LANE --verbose
-      - store_test_results:
-          path: fastlane/test_output
+          command: bundle exec fastlane build --verbose
+      - save_cache:
+          key: ipa_cache
+          paths:
+            - HiPay Demo.ipa
+  deploy:
+    macos:
+      xcode: 10.1.0
+      working_directory: ~/hipay/hipay-fullservice-sdk-ios
+    steps:
+      - restore_cache:
+          key: ipa_cache
+      - run:
+          name: Deploy HockeyApp
+          command: bundle exec fastlane deploy --verbose
 
 workflows:
   version: 2
   build-test-deploy:
     jobs:
       - build-and-test
+      - deploy:
+          requires:
+            - build-and-test

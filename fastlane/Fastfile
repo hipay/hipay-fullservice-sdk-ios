@@ -4,7 +4,8 @@ platform :ios do
   before_all do
     setup_circle_ci
   end
-  lane :beta do
+
+  lane :build do
     # Sync certificates and profiles
     match
 
@@ -21,18 +22,15 @@ platform :ios do
       value: "HiPay Demo ("+ git_branch.gsub(/[^a-zA-Z0-9\-]/,"") + ")"
     )
 
+    gym
+  end
+
+  lane :deploy do
     # Get HockeyApp public identifier
     HOCKEY_PUBLIC_IDENTIFIER = ""
     Dir.chdir("..") do
       HOCKEY_PUBLIC_IDENTIFIER = sh("python deployment/get_identifier.py")
     end
-
-    # Execute tests
-    scan
-
-    # Build app
-    gym
-
     # Send .IPA to HockeyApp
     hockey(
       api_token: ENV['HOCKEY_APP_TOKEN'],

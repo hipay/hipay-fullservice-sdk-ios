@@ -165,7 +165,7 @@
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                             
-                                            [self alertView:alertViewController clickedCancelButton:true];
+                                            [self alertView:self->alertViewController clickedCancelButton:true];
                                         }];
         
         [alertViewController addAction:dismissButton];
@@ -186,7 +186,7 @@
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                             
-                                            [self alertView:alertViewController clickedCancelButton:true];
+                                            [self alertView:self->alertViewController clickedCancelButton:true];
                                             
                                         }];
         
@@ -195,7 +195,7 @@
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction * action) {
                                             
-                                            [self alertView:alertViewController clickedCancelButton:false];
+                                            [self alertView:self->alertViewController clickedCancelButton:false];
                                             
                                         }];
         
@@ -221,7 +221,7 @@
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                             
-                                            [self alertView:alertViewController clickedCancelButton:true];
+                                            [self alertView:self->alertViewController clickedCancelButton:true];
                                             
                                         }];
         
@@ -230,7 +230,7 @@
                                       style:UIAlertActionStyleDefault
                                       handler:^(UIAlertAction * action) {
                                           
-                                          [self alertView:alertViewController clickedCancelButton:false];
+                                          [self alertView:self->alertViewController clickedCancelButton:false];
                                           
                                       }];
         

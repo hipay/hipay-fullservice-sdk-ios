@@ -68,10 +68,10 @@
     paymentProductsRequest = [[HPFGatewayClient sharedClient] getPaymentProductsForRequest:[self paymentPageRequest] withCompletionHandler:^(NSArray *thePaymentProducts, NSError *error) {
 
         mainViewController.loading = NO;
-        paymentProductsRequest = nil;
+        self->paymentProductsRequest = nil;
 
         if ((error == nil) && (thePaymentProducts.count > 0)) {
-            paymentProducts = [self fullPaymentProductsListWithPaymentProducts:thePaymentProducts andRequest:[self paymentPageRequest]];
+            self->paymentProducts = [self fullPaymentProductsListWithPaymentProducts:thePaymentProducts andRequest:[self paymentPageRequest]];
 
             [self setPaymentProductsToMainViewController:mainViewController];
         }

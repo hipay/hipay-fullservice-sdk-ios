@@ -49,10 +49,10 @@
                                            style:UIAlertActionStyleDefault
                                            handler:^(UIAlertAction * action) {
                                                
-                                               BOOL shouldRefresh = selectedIssuerBank == nil;
+                                               BOOL shouldRefresh = self->selectedIssuerBank == nil;
                                                //selectedIssuerBank = [issuerBanks.allKeys objectAtIndex:(buttonIndex - 1)];
                                                
-                                               selectedIssuerBank = [issuerBanks.allKeys objectAtIndex:index];
+                                               self->selectedIssuerBank = [self->issuerBanks.allKeys objectAtIndex:index];
                                                
                                                [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
                                                

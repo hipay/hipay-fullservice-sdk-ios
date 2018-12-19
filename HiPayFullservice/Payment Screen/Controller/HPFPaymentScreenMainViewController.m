@@ -200,7 +200,7 @@
     NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
         
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:YES];
+        [self.navigationItem setRightBarButtonItems:self->rightBarButtonItems animated:YES];
     });
     
     [self defineContainerTopSpacing];
@@ -295,7 +295,7 @@
         
         [self transitionFromViewController:currentViewController toViewController:paymentProductViewController duration:0.2 options:0 animations:^{
             
-            paymentProductViewController.view.alpha = 1.;
+            self->paymentProductViewController.view.alpha = 1.;
             currentViewController.view.alpha = 0.;
             
         } completion:^(BOOL finished) {
@@ -377,7 +377,7 @@
 {
     NSUInteger index = [self.paymentProducts indexOfObjectPassingTest:^BOOL(HPFPaymentProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        return [obj isEqual:selectedPaymentProduct];
+        return [obj isEqual:self->selectedPaymentProduct];
         
     }];
     

@@ -275,13 +275,13 @@
 
     transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:[self signature] withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
 
-        transactionLoadingRequest = nil;
+        self->transactionLoadingRequest = nil;
 
         if (theTransaction != nil) {
 
-            transaction = theTransaction;
+            self->transaction = theTransaction;
 
-            [self checkTransactionStatus:transaction];
+            [self checkTransactionStatus:self->transaction];
         }
 
         else {

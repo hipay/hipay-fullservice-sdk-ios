@@ -13,6 +13,9 @@ platform :ios do
   end
 
   lane :build do
+    # Sync certificates and profiles
+    match
+
     # Set Build Number
     set_info_plist_value(
       path: "Example/HiPayFullservice/HiPayFullservice-Info.plist",
@@ -25,6 +28,8 @@ platform :ios do
       key: "CFBundleDisplayName",
       value: "HiPay Demo ("+ git_branch.gsub(/[^a-zA-Z0-9\-]/,"") + ")"
     )
+
+    #Build app
     gym
   end
 

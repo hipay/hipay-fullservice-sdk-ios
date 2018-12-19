@@ -25,14 +25,14 @@ for app in appsResponse["apps"]:
 if public_identifier is None:
 
     params = urllib.urlencode({
-    "title": "HiPay Demo (" + circle_branch_cleaned + ")",
-    "bundle_identifier": bundle_identifier,
-    "platform": "iOS",
-    "release_type": "2"
+        "title": "HiPay Demo (" + os.environ.get('CIRCLE_BRANCH') + ")",
+        "bundle_identifier": bundle_identifier,
+        "platform": "iOS",
+        "release_type": "2"
     })
 
     hockeyConnection.request("POST", "/api/2/apps/new", params, {
-    "X-HockeyAppToken": os.environ.get('HOCKEY_APP_TOKEN')
+        "X-HockeyAppToken": os.environ.get('HOCKEY_APP_TOKEN')
     })
 
     response = hockeyConnection.getresponse()
@@ -45,7 +45,7 @@ if public_identifier is None:
 
 # Add team to app
 hockeyConnection.request("PUT", "/api/2/apps/" + public_identifier + "/app_teams/54248", None, {
-"X-HockeyAppToken": os.environ.get('HOCKEY_APP_TOKEN')
+    "X-HockeyAppToken": os.environ.get('HOCKEY_APP_TOKEN')
 })
 
 sys.stdout.write(public_identifier)

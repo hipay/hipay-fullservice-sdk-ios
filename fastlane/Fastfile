@@ -6,8 +6,6 @@ platform :ios do
   end
 
   lane :test do
-    # Sync certificates and profiles
-    match
     # Run tests
     scan
   end

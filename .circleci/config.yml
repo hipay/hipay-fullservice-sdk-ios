@@ -9,9 +9,6 @@ jobs:
   test:
     environment:
       LANG: en_US.UTF-8
-      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
-      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-      FASTLANE_LANE: beta
       FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
       FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
       FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
@@ -25,6 +22,7 @@ jobs:
       xcode: 10.1.0
     steps:
       - checkout
+      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
       - run: bundle check || bundle install --path vendor/bundle
@@ -43,16 +41,11 @@ jobs:
           key: 1-pods-{{ checksum "Example/Podfile.lock" }}
           paths:
             - Example/Pods
-      - add_ssh_keys:
-          fingerprints:
-            - "38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6"
       - run:
           name: Fastlane
           command: bundle exec fastlane test --verbose
-      - run:
-          command: ls
-      - run:
-          command: pwd
+      - store_test_results:
+          path: fastlane/test_output
       - persist_to_workspace:
           root: .
           paths: .
@@ -89,7 +82,7 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Deploy HockeyApp
+          name: Deploy on HockeyApp
           command: bundle exec fastlane deploy --verbose
 
 workflows:

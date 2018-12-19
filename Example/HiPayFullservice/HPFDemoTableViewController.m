@@ -187,16 +187,16 @@
         if (indexPath.row == environmentRowIndex) {
             HPFMoreOptionsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EnvironmentCell" forIndexPath:indexPath];
             
-            cell.textLabel.text = @"Environment";
+            cell.textLabel.text = NSLocalizedString(@"FORM_ENVIRONMENT", nil);
 
             if ([HPFEnvironmentViewController isEnvironmentStage]) {
-                cell.detailTextLabel.text = @"Stage";
+                cell.detailTextLabel.text = NSLocalizedString(@"ENVIRONMENT_STAGE", nil);
             }
             else if ([HPFEnvironmentViewController isEnvironmentProduction]) {
-                cell.detailTextLabel.text = @"Production";
+                cell.detailTextLabel.text = NSLocalizedString(@"ENVIRONMENT_PRODUCTION", nil);
             }
             else if ([HPFEnvironmentViewController isEnvironmentCustom]) {
-                cell.detailTextLabel.text = @"Custom";
+                cell.detailTextLabel.text = NSLocalizedString(@"ENVIRONMENT_CUSTOM", nil);
             }
 
             return cell;

@@ -35,7 +35,7 @@
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-        self.title = @"Environment choice";
+        self.title = NSLocalizedString(@"ENVIRONMENT_FORM_TITLE", nil);
         
         self.stageRowIndex = 0;
         self.prodRowIndex = 1;
@@ -92,13 +92,13 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         
         if (indexPath.row == self.stageRowIndex) {
-            cell.textLabel.text = @"Stage";
+            cell.textLabel.text = NSLocalizedString(@"ENVIRONMENT_STAGE", nil);
         }
         else if (indexPath.row == self.prodRowIndex) {
-            cell.textLabel.text = @"Production";
+            cell.textLabel.text = NSLocalizedString(@"ENVIRONMENT_PRODUCTION", nil);
         }
         else if (indexPath.row == self.customRowIndex) {
-            cell.textLabel.text = @"Custom";
+            cell.textLabel.text = NSLocalizedString(@"ENVIRONMENT_CUSTOM", nil);
         }
         
         if (indexPath.row == self.selectedEnvironment) {
@@ -113,7 +113,7 @@
         if (indexPath.row == self.usernameRowIndex) {
             HPFTextInputTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Input" forIndexPath:indexPath];
             
-            cell.title.text = @"Username";
+            cell.title.text = NSLocalizedString(@"ENVIRONMENT_FORM_USERNAME", nil);
             
             if (self.selectedEnvironment == self.stageRowIndex) {
                 cell.textfield.text = self.plistDictionary[@"hipayStage"][@"username"];
@@ -132,7 +132,7 @@
         else if (indexPath.row == self.passwordRowIndex) {
             HPFTextInputTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Input" forIndexPath:indexPath];
             
-            cell.title.text = @"Password";
+            cell.title.text = NSLocalizedString(@"ENVIRONMENT_FORM_PASSWORD", nil);
             
             if (self.selectedEnvironment == self.stageRowIndex) {
                 cell.textfield.text = self.plistDictionary[@"hipayStage"][@"password"];
@@ -154,7 +154,7 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"url"];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
-            cell.textLabel.text = @"URL";
+            cell.textLabel.text = NSLocalizedString(@"ENVIRONMENT_FORM_URL", nil);
             
             if (self.selectedEnvironment == self.stageRowIndex) {
                 cell.detailTextLabel.text = HPFGatewayClientBaseURLStage;
@@ -203,17 +203,17 @@
             
             UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
             
-            [alertVC addAction:[UIAlertAction actionWithTitle:@"Production URL" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"ENVIRONMENT_PRODUCTION", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 self.isStageUrl = NO;
                 cell.detailTextLabel.text = HPFGatewayClientBaseURLProduction;
             }]];
 
-            [alertVC addAction:[UIAlertAction actionWithTitle:@"Stage URL" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"ENVIRONMENT_STAGE", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 self.isStageUrl = YES;
                 cell.detailTextLabel.text = HPFGatewayClientBaseURLStage;
             }]];
             
-            [alertVC addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+            [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"CANCEL", nil) style:UIAlertActionStyleCancel handler:nil]];
             
             [self.navigationController presentViewController:alertVC animated:YES completion:nil];
         }
@@ -272,17 +272,25 @@
         password = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.passwordRowIndex inSection:1]];
         
         if (username.textfield.text.length == 0 || password.textfield.text.length == 0) {
-            UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"⚠️ Warning ⚠️" message:@"Username or password empty" preferredStyle:UIAlertControllerStyleAlert];
-            [alertVC addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+            UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"ENVIRONMENT_ALERT_TITLE", nil)
+                                                                             message:NSLocalizedString(@"ENVIRONMENT_ALERT_MESSAGE_EMPTY", nil)
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+            [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:nil]];
             [self.navigationController presentViewController:alertVC animated:YES completion:nil];
             
             return;
         }
     }
     
-    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"⚠️ Warning ⚠️" message:@"HiPay Demo will stop to save environment" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"ENVIRONMENT_ALERT_TITLE", nil)
+                                                                     message:NSLocalizedString(@"ENVIRONMENT_ALERT_MESSAGE_RESTART", nil)
+                                                              preferredStyle:UIAlertControllerStyleAlert];
     
-    [alertVC addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                style:UIAlertActionStyleDestructive
+                                              handler:^(UIAlertAction * _Nonnull action) {
         if (self.selectedEnvironment == self.prodRowIndex) {
             [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueProduction];
         }
@@ -297,7 +305,9 @@
         }
         abort();
     }]];
-    [alertVC addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"CANCEL", nil)
+                                                style:UIAlertActionStyleCancel
+                                              handler:nil]];
     [self.navigationController presentViewController:alertVC animated:YES completion:nil];
 }
 

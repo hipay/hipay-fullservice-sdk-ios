@@ -62,6 +62,10 @@ jobs:
       FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
       FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
       FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
+      FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
+      FASTLANE_CERTIFICATES_TYPE: adhoc
+      FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
+      APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
       xcode: 10.1.0
     steps:

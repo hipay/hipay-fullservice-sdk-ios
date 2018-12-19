@@ -71,6 +71,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - add_ssh_keys:
+          fingerprints:
+            - "38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6"
       - run:
           name: Build application
           command: bundle exec fastlane build --verbose

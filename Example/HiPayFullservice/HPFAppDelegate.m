@@ -9,6 +9,7 @@
 #import "HPFAppDelegate.h"
 #import <HiPayFullservice/HiPayFullservice.h>
 #import <HockeySDK/HockeySDK.h>
+#import "HPFEnvironmentViewController.h"
 
 @implementation HPFAppDelegate
 
@@ -16,14 +17,27 @@
 {
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
     
-    [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage
-                                                username:parameters[@"hipay"][@"username"]
-                                                password:parameters[@"hipay"][@"password"]
-                                            appURLscheme:@"hipayexample"];
+    if ([HPFEnvironmentViewController isEnvironmentStage]) {
+        [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentStage
+                                                    username:parameters[@"hipayStage"][@"username"]
+                                                    password:parameters[@"hipayStage"][@"password"]
+                                                appURLscheme:parameters[@"appURLscheme"]];
+    }
+    else if ([HPFEnvironmentViewController isEnvironmentProduction]) {
+        [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction
+                                                    username:parameters[@"hipayProduction"][@"username"]
+                                                    password:parameters[@"hipayProduction"][@"password"]
+                                                appURLscheme:parameters[@"appURLscheme"]];
+    }
+    else if ([HPFEnvironmentViewController isEnvironmentCustom]) {
+        [[HPFClientConfig sharedClientConfig] setEnvironment:[HPFEnvironmentViewController isStageUrlUserDefaults] ? HPFEnvironmentStage : HPFEnvironmentProduction
+                                                    username:[HPFEnvironmentViewController usernameUserDefaults]
+                                                    password:[HPFEnvironmentViewController passwordUserDefaults]
+                                                appURLscheme:parameters[@"appURLscheme"]];
+    }
 
     [[HPFClientConfig sharedClientConfig] setPaymentCardStorageEnabled:YES withTouchID:YES];
     [[HPFClientConfig sharedClientConfig] setPaymentCardScanEnabled:YES];
-    //[[HPFClientConfig sharedClientConfig] setApplePayEnabled:YES privateKeyPassword:@"test"];
     
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:parameters[@"hockeyapp"][@"app_identifier"]];
     [[BITHockeyManager sharedHockeyManager] startManager];

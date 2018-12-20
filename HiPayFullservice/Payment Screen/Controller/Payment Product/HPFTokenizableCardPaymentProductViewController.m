@@ -505,7 +505,7 @@
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
         [self setPaymentButtonLoadingMode:NO];
-        transactionLoadingRequest = nil;
+        self->transactionLoadingRequest = nil;
         
         if (cardToken != nil) {
 
@@ -515,7 +515,7 @@
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
             
-            orderRequest.paymentProductCode = inferedPaymentProductCode;
+            orderRequest.paymentProductCode = self->inferedPaymentProductCode;
             
             orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
             

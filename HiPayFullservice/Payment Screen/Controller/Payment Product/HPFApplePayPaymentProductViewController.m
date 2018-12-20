@@ -136,7 +136,7 @@
 
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithApplePayToken:decodedString privateKeyPassword:[HPFClientConfig.sharedClientConfig applePayPrivateKeyPassword] andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
 
-        transactionLoadingRequest = nil;
+        self->transactionLoadingRequest = nil;
 
         if (cardToken != nil) {
 
@@ -149,16 +149,16 @@
                                                                                           authenticationIndicator:HPFAuthenticationIndicatorBypass];
 
             [self cancelRequests];
-            transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:self.signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
+            self->transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:self.signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
 
-                transactionLoadingRequest = nil;
+                self->transactionLoadingRequest = nil;
 
                 if (theTransaction != nil) {
 
-                    transaction = theTransaction;
+                    self->transaction = theTransaction;
                     self.transactionError = nil;
 
-                    if (transaction.isHandled) {
+                    if (self->transaction.isHandled) {
 
                         completion(PKPaymentAuthorizationStatusSuccess);
 
@@ -170,7 +170,7 @@
 
                 else {
 
-                    transaction = nil;
+                    self->transaction = nil;
                     self.transactionError = error;
 
                     completion(PKPaymentAuthorizationStatusFailure);
@@ -179,7 +179,7 @@
 
         } else {
 
-            transaction = nil;
+            self->transaction = nil;
             self.tokenError = error;
             completion(PKPaymentAuthorizationStatusFailure);
 
@@ -217,8 +217,8 @@
 
     [controller dismissViewControllerAnimated:YES completion:^{
 
-        if (transaction != nil) {
-            [self checkTransactionStatus:transaction];
+        if (self->transaction != nil) {
+            [self checkTransactionStatus:self->transaction];
 
         } else if (self.tokenError != nil) {
 
@@ -256,7 +256,7 @@
 
         self.tokenError = nil;
         self.transactionError = nil;
-        transaction = nil;
+        self->transaction = nil;
         self.authorized = NO;
 
     }];

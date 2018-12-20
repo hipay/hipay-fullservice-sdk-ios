@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1DDAAE7469FAC50D2CC28FCE /* libPods-HiPayFullservice_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A1EC66AABF36F8DC730F2C /* libPods-HiPayFullservice_Example.a */; };
 		4353367D1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4353367B1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m */; };
 		4353367E1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4353367C1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib */; };
 		438DF0D11D6740A20003E24C /* HPFSubmitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 438DF0D01D6740A20003E24C /* HPFSubmitTableViewCell.xib */; };
@@ -84,10 +83,12 @@
 		A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F931BE91B9500F9604F /* InfoPlist.strings */; };
 		A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F951BE91B9500F9604F /* Localizable.strings */; };
 		A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F981BE91B9500F9604F /* Localizable.strings */; };
+		BA03A15521CB933300840C4D /* parameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA03A15321CB933300840C4D /* parameters.plist */; };
 		BA07A93221B544A5004A6B4C /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BA07A93121B544A5004A6B4C /* LICENSE.md */; };
 		BA2CD18021B9583900BF278D /* HPFEnvironmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */; };
 		BA2CD18421B97CE600BF278D /* HPFTextInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD18221B97CE600BF278D /* HPFTextInputTableViewCell.m */; };
 		BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA2CD18321B97CE600BF278D /* HPFTextInputTableViewCell.xib */; };
+		BC0B0DC3C460478A4A16EE9C /* libPods-HiPayFullservice_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A1EC66AABF36F8DC730F2C /* libPods-HiPayFullservice_Example.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,9 +201,11 @@
 		A5C91F431BE2CD6D00FD8421 /* HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A5C91F481BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFQiwiWalletPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		A5F605911BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFHostedPaymentPageMapperTests.m; sourceTree = "<group>"; };
+		A5F98F941BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		A5F98F961BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		A5F98F991BE91B9500F9604F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Localizable.strings; sourceTree = "<group>"; };
 		B936D89B6AB94FC4D1FE6E95 /* HiPayFullservice.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayFullservice.podspec; path = ../HiPayFullservice.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		BA03A15321CB933300840C4D /* parameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = parameters.plist; sourceTree = "<group>"; };
 		BA07A93121B544A5004A6B4C /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		BA2CD17E21B9583900BF278D /* HPFEnvironmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFEnvironmentViewController.h; sourceTree = "<group>"; };
 		BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFEnvironmentViewController.m; sourceTree = "<group>"; };
@@ -219,7 +222,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				1DDAAE7469FAC50D2CC28FCE /* libPods-HiPayFullservice_Example.a in Frameworks */,
+				BC0B0DC3C460478A4A16EE9C /* libPods-HiPayFullservice_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +483,7 @@
 		A5A375591BD8E6A600CEA434 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BA03A15221CB933300840C4D /* Parameters */,
 				438DF0CD1D673FFD0003E24C /* Nib */,
 				A5F98F911BE91B8700F9604F /* Localization */,
 				A5A3755A1BD8E6A600CEA434 /* Fixtures */,
@@ -634,6 +638,14 @@
 			path = Formatter;
 			sourceTree = "<group>";
 		};
+		BA03A15221CB933300840C4D /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				BA03A15321CB933300840C4D /* parameters.plist */,
+			);
+			path = Parameters;
+			sourceTree = "<group>";
+		};
 		C48F3F75E417C5FB980938D3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -746,6 +758,7 @@
 				BA07A93221B544A5004A6B4C /* LICENSE.md in Resources */,
 				A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */,
 				BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */,
+				BA03A15521CB933300840C4D /* parameters.plist in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */,
 				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
@@ -946,6 +959,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				6003F5B9195388D20070C39A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A5F98F931BE91B9500F9604F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5F98F941BE91B9500F9604F /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

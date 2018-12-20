@@ -25,8 +25,8 @@
     }
     else if ([HPFEnvironmentViewController isEnvironmentProduction]) {
         [[HPFClientConfig sharedClientConfig] setEnvironment:HPFEnvironmentProduction
-                                                    username:parameters[@"hipayProd"][@"username"]
-                                                    password:parameters[@"hipayProd"][@"password"]
+                                                    username:parameters[@"hipayProduction"][@"username"]
+                                                    password:parameters[@"hipayProduction"][@"password"]
                                                 appURLscheme:parameters[@"appURLscheme"]];
     }
     else if ([HPFEnvironmentViewController isEnvironmentCustom]) {

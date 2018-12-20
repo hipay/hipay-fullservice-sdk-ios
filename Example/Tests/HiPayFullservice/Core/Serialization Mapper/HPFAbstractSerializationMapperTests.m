@@ -30,6 +30,9 @@
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [mockedRequest stopMocking];
+    [mapper.request stopMocking];
+    
     [super tearDown];
 }
 
@@ -54,7 +57,7 @@
 {
     NSMutableDictionary *initialDictionary = [NSMutableDictionary dictionaryWithDictionary:@{@"key": @"val", @"key2": @"val2"}];
     NSDictionary *result = [mapper createImmutableDictionary:initialDictionary];
-    
+
     XCTAssertEqualObjects(result, initialDictionary);
     XCTAssertFalse([result isKindOfClass:[NSMutableDictionary class]]);
 }
@@ -64,11 +67,11 @@
     [[[mockedRequest expect] andReturn:[NSURL URLWithString:@"http://www.example.com/forward/ok"]] valueForKey:@"test1"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test2"];
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test3"];
-    
+
     XCTAssertEqualObjects([mapper getURLForKey:@"test1"], @"http://www.example.com/forward/ok");
     XCTAssertNil([mapper getURLForKey:@"test2"]);
     XCTAssertNil([mapper getURLForKey:@"test3"]);
-    
+
     [mockedRequest verify];
 }
 
@@ -79,7 +82,7 @@
     [[[mockedRequest expect] andReturn:@(45.125457)] valueForKey:@"test3"];
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test4"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test5"];
-    
+
     XCTAssertEqualObjects([mapper getIntegerForKey:@"test1"], @"45");
     XCTAssertEqualObjects([mapper getIntegerForKey:@"test2"], @"45");
     XCTAssertEqualObjects([mapper getIntegerForKey:@"test3"], @"45");
@@ -94,10 +97,10 @@
     [[[mockedRequest expect] andReturn:@45] valueForKey:@"test1"];
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test2"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test3"];
-    
+
     id classMock = OCMClassMock([HPFAbstractSerializationMapper class]);
     OCMStub([classMock formatAmountNumber:@45]).andReturn(@"45.00");
-    
+
     XCTAssertEqualObjects([mapper getFloatForKey:@"test1"], @"45.00");
     XCTAssertNil([mapper getFloatForKey:@"test2"]);
     XCTAssertNil([mapper getFloatForKey:@"test3"]);
@@ -119,18 +122,18 @@
     [[[mockedRequest expect] andReturn:[NSDate dateWithTimeIntervalSince1970:1423440000]] valueForKey:@"test2"];
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test3"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test4"];
-    
+
     XCTAssertEqualObjects([mapper getDateForKey:@"test1" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]], @"2015-12-31");
     XCTAssertEqualObjects([mapper getDateForKey:@"test2" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]], @"2015-02-09");
     XCTAssertNil([mapper getDateForKey:@"test3" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]]);
     XCTAssertNil([mapper getDateForKey:@"test4" timeZone:[NSTimeZone timeZoneWithName:@"GMT"]]);
-    
+
     NSString *result = @"2015-11-12";
-    
+
     [[[mockedMapper expect] andReturn:result] getDateForKey:@"test_final" timeZone:[NSTimeZone systemTimeZone]];
-    
+
     XCTAssertEqual([mapper getDateForKey:@"test_final"], result);
-    
+
     [mockedMapper verify];
     [mockedRequest verify];
 }
@@ -142,13 +145,13 @@
     [[[mockedRequest expect] andReturn:@[]] valueForKey:@"test3"];
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test4"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test5"];
-    
+
     XCTAssertEqualObjects([mapper getStringValuesListForKey:@"test1"], @"hello,world,ok");
     XCTAssertEqualObjects([mapper getStringValuesListForKey:@"test2"], @"hello");
     XCTAssertEqualObjects([mapper getStringValuesListForKey:@"test3"], @"");
     XCTAssertNil([mapper getStringValuesListForKey:@"test4"]);
     XCTAssertNil([mapper getStringValuesListForKey:@"test5"]);
-    
+
     [mockedRequest verify];
 }
 
@@ -157,7 +160,7 @@
     [[[mockedRequest expect] andReturn:@"Hello"] valueForKey:@"test1"];
     [[[mockedRequest expect] andReturn:@(2)] valueForKey:@"test2"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test3"];
-    
+
     XCTAssertEqualObjects([mapper getStringForKey:@"test1"], @"Hello");
     XCTAssertNil([mapper getStringForKey:@"test2"]);
     XCTAssertNil([mapper getStringForKey:@"test3"]);
@@ -173,14 +176,14 @@
     [[[mockedRequest expect] andReturn:@(' ')] valueForKey:@"test4"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test5"];
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test6"];
-    
+
     XCTAssertEqualObjects([mapper getCharEnumValueForKey:@"test1"], @"A");
     XCTAssertEqualObjects([mapper getCharEnumValueForKey:@"test2"], @"H");
     XCTAssertEqualObjects([mapper getCharEnumValueForKey:@"test3"], @"Z");
     XCTAssertNil([mapper getCharEnumValueForKey:@"test4"]);
     XCTAssertNil([mapper getCharEnumValueForKey:@"test5"]);
     XCTAssertNil([mapper getCharEnumValueForKey:@"test6"]);
-    
+
     [mockedRequest verify];
 }
 
@@ -192,14 +195,14 @@
     [[[mockedRequest expect] andReturn:@(NSIntegerMax)] valueForKey:@"test4"];
     [[[mockedRequest expect] andReturn:@"hello"] valueForKey:@"test5"];
     [[[mockedRequest expect] andReturn:nil] valueForKey:@"test6"];
-    
+
     XCTAssertEqualObjects([mapper getIntegerEnumValueForKey:@"test1"], @"12");
     XCTAssertEqualObjects([mapper getIntegerEnumValueForKey:@"test2"], @"0");
     XCTAssertEqualObjects([mapper getIntegerEnumValueForKey:@"test3"], @"546445");
     XCTAssertNil([mapper getIntegerEnumValueForKey:@"test4"]);
     XCTAssertNil([mapper getIntegerEnumValueForKey:@"test5"]);
     XCTAssertNil([mapper getIntegerEnumValueForKey:@"test6"]);
-    
+
     [mockedRequest verify];
 }
 
@@ -218,12 +221,12 @@
 
     XCTAssertNil([mapper getSerializedJSONForKey:@"test1"]);
     XCTAssertNil([mapper getSerializedJSONForKey:@"test2"]);
-    
+
     XCTAssertEqualObjects([self removeLineBreakFromString:[mapper getSerializedJSONForKey:@"test3"]], @"{}");
     XCTAssertEqualObjects([self removeLineBreakFromString:[mapper getSerializedJSONForKey:@"test4"]], @"{\"hello\":\"world\"}");
     XCTAssertEqualObjects([self removeLineBreakFromString:[mapper getSerializedJSONForKey:@"test5"]], @"{\"hello\":1}");
-    
-    
+
+
 }
 
 @end

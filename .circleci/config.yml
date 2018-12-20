@@ -1,0 +1,97 @@
+version: 2.1
+
+executors:
+  my-exectutor:
+    shell: /bin/bash --login
+    working_directory: ~/hipay/hipay-fullservice-sdk-ios
+
+jobs:
+  test:
+    environment:
+      LANG: en_US.UTF-8
+      FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
+      FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
+      FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
+      FASTLANE_CERTIFICATES_TYPE: adhoc
+      FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
+      FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
+      FASTLANE_INFO_PLIST_PATH: Example/HiPayFullservice/HiPayFullservice-Info.plist
+      FASTLANE_TESTS_OUTPUT_TYPES: junit
+      APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
+    macos:
+      xcode: 10.1.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - restore_cache:
+          key: 1-pods-{{ checksum "Example/Podfile.lock" }}
+      - run:
+          name: Install CocoaPods
+          command: |
+            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
+            bundle exec pod install --project-directory=Example/
+      - save_cache:
+          key: 1-pods-{{ checksum "Example/Podfile.lock" }}
+          paths:
+            - Example/Pods
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane test --verbose
+      - store_test_results:
+          path: fastlane/test_output
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  build:
+    environment:
+      FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
+      FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
+      FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
+      FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
+      FASTLANE_CERTIFICATES_TYPE: adhoc
+      FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
+      APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
+    macos:
+      xcode: 10.1.0
+    steps:
+      - attach_workspace:
+          at: .
+      - add_ssh_keys:
+          fingerprints:
+            - "38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6"
+      - run:
+          name: Build application
+          command: bundle exec fastlane build --verbose
+      - persist_to_workspace:
+          root: .
+          paths:
+            - HiPay Demo.ipa
+
+  deploy:
+    macos:
+      xcode: 10.1.0
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploy on HockeyApp
+          command: bundle exec fastlane deploy --verbose
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - build

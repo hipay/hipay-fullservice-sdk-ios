@@ -570,12 +570,18 @@
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Gateway notification"];
     
-    [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+    __block id errorNotification;
+    __block id successNotification;
+    
+    successNotification = [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        [[NSNotificationCenter defaultCenter] removeObserver:errorNotification];
+
         XCTFail(@"Gateway should not post %@ notification in this case.", note.name);
     }];
     
-    [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        
+    errorNotification = [[NSNotificationCenter defaultCenter] addObserverForName:HPFGatewayClientDidRedirectWithMappingErrorNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        [[NSNotificationCenter defaultCenter] removeObserver:successNotification];
+
         XCTAssertEqualObjects(note.userInfo[@"orderId"], @"TEST_SDK_IOS_1447858566.325105");
         XCTAssertEqualObjects(note.userInfo[@"path"], @"accept");
         XCTAssertNil(note.userInfo[@"transaction"]);

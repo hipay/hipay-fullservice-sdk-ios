@@ -1,0 +1,50 @@
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    setup_circle_ci
+  end
+
+  lane :test do
+    # Run tests
+    scan
+  end
+
+  lane :build do
+    # Sync certificates and profiles
+    match
+
+    # Set Build Number
+    set_info_plist_value(
+      path: "Example/HiPayFullservice/HiPayFullservice-Info.plist",
+      key: "CFBundleVersion",
+      value: ENV['CIRCLE_BUILD_NUM']
+    )
+
+    set_info_plist_value(
+      path: "Example/HiPayFullservice/HiPayFullservice-Info.plist",
+      key: "CFBundleDisplayName",
+      value: "HiPay Demo ("+ git_branch.gsub(/[^a-zA-Z0-9\-]/,"") + ")"
+    )
+
+    #Build app
+    gym
+  end
+
+  lane :deploy do
+    # Get HockeyApp public identifier
+    HOCKEY_PUBLIC_IDENTIFIER = ""
+    Dir.chdir("..") do
+      HOCKEY_PUBLIC_IDENTIFIER = sh("python deployment/get_identifier.py")
+    end
+    # Send .IPA to HockeyApp
+    hockey(
+      api_token: ENV['HOCKEY_APP_TOKEN'],
+      public_identifier: HOCKEY_PUBLIC_IDENTIFIER,
+      bundle_version: "1",
+      bundle_short_version: "1.0",
+      ipa: "HiPay Demo.ipa",
+      notify: "0"
+    )
+  end
+end

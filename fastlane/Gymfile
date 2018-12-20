@@ -1,0 +1,4 @@
+workspace(ENV['FASTLANE_WORKSPACE_PATH'])
+scheme(ENV['FASTLANE_PROJECT_SCHEME'])
+output_directory("./")
+export_team_id(ENV['FASTLANE_CERTIFICATES_TEAM_ID'])

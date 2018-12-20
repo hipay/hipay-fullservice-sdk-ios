@@ -41,6 +41,9 @@ jobs:
           paths:
             - Example/Pods
       - run:
+          name: Generate parameters file
+            command: python ../deployment/generate_parameters.py
+      - run:
           name: Fastlane
           command: bundle exec fastlane test --verbose
       - store_test_results:

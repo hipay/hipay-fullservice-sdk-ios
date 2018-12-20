@@ -550,8 +550,8 @@
     }
     else if ([HPFEnvironmentViewController isEnvironmentProduction]) {
         [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay
-                                            privateKeyPassword:parameters[@"hipayProd"][@"privateKeyPassword"]
-                                            merchantIdentifier:parameters[@"hipayProd"][@"merchantIdentifier"]];
+                                            privateKeyPassword:parameters[@"hipayProduction"][@"privateKeyPassword"]
+                                            merchantIdentifier:parameters[@"hipayProduction"][@"merchantIdentifier"]];
     }
     
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;

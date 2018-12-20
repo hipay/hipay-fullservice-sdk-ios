@@ -119,7 +119,7 @@
                 cell.textfield.text = self.plistDictionary[@"hipayStage"][@"username"];
             }
             else if (self.selectedEnvironment == self.prodRowIndex) {
-                cell.textfield.text = self.plistDictionary[@"hipayProd"][@"username"];
+                cell.textfield.text = self.plistDictionary[@"hipayProduction"][@"username"];
             }
             else {
                 cell.textfield.text = [HPFEnvironmentViewController usernameUserDefaults];
@@ -138,7 +138,7 @@
                 cell.textfield.text = self.plistDictionary[@"hipayStage"][@"password"];
             }
             else if (self.selectedEnvironment == self.prodRowIndex) {
-                cell.textfield.text = self.plistDictionary[@"hipayProd"][@"password"];
+                cell.textfield.text = self.plistDictionary[@"hipayProduction"][@"password"];
             }
             else {
                 cell.textfield.text = [HPFEnvironmentViewController passwordUserDefaults];

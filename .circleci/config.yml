@@ -41,6 +41,12 @@ jobs:
           paths:
             - Example/Pods
       - run:
+          name: LS
+          command: ls
+      - run:
+          name: PWD
+          command: pwd
+      - run:
           name: Generate parameters file
           command: python ../deployment/generate_parameters.py
       - run:

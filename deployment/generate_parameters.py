@@ -12,8 +12,15 @@ parameters = dict(
     appURLscheme= 'hipayexample'
 )
 
-filename = "Example/HiPayFullservice/Resources/Parameters/parameters.plist"
-path =  "../" + filename
+filename = "parameters.plist"
+path = ""
+
+if os.environ.get('CI'):
+    path = "Example/HiPayFullservice/Resources/Parameters/" + filename
+else:
+    path = "../Example/HiPayFullservice/Resources/Parameters/" + filename
+
+print path
 
 # Save file
 plistlib.writePlist(parameters, path)

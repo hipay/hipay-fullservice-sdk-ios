@@ -10,6 +10,8 @@
 #import "HPFSepaDirectDebitPaymentMethodRequest.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "NSString+HPFValidation.h"
+#import "HPFPaymentScreenUtils.h"
+#import "HPFIbanUtils.h"
 
 @implementation HPFSepaDirectDebitPaymentProductViewController
 
@@ -27,7 +29,7 @@
 
 - (BOOL)submitButtonEnabled
 {
-    return [[self textForIdentifier:@"firstname"] isDefined] && [[self textForIdentifier:@"lastname"] isDefined] && [[self textForIdentifier:@"iban"] isDefined];
+    return [[self textForIdentifier:@"firstname"] isDefined] && [[self textForIdentifier:@"lastname"] isDefined] && [HPFIbanUtils isValidIBAN:[self textForIdentifier:@"iban"]];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -64,35 +66,60 @@
     if (indexPath.section == 1) {
         return [super dequeuePaymentButtonCell];
     }
-
+    
     if (indexPath.row == 0) {
         HPFInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"firstname"];
         
-        cell.inputLabel.text = @"Firstname";
-        cell.textField.placeholder = @"John";
-        cell.textField.keyboardType = UIKeyboardTypeDefault;
+        cell.inputLabel.text = HPFLocalizedString(@"SEPA_DIRECT_DEBIT_FIRSTNAME");
+        cell.textField.keyboardType = UIKeyboardTypeAlphabet;
+        cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+        cell.textField.returnKeyType = UIReturnKeyNext;
         
         return cell;
     }
     else if (indexPath.row == 1) {
         HPFInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"lastname"];
         
-        cell.inputLabel.text = @"Lastname";
-        cell.textField.placeholder = @"Doe";
-        cell.textField.keyboardType = UIKeyboardTypeDefault;
+        cell.inputLabel.text = HPFLocalizedString(@"SEPA_DIRECT_DEBIT_LASTNAME");
+        cell.textField.keyboardType = UIKeyboardTypeAlphabet;
+        cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+        cell.textField.returnKeyType = UIReturnKeyNext;
         
         return cell;
     }
     else if (indexPath.row == 2) {
         HPFInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"iban"];
         
-        cell.inputLabel.text = @"IBAN";
-        cell.textField.keyboardType = UIKeyboardTypeDefault;
+        cell.inputLabel.text = HPFLocalizedString(@"SEPA_DIRECT_DEBIT_IBAN");
+        cell.textField.keyboardType = UIKeyboardTypeAlphabet;
+        cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+        cell.textField.returnKeyType = UIReturnKeyDone;
         
         return cell;
     }
     
     return nil;
 }
+
+#pragma mark - Form edition
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == [self textFieldForIdentifier:@"firstname"]) {
+        [[self textFieldForIdentifier:@"lastname"] becomeFirstResponder];
+        return YES;
+    }
+    
+    if (textField == [self textFieldForIdentifier:@"lastname"]) {
+        [[self textFieldForIdentifier:@"iban"] becomeFirstResponder];
+        return YES;
+    }
+    
+    return [super textFieldShouldReturn:textField];
+}
+
 
 @end

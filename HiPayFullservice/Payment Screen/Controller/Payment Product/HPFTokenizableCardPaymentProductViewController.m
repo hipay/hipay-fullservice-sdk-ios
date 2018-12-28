@@ -570,12 +570,18 @@
             cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
             cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
             cell.textField.returnKeyType = UIReturnKeyNext;
+            if (@available(iOS 10.0, *)) {
+                cell.textField.textContentType = UITextContentTypeName;
+            }
             break;
             
         case 1:
             cell = [self dequeueInputCellWithIdentifier:@"CardNumberInput" fieldIdentifier:@"number"];
             ((HPFCardNumberInputTableViewCell *)cell).defaultPaymentProductCode = [self currentPaymentProductCode];
             cell.textField.returnKeyType = UIReturnKeyNext;
+            if (@available(iOS 10.0, *)) {
+                cell.textField.textContentType = UITextContentTypeCreditCardNumber;
+            }
             break;
             
         case 2:

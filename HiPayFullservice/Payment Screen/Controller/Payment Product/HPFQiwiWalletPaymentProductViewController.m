@@ -62,6 +62,9 @@
     cell.inputLabel.text = HPFLocalizedString(@"QIWI_WALLET_USERNAME_LABEL");
     cell.textField.placeholder = HPFLocalizedString(@"QIWI_WALLET_USERNAME_PLACEHOLDER");
     cell.textField.keyboardType = UIKeyboardTypePhonePad;
+    if (@available(iOS 10.0, *)) {
+        cell.textField.textContentType = UITextContentTypeTelephoneNumber;
+    }
     
     return cell;
 }

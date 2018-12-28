@@ -574,23 +574,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == environmentRowIndex) {
-        HPFEnvironmentViewController *environmentVC = [[HPFEnvironmentViewController alloc] init];
-        [self.navigationController pushViewController:environmentVC animated:YES];
-        
-    } else if (indexPath.row == productCategoryRowIndex) {
-        productCategoriesViewController = [[HPFPaymentProductCategoriesTableViewController alloc] initWithSelectedPaymentProducts:selectedPaymentProducts];
-        
-        [self.navigationController pushViewController:productCategoriesViewController animated:YES];
-        
-    } else if (indexPath.row == storeCardIndex) {
-        
-        HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:@"tempID"];
-        
-        HPFStoreCardViewController *storevc = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest];
-        storevc.storeCardDelegate = self;
-        
-        [self.navigationController pushViewController:storevc animated:YES];
+    if (indexPath.section == formSectionIndex) {
+        if (indexPath.row == environmentRowIndex) {
+            HPFEnvironmentViewController *environmentVC = [[HPFEnvironmentViewController alloc] init];
+            [self.navigationController pushViewController:environmentVC animated:YES];
+            
+        } else if (indexPath.row == productCategoryRowIndex) {
+            productCategoriesViewController = [[HPFPaymentProductCategoriesTableViewController alloc] initWithSelectedPaymentProducts:selectedPaymentProducts];
+            
+            [self.navigationController pushViewController:productCategoriesViewController animated:YES];
+            
+        } else if (indexPath.row == storeCardIndex) {
+            
+            HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:@"tempID"];
+            
+            HPFStoreCardViewController *storevc = [HPFStoreCardViewController storeCardViewControllerWithRequest:paymentPageRequest];
+            storevc.storeCardDelegate = self;
+            
+            [self.navigationController pushViewController:storevc animated:YES];
+        }
     }
 }
 

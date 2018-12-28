@@ -31,7 +31,7 @@ Read the **[iOS documentation][doc-home]** for comprehensive information about t
 
 The **HiPay SDK for iOS** is available under the **Apache 2.0 License**. Check out the [license file][project-license] for more information.
 
-[doc-home]: https://developer.hipay.com/doc/hipay-fullservice-sdk-ios/
+[doc-home]: https://developer.hipay.com/doc/hipay-enterprise-sdk-ios/
 
 [hipay-help]: https://support.hipay.com/hc/fr
 

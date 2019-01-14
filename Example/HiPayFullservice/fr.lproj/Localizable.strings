@@ -20,6 +20,10 @@
 
 "ENVIRONMENT_FORM_URL" = "URL";
 
+"ENVIRONMENT_FORM_SIGNATURE_ENABLED" = "Signature en local";
+
+"ENVIRONMENT_FORM_SIGNATURE_PASSPHRASE" = "Passphrase secrète";
+
 "ENVIRONMENT_ALERT_TITLE" = "⚠️ Attention ⚠️";
 
 "ENVIRONMENT_ALERT_MESSAGE_EMPTY" = "Le nom d'utilisateur ou le mot de passe est vide";

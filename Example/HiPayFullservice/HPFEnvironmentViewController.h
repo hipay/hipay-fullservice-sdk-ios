@@ -18,6 +18,9 @@
 #define HPFEnvironmentViewControllerKeyPassword @"hpfe_password"
 #define HPFEnvironmentViewControllerKeyIsStageUrl @"hpfe_is_stageUrl"
 
+#define HPFEnvironmentViewControllerKeyPasswordSignature @"hpfe_password_signature"
+#define HPFEnvironmentViewControllerKeyIsLocalSignature @"hpfe_is_local_signature"
+
 @interface HPFEnvironmentViewController : UITableViewController
 
 +(BOOL)isEnvironmentStage;
@@ -27,5 +30,8 @@
 +(NSString *)usernameUserDefaults;
 +(NSString *)passwordUserDefaults;
 +(BOOL)isStageUrlUserDefaults;
+
++(BOOL)isLocalSignatureUserDefaults;
++(NSString *)passwordSignatureUserDefaults;
 
 @end

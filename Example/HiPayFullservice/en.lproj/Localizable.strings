@@ -20,6 +20,10 @@
 
 "ENVIRONMENT_FORM_URL" = "URL";
 
+"ENVIRONMENT_FORM_SIGNATURE_ENABLED" = "Local signature";
+
+"ENVIRONMENT_FORM_SIGNATURE_PASSPHRASE" = "Secret Passphrase";
+
 "ENVIRONMENT_ALERT_TITLE" = "⚠️ Warning ⚠️";
 
 "ENVIRONMENT_ALERT_MESSAGE_EMPTY" = "Username or password empty";

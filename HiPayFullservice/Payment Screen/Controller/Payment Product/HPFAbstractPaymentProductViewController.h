@@ -15,6 +15,7 @@
 #import "HPFPaymentProduct.h"
 #import "HPFApplePayTableViewCell.h"
 #import "HPFTransactionRequestResponseManager.h"
+#import "HPFIBANInputTableViewCell.h"
 
 @class HPFAbstractPaymentProductViewController;
 @class HPFApplePayTableViewCell;

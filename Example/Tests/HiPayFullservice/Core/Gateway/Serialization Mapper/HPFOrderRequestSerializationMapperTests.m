@@ -16,6 +16,7 @@
 #import <HiPayFullservice/HPFCardTokenPaymentMethodRequestSerializationMapper.h>
 #import <HiPayFullservice/HPFQiwiWalletPaymentMethodRequestSerializationMapper.h>
 #import <HiPayFullservice/HPFIDealPaymentMethodRequestSerializationMapper.h>
+#import <HiPayFullservice/HPFSepaDirectDebitPaymentMethodRequestSerializationMapper.h>
 
 @interface HPFOrderRequestSerializationMapperTests : XCTestCase
 {
@@ -111,6 +112,26 @@
     [[[paymentMethodMockedMapper expect] andReturn:paymentMethodSerializedRequest] serializedRequest];
     
     id paymentMethodMapperClassMock = OCMClassMock([HPFIDealPaymentMethodRequestSerializationMapper class]);
+    OCMStub([paymentMethodMapperClassMock mapperWithRequest:mockedPaymentMethodRequest]).andReturn(paymentMethodMockedMapper);
+    
+    [[[mockedRequest expect] andReturn:mockedPaymentMethodRequest] valueForKey:@"paymentMethod"];
+    
+    XCTAssertEqual([mapper paymentMethodSerializedRequest], paymentMethodSerializedRequest);
+    
+    OCMVerify([paymentMethodMapperClassMock mapperWithRequest:mockedPaymentMethodRequest]);
+    [mockedRequest verify];
+    [paymentMethodMockedMapper verify];
+}
+
+- (void)testPaymentMethodSerializedRequestSEPADirectDebitPaymentMethod
+{
+    OCMockObject *mockedPaymentMethodRequest = [OCMockObject partialMockForObject:[[HPFSepaDirectDebitPaymentMethodRequest alloc] init]];
+    
+    NSDictionary *paymentMethodSerializedRequest = @{};
+    OCMockObject *paymentMethodMockedMapper = [OCMockObject mockForClass:[HPFSepaDirectDebitPaymentMethodRequestSerializationMapper class]];
+    [[[paymentMethodMockedMapper expect] andReturn:paymentMethodSerializedRequest] serializedRequest];
+    
+    id paymentMethodMapperClassMock = OCMClassMock([HPFSepaDirectDebitPaymentMethodRequestSerializationMapper class]);
     OCMStub([paymentMethodMapperClassMock mapperWithRequest:mockedPaymentMethodRequest]).andReturn(paymentMethodMockedMapper);
     
     [[[mockedRequest expect] andReturn:mockedPaymentMethodRequest] valueForKey:@"paymentMethod"];

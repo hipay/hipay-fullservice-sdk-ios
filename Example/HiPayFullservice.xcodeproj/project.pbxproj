@@ -88,6 +88,8 @@
 		BA2CD18021B9583900BF278D /* HPFEnvironmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */; };
 		BA2CD18421B97CE600BF278D /* HPFTextInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD18221B97CE600BF278D /* HPFTextInputTableViewCell.m */; };
 		BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA2CD18321B97CE600BF278D /* HPFTextInputTableViewCell.xib */; };
+		BAF92BCB21D3D835004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BAF92BCA21D3D835004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestTests.m */; };
+		BAF92BCD21D3E104004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BAF92BCC21D3E104004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m */; };
 		BC0B0DC3C460478A4A16EE9C /* libPods-HiPayFullservice_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A1EC66AABF36F8DC730F2C /* libPods-HiPayFullservice_Example.a */; };
 /* End PBXBuildFile section */
 
@@ -212,6 +214,8 @@
 		BA2CD18121B97CE600BF278D /* HPFTextInputTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFTextInputTableViewCell.h; sourceTree = "<group>"; };
 		BA2CD18221B97CE600BF278D /* HPFTextInputTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFTextInputTableViewCell.m; sourceTree = "<group>"; };
 		BA2CD18321B97CE600BF278D /* HPFTextInputTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPFTextInputTableViewCell.xib; sourceTree = "<group>"; };
+		BAF92BCA21D3D835004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFSepaDirectDebitPaymentMethodRequestTests.m; sourceTree = "<group>"; };
+		BAF92BCC21D3E104004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -461,6 +465,7 @@
 				A57BA7DE1BCEAD6500F154E2 /* HPFCardTokenPaymentMethodRequestSerializationMapperTests.m */,
 				A5C91F431BE2CD6D00FD8421 /* HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m */,
 				A54AF8FF1BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m */,
+				BAF92BCC21D3E104004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m */,
 			);
 			path = "Serialization Mapper";
 			sourceTree = "<group>";
@@ -476,6 +481,7 @@
 				A57BA7F71BCF8FB200F154E2 /* HPFCardTokenPaymentMethodRequestTests.m */,
 				A5C91F481BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m */,
 				A54AF8FD1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m */,
+				BAF92BCA21D3D835004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestTests.m */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -932,10 +938,12 @@
 				A54AF9001BE680F000B10F36 /* HPFIDealPaymentMethodRequestSerializationMapperTests.m in Sources */,
 				A5A375581BD7E0DC00CEA434 /* HPFArrayMapperTests.m in Sources */,
 				A57BA7D71BCEAD2B00F154E2 /* HPFOrderRelatedRequestSerializationMapperTests.m in Sources */,
+				BAF92BCB21D3D835004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestTests.m in Sources */,
 				A595C44E1BC800430076AF07 /* HPFOperationMapperTests.m in Sources */,
 				A54AF8FE1BE6802000B10F36 /* HPFIDealPaymentMethodRequestTests.m in Sources */,
 				A51004BF1BBD67EF002BD3C1 /* HPFMapperTests.m in Sources */,
 				A57BA7F21BCF8F7000F154E2 /* HPFOrderRequestTests.m in Sources */,
+				BAF92BCD21D3E104004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m in Sources */,
 				A5B9A6EE1BD6B2550014B27F /* HPFPaymentProductMapperTests.m in Sources */,
 				A57BA7F81BCF8FB200F154E2 /* HPFCardTokenPaymentMethodRequestTests.m in Sources */,
 				A5C91F491BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m in Sources */,

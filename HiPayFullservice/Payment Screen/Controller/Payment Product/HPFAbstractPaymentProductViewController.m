@@ -59,6 +59,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"SecurityCodeInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFApplePayTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ApplePay"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFIBANInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"IBANInput"];
 
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];

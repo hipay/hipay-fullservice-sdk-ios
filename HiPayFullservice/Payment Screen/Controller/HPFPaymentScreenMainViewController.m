@@ -18,6 +18,7 @@
 #import "HPFUnsupportedPaymentProductViewController.h"
 #import "HPFPaymentProductsFlowLayout.h"
 #import "HPFApplePayPaymentProductViewController.h"
+#import "HPFSepaDirectDebitPaymentProductViewController.h"
 
 @interface HPFPaymentScreenMainViewController ()
 
@@ -45,7 +46,7 @@
                                       HPFPaymentProductCodeYandex: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodeSofortUberweisung: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodeSisal: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeSDD: HPFForwardPaymentProductViewController.class,
+                                      HPFPaymentProductCodeSDD: HPFSepaDirectDebitPaymentProductViewController.class,
                                       HPFPaymentProductCodePayULatam: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodeINGHomepay: HPFForwardPaymentProductViewController.class,
                                       HPFPaymentProductCodeBCMCMobile: HPFForwardPaymentProductViewController.class,

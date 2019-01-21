@@ -14,9 +14,11 @@
 #import "HPFCardTokenPaymentMethodRequestSerializationMapper.h"
 #import "HPFQiwiWalletPaymentMethodRequestSerializationMapper.h"
 #import "HPFIDealPaymentMethodRequestSerializationMapper.h"
+#import "HPFSepaDirectDebitPaymentMethodRequestSerializationMapper.h"
 #import "HPFCardTokenPaymentMethodRequest.h"
 #import "HPFQiwiWalletPaymentMethodRequest.h"
 #import "HPFIDealPaymentMethodRequest.h"
+#import "HPFSepaDirectDebitPaymentMethodRequest.h"
 
 @implementation HPFOrderRequestSerializationMapper
 
@@ -45,6 +47,9 @@
     
     else if ([paymentMethodRequest isKindOfClass:[HPFIDealPaymentMethodRequest class]]) {
         return [HPFIDealPaymentMethodRequestSerializationMapper mapperWithRequest:paymentMethodRequest].serializedRequest;
+    }
+    else if ([paymentMethodRequest isKindOfClass:[HPFSepaDirectDebitPaymentMethodRequest class]]) {
+        return [HPFSepaDirectDebitPaymentMethodRequestSerializationMapper mapperWithRequest:paymentMethodRequest].serializedRequest;
     }
     
     return nil;

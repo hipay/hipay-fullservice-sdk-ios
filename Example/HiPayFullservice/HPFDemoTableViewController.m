@@ -14,6 +14,7 @@
 #import "HPFInfoTableViewCell.h"
 #import "HPFSwitchInfosTableViewCell.h"
 #import "HPFTokenizableCardPaymentProductViewController.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @interface HPFDemoTableViewController ()
 
@@ -479,47 +480,89 @@
 
     [self setSubmitButtonLoadingMode:YES];
 
-    static NSString * const serverUrl = @"https://developer.hipay.com/misc/public_credentials_signature.php?amount=%@&currency=%@";
-    NSString *dataUrl = [NSString stringWithFormat:serverUrl, @(amount), currencies[currencySegmentIndex]];
-    NSURL *url = [NSURL URLWithString:dataUrl];
+    if ([HPFEnvironmentViewController isLocalSignatureUserDefaults]) {
+        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+        f.numberStyle = NSNumberFormatterDecimalStyle;
+        f.maximumFractionDigits = 2;
+        f.minimumFractionDigits = 2;
+        f.decimalSeparator = @".";
+        NSString *formattedAmount = [f stringFromNumber:@(amount)];
+        
+        NSString *orderID = [NSString stringWithFormat:@"TEST_%u",arc4random()];
+        
+        NSString *signature = [NSString stringWithFormat:@"%@%@%@%@",
+                               orderID,
+                               formattedAmount,
+                               currencies[currencySegmentIndex],
+                               [HPFEnvironmentViewController passwordSignatureUserDefaults]];
+        
+        NSString *signatureHashed = [self sha1:signature];
+        
+        HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderID];
+        
+        HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signatureHashed];
+        paymentScreen.delegate = self;
+        
+        [self presentViewController:paymentScreen animated:YES completion:^{
+            [self setSubmitButtonLoadingMode:NO];
+        }];
+    }
+    else {
+        static NSString * const serverUrl = @"https://developer.hipay.com/misc/public_credentials_signature.php?amount=%@&currency=%@";
+        NSString *dataUrl = [NSString stringWithFormat:serverUrl, @(amount), currencies[currencySegmentIndex]];
+        NSURL *url = [NSURL URLWithString:dataUrl];
 
-    NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
-            dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
+                dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 
-                dispatch_async(dispatch_get_main_queue(), ^{
+                    dispatch_async(dispatch_get_main_queue(), ^{
 
-                    NSError *jsonError = nil;
-                    if (data == nil || error != nil) {
-                        // Handle Error and return
-                        [self setSubmitButtonLoadingMode:NO];
-                        return;
-                    }
-
-                    NSDictionary* signatureDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-
-                    if (jsonError == nil) {
-
-                        NSString *orderId = signatureDictionary[@"order_id"];
-                        NSString *signature = signatureDictionary[@"signature"];
-
-                        HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
-                        
-                        HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
-                        paymentScreen.delegate = self;
-                        
-                        [self presentViewController:paymentScreen animated:YES completion:^{
+                        NSError *jsonError = nil;
+                        if (data == nil || error != nil) {
+                            // Handle Error and return
                             [self setSubmitButtonLoadingMode:NO];
-                        }];
-                        
-                    } else {
+                            return;
+                        }
 
-                        [self setSubmitButtonLoadingMode:NO];
-                    }
-                });
-            }];
+                        NSDictionary* signatureDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
 
-    [downloadTask resume];
+                        if (jsonError == nil) {
+
+                            NSString *orderId = signatureDictionary[@"order_id"];
+                            NSString *signature = signatureDictionary[@"signature"];
+
+                            HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
+                            
+                            HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
+                            paymentScreen.delegate = self;
+                            
+                            [self presentViewController:paymentScreen animated:YES completion:^{
+                                [self setSubmitButtonLoadingMode:NO];
+                            }];
+                            
+                        } else {
+
+                            [self setSubmitButtonLoadingMode:NO];
+                        }
+                    });
+                }];
+
+        [downloadTask resume];
+    }
 }
+
+- (NSString *)sha1:(NSString *)str {
+    NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    CC_SHA1(data.bytes, (CC_LONG)data.length, digest);
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    
+    for (int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
+        [output appendFormat:@"%02x", digest[i]];
+    }
+    return output;
+}
+
 
 - (HPFPaymentPageRequest *) buildPageRequestWithOrderId:(NSString *)orderId {
 

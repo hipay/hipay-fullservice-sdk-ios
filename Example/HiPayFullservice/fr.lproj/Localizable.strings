@@ -28,6 +28,8 @@
 
 "ENVIRONMENT_ALERT_MESSAGE_EMPTY" = "Le nom d'utilisateur ou le mot de passe est vide";
 
+"ENVIRONMENT_ALERT_MESSAGE_PASSPHRASE_EMPTY" = "La passphrase est vide";
+
 "ENVIRONMENT_ALERT_MESSAGE_RESTART" = "L'application va s'arrêter pour sauvegarder l'environnement";
 
 "FORM_ENVIRONMENT" = "Environnement";

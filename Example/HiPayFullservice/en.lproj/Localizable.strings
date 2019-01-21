@@ -28,6 +28,8 @@
 
 "ENVIRONMENT_ALERT_MESSAGE_EMPTY" = "Username or password empty";
 
+"ENVIRONMENT_ALERT_MESSAGE_PASSPHRASE_EMPTY" = "Passphrase empty";
+
 "ENVIRONMENT_ALERT_MESSAGE_RESTART" = "Application will stop to save environment";
 
 "FORM_ENVIRONMENT" = "Environment";

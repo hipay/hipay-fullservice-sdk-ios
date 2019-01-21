@@ -335,7 +335,7 @@
     HPFTextInputTableViewCell *signaturePassword = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.signaturePasswordRowIndex inSection:2]];
     if (self.isSignatureLocalActivated && signaturePassword.textfield.text.length == 0) {
         UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"ENVIRONMENT_ALERT_TITLE", nil)
-                                                                         message:NSLocalizedString(@"ENVIRONMENT_ALERT_MESSAGE_EMPTY", nil)
+                                                                         message:NSLocalizedString(@"ENVIRONMENT_ALERT_MESSAGE_PASSPHRASE_EMPTY", nil)
                                                                   preferredStyle:UIAlertControllerStyleAlert];
         [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
                                                     style:UIAlertActionStyleDefault

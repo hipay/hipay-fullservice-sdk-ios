@@ -1,5 +1,14 @@
 HiPay iOS SDK change log and release notes
 ================================================
+1.9.0
+-----
+* SDK : Add Sepa Direct Debit
+* SDK : Add ContentType in TextField
+* Demo Application : Environment choice screen
+* Demo Application : Local signature
+* Project : Remove all warnings in XCode 10.1
+* Project : Update README.md
+
 1.8.1
 -----
 * Update Datesc Library (1.08.4701)
@@ -66,4 +75,3 @@ HiPay iOS SDK change log and release notes
 1.0.0
 -----
 * First major version of the HiPay Enterprise iOS SDK.
-

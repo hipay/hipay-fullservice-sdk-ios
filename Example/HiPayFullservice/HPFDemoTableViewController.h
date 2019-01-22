@@ -11,10 +11,12 @@
 #import "HPFPaymentProductCategoriesTableViewController.h"
 #import "HPFSubmitTableViewCell.h"
 #import "HPFStoreCardViewController.h"
+#import "HPFEnvironmentViewController.h"
 
 @interface HPFDemoTableViewController : UITableViewController <HPFPaymentScreenViewControllerDelegate, HPFSubmitableViewCellDelegate, HPFStoreCardDelegate>
 {
     // Form rows
+    NSUInteger environmentRowIndex;
     NSUInteger groupedPaymentCardRowIndex;
     NSUInteger currencyRowIndex;
     NSUInteger amountRowIndex;

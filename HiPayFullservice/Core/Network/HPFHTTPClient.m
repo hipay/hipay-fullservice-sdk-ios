@@ -166,8 +166,11 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
                 
         // Network activity
         [requests removeObject:request];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = (requests.count > 0);
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = (requests.count > 0);
+        });
+
         // Request cancelled, no callback
         if ((error == nil) || ![error.domain isEqualToString:NSURLErrorDomain] || (error.code != NSURLErrorCancelled)) {
             

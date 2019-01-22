@@ -15,6 +15,4 @@
     UIActivityIndicatorView *spinner;
 }
 
-+ (BOOL)isCompatible;
-
 @end

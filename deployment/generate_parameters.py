@@ -1,23 +1,26 @@
 import plistlib, sys, os
 
 parameters = dict(
-    hipay=dict(
-        username = os.environ.get('HIPAY_FULLSERVICE_API_USERNAME', 'xxxxxx'),
-        password = os.environ.get('HIPAY_FULLSERVICE_API_PASSWORD', 'xxxxxx')
+    hipayStage=dict(
+        username = os.environ.get('HIPAY_FULLSERVICE_API_STAGE_USERNAME', 'xxxxxx'),
+        password = os.environ.get('HIPAY_FULLSERVICE_API_STAGE_PASSWORD', 'xxxxxx')
     ),
-    hockeyapp=dict(
-        app_identifier = os.environ.get('HOCKEY_APP_IDENTIFIER', 'xxxxxx'),
-    )
+    hipayProduction=dict(
+        username = os.environ.get('HIPAY_FULLSERVICE_API_PRODUCTION_USERNAME', 'xxxxxx'),
+        password = os.environ.get('HIPAY_FULLSERVICE_API_PRODUCTION_PASSWORD', 'xxxxxx')
+    ),
+    appURLscheme= 'hipayexample'
 )
 
-filename = "Example/HiPayFullservice/Resources/Parameters/parameters.plist"
-path =  "../" + filename
+filename = "parameters.plist"
+path = ""
 
-# Merge with current parameters
-if os.path.isfile(path):
-	currentParameters = plistlib.readPlist(path)
-	parameters["hipay"].update(currentParameters["hipay"])
-	parameters["hockeyapp"].update(currentParameters["hockeyapp"])
+if os.environ.get('CI'):
+    path = "Example/HiPayFullservice/Resources/Parameters/" + filename
+else:
+    path = "../Example/HiPayFullservice/Resources/Parameters/" + filename
+
+print path
 
 # Save file
 plistlib.writePlist(parameters, path)

@@ -37,6 +37,8 @@
 
 - (void) viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    
     [self cancelRequests];
     
     [self.storeCardDelegate storeCardViewControllerDidCancel:self];
@@ -92,7 +94,7 @@
     
     transactionLoadingRequest = [[HPFSecureVaultClient sharedClient] generateTokenWithCardNumber:[self textForIdentifier:@"number"] cardExpiryMonth:month cardExpiryYear:year cardHolder:[self textForIdentifier:@"holder"] securityCode:securityCode multiUse:self.paymentPageRequest.multiUse andCompletionHandler:^(HPFPaymentCardToken *cardToken, NSError *error) {
         
-        transactionLoadingRequest = nil;
+        self->transactionLoadingRequest = nil;
         
         if (cardToken != nil) {
             

@@ -1,7 +1,6 @@
 
 #import "HPFForwardViewController.h"
 #import "HPFForwardSafariViewController.h"
-#import "HPFForwardWebViewViewController.h"
 #import "HPFGatewayClient.h"
 #import "HPFForwardViewController_Protected.h"
 #import "HPFErrors.h"
@@ -56,20 +55,12 @@
 
 + (HPFForwardViewController *)relevantForwardViewControllerWithTransaction:(HPFTransaction *)transaction signature:(NSString *)signature;
 {
-    if ([HPFForwardSafariViewController isCompatible]) {
-        return [[HPFForwardSafariViewController alloc] initWithTransaction:transaction signature:signature];
-    } else {
-        return [[HPFForwardWebViewViewController alloc] initWithTransaction:transaction signature:signature];
-    }
+    return [[HPFForwardSafariViewController alloc] initWithTransaction:transaction signature:signature];
 }
 
 + (HPFForwardViewController *)relevantForwardViewControllerWithHostedPaymentPage:(HPFHostedPaymentPage *)hostedPaymentPage signature:(NSString *)signature;
 {
-    if ([HPFForwardSafariViewController isCompatible]) {
-        return [[HPFForwardSafariViewController alloc] initWithHostedPaymentPage:hostedPaymentPage signature:signature];
-    } else {
-        return [[HPFForwardWebViewViewController alloc] initWithHostedPaymentPage:hostedPaymentPage signature:signature];
-    }
+    return [[HPFForwardSafariViewController alloc] initWithHostedPaymentPage:hostedPaymentPage signature:signature];
 }
 
 #pragma mark - Redirect

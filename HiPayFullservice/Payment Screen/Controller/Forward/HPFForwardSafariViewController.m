@@ -77,9 +77,4 @@
     [self.delegate forwardViewControllerDidCancel:self];
 }
 
-+ (BOOL)isCompatible
-{
-    return NSClassFromString(@"SFSafariViewController") != nil;
-}
-
 @end

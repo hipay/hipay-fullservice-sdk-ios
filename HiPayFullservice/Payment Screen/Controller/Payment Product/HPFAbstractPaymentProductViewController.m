@@ -59,6 +59,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"SecurityCodeInput"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFApplePayTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ApplePay"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFIBANInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"IBANInput"];
 
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -129,8 +130,8 @@
     
     [UIView animateWithDuration:animationDuration animations:^{
 
-        if (activeTextField != nil) {
-            UITableViewCell *cell = [self cellWithTextField:activeTextField];
+        if (self->activeTextField != nil) {
+            UITableViewCell *cell = [self cellWithTextField:self->activeTextField];
             
             if (cell != nil) {
                 NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
@@ -441,17 +442,17 @@
     
     transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
         
-        transactionLoadingRequest = nil;
+        self->transactionLoadingRequest = nil;
         
         if (theTransaction != nil) {
-            transaction = theTransaction;
+            self->transaction = theTransaction;
             
-            if (transaction.forwardUrl != nil) {
+            if (self->transaction.forwardUrl != nil) {
 
                 UINavigationController *navigationController = self.navigationController;
                 NSArray *controllers = navigationController.viewControllers;
                 if (navigationController != nil && controllers != nil) {
-                    HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:transaction signature:signature];
+                    HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:self->transaction signature:signature];
                     viewController.delegate = self;
 
                     [self presentViewController:viewController animated:YES completion:nil];
@@ -459,7 +460,7 @@
             }
             
             else {
-                [self checkTransactionStatus:transaction];
+                [self checkTransactionStatus:self->transaction];
             }
         }
         

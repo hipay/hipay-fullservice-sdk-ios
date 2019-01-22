@@ -2,6 +2,38 @@
 
 "APP_TITLE" = "Démo m-commerce HiPay";
 
+"CANCEL" = "Annuler";
+
+"OK" = "OK";
+
+"ENVIRONMENT_STAGE" = "Stage";
+
+"ENVIRONMENT_PRODUCTION" = "Production";
+
+"ENVIRONMENT_CUSTOM" = "Personnaliser";
+
+"ENVIRONMENT_FORM_TITLE" = "Choix environnement";
+
+"ENVIRONMENT_FORM_USERNAME" = "Nom d'utilisateur";
+
+"ENVIRONMENT_FORM_PASSWORD" = "Mot de passe";
+
+"ENVIRONMENT_FORM_URL" = "URL";
+
+"ENVIRONMENT_FORM_SIGNATURE_ENABLED" = "Signature en local";
+
+"ENVIRONMENT_FORM_SIGNATURE_PASSPHRASE" = "Passphrase secrète";
+
+"ENVIRONMENT_ALERT_TITLE" = "⚠️ Attention ⚠️";
+
+"ENVIRONMENT_ALERT_MESSAGE_EMPTY" = "Le nom d'utilisateur ou le mot de passe est vide";
+
+"ENVIRONMENT_ALERT_MESSAGE_PASSPHRASE_EMPTY" = "La passphrase est vide";
+
+"ENVIRONMENT_ALERT_MESSAGE_RESTART" = "L'application va s'arrêter pour sauvegarder l'environnement";
+
+"FORM_ENVIRONMENT" = "Environnement";
+
 "FORM_TITLE" = "Générer un écran de paiement";
 
 "FORM_CURRENCY" = "Devise";

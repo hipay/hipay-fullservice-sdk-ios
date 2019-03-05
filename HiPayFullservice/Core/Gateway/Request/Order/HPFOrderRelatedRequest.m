@@ -35,6 +35,18 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
         self.shippingAddress = [[HPFPersonalInfoRequest alloc] init];
         self.HTTPUserAgent = [HPFClientConfig sharedClientConfig].userAgent;
         self.operation = HPFOrderRequestOperationDefault;
+        
+        NSString * brand_version = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)[[NSProcessInfo processInfo] operatingSystemVersion].majorVersion, (long)[[NSProcessInfo processInfo] operatingSystemVersion].minorVersion, (long)[[NSProcessInfo processInfo] operatingSystemVersion].patchVersion];
+        
+        NSBundle *utilitiesBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"HPFUtilitiesResources" ofType:@"bundle"]];
+        NSString *integration_version = [utilitiesBundle objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+        
+        self.source = @{
+                        @"source" : @"CSDK",
+                        @"brand" : @"ios",
+                        @"brand_version" : brand_version,
+                        @"integration_version" : integration_version
+                        };
     }
     
     return self;
@@ -127,20 +139,7 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
     request.cdata9 = orderRelatedRequest.cdata9;
     request.cdata10 = orderRelatedRequest.cdata10;
     
-    NSString * source = @"CSDK";
-    NSString * brand = @"ios";
-    NSString * brand_version = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)[[NSProcessInfo processInfo] operatingSystemVersion].majorVersion, (long)[[NSProcessInfo processInfo] operatingSystemVersion].minorVersion, (long)[[NSProcessInfo processInfo] operatingSystemVersion].patchVersion];
-    
-    NSBundle *utilitiesBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"HPFUtilitiesResources" ofType:@"bundle"]];
-    NSString *integration_version = [utilitiesBundle objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-    
-    NSDictionary *sourceDictionary = @{
-                              @"source" : source,
-                              @"brand" : brand,
-                              @"brand_version" : brand_version,
-                              @"integration_version" : integration_version
-                              };
-    request.source = sourceDictionary;
+    request.source = orderRelatedRequest.source;
 
     return request;
 }

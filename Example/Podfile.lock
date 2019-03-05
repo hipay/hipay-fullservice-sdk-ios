@@ -1,13 +1,13 @@
 PODS:
-  - HiPayFullservice (1.8.1):
-    - HiPayFullservice/Core (= 1.8.1)
-    - HiPayFullservice/Payment-Screen (= 1.8.1)
-  - HiPayFullservice/Core (1.8.1)
-  - HiPayFullservice/Datecs-POS (1.8.1)
-  - HiPayFullservice/Payment-Screen (1.8.1):
+  - HiPayFullservice (1.9.0):
+    - HiPayFullservice/Core (= 1.9.0)
+    - HiPayFullservice/Payment-Screen (= 1.9.0)
+  - HiPayFullservice/Core (1.9.0)
+  - HiPayFullservice/Datecs-POS (1.9.0)
+  - HiPayFullservice/Payment-Screen (1.9.0):
     - HiPayFullservice/Core
     - HiPayFullservice/Utilities
-  - HiPayFullservice/Utilities (1.8.1):
+  - HiPayFullservice/Utilities (1.9.0):
     - HiPayFullservice/Core
   - HockeySDK (5.1.4):
     - HockeySDK/DefaultLib (= 5.1.4)
@@ -45,7 +45,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  HiPayFullservice: ab202a5860dbe55c9de9c030459bd495d45a4777
+  HiPayFullservice: d617a454f129c92a739f888e1a1a792cd0ad0589
   HockeySDK: 15afe6bc0a5bfe3a531fd73dbf082095f37dac3b
   OCMock: 43565190abc78977ad44a61c0d20d7f0784d35ab
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0

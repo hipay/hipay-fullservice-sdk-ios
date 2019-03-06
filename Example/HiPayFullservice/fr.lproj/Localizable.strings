@@ -82,7 +82,7 @@
 
 "FORM_PAYMENT_PRODUCTS_REALTIME_BANKING" = "Banque temps réel";
 
-"FORM_PAYMENT_PAGE_TIMEOUT" = "Délai d'expiration page de paiment";
+"FORM_PAYMENT_PAGE_TIMEOUT" = "Délai d'expiration page de paiment (secondes)";
 
 "RESULT_CANCEL" = "Annulé par l'utilisateur.";
 

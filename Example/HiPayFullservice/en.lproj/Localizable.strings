@@ -82,7 +82,7 @@
 
 "FORM_PAYMENT_PRODUCTS_REALTIME_BANKING" = "Real-time banking";
 
-"FORM_PAYMENT_PAGE_TIMEOUT" = "Timeout payment page";
+"FORM_PAYMENT_PAGE_TIMEOUT" = "Timeout payment page (seconds)";
 
 "RESULT_CANCEL" = "Cancelled by user";
 

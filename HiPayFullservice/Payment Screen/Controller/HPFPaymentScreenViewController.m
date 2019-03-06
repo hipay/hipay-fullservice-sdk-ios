@@ -244,6 +244,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    if (self.paymentPageRequest.timeout.intValue > 0) {
+        [NSTimer scheduledTimerWithTimeInterval:self.paymentPageRequest.timeout.intValue target:self selector:@selector(expiredPaymentPage) userInfo:nil repeats:NO];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -393,6 +397,13 @@
 */
 
 #pragma mark - Ending payment
+
+-(void)expiredPaymentPage {
+    [self endWithError:[NSError errorWithDomain:HPFHiPayFullserviceErrorDomain
+                                           code:HPFErrorCodePaymentPageTimeout
+                                       userInfo:@{NSLocalizedFailureReasonErrorKey: HPFErrorCodePaymentPageTimeoutDescription}]];
+}
+
 
 - (void)endWithError:(NSError *)error
 {

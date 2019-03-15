@@ -15,6 +15,7 @@
 #import "HPFSwitchInfosTableViewCell.h"
 #import "HPFTokenizableCardPaymentProductViewController.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "HPFTextInputTableViewCell.h"
 
 @interface HPFDemoTableViewController ()
 
@@ -42,7 +43,8 @@
     colorRowIndex = 8;
     productCategoryRowIndex = 9;
     storeCardIndex = 10;
-    submitRowIndex = 11;
+    timeoutIndex = 11;
+    submitRowIndex = 12;
     
     
     // Error row indexes
@@ -62,6 +64,7 @@
     groupedPaymentCard = YES;
     amount = 10.f;
     selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];
+    timeout = 7*24*3600;
     
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"EnvironmentCell"];
     [self.tableView registerClass:[HPFSwitchTableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
@@ -70,7 +73,9 @@
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"OptionsCell"];
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"StoreCardCell"];
     [self.tableView registerClass:[HPFInfoTableViewCell class] forCellReuseIdentifier:@"LabelCell"];
-
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPFTextInputTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"InputCell"];
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSubmitTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SubmitCell"];
 
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSwitchInfosTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SwitchInfosCell"];
@@ -138,7 +143,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == formSectionIndex) {
-        return 12;
+        return 13;
     }
     
     if (section == resultSectionIndex) {
@@ -319,6 +324,18 @@
             return cell;
         }
         
+        else if (indexPath.row == timeoutIndex) {
+            
+            HPFTextInputTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"InputCell" forIndexPath:indexPath];
+            
+            cell.title.text = NSLocalizedString(@"FORM_PAYMENT_PAGE_TIMEOUT", nil);
+            
+            cell.textfield.text = @(timeout).stringValue;
+            cell.textfield.keyboardType = UIKeyboardTypeNumberPad;
+            
+            return cell;
+        }
+        
         else if (indexPath.row == submitRowIndex) {
 
             HPFSubmitTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SubmitCell"];
@@ -358,7 +375,7 @@
             if (transactionError.userInfo[HPFErrorCodeAPIMessageKey] != nil) {
                 cell.detailTextLabel.text = transactionError.userInfo[HPFErrorCodeAPIMessageKey];
             } else {
-                cell.detailTextLabel.text = transactionError.localizedDescription;
+                cell.detailTextLabel.text = transactionError.userInfo[NSLocalizedFailureReasonErrorKey];
             }
             
             return cell;
@@ -480,6 +497,8 @@
 
     [self setSubmitButtonLoadingMode:YES];
 
+    NSString *timeout = ((HPFTextInputTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:timeoutIndex inSection:formSectionIndex]]).textfield.text;
+    
     if ([HPFEnvironmentViewController isLocalSignatureUserDefaults]) {
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
         f.numberStyle = NSNumberFormatterDecimalStyle;
@@ -532,6 +551,7 @@
                             NSString *signature = signatureDictionary[@"signature"];
 
                             HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
+                            paymentPageRequest.timeout = @(timeout.intValue);
                             
                             HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
                             paymentScreen.delegate = self;
@@ -568,8 +588,6 @@
 
     HPFPaymentPageRequest *paymentPageRequest = [[HPFPaymentPageRequest alloc] init];
     paymentPageRequest.orderId = orderId;
-    //paymentPageRequest.orderId = [NSString stringWithFormat:@"TEST_SDK_IOS_%ld", (long) ([NSDate date].timeIntervalSince1970)];
-
     paymentPageRequest.amount = @(amount);
     paymentPageRequest.currency = currencies[currencySegmentIndex];
     paymentPageRequest.shortDescription = @"Outstanding item";
@@ -578,8 +596,7 @@
     paymentPageRequest.customer.lastname = @"Doe";
     paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
     paymentPageRequest.multiUse = multiUse;
-    
-     paymentPageRequest.customData = @{@"hello": @"world"};
+    paymentPageRequest.customData = @{@"hello": @"world"};
 
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
 

@@ -72,4 +72,10 @@ extern NSString * _Nonnull const HPFPaymentPageRequestTemplateNameFrame;
  */
 @property (nonatomic, nonnull) NSMutableSet <NSString *> *groupedPaymentCardProductCodes;
 
+/**
+ *  Time before payment page get expired (in seconds). An error will be raised after the delay. This option will dismiss iOS native payment screen when error raised.
+ *  Default value : 7 days
+ */
+@property (nonatomic, nullable) NSNumber *timeout;
+
 @end

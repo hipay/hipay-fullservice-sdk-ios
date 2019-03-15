@@ -18,6 +18,7 @@ NSString * _Nonnull const HPFErrorCodeHTTPConfigDescription = @"There's a remote
 NSString * _Nonnull const HPFErrorCodeHTTPConnectionFailedDescription = @"The request has been interrupted. The server may have received the request.";
 NSString * _Nonnull const HPFErrorCodeHTTPClientDescription = @"Wrong parameters have been sent to the server.";
 NSString * _Nonnull const HPFErrorCodeHTTPServerDescription = @"There's a server side error.";
+NSString * _Nonnull const HPFErrorCodePaymentPageTimeoutDescription = @"Payment page has expired";
 
 NSString * _Nonnull const HPFErrorCodeHTTPPlainResponseKey = @"HPFErrorCodeHTTPPlainResponseKey";
 NSString * _Nonnull const HPFErrorCodeHTTPParsedResponseKey = @"HPFErrorCodeHTTPParsedResponseKey";

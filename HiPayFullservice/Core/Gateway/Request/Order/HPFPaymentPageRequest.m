@@ -24,6 +24,7 @@ NSString * _Nonnull const HPFPaymentPageRequestTemplateNameFrame = @"iframe-js";
         _displaySelector = NO;
         _paymentCardGroupingEnabled = YES;
         _groupedPaymentCardProductCodes = [NSMutableSet setWithObjects:HPFPaymentProductCodeCB, HPFPaymentProductCodeMasterCard, HPFPaymentProductCodeVisa, HPFPaymentProductCodeAmericanExpress, HPFPaymentProductCodeMaestro, HPFPaymentProductCodeDiners, nil];
+        _timeout = @(604800); //7 days
     }
     return self;
 }

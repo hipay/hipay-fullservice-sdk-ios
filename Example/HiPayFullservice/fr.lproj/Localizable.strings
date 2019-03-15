@@ -82,6 +82,8 @@
 
 "FORM_PAYMENT_PRODUCTS_REALTIME_BANKING" = "Banque temps réel";
 
+"FORM_PAYMENT_PAGE_TIMEOUT" = "Expiration (secondes)";
+
 "RESULT_CANCEL" = "Annulé par l'utilisateur.";
 
 "RESULT_TITLE" = "Résultat du parcours de paiement";

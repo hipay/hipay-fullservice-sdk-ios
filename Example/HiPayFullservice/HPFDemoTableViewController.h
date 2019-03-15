@@ -27,6 +27,7 @@
     NSUInteger productCategoryRowIndex;
     NSUInteger submitRowIndex;
     NSUInteger colorRowIndex;
+    NSUInteger timeoutIndex;
     NSUInteger storeCardIndex;
     
     // Error rows
@@ -50,6 +51,7 @@
     BOOL applePay;
     BOOL multiUse;
     BOOL cardScan;
+    NSUInteger timeout;
 
     NSUInteger currencySegmentIndex;
     NSUInteger colorSegmentIndex;

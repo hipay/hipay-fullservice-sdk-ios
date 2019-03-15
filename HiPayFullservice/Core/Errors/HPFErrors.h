@@ -16,6 +16,7 @@ extern NSString * _Nonnull const HPFErrorCodeHTTPConfigDescription;
 extern NSString * _Nonnull const HPFErrorCodeHTTPConnectionFailedDescription;
 extern NSString * _Nonnull const HPFErrorCodeHTTPClientDescription;
 extern NSString * _Nonnull const HPFErrorCodeHTTPServerDescription;
+extern NSString * _Nonnull const HPFErrorCodePaymentPageTimeoutDescription;
 
 extern NSString * _Nonnull const HPFErrorCodeHTTPPlainResponseKey;
 extern NSString * _Nonnull const HPFErrorCodeHTTPParsedResponseKey;
@@ -70,6 +71,8 @@ typedef NS_ENUM(NSInteger, HPFErrorCode) {
     /// Unknown error
     HPFErrorCodeAPIOther,
     
+    /// Timeout error
+    HPFErrorCodePaymentPageTimeout,
 };
 
 typedef NS_ENUM(NSInteger, HPFErrorAPIReason) {

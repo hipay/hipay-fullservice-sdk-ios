@@ -12,12 +12,12 @@
 /**
  *  First name.
  */
-@property (nonatomic, copy) NSString *firstname;
+@property (nonatomic, copy) NSString * _Nonnull firstname;
 
 /**
  *  Last name.
  */
-@property (nonatomic, copy) NSString *lastname;
+@property (nonatomic, copy) NSString * _Nonnull lastname;
 
 /**
  * Gender of the customer:
@@ -25,22 +25,22 @@
  * F:female
  * U:unknown
  */
-@property (nonatomic, copy) NSString *gender;
+@property (nonatomic, copy) NSString * _Nullable gender;
 
 /**
  *  International Bank Account Number
  */
-@property (nonatomic, copy) NSString *iban;
+@property (nonatomic, copy) NSString * _Nonnull iban;
 
 /**
  *  Issuer Bank Name
  */
-@property (nonatomic, copy) NSString *bankName;
+@property (nonatomic, copy) NSString * _Nullable bankName;
 
 /**
  *  This is the Business Identifier Code (BIC) of the customer's issuer bank.
  */
-@property (nonatomic, copy) NSString *issuerBankId;
+@property (nonatomic, copy) NSString * _Nullable issuerBankId;
 
 /**
  * Indicates if the debit agreement will be created for a single-use or a multi-use.
@@ -65,9 +65,9 @@
  *
  *  @return A new SEPA Direct Debit request.
  */
-+ (instancetype _Nonnull)sepaDirectDebitPaymentMethodRequestWithfirstname:(NSString *)firstname
-                                                                 lastname:(NSString *)lastname
-                                                                     iban:(NSString *)iban
++ (instancetype _Nonnull)sepaDirectDebitPaymentMethodRequestWithfirstname:(NSString *_Nonnull)firstname
+                                                                 lastname:(NSString *_Nonnull)lastname
+                                                                     iban:(NSString *_Nonnull)iban
                                                          recurringPayment:(NSInteger)recurringPayment;
 
 @end

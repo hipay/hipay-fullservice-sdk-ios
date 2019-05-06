@@ -97,7 +97,7 @@
         return cell;
     }
     
-    return nil;
+    return [UITableViewCell new];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

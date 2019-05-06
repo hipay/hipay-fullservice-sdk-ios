@@ -1,31 +1,31 @@
 PODS:
-  - HiPayFullservice (1.8.1):
-    - HiPayFullservice/Core (= 1.8.1)
-    - HiPayFullservice/Payment-Screen (= 1.8.1)
-  - HiPayFullservice/Core (1.8.1)
-  - HiPayFullservice/Datecs-POS (1.8.1)
-  - HiPayFullservice/Payment-Screen (1.8.1):
+  - HiPayFullservice (1.9.1):
+    - HiPayFullservice/Core (= 1.9.1)
+    - HiPayFullservice/Payment-Screen (= 1.9.1)
+  - HiPayFullservice/Core (1.9.1)
+  - HiPayFullservice/Datecs-POS (1.9.1)
+  - HiPayFullservice/Payment-Screen (1.9.1):
     - HiPayFullservice/Core
     - HiPayFullservice/Utilities
-  - HiPayFullservice/Utilities (1.8.1):
+  - HiPayFullservice/Utilities (1.9.1):
     - HiPayFullservice/Core
   - HockeySDK (5.1.4):
     - HockeySDK/DefaultLib (= 5.1.4)
   - HockeySDK/DefaultLib (5.1.4)
   - OCMock (3.4.3)
-  - OHHTTPStubs (6.1.0):
-    - OHHTTPStubs/Default (= 6.1.0)
-  - OHHTTPStubs/Core (6.1.0)
-  - OHHTTPStubs/Default (6.1.0):
+  - OHHTTPStubs (8.0.0):
+    - OHHTTPStubs/Default (= 8.0.0)
+  - OHHTTPStubs/Core (8.0.0)
+  - OHHTTPStubs/Default (8.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (6.1.0):
+  - OHHTTPStubs/JSON (8.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (6.1.0):
+  - OHHTTPStubs/NSURLSession (8.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (6.1.0)
+  - OHHTTPStubs/OHPathHelpers (8.0.0)
 
 DEPENDENCIES:
   - HiPayFullservice (from `../`)
@@ -45,10 +45,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  HiPayFullservice: ab202a5860dbe55c9de9c030459bd495d45a4777
+  HiPayFullservice: 1bd52d0c68e43cc346cede22e4a6bd407dc90315
   HockeySDK: 15afe6bc0a5bfe3a531fd73dbf082095f37dac3b
   OCMock: 43565190abc78977ad44a61c0d20d7f0784d35ab
-  OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
+  OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
 
 PODFILE CHECKSUM: 41f9dd09b727f046e2a0486037329e98b6a8a870
 

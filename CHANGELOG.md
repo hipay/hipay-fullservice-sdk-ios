@@ -1,5 +1,13 @@
 HiPay iOS SDK change log and release notes
 ================================================
+
+1.9.1
+-----
+* SDK : Fix Source object initialization in order object
+* SDK : Add timeout property to payment page
+* SDK : Add gradient in payment products
+* Project : Remove all warnings in XCode 10.2.1
+
 1.9.0
 -----
 * SDK : Add Sepa Direct Debit

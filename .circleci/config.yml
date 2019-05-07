@@ -79,7 +79,7 @@ jobs:
 
   deploy:
     macos:
-      xcode: 10.1.0
+      xcode: 10.2.1
     steps:
       - attach_workspace:
           at: .

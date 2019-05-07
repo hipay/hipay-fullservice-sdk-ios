@@ -795,7 +795,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFCoreLocalization.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFPaymentScreenViews.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFPaymentScreenLocalization.bundle",
@@ -810,7 +810,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7EBA4B7A3131DF6C9F0D05D8 /* [CP] Check Pods Manifest.lock */ = {
@@ -855,7 +855,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFCoreLocalization.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFPaymentScreenViews.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFPaymentScreenLocalization.bundle",
@@ -872,7 +872,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

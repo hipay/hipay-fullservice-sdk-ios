@@ -1,4 +1,6 @@
 workspace(ENV['FASTLANE_WORKSPACE_PATH'])
+sdk("iphoneos12.2.1")
+clean("true")
 scheme(ENV['FASTLANE_PROJECT_SCHEME'])
 output_directory("./")
 export_team_id(ENV['FASTLANE_CERTIFICATES_TEAM_ID'])

@@ -19,11 +19,12 @@ jobs:
       FASTLANE_TESTS_OUTPUT_TYPES: junit
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 10.1.0
+      xcode: 10.2.1
     steps:
       - checkout
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle update
       - run: bundle check || bundle install --path vendor/bundle
       - save_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
@@ -62,7 +63,7 @@ jobs:
       FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 10.1.0
+      xcode: 10.2.1
     steps:
       - attach_workspace:
           at: .

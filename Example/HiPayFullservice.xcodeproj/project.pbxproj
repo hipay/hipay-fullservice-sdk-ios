@@ -1126,7 +1126,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.hipay.fullservice.demo";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1152,7 +1152,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.hipay.fullservice.demo";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

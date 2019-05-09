@@ -15,7 +15,6 @@ jobs:
       FASTLANE_CERTIFICATES_TYPE: adhoc
       FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
       FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
-      FASTLANE_CERTIFICATES_CODESIGNING: "iPhone Distribution: HiPay Group"
       FASTLANE_INFO_PLIST_PATH: Example/HiPayFullservice/HiPayFullservice-Info.plist
       FASTLANE_TESTS_OUTPUT_TYPES: junit
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo

@@ -19,11 +19,12 @@ jobs:
       FASTLANE_TESTS_OUTPUT_TYPES: junit
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 10.1.0
+      xcode: 10.2.1
     steps:
       - checkout
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle update
       - run: bundle check || bundle install --path vendor/bundle
       - save_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
@@ -62,13 +63,16 @@ jobs:
       FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 10.1.0
+      xcode: 10.2.1
     steps:
       - attach_workspace:
           at: .
       - add_ssh_keys:
           fingerprints:
-            - "38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6"
+            - '38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6'
+      - run:
+          name: Install Gems
+          command: bundle update
       - run:
           name: Build application
           command: bundle exec fastlane build --verbose
@@ -79,10 +83,13 @@ jobs:
 
   deploy:
     macos:
-      xcode: 10.1.0
+      xcode: 10.2.1
     steps:
       - attach_workspace:
           at: .
+      - run:
+          name: Install Gems
+          command: bundle check || bundle install --path vendor/bundle
       - run:
           name: Deploy on HockeyApp
           command: bundle exec fastlane deploy --verbose

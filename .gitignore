@@ -40,3 +40,7 @@ Example/Pods/
 ## Directory-based project format:
 .idea/
 
+## Infer
+compile_commands.json
+xcodebuild.log
+infer-out/

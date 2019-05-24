@@ -52,6 +52,30 @@ jobs:
           root: .
           paths: .
 
+  analyze:
+    environment:
+      LANG: en_US.UTF-8
+      FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
+      FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
+      FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
+      FASTLANE_CERTIFICATES_TYPE: adhoc
+      FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
+      FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
+      FASTLANE_INFO_PLIST_PATH: Example/HiPayFullservice/HiPayFullservice-Info.plist
+      APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
+    macos:
+      xcode: 10.1.0
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+        name: Analyze code with Infer
+        command: infer --keep-going -- xcodebuild -workspace $FASTLANE_WORKSPACE_PATH -scheme \
+        $FASTLANE_PROJECT_SCHEME -configuration Debug -sdk iphonesimulator
+      - store_artifacts:
+        path: infer-out/bugs.txt
+        destination: infer
+
   build:
     environment:
       FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
@@ -92,9 +116,12 @@ workflows:
   build:
     jobs:
       - test
-      - build:
+      - analyze:
           requires:
             - test
+      - build:
+          requires:
+            - analyze
       - deploy:
           requires:
             - build

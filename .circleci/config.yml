@@ -70,7 +70,7 @@ jobs:
           command: brew install infer
       - run:
           name: Change directory
-          command: cd Example/
+          command: pwd
       - run:
           name: Analyze code with Infer
           command: infer --keep-going -- xcodebuild -workspace $WORKSPACE_PATH -scheme $PROJECT_SCHEME -configuration Debug -sdk iphonesimulator

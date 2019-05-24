@@ -54,7 +54,9 @@ jobs:
 
   analyze:
     environment:
-      FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
+      WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
+      PROJECT_SCHEME: HiPayFullservice-Example
+      INFER_VERSION: 0.16.0
     macos:
       xcode: 10.1.0
     steps:
@@ -63,11 +65,11 @@ jobs:
       - run:
           name: Install Infer
           command: |
-            VERSION=0.16.0; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | sudo tar -C /opt -xJ &&
+            VERSION=$INFER_VERSION; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | sudo tar -C /opt -xJ &&
             ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
       - run:
           name: Analyze code with Infer
-          command: infer --keep-going -- xcodebuild -workspace $FASTLANE_WORKSPACE_PATH -scheme HiPayFullservice-Example -configuration Debug -sdk iphonesimulator
+          command: infer --keep-going -- xcodebuild -workspace $FASTLANE_WORKSPACE_PATH -scheme $FASTLANE_PROJECT_SCHEME -configuration Debug -sdk iphonesimulator
       - store_artifacts:
           path: infer-out/bugs.txt
           destination: infer

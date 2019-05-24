@@ -68,7 +68,7 @@ jobs:
             curl -sSL "https://github.com/facebook/infer/releases/download/v$INFER_VERSION/infer-linux64-v$INFER_VERSION.tar.xz" | sudo tar -xJ
       - run:
           name: Chmod
-          command: sudo chmod -x -R infer-linux64-v$INFER_VERSION
+          command: sudo chmod -R -x infer-linux64-v$INFER_VERSION
       - run:
           name: LS
           command: ls -l

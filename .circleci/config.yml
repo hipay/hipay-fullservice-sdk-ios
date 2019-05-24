@@ -65,7 +65,7 @@ jobs:
       - run:
           name: Install Infer
           command: |
-            VERSION=$INFER_VERSION; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | sudo tar -C-xJ | chmod -x infer-linux64-v$VERSION/infer
+            VERSION=$INFER_VERSION; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | sudo tar -C-xJ | ls -l
       - run:
           name: Analyze code with Infer
           command: ./infer-linux64-v$VERSION/infer --keep-going -- xcodebuild -workspace $FASTLANE_WORKSPACE_PATH -scheme $FASTLANE_PROJECT_SCHEME -configuration Debug -sdk iphonesimulator

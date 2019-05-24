@@ -53,6 +53,10 @@ jobs:
           paths: .
 
   analyze:
+    environment:
+      LANG: en_US.UTF-8
+      FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
+      FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
     macos:
       xcode: 10.1.0
     steps:
@@ -60,8 +64,7 @@ jobs:
           at: .
       - run:
         name: Analyze code with Infer
-        command: infer --keep-going -- xcodebuild -workspace HiPayFullservice.xcworkspace -scheme \
-        HiPayFullservice-Example -configuration Debug -sdk iphonesimulator
+        command: infer --keep-going -- xcodebuild -workspace $FASTLANE_WORKSPACE_PATH -scheme $FASTLANE_PROJECT_SCHEME -configuration Debug -sdk iphonesimulator
       - store_artifacts:
         path: infer-out/bugs.txt
         destination: infer
@@ -82,7 +85,7 @@ jobs:
           at: .
       - add_ssh_keys:
           fingerprints:
-            - "38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6"
+            - '38:1e:4c:45:75:d6:16:f0:ff:47:e7:8c:99:7e:49:f6'
       - run:
           name: Build application
           command: bundle exec fastlane build --verbose

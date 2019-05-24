@@ -54,7 +54,7 @@ jobs:
 
   analyze:
     environment:
-      WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
+      WORKSPACE_PATH: HiPayFullservice.xcworkspace
       PROJECT_SCHEME: HiPayFullservice-Example
       INFER_VERSION: 0.16.0
     macos:
@@ -68,6 +68,9 @@ jobs:
       - run:
           name: Infer Install
           command: brew install infer
+      - run:
+          name: Change directory
+          command: cd Example/
       - run:
           name: Analyze code with Infer
           command: infer --keep-going -- xcodebuild -workspace $WORKSPACE_PATH -scheme $PROJECT_SCHEME -configuration Debug -sdk iphonesimulator

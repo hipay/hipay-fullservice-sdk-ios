@@ -63,18 +63,14 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Brew Install
+          command: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      - run:
           name: Install Infer
-          command: |
-            curl -sSL "https://github.com/facebook/infer/releases/download/v$INFER_VERSION/infer-linux64-v$INFER_VERSION.tar.xz" | sudo tar -xJ
-      - run:
-          name: Chmod
-          command: sudo chmod -R +x infer-linux64-v$INFER_VERSION/
-      - run:
-          name: LS
-          command: ls -l
+          command: brew install infer
       - run:
           name: Analyze code with Infer
-          command: ./infer-linux64-v$INFER_VERSION/bin/infer --keep-going -- xcodebuild -workspace $FASTLANE_WORKSPACE_PATH -scheme $FASTLANE_PROJECT_SCHEME -configuration Debug -sdk iphonesimulator
+          command: infer --keep-going -- xcodebuild -workspace $FASTLANE_WORKSPACE_PATH -scheme $FASTLANE_PROJECT_SCHEME -configuration Debug -sdk iphonesimulator
       - store_artifacts:
           path: infer-out/bugs.txt
           destination: infer

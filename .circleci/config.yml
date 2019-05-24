@@ -62,10 +62,9 @@ jobs:
           at: .
       - run:
           name: Install Infer
-          command: VERSION=0.16.0; \
-curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
-| sudo tar -C /opt -xJ && \
-ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+          command: |
+            VERSION=0.16.0; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | sudo tar -C /opt -xJ &&
+            ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
       - run:
           name: Analyze code with Infer
           command: infer --keep-going -- xcodebuild -workspace $FASTLANE_WORKSPACE_PATH -scheme HiPayFullservice-Example -configuration Debug -sdk iphonesimulator

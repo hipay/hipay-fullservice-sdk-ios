@@ -23,21 +23,17 @@
         
         
         
-        issuerBanksActionSheet = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"IDEAL_BANK")
+        issuerBanksActionSheet = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_IDEAL_BANK")
                                                                   message:nil
                                                            preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction* cancelButton = [UIAlertAction
-                                        actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                        actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                             
                                         }];
         
         [issuerBanksActionSheet addAction:cancelButton];
-        
-        /*
-        issuerBanksActionSheet = [[UIActionSheet alloc] initWithTitle:HPFLocalizedString(@"IDEAL_BANK") delegate:self cancelButtonTitle:HPFLocalizedString(@"CANCEL") destructiveButtonTitle:nil otherButtonTitles:nil];
-        */
         
         UIAlertAction *action;
         
@@ -63,13 +59,9 @@
                                            }];
             
             [issuerBanksActionSheet addAction:action];
-            
-            //[issuerBanksActionSheet addButtonWithTitle:[issuerBanks objectForKey:key]];
+
             index++;
         }
-        
-        //issuerBanksActionSheet.cancelButtonIndex = 0;
-
     }
     return self;
 }
@@ -102,26 +94,9 @@
         
         [self presentViewController:issuerBanksActionSheet animated:YES completion:nil];
         
-        //[issuerBanksActionSheet showInView:self.view];
-        
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
-
-/*
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex != actionSheet.cancelButtonIndex) {
-        BOOL shouldRefresh = selectedIssuerBank == nil;
-        selectedIssuerBank = [issuerBanks.allKeys objectAtIndex:(buttonIndex - 1)];
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-        
-        if (shouldRefresh) {
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
-        }
-    }
-}
-*/
 
 - (NSInteger) formSection
 {
@@ -145,14 +120,14 @@
     
     HPFLabelTableViewCell *cell = [self dequeueLabelCell];
     
-    cell.inputLabel.text = HPFLocalizedString(@"IDEAL_BANK");
+    cell.inputLabel.text = HPFLocalizedString(@"HPF_IDEAL_BANK");
     
     NSString *issuerBankName = [issuerBanks objectForKey:selectedIssuerBank];
     
     if (issuerBankName != nil) {
         cell.infoLabel.text = issuerBankName;
     } else {
-        cell.infoLabel.text = HPFLocalizedString(@"TAP_TO_DEFINE");
+        cell.infoLabel.text = HPFLocalizedString(@"HPF_TAP_TO_DEFINE");
     }
     
     return cell;

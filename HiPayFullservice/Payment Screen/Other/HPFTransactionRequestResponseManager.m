@@ -50,40 +50,29 @@
         // First error
         if ((transaction.paymentMethod == nil) || ![history containsObject:transaction.paymentMethod]) {
             
-            //*
-            alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE")
-                                         message:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED")
+            alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_TRANSACTION_ERROR_DECLINED_TITLE")
+                                         message:HPFLocalizedString(@"HPF_TRANSACTION_ERROR_DECLINED_MESSAGE")
                                          preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction* cancelButton = [UIAlertAction
-                                       actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                       actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                        style:UIAlertActionStyleCancel
                                        handler:^(UIAlertAction * action) {
                                            //Handle no, thanks button
                                        }];
             
             [alertViewController addAction:cancelButton];
-            
-            //[self.delegate showAlertView:alertViewController];
-            
-            /*
-            alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
-             */
         }
         
         // It was a retry with the same payment method
         else {
-            
-            /*
-            alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED_RESET") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
-            */
-            
-            alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE")
-                message:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED_RESET")
+
+            alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_TRANSACTION_ERROR_DECLINED_RESET_TITLE")
+                message:HPFLocalizedString(@"HPF_TRANSACTION_ERROR_DECLINED_RESET_MESSAGE")
                 preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction* dismissButton = [UIAlertAction
-                                           actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                           actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                            style:UIAlertActionStyleCancel
                                            handler:^(UIAlertAction * action) {
                                                //Handle no, thanks button
@@ -103,15 +92,11 @@
     // State error or unknown
     else if (transaction.state == HPFTransactionStateError) {
         
-        /*
-        alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE") message:HPFLocalizedString(@"TRANSACTION_ERROR_OTHER") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
-         */
-        
-        alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"TRANSACTION_ERROR_DECLINED_TITLE")
-                                                                  message:HPFLocalizedString(@"TRANSACTION_ERROR_OTHER")
+        alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_TRANSACTION_ERROR_OTHER_TITLE")
+                                                                  message:HPFLocalizedString(@"HPF_TRANSACTION_ERROR_OTHER_MESSAGE")
                                                            preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* dismissButton = [UIAlertAction
-                                        actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                        actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                             //Handle no, thanks button
@@ -129,7 +114,6 @@
                                       }];
         
         [self.delegate showAlertView:alertViewController];
-        //[alertView show];
     }
 }
 
@@ -141,10 +125,9 @@
     
     // Duplicate order
     if ((transactionError.code == HPFErrorCodeAPICheckout) && [transactionError.userInfo[HPFErrorCodeAPICodeKey] isEqual:@(HPFErrorAPIDuplicateOrder)]) {
-        
         completionBlock([[HPFTransactionErrorResult alloc] initWithFormAction:HPFFormActionBackgroundReload]);
     }
-    
+
     // Final error (ex. : max attempts exceeded)
     else if ([HPFGatewayClient isTransactionErrorFinal:transactionError]) {
         completionBlock([[HPFTransactionErrorResult alloc] initWithFormAction:HPFFormActionQuit]);
@@ -152,16 +135,12 @@
 
     // Client error
     else if ((HTTPError != nil) && (HTTPError.code == HPFErrorCodeHTTPClient)) {
-        
-        /*
-        alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT") message:HPFLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil];
-         */
-        
-        alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                                                  message:HPFLocalizedString(@"ERROR_BODY_DEFAULT")
+    
+        alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_ERROR_HTTP_CLIENT_TITLE")
+                                                                  message:HPFLocalizedString(@"HPF_ERROR_HTTP_CLIENT_MESSAGE")
                                                            preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* dismissButton = [UIAlertAction
-                                        actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                        actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                             
@@ -169,20 +148,17 @@
                                         }];
         
         [alertViewController addAction:dismissButton];
+        
+        completionBlock([[HPFTransactionErrorResult alloc] initWithFormAction:HPFFormActionBackgroundReload]);
     }
     
     // Network unavailable
     else if ((HTTPError != nil) && (HTTPError.code == HPFErrorCodeHTTPNetworkUnavailable)) {
-        
-        /*
-        alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPFLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:HPFLocalizedString(@"ERROR_BUTTON_RETRY"), nil];
-         */
-
-        alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_CONNECTION")
-                                                                  message:HPFLocalizedString(@"ERROR_BODY_DEFAULT")
+        alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_ERROR_NETWORK_UNAVAILABLE_TITLE")
+                                                                  message:HPFLocalizedString(@"HPF_ERROR_NETWORK_UNAVAILABLE_MESSAGE")
                                                            preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* dismissButton = [UIAlertAction
-                                        actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                        actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                             
@@ -191,7 +167,7 @@
                                         }];
         
         UIAlertAction* retryButton = [UIAlertAction
-                                        actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_RETRY")
+                                        actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_RETRY")
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction * action) {
                                             
@@ -208,16 +184,11 @@
     
     // Other connection or server error
     else {
-        
-        /*
-        alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPFLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:HPFLocalizedString(@"ERROR_BUTTON_RETRY"), nil];
-         */
-        
-        alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_CONNECTION")
-                                                                  message:HPFLocalizedString(@"ERROR_BODY_DEFAULT")
+        alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_ERROR_NETWORK_OTHER_TITLE")
+                                                                  message:HPFLocalizedString(@"HPF_ERROR_NETWORK_OTHER_MESSAGE")
                                                            preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* dismissButton = [UIAlertAction
-                                        actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                        actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                             
@@ -226,7 +197,7 @@
                                         }];
         
         UIAlertAction* retryButton = [UIAlertAction
-                                      actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_RETRY")
+                                      actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_RETRY")
                                       style:UIAlertActionStyleDefault
                                       handler:^(UIAlertAction * action) {
                                           
@@ -246,30 +217,9 @@
                                       @"block": completionBlock,
                                       }];
         
-        //[alertView show];
-        
         [self.delegate showAlertView:alertViewController];
     }
 }
-
-/*
-- (void)alertView:(UIAlertView *)theAlertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    alertView = nil;
-    
-    NSUInteger index = [completionBlocks indexOfObjectPassingTest:^BOOL(NSDictionary<NSString *,id> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return obj[@"alert"] == theAlertView;
-    }];
-    
-    HPFTransactionErrorsManagerCompletionBlock block = [completionBlocks objectAtIndex:index][@"block"];
-    
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        block([[HPFTransactionErrorResult alloc] initWithFormAction:HPFFormActionFormReload]);
-    }
-    
-    [completionBlocks removeObjectAtIndex:index];
-}
-*/
 
 - (void)alertView:(UIAlertController *)theAlertView clickedCancelButton:(BOOL)cancelButton
 {
@@ -281,12 +231,6 @@
     
     HPFTransactionErrorsManagerCompletionBlock block = [completionBlocks objectAtIndex:index][@"block"];
     
-    /*
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        block([[HPFTransactionErrorResult alloc] initWithFormAction:HPFFormActionFormReload]);
-    }
-    */
-    
     if (!cancelButton) {
         block([[HPFTransactionErrorResult alloc] initWithFormAction:HPFFormActionFormReload]);
     }
@@ -295,26 +239,6 @@
 }
 
 
-
-/*
-- (void)alertView:(UIAlertView *)theAlertView clickedButtonAx:(NSInteger)buttonIndex
-{
-    alertView = nil;
-    
-    NSUInteger index = [completionBlocks indexOfObjectPassingTest:^BOOL(NSDictionary<NSString *,id> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return obj[@"alert"] == theAlertView;
-    }];
-    
-    HPFTransactionErrorsManagerCompletionBlock block = [completionBlocks objectAtIndex:index][@"block"];
-    
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        block([[HPFTransactionErrorResult alloc] initWithFormAction:HPFFormActionFormReload]);
-    }
-    
-    [completionBlocks removeObjectAtIndex:index];
-}
-*/
-
 - (void)flushHistory
 {
     [history removeAllObjects];
@@ -322,7 +246,6 @@
 
 - (void)removeAlerts
 {
-    //[alertView dismissWithClickedButtonIndex:alertView.cancelButtonIndex animated:YES];
     [alertViewController dismissViewControllerAnimated:NO completion:nil];
 }
 

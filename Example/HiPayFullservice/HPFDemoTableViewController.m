@@ -107,11 +107,6 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -371,11 +366,14 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = NSLocalizedString(@"RESULT_ERROR", nil);
             cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:cell.detailTextLabel.font.pointSize];
-            
+
             if (transactionError.userInfo[HPFErrorCodeAPIMessageKey] != nil) {
                 cell.detailTextLabel.text = transactionError.userInfo[HPFErrorCodeAPIMessageKey];
             } else {
-                cell.detailTextLabel.text = transactionError.userInfo[NSLocalizedFailureReasonErrorKey];
+                NSError *error = transactionError.userInfo.allValues.firstObject;
+                if (error.userInfo[NSLocalizedDescriptionKey]) {
+                    cell.detailTextLabel.text = error.userInfo[NSLocalizedDescriptionKey];
+                }
             }
             
             return cell;

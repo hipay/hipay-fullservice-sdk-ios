@@ -20,8 +20,6 @@
     NSArray <HPFPaymentProduct *> *paymentProducts;
     id<HPFRequest> paymentProductsRequest;
     BOOL loadingRequest;
-    //UIAlertView *warningCancelWhileLoadingAlertView;
-
     UIAlertController *warningCancelWhileLoadingAlertView;
     
     // Background loading
@@ -77,17 +75,14 @@
         }
 
         else {
-
             if (error != nil) {
-                /*
-                [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_CONNECTION") message:HPFLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_CANCEL") otherButtonTitles:HPFLocalizedString(@"ERROR_BUTTON_RETRY"), nil] show];
-                */
-                
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_CONNECTION")
-                                                                                         message:HPFLocalizedString(@"ERROR_BODY_DEFAULT")
+                [self.delegate paymentScreenViewController:self didFailWithError:error];
+
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_ERROR_NETWORK_OTHER_TITLE")
+                                                                                         message:HPFLocalizedString(@"HPF_ERROR_NETWORK_OTHER_MESSAGE")
                                                                                   preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction* dismissButton = [UIAlertAction
-                                                actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_CANCEL")
+                                                actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_CANCEL")
                                                 style:UIAlertActionStyleCancel
                                                 handler:^(UIAlertAction * action) {
                                                     
@@ -96,7 +91,7 @@
                                                 }];
                 
                 UIAlertAction* retryButton = [UIAlertAction
-                                              actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_RETRY")
+                                              actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_RETRY")
                                               style:UIAlertActionStyleDefault
                                               handler:^(UIAlertAction * action) {
                                                   
@@ -111,21 +106,17 @@
                 [alertController addAction:retryButton];
                 
                 [self presentViewController:alertController animated:YES completion:nil];
-                
-                
             }
-
             else {
-                
-                /*
-                [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT") message:HPFLocalizedString(@"ERROR_BODY_DEFAULT") delegate:self cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS") otherButtonTitles:nil] show];
-                 */
-                
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                                                                         message:HPFLocalizedString(@"ERROR_BODY_DEFAULT")
+                [self.delegate paymentScreenViewController:self didFailWithError:[NSError errorWithDomain:HPFHiPayFullserviceErrorDomain
+                                                                                                     code:HPFErrorCodeHTTPOther
+                                                                                                 userInfo:@{NSLocalizedDescriptionKey: HPFErrorCodeHTTPOtherDescription}]];
+
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_ERROR_NETWORK_OTHER_TITLE")
+                                                                                         message:HPFLocalizedString(@"HPF_ERROR_NETWORK_OTHER_MESSAGE")
                                                                                   preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction* dismissButton = [UIAlertAction
-                                                actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_CANCEL")
+                                                actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_CANCEL")
                                                 style:UIAlertActionStyleCancel
                                                 handler:^(UIAlertAction * action) {
                                                     
@@ -134,7 +125,7 @@
                                                 }];
                 
                 UIAlertAction* retryButton = [UIAlertAction
-                                                actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_RETRY")
+                                                actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_RETRY")
                                                 style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action) {
                                                     
@@ -313,24 +304,18 @@
     
     else {
         
-        /*
-        warningCancelWhileLoadingAlertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ALERT_TRANSACTION_LOADING_TITLE") message:HPFLocalizedString(@"ALERT_TRANSACTION_LOADING_BODY") delegate:self cancelButtonTitle:HPFLocalizedString(@"ALERT_TRANSACTION_LOADING_NO") otherButtonTitles:HPFLocalizedString(@"ALERT_TRANSACTION_LOADING_YES"), nil];
-        
-        [warningCancelWhileLoadingAlertView show];
-        */
-        
-        warningCancelWhileLoadingAlertView = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ALERT_TRANSACTION_LOADING_TITLE")
-                                                                                     message:HPFLocalizedString(@"ALERT_TRANSACTION_LOADING_BODY")
+        warningCancelWhileLoadingAlertView = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_ALERT_TRANSACTION_LOADING_TITLE")
+                                                                                     message:HPFLocalizedString(@"HPF_ALERT_TRANSACTION_LOADING_MESSAGE")
                                                                               preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* dismissButton = [UIAlertAction
-                                        actionWithTitle:HPFLocalizedString(@"ALERT_TRANSACTION_LOADING_NO")
+                                        actionWithTitle:HPFLocalizedString(@"HPF_ALERT_TRANSACTION_LOADING_NO")
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                             
                                         }];
         
         UIAlertAction* defaultButton = [UIAlertAction
-                                        actionWithTitle:HPFLocalizedString(@"ALERT_TRANSACTION_LOADING_YES")
+                                        actionWithTitle:HPFLocalizedString(@"HPF_ALERT_TRANSACTION_LOADING_YES")
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction * action) {
                                             
@@ -367,35 +352,6 @@
     [[HPFTransactionRequestResponseManager sharedManager] removeAlerts];
 }
 
-#pragma mark - Alert view
-/*
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView == warningCancelWhileLoadingAlertView) {
-        if (alertView.cancelButtonIndex != buttonIndex) {
-            [self doCancelPayment];
-        }
-        
-        warningCancelWhileLoadingAlertView = nil;
-    }
-    
-    else {
-        if (buttonIndex == alertView.cancelButtonIndex) {
-            [self cancelPayment];
-        }
-        
-        else {
-
-            //check about both screens thing.
-            HPFPaymentScreenMainViewController *mainViewController = self.mainViewController;
-            if (mainViewController != nil) {
-                [self loadPaymentProductsToMainViewController:mainViewController];
-            }
-        }
-    }
-}
-*/
-
 #pragma mark - Ending payment
 
 -(void)expiredPaymentPage {
@@ -407,11 +363,6 @@
 
 - (void)endWithError:(NSError *)error
 {
-    //[warningCancelWhileLoadingAlertView dismissWithClickedButtonIndex:warningCancelWhileLoadingAlertView.cancelButtonIndex animated:YES];
-    
-    //TODO verify if there's no animation problem
-    //[warningCancelWhileLoadingAlertView dismissViewControllerAnimated:NO completion:nil];
-    
     [self cancelActivity];
     
     if ([self.delegate respondsToSelector:@selector(paymentScreenViewController:didFailWithError:)]) {
@@ -425,11 +376,6 @@
 
 - (void)endWithTransaction:(HPFTransaction *)transaction
 {
-    //[warningCancelWhileLoadingAlertView dismissWithClickedButtonIndex:warningCancelWhileLoadingAlertView.cancelButtonIndex animated:YES];
-
-    //TODO verify if there's no animation problem
-    //[warningCancelWhileLoadingAlertView dismissViewControllerAnimated:NO completion:nil];
-    
     [self cancelActivity];
     
     if ([self.delegate respondsToSelector:@selector(paymentScreenViewController:didEndWithTransaction:)]) {

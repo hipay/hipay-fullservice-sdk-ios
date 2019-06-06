@@ -336,31 +336,25 @@
     [[HPFTransactionRequestResponseManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPFTransactionErrorResult *result) {
         
         if(result.formAction == HPFFormActionQuit) {
-
             HPFPaymentMethod *paymentMethod = theTransaction.paymentMethod;
             if (paymentMethod != nil) {
                 [self savePaymentMethod:paymentMethod];
             }
-            [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
         }
         
         [self checkRequestResultStatus:result];
         
+        [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
     }];
 }
 
 - (void)checkTransactionError:(NSError *)transactionError
-{
-    
+{   
     [HPFTransactionRequestResponseManager sharedManager].delegate = self;
     [[HPFTransactionRequestResponseManager sharedManager] manageError:transactionError withCompletionHandler:^(HPFTransactionErrorResult *result) {
-       
-        if(result.formAction == HPFFormActionQuit) {
-            [self.delegate paymentProductViewController:self didFailWithError:transactionError];
-        }
-        
         [self checkRequestResultStatus:result];
         
+        [self.delegate paymentProductViewController:self didFailWithError:transactionError];
     }];
 }
 
@@ -489,7 +483,7 @@
 
         } else {
 
-            return [NSString stringWithFormat:HPFLocalizedString(@"PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
+            return [NSString stringWithFormat:HPFLocalizedString(@"HPF_PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
         }
     }
     

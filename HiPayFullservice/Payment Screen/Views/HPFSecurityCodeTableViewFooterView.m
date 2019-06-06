@@ -41,12 +41,12 @@
     NSString *imageName = nil;
     
     if ([paymentProductCode isEqualToString:HPFPaymentProductCodeAmericanExpress]) {
-        text = HPFLocalizedString(@"CARD_SECURITY_CODE_DESCRIPTION_CID");
+        text = HPFLocalizedString(@"HPF_CARD_SECURITY_CODE_DESCRIPTION_CID");
         imageName = @"cvc_amex";
     }
     
     else {
-        text = HPFLocalizedString(@"CARD_SECURITY_CODE_DESCRIPTION_CVV");
+        text = HPFLocalizedString(@"HPF_CARD_SECURITY_CODE_DESCRIPTION_CVV");
         imageName = @"cvc_mv";
     }
     

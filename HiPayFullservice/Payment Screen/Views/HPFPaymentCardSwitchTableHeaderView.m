@@ -15,7 +15,7 @@
     [super awakeFromNib];
 
     saveTextLabel.textColor = [UIColor colorWithRed:0.41 green:0.41 blue:0.41 alpha:1.0];
-    saveTextLabel.text = HPFLocalizedString(@"CARD_SWITCH_STORE_DESCRIPTION");
+    saveTextLabel.text = HPFLocalizedString(@"HPF_CARD_SWITCH_STORE_DESCRIPTION");
 }
 
 - (BOOL)isEnabled

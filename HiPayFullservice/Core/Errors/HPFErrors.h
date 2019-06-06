@@ -17,6 +17,7 @@ extern NSString * _Nonnull const HPFErrorCodeHTTPConnectionFailedDescription;
 extern NSString * _Nonnull const HPFErrorCodeHTTPClientDescription;
 extern NSString * _Nonnull const HPFErrorCodeHTTPServerDescription;
 extern NSString * _Nonnull const HPFErrorCodePaymentPageTimeoutDescription;
+extern NSString * _Nonnull const HPFErrorCodeApplePayDescription;
 
 extern NSString * _Nonnull const HPFErrorCodeHTTPPlainResponseKey;
 extern NSString * _Nonnull const HPFErrorCodeHTTPParsedResponseKey;
@@ -36,43 +37,46 @@ typedef NS_ENUM(NSInteger, HPFHTTPStatus) {
 typedef NS_ENUM(NSInteger, HPFErrorCode) {
     
     /// Unknown network/HTTP error
-    HPFErrorCodeHTTPOther,
+    HPFErrorCodeHTTPOther = 0,
     
     /// Network is unavailable
-    HPFErrorCodeHTTPNetworkUnavailable,
+    HPFErrorCodeHTTPNetworkUnavailable = 1,
     
     /// Config error (such as SSL, bad URL, etc.)
-    HPFErrorCodeHTTPConfig,
+    HPFErrorCodeHTTPConfig = 2,
     
     /// The connection has been interupted
-    HPFErrorCodeHTTPConnectionFailed,
+    HPFErrorCodeHTTPConnectionFailed = 3,
     
     /// HTTP client error (400)
-    HPFErrorCodeHTTPClient,
+    HPFErrorCodeHTTPClient = 4,
     
     /// HTTP client error (typically a 500 error)
-    HPFErrorCodeHTTPServer,
+    HPFErrorCodeHTTPServer = 5,
     
     /// Configuration errors (refer to the HiPay Fullservice API documentation appendix)
-    HPFErrorCodeAPIConfiguration,
+    HPFErrorCodeAPIConfiguration = 6,
     
     /// Validation errors (refer to the HiPay Fullservice API documentation appendix)
-    HPFErrorCodeAPIValidation,
+    HPFErrorCodeAPIValidation = 7,
     
     /// Error codes relating to the Checkout Process (refer to the HiPay Fullservice API documentation appendix)
-    HPFErrorCodeAPICheckout,
+    HPFErrorCodeAPICheckout = 8,
     
     /// Error codes relating to Maintenance Operations (refer to the HiPay Fullservice API documentation appendix)
-    HPFErrorCodeAPIMaintenance,
+    HPFErrorCodeAPIMaintenance = 9,
     
     /// Acquirer Reason Codes (refer to the HiPay Fullservice API documentation appendix)
-    HPFErrorCodeAPIAcquirer,
+    HPFErrorCodeAPIAcquirer = 10,
     
     /// Unknown error
-    HPFErrorCodeAPIOther,
+    HPFErrorCodeAPIOther = 11,
     
+    /// PKPaymentAuthorizationViewController can not be loaded
+    HPFErrorCodeApplePay = 12,
+
     /// Timeout error
-    HPFErrorCodePaymentPageTimeout,
+    HPFErrorCodePaymentPageTimeout = 13,
 };
 
 typedef NS_ENUM(NSInteger, HPFErrorAPIReason) {

@@ -450,7 +450,7 @@
             description = inferedPaymentProduct.paymentProductDescription;
         }
         
-        return [NSString stringWithFormat:HPFLocalizedString(@"PAY_WITH_THIS_METHOD"), description];
+        return [NSString stringWithFormat:HPFLocalizedString(@"HPF_PAY_WITH_THIS_METHOD"), description];
     }
 
     return [super tableView:tableView titleForHeaderInSection:section];
@@ -564,8 +564,8 @@
     switch (indexPath.row) {
         case 0:
             cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"holder"];
-            cell.inputLabel.text = HPFLocalizedString(@"CARD_HOLDER_LABEL");
-            cell.textField.placeholder = HPFLocalizedString(@"CARD_HOLDER_PLACEHOLDER");
+            cell.inputLabel.text = HPFLocalizedString(@"HPF_CARD_HOLDER_LABEL");
+            cell.textField.placeholder = HPFLocalizedString(@"HPF_CARD_HOLDER_PLACEHOLDER");
             cell.textField.keyboardType = UIKeyboardTypeAlphabet;
             cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
             cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
@@ -586,8 +586,8 @@
             
         case 2:
             cell = [self dequeueInputCellWithIdentifier:@"ExpiryDateInput" fieldIdentifier:@"expiry_date"];
-            cell.inputLabel.text = HPFLocalizedString(@"CARD_EXPIRATION_LABEL");
-            cell.textField.placeholder = HPFLocalizedString(@"CARD_EXPIRATION_PLACEHOLDER");
+            cell.inputLabel.text = HPFLocalizedString(@"HPF_CARD_EXPIRATION_LABEL");
+            cell.textField.placeholder = HPFLocalizedString(@"HPF_CARD_EXPIRATION_PLACEHOLDER");
             cell.textField.returnKeyType = UIReturnKeyNext;
             break;
             
@@ -628,29 +628,18 @@
         if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
                 && authStatus == AVAuthorizationStatusDenied) {
 
-            /*
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SCAN")
-                                                                message:HPFLocalizedString(@"CARD_SCAN_PERMISSION")
-                                                               delegate:self
-                                                      cancelButtonTitle:HPFLocalizedString(@"CANCEL")
-                                                      otherButtonTitles:HPFLocalizedString(@"SETTINGS"), nil];
-            alertView.tag = 1;
-            [alertView show];
-            */
-            
-            UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"CARD_SCAN")
-                                                                      message:HPFLocalizedString(@"CARD_SCAN_PERMISSION")
+            UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_CARD_SCAN")
+                                                                      message:HPFLocalizedString(@"HPF_CARD_SCAN_PERMISSION")
                                                                preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction* cancelButton = [UIAlertAction
-                                            actionWithTitle:HPFLocalizedString(@"CANCEL")
+                                            actionWithTitle:HPFLocalizedString(@"HPF_CANCEL")
                                             style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * action) {
                                                 
-                                                //[self alertView:alertViewController clickedCancelButton:true];
                                             }];
             
             UIAlertAction* settingsButton = [UIAlertAction
-                                          actionWithTitle:HPFLocalizedString(@"SETTINGS")
+                                          actionWithTitle:HPFLocalizedString(@"HPF_SETTINGS")
                                           style:UIAlertActionStyleDefault
                                           handler:^(UIAlertAction * action) {
                                               
@@ -718,31 +707,20 @@
     // if touchID is not enabled, don't ask for it
     if (self.isSwitchOn && self.isTouchIDEnabled) {
 
-        /*
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
-                                    message:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_DESCRIPTION")
-                                   delegate:self
-                          cancelButtonTitle:HPFLocalizedString(@"NO")
-                          otherButtonTitles:HPFLocalizedString(@"YES"), nil];
-        alertView.tag = 0;
-        [alertView show];
-        */
-        
-        UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_TITLE")
-                                                                                     message:HPFLocalizedString(@"CARD_SWITCH_TOUCHID_DESCRIPTION")
+        UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_CARD_SWITCH_TOUCHID_TITLE")
+                                                                                     message:HPFLocalizedString(@"HPF_CARD_SWITCH_TOUCHID_DESCRIPTION")
                                                                               preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* cancelButton = [UIAlertAction
-                                       actionWithTitle:HPFLocalizedString(@"NO")
+                                       actionWithTitle:HPFLocalizedString(@"HPF_NO")
                                        style:UIAlertActionStyleCancel
                                        handler:^(UIAlertAction * action) {
                                            
-                                           //[self alertView:alertViewController clickedCancelButton:true];
                                            self.touchIDOn = NO;
                                            
                                        }];
         
         UIAlertAction* settingsButton = [UIAlertAction
-                                         actionWithTitle:HPFLocalizedString(@"YES")
+                                         actionWithTitle:HPFLocalizedString(@"HPF_YES")
                                          style:UIAlertActionStyleDefault
                                          handler:^(UIAlertAction * action) {
                                              
@@ -760,36 +738,6 @@
         self.touchIDOn = NO;
     }
 }
-
-/*
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-
-    switch (alertView.tag) {
-
-        //TouchID
-        case 0: {
-
-            if (buttonIndex == alertView.cancelButtonIndex) {
-                self.touchIDOn = NO;
-
-            } else {
-                self.touchIDOn = YES;
-            }
-
-        } break;
-
-            //card scan
-        case 1: {
-
-            if (buttonIndex != alertView.cancelButtonIndex) {
-                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
-            }
-
-        } break;
-    }
-}
-*/
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

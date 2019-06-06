@@ -93,22 +93,28 @@
             
             if (codeNumber != nil) {
                 [userInfo setObject:codeNumber forKey:HPFErrorCodeAPICodeKey];
-                [userInfo setObject:[body objectForKey:@"message"] forKey:HPFErrorCodeAPIMessageKey];
                 
-                if ([[body objectForKey:@"description"] isKindOfClass:[NSString class]]) {
-                    [userInfo setObject:[body objectForKey:@"description"] forKey:HPFErrorCodeAPIDescriptionKey];
+                NSString *message = [body objectForKey:@"message"];
+                if (message.length > 0) {
+                    [userInfo setObject:message forKey:HPFErrorCodeAPIMessageKey];
+                }
+                
+                NSString *description = [body objectForKey:@"description"];
+                if (description.length > 0) {
+                    [userInfo setObject:description forKey:HPFErrorCodeAPIDescriptionKey];
                 }
             }
         }
     }
-    
+    else if (error.code == HPFErrorCodeHTTPNetworkUnavailable ||
+             error.code == HPFErrorCodeHTTPConnectionFailed ||
+             error.code == HPFErrorCodeHTTPConfig) {
+        code = error.code;
+    }
     else {
         code = HPFErrorCodeAPIOther;
-    }
-    
-    if (code == HPFErrorCodeAPIOther) {
         if (body != nil) {
-            [userInfo setObject:body forKey:HPFErrorCodeHTTPParsedResponseKey];            
+            [userInfo setObject:body forKey:HPFErrorCodeHTTPParsedResponseKey];
         }
     }
     

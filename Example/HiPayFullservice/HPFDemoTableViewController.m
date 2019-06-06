@@ -605,13 +605,13 @@
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
     if ([HPFEnvironmentViewController isEnvironmentStage]) {
         [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay
-                                            privateKeyPassword:parameters[@"hipayStage"][@"privateKeyPassword"]
-                                            merchantIdentifier:parameters[@"hipayStage"][@"merchantIdentifier"]];
+                                            privateKeyPassword:parameters[@"hipayStage"][@"applePayPrivateKeyPassword"]
+                                            merchantIdentifier:parameters[@"hipayStage"][@"applePayMerchantIdentifier"]];
     }
     else if ([HPFEnvironmentViewController isEnvironmentProduction]) {
         [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay
-                                            privateKeyPassword:parameters[@"hipayProduction"][@"privateKeyPassword"]
-                                            merchantIdentifier:parameters[@"hipayProduction"][@"merchantIdentifier"]];
+                                            privateKeyPassword:parameters[@"hipayProduction"][@"applePayPrivateKeyPassword"]
+                                            merchantIdentifier:parameters[@"hipayProduction"][@"applePayMerchantIdentifier"]];
     }
     
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;

@@ -38,8 +38,8 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
         
         NSString * brand_version = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)[[NSProcessInfo processInfo] operatingSystemVersion].majorVersion, (long)[[NSProcessInfo processInfo] operatingSystemVersion].minorVersion, (long)[[NSProcessInfo processInfo] operatingSystemVersion].patchVersion];
         
-        NSBundle *utilitiesBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"HPFUtilitiesResources" ofType:@"bundle"]];
-        NSString *integration_version = [utilitiesBundle objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+        NSBundle *coreBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"HPFCoreLocalization" ofType:@"bundle"]];
+        NSString *integration_version = [coreBundle objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
         
         self.source = @{
                         @"source" : @"CSDK",

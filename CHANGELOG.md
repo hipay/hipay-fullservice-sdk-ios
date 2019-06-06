@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.9.2
+-----
+* SDK : Fix crash in HPFOrderRelatedRequest initialization when using only HiPayFullservice/Core integration
+
 1.9.1
 -----
 * SDK : Fix Source object initialization in order object

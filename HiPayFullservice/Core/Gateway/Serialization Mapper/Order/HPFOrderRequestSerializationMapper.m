@@ -19,6 +19,8 @@
 #import "HPFQiwiWalletPaymentMethodRequest.h"
 #import "HPFIDealPaymentMethodRequest.h"
 #import "HPFSepaDirectDebitPaymentMethodRequest.h"
+#import "HPFPaymentCardTokenDatabase.h"
+#import "HPFLogger.h"
 
 @implementation HPFOrderRequestSerializationMapper
 
@@ -30,6 +32,14 @@
     
     [result mergeDictionary:[self paymentMethodSerializedRequest] withPrefix:nil];
     
+    // if recurring payment, we add "card_stored_24h" & "enrollment_date" variables
+    // to the request
+    NSNumber *eci = result[@"eci"];
+    if (eci && eci.intValue == HPFECIRecurringECommerce) {
+        [self addCardStored24hIfNeeded:result];
+        [self addEnrollmentDateIfNeeded:result];
+    }
+
     return [self createImmutableDictionary:result];
 }
 
@@ -53,6 +63,70 @@
     }
     
     return nil;
+}
+
+-(void) addCardStored24hIfNeeded:(NSMutableDictionary *)dictionary {
+    
+    NSDictionary *accountInfo = dictionary[@"account_info"];
+    NSDictionary *purchase = accountInfo[@"purchase"];
+    NSNumber *cardStored24h = purchase[@"card_stored_24h"];
+    
+    if (!cardStored24h) {
+        id tokenDatabase = NSClassFromString(@"HPFPaymentCardTokenDatabase");
+        
+        if ([tokenDatabase respondsToSelector:@selector(numberOfCardSavedInLast24HoursForCurrency:)]) {
+            NSString *currency = dictionary[@"currency"];
+            NSUInteger numberOfCardSavedInLast24Hours =  [(Class)tokenDatabase numberOfCardSavedInLast24HoursForCurrency:currency];
+            
+            NSMutableDictionary *purchaseMut = [purchase mutableCopy] ? [purchase mutableCopy] : [NSMutableDictionary new];
+            purchaseMut[@"card_stored_24h"] = @(numberOfCardSavedInLast24Hours);
+
+            NSMutableDictionary *accountInfoMut = [accountInfo mutableCopy] ? [accountInfo mutableCopy] : [NSMutableDictionary new];
+            dictionary[@"account_info"] = accountInfoMut;
+            dictionary[@"account_info"][@"purchase"] = purchaseMut;
+            
+            [[HPFLogger sharedLogger] debug:@"<Order> card_stored_24 attribute added to Order Request with value \"%d\"", numberOfCardSavedInLast24Hours];
+        }
+    }
+}
+
+-(void) addEnrollmentDateIfNeeded:(NSMutableDictionary *)dictionary {
+    
+    NSDictionary *accountInfo = dictionary[@"account_info"];
+    NSDictionary *payment = accountInfo[@"payment"];
+    NSNumber *enrollmentDate = payment[@"enrollment_date"];
+    NSString *token = dictionary[@"cardtoken"];
+
+    if (!enrollmentDate && token) {
+        
+        id tokenDatabase = NSClassFromString(@"HPFPaymentCardTokenDatabase");
+        
+        if ([tokenDatabase respondsToSelector:@selector(enrollmentDateForToken:forCurrency:)]) {
+            NSString *currency = dictionary[@"currency"];
+            NSDate *enrollmentDate =  [(Class)tokenDatabase enrollmentDateForToken:token forCurrency:currency];
+            
+            if (enrollmentDate) {
+                NSMutableDictionary *paymentMut = [payment mutableCopy] ? [payment mutableCopy] : [NSMutableDictionary new];
+
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                dateFormatter.dateFormat = @"YYYYMMdd";
+                dateFormatter.timeZone = [NSTimeZone localTimeZone];
+                
+                NSString *enrollmentDateString = [dateFormatter stringFromDate:enrollmentDate];
+                
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                formatter.numberStyle = NSNumberFormatterNoStyle;
+                paymentMut[@"enrollment_date"] = [formatter numberFromString:enrollmentDateString];
+                
+                NSMutableDictionary *accountInfoMut = [accountInfo mutableCopy] ? [accountInfo mutableCopy] : [NSMutableDictionary new];
+                dictionary[@"account_info"] = accountInfoMut;
+                dictionary[@"account_info"][@"payment"] = paymentMut;
+                
+                [[HPFLogger sharedLogger] debug:@"<Order> enrollment_date attribute added to Order Request with value \"%@\"", enrollmentDateString];
+            }
+        }
+
+    }
 }
 
 @end

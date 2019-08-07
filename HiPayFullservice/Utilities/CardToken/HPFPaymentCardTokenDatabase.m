@@ -110,8 +110,39 @@
     return nil;
 }
 
-+ (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency withTouchID:(BOOL)touchID {
++ (NSUInteger) numberOfCardSavedInLast24HoursForCurrency:(NSString *)currency {
+    
+    NSArray *tokens = [self paymentCardTokensForCurrency:currency];
+    NSUInteger count = 0;
+    
+    if (tokens.count > 0) {
+        for (HPFPaymentCardToken *cardToken in tokens) {
+            
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            NSDate *oneDayBefore = [calendar dateByAddingUnit:NSCalendarUnitDay value:-1 toDate:[NSDate date] options:0];
+            if (cardToken.dateAdded && [cardToken.dateAdded compare:oneDayBefore] == NSOrderedDescending) {
+                count++;
+            }
+        }
+    }
 
+    return count;
+}
+
++ (NSDate *) enrollmentDateForToken:(NSString *)token forCurrency:(NSString *)currency {
+    NSArray *tokens = [self paymentCardTokensForCurrency:currency];
+    
+    for (HPFPaymentCardToken *cardToken in tokens) {
+        if ([cardToken.token isEqualToString:token]) {
+            return cardToken.dateAdded;
+        }
+    }
+    
+    return nil;
+}
+
++ (void) save:(HPFPaymentCardToken *)paymentCardToken forCurrency:(NSString *)currency withTouchID:(BOOL)touchID {
+    
     FXKeychain *fxKeychain = [FXKeychain defaultKeychain];
 
     NSArray *tokens = [self paymentCardTokensForCurrency:currency];
@@ -130,6 +161,9 @@
 
         NSString *key = [NSString stringWithFormat:@"paymentCardToken_%@", currency];
         NSString *keyTouchID = [NSString stringWithFormat:@"paymentCardTokenTouchID_%@", currency];
+
+        //data added token = NOW
+        paymentCardToken.dateAdded = [NSDate new];
 
         if (tokens != nil && tokens.count > 0) {
             [fxKeychain setObject:[tokens arrayByAddingObject:paymentCardToken] forKey:key];

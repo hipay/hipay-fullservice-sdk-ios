@@ -11,6 +11,7 @@
 #import "NSMutableDictionary+Serialization.h"
 #import "HPFAbstractSerializationMapper+Encode.h"
 #import "HPFCustomerInfoRequestSerializationMapper.h"
+#import "HPFLogger.h"
 
 @implementation HPFOrderRelatedRequestSerializationMapper
 
@@ -62,7 +63,15 @@
     
     [result mergeDictionary:[[HPFPersonalInfoRequestSerializationMapper mapperWithRequest:[self.request valueForKey:@"shippingAddress"]] serializedRequest] withPrefix:@"shipto_"];
     
+    [result setNullableObject:[self.request valueForKey:@"merchantRiskStatement"] forKey:@"merchant_risk_statement"];
+
+    [result setNullableObject:[self.request valueForKey:@"previousAuthInfo"] forKey:@"previous_auth_info"];
+    
+    [result setNullableObject:[self.request valueForKey:@"accountInfo"] forKey:@"account_info"];
+    
     [result setNullableObject:[self getSerializedJSONForKey:@"source"] forKey:@"source"];
+    
+    [self addNameIndicatorIfNeeded:result];
     
     return result;
 }
@@ -82,6 +91,45 @@
     }
     
     return nil;
+}
+
+- (void)addNameIndicatorIfNeeded:(NSMutableDictionary *)dictionary
+{
+    if ([self.request isKindOfClass:[HPFOrderRelatedRequest class]]) {
+        HPFOrderRelatedRequest *myRequest = (HPFOrderRelatedRequest *)self.request;
+        NSDictionary *accountInfo = dictionary[@"account_info"];
+        NSDictionary *shipping = accountInfo[@"shipping"];
+        NSNumber *currentNameIndicator = shipping[@"name_indicator"];
+        
+        if (!currentNameIndicator) {
+            HPFCustomerInfoRequest *customer = myRequest.customer;
+            NSString *firstNameCustomer = customer.firstname;
+            NSString *lastNameCustomer = customer.lastname;
+            
+            HPFPersonalInfoRequest *shippingAddress = myRequest.shippingAddress;
+            NSString *firstNameShipping = shippingAddress.firstname;
+            NSString *lastNameShipping = shippingAddress.lastname;
+            
+            NSNumber *nameIndicator = @2;
+            
+            if (firstNameCustomer.length > 0 &&
+                lastNameCustomer.length > 0 &&
+                [firstNameCustomer isEqualToString:firstNameShipping] &&
+                [lastNameCustomer isEqualToString:lastNameShipping]) {
+                
+                nameIndicator = @1;
+            }
+            
+            NSMutableDictionary *shippingMut = [shipping mutableCopy] ? [shipping mutableCopy] : [NSMutableDictionary new];
+            shippingMut[@"name_indicator"] = nameIndicator;
+
+            NSMutableDictionary *accountInfoMut = [accountInfo mutableCopy] ? [accountInfo mutableCopy] : [NSMutableDictionary new];
+            dictionary[@"account_info"] = accountInfoMut;
+            dictionary[@"account_info"][@"shipping"] = shippingMut;
+            
+            [[HPFLogger sharedLogger] debug:@"<Order> name_indicator attribute added to Order Request with value \"%d\"", nameIndicator];
+        }
+    }
 }
 
 @end

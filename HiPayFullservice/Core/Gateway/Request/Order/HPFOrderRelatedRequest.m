@@ -125,7 +125,11 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
 
     request.customer = orderRelatedRequest.customer;
     request.shippingAddress = orderRelatedRequest.shippingAddress;
-
+    
+    request.merchantRiskStatement = orderRelatedRequest.merchantRiskStatement;
+    request.previousAuthInfo = orderRelatedRequest.previousAuthInfo;
+    request.accountInfo = orderRelatedRequest.accountInfo;
+    
     request.customData = orderRelatedRequest.customData;
     
     request.cdata1 = orderRelatedRequest.cdata1;

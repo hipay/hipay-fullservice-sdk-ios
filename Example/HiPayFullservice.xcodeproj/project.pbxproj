@@ -731,6 +731,7 @@
 						};
 					};
 					6003F5AD195388D20070C39A = {
+						DevelopmentTeam = 7RLJNKW437;
 						TestTargetID = 6003F589195388D20070C39A;
 					};
 				};
@@ -1162,6 +1163,8 @@
 			baseConfigurationReference = 3C36F2B430CCCB7ED7884D52 /* Pods-HiPayFullservice_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 7RLJNKW437;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1187,6 +1190,8 @@
 			baseConfigurationReference = 84D9C3C826741C4BD4C111DA /* Pods-HiPayFullservice_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 7RLJNKW437;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

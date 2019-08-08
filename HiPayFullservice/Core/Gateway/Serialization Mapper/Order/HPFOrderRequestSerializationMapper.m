@@ -32,11 +32,11 @@
     
     [result mergeDictionary:[self paymentMethodSerializedRequest] withPrefix:nil];
     
-    // if recurring payment, we add "card_stored_24h" & "enrollment_date" variables
-    // to the request
+    [self addCardStored24hIfNeeded:result];
+    
+    // if recurring payment, we add "enrollment_date" var in result
     NSNumber *eci = result[@"eci"];
     if (eci && eci.intValue == HPFECIRecurringECommerce) {
-        [self addCardStored24hIfNeeded:result];
         [self addEnrollmentDateIfNeeded:result];
     }
 

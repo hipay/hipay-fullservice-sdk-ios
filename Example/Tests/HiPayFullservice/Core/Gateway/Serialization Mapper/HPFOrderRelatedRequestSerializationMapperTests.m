@@ -171,6 +171,8 @@
     XCTAssertEqualObjects([result objectForKey:@"device_fingerprint"], @"test7");
     XCTAssertEqualObjects([result objectForKey:@"language"], @"test8");
     
+    XCTAssertEqualObjects(result[@"account_info"][@"shipping"][@"name_indicator"], @2);
+    
     XCTAssertEqualObjects([result objectForKey:@"cdata1"], @"ctest1");
     XCTAssertEqualObjects([result objectForKey:@"cdata2"], @"ctest2");
     XCTAssertEqualObjects([result objectForKey:@"cdata3"], @"ctest3");

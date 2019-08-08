@@ -59,6 +59,45 @@
     object.exceptionURL = [NSURL URLWithString:@"http://www.example.com/test4"];
     object.cancelURL = [NSURL URLWithString:@"http://www.example.com/test5"];
     
+    object.merchantRiskStatement = @{
+                                     @"email_delivery_address": @"jane.doe@test.com",
+                                     @"delivery_time_frame": @1,
+                                     @"purchase_indicator": @1,
+                                     @"pre_order_date": @20190925,
+                                     @"reorder_indicator": @1,
+                                     @"shipping_indicator": @1,
+                                     @"gift_card": @{
+                                             @"amount": @15,
+                                             @"count": @0,
+                                             @"currency": @"EUR"
+                                             }
+                                     };
+    
+    object.previousAuthInfo = @{@"transaction_reference" : @"800000987283"};
+    
+    object.accountInfo = @{
+                           @"customer" : @{
+                                   @"account_change": @20180507,
+                                   @"opening_account_date": @20180507,
+                                   @"password_change": @20180507
+                                   },
+                           @"purchase": @{
+                                   @"count": @2,
+                                   @"card_stored_24h": @0,
+                                   @"payment_attempts_24h": @0,
+                                   @"payment_attempts_1y": @0
+                                   },
+                           @"payment": @{
+                                   @"enrollment_date": @20180507
+                                   },
+                           @"shipping": @{
+                                   @"shipping_used_date": @20180507,
+                                   @"address_usage_duration": @1,
+                                   @"suspicious_activity": @1
+                                   }
+                           };
+    
+    
     object.customData = @{@"hello": @"world"};
     
     object.cdata1 = @"test11";
@@ -99,8 +138,49 @@
     XCTAssertEqualObjects([object valueForKey:@"exceptionURL"], [NSURL URLWithString:@"http://www.example.com/test4"]);
     XCTAssertEqualObjects([object valueForKey:@"cancelURL"], [NSURL URLWithString:@"http://www.example.com/test5"]);
     
-    XCTAssertEqualObjects([object valueForKey:@"customData"], @{@"hello": @"world"});
+    NSDictionary *merchantRiskStatement = @{
+                                            @"email_delivery_address": @"jane.doe@test.com",
+                                            @"delivery_time_frame": @1,
+                                            @"purchase_indicator": @1,
+                                            @"pre_order_date": @20190925,
+                                            @"reorder_indicator": @1,
+                                            @"shipping_indicator": @1,
+                                            @"gift_card": @{
+                                                    @"amount": @15,
+                                                    @"count": @0,
+                                                    @"currency": @"EUR"
+                                                    }
+                                            };
+    
+    XCTAssertEqualObjects([object valueForKey:@"merchantRiskStatement"], merchantRiskStatement);
+    XCTAssertEqualObjects([object valueForKey:@"previousAuthInfo"], @{@"transaction_reference" : @"800000987283"});
 
+    NSDictionary *accountInfo = @{
+                                  @"customer" : @{
+                                          @"account_change": @20180507,
+                                          @"opening_account_date": @20180507,
+                                          @"password_change": @20180507
+                                          },
+                                  @"purchase": @{
+                                          @"count": @2,
+                                          @"card_stored_24h": @0,
+                                          @"payment_attempts_24h": @0,
+                                          @"payment_attempts_1y": @0
+                                          },
+                                  @"payment": @{
+                                          @"enrollment_date": @20180507
+                                          },
+                                  @"shipping": @{
+                                          @"shipping_used_date": @20180507,
+                                          @"address_usage_duration": @1,
+                                          @"suspicious_activity": @1
+                                          }
+                                  };
+                           
+    XCTAssertEqualObjects([object valueForKey:@"accountInfo"], accountInfo);
+    
+    XCTAssertEqualObjects([object valueForKey:@"customData"], @{@"hello": @"world"});
+    
     XCTAssertEqualObjects([object valueForKey:@"cdata1"], @"test11");
     XCTAssertEqualObjects([object valueForKey:@"cdata2"], @"test12");
     XCTAssertEqualObjects([object valueForKey:@"cdata3"], @"test13");
@@ -117,12 +197,12 @@
     XCTAssertEqualObjects([object valueForKey:@"pendingURL"], [NSURL URLWithString:@"http://www.example.com/test3"]);
     XCTAssertEqualObjects([object valueForKey:@"exceptionURL"], [NSURL URLWithString:@"http://www.example.com/test4"]);
     XCTAssertEqualObjects([object valueForKey:@"cancelURL"], [NSURL URLWithString:@"http://www.example.com/test5"]);
-
+    
     OCMockObject *mockedClientConfig = [OCMockObject mockForClass:[HPFClientConfig class]];
     
     id classMock = OCMClassMock([HPFClientConfig class]);
     OCMExpect([classMock sharedClientConfig]).andReturn(mockedClientConfig);
-
+    
     [[[mockedClientConfig expect] andReturn:[NSURL URLWithString:@"test://hipay"]] appRedirectionURL];
     
     object.orderId = @"MyOrder?Id";
@@ -136,9 +216,9 @@
 - (void)testInitWithOrderRelatedRequest
 {
     HPFOrderRelatedRequest *object = [self createOrderRelatedRequest];
-
+    
     HPFOrderRelatedRequest *object2 = [[HPFOrderRelatedRequest alloc] initWithOrderRelatedRequest:object];
-
+    
     XCTAssertEqualObjects(object.orderId, object2.orderId);
     XCTAssertEqualObjects(object.shortDescription, object2.shortDescription);
     XCTAssertEqualObjects(object.longDescription, object2.longDescription);
@@ -159,9 +239,13 @@
     XCTAssertEqualObjects(object.pendingURL, object2.pendingURL);
     XCTAssertEqualObjects(object.exceptionURL, object2.exceptionURL);
     XCTAssertEqualObjects(object.cancelURL, object2.cancelURL);
-
+    
+    XCTAssertEqualObjects(object.merchantRiskStatement, object2.merchantRiskStatement);
+    XCTAssertEqualObjects(object.previousAuthInfo, object2.previousAuthInfo);
+    XCTAssertEqualObjects(object.accountInfo, object2.accountInfo);
+    
     XCTAssertEqualObjects(object.customData, object2.customData);
-
+    
     XCTAssertEqualObjects(object.cdata1, object2.cdata1);
     XCTAssertEqualObjects(object.cdata2, object2.cdata2);
     XCTAssertEqualObjects(object.cdata3, object2.cdata3);

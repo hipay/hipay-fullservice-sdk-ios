@@ -100,8 +100,9 @@
         NSDictionary *accountInfo = dictionary[@"account_info"];
         NSDictionary *shipping = accountInfo[@"shipping"];
         NSNumber *currentNameIndicator = shipping[@"name_indicator"];
+        BOOL currentNameIndicatorEmpty = [currentNameIndicator isKindOfClass:[NSString class]] && ((NSString *)currentNameIndicator).length == 0;
         
-        if (!currentNameIndicator) {
+        if (!currentNameIndicator || currentNameIndicatorEmpty) {
             HPFCustomerInfoRequest *customer = myRequest.customer;
             NSString *firstNameCustomer = customer.firstname;
             NSString *lastNameCustomer = customer.lastname;
@@ -114,8 +115,8 @@
             
             if (firstNameCustomer.length > 0 &&
                 lastNameCustomer.length > 0 &&
-                [firstNameCustomer isEqualToString:firstNameShipping] &&
-                [lastNameCustomer isEqualToString:lastNameShipping]) {
+                [firstNameCustomer.lowercaseString isEqualToString:firstNameShipping.lowercaseString] &&
+                [lastNameCustomer.lowercaseString isEqualToString:lastNameShipping.lowercaseString]) {
                 
                 nameIndicator = @1;
             }

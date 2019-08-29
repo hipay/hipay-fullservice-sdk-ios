@@ -20,6 +20,8 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
 @interface HPFOrderRelatedRequest()
 
 @property (nonatomic, copy, nullable) NSDictionary *source;
+@property (nonatomic, nonnull) NSDictionary *browserInfo;
+@property (nonatomic, nullable) NSString *deviceChannel;
 
 @end
 
@@ -47,6 +49,32 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
                         @"brand_version" : brand_version,
                         @"integration_version" : integration_version
                         };
+        
+        self.deviceChannel = @"2";
+        
+        NSMutableDictionary *browserInfo = [NSMutableDictionary new];
+        browserInfo[@"java_enabled"] = @(NO);
+        browserInfo[@"javascript_enabled"] = @(YES);
+        
+        NSString *language = [NSBundle mainBundle].preferredLocalizations.firstObject;
+        if (language) {
+            browserInfo[@"language"] = language;
+        }
+        
+        browserInfo[@"color_depth"] = @32;
+        browserInfo[@"screen_width"] = @([[UIScreen mainScreen] bounds].size.width);
+        browserInfo[@"screen_height"] = @([[UIScreen mainScreen] bounds].size.height);
+        
+        browserInfo[@"timezone"] = @(NSTimeZone.localTimeZone.secondsFromGMT / 60);
+        browserInfo[@"ipaddr"] = @"";
+        browserInfo[@"http_accept"] = @"*/*";
+        
+        NSString *useragent = [HPFClientConfig sharedClientConfig].userAgent;
+        if (useragent) {
+            browserInfo[@"http_user_agent"] = useragent;
+        }
+        
+        self.browserInfo = browserInfo;
     }
     
     return self;
@@ -129,6 +157,8 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
     request.merchantRiskStatement = orderRelatedRequest.merchantRiskStatement;
     request.previousAuthInfo = orderRelatedRequest.previousAuthInfo;
     request.accountInfo = orderRelatedRequest.accountInfo;
+    request.deviceChannel = orderRelatedRequest.deviceChannel;
+    request.browserInfo = orderRelatedRequest.browserInfo;
     
     request.customData = orderRelatedRequest.customData;
     

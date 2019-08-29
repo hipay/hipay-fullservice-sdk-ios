@@ -21,6 +21,7 @@
 #import "HPFSepaDirectDebitPaymentMethodRequest.h"
 #import "HPFPaymentCardTokenDatabase.h"
 #import "HPFLogger.h"
+#import "HPFPaymentProduct.h"
 
 @implementation HPFOrderRequestSerializationMapper
 
@@ -29,17 +30,28 @@
     NSMutableDictionary *result = [self orderRelatedSerializedRequest];
     
     [result setNullableObject:[self getStringForKey:@"paymentProductCode"] forKey:@"payment_product"];
-    
     [result mergeDictionary:[self paymentMethodSerializedRequest] withPrefix:nil];
     
-    [self addCardStored24hIfNeeded:result];
+    NSString *paymentProductCode = [self getStringForKey:@"paymentProductCode"];
     
-    // if recurring payment, we add "enrollment_date" var in result
-    NSNumber *eci = result[@"eci"];
-    if (eci && eci.intValue == HPFECIRecurringECommerce) {
-        [self addEnrollmentDateIfNeeded:result];
-    }
+    if ([HPFPaymentProduct isDSP2CompatiblePaymentProductCode:paymentProductCode]) {
+        [result setNullableObject:[self.request valueForKey:@"merchantRiskStatement"] forKey:@"merchant_risk_statement"];
+        [result setNullableObject:[self.request valueForKey:@"previousAuthInfo"] forKey:@"previous_auth_info"];
+        [result setNullableObject:[self.request valueForKey:@"accountInfo"] forKey:@"account_info"];
+        [result setNullableObject:[self.request valueForKey:@"browserInfo"] forKey:@"browser_info"];
+        [result setNullableObject:[self.request valueForKey:@"deviceChannel"] forKey:@"device_channel"];
+        
+        [self addCardStored24hIfNeeded:result];
+        [self addNameIndicatorIfNeeded:result];
+        
+        // if recurring payment, we add "enrollment_date" var in result
+        NSNumber *eci = result[@"eci"];
+        if (eci && eci.intValue == HPFECIRecurringECommerce) {
+            [self addEnrollmentDateIfNeeded:result];
+        }
 
+    }
+    
     return [self createImmutableDictionary:result];
 }
 
@@ -128,5 +140,46 @@
 
     }
 }
+
+- (void)addNameIndicatorIfNeeded:(NSMutableDictionary *)dictionary
+{
+    if ([self.request isKindOfClass:[HPFOrderRelatedRequest class]]) {
+        HPFOrderRelatedRequest *myRequest = (HPFOrderRelatedRequest *)self.request;
+        NSDictionary *accountInfo = dictionary[@"account_info"];
+        NSDictionary *shipping = accountInfo[@"shipping"];
+        NSNumber *currentNameIndicator = shipping[@"name_indicator"];
+        BOOL currentNameIndicatorEmpty = [currentNameIndicator isKindOfClass:[NSString class]] && ((NSString *)currentNameIndicator).length == 0;
+        
+        if (!currentNameIndicator || currentNameIndicatorEmpty) {
+            HPFCustomerInfoRequest *customer = myRequest.customer;
+            NSString *firstNameCustomer = customer.firstname;
+            NSString *lastNameCustomer = customer.lastname;
+            
+            HPFPersonalInfoRequest *shippingAddress = myRequest.shippingAddress;
+            NSString *firstNameShipping = shippingAddress.firstname;
+            NSString *lastNameShipping = shippingAddress.lastname;
+            
+            NSNumber *nameIndicator = @2;
+            
+            if (firstNameCustomer.length > 0 &&
+                lastNameCustomer.length > 0 &&
+                [firstNameCustomer.lowercaseString isEqualToString:firstNameShipping.lowercaseString] &&
+                [lastNameCustomer.lowercaseString isEqualToString:lastNameShipping.lowercaseString]) {
+                
+                nameIndicator = @1;
+            }
+            
+            NSMutableDictionary *shippingMut = [shipping mutableCopy] ? [shipping mutableCopy] : [NSMutableDictionary new];
+            shippingMut[@"name_indicator"] = nameIndicator;
+            
+            NSMutableDictionary *accountInfoMut = [accountInfo mutableCopy] ? [accountInfo mutableCopy] : [NSMutableDictionary new];
+            dictionary[@"account_info"] = accountInfoMut;
+            dictionary[@"account_info"][@"shipping"] = shippingMut;
+            
+            [[HPFLogger sharedLogger] debug:@"<Order> name_indicator attribute added to Order Request with value \"%d\"", nameIndicator];
+        }
+    }
+}
+
 
 @end

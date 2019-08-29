@@ -141,6 +141,7 @@ extern NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet;
 
 + (BOOL)isPaymentProductCode:(NSString * _Nonnull)domesticPaymentProductCode domesticNetworkOfPaymentProductCode:(NSString * _Nonnull)paymentProductCode;
 + (BOOL)isPaymentCardStorageEnabledForPaymentProductCode:(NSString * _Nonnull)paymentProductCode;
++ (BOOL)isDSP2CompatiblePaymentProductCode:(NSString * _Nonnull)paymentProductCode;
 
 - (instancetype _Nonnull)initWithGroupedProducts:(NSSet <NSString *> * _Nonnull)paymentProducts;
 

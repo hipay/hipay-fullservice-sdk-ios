@@ -79,6 +79,7 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
             NSError *error;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:value options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
             encodedValue = [self URLEncodeString:jsonString usingEncoding:NSUTF8StringEncoding];
         }
         else {

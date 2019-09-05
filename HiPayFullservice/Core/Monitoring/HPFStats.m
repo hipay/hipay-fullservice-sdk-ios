@@ -152,7 +152,7 @@ static HPFStats *_current = nil;
 }
 
 - (void)send {
-    NSString *statsUrlStage = @"https://endpoints-proxy-for-functions-cyz4ot6yrq-ew.a.run.app/checkout-data";
+    NSString *statsUrlStage = @"https://stage-data.hipay.com/checkout-data";
     NSString *statsUrlProd = @"https://data.hipay.com/checkout-data";
     
     NSString *urlString = @"";

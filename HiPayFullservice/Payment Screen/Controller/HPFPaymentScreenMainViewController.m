@@ -106,9 +106,7 @@
         [self selectPaymentProduct:paymentProducts.firstObject];
     }
     
-    HPFMonitoring *monitoring = HPFStats.current.monitoring;
-    [monitoring setDisplayDate:[NSDate new]];
-    
+    HPFStats.current.monitoring.displayDate = [NSDate new];
     [HPFStats.current send];
 }
 

@@ -62,8 +62,10 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
         }
         
         browserInfo[@"color_depth"] = @32;
-        browserInfo[@"screen_width"] = @([[UIScreen mainScreen] bounds].size.width);
-        browserInfo[@"screen_height"] = @([[UIScreen mainScreen] bounds].size.height);
+        
+        CGFloat scale = [UIScreen mainScreen].scale;
+        browserInfo[@"screen_width"] = @([[UIScreen mainScreen] bounds].size.width * scale);
+        browserInfo[@"screen_height"] = @([[UIScreen mainScreen] bounds].size.height * scale);
         
         browserInfo[@"timezone"] = @(NSTimeZone.localTimeZone.secondsFromGMT / 60);
         browserInfo[@"ipaddr"] = @"";

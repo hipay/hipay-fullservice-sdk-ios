@@ -159,6 +159,11 @@
             NSString *firstNameShipping = shippingAddress.firstname;
             NSString *lastNameShipping = shippingAddress.lastname;
             
+            // Do not add name_indicator property if firstname or lastname empty
+            if (!firstNameShipping || !lastNameShipping) {
+                return;
+            }
+            
             NSNumber *nameIndicator = @2;
             
             if (firstNameCustomer.length > 0 &&

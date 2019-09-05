@@ -592,6 +592,9 @@
     paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
     paymentPageRequest.multiUse = multiUse;
     paymentPageRequest.customData = @{@"hello": @"world"};
+    
+    paymentPageRequest.shippingAddress.firstname = @"John";
+    paymentPageRequest.shippingAddress.lastname = @"Doe";
 
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
 
@@ -639,17 +642,12 @@
     }, \
     \"purchase\": { \
     \"count\": 2, \
-    \"card_stored_24h\": 0, \
     \"payment_attempts_24h\": 0, \
     \"payment_attempts_1y\": 0 \
     }, \
-    \"payment\": { \
-    \"enrollment_date\": 20180507 \
-    }, \
     \"shipping\": { \
     \"shipping_used_date\": 20180507, \
-    \"address_usage_duration\": 1, \
-    \"suspicious_activity\": 1 \
+    \"address_usage_duration\": 1 \
     } \
     } \
     """;
@@ -669,7 +667,7 @@
         \"reorder_indicator\": 1, \
         \"shipping_indicator\": 1, \
         \"gift_card\": { \
-        \"amount\": 15, \
+        \"amount\": 15.00, \
         \"count\": 0, \
         \"currency\": \"EUR\" \
         } \

@@ -67,7 +67,7 @@ NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel      = @"canc
         browserInfo[@"screen_width"] = @([[UIScreen mainScreen] bounds].size.width * scale);
         browserInfo[@"screen_height"] = @([[UIScreen mainScreen] bounds].size.height * scale);
         
-        browserInfo[@"timezone"] = @(NSTimeZone.localTimeZone.secondsFromGMT / 60);
+        browserInfo[@"timezone"] = @(-1 * NSTimeZone.localTimeZone.secondsFromGMT / 60);
         browserInfo[@"ipaddr"] = @"";
         browserInfo[@"http_accept"] = @"*/*";
         

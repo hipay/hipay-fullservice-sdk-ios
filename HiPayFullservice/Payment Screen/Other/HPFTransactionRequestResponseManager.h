@@ -20,12 +20,10 @@ typedef void (^HPFTransactionErrorsManagerCompletionBlock)(HPFTransactionErrorRe
 
 @end
 
-@interface HPFTransactionRequestResponseManager : NSObject <UIAlertViewDelegate>
+@interface HPFTransactionRequestResponseManager : NSObject
 {
     NSMutableArray *history;
-    NSMutableArray <NSDictionary <NSString *, id> *> *completionBlocks;
-    //UIAlertView *alertView;
-    
+    NSMutableArray <NSDictionary <NSString *, id> *> *completionBlocks;    
     UIAlertController *alertViewController;
 }
 

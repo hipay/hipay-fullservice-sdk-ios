@@ -17,7 +17,7 @@
 {
     [super awakeFromNib];
     
-    self.inputLabel.text = HPFLocalizedString(@"CARD_NUMBER_LABEL");
+    self.inputLabel.text = HPFLocalizedString(@"HPF_CARD_NUMBER_LABEL");
 }
 
 - (void)setDefaultPaymentProductCode:(NSString *)defaultPaymentProductCode
@@ -26,25 +26,25 @@
     
     if ([defaultPaymentProductCode isEqualToString:HPFPaymentProductCodeMaestro] || [defaultPaymentProductCode isEqualToString:HPFPaymentProductCodeBCMC]) {
         
-        self.textField.attributedPlaceholder = [[HPFCardNumberFormatter sharedFormatter] formatPlainTextNumber:HPFLocalizedString(@"CARD_NUMBER_PLACEHOLDER_MAESTRO_BCMC") forPaymentProductCode:HPFPaymentProductCodeMaestro];
+        self.textField.attributedPlaceholder = [[HPFCardNumberFormatter sharedFormatter] formatPlainTextNumber:HPFLocalizedString(@"HPF_CARD_NUMBER_PLACEHOLDER_MAESTRO_BCMC") forPaymentProductCode:HPFPaymentProductCodeMaestro];
         
     }
     
     else if ([defaultPaymentProductCode isEqualToString:HPFPaymentProductCodeAmericanExpress]) {
         
-        self.textField.attributedPlaceholder = [[HPFCardNumberFormatter sharedFormatter] formatPlainTextNumber:HPFLocalizedString(@"CARD_NUMBER_PLACEHOLDER_AMEX") forPaymentProductCode:HPFPaymentProductCodeAmericanExpress];
+        self.textField.attributedPlaceholder = [[HPFCardNumberFormatter sharedFormatter] formatPlainTextNumber:HPFLocalizedString(@"HPF_CARD_NUMBER_PLACEHOLDER_AMEX") forPaymentProductCode:HPFPaymentProductCodeAmericanExpress];
         
     }
     
     else if ([defaultPaymentProductCode isEqualToString:HPFPaymentProductCodeDiners]) {
         
-        self.textField.attributedPlaceholder = [[HPFCardNumberFormatter sharedFormatter] formatPlainTextNumber:HPFLocalizedString(@"CARD_NUMBER_PLACEHOLDER_DINERS") forPaymentProductCode:HPFPaymentProductCodeDiners];
+        self.textField.attributedPlaceholder = [[HPFCardNumberFormatter sharedFormatter] formatPlainTextNumber:HPFLocalizedString(@"HPF_CARD_NUMBER_PLACEHOLDER_DINERS") forPaymentProductCode:HPFPaymentProductCodeDiners];
         
     }
     
     // Default
     else {
-        self.textField.attributedPlaceholder = [[HPFCardNumberFormatter sharedFormatter] formatPlainTextNumber:HPFLocalizedString(@"CARD_NUMBER_PLACEHOLDER_VISA_MASTERCARD") forPaymentProductCode:HPFPaymentProductCodeVisa];;
+        self.textField.attributedPlaceholder = [[HPFCardNumberFormatter sharedFormatter] formatPlainTextNumber:HPFLocalizedString(@"HPF_CARD_NUMBER_PLACEHOLDER_VISA_MASTERCARD") forPaymentProductCode:HPFPaymentProductCodeVisa];;
     }
     
 }

@@ -1,128 +1,145 @@
 
-"PAY_WITH_THIS_METHOD" = "Payer par %@";
+"HPF_PAY_WITH_THIS_METHOD" = "Payer par %@";
 
-"PAYMENT_REDIRECTION_DETAILS" = "Vous allez être redirigé afin de pouvoir procéder au paiement.";
+"HPF_PAYMENT_REDIRECTION_DETAILS" = "Vous allez être redirigé afin de pouvoir procéder au paiement.";
 
-"PAYMENT_APPLE_PAY_DETAILS" = "Achetez avec Apple Pay en utilisant la fonctionalité Touch ID.";
+"HPF_PAYMENT_APPLE_PAY_DETAILS" = "Achetez avec Apple Pay en utilisant la fonctionalité Touch ID.";
 
-"PAYMENT_APPLE_PAY_ERROR" = "Impossible d'afficher l'interface de paiement";
+"HPF_PAYMENT_APPLE_PAY_ERROR" = "Impossible d'afficher l'interface de paiement";
 
-"PAYMENT_SCREEN_TITLE" = "Paiement";
-"PAYMENT_CARDS_SCREEN_TITLE" = "Cartes enregistrées";
+"HPF_PAYMENT_SCREEN_TITLE" = "Paiement";
+"HPF_PAYMENT_CARDS_SCREEN_TITLE" = "Cartes enregistrées";
 
-"TOTAL_AMOUNT" = "Montant total : %@";
+"HPF_TOTAL_AMOUNT" = "Montant total : %@";
 
-"TAP_TO_DEFINE" = "Touchez pour définir";
+"HPF_TAP_TO_DEFINE" = "Touchez pour définir";
 
-"SCAN_PAYMENT_CARD" = "Scanner votre carte";
+"HPF_SCAN_PAYMENT_CARD" = "Scanner votre carte";
 
-"CANCEL" = "Annuler";
-"YES" = "Oui";
-"NO" = "Non";
-"SETTINGS" = "Réglages";
+"HPF_CANCEL" = "Annuler";
+"HPF_YES" = "Oui";
+"HPF_NO" = "Non";
+"HPF_SETTINGS" = "Réglages";
 
-"PAY_BUTTON_TITLE" = "Payer";
+"HPF_PAY_BUTTON_TITLE" = "Payer";
 
-"ERROR_TITLE_CONNECTION" = "Erreur de connexion";
+/* Errors */
 
-"ERROR_TITLE_DEFAULT" = "Une erreur est survenue";
+"HPF_ALERT_TRANSACTION_LOADING_TITLE" = "Transaction en cours";
 
-"ERROR_BODY_DEFAULT" = "Votre demande n'a pu aboutir.";
+"HPF_ALERT_TRANSACTION_LOADING_MESSAGE" = "Le traitement de votre transaction est toujours en cours, êtes-vous sûr de vouloir quitter cet écran ?";
 
-"ERROR_BODY_NETWORK_UNAVAILABLE" = "Aucune connexion à Internet n'est disponible.";
+"HPF_ALERT_TRANSACTION_LOADING_YES" = "Quitter";
 
-"ERROR_BUTTON_CANCEL" = "Annuler";
+"HPF_ALERT_TRANSACTION_LOADING_NO" = "Reprendre";
 
-"ERROR_BUTTON_RETRY" = "Réessayer";
+"HPF_TRANSACTION_ERROR_DECLINED_TITLE" = "Transaction refusée";
 
-"ERROR_BUTTON_DISMISS" = "OK";
+"HPF_TRANSACTION_ERROR_DECLINED_MESSAGE" = "Veuillez vérifier vos informations et réessayer.";
 
-"ALERT_TRANSACTION_LOADING_TITLE" = "Transaction en cours";
+"HPF_TRANSACTION_ERROR_DECLINED_RESET_TITLE" = "Transaction refusée";
 
-"ALERT_TRANSACTION_LOADING_BODY" = "Le traitement de votre transaction est toujours en cours, êtes-vous sûr de vouloir quitter cet écran ?";
+"HPF_TRANSACTION_ERROR_DECLINED_RESET_MESSAGE" = "Merci de bien vouloir utiliser un autre moyen de paiement.";
 
-"ALERT_TRANSACTION_LOADING_YES" = "Quitter";
+"HPF_TRANSACTION_ERROR_OTHER_TITLE" = "Transaction refusée";
 
-"ALERT_TRANSACTION_LOADING_NO" = "Reprendre";
+"HPF_TRANSACTION_ERROR_OTHER_MESSAGE" = "Une erreur est survenue lors du traitement de la transaction.";
 
-"TRANSACTION_ERROR_DECLINED_TITLE" = "Transaction refusée";
+"HPF_ERROR_HTTP_CLIENT_TITLE" = "Une erreur est survenue";
 
-"TRANSACTION_ERROR_DECLINED" = "Veuillez vérifier vos informations et réessayer.";
+"HPF_ERROR_HTTP_CLIENT_MESSAGE" = "Votre demande n'a pu aboutir.";
 
-"TRANSACTION_ERROR_DECLINED_RESET" = "Merci de bien vouloir utiliser un autre moyen de paiement.";
+"HPF_ERROR_APPLE_PAY_TITLE" = "Une erreur est survenue";
 
-"TRANSACTION_ERROR_OTHER" = "Une erreur est survenue lors du traitement de la transaction.";
+"HPF_ERROR_APPLE_PAY_MESSAGE" = "Votre demande n'a pu aboutir.";
+
+"HPF_ERROR_NETWORK_UNAVAILABLE_TITLE" = "Erreur de connexion";
+
+"HPF_ERROR_NETWORK_UNAVAILABLE_MESSAGE" = "Aucune connexion à Internet n'est disponible.";
+
+"HPF_ERROR_NETWORK_OTHER_TITLE" = "Erreur serveur";
+
+"HPF_ERROR_NETWORK_OTHER_MESSAGE" = "Votre demande n'a pu aboutir.";
+
+"HPF_ERROR_BUTTON_CANCEL" = "Annuler";
+
+"HPF_ERROR_BUTTON_RETRY" = "Réessayer";
+
+"HPF_ERROR_BUTTON_DISMISS" = "OK";
 
 /* Tokenizable card */
 
-"CARD_HOLDER_LABEL" = "Titulaire";
+"HPF_CARD_HOLDER_LABEL" = "Titulaire";
 
-"CARD_HOLDER_PLACEHOLDER" = "Prénom et nom";
+"HPF_CARD_HOLDER_PLACEHOLDER" = "Prénom et nom";
 
-"CARD_NUMBER_LABEL" = "Numéro";
+"HPF_CARD_NUMBER_LABEL" = "Numéro";
 
-"CARD_NUMBER_PLACEHOLDER_VISA_MASTERCARD" = "4321987654321098";
+"HPF_CARD_NUMBER_PLACEHOLDER_VISA_MASTERCARD" = "4321987654321098";
 
-"CARD_NUMBER_PLACEHOLDER_AMEX" = "378282246310005";
+"HPF_CARD_NUMBER_PLACEHOLDER_AMEX" = "378282246310005";
 
-"CARD_NUMBER_PLACEHOLDER_MAESTRO_BCMC" = "67031233214327863";
+"HPF_CARD_NUMBER_PLACEHOLDER_MAESTRO_BCMC" = "67031233214327863";
 
-"CARD_NUMBER_PLACEHOLDER_DINERS" = "30569918225904";
+"HPF_CARD_NUMBER_PLACEHOLDER_DINERS" = "30569918225904";
 
-"CARD_EXPIRATION_LABEL" = "Expiration";
+"HPF_CARD_EXPIRATION_LABEL" = "Expiration";
 
-"CARD_EXPIRATION_PLACEHOLDER" = "MM / AA";
+"HPF_CARD_EXPIRATION_PLACEHOLDER" = "MM / AA";
 
-"CARD_SECURITY_CODE_LABEL_CVV" = "CVV";
+"HPF_CARD_SECURITY_CODE_LABEL_CVV" = "CVV";
 
-"CARD_SECURITY_CODE_LABEL_CID" = "CID";
+"HPF_CARD_SECURITY_CODE_LABEL_CID" = "CID";
 
-"CARD_SECURITY_CODE_PLACEHOLDER_CVV" = "123";
+"HPF_CARD_SECURITY_CODE_PLACEHOLDER_CVV" = "123";
 
-"CARD_SECURITY_CODE_PLACEHOLDER_CID" = "1234";
+"HPF_CARD_SECURITY_CODE_PLACEHOLDER_CID" = "1234";
 
-"CARD_SECURITY_CODE_DESCRIPTION_CVV" = "Le CVV correspond aux 3 chiffres au dos de votre carte de paiement.";
+"HPF_CARD_SECURITY_CODE_DESCRIPTION_CVV" = "Le CVV correspond aux 3 chiffres au dos de votre carte de paiement.";
 
-"CARD_SECURITY_CODE_DESCRIPTION_CID" = "Le CID correspond aux 4 chiffres au recto de votre carte American Express.";
+"HPF_CARD_SECURITY_CODE_DESCRIPTION_CID" = "Le CID correspond aux 4 chiffres au recto de votre carte American Express.";
 
-"CARD_SWITCH_STORE_DESCRIPTION" = "Enregistrer cette carte";
-"CARD_STORE_DESCRIPTION" = "Enregistrer la carte";
-"CARD_STORE_TITLE" = "Enregistrer une carte";
-"CARD_SWITCH_TOUCHID_TITLE" = "Sécuriser avec Touch ID";
-"CARD_SWITCH_TOUCHID_DESCRIPTION" = "Souhaitez-vous activer Touch ID pour sécuriser les paiements futurs avec cette carte ? Une lecture d'empreinte digitale sera exigée lors de futures utilisations.";
+"HPF_CARD_SWITCH_STORE_DESCRIPTION" = "Enregistrer cette carte";
+"HPF_CARD_STORE_DESCRIPTION" = "Enregistrer la carte";
+"HPF_CARD_STORE_TITLE" = "Enregistrer une carte";
+"HPF_CARD_SWITCH_TOUCHID_TITLE" = "Sécuriser avec Touch ID";
+"HPF_CARD_SWITCH_TOUCHID_DESCRIPTION" = "Souhaitez-vous activer Touch ID pour sécuriser les paiements futurs avec cette carte ? Une lecture d'empreinte digitale sera exigée lors de futures utilisations.";
 
-"CARD_SCAN" = "Scan de carte";
-"CARD_SCAN_PERMISSION" = "Pour scanner votre carte, activez la permission Appareil photo.";
+"HPF_CARD_SCAN" = "Scan de carte";
+"HPF_CARD_SCAN_PERMISSION" = "Pour scanner votre carte, activez la permission Appareil photo.";
 
-"CARD_STORED_SELECTION" = "Sélectionner une carte";
+"HPF_CARD_STORED_SELECTION" = "Sélectionner une carte";
 
-"CARD_STORED_TOUCHID_REASON" = "Déverouiller pour payer avec cette carte";
+"HPF_CARD_STORED_TOUCHID_REASON" = "Déverouiller pour payer avec cette carte";
 
-"CARD_STORED_ANOTHER_SELECTION" = "Autre moyen de paiement";
+"HPF_CARD_STORED_ANOTHER_SELECTION" = "Autre moyen de paiement";
 
-"CARD_STORED_TOUCHID_NOT_ACTIVATED" = "Merci de vérifier que Touch ID est bien activé";
+"HPF_CARD_STORED_TOUCHID_NOT_ACTIVATED_TITLE" = "Une erreur est survenue";
 
-"FORWARD_VIEW_BACK" = "Retour";
+"HPF_CARD_STORED_TOUCHID_NOT_ACTIVATED_MESSAGE" = "Merci de vérifier que Touch ID est bien activé";
 
-"FORWARD_VIEW_FORWARD" = "Suivant";
+"HPF_FORWARD_VIEW_BACK" = "Retour";
 
-"PAYMENT_PRODUCT_GROUP_PAYMENT_CARD" = "Carte";
+"HPF_FORWARD_VIEW_FORWARD" = "Suivant";
+
+"HPF_PAYMENT_PRODUCT_GROUP_PAYMENT_CARD" = "Carte";
 
 /* iDeal */
 
-"IDEAL_BANK" = "Banque";
+"HPF_IDEAL_BANK" = "Banque";
 
 /* Qiwi Wallet */
 
-"QIWI_WALLET_USERNAME_LABEL" = "N° de téléphone";
+"HPF_QIWI_WALLET_USERNAME_LABEL" = "N° de téléphone";
 
-"QIWI_WALLET_USERNAME_PLACEHOLDER" = "+79263745223";
+"HPF_QIWI_WALLET_USERNAME_PLACEHOLDER" = "+79263745223";
 
 /* SEPA Direct Debit */
 
-"SEPA_DIRECT_DEBIT_FIRSTNAME" = "Prénom";
+"HPF_SEPA_DIRECT_DEBIT_FIRSTNAME" = "Prénom";
 
-"SEPA_DIRECT_DEBIT_LASTNAME" = "Nom";
+"HPF_SEPA_DIRECT_DEBIT_LASTNAME" = "Nom";
 
-"SEPA_DIRECT_DEBIT_IBAN" = "IBAN";
+"HPF_SEPA_DIRECT_DEBIT_IBAN" = "IBAN";
+
 

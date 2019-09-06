@@ -14,7 +14,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    self.inputLabel.text = HPFLocalizedString(@"SEPA_DIRECT_DEBIT_IBAN");
+    self.inputLabel.text = HPFLocalizedString(@"HPF_SEPA_DIRECT_DEBIT_IBAN");
     
     self.textField.keyboardType = UIKeyboardTypeAlphabet;
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;

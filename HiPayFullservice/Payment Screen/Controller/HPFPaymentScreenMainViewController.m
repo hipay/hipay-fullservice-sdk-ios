@@ -80,7 +80,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = HPFLocalizedString(@"PAYMENT_SCREEN_TITLE");
+    self.title = HPFLocalizedString(@"HPF_PAYMENT_SCREEN_TITLE");
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillShowNotification object:nil];
     
@@ -448,7 +448,7 @@
     numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
     numberFormatter.currencyCode = self.paymentPageRequest.currency;
      
-    return [NSString stringWithFormat:HPFLocalizedString(@"TOTAL_AMOUNT"), [numberFormatter stringFromNumber:self.paymentPageRequest.amount]];
+    return [NSString stringWithFormat:HPFLocalizedString(@"HPF_TOTAL_AMOUNT"), [numberFormatter stringFromNumber:self.paymentPageRequest.amount]];
 }
 
 @end

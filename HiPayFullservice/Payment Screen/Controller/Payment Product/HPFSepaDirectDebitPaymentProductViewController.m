@@ -72,7 +72,7 @@
     if (indexPath.row == 0) {
         HPFInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"firstname"];
         
-        cell.inputLabel.text = HPFLocalizedString(@"SEPA_DIRECT_DEBIT_FIRSTNAME");
+        cell.inputLabel.text = HPFLocalizedString(@"HPF_SEPA_DIRECT_DEBIT_FIRSTNAME");
         cell.textField.keyboardType = UIKeyboardTypeAlphabet;
         cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
@@ -83,7 +83,7 @@
     else if (indexPath.row == 1) {
         HPFInputTableViewCell *cell = [self dequeueInputCellWithIdentifier:@"Input" fieldIdentifier:@"lastname"];
         
-        cell.inputLabel.text = HPFLocalizedString(@"SEPA_DIRECT_DEBIT_LASTNAME");
+        cell.inputLabel.text = HPFLocalizedString(@"HPF_SEPA_DIRECT_DEBIT_LASTNAME");
         cell.textField.keyboardType = UIKeyboardTypeAlphabet;
         cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;

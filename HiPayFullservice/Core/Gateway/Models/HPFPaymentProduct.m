@@ -88,7 +88,7 @@ NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet = @"ewallet";
     else if ([paymentProductCode isEqualToString:HPFPaymentProductCodeAmericanExpress]) {
         return HPFSecurityCodeTypeCID;
     }
-
+    
     else if ([paymentProductCode isEqualToString:HPFPaymentProductCodeBCMC] || [paymentProductCode isEqualToString:HPFPaymentProductCodeMaestro]) {
         return HPFSecurityCodeTypeNone;
     }
@@ -96,12 +96,21 @@ NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet = @"ewallet";
     return HPFSecurityCodeTypeNotApplicable;
 }
 
++ (BOOL)isDSP2CompatiblePaymentProductCode:(NSString *)paymentProductCode {
+    return ([paymentProductCode isEqualToString:HPFPaymentProductCodeMasterCard]
+            || [paymentProductCode isEqualToString:HPFPaymentProductCodeVisa]
+            || [paymentProductCode isEqualToString:HPFPaymentProductCodeMaestro]
+            || [paymentProductCode isEqualToString:HPFPaymentProductCodeCB]
+            || [paymentProductCode isEqualToString:HPFPaymentProductCodeAmericanExpress]
+            || [paymentProductCode isEqualToString:HPFPaymentProductCodeBCMC]);
+}
+
 + (BOOL)isPaymentCardStorageEnabledForPaymentProductCode:(NSString *)paymentProductCode
 {
     if ([paymentProductCode isEqualToString:HPFPaymentProductCodeBCMC] || [paymentProductCode isEqualToString:HPFPaymentProductCodeMaestro]) {
         return NO;
     }
-
+    
     return YES;
 }
 
@@ -110,7 +119,7 @@ NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet = @"ewallet";
     if ([domesticPaymentProductCode isEqualToString:HPFPaymentProductCodeBCMC]) {
         return [paymentProductCode isEqualToString:HPFPaymentProductCodeMaestro];
     }
-
+    
     if ([domesticPaymentProductCode isEqualToString:HPFPaymentProductCodeCB]) {
         return [paymentProductCode isEqualToString:HPFPaymentProductCodeMasterCard] || [paymentProductCode isEqualToString:HPFPaymentProductCodeVisa];
     }

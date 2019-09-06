@@ -1,4 +1,6 @@
 workspace(ENV['FASTLANE_WORKSPACE_PATH'])
 scheme(ENV['FASTLANE_PROJECT_SCHEME'])
+clean(true)
 output_directory("./")
 export_team_id(ENV['FASTLANE_CERTIFICATES_TEAM_ID'])
+codesigning_identity("iPhone Distribution: HiPay Group")

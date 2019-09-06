@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = HPFLocalizedString(@"PAYMENT_CARDS_SCREEN_TITLE");
+    self.title = HPFLocalizedString(@"HPF_PAYMENT_CARDS_SCREEN_TITLE");
     [self.tableCards registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
 
     id<HPFPaymentProductViewControllerDelegate> paymentProductViewDelegate = (id<HPFPaymentProductViewControllerDelegate>) self.parentViewController.parentViewController;
@@ -94,14 +94,11 @@
 
 
 - (void)checkTransactionError:(NSError *)transactionError
-{
-    
+{    
     [HPFTransactionRequestResponseManager sharedManager].delegate = self;
     [[HPFTransactionRequestResponseManager sharedManager] manageError:transactionError withCompletionHandler:^(HPFTransactionErrorResult *result) {
 
-        if(result.formAction == HPFFormActionQuit) {
-            [self.delegate paymentProductViewController:nil didFailWithError:transactionError];
-        }
+        [self.delegate paymentProductViewController:nil didFailWithError:transactionError];
 
         [self checkRequestResultStatus:result];
 
@@ -114,11 +111,8 @@
     [HPFTransactionRequestResponseManager sharedManager].delegate = self;
     [[HPFTransactionRequestResponseManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPFTransactionErrorResult *result) {
 
-        if(result.formAction == HPFFormActionQuit) {
-
-            [self.delegate paymentProductViewController:nil didEndWithTransaction:theTransaction];
-        }
-
+        [self.delegate paymentProductViewController:nil didEndWithTransaction:theTransaction];
+        
         [self checkRequestResultStatus:result];
 
     }];
@@ -166,25 +160,13 @@
                 [self evaluatePolicy];
 
             } else {
-
-                /*
-                [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                            message:HPFLocalizedString(@"CARD_STORED_TOUCHID_NOT_ACTIVATED")
-                                           delegate:nil
-                                  cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
-                                  otherButtonTitles:nil]
-                        show];
-                */
-                
-                UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                                                              message:HPFLocalizedString(@"CARD_STORED_TOUCHID_NOT_ACTIVATED")
+                UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_CARD_STORED_TOUCHID_NOT_ACTIVATED_TITLE")
+                                                                                             message:HPFLocalizedString(@"HPF_CARD_STORED_TOUCHID_NOT_ACTIVATED_MESSAGE")
                                                                                       preferredStyle:UIAlertControllerStyleAlert];
                 
-                UIAlertAction* dismissButton = [UIAlertAction
-                                                actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
-                                                style:UIAlertActionStyleCancel
-                                                handler:^(UIAlertAction * action) {
-                                                }];
+                UIAlertAction* dismissButton = [UIAlertAction actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
+                                                                        style:UIAlertActionStyleCancel
+                                                                      handler:nil];
                 
                 [alertViewController addAction:dismissButton];
                 [self presentViewController:alertViewController animated:YES completion:nil];
@@ -229,7 +211,7 @@
     [self.tableCards reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 
     // Show the authentication UI with our reason string.
-    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:HPFLocalizedString(@"CARD_STORED_TOUCHID_REASON") reply:^(BOOL success, NSError *authenticationError) {
+    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:HPFLocalizedString(@"HPF_CARD_STORED_TOUCHID_REASON") reply:^(BOOL success, NSError *authenticationError) {
         dispatch_async(dispatch_get_main_queue(), ^{
 
             [self userInputsEnabled:YES];
@@ -328,7 +310,7 @@
         case 0: {
 
             if (self.selectedCardsObjects.count > 0) {
-                return HPFLocalizedString(@"CARD_STORED_SELECTION");
+                return HPFLocalizedString(@"HPF_CARD_STORED_SELECTION");
             }
 
         } break;
@@ -338,7 +320,7 @@
             numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
             numberFormatter.currencyCode = self.paymentPageRequest.currency;
 
-            return [NSString stringWithFormat:HPFLocalizedString(@"TOTAL_AMOUNT"), [numberFormatter stringFromNumber:self.paymentPageRequest.amount]];
+            return [NSString stringWithFormat:HPFLocalizedString(@"HPF_TOTAL_AMOUNT"), [numberFormatter stringFromNumber:self.paymentPageRequest.amount]];
         }
 
         default:
@@ -416,7 +398,7 @@
 
         UITableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"AnotherPaymentCell" forIndexPath:indexPath];
         cardCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cardCell.textLabel.text = HPFLocalizedString(@"CARD_STORED_ANOTHER_SELECTION");
+        cardCell.textLabel.text = HPFLocalizedString(@"HPF_CARD_STORED_ANOTHER_SELECTION");
         return cardCell;
 
     } else {
@@ -469,7 +451,7 @@
             case 2: {
 
                 UITableViewCell *cardCell = [tableView dequeueReusableCellWithIdentifier:@"AnotherPaymentCell" forIndexPath:indexPath];
-                cardCell.textLabel.text = HPFLocalizedString(@"CARD_STORED_ANOTHER_SELECTION");
+                cardCell.textLabel.text = HPFLocalizedString(@"HPF_CARD_STORED_ANOTHER_SELECTION");
 
                 return cardCell;
 
@@ -608,32 +590,13 @@
 
 #pragma mark - Navigation
 
-
-// ------------------------------------------------------------------------------
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
 }
 
-
-// ------------------------------------------------------------------------------
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [super prepareForSegue:segue sender:sender];
 }
 
-/*
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

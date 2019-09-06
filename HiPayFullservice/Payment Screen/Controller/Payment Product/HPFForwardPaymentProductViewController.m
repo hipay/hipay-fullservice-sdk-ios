@@ -20,11 +20,6 @@
 
 @implementation HPFForwardPaymentProductViewController
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
     //no-op
 }
@@ -56,7 +51,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     
     if (section == (self.tableView.numberOfSections - 1)) {
-        return HPFLocalizedString(@"PAYMENT_REDIRECTION_DETAILS");
+        return HPFLocalizedString(@"HPF_PAYMENT_REDIRECTION_DETAILS");
     }
     
     return nil;

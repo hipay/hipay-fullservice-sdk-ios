@@ -31,7 +31,7 @@
     // Do any additional setup after loading the view.
 
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.title = HPFLocalizedString(@"CARD_STORE_TITLE");
+    self.title = HPFLocalizedString(@"HPF_CARD_STORE_TITLE");
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doCancel)];
 }
 
@@ -141,7 +141,7 @@
         HPFPaymentButtonTableViewCell *cell = [super dequeuePaymentButtonCell];
 
         // just change the title.
-        cell.title = HPFLocalizedString(@"CARD_STORE_DESCRIPTION");
+        cell.title = HPFLocalizedString(@"HPF_CARD_STORE_DESCRIPTION");
         return cell;
     }
 
@@ -233,12 +233,6 @@
     
     [self.storeCardDelegate storeCardViewControllerDidCancel:self];
     self.storeCardDelegate = nil;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -19,6 +19,8 @@
 #import "HPFPaymentProductsFlowLayout.h"
 #import "HPFApplePayPaymentProductViewController.h"
 #import "HPFSepaDirectDebitPaymentProductViewController.h"
+#import "HPFStats.h"
+#import "HPFMonitoring.h"
 
 @interface HPFPaymentScreenMainViewController ()
 
@@ -60,10 +62,25 @@
     
 }
 
+-(void)setPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest {
+    _paymentPageRequest = paymentPageRequest;
+    
+    HPFStats.current = [HPFStats new];
+    HPFStats.current.amount = self.paymentPageRequest.amount;
+    HPFStats.current.cardCountry = self.paymentPageRequest.shippingAddress.country;
+    HPFStats.current.currency = self.paymentPageRequest.currency;
+    HPFStats.current.orderID = self.paymentPageRequest.orderId;
+    HPFStats.current.event = HPFEventInit;
+    
+    HPFMonitoring *monitoring = [HPFMonitoring new];
+    monitoring.initializeDate = [NSDate new];
+    [HPFStats.current setMonitoring:monitoring];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = HPFLocalizedString(@"PAYMENT_SCREEN_TITLE");
+    self.title = HPFLocalizedString(@"HPF_PAYMENT_SCREEN_TITLE");
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillShowNotification object:nil];
     
@@ -87,7 +104,10 @@
     
     if ([paymentProducts count] > 0) {
         [self selectPaymentProduct:paymentProducts.firstObject];
-    }    
+    }
+    
+    HPFStats.current.monitoring.displayDate = [NSDate new];
+    [HPFStats.current send];
 }
 
 - (void)updatePaymentProductsTableViewHeightConstraint
@@ -428,7 +448,7 @@
     numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
     numberFormatter.currencyCode = self.paymentPageRequest.currency;
      
-    return [NSString stringWithFormat:HPFLocalizedString(@"TOTAL_AMOUNT"), [numberFormatter stringFromNumber:self.paymentPageRequest.amount]];
+    return [NSString stringWithFormat:HPFLocalizedString(@"HPF_TOTAL_AMOUNT"), [numberFormatter stringFromNumber:self.paymentPageRequest.amount]];
 }
 
 @end

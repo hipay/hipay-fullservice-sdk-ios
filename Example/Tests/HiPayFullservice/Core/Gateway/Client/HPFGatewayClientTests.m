@@ -287,30 +287,6 @@
     [(OCMockObject *)gatewayClient verify];
 }
 
-- (void)testRequestNewOrder
-{
-    id request = [[NSObject alloc] init];
-    OCMockObject *mockedSerializationMapper = [OCMockObject mockForClass:[HPFAbstractSerializationMapper class]];
-    
-    NSDictionary *parameters = @{HPFGatewayClientSignature : @"signature"};
-    [[[mockedSerializationMapper expect] andReturn:parameters] serializedRequest];
-    
-    id mapperClassMock = OCMClassMock([HPFOrderRequestSerializationMapper class]);
-    OCMStub([mapperClassMock mapperWithRequest:request]).andReturn(mockedSerializationMapper);
-    
-    void (^completionBlock)(id object, NSError *error) = ^void(id object, NSError *error) {};
-    
-    HPFHTTPClientRequest *clientRequest = [[HPFHTTPClientRequest alloc] init];
-    [[[(OCMockObject *)gatewayClient expect] andReturn:clientRequest] handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"order"] parameters:parameters responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:completionBlock];
-    
-    HPFHTTPClientRequest *returnedRequest = [gatewayClient requestNewOrder:request signature:@"signature" withCompletionHandler:completionBlock];
-    
-    XCTAssertEqual(clientRequest, returnedRequest);
-
-    OCMVerify([mapperClassMock mapperWithRequest:request]);
-    [(OCMockObject *)gatewayClient verify];
-}
-
 - (void)testTransactionWithReferenceOK
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];

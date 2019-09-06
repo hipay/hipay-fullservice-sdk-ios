@@ -54,7 +54,7 @@
 /**
  *  The payment screen is a built-in comprehensive view controller that you can instantiate and present to your user for check-out. You need to initialize it with a payment page request. Once instantiated, you may present this view controller by using the standard Cocoa methods.
  */
-@interface HPFPaymentScreenViewController : UIViewController <HPFPaymentProductViewControllerDelegate, UIAlertViewDelegate, UINavigationControllerDelegate>
+@interface HPFPaymentScreenViewController : UIViewController <HPFPaymentProductViewControllerDelegate, UINavigationControllerDelegate>
 
 /**
  *  The payment page request used to generate the payment screen.

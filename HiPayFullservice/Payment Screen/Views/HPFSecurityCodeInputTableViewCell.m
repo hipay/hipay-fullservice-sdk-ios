@@ -27,14 +27,14 @@
     HPFSecurityCodeType securityCodeType = [HPFPaymentProduct securityCodeTypeForPaymentProductCode:paymentProductCode];
     
     if (securityCodeType == HPFSecurityCodeTypeCID) {
-        self.textField.placeholder = HPFLocalizedString(@"CARD_SECURITY_CODE_PLACEHOLDER_CID");
-        self.inputLabel.text = HPFLocalizedString(@"CARD_SECURITY_CODE_LABEL_CID");
+        self.textField.placeholder = HPFLocalizedString(@"HPF_CARD_SECURITY_CODE_PLACEHOLDER_CID");
+        self.inputLabel.text = HPFLocalizedString(@"HPF_CARD_SECURITY_CODE_LABEL_CID");
     }
     
     // Default: CVV
     else {
-        self.textField.placeholder = HPFLocalizedString(@"CARD_SECURITY_CODE_PLACEHOLDER_CVV");
-        self.inputLabel.text = HPFLocalizedString(@"CARD_SECURITY_CODE_LABEL_CVV");
+        self.textField.placeholder = HPFLocalizedString(@"HPF_CARD_SECURITY_CODE_PLACEHOLDER_CVV");
+        self.inputLabel.text = HPFLocalizedString(@"HPF_CARD_SECURITY_CODE_LABEL_CVV");
     }
     
     ((HPFSecurityCodeTextField *)self.textField).paymentProductCode = paymentProductCode;

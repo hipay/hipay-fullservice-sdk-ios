@@ -20,6 +20,8 @@
 #import "HPFLogger.h"
 #import "NSMutableDictionary+Serialization.h"
 #import "HPFFormatter.h"
+#import "HPFStats.h"
+#import "HPFMonitoring.h"
 
 NSString * _Nonnull const HPFGatewayClientDidRedirectSuccessfullyNotification = @"HPFGatewayClientDidRedirectSuccessfullyNotification";
 NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotification = @"HPFGatewayClientDidRedirectWithMappingErrorNotification";
@@ -174,11 +176,37 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
 
 - (id<HPFRequest>)requestNewOrder:(HPFOrderRequest *)orderRequest signature:(NSString *)signature withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock
 {
+    if (!HPFStats.current) {
+        HPFStats.current = [HPFStats new];
+    }
+    HPFStats.current.event = HPFEventRequest;
+    HPFStats.current.amount = orderRequest.amount;
+    HPFStats.current.currency = orderRequest.currency;
+    HPFStats.current.orderID = orderRequest.orderId;
+    HPFStats.current.paymentMethod = orderRequest.paymentProductCode;
+    
+    HPFMonitoring *monitoring = [HPFMonitoring new];
+    monitoring.requestDate = [NSDate new];
+    HPFStats.current.monitoring = monitoring;
+    
     NSDictionary *parameters = [HPFOrderRequestSerializationMapper mapperWithRequest:orderRequest].serializedRequest;
 
     NSMutableDictionary *signatureParam = [NSMutableDictionary dictionaryWithObject:signature forKey:HPFGatewayClientSignature];
     [signatureParam mergeDictionary:parameters withPrefix:nil];
-    return [self handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"order" parameters:signatureParam responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:completionBlock];
+    return [self handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"order" parameters:signatureParam responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:^(id result, NSError *error) {
+        
+        if (!error && [result isKindOfClass:[HPFTransaction class]]) {
+            HPFTransaction *transaction = (HPFTransaction *)result;
+            
+            HPFStats.current.transactionID = transaction.transactionReference;
+            HPFStats.current.status = @(transaction.status);
+            HPFStats.current.monitoring.responseDate = [NSDate new];
+            
+            [HPFStats.current send];
+        }
+
+        completionBlock(result, error);
+    }];
 }
 
 - (id<HPFRequest>)getTransactionWithReference:(NSString *)transactionReference signature:(NSString *)signature withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock

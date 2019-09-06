@@ -48,11 +48,6 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 + (HPFForwardViewController *)relevantForwardViewControllerWithTransaction:(HPFTransaction *)transaction signature:(NSString *)signature;
 {
     return [[HPFForwardSafariViewController alloc] initWithTransaction:transaction signature:signature];
@@ -169,28 +164,25 @@
     
     if (transaction != nil) {
         if (transaction.state != HPFTransactionStateForwarding) {
-            [self.delegate forwardViewController:self didEndWithTransaction:transaction];
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-        
         } else {
             [self performSelector:@selector(reloadTransaction) withObject:nil afterDelay:5.0];
         }
+        [self.delegate forwardViewController:self didEndWithTransaction:transaction];
     }
-    
     else if(error != nil) {
         
         NSError *HTTPError = error.userInfo[NSUnderlyingErrorKey];
         
         // Specific client error (4xx), terminate forward
         if ((HTTPError != nil) && (HTTPError.code == HPFErrorCodeHTTPClient)) {
-            [self.delegate forwardViewController:self didFailWithError:error];
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         }
-        
         // Typically a network error, let's retry
         else {
             [self performSelector:@selector(reloadTransaction) withObject:nil afterDelay:5.0];
         }
+        [self.delegate forwardViewController:self didFailWithError:error];
     }
 }
 

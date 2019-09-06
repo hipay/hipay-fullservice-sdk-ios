@@ -8,9 +8,11 @@
 
 #import "HPFOrderRelatedRequestSerializationMapper.h"
 #import "HPFOrderRelatedRequest.h"
+#import "HPFOrderRequest.h"
 #import "NSMutableDictionary+Serialization.h"
 #import "HPFAbstractSerializationMapper+Encode.h"
 #import "HPFCustomerInfoRequestSerializationMapper.h"
+#import "HPFLogger.h"
 
 @implementation HPFOrderRelatedRequestSerializationMapper
 
@@ -61,9 +63,9 @@
     [result mergeDictionary:[[HPFCustomerInfoRequestSerializationMapper mapperWithRequest:[self.request valueForKey:@"customer"]] serializedRequest] withPrefix:nil];
     
     [result mergeDictionary:[[HPFPersonalInfoRequestSerializationMapper mapperWithRequest:[self.request valueForKey:@"shippingAddress"]] serializedRequest] withPrefix:@"shipto_"];
-    
+
     [result setNullableObject:[self getSerializedJSONForKey:@"source"] forKey:@"source"];
-    
+        
     return result;
 }
 

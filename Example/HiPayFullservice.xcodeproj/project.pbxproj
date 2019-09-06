@@ -731,6 +731,7 @@
 						};
 					};
 					6003F5AD195388D20070C39A = {
+						DevelopmentTeam = 7RLJNKW437;
 						TestTargetID = 6003F589195388D20070C39A;
 					};
 				};
@@ -1111,8 +1112,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "HiPay Demo.entitlements";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7RLJNKW437;
@@ -1126,7 +1127,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.hipay.fullservice.demo";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1138,8 +1139,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "HiPay Demo.entitlements";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7RLJNKW437;
@@ -1152,7 +1153,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.hipay.fullservice.demo";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1162,6 +1163,8 @@
 			baseConfigurationReference = 3C36F2B430CCCB7ED7884D52 /* Pods-HiPayFullservice_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 7RLJNKW437;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1187,6 +1190,8 @@
 			baseConfigurationReference = 84D9C3C826741C4BD4C111DA /* Pods-HiPayFullservice_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 7RLJNKW437;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

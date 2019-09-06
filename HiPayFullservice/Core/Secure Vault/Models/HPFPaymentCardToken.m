@@ -34,6 +34,7 @@
 #define kIssuerKey                  @"issuer"
 #define kCountryKey                 @"country"
 #define kDomesticNetworkKey         @"domesticNetwork"
+#define kDateAddedKey               @"dateAdded"
 
 - (void)encodeWithCoder:(NSCoder *)coder {
 
@@ -47,6 +48,7 @@
     [coder encodeObject:self.issuer forKey:kIssuerKey];
     [coder encodeObject:self.country forKey:kCountryKey];
     [coder encodeObject:self.domesticNetwork forKey:kDomesticNetworkKey];
+    [coder encodeObject:self.dateAdded forKey:kDateAddedKey];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -63,6 +65,7 @@
     [cardToken setValue:[coder decodeObjectForKey:kIssuerKey] forKey:kIssuerKey];
     [cardToken setValue:[coder decodeObjectForKey:kCountryKey] forKey:kCountryKey];
     [cardToken setValue:[coder decodeObjectForKey:kDomesticNetworkKey] forKey:kDomesticNetworkKey];
+    [cardToken setValue:[coder decodeObjectForKey:kDateAddedKey] forKey:kDateAddedKey];
 
     return cardToken;
 }

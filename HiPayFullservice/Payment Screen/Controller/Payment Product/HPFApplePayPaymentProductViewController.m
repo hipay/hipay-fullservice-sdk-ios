@@ -13,6 +13,7 @@
 #import "HPFPaymentScreenUtils.h"
 #import "HPFSecureVaultClient.h"
 #import "HPFGatewayClient.h"
+#import "HPFErrors.h"
 
 @interface HPFApplePayPaymentProductViewController ()
 @property (nonatomic, strong) NSError *transactionError;
@@ -71,21 +72,12 @@
                 [self presentViewController:vc animated:YES completion:nil];
 
             } else {
-
-                /*
-                [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                            message:HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")
-                                           delegate:nil
-                                  cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
-                                  otherButtonTitles:nil]
-                        show];
-                */
                 
-                UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                                                          message:HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")
+                UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_ERROR_APPLE_PAY_TITLE")
+                                                                          message:HPFLocalizedString(@"HPF_ERROR_APPLE_PAY_MESSAGE")
                                                                    preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction* dismissButton = [UIAlertAction
-                                                actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                                actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                                 style:UIAlertActionStyleCancel
                                                 handler:^(UIAlertAction * action) {
                                                 }];
@@ -93,6 +85,8 @@
                 [alertViewController addAction:dismissButton];
                 [self presentViewController:alertViewController animated:YES completion:nil];
                 
+                
+                [self.delegate paymentProductViewController:self didFailWithError:[NSError errorWithDomain:HPFHiPayFullserviceErrorDomain code:HPFErrorCodeApplePay userInfo:@{NSLocalizedDescriptionKey: HPFErrorCodeApplePayDescription}]];
             }
 
         } else {
@@ -102,27 +96,20 @@
         }
         
     } else {
-
-        /*
-        [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                    message:nil//HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")
-                                   delegate:nil
-                          cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
-                          otherButtonTitles:nil]
-                show];
-        */
         
-        UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                                                                     message:HPFLocalizedString(@"PAYMENT_APPLE_PAY_ERROR")
+        UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_ERROR_APPLE_PAY_TITLE")
+                                                                                     message:HPFLocalizedString(@"HPF_ERROR_APPLE_PAY_MESSAGE")
                                                                               preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* dismissButton = [UIAlertAction
-                                        actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                        actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                         style:UIAlertActionStyleCancel
                                         handler:^(UIAlertAction * action) {
                                         }];
         
         [alertViewController addAction:dismissButton];
         [self presentViewController:alertViewController animated:YES completion:nil];
+
+        [self.delegate paymentProductViewController:self didFailWithError:[NSError errorWithDomain:HPFHiPayFullserviceErrorDomain code:HPFErrorCodeApplePay userInfo:@{NSLocalizedDescriptionKey: HPFErrorCodeApplePayDescription}]];
 
     }
 }
@@ -221,21 +208,13 @@
             [self checkTransactionStatus:self->transaction];
 
         } else if (self.tokenError != nil) {
-
-            /*
-            [[[UIAlertView alloc] initWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                                        message:HPFLocalizedString(@"ERROR_BODY_DEFAULT")
-                                       delegate:self
-                              cancelButtonTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
-                              otherButtonTitles:nil] show];
-            */
             
-            UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"ERROR_TITLE_DEFAULT")
-                message:HPFLocalizedString(@"ERROR_BODY_DEFAULT")
+            UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_ERROR_APPLE_PAY_TITLE")
+                message:HPFLocalizedString(@"HPF_ERROR_APPLE_PAY_MESSAGE")
                 preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction* dismissButton = [UIAlertAction
-                                            actionWithTitle:HPFLocalizedString(@"ERROR_BUTTON_DISMISS")
+                                            actionWithTitle:HPFLocalizedString(@"HPF_ERROR_BUTTON_DISMISS")
                                             style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * action) {
                                             }];
@@ -243,6 +222,8 @@
             [alertViewController addAction:dismissButton];
             [self presentViewController:alertViewController animated:YES completion:nil];
             
+            [self.delegate paymentProductViewController:self didFailWithError:self.tokenError];
+        
         } else if( self.transactionError != nil) {
 
             [self checkTransactionError:self.transactionError];
@@ -307,7 +288,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
 
-    return HPFLocalizedString(@"PAYMENT_APPLE_PAY_DETAILS");
+    return HPFLocalizedString(@"HPF_PAYMENT_APPLE_PAY_DETAILS");
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {

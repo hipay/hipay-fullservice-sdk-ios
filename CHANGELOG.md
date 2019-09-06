@@ -1,6 +1,11 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.10.0
+-----
+* SDK : Add PSD2 compliance
+* SDK : Handle more errors & Add error localizations
+
 1.9.2
 -----
 * SDK : Fix crash in HPFOrderRelatedRequest initialization when using only HiPayFullservice/Core integration

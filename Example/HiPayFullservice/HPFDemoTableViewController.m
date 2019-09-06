@@ -91,7 +91,7 @@
     if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
-
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -105,11 +105,6 @@
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:resultSectionIndex] withRowAnimation:UITableViewRowAnimationRight];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:resultSectionIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -597,6 +592,9 @@
     paymentPageRequest.paymentCardGroupingEnabled = groupedPaymentCard;
     paymentPageRequest.multiUse = multiUse;
     paymentPageRequest.customData = @{@"hello": @"world"};
+    
+    paymentPageRequest.shippingAddress.firstname = @"John";
+    paymentPageRequest.shippingAddress.lastname = @"Doe";
 
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
 
@@ -628,8 +626,76 @@
             break;
     }
 
+    [self setDSP2Information:paymentPageRequest];
+    
     return paymentPageRequest;
 
+}
+
+- (void)setDSP2Information:(HPFPaymentPageRequest *)paymentPageRequest {
+    NSString *accountInfo =  @""" \
+    { \
+    \"customer\": { \
+    \"account_change\": 20180507, \
+    \"opening_account_date\": 20180507, \
+    \"password_change\": 20180507 \
+    }, \
+    \"purchase\": { \
+    \"count\": 2, \
+    \"payment_attempts_24h\": 0, \
+    \"payment_attempts_1y\": 0 \
+    }, \
+    \"shipping\": { \
+    \"shipping_used_date\": 20180507, \
+    \"address_usage_duration\": 1 \
+    } \
+    } \
+    """;
+    
+    NSString *previousAuthInfo = @""" \
+    { \
+    \"previous_auth_info\": \"800000987283\" \
+    } \
+    """;
+
+    NSString *merchantRiskStatement = @""" \
+    { \
+        \"email_delivery_address\": \"jane.doe@test.com\", \
+        \"delivery_time_frame\": 1, \
+        \"purchase_indicator\": 1, \
+        \"pre_order_date\": 20190925, \
+        \"reorder_indicator\": 1, \
+        \"shipping_indicator\": 1, \
+        \"gift_card\": { \
+        \"amount\": 15.00, \
+        \"count\": 0, \
+        \"currency\": \"EUR\" \
+        } \
+    } \
+    """;
+    
+    NSError *errorJSON;
+    
+    NSData *accountInfoData = [accountInfo dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *accountInfoDict = [NSJSONSerialization JSONObjectWithData:accountInfoData
+                                                                              options:NSJSONReadingMutableContainers
+                                                                                error:&errorJSON];
+    
+    
+    NSData *previousAuthInfoData = [previousAuthInfo dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *previousAuthInfoDict = [NSJSONSerialization JSONObjectWithData:previousAuthInfoData
+                                                                              options:NSJSONReadingMutableContainers
+                                                                                error:&errorJSON];
+    
+    NSData *merchantRiskStatementData = [merchantRiskStatement dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *merchantRiskStatementDict = [NSJSONSerialization JSONObjectWithData:merchantRiskStatementData
+                                                                             options:NSJSONReadingMutableContainers
+                                                                               error:&errorJSON];
+
+    
+    paymentPageRequest.accountInfo = accountInfoDict;
+    paymentPageRequest.merchantRiskStatement = merchantRiskStatementDict;
+    paymentPageRequest.previousAuthInfo = previousAuthInfoDict;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

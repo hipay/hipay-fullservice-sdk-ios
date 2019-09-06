@@ -157,6 +157,21 @@ extern NSString * _Nonnull const HPFOrderRelatedRequestRedirectPathCancel;
 @property (nonatomic, nonnull) HPFPersonalInfoRequest *shippingAddress;
 
 /**
+ *  Merchant risk statement
+ */
+@property (nonatomic, nonnull) NSDictionary *merchantRiskStatement;
+
+/**
+ *  Previous Authentication Informations
+ */
+@property (nonatomic, nonnull) NSDictionary *previousAuthInfo;
+
+/**
+ *  Account Informations
+ */
+@property (nonatomic, nonnull) NSDictionary *accountInfo;
+
+/**
  *  Custom data. You can use these parameters to submit custom values you wish to show in HiPay back office transaction details, receive back in the API response messages, in the notifications or to activate specific FPS rules. 
  *  Examples:
  *  custom_data => { "shipping_method":"click and collect", "first_order":"0", "products_list":"First product, Second product, Third product"}

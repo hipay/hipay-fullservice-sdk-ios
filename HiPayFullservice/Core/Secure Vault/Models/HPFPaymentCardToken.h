@@ -64,6 +64,13 @@
  */
 @property (nonatomic, readonly, nullable) NSString *domesticNetwork;
 
+/**
+ *  Date added.
+ */
+@property (nonatomic, nullable) NSDate *dateAdded;
+
+
+
 - (BOOL)isEqualToPaymentCardToken:(HPFPaymentCardToken  * _Nonnull )object;
 
 @end

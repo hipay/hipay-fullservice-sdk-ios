@@ -10,6 +10,8 @@
 #import "HPFAbstractClient+Private.h"
 #import "HPFLogger.h"
 #import "HPFFormatter.h"
+#import "HPFStats.h"
+#import "HPFMonitoring.h"
 
 @interface HPFSecureVaultClient ()
 {
@@ -93,6 +95,23 @@
                                  };
     
     return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:YES path:@"token/create" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+        
+        if (!error) {
+            if (!HPFStats.current) {
+                HPFStats.current = [HPFStats new];
+            }
+            HPFStats.current.event = HPFEventTokenize;
+            
+            HPFPaymentCardToken *cardToken = [self paymentCardTokenWithData:response.body];
+            HPFStats.current.paymentMethod = cardToken.brand.lowercaseString;
+            HPFStats.current.cardCountry = cardToken.country;
+
+            HPFMonitoring *monitoring = [HPFMonitoring new];
+            monitoring.payDate = [NSDate new];
+            HPFStats.current.monitoring = monitoring;
+   
+            [HPFStats.current send];
+        }
         
         [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
         

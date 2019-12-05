@@ -2,7 +2,7 @@
 //  HPFPaymentCardSwitchTableHeaderView.m
 //  Pods
 //
-//  Created by Nicolas FILLION on 26/10/2016.
+//  Created by HiPay on 26/10/2016.
 //
 //
 
@@ -14,7 +14,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 
-    saveTextLabel.textColor = [UIColor colorWithRed:0.41 green:0.41 blue:0.41 alpha:1.0];
     saveTextLabel.text = HPFLocalizedString(@"HPF_CARD_SWITCH_STORE_DESCRIPTION");
 }
 

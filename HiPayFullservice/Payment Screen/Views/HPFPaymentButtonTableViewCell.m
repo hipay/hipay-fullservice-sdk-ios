@@ -2,7 +2,7 @@
 //  PaymentButtonTableViewCell.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 28/10/2015.
+//  Created by HiPay on 28/10/2015.
 //
 //
 
@@ -15,6 +15,12 @@
 {
     [super awakeFromNib];
     [button setTitle:HPFLocalizedString(@"HPF_PAY_BUTTON_TITLE") forState:UIControlStateNormal];
+    
+    if (@available(iOS 13.0, *)) {
+        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleMedium;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (IBAction)buttonTouched:(id)sender {

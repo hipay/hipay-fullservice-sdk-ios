@@ -2,7 +2,7 @@
 //  HPFPaymentProductsFlowLayout.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 27/10/2015.
+//  Created by HiPay on 27/10/2015.
 //
 //
 
@@ -19,19 +19,17 @@
     self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 }
 
-- (void)setCollectionViewSize:(CGSize)collectionViewSize
-{
-    _collectionViewSize = collectionViewSize;
-    
+
+-(CGSize)itemSize {
     CGFloat minWidth;
     
     if ([self.collectionView numberOfItemsInSection:0] > 0) {
-        minWidth = fmin(collectionViewSize.width / 4.0, 100.0);
+        minWidth = fmin(self.collectionViewSize.width / 4.0, 100.0);
     } else {
         minWidth = 100.0;
     }
     
-    CGFloat currentNumberOfVisibleItems = collectionViewSize.width / (minWidth + self.minimumInteritemSpacing);
+    CGFloat currentNumberOfVisibleItems = self.collectionViewSize.width / (minWidth + self.minimumInteritemSpacing);
     CGFloat preferredItemWidth;
     
     if (currentNumberOfVisibleItems < [self.collectionView numberOfItemsInSection:0]) {
@@ -41,14 +39,14 @@
             preferredNumberOfVisibleItems -= 0.5;
         }
         
-        preferredItemWidth = collectionViewSize.width / preferredNumberOfVisibleItems - self.minimumInteritemSpacing;
+        preferredItemWidth = self.collectionViewSize.width / preferredNumberOfVisibleItems - self.minimumInteritemSpacing;
     }
     
     else {
         preferredItemWidth = minWidth;
     }
     
-    self.itemSize = CGSizeMake(preferredItemWidth, 60.0);
+     return CGSizeMake(preferredItemWidth, 60.0);
 }
 
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
@@ -80,7 +78,7 @@ const NSInteger kVerticalSpacing = 10;
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
-    NSArray* attributesToReturn = [super layoutAttributesForElementsInRect:rect];
+    NSArray* attributesToReturn = [super layoutAttributesForElementsInRect:rect].copy;
     for (UICollectionViewLayoutAttributes* attributes in attributesToReturn) {
         if (nil == attributes.representedElementKind) {
             NSIndexPath* indexPath = attributes.indexPath;

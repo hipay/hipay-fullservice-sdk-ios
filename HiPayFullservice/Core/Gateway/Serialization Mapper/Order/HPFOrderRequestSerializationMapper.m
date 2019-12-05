@@ -2,7 +2,7 @@
 //  HPFOrderRequestSerializationMapper.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 14/10/2015.
+//  Created by HiPay on 14/10/2015.
 //
 //
 
@@ -83,7 +83,7 @@
     NSDictionary *purchase = accountInfo[@"purchase"];
     NSNumber *cardStored24h = purchase[@"card_stored_24h"];
     
-    if (!cardStored24h) {
+    if (cardStored24h == nil) {
         id tokenDatabase = NSClassFromString(@"HPFPaymentCardTokenDatabase");
         
         if ([tokenDatabase respondsToSelector:@selector(numberOfCardSavedInLast24HoursForCurrency:)]) {
@@ -109,7 +109,7 @@
     NSNumber *enrollmentDate = payment[@"enrollment_date"];
     NSString *token = dictionary[@"cardtoken"];
 
-    if (!enrollmentDate && token) {
+    if (enrollmentDate == nil && token) {
         
         id tokenDatabase = NSClassFromString(@"HPFPaymentCardTokenDatabase");
         
@@ -150,7 +150,7 @@
         NSNumber *currentNameIndicator = shipping[@"name_indicator"];
         BOOL currentNameIndicatorEmpty = [currentNameIndicator isKindOfClass:[NSString class]] && ((NSString *)currentNameIndicator).length == 0;
         
-        if (!currentNameIndicator || currentNameIndicatorEmpty) {
+        if (currentNameIndicator == nil || currentNameIndicatorEmpty) {
             HPFCustomerInfoRequest *customer = myRequest.customer;
             NSString *firstNameCustomer = customer.firstname;
             NSString *lastNameCustomer = customer.lastname;

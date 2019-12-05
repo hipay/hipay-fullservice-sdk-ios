@@ -1,6 +1,16 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.11.0
+-----
+
+* Project : Compiled with Xcode 11.3
+* Demo : Fix crash when return of expired page
+* Demo : Dark mode (only on iOS 13)
+* SDK : Dark mode (only on iOS 13)
+* SDK : Fix cancel button disappear sometimes
+* SDK : Fix when payment cards screen is appeared a second time, the dismiss method don't work
+
 1.10.0
 -----
 * SDK : Add PSD2 compliance

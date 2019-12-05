@@ -2,7 +2,7 @@
 //  HPFSepaDirectDebitPaymentProductViewController.m
 //  Pods
 //
-//  Created by Morgan BAUMARD on 21/12/2018.
+//  Created by HiPay on 21/12/2018.
 //
 
 #import "HPFSepaDirectDebitPaymentProductViewController.h"
@@ -31,7 +31,13 @@
 {
     HPFIBANTextField *ibanTextField = (HPFIBANTextField *) [self textFieldForIdentifier:@"iban"];
     
-    return [[self textForIdentifier:@"firstname"] isDefined] && [[self textForIdentifier:@"lastname"] isDefined] && ibanTextField.valid;
+    BOOL validation = [[self textForIdentifier:@"firstname"] isDefined] && [[self textForIdentifier:@"lastname"] isDefined] && ibanTextField.valid;
+    
+    if (validation) {
+        [self.view endEditing:YES];
+    }
+    
+    return validation;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -98,6 +104,20 @@
     }
     
     return [UITableViewCell new];
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITextField *textfield;
+    if (indexPath.row == 0) {
+        textfield = (UITextField *)[self textFieldForIdentifier:@"firstname"];
+    }
+    else if (indexPath.row == 1) {
+        textfield = (UITextField *)[self textFieldForIdentifier:@"lastname"];
+    }
+    else if (indexPath.row == 2) {
+        textfield = (HPFIBANTextField *) [self textFieldForIdentifier:@"iban"];
+    }
+    [textfield becomeFirstResponder];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

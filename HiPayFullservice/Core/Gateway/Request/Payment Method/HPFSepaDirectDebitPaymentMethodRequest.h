@@ -2,7 +2,7 @@
 //  HPFSepaDirectDebitPaymentMethodRequest.h
 //  HiPayFullservice.common
 //
-//  Created by Morgan BAUMARD on 21/12/2018.
+//  Created by HiPay on 21/12/2018.
 //
 
 #import "HPFAbstractPaymentMethodRequest.h"

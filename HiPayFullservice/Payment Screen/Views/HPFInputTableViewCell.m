@@ -2,7 +2,7 @@
 //  HPFInputTableViewCell.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 30/10/2015.
+//  Created by HiPay on 30/10/2015.
 //
 //
 
@@ -15,7 +15,7 @@
     [super awakeFromNib];
     
     NSUInteger indexFound = [self.contentView.constraints indexOfObjectPassingTest:^BOOL(__kindof NSLayoutConstraint * _Nonnull constraint, NSUInteger idx, BOOL * _Nonnull stop) {
-     
+        
         BOOL result = (constraint.firstItem == self.inputLabel) && (constraint.firstAttribute == NSLayoutAttributeLeading);
         
         *stop = result;
@@ -26,7 +26,7 @@
     if (indexFound != NSNotFound) {
         inputLabelLeadingConstraint = self.contentView.constraints[indexFound];
     }
-
+    
     defaultBackgroundColor = self.contentView.backgroundColor;
     defaultTextfieldColor = self.textField.textColor;
     
@@ -45,9 +45,12 @@
     [super setEnabled:enabled];
     
     if (!enabled) {
-        self.textField.textColor = [UIColor blackColor];
+        if (@available(iOS 13.0, *)) {
+            self.textField.textColor = [UIColor systemGrayColor];
+        } else {
+            self.textField.textColor = [UIColor blackColor];
+        }
     }
-    
     else {
         self.textField.textColor = defaultTextfieldColor;
     }

@@ -2,8 +2,8 @@
 //  HPFEnvironmentViewController.m
 //  HiPayFullservice_Example
 //
-//  Created by Morgan BAUMARD on 06/12/2018.
-//  Copyright © 2018 Jonathan TIRET. All rights reserved.
+//  Created by HiPay on 06/12/2018.
+//  Copyright © 2018 HiPay. All rights reserved.
 //
 
 #import "HPFEnvironmentViewController.h"

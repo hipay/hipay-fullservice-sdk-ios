@@ -2,7 +2,7 @@
 //  HPFPaymentCardToken.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 18/09/2015.
+//  Created by HiPay on 18/09/2015.
 //
 //
 

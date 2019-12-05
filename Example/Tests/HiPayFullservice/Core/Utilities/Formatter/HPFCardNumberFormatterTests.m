@@ -2,8 +2,8 @@
 //  HPFCardNumberFormatterTests.m
 //  HiPayFullservice
 //
-//  Created by Jonathan TIRET on 05/11/2015.
-//  Copyright © 2015 Jonathan TIRET. All rights reserved.
+//  Created by HiPay on 05/11/2015.
+//  Copyright © 2015 HiPay. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

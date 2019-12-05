@@ -2,7 +2,7 @@
 //  HPFArrayMapper.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 21/10/2015.
+//  Created by HiPay on 21/10/2015.
 //
 //
 

@@ -94,19 +94,6 @@ jobs:
           name: Deploy on AppCenter
           command: bundle exec fastlane DeployDemo --verbose
 
-  deployHiPayFullservice:
-    macos:
-      xcode: 11.3.0
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Install Gems
-          command: bundle check || bundle install --path vendor/bundle
-      - run:
-          name: Deploy on AppCenter
-          command: bundle exec fastlane DeployHiPayFullservice --verbose
-
 workflows:
   version: 2
   build:
@@ -126,10 +113,3 @@ workflows:
       - deployDemo:
           requires:
             - buildDemo
-      - HoldHiPayFullservice:
-          type: approval
-          requires:
-            - test
-      - deployHiPayFullservice:
-          requires:
-            - HoldHiPayFullservice

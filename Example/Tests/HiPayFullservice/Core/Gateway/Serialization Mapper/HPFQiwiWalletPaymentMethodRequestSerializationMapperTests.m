@@ -2,8 +2,8 @@
 //  HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m
 //  HiPayFullservice
 //
-//  Created by Jonathan Tiret on 29/10/2015.
-//  Copyright © 2015 Jonathan TIRET. All rights reserved.
+//  Created by HiPay on 29/10/2015.
+//  Copyright © 2015 HiPay. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

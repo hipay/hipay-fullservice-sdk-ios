@@ -2,7 +2,7 @@
 //  HPFExpiryDateFormatter.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 09/11/2015.
+//  Created by HiPay on 09/11/2015.
 //
 //
 

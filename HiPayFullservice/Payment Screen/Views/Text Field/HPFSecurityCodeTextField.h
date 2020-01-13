@@ -2,7 +2,7 @@
 //  HPFSecurityCodeTextField.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 10/11/2015.
+//  Created by HiPay on 10/11/2015.
 //
 //
 

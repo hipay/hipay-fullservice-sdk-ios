@@ -2,7 +2,7 @@
 //  HPFSecurityCodeTableViewFooterView.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 12/11/2015.
+//  Created by HiPay on 12/11/2015.
 //
 //
 

@@ -2,7 +2,7 @@
 //  HPFHTTP.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 21/09/2015.
+//  Created by HiPay on 21/09/2015.
 //
 //
 

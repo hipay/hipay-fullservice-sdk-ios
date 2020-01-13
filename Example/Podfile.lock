@@ -9,10 +9,7 @@ PODS:
     - HiPayFullservice/Utilities
   - HiPayFullservice/Utilities (1.10.0):
     - HiPayFullservice/Core
-  - HockeySDK (5.1.4):
-    - HockeySDK/DefaultLib (= 5.1.4)
-  - HockeySDK/DefaultLib (5.1.4)
-  - OCMock (3.4.3)
+  - OCMock (3.5)
   - OHHTTPStubs (8.0.0):
     - OHHTTPStubs/Default (= 8.0.0)
   - OHHTTPStubs/Core (8.0.0)
@@ -30,13 +27,11 @@ PODS:
 DEPENDENCIES:
   - HiPayFullservice (from `../`)
   - HiPayFullservice/Datecs-POS (from `../`)
-  - HockeySDK
   - OCMock
   - OHHTTPStubs
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - HockeySDK
+  https://github.com/CocoaPods/Specs.git:
     - OCMock
     - OHHTTPStubs
 
@@ -45,11 +40,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  HiPayFullservice: e5e81655b71082bfed35f4a904a0e36cb7cab985
-  HockeySDK: 15afe6bc0a5bfe3a531fd73dbf082095f37dac3b
-  OCMock: 43565190abc78977ad44a61c0d20d7f0784d35ab
+  HiPayFullservice: 706b27d50868e6eda13d3340b940da477affb436
+  OCMock: 4ab4577fc941af31f4a0398f6e7e230cf21fc72a
   OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
 
-PODFILE CHECKSUM: 41f9dd09b727f046e2a0486037329e98b6a8a870
+PODFILE CHECKSUM: 0420eda3bda65bd5478872b2773d41a6f784ae99
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.4

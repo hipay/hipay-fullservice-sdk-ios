@@ -2,7 +2,7 @@
 //  HPFCardNumberTextField.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 04/11/2015.
+//  Created by HiPay on 04/11/2015.
 //
 //
 

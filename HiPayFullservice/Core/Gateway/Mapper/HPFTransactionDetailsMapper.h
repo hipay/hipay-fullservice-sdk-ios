@@ -2,7 +2,7 @@
 //  HPFTransactionDetailsMapper.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 19/10/2015.
+//  Created by HiPay on 19/10/2015.
 //
 //
 

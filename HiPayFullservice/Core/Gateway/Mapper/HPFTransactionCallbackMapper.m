@@ -2,7 +2,7 @@
 //  HPFTransactionCallbackMapper.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 18/11/2015.
+//  Created by HiPay on 18/11/2015.
 //
 //
 

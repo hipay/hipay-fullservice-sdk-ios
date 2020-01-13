@@ -2,7 +2,7 @@
 //  HPFSecurityCodeTableViewFooterView.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 12/11/2015.
+//  Created by HiPay on 12/11/2015.
 //
 //
 
@@ -17,8 +17,6 @@
     [super awakeFromNib];
     
     _separatorInset = UIEdgeInsetsZero;
-
-    securityCodeTextLabel.textColor = [UIColor colorWithRed:0.41 green:0.41 blue:0.41 alpha:1.0];
 
     cardImageView.tintColor = [UIColor colorWithRed:0.597255 green:0.597255 blue:0.597255 alpha:1.0];
     
@@ -60,13 +58,5 @@
         cardImageView.image = nil;
     }
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

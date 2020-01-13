@@ -2,7 +2,7 @@
 //  HPFPaymentCardSwitchTableHeaderView.h
 //  Pods
 //
-//  Created by Nicolas FILLION on 26/10/2016.
+//  Created by HiPay on 26/10/2016.
 //
 //
 

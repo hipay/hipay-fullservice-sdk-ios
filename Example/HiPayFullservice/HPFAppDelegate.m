@@ -2,13 +2,12 @@
 //  HPFAppDelegate.m
 //  HiPayFullservice
 //
-//  Created by Jonathan TIRET on 09/18/2015.
-//  Copyright (c) 2015 Jonathan TIRET. All rights reserved.
+//  Created by HiPay on 09/18/2015.
+//  Copyright (c) 2015 HiPay. All rights reserved.
 //
 
 #import "HPFAppDelegate.h"
 #import <HiPayFullservice/HiPayFullservice.h>
-#import <HockeySDK/HockeySDK.h>
 #import "HPFEnvironmentViewController.h"
 
 @implementation HPFAppDelegate
@@ -38,10 +37,6 @@
 
     [[HPFClientConfig sharedClientConfig] setPaymentCardStorageEnabled:YES withTouchID:YES];
     [[HPFClientConfig sharedClientConfig] setPaymentCardScanEnabled:YES];
-    
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:parameters[@"hockeyapp"][@"app_identifier"]];
-    [[BITHockeyManager sharedHockeyManager] startManager];
-    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
     return YES;
 }

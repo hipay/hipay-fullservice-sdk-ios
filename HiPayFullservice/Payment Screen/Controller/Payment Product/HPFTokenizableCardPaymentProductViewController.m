@@ -2,7 +2,7 @@
 //  HPFTokenizableCardPaymentProductViewController.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 02/11/2015.
+//  Created by HiPay on 02/11/2015.
 //
 //
 
@@ -79,6 +79,10 @@
     
     if ([self securityCodeSectionEnabled]) {
         validation = validation && securityCodeTextField.completed && securityCodeTextField.valid;
+    }
+    
+    if (validation) {
+        [self.view endEditing:YES];
     }
     
     return validation;
@@ -193,13 +197,11 @@
         [[self textFieldForIdentifier:@"number"] becomeFirstResponder];
         return YES;
     }
-    
-    if (textField == [self textFieldForIdentifier:@"number"]) {
+    else if (textField == [self textFieldForIdentifier:@"number"]) {
         [[self textFieldForIdentifier:@"expiry_date"] becomeFirstResponder];
         return YES;
     }
-    
-    if (textField == [self textFieldForIdentifier:@"expiry_date"]) {
+    else if (textField == [self textFieldForIdentifier:@"expiry_date"]) {
         [[self textFieldForIdentifier:@"security_code"] becomeFirstResponder];
         return YES;
     }

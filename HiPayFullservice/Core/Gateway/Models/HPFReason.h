@@ -2,7 +2,7 @@
 //  HPFReason.h
 //  HiPayFullservice.common
 //
-//  Created by Nicolas FILLION on 27/11/2017.
+//  Created by HiPay on 27/11/2017.
 //
 
 #import <Foundation/Foundation.h>

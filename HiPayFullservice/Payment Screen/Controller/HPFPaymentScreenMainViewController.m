@@ -2,15 +2,13 @@
 //  HPFPaymentScreenViewController.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 22/10/2015.
+//  Created by HiPay on 22/10/2015.
 //
 //
 
 #import "HPFPaymentScreenMainViewController.h"
-#import "HPFPaymentProductsTableViewCell.h"
 
 #import "HPFPaymentScreenUtils.h"
-
 #import "HPFForwardPaymentProductViewController.h"
 #import "HPFQiwiWalletPaymentProductViewController.h"
 #import "HPFIDealPaymentProductViewController.h"
@@ -21,8 +19,14 @@
 #import "HPFSepaDirectDebitPaymentProductViewController.h"
 #import "HPFStats.h"
 #import "HPFMonitoring.h"
+#import "HPFGradientView.h"
+
+#define GRADIENT_WIDTH 30
 
 @interface HPFPaymentScreenMainViewController ()
+
+@property (weak, nonatomic) IBOutlet UILabel *totalAmountLabel;
+@property (nonatomic, strong) HPFGradientView *rightGradientView;
 
 @end
 
@@ -35,30 +39,30 @@
     [super awakeFromNib];
     
     paymentProductViewControllers = @{
-                                      HPFPaymentProductCodeVisa: HPFTokenizableCardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeMasterCard: HPFTokenizableCardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeCB: HPFTokenizableCardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeAmericanExpress: HPFTokenizableCardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeDiners: HPFTokenizableCardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeMaestro: HPFTokenizableCardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeBCMC: HPFTokenizableCardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeQiwiWallet: HPFQiwiWalletPaymentProductViewController.class,
-                                      HPFPaymentProductCodeIDEAL: HPFIDealPaymentProductViewController.class,
-                                      HPFPaymentProductCodePayPal: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeYandex: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeSofortUberweisung: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeSisal: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeSDD: HPFSepaDirectDebitPaymentProductViewController.class,
-                                      HPFPaymentProductCodePayULatam: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeINGHomepay: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeBCMCMobile: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodePrzelewy24: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeBankTransfer: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodePaysafecard: HPFForwardPaymentProductViewController.class,
-                                      HPFPaymentProductCodeDexiaDirectNet: HPFForwardPaymentProductViewController.class,
-
-                                      HPFPaymentProductCodeApplePay: HPFApplePayPaymentProductViewController.class,
-                                      };
+        HPFPaymentProductCodeVisa: HPFTokenizableCardPaymentProductViewController.class,
+        HPFPaymentProductCodeMasterCard: HPFTokenizableCardPaymentProductViewController.class,
+        HPFPaymentProductCodeCB: HPFTokenizableCardPaymentProductViewController.class,
+        HPFPaymentProductCodeAmericanExpress: HPFTokenizableCardPaymentProductViewController.class,
+        HPFPaymentProductCodeDiners: HPFTokenizableCardPaymentProductViewController.class,
+        HPFPaymentProductCodeMaestro: HPFTokenizableCardPaymentProductViewController.class,
+        HPFPaymentProductCodeBCMC: HPFTokenizableCardPaymentProductViewController.class,
+        HPFPaymentProductCodeQiwiWallet: HPFQiwiWalletPaymentProductViewController.class,
+        HPFPaymentProductCodeIDEAL: HPFIDealPaymentProductViewController.class,
+        HPFPaymentProductCodePayPal: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodeYandex: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodeSofortUberweisung: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodeSisal: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodeSDD: HPFSepaDirectDebitPaymentProductViewController.class,
+        HPFPaymentProductCodePayULatam: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodeINGHomepay: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodeBCMCMobile: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodePrzelewy24: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodeBankTransfer: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodePaysafecard: HPFForwardPaymentProductViewController.class,
+        HPFPaymentProductCodeDexiaDirectNet: HPFForwardPaymentProductViewController.class,
+        
+        HPFPaymentProductCodeApplePay: HPFApplePayPaymentProductViewController.class,
+    };
     
 }
 
@@ -75,6 +79,13 @@
     HPFMonitoring *monitoring = [HPFMonitoring new];
     monitoring.initializeDate = [NSDate new];
     [HPFStats.current setMonitoring:monitoring];
+    
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
+    numberFormatter.currencyCode = self.paymentPageRequest.currency;
+    
+    self.totalAmountLabel.text = [NSString stringWithFormat:HPFLocalizedString(@"HPF_TOTAL_AMOUNT"),
+                                  [numberFormatter stringFromNumber:self.paymentPageRequest.amount]].uppercaseString;
 }
 
 - (void)viewDidLoad {
@@ -82,25 +93,26 @@
     
     self.title = HPFLocalizedString(@"HPF_PAYMENT_SCREEN_TITLE");
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillShowNotification object:nil];
+    paymentProductsCollectionView.decelerationRate = 0.993;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowOrChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-    if ([paymentProductsTableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
-        paymentProductsTableView.cellLayoutMarginsFollowReadableWidth = YES;
+    UIColor *fillColor;
+    UIColor *clearColor = [[UIColor whiteColor] colorWithAlphaComponent:0];
+    if (@available(iOS 13.0, *)) {
+        fillColor = [UIColor systemGroupedBackgroundColor];
+    } else {
+        fillColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:247/255.0 alpha:1];
     }
+    self.rightGradientView = [[HPFGradientView alloc] initWithStartColor:clearColor endColor:fillColor];
+    self.rightGradientView.alpha = 0.0;
+    [self.view addSubview:self.rightGradientView];
     
-    paymentProductsTableView.hidden = YES;
+    self.totalAmountLabel.alpha = 0.0;
 }
 
 - (void)setPaymentProducts:(NSArray *)paymentProducts
 {
     _paymentProducts = paymentProducts;
-    [paymentProductsTableView reloadData];
     [paymentProductsCollectionView reloadData];
-    paymentProductsTableView.hidden = NO;
     
     if ([paymentProducts count] > 0) {
         [self selectPaymentProduct:paymentProducts.firstObject];
@@ -108,14 +120,6 @@
     
     HPFStats.current.monitoring.displayDate = [NSDate new];
     [HPFStats.current send];
-}
-
-- (void)updatePaymentProductsTableViewHeightConstraint
-{
-    if (paymentProductsTableView.contentSize.height > 0.) {
-        paymentProductsTableViewHeightConstraint.constant = paymentProductsTableView.contentSize.height;
-        [self.view layoutIfNeeded];
-    }
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -141,6 +145,11 @@
     [super viewWillLayoutSubviews];
     
     ((HPFPaymentProductsFlowLayout *)paymentProductsCollectionView.collectionViewLayout).collectionViewSize = paymentProductsCollectionView.bounds.size;
+    
+    self.rightGradientView.frame = CGRectMake(self->paymentProductsCollectionView.frame.origin.x + self->paymentProductsCollectionView.frame.size.width - GRADIENT_WIDTH,
+                                              self->paymentProductsCollectionView.frame.origin.y,
+                                              GRADIENT_WIDTH,
+                                              self->paymentProductsCollectionView.frame.size.height);
 }
 
 - (void)setLoading:(BOOL)loading
@@ -159,84 +168,16 @@
     [paymentProductViewController cancelRequests];
 }
 
+#pragma mark - Payment products collection view
+
 - (void)defineCollectionViewParams
 {
     ((HPFPaymentProductsFlowLayout *)paymentProductsCollectionView.collectionViewLayout).collectionViewSize = paymentProductsCollectionView.bounds.size;
     
     if (self.paymentProducts.count > 2) {
         ((UICollectionViewFlowLayout *)paymentProductsCollectionView.collectionViewLayout).sectionInset = UIEdgeInsetsMake(0., 10., 0., 10.);
-    } else {
-        ((UICollectionViewFlowLayout *)paymentProductsCollectionView.collectionViewLayout).sectionInset = paymentProductsTableView.separatorInset;
     }
 }
-
-#pragma mark - Keyboard related methods
-
-- (void)keyboardWillShowOrChangeFrame:(NSNotification *)notification
-{
-
-    CGRect keyboardFrame = [[notification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGRect endFrame = [self.view convertRect:keyboardFrame fromView:nil];
-
-    if ((keyboardContainerConstraintTop == nil) || (keyboardContainerConstraintTop.constant != endFrame.origin.y)) {
-        containerHasFullLayout = YES;
-        
-        [self.view removeConstraint:containerBottomConstraint];
-        
-        if (keyboardContainerConstraintTop == nil) {
-            
-            keyboardContainerConstraintTop = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:endFrame.origin.y];
-            
-            keyboardContainerConstraintBottom = [NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-            
-            [self.view addConstraint:keyboardContainerConstraintTop];
-            [self.view addConstraint:keyboardContainerConstraintBottom];
-            
-        }
-        
-        keyboardContainerConstraintTop.constant = endFrame.origin.y;
-        
-        if (self.navigationItem.rightBarButtonItems != nil) {
-            rightBarButtonItems = self.navigationItem.rightBarButtonItems;
-            [self.navigationItem setRightBarButtonItems:nil animated:YES];
-        }
-        
-        [self defineContainerTopSpacing];
-        
-        [self.view layoutIfNeeded];
-    }
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification
-{
-    [self.view removeConstraint:keyboardContainerConstraintTop];
-    [self.view removeConstraint:keyboardContainerConstraintBottom];
-    [self.view addConstraint:containerBottomConstraint];
-    
-    keyboardContainerConstraintTop = nil;
-    keyboardContainerConstraintBottom = nil;
-    
-    containerHasFullLayout = NO;
-    
-    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-        
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.navigationItem setRightBarButtonItems:self->rightBarButtonItems animated:YES];
-    });
-    
-    [self defineContainerTopSpacing];
-    
-    [UIView animateWithDuration:animationDuration animations:^{
-        [self.view layoutIfNeeded];
-    }];
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-#pragma mark - Payment products collection view
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -256,7 +197,6 @@
         cell.paymentProductButton.enabled = NO;
         cell.userInteractionEnabled = NO;
     }
-    
     else {
         cell.paymentProductButton.enabled = YES;
         cell.userInteractionEnabled = YES;
@@ -277,14 +217,14 @@
     if (selectedPaymentProduct != paymentProduct) {
         
         selectedPaymentProduct = paymentProduct;
-
+        
         // Cancel requests for currently displayed payment product view controller
         if (paymentProductViewController != nil) {
             [paymentProductViewController cancelRequests];
         }
         
         Class paymentProductViewControllerClass = paymentProductViewControllers[paymentProduct.code];
-
+        
         // Grouped payment cards
         if (paymentProduct.groupedPaymentProductCodes != nil) {
             paymentProductViewControllerClass = [HPFTokenizableCardPaymentProductViewController class];
@@ -299,7 +239,7 @@
         else {
             paymentProductViewController = [[HPFUnsupportedPaymentProductViewController alloc] initWithPaymentPageRequest:_paymentPageRequest signature:_signature andSelectedPaymentProduct:paymentProduct];
         }
-
+        
         id<HPFPaymentProductViewControllerDelegate> paymentProductViewDelegate = (id<HPFPaymentProductViewControllerDelegate>) self.parentViewController.parentViewController;
         
         paymentProductViewController.delegate = paymentProductViewDelegate;
@@ -307,28 +247,27 @@
         UIViewController *currentViewController = self.childViewControllers.firstObject;
         
         [self addChildViewController:paymentProductViewController];
-
+        
         paymentProductViewController.view.frame = currentViewController.view.frame;
         
         paymentProductViewController.view.alpha = 0.;
         currentViewController.view.alpha = 1.;
-        [self defineContainerTopSpacing];
         
         [self transitionFromViewController:currentViewController toViewController:paymentProductViewController duration:0.2 options:0 animations:^{
             
             self->paymentProductViewController.view.alpha = 1.;
             currentViewController.view.alpha = 0.;
-            
+            self.totalAmountLabel.alpha = 1.;
         } completion:^(BOOL finished) {
-            [self defineContainerTopSpacing];
-            
             [UIView animateWithDuration:0.2 animations:^{
                 [self.view layoutIfNeeded];
+                if (self->paymentProductsCollectionView.contentSize.width > self->paymentProductsCollectionView.bounds.size.width) {
+                    self.rightGradientView.alpha = 1.;
+                }
             }];
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self defineContainerTopSpacing];
             [self.view layoutIfNeeded];
         });
         
@@ -336,27 +275,6 @@
         
         [currentViewController removeFromParentViewController];
         
-    }
-}
-
-- (void)defineContainerTopSpacing
-{
-    if ([paymentProductViewController isKindOfClass:[UITableViewController class]]) {
-        
-        UITableViewHeaderFooterView *headerView = [paymentProductViewController.tableView headerViewForSection:0];
-        
-        if ([headerView isKindOfClass:[UITableViewHeaderFooterView class]]) {
-            
-            if (!containerHasFullLayout) {
-                
-                CGFloat additionalSpace = fmax(headerView.textLabel.frame.origin.y - 10., 0.);
-                
-                containerTopConstraint.constant = - additionalSpace;
-                paymentProductViewController.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(additionalSpace, 0., 0., 0.);
-            } else {
-                containerTopConstraint.constant = 0.;
-            }
-        }
     }
 }
 
@@ -370,7 +288,8 @@
         for (HPFPaymentButtonTableViewCell *aCell in paymentProductsCollectionView.visibleCells) {
             aCell.highlighted = NO;
         }
-        
+
+
         cell.highlighted = YES;
         
         [self scrollToPaymentProductsCollectionViewIndexPath:indexPath withAnimation:YES];
@@ -411,44 +330,6 @@
 {
     paymentProductsCollectionView.scrollEnabled = enabled;
     [paymentProductsCollectionView reloadData];
-}
-
-#pragma mark - Main table view
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    HPFPaymentProductsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PaymentProductsCell"];
-    cell.backgroundColor = [UIColor clearColor];
-
-    paymentProductsCollectionView = cell.paymentProductsCollectionView;
- 
-    [self defineCollectionViewParams];
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self updatePaymentProductsTableViewHeightConstraint];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
-    numberFormatter.currencyCode = self.paymentPageRequest.currency;
-     
-    return [NSString stringWithFormat:HPFLocalizedString(@"HPF_TOTAL_AMOUNT"), [numberFormatter stringFromNumber:self.paymentPageRequest.amount]];
 }
 
 @end

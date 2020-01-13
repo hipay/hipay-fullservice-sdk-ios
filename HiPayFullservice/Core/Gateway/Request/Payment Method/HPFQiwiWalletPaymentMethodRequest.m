@@ -2,7 +2,7 @@
 //  HPFQiwiWalletPaymentMethodRequest.m
 //  Pods
 //
-//  Created by Jonathan Tiret on 29/10/2015.
+//  Created by HiPay on 29/10/2015.
 //
 //
 

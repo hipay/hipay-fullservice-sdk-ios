@@ -2,8 +2,8 @@
 //  HPFStats.m
 //  HiPayFullservice_Example
 //
-//  Created by Morgan BAUMARD on 02/09/2019.
-//  Copyright © 2019 Jonathan TIRET. All rights reserved.
+//  Created by HiPay on 02/09/2019.
+//  Copyright © 2019 HiPay. All rights reserved.
 //
 
 #import "HPFStats.h"
@@ -74,7 +74,7 @@ static HPFStats *_current = nil;
     if (self.domain) {
         [dict setValue:self.domain forKey:kDomainKey];
     }
-    if (self.status) {
+    if (self.status != nil) {
         [dict setValue:self.status forKey:kStatusKey];
     }
     if (self.paymentMethod) {

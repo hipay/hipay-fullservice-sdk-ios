@@ -2,7 +2,7 @@
 //  HPFPaymentScreenViewController.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 26/10/2015.
+//  Created by HiPay on 26/10/2015.
 //
 //
 
@@ -21,7 +21,8 @@
     id<HPFRequest> paymentProductsRequest;
     BOOL loadingRequest;
     UIAlertController *warningCancelWhileLoadingAlertView;
-    
+    BOOL loadPaymentProductsDone;
+
     // Background loading
     id<HPFRequest> backgroundOrderLoadingRequest;
     id<HPFRequest> backgroundTransactionLoadingRequest;
@@ -69,6 +70,7 @@
         self->paymentProductsRequest = nil;
 
         if ((error == nil) && (thePaymentProducts.count > 0)) {
+            self->loadPaymentProductsDone = YES;
             self->paymentProducts = [self fullPaymentProductsListWithPaymentProducts:thePaymentProducts andRequest:[self paymentPageRequest]];
 
             [self setPaymentProductsToMainViewController:mainViewController];
@@ -241,11 +243,6 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 - (BOOL)isModal {
 
     return self.presentingViewController.presentedViewController == self
@@ -278,7 +275,6 @@
             viewController = [storyboard instantiateViewControllerWithIdentifier:@"Products"];
         }
 
-        viewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
         [embeddedNavigationController pushViewController:viewController animated:NO];
 
     }
@@ -290,7 +286,10 @@
 
         HPFPaymentScreenMainViewController *mainViewController = (HPFPaymentScreenMainViewController *)viewController;
         mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
-        [self loadPaymentProductsToMainViewController:mainViewController];
+        
+        if (!loadPaymentProductsDone) {
+            [self loadPaymentProductsToMainViewController:mainViewController];
+        }
     }
 }
 

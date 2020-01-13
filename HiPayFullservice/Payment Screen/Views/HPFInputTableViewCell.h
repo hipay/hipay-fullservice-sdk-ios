@@ -2,7 +2,7 @@
 //  HPFInputTableViewCell.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 30/10/2015.
+//  Created by HiPay on 30/10/2015.
 //
 //
 

@@ -2,7 +2,7 @@
 //  HPFHostedPaymentPageMapper.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 13/10/2015.
+//  Created by HiPay on 13/10/2015.
 //
 //
 

@@ -2,7 +2,7 @@
 //  HPFGradientView.h
 //  HiPayFullservice.common
 //
-//  Created by Morgan BAUMARD on 06/03/2019.
+//  Created by HiPay on 06/03/2019.
 //
 
 #import <UIKit/UIKit.h>

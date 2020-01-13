@@ -2,7 +2,7 @@
 //  HPFPaymentCardTableViewCell.h
 //  Pods
 //
-//  Created by Nicolas FILLION on 27/10/2016.
+//  Created by HiPay on 27/10/2016.
 //
 //
 

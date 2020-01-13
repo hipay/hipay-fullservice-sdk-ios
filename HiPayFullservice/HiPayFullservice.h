@@ -2,7 +2,7 @@
 //  HiPayFullservice.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 25/09/2015.
+//  Created by HiPay on 25/09/2015.
 //
 //
 

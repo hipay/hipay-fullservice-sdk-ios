@@ -2,8 +2,8 @@
 //  HPFDemoTableViewController.m
 //  HiPayFullservice
 //
-//  Created by Jonathan Tiret on 28/11/2015.
-//  Copyright © 2015 Jonathan TIRET. All rights reserved.
+//  Created by HiPay on 28/11/2015.
+//  Copyright © 2015 HiPay. All rights reserved.
 //
 
 #import "HPFDemoTableViewController.h"
@@ -63,7 +63,10 @@
     [self setupGlobalTintColor];
     groupedPaymentCard = YES;
     amount = 10.f;
-    selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking, HPFPaymentProductCategoryCodeCreditCard, HPFPaymentProductCategoryCodeDebitCard, HPFPaymentProductCategoryCodeEWallet, nil];
+    selectedPaymentProducts = [NSSet setWithObjects:HPFPaymentProductCategoryCodeRealtimeBanking,
+                               HPFPaymentProductCategoryCodeCreditCard,
+                               HPFPaymentProductCategoryCodeDebitCard,
+                               HPFPaymentProductCategoryCodeEWallet, nil];
     timeout = 7*24*3600;
     
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"EnvironmentCell"];
@@ -77,7 +80,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFTextInputTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"InputCell"];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSubmitTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SubmitCell"];
-
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSwitchInfosTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SwitchInfosCell"];
     
     self.title = NSLocalizedString(@"APP_TITLE", nil);
@@ -87,43 +90,17 @@
     [super viewDidLoad];
     
     defaultGlobalTintColor = self.view.tintColor;
-
+    
     if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
     }
     
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+-(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (insertResultSection) {
-        insertResultSection = NO;
-        resultSectionIndex = 1;
-
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:resultSectionIndex] withRowAnimation:UITableViewRowAnimationRight];
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:resultSectionIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
-
-    cardScan = [HPFClientConfig.sharedClientConfig isPaymentCardScanEnabled];
-
-    applePay = [HPFClientConfig.sharedClientConfig isApplePayEnabled];
-
-    if (productCategoriesViewController != nil) {
-        selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationFade];
-        productCategoriesViewController = nil;
-    }
-    
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:environmentRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationNone];
+    [self updateResultSection];
 }
 
 #pragma mark - Table view data source
@@ -157,7 +134,7 @@
     NSUInteger index = [self.tableView.visibleCells indexOfObjectPassingTest:^BOOL(__kindof UITableViewCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         return obj.accessoryView == accessoryView;
     }];
-
+    
     if (index != NSNotFound) {
         return [self.tableView indexPathForCell:self.tableView.visibleCells[index]];
     }
@@ -168,7 +145,7 @@
 - (void)setSubmitButtonLoadingMode:(BOOL)isLoading
 {
     loading = isLoading;
-
+    
     for (UITableViewCell *cell in self.tableView.visibleCells) {
         if ([cell isKindOfClass:[HPFSubmitTableViewCell class]]) {
             ((HPFSubmitTableViewCell *)cell).loading = isLoading;
@@ -184,12 +161,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == formSectionIndex) {
-
+        
         if (indexPath.row == environmentRowIndex) {
             HPFMoreOptionsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EnvironmentCell" forIndexPath:indexPath];
             
             cell.textLabel.text = NSLocalizedString(@"FORM_ENVIRONMENT", nil);
-
+            
             if ([HPFEnvironmentViewController isEnvironmentStage]) {
                 cell.detailTextLabel.text = NSLocalizedString(@"ENVIRONMENT_STAGE", nil);
             }
@@ -199,7 +176,7 @@
             else if ([HPFEnvironmentViewController isEnvironmentCustom]) {
                 cell.detailTextLabel.text = NSLocalizedString(@"ENVIRONMENT_CUSTOM", nil);
             }
-
+            
             return cell;
         }
         else if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
@@ -211,32 +188,32 @@
                 cell.textLabel.text = NSLocalizedString(@"FORM_GROUP_PAYMENT_CARDS", nil);
                 cell.switchControl.on = groupedPaymentCard;
             }
-
+            
             else if (indexPath.row == applePayRowIndex) {
                 cell.textLabel.text = NSLocalizedString(@"FORM_APPLE_PAY", nil);
                 cell.switchControl.on = applePay;
             }
-
+            
             else if (indexPath.row == multiUseRowIndex) {
                 cell.textLabel.text = NSLocalizedString(@"FORM_CARD_STORAGE", nil);
                 cell.switchControl.on = multiUse;
             }
-
+            
             else if (indexPath.row == cardScanRowIndex) {
                 cell.textLabel.text = NSLocalizedString(@"FORM_CARD_SCAN", nil);
                 cell.switchControl.on = cardScan;
             }
-
+            
             [cell layoutSubviews];
             
             return cell;
-
+            
         } else if (indexPath.row == applePayRowIndex) {
             
             HPFSwitchInfosTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchInfosCell" forIndexPath:indexPath];
             cell.label.text = NSLocalizedString(@"FORM_APPLE_PAY", nil);
             cell.labelInfos.text = NSLocalizedString(@"FORM_APPLE_PAY_INFOS", nil);
-
+            
             [cell.switchControl addTarget:self action:@selector(controlValueChanged:) forControlEvents:UIControlEventValueChanged];
             cell.switchControl.on = applePay;
             
@@ -332,13 +309,13 @@
         }
         
         else if (indexPath.row == submitRowIndex) {
-
+            
             HPFSubmitTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SubmitCell"];
-
+            
             cell.loading = loading;
             cell.enabled = [self submitButtonEnabled];
             cell.delegate = self;
-
+            
             //HPFSubmitTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SubmitCell" forIndexPath:indexPath];
             //cell.textLabel.text = NSLocalizedString(@"FORM_SUBMIT", nil);
             
@@ -355,7 +332,7 @@
             cell.textLabel.text = NSLocalizedString(@"RESULT_CANCEL", nil);
             cell.detailTextLabel.text = nil;
             cell.detailTextLabel.font = [UIFont systemFontOfSize:cell.detailTextLabel.font.pointSize];
-
+            
             return cell;
         }
         
@@ -366,14 +343,15 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = NSLocalizedString(@"RESULT_ERROR", nil);
             cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:cell.detailTextLabel.font.pointSize];
-
+            
             if (transactionError.userInfo[HPFErrorCodeAPIMessageKey] != nil) {
                 cell.detailTextLabel.text = transactionError.userInfo[HPFErrorCodeAPIMessageKey];
-            } else {
-                NSError *error = transactionError.userInfo.allValues.firstObject;
-                if (error.userInfo[NSLocalizedDescriptionKey]) {
-                    cell.detailTextLabel.text = error.userInfo[NSLocalizedDescriptionKey];
-                }
+            }
+            else if (transactionError.userInfo[NSLocalizedDescriptionKey] != nil) {
+                cell.detailTextLabel.text = transactionError.userInfo[NSLocalizedDescriptionKey];
+            }
+            else if (transactionError.userInfo[NSLocalizedFailureReasonErrorKey] != nil) {
+                cell.detailTextLabel.text = transactionError.userInfo[NSLocalizedFailureReasonErrorKey];
             }
             
             return cell;
@@ -422,7 +400,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = NSLocalizedString(@"RESULT_FRAUD", nil);
             cell.detailTextLabel.font = [UIFont systemFontOfSize:cell.detailTextLabel.font.pointSize];
-
+            
             switch (transaction.fraudScreening.result) {
                 case HPFFraudScreeningResultAccepted:
                     cell.detailTextLabel.text = NSLocalizedString(@"RESULT_FRAUD_ACCEPTED", nil);
@@ -447,7 +425,7 @@
             return cell;
         }
     }
-
+    
     NSLog(@"Unexpected tableView error");
     abort();
 }
@@ -477,24 +455,24 @@
 - (void)submitTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell
 {
     [self requestSignature];
-
+    
     if (resultSectionIndex != NSNotFound) {
         errorDescriptionRowIndex = NSNotFound;
         transactionStateRowIndex = NSNotFound;
         fraudReviewRowIndex = NSNotFound;
         cancelRowIndex = NSNotFound;
-
+        
         resultSectionIndex = NSNotFound;
         formSectionIndex = 0;
-
+        
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationRight];
     }
 }
 
 - (void) requestSignature {
-
+    
     [self setSubmitButtonLoadingMode:YES];
-
+    
     NSString *timeout = ((HPFTextInputTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:timeoutIndex inSection:formSectionIndex]]).textfield.text;
     
     if ([HPFEnvironmentViewController isLocalSignatureUserDefaults]) {
@@ -528,43 +506,43 @@
         static NSString * const serverUrl = @"https://developer.hipay.com/misc/public_credentials_signature.php?amount=%@&currency=%@";
         NSString *dataUrl = [NSString stringWithFormat:serverUrl, @(amount), currencies[currencySegmentIndex]];
         NSURL *url = [NSURL URLWithString:dataUrl];
-
+        
         NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
-                dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-
-                    dispatch_async(dispatch_get_main_queue(), ^{
-
-                        NSError *jsonError = nil;
-                        if (data == nil || error != nil) {
-                            // Handle Error and return
-                            [self setSubmitButtonLoadingMode:NO];
-                            return;
-                        }
-
-                        NSDictionary* signatureDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-
-                        if (jsonError == nil) {
-
-                            NSString *orderId = signatureDictionary[@"order_id"];
-                            NSString *signature = signatureDictionary[@"signature"];
-
-                            HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
-                            paymentPageRequest.timeout = @(timeout.intValue);
-                            
-                            HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
-                            paymentScreen.delegate = self;
-                            
-                            [self presentViewController:paymentScreen animated:YES completion:^{
-                                [self setSubmitButtonLoadingMode:NO];
-                            }];
-                            
-                        } else {
-
-                            [self setSubmitButtonLoadingMode:NO];
-                        }
-                    });
-                }];
-
+                                              dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSError *jsonError = nil;
+                if (data == nil || error != nil) {
+                    // Handle Error and return
+                    [self setSubmitButtonLoadingMode:NO];
+                    return;
+                }
+                
+                NSDictionary* signatureDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+                
+                if (jsonError == nil) {
+                    
+                    NSString *orderId = signatureDictionary[@"order_id"];
+                    NSString *signature = signatureDictionary[@"signature"];
+                    
+                    HPFPaymentPageRequest *paymentPageRequest = [self buildPageRequestWithOrderId:orderId];
+                    paymentPageRequest.timeout = @(timeout.intValue);
+                    
+                    HPFPaymentScreenViewController *paymentScreen = [HPFPaymentScreenViewController paymentScreenViewControllerWithRequest:paymentPageRequest signature:signature];
+                    paymentScreen.delegate = self;
+                    
+                    [self presentViewController:paymentScreen animated:YES completion:^{
+                        [self setSubmitButtonLoadingMode:NO];
+                    }];
+                    
+                } else {
+                    
+                    [self setSubmitButtonLoadingMode:NO];
+                }
+            });
+        }];
+        
         [downloadTask resume];
     }
 }
@@ -583,7 +561,7 @@
 
 
 - (HPFPaymentPageRequest *) buildPageRequestWithOrderId:(NSString *)orderId {
-
+    
     HPFPaymentPageRequest *paymentPageRequest = [[HPFPaymentPageRequest alloc] init];
     paymentPageRequest.orderId = orderId;
     paymentPageRequest.amount = @(amount);
@@ -598,11 +576,11 @@
     
     paymentPageRequest.shippingAddress.firstname = @"John";
     paymentPageRequest.shippingAddress.lastname = @"Doe";
-
+    
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
-
+    
     [HPFClientConfig.sharedClientConfig setPaymentCardScanEnabled:cardScan];
-
+    
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
     if ([HPFEnvironmentViewController isEnvironmentStage]) {
         [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay
@@ -616,7 +594,7 @@
     }
     
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
-
+    
     switch (authenticationIndicatorSegmentIndex) {
         case 1:
             paymentPageRequest.authenticationIndicator = HPFAuthenticationIndicatorIfAvailable;
@@ -628,11 +606,11 @@
             paymentPageRequest.authenticationIndicator = HPFAuthenticationIndicatorBypass;
             break;
     }
-
+    
     [self setDSP2Information:paymentPageRequest];
     
     return paymentPageRequest;
-
+    
 }
 
 - (void)setDSP2Information:(HPFPaymentPageRequest *)paymentPageRequest {
@@ -660,20 +638,20 @@
     \"previous_auth_info\": \"800000987283\" \
     } \
     """;
-
+    
     NSString *merchantRiskStatement = @""" \
     { \
-        \"email_delivery_address\": \"jane.doe@test.com\", \
-        \"delivery_time_frame\": 1, \
-        \"purchase_indicator\": 1, \
-        \"pre_order_date\": 20190925, \
-        \"reorder_indicator\": 1, \
-        \"shipping_indicator\": 1, \
-        \"gift_card\": { \
-        \"amount\": 15.00, \
-        \"count\": 0, \
-        \"currency\": \"EUR\" \
-        } \
+    \"email_delivery_address\": \"jane.doe@test.com\", \
+    \"delivery_time_frame\": 1, \
+    \"purchase_indicator\": 1, \
+    \"pre_order_date\": 20190925, \
+    \"reorder_indicator\": 1, \
+    \"shipping_indicator\": 1, \
+    \"gift_card\": { \
+    \"amount\": 15.00, \
+    \"count\": 0, \
+    \"currency\": \"EUR\" \
+    } \
     } \
     """;
     
@@ -681,20 +659,20 @@
     
     NSData *accountInfoData = [accountInfo dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *accountInfoDict = [NSJSONSerialization JSONObjectWithData:accountInfoData
-                                                                              options:NSJSONReadingMutableContainers
-                                                                                error:&errorJSON];
+                                                                    options:NSJSONReadingMutableContainers
+                                                                      error:&errorJSON];
     
     
     NSData *previousAuthInfoData = [previousAuthInfo dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *previousAuthInfoDict = [NSJSONSerialization JSONObjectWithData:previousAuthInfoData
-                                                                              options:NSJSONReadingMutableContainers
-                                                                                error:&errorJSON];
+                                                                         options:NSJSONReadingMutableContainers
+                                                                           error:&errorJSON];
     
     NSData *merchantRiskStatementData = [merchantRiskStatement dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *merchantRiskStatementDict = [NSJSONSerialization JSONObjectWithData:merchantRiskStatementData
-                                                                             options:NSJSONReadingMutableContainers
-                                                                               error:&errorJSON];
-
+                                                                              options:NSJSONReadingMutableContainers
+                                                                                error:&errorJSON];
+    
     
     paymentPageRequest.accountInfo = accountInfoDict;
     paymentPageRequest.merchantRiskStatement = merchantRiskStatementDict;
@@ -769,7 +747,7 @@
     NSMutableAttributedString *result = [[NSMutableAttributedString alloc] initWithString:formattedAmount];
     
     [result addAttribute:NSKernAttributeName value:@(7) range:NSMakeRange(formattedAmount.length - 1, 1)];
-
+    
     return result;
 }
 
@@ -789,23 +767,23 @@
     if (indexPath.row == groupedPaymentCardRowIndex) {
         groupedPaymentCard = [sender isOn];
     }
-
+    
     else if (indexPath.row == applePayRowIndex) {
         applePay = [sender isOn];
     }
-
+    
     else if (indexPath.row == multiUseRowIndex) {
         multiUse = [sender isOn];
     }
-
+    
     else if (indexPath.row == cardScanRowIndex) {
         cardScan = [sender isOn];
     }
-
+    
     else if (indexPath.row == authRowIndex) {
         authenticationIndicatorSegmentIndex = [sender selectedSegmentIndex];
     }
-
+    
     else if (indexPath.row == currencyRowIndex) {
         currencySegmentIndex = [sender selectedSegmentIndex];
         [self updateAmount];
@@ -845,7 +823,7 @@
         default:
             break;
     }
-
+    
     self.view.tintColor = tintColor;
     self.navigationController.view.tintColor = tintColor;
     [[UIView appearance] setTintColor:tintColor];
@@ -883,6 +861,34 @@
 - (void)insertResultSection
 {
     insertResultSection = YES;
+    [self updateResultSection];
+}
+
+-(void) updateResultSection {
+    multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    
+    cardScan = [HPFClientConfig.sharedClientConfig isPaymentCardScanEnabled];
+    
+    applePay = [HPFClientConfig.sharedClientConfig isApplePayEnabled];
+    
+    if (productCategoriesViewController != nil) {
+        selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:productCategoryRowIndex inSection:formSectionIndex]] withRowAnimation:UITableViewRowAnimationNone];
+        productCategoriesViewController = nil;
+    }
+    
+    if (insertResultSection) {
+        insertResultSection = NO;
+        resultSectionIndex = 1;
+        
+        if ([self.tableView numberOfSections] == 2) {
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:resultSectionIndex] withRowAnimation:UITableViewRowAnimationRight];
+        }
+        else {
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:resultSectionIndex] withRowAnimation:UITableViewRowAnimationRight];
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:resultSectionIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        }
+    }
 }
 
 @end

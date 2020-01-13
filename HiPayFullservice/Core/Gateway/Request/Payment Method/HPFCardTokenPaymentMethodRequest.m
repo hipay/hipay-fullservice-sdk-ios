@@ -2,7 +2,7 @@
 //  HPFCardTokenPaymentMethodRequest.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 14/10/2015.
+//  Created by HiPay on 14/10/2015.
 //
 //
 

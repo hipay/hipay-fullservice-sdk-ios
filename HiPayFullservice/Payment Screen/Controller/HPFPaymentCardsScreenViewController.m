@@ -2,7 +2,7 @@
 //  HPFPaymentCardsScreenViewController.m
 //  Pods
 //
-//  Created by Nicolas FILLION on 25/10/2016.
+//  Created by HiPay on 25/10/2016.
 //
 //
 
@@ -41,9 +41,10 @@
     
     self.title = HPFLocalizedString(@"HPF_PAYMENT_CARDS_SCREEN_TITLE");
     [self.tableCards registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
-
-    id<HPFPaymentProductViewControllerDelegate> paymentProductViewDelegate = (id<HPFPaymentProductViewControllerDelegate>) self.parentViewController.parentViewController;
-    self.delegate = paymentProductViewDelegate;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                           target:self
+                                                                                           action:@selector(cancel)];
 }
 
 - (void) setupCards {
@@ -78,6 +79,9 @@
     [super viewWillAppear:animated];
 
     [self setupCards];
+    
+    id<HPFPaymentProductViewControllerDelegate> paymentProductViewDelegate = (id<HPFPaymentProductViewControllerDelegate>) self.parentViewController.parentViewController;
+    self.delegate = paymentProductViewDelegate;
 }
 
 - (void)paymentButtonTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell {
@@ -88,6 +92,10 @@
 - (void)cancelRequests
 {
     [transactionLoadingRequest cancel];
+}
+
+- (void)cancel {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Handle transaction

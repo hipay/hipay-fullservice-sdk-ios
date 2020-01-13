@@ -2,7 +2,7 @@
 //  HPFTransactionErrorsManager.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 20/11/2015.
+//  Created by HiPay on 20/11/2015.
 //
 //
 

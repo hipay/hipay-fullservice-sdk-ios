@@ -2,7 +2,7 @@
 //  HPFFormTableViewCell.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 06/11/2015.
+//  Created by HiPay on 06/11/2015.
 //
 //
 

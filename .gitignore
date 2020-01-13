@@ -40,3 +40,7 @@ Example/Pods/
 ## Directory-based project format:
 .idea/
 
+# Fastlane
+fastlane/.env
+fastlane/README.md
+fastlane/test_output/report.junit

@@ -2,7 +2,7 @@
 //  HPFLogger.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 14/03/2016.
+//  Created by HiPay on 14/03/2016.
 //
 //
 

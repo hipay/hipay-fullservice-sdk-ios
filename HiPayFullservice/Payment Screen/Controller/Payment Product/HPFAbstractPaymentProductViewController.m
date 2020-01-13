@@ -2,7 +2,7 @@
 //  AbstractPaymentProductViewController.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 28/10/2015.
+//  Created by HiPay on 28/10/2015.
 //
 //
 
@@ -39,7 +39,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
     // iOS 11 patch

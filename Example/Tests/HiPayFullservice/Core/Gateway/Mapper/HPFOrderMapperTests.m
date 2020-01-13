@@ -2,8 +2,8 @@
 //  HPFOrderMapperTests.m
 //  HiPayFullservice
 //
-//  Created by Jonathan TIRET on 09/10/2015.
-//  Copyright © 2015 Jonathan TIRET. All rights reserved.
+//  Created by HiPay on 09/10/2015.
+//  Copyright © 2015 HiPay. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

@@ -2,7 +2,7 @@
 //  NSString+HPFValidation.h
 //  Pods
 //
-//  Created by Jonathan Tiret on 01/11/2015.
+//  Created by HiPay on 01/11/2015.
 //
 //
 

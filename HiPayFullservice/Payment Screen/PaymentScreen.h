@@ -2,7 +2,7 @@
 //  PaymentScreen.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 22/10/2015.
+//  Created by HiPay on 22/10/2015.
 //
 //
 

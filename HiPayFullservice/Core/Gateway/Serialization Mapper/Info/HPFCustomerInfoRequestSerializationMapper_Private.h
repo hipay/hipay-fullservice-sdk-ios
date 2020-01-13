@@ -2,7 +2,7 @@
 //  HPFCustomerInfoRequestSerializationMapper_Private.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 15/10/2015.
+//  Created by HiPay on 15/10/2015.
 //
 //
 

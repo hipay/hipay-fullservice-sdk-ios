@@ -2,7 +2,7 @@
 //  HPFPosManager.m
 //  HiPayFullservice
 //
-//  Created by Nicolas FILLION on 08/11/2017.
+//  Created by HiPay on 08/11/2017.
 //
 
 #import "HPFPOSManager.h"

@@ -5,12 +5,13 @@ platform :ios do
     setup_circle_ci
   end
 
-  lane :test do
-    # Run tests
+  desc "Run tests"
+  lane :Test do
     scan
   end
 
-  lane :build do
+  desc "Build demo application"
+  lane :BuildDemo do
     # Sync certificates and profiles
     match
 
@@ -31,20 +32,34 @@ platform :ios do
     gym
   end
 
-  lane :deploy do
-    # Get HockeyApp public identifier
-    HOCKEY_PUBLIC_IDENTIFIER = ""
-    Dir.chdir("..") do
-      HOCKEY_PUBLIC_IDENTIFIER = sh("python deployment/get_identifier.py")
-    end
-    # Send .IPA to HockeyApp
-    hockey(
-      api_token: ENV['HOCKEY_APP_TOKEN'],
-      public_identifier: HOCKEY_PUBLIC_IDENTIFIER,
-      bundle_version: "1",
-      bundle_short_version: "1.0",
-      ipa: "HiPay Demo.ipa",
-      notify: "0"
+  desc "Deploy demo on AppCenter"
+  lane :DeployDemo do
+    appcenter_upload(
+      api_token: ENV['APPCENTER_TOKEN'],
+      owner_type: "organization", # organization = HiPay
+      owner_name: "hipay-com", # See "Organization URL" in appCenter settings (https://appcenter.ms/orgs/hipay-com/)
+      app_name: "HiPayDemo-" + git_branch.gsub(/[^a-zA-Z0-9\-]/,""),
+      destinations: "Internal", # Distribution group named "Internal"
+      destination_type: "group",
+      file: "HiPay Demo.ipa",
+      app_os: "iOS",
+      app_platform: "Objective-C-Swift"
     )
+  end
+
+  desc "Deploy HiPayFullservice on Cocoapods"
+  lane :DeployHiPayFullservice do
+    # Set version number (e.g 1.0.0)
+    version = "1.11.0-beta1"
+
+    # Set version in PodSpec file 
+    version_bump_podspec(path: "HiPayFullservice.podspec", version_number: version)
+
+    # Check PodSpec file
+    system "pod lib lint ../HiPayFullservice.podspec"
+
+    # Deploy the Podspec to Trunk and make it publicly available
+    system "pod trunk push --allow-warnings --skip-import-validation --skip-tests ../HiPayFullservice.podspec --verbose"
+
   end
 end

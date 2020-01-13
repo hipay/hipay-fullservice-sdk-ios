@@ -13,13 +13,13 @@ jobs:
       FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
       FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
       FASTLANE_CERTIFICATES_TYPE: adhoc
-      FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
+      FASTLANE_CERTIFICATES_USERNAME: pi-ecommerce@hipay.com
       FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
       FASTLANE_INFO_PLIST_PATH: Example/HiPayFullservice/HiPayFullservice-Info.plist
       FASTLANE_TESTS_OUTPUT_TYPES: junit
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 10.2.1
+      xcode: 11.3.0
     steps:
       - checkout
       - restore_cache:
@@ -46,24 +46,24 @@ jobs:
           command: python deployment/generate_parameters.py
       - run:
           name: Fastlane
-          command: bundle exec fastlane test --verbose
+          command: bundle exec fastlane Test --verbose
       - store_test_results:
           path: fastlane/test_output
       - persist_to_workspace:
           root: .
           paths: .
 
-  build:
+  buildDemo:
     environment:
       FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
       FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
       FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
       FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
       FASTLANE_CERTIFICATES_TYPE: adhoc
-      FASTLANE_CERTIFICATES_USERNAME: mbaumard@hipay.com
+      FASTLANE_CERTIFICATES_USERNAME: pi-ecommerce@hipay.com
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 10.2.1
+      xcode: 11.3.0
     steps:
       - attach_workspace:
           at: .
@@ -75,15 +75,15 @@ jobs:
           command: bundle update
       - run:
           name: Build application
-          command: bundle exec fastlane build --verbose
+          command: bundle exec fastlane BuildDemo --verbose
       - persist_to_workspace:
           root: .
           paths:
             - HiPay Demo.ipa
 
-  deploy:
+  deployDemo:
     macos:
-      xcode: 10.2.1
+      xcode: 11.3.0
     steps:
       - attach_workspace:
           at: .
@@ -91,17 +91,25 @@ jobs:
           name: Install Gems
           command: bundle check || bundle install --path vendor/bundle
       - run:
-          name: Deploy on HockeyApp
-          command: bundle exec fastlane deploy --verbose
+          name: Deploy on AppCenter
+          command: bundle exec fastlane DeployDemo --verbose
 
 workflows:
   version: 2
   build:
     jobs:
-      - test
-      - build:
+      - HoldMainPipeline:
+          type: approval
+      - test:
+          requires:
+            - HoldMainPipeline
+      - HoldDemo:
+          type: approval
           requires:
             - test
-      - deploy:
+      - buildDemo:
           requires:
-            - build
+            - HoldDemo
+      - deployDemo:
+          requires:
+            - buildDemo

@@ -2,7 +2,7 @@
 //  HPFUnsupportedPaymentProductViewController.m
 //  Pods
 //
-//  Created by Jonathan TIRET on 15/11/2015.
+//  Created by HiPay on 15/11/2015.
 //
 //
 

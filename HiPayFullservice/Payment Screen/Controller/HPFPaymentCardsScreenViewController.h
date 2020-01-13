@@ -2,7 +2,7 @@
 //  HPFPaymentCardsScreenViewController.h
 //  Pods
 //
-//  Created by Nicolas FILLION on 25/10/2016.
+//  Created by HiPay on 25/10/2016.
 //
 //
 

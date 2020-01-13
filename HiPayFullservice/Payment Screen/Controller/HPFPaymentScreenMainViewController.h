@@ -2,7 +2,7 @@
 //  HPFPaymentScreenViewController.h
 //  Pods
 //
-//  Created by Jonathan TIRET on 22/10/2015.
+//  Created by HiPay on 22/10/2015.
 //
 //
 
@@ -11,9 +11,9 @@
 #import "HPFPaymentProductCollectionViewCell.h"
 #import "HPFAbstractPaymentProductViewController.h"
 
-@interface HPFPaymentScreenMainViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, HPFPaymentProductCollectionViewCellDelegate>
+@interface HPFPaymentScreenMainViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, HPFPaymentProductCollectionViewCellDelegate>
 {
-    UICollectionView *paymentProductsCollectionView;
+    __weak IBOutlet UICollectionView *paymentProductsCollectionView;
     
     HPFPaymentProduct *selectedPaymentProduct;
     NSArray *rightBarButtonItems;
@@ -25,9 +25,6 @@
     
     __weak IBOutlet NSLayoutConstraint *containerBottomConstraint;
     __weak IBOutlet NSLayoutConstraint *containerTopConstraint;
-    
-    __weak IBOutlet UITableView *paymentProductsTableView;
-    __weak IBOutlet NSLayoutConstraint *paymentProductsTableViewHeightConstraint;
     
     NSLayoutConstraint *keyboardContainerConstraintTop;
     NSLayoutConstraint *keyboardContainerConstraintBottom;

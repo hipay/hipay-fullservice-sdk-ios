@@ -2,7 +2,7 @@
 //  HPFScanCardTableViewCell.h
 //  Pods
 //
-//  Created by Nicolas FILLION on 16/02/2017.
+//  Created by HiPay on 16/02/2017.
 //
 //
 

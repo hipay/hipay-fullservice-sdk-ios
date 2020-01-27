@@ -105,6 +105,8 @@
             HPFPaymentCardToken *cardToken = [self paymentCardTokenWithData:response.body];
             HPFStats.current.paymentMethod = cardToken.brand.lowercaseString;
             HPFStats.current.cardCountry = cardToken.country;
+            HPFStats.current.status = nil;
+            HPFStats.current.transactionID = nil;
 
             HPFMonitoring *monitoring = [HPFMonitoring new];
             monitoring.payDate = [NSDate new];

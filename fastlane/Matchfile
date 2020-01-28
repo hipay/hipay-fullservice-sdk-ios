@@ -1,4 +1,4 @@
-git_url(ENV['FASTLANE_CERTIFICATES_GIT'])
-type(ENV['FASTLANE_CERTIFICATES_TYPE'])
-app_identifier(ENV["APP_IDENTIFIER_BASE"])
-username(ENV['FASTLANE_CERTIFICATES_USERNAME'])
+git_url("git@github.com:hipay/hipay-sdk-ios-certificates.git")
+type("adhoc")
+app_identifier("com.hipay.fullservice.demo")
+username("pi-ecommerce@hipay.com")

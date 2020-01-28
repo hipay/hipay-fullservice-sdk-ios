@@ -11,7 +11,7 @@
 @interface HPFComponent : NSObject
 
 @property (nonatomic, strong, readonly) NSString *sdkType;
-@property (nonatomic, strong, readonly) NSString *sdkServerVersion;
+@property (nonatomic, strong, readonly) NSString *sdkVersion;
 
 - (NSDictionary *)toJSON;
 

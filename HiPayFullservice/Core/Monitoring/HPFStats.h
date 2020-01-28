@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, HPFEvent) {
 
 @interface HPFStats : NSObject
 
-@property (nonatomic, strong) NSNumber *status;
+@property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *paymentMethod;
 @property (nonatomic, strong) NSString *cardCountry;
 @property (nonatomic, strong) NSNumber *amount;

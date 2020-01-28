@@ -11,7 +11,7 @@ jobs:
       LANG: en_US.UTF-8
       FASTLANE_INFO_PLIST_PATH: Example/HiPayFullservice/HiPayFullservice-Info.plist
     macos:
-      xcode: 11.3.0
+      xcode: 11.3.1
     steps:
       - checkout
       - restore_cache:
@@ -47,7 +47,7 @@ jobs:
 
   buildDemo:
     macos:
-      xcode: 11.3.0
+      xcode: 11.3.1
     steps:
       - attach_workspace:
           at: .
@@ -67,7 +67,7 @@ jobs:
 
   deployDemo:
     macos:
-      xcode: 11.3.0
+      xcode: 11.3.1
     steps:
       - attach_workspace:
           at: .

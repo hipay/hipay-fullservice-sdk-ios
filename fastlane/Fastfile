@@ -5,6 +5,12 @@ platform :ios do
     setup_circle_ci
   end
 
+  desc "Set environment variables"
+  lane :SetEnv do
+    # Sed API Data
+    system 'sed -i -e "s#$API_DATA_URL_STAGE#$API_DATA_URL_DEV#" ../HiPayFullservice/Core/Monitoring/HPFStats.m'
+  end
+
   desc "Run tests"
   lane :Test do
     scan
@@ -27,6 +33,9 @@ platform :ios do
       key: "CFBundleDisplayName",
       value: "HiPay Demo ("+ git_branch.gsub(/[^a-zA-Z0-9\-]/,"") + ")"
     )
+    
+    # Sed API Data
+    system 'sed -i -e "s#$API_DATA_URL_STAGE#$API_DATA_URL_QA#" ../HiPayFullservice/Core/Monitoring/HPFStats.m'
 
     #Build app
     gym

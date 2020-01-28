@@ -41,6 +41,5 @@ Example/Pods/
 .idea/
 
 # Fastlane
-fastlane/.env
 fastlane/README.md
 fastlane/test_output/report.junit

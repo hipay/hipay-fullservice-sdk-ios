@@ -19,7 +19,7 @@ jobs:
       FASTLANE_TESTS_OUTPUT_TYPES: junit
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 11.3.0
+      xcode: 11.3.1
     steps:
       - checkout
       - restore_cache:
@@ -63,7 +63,7 @@ jobs:
       FASTLANE_CERTIFICATES_USERNAME: pi-ecommerce@hipay.com
       APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 11.3.0
+      xcode: 11.3.1
     steps:
       - attach_workspace:
           at: .
@@ -83,7 +83,7 @@ jobs:
 
   deployDemo:
     macos:
-      xcode: 11.3.0
+      xcode: 11.3.1
     steps:
       - attach_workspace:
           at: .

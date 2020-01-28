@@ -140,15 +140,13 @@ static HPFStats *_current = nil;
     NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
     uint8_t digest[CC_SHA256_DIGEST_LENGTH];
     CC_SHA256(data.bytes, (CC_LONG)data.length, digest);
-    
-    NSData *hash = [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
-    
-    NSString *hashString = [hash description];
-    hashString = [hashString stringByReplacingOccurrencesOfString:@" " withString:@""];
-    hashString = [hashString stringByReplacingOccurrencesOfString:@"<" withString:@""];
-    hashString = [hashString stringByReplacingOccurrencesOfString:@">" withString:@""];
-    
-    return hashString;
+
+    NSMutableString* hash = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+
+    for(int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+        [hash appendFormat:@"%02x", digest[i]];
+    }
+    return hash;
 }
 
 - (void)send {

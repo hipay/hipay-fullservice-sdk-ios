@@ -21,7 +21,6 @@
     id<HPFRequest> paymentProductsRequest;
     BOOL loadingRequest;
     UIAlertController *warningCancelWhileLoadingAlertView;
-    BOOL loadPaymentProductsDone;
 
     // Background loading
     id<HPFRequest> backgroundOrderLoadingRequest;
@@ -70,7 +69,6 @@
         self->paymentProductsRequest = nil;
 
         if ((error == nil) && (thePaymentProducts.count > 0)) {
-            self->loadPaymentProductsDone = YES;
             self->paymentProducts = [self fullPaymentProductsListWithPaymentProducts:thePaymentProducts andRequest:[self paymentPageRequest]];
 
             [self setPaymentProductsToMainViewController:mainViewController];
@@ -287,9 +285,7 @@
         HPFPaymentScreenMainViewController *mainViewController = (HPFPaymentScreenMainViewController *)viewController;
         mainViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPayment)];
         
-        if (!loadPaymentProductsDone) {
-            [self loadPaymentProductsToMainViewController:mainViewController];
-        }
+        [self loadPaymentProductsToMainViewController:mainViewController];
     }
 }
 

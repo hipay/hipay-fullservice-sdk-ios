@@ -199,7 +199,7 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
             HPFTransaction *transaction = (HPFTransaction *)result;
             
             HPFStats.current.transactionID = transaction.transactionReference;
-            HPFStats.current.status = @(transaction.status);
+            HPFStats.current.status = [@(transaction.status) stringValue];
             HPFStats.current.monitoring.responseDate = [NSDate new];
             
             [HPFStats.current send];

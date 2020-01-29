@@ -9,17 +9,9 @@ jobs:
   test:
     environment:
       LANG: en_US.UTF-8
-      FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
-      FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
-      FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
-      FASTLANE_CERTIFICATES_TYPE: adhoc
-      FASTLANE_CERTIFICATES_USERNAME: pi-ecommerce@hipay.com
-      FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
       FASTLANE_INFO_PLIST_PATH: Example/HiPayFullservice/HiPayFullservice-Info.plist
-      FASTLANE_TESTS_OUTPUT_TYPES: junit
-      APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 11.3.0
+      xcode: 11.3.1
     steps:
       - checkout
       - restore_cache:
@@ -54,16 +46,8 @@ jobs:
           paths: .
 
   buildDemo:
-    environment:
-      FASTLANE_WORKSPACE_PATH: Example/HiPayFullservice.xcworkspace
-      FASTLANE_PROJECT_SCHEME: HiPayFullservice-Example
-      FASTLANE_CERTIFICATES_TEAM_ID: 7RLJNKW437
-      FASTLANE_CERTIFICATES_GIT: git@github.com:hipay/hipay-sdk-ios-certificates.git
-      FASTLANE_CERTIFICATES_TYPE: adhoc
-      FASTLANE_CERTIFICATES_USERNAME: pi-ecommerce@hipay.com
-      APP_IDENTIFIER_BASE: com.hipay.fullservice.demo
     macos:
-      xcode: 11.3.0
+      xcode: 11.3.1
     steps:
       - attach_workspace:
           at: .
@@ -83,7 +67,7 @@ jobs:
 
   deployDemo:
     macos:
-      xcode: 11.3.0
+      xcode: 11.3.1
     steps:
       - attach_workspace:
           at: .

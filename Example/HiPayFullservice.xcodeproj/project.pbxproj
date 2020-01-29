@@ -713,7 +713,7 @@
 			attributes = {
 				CLASSPREFIX = HPF;
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = "HiPay";
+				ORGANIZATIONNAME = HiPay;
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
 						DevelopmentTeam = 7RLJNKW437;
@@ -797,10 +797,10 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFCoreLocalization.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFPaymentScreenViews.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFPaymentScreenLocalization.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common/HPFUtilitiesResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice/HPFCoreLocalization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice/HPFPaymentScreenViews.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice/HPFPaymentScreenLocalization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice/HPFUtilitiesResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -857,10 +857,10 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFCoreLocalization.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFPaymentScreenViews.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFPaymentScreenLocalization.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice.common-Datecs-POS/HPFUtilitiesResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice/HPFCoreLocalization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice/HPFPaymentScreenViews.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice/HPFPaymentScreenLocalization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HiPayFullservice/HPFUtilitiesResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (

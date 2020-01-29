@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.11.1
+-----
+* SDK : Fix empty screen when using card storage feature
+
 1.11.0
 -----
 

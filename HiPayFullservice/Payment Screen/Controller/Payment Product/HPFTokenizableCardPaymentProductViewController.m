@@ -517,8 +517,7 @@
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
             
-            orderRequest.paymentProductCode = self->inferedPaymentProductCode;
-            
+            orderRequest.paymentProductCode = (cardToken.domesticNetwork) ? cardToken.domesticNetwork : cardToken.brand;
             orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
             
             [self performOrderRequest:orderRequest signature:self.signature];

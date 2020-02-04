@@ -25,7 +25,7 @@
     [object setValue:[self getNumberForKey:@"card_expiry_year"] forKey:@"cardExpiryYear"];
     [object setValue:[self getStringForKey:@"issuer"] forKey:@"issuer"];
     [object setValue:[self getStringForKey:@"country"] forKey:@"country"];
-    [object setValue:[self getStringForKey:@"domesticNetwork"] forKey:@"domesticNetwork"];
+    [object setValue:[self getStringForKey:@"domestic_network"] forKey:@"domesticNetwork"];
     
     return object;
     

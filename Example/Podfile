@@ -10,7 +10,7 @@ target 'HiPayFullservice_Example' do
 
      pod 'HiPayFullservice', :path => '../'
 	 pod 'OCMock'
-	 pod 'OHHTTPStubs'
+	 pod 'OHHTTPStubs' , '~> 8.0.0'
   end
 end
 

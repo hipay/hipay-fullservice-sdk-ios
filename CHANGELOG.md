@@ -1,6 +1,12 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.11.2
+-----
+* Replace UIWebView (deprecated) by WKWebView
+* Adding case insensitive for card brand 
+* Domestic network has priority over brand network
+
 1.11.1
 -----
 * SDK : Fix empty screen when using card storage feature

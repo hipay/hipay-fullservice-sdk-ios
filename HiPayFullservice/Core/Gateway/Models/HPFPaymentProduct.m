@@ -97,12 +97,17 @@ NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet = @"ewallet";
 }
 
 + (BOOL)isDSP2CompatiblePaymentProductCode:(NSString *)paymentProductCode {
-    return ([paymentProductCode isEqualToString:HPFPaymentProductCodeMasterCard]
-            || [paymentProductCode isEqualToString:HPFPaymentProductCodeVisa]
-            || [paymentProductCode isEqualToString:HPFPaymentProductCodeMaestro]
-            || [paymentProductCode isEqualToString:HPFPaymentProductCodeCB]
-            || [paymentProductCode isEqualToString:HPFPaymentProductCodeAmericanExpress]
-            || [paymentProductCode isEqualToString:HPFPaymentProductCodeBCMC]);
+    if (paymentProductCode) {
+        return ([paymentProductCode caseInsensitiveCompare:HPFPaymentProductCodeMasterCard] == NSOrderedSame
+                || [paymentProductCode caseInsensitiveCompare:HPFPaymentProductCodeVisa] == NSOrderedSame
+                || [paymentProductCode caseInsensitiveCompare:HPFPaymentProductCodeMaestro] == NSOrderedSame
+                || [paymentProductCode caseInsensitiveCompare:HPFPaymentProductCodeCB] == NSOrderedSame
+                || [paymentProductCode caseInsensitiveCompare:HPFPaymentProductCodeAmericanExpress] == NSOrderedSame
+                || [paymentProductCode caseInsensitiveCompare:HPFPaymentProductCodeBCMC] == NSOrderedSame);
+    }
+    else {
+        return false;
+    }
 }
 
 + (BOOL)isPaymentCardStorageEnabledForPaymentProductCode:(NSString *)paymentProductCode

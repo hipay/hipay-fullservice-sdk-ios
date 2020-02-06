@@ -10,6 +10,13 @@
 #import "HPFClientConfig.h"
 #import "DevicePrint.h"
 #import "HPFPaymentCardTokenDatabase.h"
+#import "WebKit/WebKit.h"
+
+@interface HPFClientConfig ()
+
+@property (nonatomic, strong) WKWebView *webView;
+
+@end
 
 @implementation HPFClientConfig
 
@@ -149,8 +156,11 @@
 
 - (void)determineUserAgent
 {
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    _userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+    [self.webView loadHTMLString:@"<html></html>" baseURL:nil];
+    [self.webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        self->_userAgent = result;
+    }];
 }
 
 @end

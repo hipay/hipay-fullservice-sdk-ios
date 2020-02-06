@@ -29,10 +29,10 @@
 {
     NSMutableDictionary *result = [self orderRelatedSerializedRequest];
     
-    [result setNullableObject:[self getStringForKey:@"paymentProductCode"] forKey:@"payment_product"];
     [result mergeDictionary:[self paymentMethodSerializedRequest] withPrefix:nil];
-    
+
     NSString *paymentProductCode = [self getStringForKey:@"paymentProductCode"];
+    [result setNullableObject:paymentProductCode forKey:@"payment_product"];
     
     if ([HPFPaymentProduct isDSP2CompatiblePaymentProductCode:paymentProductCode]) {
         [result setNullableObject:[self.request valueForKey:@"merchantRiskStatement"] forKey:@"merchant_risk_statement"];

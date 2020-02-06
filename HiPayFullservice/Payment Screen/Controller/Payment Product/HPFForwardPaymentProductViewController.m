@@ -9,7 +9,6 @@
 #import "HPFForwardPaymentProductViewController.h"
 #import "HPFGatewayClient.h"
 #import <SafariServices/SafariServices.h>
-#import <WebKit/WebKit.h>
 #import "HPFForwardViewController.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
 #import "HPFPaymentScreenUtils.h"

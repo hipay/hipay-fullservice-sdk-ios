@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.11.3
+-----
+* fix brand with space
+
 1.11.2
 -----
 * Replace UIWebView (deprecated) by WKWebView

@@ -49,7 +49,7 @@
                               @"card_expiry_year": @"2018",
                               @"issuer": @"ACME Bank",
                               @"country": @"FR",
-                              @"domesticNetwork": @"cb"
+                              @"domestic_network": @"cb"
                               };
     
     OCMockObject *mockedMapper = [OCMockObject partialMockForObject:[[HPFPaymentCardTokenMapper alloc] initWithRawData:rawData]];
@@ -74,7 +74,7 @@
     XCTAssertEqualObjects(@2018, paymentCardToken.cardExpiryYear);
     XCTAssertEqualObjects([rawData objectForKey:@"issuer"], paymentCardToken.issuer);
     XCTAssertEqualObjects([rawData objectForKey:@"country"], paymentCardToken.country);
-    XCTAssertEqualObjects([rawData objectForKey:@"domesticNetwork"], paymentCardToken.domesticNetwork);
+    XCTAssertEqualObjects([rawData objectForKey:@"domestic_network"], paymentCardToken.domesticNetwork);
     
     [mockedMapper verify];
 }

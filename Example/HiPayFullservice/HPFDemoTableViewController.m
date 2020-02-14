@@ -353,6 +353,10 @@
             else if (transactionError.userInfo[NSLocalizedFailureReasonErrorKey] != nil) {
                 cell.detailTextLabel.text = transactionError.userInfo[NSLocalizedFailureReasonErrorKey];
             }
+            else if (transactionError.userInfo[HPFErrorCodeHTTPParsedResponseKey] != nil
+                     && transactionError.userInfo[HPFErrorCodeHTTPParsedResponseKey][@"message"] != nil) {
+                cell.detailTextLabel.text = transactionError.userInfo[HPFErrorCodeHTTPParsedResponseKey][@"message"];
+            }
             
             return cell;
         }

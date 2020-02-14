@@ -75,7 +75,9 @@
     [[[mockedFormatter expect] andReturn:@"51051051051051"] digitsOnlyFromPlainText:@"mastercard3"];
     
     [[[mockedFormatter expect] andReturn:@"675941110000"] digitsOnlyFromPlainText:@"maestro1"];
-    [[[mockedFormatter expect] andReturn:@"670300000000"] digitsOnlyFromPlainText:@"maestro2"];
+    [[[mockedFormatter expect] andReturn:@"6766000000000"] digitsOnlyFromPlainText:@"maestro2"];
+    
+    [[[mockedFormatter expect] andReturn:@"67030000000000003"] digitsOnlyFromPlainText:@"bcmc1"];
     
     [[[mockedFormatter expect] andReturn:@"378282246310"] digitsOnlyFromPlainText:@"amex1"];
     [[[mockedFormatter expect] andReturn:@"371449635398"] digitsOnlyFromPlainText:@"amex2"];
@@ -96,6 +98,8 @@
     XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"maestro1"], [NSSet setWithObject:HPFPaymentProductCodeMaestro]);
     XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"maestro2"], [NSSet setWithObject:HPFPaymentProductCodeMaestro]);
     
+    XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"bcmc1"], [NSSet setWithObject:HPFPaymentProductCodeBCMC]);
+
     XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"amex1"], [NSSet setWithObject:HPFPaymentProductCodeAmericanExpress]);
     XCTAssertEqualObjects([formatter paymentProductCodesForPlainTextNumber:@"amex2"], [NSSet setWithObject:HPFPaymentProductCodeAmericanExpress]);
     
@@ -258,11 +262,19 @@
     [mockedFormatter verify];
     
     [[[mockedFormatter expect] andReturn:@"5"] digitsOnlyFromPlainText:@"maestro1"];
-    [[[mockedFormatter expect] andReturn:@"59"] digitsOnlyFromPlainText:@"maestro2"];
-    [[[mockedFormatter expect] andReturn:@"596865"] digitsOnlyFromPlainText:@"maestro3"];
+    [[[mockedFormatter expect] andReturn:@"639"] digitsOnlyFromPlainText:@"maestro2"];
+    [[[mockedFormatter expect] andReturn:@"679"] digitsOnlyFromPlainText:@"maestro3"];
     XCTAssertFalse([formatter plainTextNumber:@"maestro1" isInRangeForPaymentProductCode:HPFPaymentProductCodeMaestro]);
     XCTAssertTrue([formatter plainTextNumber:@"maestro2" isInRangeForPaymentProductCode:HPFPaymentProductCodeMaestro]);
     XCTAssertTrue([formatter plainTextNumber:@"maestro3" isInRangeForPaymentProductCode:HPFPaymentProductCodeMaestro]);
+    [mockedFormatter verify];
+    
+    [[[mockedFormatter expect] andReturn:@"4"] digitsOnlyFromPlainText:@"bcmc1"];
+    [[[mockedFormatter expect] andReturn:@"561400"] digitsOnlyFromPlainText:@"bcmc2"];
+    [[[mockedFormatter expect] andReturn:@"479658"] digitsOnlyFromPlainText:@"bcmc3"];
+    XCTAssertFalse([formatter plainTextNumber:@"bcmc1" isInRangeForPaymentProductCode:HPFPaymentProductCodeBCMC]);
+    XCTAssertTrue([formatter plainTextNumber:@"bcmc2" isInRangeForPaymentProductCode:HPFPaymentProductCodeBCMC]);
+    XCTAssertTrue([formatter plainTextNumber:@"bcmc3" isInRangeForPaymentProductCode:HPFPaymentProductCodeBCMC]);
     [mockedFormatter verify];
     
     [[[mockedFormatter expect] andReturn:@"3"] digitsOnlyFromPlainText:@"diners1"];

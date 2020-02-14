@@ -75,12 +75,67 @@
 			<integer>6</integer>
 		</array>
 	</dict>
+	<key>bcmc</key>
+	<dict>
+		<key>ranges</key>
+		<array>
+			<string>{6703,1}</string>
+			<string>{606005,1}</string>
+			<string>{479658,1}</string>
+			<string>{561358,1}</string>
+			<string>{561359,1}</string>
+			<string>{56136,1}</string>
+			<string>{56137,1}</string>
+			<string>{56138,1}</string>
+			<string>{56139,1}</string>
+			<string>{561400,1}</string>
+			<string>{561401,1}</string>
+			<string>{561402,1}</string>
+			<string>{561403,1}</string>
+			<string>{561404,1}</string>
+			<string>{561405,1}</string>
+			<string>{561406,1}</string>
+			<string>{561407,1}</string>
+		</array>
+		<key>lengths</key>
+		<array>
+			<string>{16,3}</string>
+		</array>
+		<key>format</key>
+		<array>
+			<integer>4</integer>
+			<integer>4</integer>
+			<integer>4</integer>
+			<integer>4</integer>
+			<integer>3</integer>
+		</array>
+	</dict>
 	<key>maestro</key>
 	<dict>
 		<key>ranges</key>
 		<array>
 			<string>{50,1}</string>
-			<string>{56,14}</string>
+			<string>{56,1}</string>
+			<string>{57,1}</string>
+			<string>{58,1}</string>
+			<string>{639,1}</string>
+			<string>{6701,1}</string>
+			<string>{6702,1}</string>
+			<string>{6704,1}</string>
+			<string>{6705,1}</string>
+			<string>{6706,1}</string>
+			<string>{6707,1}</string>
+			<string>{6708,1}</string>
+			<string>{6709,1}</string>
+			<string>{671,1}</string>
+			<string>{672,1}</string>
+			<string>{673,1}</string>
+			<string>{674,1}</string>
+			<string>{675,1}</string>
+			<string>{676,1}</string>
+			<string>{677,1}</string>
+			<string>{678,1}</string>
+			<string>{679,1}</string>
 		</array>
 		<key>lengths</key>
 		<array>
@@ -92,6 +147,7 @@
 			<integer>4</integer>
 			<integer>4</integer>
 			<integer>4</integer>
+			<integer>3</integer>
 		</array>
 	</dict>
 </dict>

@@ -253,8 +253,6 @@
 
         HPFPaymentProduct *newInferredPaymentProduct = [self getPaymentProductFromInferedCode:inferedPaymentProductCode];
 
-        BOOL isDomestic = [HPFPaymentProduct isPaymentProductCode:self.paymentProduct.code domesticNetworkOfPaymentProductCode:inferedPaymentProductCode];
-
         if (newInferredPaymentProduct != inferedPaymentProduct) {
             inferedPaymentProduct = newInferredPaymentProduct;
 
@@ -266,13 +264,11 @@
                 }
             }
 
-            if (!isDomestic) {
-                [self updateTitleHeader];
-                [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:inferedPaymentProduct];
-            }
+            [self updateTitleHeader];
+            [self.delegate paymentProductViewController:self changeSelectedPaymentProduct:inferedPaymentProduct];
         }
         
-        if ((inferedPaymentProduct == nil) && !isDomestic) {
+        if (inferedPaymentProduct == nil) {
             paymentProductDisallowed = YES;
         } else {
             paymentProductDisallowed = NO;
@@ -517,7 +513,9 @@
 
             HPFOrderRequest *orderRequest = [self createOrderRequest];
             
-            orderRequest.paymentProductCode = (cardToken.domesticNetwork) ? cardToken.domesticNetwork : cardToken.brand;
+            NSString *paymentProductCode = (cardToken.domesticNetwork) ? cardToken.domesticNetwork : cardToken.brand;
+            paymentProductCode = [paymentProductCode stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+            orderRequest.paymentProductCode = paymentProductCode;
             orderRequest.paymentMethod = [HPFCardTokenPaymentMethodRequest cardTokenPaymentMethodRequestWithToken:cardToken.token eci:self.paymentPageRequest.eci authenticationIndicator:self.paymentPageRequest.authenticationIndicator];
             
             [self performOrderRequest:orderRequest signature:self.signature];

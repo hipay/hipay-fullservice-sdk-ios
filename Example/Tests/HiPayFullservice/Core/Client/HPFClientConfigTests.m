@@ -39,9 +39,17 @@
     XCTAssertEqualObjects([HPFClientConfig sharedClientConfig].password, @"passwd");
     XCTAssertTrue([HPFClientConfig sharedClientConfig].environment == HPFEnvironmentProduction);
     XCTAssertEqualObjects([HPFClientConfig sharedClientConfig].appRedirectionURL, [NSURL URLWithString:@"hipayexample://hipay-fullservice"]);
-    XCTAssertNotNil([HPFClientConfig sharedClientConfig].userAgent);
     XCTAssertTrue([HPFClientConfig sharedClientConfig].isPaymentCardStorageEnabled);
     XCTAssertFalse([[HPFClientConfig sharedClientConfig] isEqual:@""]);
+    
+    XCTestExpectation *userAgent = [[XCTestExpectation alloc] initWithDescription:@"User Agent"];
+    XCTWaiterResult waiter = [XCTWaiter waitForExpectations:@[userAgent] timeout:1.0];
+    if (waiter == XCTWaiterResultTimedOut) {
+        XCTAssertNotNil([HPFClientConfig sharedClientConfig].userAgent);
+    }
+    else {
+        XCTFail(@"Expectations error: UserAgent == nil");
+    }
 }
 
 - (void)testInitSchemeError

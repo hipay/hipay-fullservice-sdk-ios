@@ -136,7 +136,7 @@
                                                                                           authenticationIndicator:HPFAuthenticationIndicatorBypass];
 
             [self cancelRequests];
-            self->transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:self.signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
+            self->transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:self.signature isApplePay:YES withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
 
                 self->transactionLoadingRequest = nil;
 

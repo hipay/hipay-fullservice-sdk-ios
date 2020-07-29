@@ -116,13 +116,21 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
             break;
     }
     
-    return [[HPFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL] newBaseURL:[NSURL URLWithString:newBaseURL] username:[HPFClientConfig sharedClientConfig].username password:[HPFClientConfig sharedClientConfig].password];
-    
+    return [[HPFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL]
+                                       newBaseURL:[NSURL URLWithString:newBaseURL]
+                                         username:[HPFClientConfig sharedClientConfig].username
+                                         password:[HPFClientConfig sharedClientConfig].password
+                                 usernameApplePay:[HPFClientConfig sharedClientConfig].usernameApplePay];
 }
 
 - (id<HPFRequest>)handleRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters responseMapperClass:(Class)responseMapperClass isArray:(BOOL)isArray completionHandler:(void (^)(id result, NSError *error))completionBlock
 {
-    return [HTTPClient performRequestWithMethod:method v2:isV2 path:path parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    return [self handleRequestWithMethod:method v2:isV2 isApplePay:NO path:path parameters:parameters responseMapperClass:responseMapperClass isArray:isArray completionHandler:completionBlock];
+}
+
+- (id<HPFRequest>)handleRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 isApplePay:(BOOL)isApplePay path:(NSString *)path parameters:(NSDictionary *)parameters responseMapperClass:(Class)responseMapperClass isArray:(BOOL)isArray completionHandler:(void (^)(id result, NSError *error))completionBlock
+{
+    return [HTTPClient performRequestWithMethod:method v2:isV2 isApplePay:isApplePay path:path parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         if (completionBlock != nil) {
             
@@ -176,6 +184,11 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
 
 - (id<HPFRequest>)requestNewOrder:(HPFOrderRequest *)orderRequest signature:(NSString *)signature withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock
 {
+    return [self requestNewOrder:orderRequest signature:signature isApplePay:NO withCompletionHandler:completionBlock];
+}
+
+- (id<HPFRequest>)requestNewOrder:(HPFOrderRequest *)orderRequest signature:(NSString *)signature isApplePay:(BOOL)isApplePay withCompletionHandler:(HPFTransactionCompletionBlock)completionBlock
+{
     if (!HPFStats.current) {
         HPFStats.current = [HPFStats new];
     }
@@ -193,7 +206,7 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
 
     NSMutableDictionary *signatureParam = [NSMutableDictionary dictionaryWithObject:signature forKey:HPFGatewayClientSignature];
     [signatureParam mergeDictionary:parameters withPrefix:nil];
-    return [self handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"order" parameters:signatureParam responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:^(id result, NSError *error) {
+    return [self handleRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:isApplePay path:@"order" parameters:signatureParam responseMapperClass:[HPFTransactionMapper class] isArray:NO completionHandler:^(id result, NSError *error) {
         
         if (!error && [result isKindOfClass:[HPFTransaction class]]) {
             HPFTransaction *transaction = (HPFTransaction *)result;

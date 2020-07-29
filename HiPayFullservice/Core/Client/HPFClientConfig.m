@@ -96,9 +96,13 @@
     self.touchIDEnabled = touchIDEnabled;
 }
 
-- (void)setApplePayEnabled:(BOOL)enabled privateKeyPassword:(NSString * _Nonnull)privateKeyPassword merchantIdentifier:(NSString * _Nonnull)merchantIdentifier {
+- (void)setApplePayEnabled:(BOOL)enabled
+          usernameApplePay:(NSString * _Nonnull)usernameApplePay
+        privateKeyPassword:(NSString * _Nonnull)privateKeyPassword
+        merchantIdentifier:(NSString * _Nonnull)merchantIdentifier {
 
     _applePayEnabled = enabled;
+    _usernameApplePay = usernameApplePay;
     _applePayPrivateKeyPassword = _applePayEnabled ? privateKeyPassword : @"";
     _merchantIdentifier = _applePayEnabled ? merchantIdentifier : @"";
 }

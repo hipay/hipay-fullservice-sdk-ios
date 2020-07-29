@@ -8,7 +8,7 @@
 
 @interface HPFHTTPClient (Testing)
 
-- (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters;
+- (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 isApplePay:(BOOL)isApplePay path:(NSString *)path parameters:(NSDictionary *)parameters;
 
 - (NSString *)queryStringForDictionary:(NSDictionary *)dictionary;
 

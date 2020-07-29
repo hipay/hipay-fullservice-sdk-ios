@@ -78,7 +78,7 @@
     
     //[[[mockedClient expect] andReturn:[self authHeaderValue]] createAuthHeaderWithSignature:@"signature"];
     
-    NSURLRequest *URLRequest = [client createURLRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"items/1" parameters:params];
+    NSURLRequest *URLRequest = [client createURLRequestWithMethod:HPFHTTPMethodGet v2:NO isApplePay:NO path:@"items/1" parameters:params];
     
     [mockedClient verify];
     
@@ -92,7 +92,7 @@
     NSDictionary *params = @{@"param": @"value", @"param2": @"value2"};
     [[[mockedClient expect] andReturn:@"param=value&param2=value2"] queryStringForDictionary:params];
     
-    NSURLRequest *URLRequest = [client createURLRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"items/1" parameters:params];
+    NSURLRequest *URLRequest = [client createURLRequestWithMethod:HPFHTTPMethodGet v2:NO isApplePay:NO path:@"items/1" parameters:params];
     
     [mockedClient verify];
     
@@ -105,7 +105,7 @@
     NSDictionary *params = @{@"param": @"value", @"param2": @"value2"};
     [[[mockedClient expect] andReturn:@"param=value&param2=value2"] queryStringForDictionary:params];
     
-    NSURLRequest *URLRequest = [client createURLRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"items" parameters:params];
+    NSURLRequest *URLRequest = [client createURLRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:@"items" parameters:params];
     
     [mockedClient verify];
     
@@ -123,7 +123,7 @@
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
-    HPFHTTPClientRequest *clientRequest = [client performRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    HPFHTTPClientRequest *clientRequest = [client performRequestWithMethod:HPFHTTPMethodGet v2:NO isApplePay:NO path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
 
         [expectation fulfill];
     }];
@@ -146,7 +146,7 @@
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [URLRequest setValue:[self authHeaderValue] forHTTPHeaderField:@"Authorisation"];
 
-    [[[mockedClient expect] andReturn:URLRequest] createURLRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"}];
+    [[[mockedClient expect] andReturn:URLRequest] createURLRequestWithMethod:HPFHTTPMethodGet v2:NO isApplePay:NO path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"}];
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return [request.URL.absoluteString isEqualToString:URLRequest.URL.absoluteString] && [request.HTTPMethod isEqualToString:request.HTTPMethod];
@@ -177,7 +177,7 @@
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
     
-    [client performRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+    [client performRequestWithMethod:HPFHTTPMethodGet v2:NO isApplePay:NO path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
         
         NSDictionary *body = @{
                                @"array": @[@1, @2, @3],

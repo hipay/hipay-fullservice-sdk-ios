@@ -44,6 +44,19 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
     return self;
 }
 
+- (instancetype)initWithBaseURL:(NSURL *)URL newBaseURL:(NSURL *)newURL username:(NSString *)theUsername password:(NSString *)thePassword usernameApplePay:(NSString *)theUsernameApplePay
+{
+    self = [super init];
+    if (self) {
+        _baseURL = URL;
+        _baseURLv2 = newURL;
+        username = theUsername;
+        password = thePassword;
+        usernameApplePay = theUsernameApplePay;
+    }
+    return self;
+}
+
 - (instancetype)initWithBaseURL:(NSURL *)URL username:(NSString *)theUsername password:(NSString *)thePassword
 {
     self = [super init];
@@ -95,12 +108,15 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 }
 
 - (NSString *)createAuthHeaderWithSignature:(NSString *)signature {
+    return [self createAuthHeaderWithSignature:signature isApplePay:NO];
+}
 
-    NSString *authString = [NSString stringWithFormat:@"%@:", username];
+- (NSString *)createAuthHeaderWithSignature:(NSString *)signature isApplePay:(BOOL)isApplePay {
+
+    NSString *authString = [NSString stringWithFormat:@"%@:", isApplePay ? usernameApplePay : username];
 
     if (signature != nil) {
         authString = [authString stringByAppendingString:signature];
-
     } else {
         authString = [authString stringByAppendingString:password];
     }
@@ -117,13 +133,18 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 
 - (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters
 {
+    return [self createURLRequestWithMethod:method v2:isV2 isApplePay:NO path:path parameters:parameters];
+}
+
+- (NSURLRequest *)createURLRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 isApplePay:(BOOL)isApplePay path:(NSString *)path parameters:(NSDictionary *)parameters
+{
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] init];
     NSString *baseURLAndPath = [NSString stringWithFormat:@"%@%@", isV2 ? self.baseURLv2 : self.baseURL, path];
     
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 
     NSString *signature = parameters[HPFGatewayClientSignature];
-    [URLRequest setValue:[self createAuthHeaderWithSignature:signature] forHTTPHeaderField:@"Authorization"];
+    [URLRequest setValue:[self createAuthHeaderWithSignature:signature isApplePay:isApplePay] forHTTPHeaderField:@"Authorization"];
 
     switch (method) {
         case HPFHTTPMethodGet:
@@ -160,6 +181,11 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
 
 - (HPFHTTPClientRequest *)performRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPFHTTPClientCompletionBlock)completionBlock
 {
+    return [self performRequestWithMethod:method v2:isV2 isApplePay:NO path:path parameters:parameters completionHandler:completionBlock];
+}
+
+- (HPFHTTPClientRequest *)performRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 isApplePay:(BOOL)isApplePay path:(NSString *)path parameters:(NSDictionary *)parameters completionHandler:(HPFHTTPClientCompletionBlock)completionBlock
+{
     static dispatch_once_t onceBlock;
     static NSMutableArray *requests;
 
@@ -167,7 +193,7 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
         requests = [NSMutableArray array];
     });
 
-    NSURLRequest *request = [self createURLRequestWithMethod:method v2:isV2 path:path parameters:parameters];
+    NSURLRequest *request = [self createURLRequestWithMethod:method v2:isV2 isApplePay:isApplePay path:path parameters:parameters];
     
     [requests addObject:request];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;

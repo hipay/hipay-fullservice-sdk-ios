@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+1.11.4
+-----
+* Add new parameter for Apple Pay
+
 1.11.3
 -----
 * fix brand with space

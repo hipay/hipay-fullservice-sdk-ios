@@ -108,6 +108,7 @@ typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> 
  *  This method creates an order, execute a payment and returns the details of the transaction. Depending on the payment method or the transaction state, you may be provided with a forward URL (if the payment process needs a few additional steps to complete).
  *
  *  @param orderRequest    A request object (that you need to instantiate) describing your order (amount, currency, description, payment method details, etc.)
+ *  @param signature   Signature received from your backend
  *  @param completionBlock The HPFTransactionCompletionBlock block to execute after the request finishes.
  *
  *  @return An object conforming to the HPFRequest protocol, allowing you to cancel the request if need be.
@@ -116,6 +117,21 @@ typedef void (^HPFPaymentProductsCompletionBlock)(NSArray <HPFPaymentProduct *> 
  *  @see HPFRequest
  */
 - (id<HPFRequest> _Nonnull)requestNewOrder:(HPFOrderRequest * _Nonnull)orderRequest signature:(NSString * _Nonnull)signature withCompletionHandler:(HPFTransactionCompletionBlock _Nullable)completionBlock;
+
+/**
+ This method creates an order, execute a payment and returns the details of the transaction. Depending on the payment method or the transaction state, you may be provided with a forward URL (if the payment process needs a few additional steps to complete).
+ 
+ @param orderRequest    A request object (that you need to instantiate) describing your order (amount, currency, description, payment method details, etc.)
+ @param signature   Signature received from your backend
+ @param isApplePay Whether the transaction is made with Apple Pay
+ @param completionBlock The HPFTransactionCompletionBlock block to execute after the request finishes.
+
+ @return An object conforming to the HPFRequest protocol, allowing you to cancel the request if need be.
+
+ @see HPFTransactionCompletionBlock
+ @see HPFRequest
+*/
+- (id<HPFRequest> _Nonnull)requestNewOrder:(HPFOrderRequest * _Nonnull)orderRequest signature:(NSString * _Nonnull)signature isApplePay:(BOOL)isApplePay withCompletionHandler:(HPFTransactionCompletionBlock _Nullable)completionBlock;
 
 /**
  *  To get the details of an existing transaction.

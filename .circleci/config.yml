@@ -11,7 +11,7 @@ jobs:
       LANG: en_US.UTF-8
       FASTLANE_INFO_PLIST_PATH: Example/HiPayFullservice/HiPayFullservice-Info.plist
     macos:
-      xcode: 11.3.1
+      xcode: 11.6.0
     steps:
       - checkout
       - restore_cache:
@@ -26,9 +26,7 @@ jobs:
           key: 1-pods-{{ checksum "Example/Podfile.lock" }}
       - run:
           name: Install CocoaPods
-          command: |
-            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
-            bundle exec pod install --project-directory=Example/
+          command: bundle exec pod install --project-directory=Example/
       - save_cache:
           key: 1-pods-{{ checksum "Example/Podfile.lock" }}
           paths:
@@ -47,7 +45,7 @@ jobs:
 
   buildDemo:
     macos:
-      xcode: 11.3.1
+      xcode: 11.6.0
     steps:
       - attach_workspace:
           at: .
@@ -67,7 +65,7 @@ jobs:
 
   deployDemo:
     macos:
-      xcode: 11.3.1
+      xcode: 11.6.0
     steps:
       - attach_workspace:
           at: .

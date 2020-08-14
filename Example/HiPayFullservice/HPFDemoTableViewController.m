@@ -588,11 +588,13 @@
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
     if ([HPFEnvironmentViewController isEnvironmentStage]) {
         [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay
+                                              usernameApplePay:parameters[@"hipayStage"][@"applePayUsername"]
                                             privateKeyPassword:parameters[@"hipayStage"][@"applePayPrivateKeyPassword"]
                                             merchantIdentifier:parameters[@"hipayStage"][@"applePayMerchantIdentifier"]];
     }
     else if ([HPFEnvironmentViewController isEnvironmentProduction]) {
         [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay
+                                              usernameApplePay:parameters[@"hipayProduction"][@"applePayUsername"]
                                             privateKeyPassword:parameters[@"hipayProduction"][@"applePayPrivateKeyPassword"]
                                             merchantIdentifier:parameters[@"hipayProduction"][@"applePayMerchantIdentifier"]];
     }

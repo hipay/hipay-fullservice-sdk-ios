@@ -1,14 +1,14 @@
 PODS:
-  - HiPayFullservice (1.11.3):
-    - HiPayFullservice/Core (= 1.11.3)
-    - HiPayFullservice/Payment-Screen (= 1.11.3)
-  - HiPayFullservice/Core (1.11.3)
-  - HiPayFullservice/Payment-Screen (1.11.3):
+  - HiPayFullservice (1.11.4):
+    - HiPayFullservice/Core (= 1.11.4)
+    - HiPayFullservice/Payment-Screen (= 1.11.4)
+  - HiPayFullservice/Core (1.11.4)
+  - HiPayFullservice/Payment-Screen (1.11.4):
     - HiPayFullservice/Core
     - HiPayFullservice/Utilities
-  - HiPayFullservice/Utilities (1.11.3):
+  - HiPayFullservice/Utilities (1.11.4):
     - HiPayFullservice/Core
-  - OCMock (3.5)
+  - OCMock (3.7.1)
   - OHHTTPStubs (8.0.0):
     - OHHTTPStubs/Default (= 8.0.0)
   - OHHTTPStubs/Core (8.0.0)
@@ -38,10 +38,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  HiPayFullservice: 70bfb55b9315412314cbfe2a50ea403f8db76b30
-  OCMock: 4ab4577fc941af31f4a0398f6e7e230cf21fc72a
+  HiPayFullservice: 72ee2d66cf6bb06bfde6f451fcd7830d63cbcfb8
+  OCMock: 75fbeaa46a9b11f8c182bbb1d1f7e9a35ccc9955
   OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
 
 PODFILE CHECKSUM: bb494ce08ffdd859a8f5c557fd6fe3271360d304
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3

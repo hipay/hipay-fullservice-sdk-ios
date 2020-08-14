@@ -50,6 +50,12 @@ typedef NS_ENUM(NSInteger, HPFEnvironment) {
 @property (nonatomic, readonly, nullable) NSString *password;
 
 /**
+ * The API username used by Apple Pay.
+ * Your API credentials can be found in the Merchant Interface in the Integration section.
+ */
+@property (nonatomic, readonly, nullable) NSString *usernameApplePay;
+
+/**
  *  The user agent that will be sent alongside HTTP requests.
  */
 @property (nonatomic, readonly, nullable) NSString *userAgent;
@@ -78,8 +84,7 @@ typedef NS_ENUM(NSInteger, HPFEnvironment) {
 
 - (void)setPaymentCardStorageEnabled:(BOOL)enabled withTouchID:(BOOL)touchIDEnabled;
 
-- (void)setApplePayEnabled:(BOOL)enabled privateKeyPassword:(NSString * _Nonnull)privateKeyPassword merchantIdentifier:(NSString * _Nonnull)merchantIdentifier;
-
+- (void)setApplePayEnabled:(BOOL)enabled usernameApplePay:(NSString * _Nonnull)usernameApplePay privateKeyPassword:(NSString * _Nonnull)privateKeyPassword merchantIdentifier:(NSString * _Nonnull)merchantIdentifier;
 
 + (instancetype _Nonnull)sharedClientConfig;
 

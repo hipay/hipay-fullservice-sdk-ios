@@ -59,7 +59,7 @@ platform :ios do
   desc "Deploy HiPayFullservice on Cocoapods"
   lane :DeployHiPayFullservice do
     # Set version number (e.g 1.0.0)
-    version = "1.11.3"
+    version = "1.11.4"
 
     # Set version in PodSpec file 
     version_bump_podspec(path: "HiPayFullservice.podspec", version_number: version)

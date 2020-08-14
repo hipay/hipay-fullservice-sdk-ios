@@ -43,7 +43,7 @@
     XCTAssertFalse([[HPFClientConfig sharedClientConfig] isEqual:@""]);
     
     XCTestExpectation *userAgent = [[XCTestExpectation alloc] initWithDescription:@"User Agent"];
-    XCTWaiterResult waiter = [XCTWaiter waitForExpectations:@[userAgent] timeout:1.0];
+    XCTWaiterResult waiter = [XCTWaiter waitForExpectations:@[userAgent] timeout:10.0];
     if (waiter == XCTWaiterResultTimedOut) {
         XCTAssertNotNil([HPFClientConfig sharedClientConfig].userAgent);
     }

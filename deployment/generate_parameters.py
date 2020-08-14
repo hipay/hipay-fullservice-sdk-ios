@@ -5,13 +5,15 @@ parameters = dict(
         username = os.environ.get('HIPAY_FULLSERVICE_API_STAGE_USERNAME', 'xxxxxx'),
         password = os.environ.get('HIPAY_FULLSERVICE_API_STAGE_PASSWORD', 'xxxxxx'),
         applePayPrivateKeyPassword = os.environ.get('HIPAY_STAGE_APPLE_PAY_PRIVATE_KEY_PASSWORD', 'xxxxxx'),
-        applePayMerchantIdentifier = os.environ.get('HIPAY_STAGE_APPLE_PAY_MERCHANT_IDENTIFIER', 'xxxxxx')
+        applePayMerchantIdentifier = os.environ.get('HIPAY_STAGE_APPLE_PAY_MERCHANT_IDENTIFIER', 'xxxxxx'),
+        applePayUsername = os.environ.get('HIPAY_STAGE_APPLE_PAY_USERNAME', 'xxxxxx'),
     ),
     hipayProduction=dict(
         username = os.environ.get('HIPAY_FULLSERVICE_API_PRODUCTION_USERNAME', 'xxxxxx'),
         password = os.environ.get('HIPAY_FULLSERVICE_API_PRODUCTION_PASSWORD', 'xxxxxx'),
         applePayPrivateKeyPassword = os.environ.get('HIPAY_PRODUCTION_APPLE_PAY_PRIVATE_KEY_PASSWORD', 'xxxxxx'),
-        applePayMerchantIdentifier = os.environ.get('HIPAY_PRODUCTION_APPLE_PAY_MERCHANT_IDENTIFIER', 'xxxxxx')
+        applePayMerchantIdentifier = os.environ.get('HIPAY_PRODUCTION_APPLE_PAY_MERCHANT_IDENTIFIER', 'xxxxxx'),
+        applePayUsername = os.environ.get('HIPAY_PRODUCTION_APPLE_PAY_USERNAME', 'xxxxxx'),
     ),
     appURLscheme= 'hipayexample'
 )

@@ -51,7 +51,8 @@
     [((HPFClientConfig *)[[clientConfigMock expect] andReturnValue:@(HPFEnvironmentStage)]) environment];
     [((HPFClientConfig *)[[clientConfigMock expect] andReturn:@"user_id"]) username];
     [((HPFClientConfig *)[[clientConfigMock expect] andReturn:@"password"]) password];
-    
+    [((HPFClientConfig *)[[clientConfigMock expect] andReturn:@"usernameApplePay"]) usernameApplePay];
+
     id clientConfigClassMock = OCMClassMock([HPFClientConfig class]);
     OCMStub([clientConfigClassMock sharedClientConfig]).andReturn(clientConfigMock);
     
@@ -76,13 +77,13 @@
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 6];
+        [invocation getArgument: &passedCompletionBlock atIndex: 7];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, HTTPError);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:nil];
+    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:nil];
     
     [(OCMockObject *)gatewayClient verify];
     [(OCMockObject *)mockedHTTPClient verify];
@@ -115,13 +116,13 @@
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 6];
+        [invocation getArgument: &passedCompletionBlock atIndex: 7];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, HTTPError);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
+    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
@@ -155,13 +156,13 @@
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 6];
+        [invocation getArgument: &passedCompletionBlock atIndex: 7];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, nil);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
+    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
@@ -200,13 +201,13 @@
     [[[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 6];
+        [invocation getArgument: &passedCompletionBlock atIndex: 7];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, nil);
         
-    }] andReturn:clientRequest] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] andReturn:clientRequest] performRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    id<HPFRequest> returnedRequest = [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
+    id<HPFRequest> returnedRequest = [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:NO completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.2 handler:nil];
     
@@ -245,13 +246,13 @@
     [[[((OCMockObject *)mockedHTTPClient) expect] andDo:^(NSInvocation *invocation) {
         
         HPFHTTPClientCompletionBlock passedCompletionBlock;
-        [invocation getArgument: &passedCompletionBlock atIndex: 6];
+        [invocation getArgument: &passedCompletionBlock atIndex: 7];
         
         passedCompletionBlock((HPFHTTPResponse *) HTTPResponse, nil);
         
-    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
+    }] performRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:[OCMArg isEqual:@"resource/item"] parameters:[OCMArg isEqual:@{@"hello": @"world"}] completionHandler:OCMOCK_ANY];
     
-    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:YES completionHandler:completionBlock];
+    [gatewayClient handleRequestWithMethod:HPFHTTPMethodPost v2:NO isApplePay:NO path:@"resource/item" parameters:@{@"hello": @"world"} responseMapperClass:[HPFAbstractMapper class] isArray:YES completionHandler:completionBlock];
     
     [self waitForExpectationsWithTimeout:0.2 handler:nil];
     

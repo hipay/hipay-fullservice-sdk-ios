@@ -32,6 +32,7 @@ typedef NS_ENUM(NSInteger, HPFHTTPMethod) {
     @private
     NSString *username;
     NSString *password;
+    NSString *usernameApplePay;
 }
 
 @property (nonatomic) NSURL  * _Nonnull baseURL;
@@ -39,7 +40,9 @@ typedef NS_ENUM(NSInteger, HPFHTTPMethod) {
 
 - (instancetype _Nonnull)initWithBaseURL:( NSURL * _Nonnull )URL username:(NSString * _Nonnull)theUsername password:(NSString * _Nonnull)thePassword;
 - (instancetype _Nonnull)initWithBaseURL:(NSURL * _Nonnull)URL newBaseURL:(NSURL * _Nonnull)newURL username:(NSString * _Nonnull)theUsername password:(NSString * _Nonnull)thePassword;
+- (instancetype _Nonnull)initWithBaseURL:(NSURL * _Nonnull)URL newBaseURL:(NSURL * _Nonnull)newURL username:(NSString * _Nonnull)theUsername password:(NSString * _Nonnull)thePassword usernameApplePay:(NSString * _Nullable)theUsernameApplePay;
 
 - (HPFHTTPClientRequest  * _Nonnull )performRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 path:(NSString * _Nonnull)path parameters:(NSDictionary * _Nonnull)parameters completionHandler:(HPFHTTPClientCompletionBlock _Nonnull)completionBlock;
+- (HPFHTTPClientRequest  * _Nonnull )performRequestWithMethod:(HPFHTTPMethod)method v2:(BOOL)isV2 isApplePay:(BOOL)isApplePay path:(NSString * _Nonnull)path parameters:(NSDictionary * _Nonnull)parameters completionHandler:(HPFHTTPClientCompletionBlock _Nonnull)completionBlock;
 
 @end

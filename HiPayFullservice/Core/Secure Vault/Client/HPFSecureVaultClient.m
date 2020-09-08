@@ -151,6 +151,24 @@
     }];
 }
 
+- (id<HPFRequest>)updatePaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID setCardExpiryMonth:(NSString *)cardExpiryMonth cardExpiryYear:(NSString *)cardExpiryYear cardHolder:(NSString *)cardHolder securityCode:(NSString *)securityCode completionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
+{
+    NSDictionary *parameters = @{
+                                 @"request_id": requestID,
+                                 @"card_token": token,
+                                 @"card_expiry_month": cardExpiryMonth,
+                                 @"card_expiry_year": cardExpiryYear,
+                                 @"card_holder": cardHolder,
+                                 @"cvc": securityCode
+                                 };
+    
+    return [HTTPClient performRequestWithMethod:HPFHTTPMethodPost v2:YES path:@"token/update" parameters:parameters completionHandler:^(HPFHTTPResponse *response, NSError *error) {
+        
+        [self manageRequestWithHTTPResponse:response error:error andCompletionHandler:completionBlock];
+        
+    }];
+}
+
 - (id<HPFRequest>)lookupPaymentCardWithToken:(NSString *)token requestID:(NSString *)requestID completionHandler:(HPFSecureVaultClientCompletionBlock)completionBlock
 {
     NSDictionary *parameters = @{@"request_id": requestID};

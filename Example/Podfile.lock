@@ -8,7 +8,7 @@ PODS:
     - HiPayFullservice/Utilities
   - HiPayFullservice/Utilities (1.11.4):
     - HiPayFullservice/Core
-  - OCMock (3.7.1)
+  - OCMock (3.8.1)
   - OHHTTPStubs (8.0.0):
     - OHHTTPStubs/Default (= 8.0.0)
   - OHHTTPStubs/Core (8.0.0)
@@ -29,7 +29,7 @@ DEPENDENCIES:
   - OHHTTPStubs (~> 8.0.0)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - OCMock
     - OHHTTPStubs
 
@@ -38,10 +38,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  HiPayFullservice: 72ee2d66cf6bb06bfde6f451fcd7830d63cbcfb8
-  OCMock: 75fbeaa46a9b11f8c182bbb1d1f7e9a35ccc9955
+  HiPayFullservice: 0d5c83221c8ea33462a82ddb72f52d20153691a8
+  OCMock: 29f6e52085b4e7d9b075cbf03ed7c3112f82f934
   OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
 
-PODFILE CHECKSUM: bb494ce08ffdd859a8f5c557fd6fe3271360d304
+PODFILE CHECKSUM: 19415cb755a2b3db8fe1a081cedede51a912bee1
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1

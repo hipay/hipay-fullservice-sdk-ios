@@ -138,7 +138,7 @@
 {
     NSDictionary *parameters = @{
                                  @"request_id": requestID,
-                                 @"token": token,
+                                 @"card_token": token,
                                  @"card_expiry_month": cardExpiryMonth,
                                  @"card_expiry_year": cardExpiryYear,
                                  @"card_holder": cardHolder,

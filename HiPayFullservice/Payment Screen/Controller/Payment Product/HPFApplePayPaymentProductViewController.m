@@ -116,7 +116,7 @@
 
 - (void) paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
                         didAuthorizePayment:(PKPayment *)payment
-                                 completion:(void (^)(PKPaymentAuthorizationStatus))completion
+                                    handler:(nonnull void (^)(PKPaymentAuthorizationResult * _Nonnull))completion
 {
     
     NSString *decodedString = [[NSString alloc] initWithData:payment.token.paymentData encoding:NSUTF8StringEncoding];
@@ -146,12 +146,10 @@
                     self.transactionError = nil;
 
                     if (self->transaction.isHandled) {
-
-                        completion(PKPaymentAuthorizationStatusSuccess);
-
+                        completion([[PKPaymentAuthorizationResult alloc] initWithStatus:PKPaymentAuthorizationStatusSuccess errors:nil]);
                     } else {
 
-                        completion(PKPaymentAuthorizationStatusFailure);
+                        completion([[PKPaymentAuthorizationResult alloc] initWithStatus:PKPaymentAuthorizationStatusFailure errors:nil]);
                     }
                 }
 
@@ -160,7 +158,7 @@
                     self->transaction = nil;
                     self.transactionError = error;
 
-                    completion(PKPaymentAuthorizationStatusFailure);
+                    completion([[PKPaymentAuthorizationResult alloc] initWithStatus:PKPaymentAuthorizationStatusFailure errors:nil]);
                 }
             }];
 
@@ -168,7 +166,7 @@
 
             self->transaction = nil;
             self.tokenError = error;
-            completion(PKPaymentAuthorizationStatusFailure);
+            completion([[PKPaymentAuthorizationResult alloc] initWithStatus:PKPaymentAuthorizationStatusFailure errors:nil]);
 
         }
     }];

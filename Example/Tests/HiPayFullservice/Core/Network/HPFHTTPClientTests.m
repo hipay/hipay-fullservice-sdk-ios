@@ -10,8 +10,8 @@
 #import <HiPayFullservice/HiPayFullservice.h>
 #import "HPFHTTPClient+Testing.h"
 #import <OCMock/OCMock.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
-#import <OHHTTPStubs/OHPathHelpers.h>
+#import <OHHTTPStubs/HTTPStubs.h>
+#import <OHHTTPStubs/HTTPStubsPathHelpers.h>
 
 @interface HPFHTTPClientTests : XCTestCase
 {
@@ -41,7 +41,7 @@
 
 - (void)tearDown {
     [super tearDown];
-    [OHHTTPStubs removeAllStubs];
+    [HTTPStubs removeAllStubs];
 }
 
 - (void)testInit {
@@ -116,9 +116,9 @@
 
 - (void)testClientReturnsRequest
 {
-    NSURLRequest *URLRequest = [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+    NSURLRequest *URLRequest = [self createRequestAndExpectItsCreationWithStubResponse:^HTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
         NSString* fixture = OHPathForFile(@"example_dictionary.json", self.class);
-        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return [HTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
@@ -140,7 +140,7 @@
     [mockedClient verify];
 }
 
-- (NSURLRequest *)createRequestAndExpectItsCreationWithStubResponse:(OHHTTPStubsResponseBlock)stubResponse
+- (NSURLRequest *)createRequestAndExpectItsCreationWithStubResponse:(HTTPStubsResponseBlock)stubResponse
 {
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.example.org/items/1?param=value&param2=value2"]];
     [URLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -148,7 +148,7 @@
 
     [[[mockedClient expect] andReturn:URLRequest] createURLRequestWithMethod:HPFHTTPMethodGet v2:NO isApplePay:NO path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"}];
     
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return [request.URL.absoluteString isEqualToString:URLRequest.URL.absoluteString] && [request.HTTPMethod isEqualToString:request.HTTPMethod];
     } withStubResponse:stubResponse];
     
@@ -163,16 +163,16 @@
 - (void)testPerformRequestDictionary
 {
     
-    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+    [self createRequestAndExpectItsCreationWithStubResponse:^HTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
         NSString* fixture = OHPathForFile(@"example_dictionary.json", self.class);
-        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return [HTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse*(NSURLRequest *request) {
         NSString* fixture = OHPathForFile(@"example_dictionary.json", self.class);
-        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return [HTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
@@ -206,9 +206,9 @@
 
 - (void)testPerformRequestArray
 {
-    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+    [self createRequestAndExpectItsCreationWithStubResponse:^HTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
         NSString *fixture = OHPathForFile(@"example_array.json", self.class);
-        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return [HTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
@@ -321,52 +321,13 @@
     }
 }
 
-- (void)doTestPerformRequestWithError:(NSError *)error expectedCode:(HPFErrorCode)code
-{
-    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
-        return [OHHTTPStubsResponse responseWithError:error];
-    }];
-    
-    NSError *FullserviceError = [NSError errorWithDomain:HPFHiPayFullserviceErrorDomain code:code userInfo:@{NSUnderlyingErrorKey: error}];
-    
-    [[[mockedClient expect] andReturn:FullserviceError] errorFromURLConnectionError:error];
-    
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
-    
-    [client performRequestWithMethod:HPFHTTPMethodGet v2:NO path:@"items/1" parameters:@{@"param": @"value", @"param2": @"value2"} completionHandler:^(HPFHTTPResponse *response, NSError *error) {
-        
-        XCTAssertNil(response);
-        XCTAssertEqualObjects(error, FullserviceError);
-        
-        [expectation fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:0.5 handler:^(NSError * _Nullable error) {
-        if (error != nil) {
-            XCTFail(@"Expectations error: %@", error);
-        }
-    }];
-    [mockedClient verify];
-}
-
-- (void)testPerformRequestError
-{
-    NSDictionary *errors = [self generatedErrorCodesForConnectionErrors];
-    
-    for (NSNumber *finalErrorCode in [errors allKeys]) {
-        for (NSNumber *code in [errors objectForKey:finalErrorCode]) {
-            [self doTestPerformRequestWithError:[NSError errorWithDomain:NSURLErrorDomain code:[code integerValue] userInfo:@{}] expectedCode:finalErrorCode.integerValue];
-        }
-    }
-}
-
 - (void)testPerformRequestWithMalformedJSONResponse
 {
-    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+    [self createRequestAndExpectItsCreationWithStubResponse:^HTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
         
         NSString* plainText = OHPathForFile(@"plain_text_response.txt", self.class);
         //.return [OHHTTPStubsResponse responseWithFileAtPath:plainText statusCode:200 headers:@{@"Content-Type":@"application/json"}];
-        return [OHHTTPStubsResponse responseWithFileAtPath:plainText statusCode:200 headers:@{}];
+        return [HTTPStubsResponse responseWithFileAtPath:plainText statusCode:200 headers:@{}];
     }];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];
@@ -391,9 +352,9 @@
 
 - (void)doTestPerformRequestWithClientError:(NSInteger)errorCode
 {
-    [self createRequestAndExpectItsCreationWithStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+    [self createRequestAndExpectItsCreationWithStubResponse:^HTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
         NSString* fixture = OHPathForFile(@"example_error.json", self.class);
-        return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:(int)errorCode headers:@{}];
+        return [HTTPStubsResponse responseWithFileAtPath:fixture statusCode:(int)errorCode headers:@{}];
     }];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"Loading request"];

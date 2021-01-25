@@ -9,24 +9,24 @@ PODS:
   - HiPayFullservice/Utilities (1.11.4):
     - HiPayFullservice/Core
   - OCMock (3.8.1)
-  - OHHTTPStubs (8.0.0):
-    - OHHTTPStubs/Default (= 8.0.0)
-  - OHHTTPStubs/Core (8.0.0)
-  - OHHTTPStubs/Default (8.0.0):
+  - OHHTTPStubs (9.1.0):
+    - OHHTTPStubs/Default (= 9.1.0)
+  - OHHTTPStubs/Core (9.1.0)
+  - OHHTTPStubs/Default (9.1.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (8.0.0):
+  - OHHTTPStubs/JSON (9.1.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (8.0.0):
+  - OHHTTPStubs/NSURLSession (9.1.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (8.0.0)
+  - OHHTTPStubs/OHPathHelpers (9.1.0)
 
 DEPENDENCIES:
   - HiPayFullservice (from `../`)
   - OCMock
-  - OHHTTPStubs (~> 8.0.0)
+  - OHHTTPStubs
 
 SPEC REPOS:
   trunk:
@@ -40,8 +40,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   HiPayFullservice: 0d5c83221c8ea33462a82ddb72f52d20153691a8
   OCMock: 29f6e52085b4e7d9b075cbf03ed7c3112f82f934
-  OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
+  OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
 
-PODFILE CHECKSUM: 19415cb755a2b3db8fe1a081cedede51a912bee1
+PODFILE CHECKSUM: e2145c9d2de4787c44c3a08c73468ba0d057d4cb
 
 COCOAPODS: 1.10.1

@@ -638,13 +638,11 @@
                                             }];
             
             UIAlertAction* settingsButton = [UIAlertAction
-                                          actionWithTitle:HPFLocalizedString(@"HPF_SETTINGS")
-                                          style:UIAlertActionStyleDefault
-                                          handler:^(UIAlertAction * action) {
-                                              
-                                              [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
-
-                                          }];
+                                             actionWithTitle:HPFLocalizedString(@"HPF_SETTINGS")
+                                             style:UIAlertActionStyleDefault
+                                             handler:^(UIAlertAction * action) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString: UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+            }];
             
             [alertViewController addAction:cancelButton];
             [alertViewController addAction:settingsButton];

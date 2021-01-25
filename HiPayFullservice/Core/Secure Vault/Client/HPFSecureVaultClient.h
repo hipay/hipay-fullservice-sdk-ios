@@ -88,6 +88,23 @@ typedef void (^HPFSecureVaultClientCompletionBlock)(HPFPaymentCardToken * _Nulla
  *  @see HPFRequest
  */
 - (id<HPFRequest> _Nonnull)updatePaymentCardWithToken:(NSString * _Nonnull)token requestID:(NSString * _Nonnull)requestID setCardExpiryMonth:(NSString * _Nonnull)cardExpiryMonth cardExpiryYear:(NSString * _Nonnull)cardExpiryYear cardHolder:(NSString * _Nonnull)cardHolder completionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
+/**
+*  Allows you to update the details of a credit card that you have tokenized.
+*
+*  @param token           The token to be updated.
+*  @param requestID       The request ID linked to the card token.
+*  @param cardExpiryMonth The card expiry month. Expressed with two digits (e.g., 01).
+*  @param cardExpiryYear  The card expiry year. Expressed with four digits (e.g., 2014).
+*  @param cardHolder      The cardholder name as it appears on the card (up to 25 chars).
+*  @param securityCode     The cvv/cvc code as it appears on the card.
+*  @param completionBlock The HPFSecureVaultClientCompletionBlock block to execute after the request finishes.
+*
+*  @return An object conforming to the HPFRequest protocol, allowing you to cancel the request if need be.
+*
+*  @see HPFSecureVaultClientCompletionBlock
+*  @see HPFRequest
+*/
+- (id<HPFRequest> _Nonnull)updatePaymentCardWithToken:(NSString * _Nonnull)token requestID:(NSString * _Nonnull)requestID setCardExpiryMonth:(NSString * _Nonnull)cardExpiryMonth cardExpiryYear:(NSString * _Nonnull)cardExpiryYear cardHolder:(NSString * _Nonnull)cardHolder securityCode:(NSString * _Nonnull)securityCode  completionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
 
 - (id<HPFRequest> _Nonnull)generateTokenWithApplePayToken:(NSString * _Nonnull)applePayToken privateKeyPassword:(NSString * _Nonnull)privateKeyPassword andCompletionHandler:(HPFSecureVaultClientCompletionBlock _Nullable)completionBlock;
 

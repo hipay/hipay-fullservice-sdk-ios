@@ -63,7 +63,7 @@
             paymentRequest.countryCode = country ? country : @"FR";
             paymentRequest.currencyCode = self.paymentPageRequest.currency;
 
-            paymentRequest.supportedNetworks = @[PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
+            paymentRequest.supportedNetworks = @[PKPaymentNetworkMasterCard, PKPaymentNetworkVisa];
 
             PKPaymentAuthorizationViewController *vc = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
             vc.delegate = self;

@@ -86,6 +86,7 @@
 		A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F981BE91B9500F9604F /* Localizable.strings */; };
 		BA03A15521CB933300840C4D /* parameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA03A15321CB933300840C4D /* parameters.plist */; };
 		BA07A93221B544A5004A6B4C /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BA07A93121B544A5004A6B4C /* LICENSE.md */; };
+		BA16269025C0282400B138AE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BA16268E25C0282400B138AE /* InfoPlist.strings */; };
 		BA2CD18021B9583900BF278D /* HPFEnvironmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */; };
 		BA2CD18421B97CE600BF278D /* HPFTextInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD18221B97CE600BF278D /* HPFTextInputTableViewCell.m */; };
 		BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA2CD18321B97CE600BF278D /* HPFTextInputTableViewCell.xib */; };
@@ -208,6 +209,7 @@
 		B936D89B6AB94FC4D1FE6E95 /* HiPayFullservice.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayFullservice.podspec; path = ../HiPayFullservice.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		BA03A15321CB933300840C4D /* parameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = parameters.plist; sourceTree = "<group>"; };
 		BA07A93121B544A5004A6B4C /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
+		BA16268F25C0282400B138AE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = InfoPlist.strings; sourceTree = "<group>"; };
 		BA2CD17E21B9583900BF278D /* HPFEnvironmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFEnvironmentViewController.h; sourceTree = "<group>"; };
 		BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFEnvironmentViewController.m; sourceTree = "<group>"; };
 		BA2CD18121B97CE600BF278D /* HPFTextInputTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFTextInputTableViewCell.h; sourceTree = "<group>"; };
@@ -631,6 +633,7 @@
 			isa = PBXGroup;
 			children = (
 				A5F98F981BE91B9500F9604F /* Localizable.strings */,
+				BA16268E25C0282400B138AE /* InfoPlist.strings */,
 			);
 			name = fr.lproj;
 			path = HiPayFullservice/fr.lproj;
@@ -762,6 +765,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				BA16269025C0282400B138AE /* InfoPlist.strings in Resources */,
 				BA07A93221B544A5004A6B4C /* LICENSE.md in Resources */,
 				A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */,
 				BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */,
@@ -1000,6 +1004,14 @@
 				A5F98F991BE91B9500F9604F /* fr */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		BA16268E25C0282400B138AE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BA16268F25C0282400B138AE /* fr */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

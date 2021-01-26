@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.source_files     = "HiPayFullservice/*.{m,h}"
 
-s.default_subspec = 'Core', 'Payment-Screen'
+  s.default_subspec = 'Core', 'Payment-Screen'
 
   s.public_header_files = "HiPayFullservice/*.h"
 
@@ -70,14 +70,6 @@ s.default_subspec = 'Core', 'Payment-Screen'
 
   s.subspec 'CardIO' do |s|
       s.dependency       'CardIO', '~> 5.4.1'
-  end
-
-  s.subspec 'Datecs-POS' do |s|
-      s.source_files  = ['HiPayFullservice/POS/*.{h,m}']
-      s.vendored_frameworks = "HiPayFullservice/POS/Datecs/DatecsLibrary.framework"
-      s.xcconfig         = { 'OTHER_LDFLAGS' => '-lresolv'}
-      s.frameworks       = 'SystemConfiguration', 'Security', 'CoreTelephony'
-      s.libraries = 'c++'
   end
 
 end

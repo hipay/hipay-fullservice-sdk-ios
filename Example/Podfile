@@ -3,7 +3,6 @@ platform :ios, '11.0'
 
 target 'HiPayFullservice_Example' do
   pod 'HiPayFullservice', :path => '../'
-  #pod 'HiPayFullservice/Datecs-POS', :path => '../'
 
   target 'HiPayFullservice_Tests' do
   	 inherit! :search_paths

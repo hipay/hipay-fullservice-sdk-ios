@@ -17,14 +17,14 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/hipay/hipay-fullservice-sdk-ios.git", :tag => s.version.to_s }
   s.homepage         = "https://developer.hipay.com/doc/hipay-fullservice-sdk-ios/"
 
-  s.platform     = :ios, "9.0"
+  s.platform     = :ios, "11.0"
   s.requires_arc = true
 
   s.pod_target_xcconfig = {"TARGETED_DEVICE_FAMILY" => "1,2"}
 
   s.source_files     = "HiPayFullservice/*.{m,h}"
 
-s.default_subspec = 'Core', 'Payment-Screen'
+  s.default_subspec = 'Core', 'Payment-Screen'
 
   s.public_header_files = "HiPayFullservice/*.h"
 
@@ -70,14 +70,6 @@ s.default_subspec = 'Core', 'Payment-Screen'
 
   s.subspec 'CardIO' do |s|
       s.dependency       'CardIO', '~> 5.4.1'
-  end
-
-  s.subspec 'Datecs-POS' do |s|
-      s.source_files  = ['HiPayFullservice/POS/*.{h,m}']
-      s.vendored_frameworks = "HiPayFullservice/POS/Datecs/DatecsLibrary.framework"
-      s.xcconfig         = { 'OTHER_LDFLAGS' => '-lresolv'}
-      s.frameworks       = 'SystemConfiguration', 'Security', 'CoreTelephony'
-      s.libraries = 'c++'
   end
 
 end

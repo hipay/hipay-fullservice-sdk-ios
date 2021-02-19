@@ -569,18 +569,14 @@
             cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
             cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
             cell.textField.returnKeyType = UIReturnKeyNext;
-            if (@available(iOS 10.0, *)) {
-                cell.textField.textContentType = UITextContentTypeName;
-            }
+            cell.textField.textContentType = UITextContentTypeName;
             break;
             
         case 1:
             cell = [self dequeueInputCellWithIdentifier:@"CardNumberInput" fieldIdentifier:@"number"];
             ((HPFCardNumberInputTableViewCell *)cell).defaultPaymentProductCode = [self currentPaymentProductCode];
             cell.textField.returnKeyType = UIReturnKeyNext;
-            if (@available(iOS 10.0, *)) {
-                cell.textField.textContentType = UITextContentTypeCreditCardNumber;
-            }
+            cell.textField.textContentType = UITextContentTypeCreditCardNumber;
             break;
             
         case 2:
@@ -638,13 +634,11 @@
                                             }];
             
             UIAlertAction* settingsButton = [UIAlertAction
-                                          actionWithTitle:HPFLocalizedString(@"HPF_SETTINGS")
-                                          style:UIAlertActionStyleDefault
-                                          handler:^(UIAlertAction * action) {
-                                              
-                                              [[UIApplication sharedApplication] openURL: [NSURL URLWithString: UIApplicationOpenSettingsURLString]];
-
-                                          }];
+                                             actionWithTitle:HPFLocalizedString(@"HPF_SETTINGS")
+                                             style:UIAlertActionStyleDefault
+                                             handler:^(UIAlertAction * action) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString: UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+            }];
             
             [alertViewController addAction:cancelButton];
             [alertViewController addAction:settingsButton];

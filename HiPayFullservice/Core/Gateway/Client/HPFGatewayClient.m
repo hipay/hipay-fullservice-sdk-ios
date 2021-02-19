@@ -329,7 +329,7 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
             
             if (transaction != nil) {
                 
-                [[HPFLogger sharedLogger] debug:@"<Gateway>: Handles valid URL with mapped transaction %@", transaction.transactionReference];
+                [HPFLogger debug:@"<Gateway>: Handles valid URL with mapped transaction %@", transaction.transactionReference];
                 
                 [notificationInfo setObject:transaction forKey:@"transaction"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:HPFGatewayClientDidRedirectSuccessfullyNotification object:nil userInfo:notificationInfo];
@@ -337,7 +337,7 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
             
             else {
                 
-                [[HPFLogger sharedLogger] debug:@"<Gateway>: Handles valid URL without mapped transaction"];
+                [HPFLogger debug:@"<Gateway>: Handles valid URL without mapped transaction"];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:HPFGatewayClientDidRedirectWithMappingErrorNotification object:nil userInfo:notificationInfo];
             }
@@ -345,7 +345,7 @@ NSString * _Nonnull const HPFGatewayClientDidRedirectWithMappingErrorNotificatio
             return YES;
         }
         
-        [[HPFLogger sharedLogger] emerg:@"<Gateway>: Could not handle invalid URL: %@", URL];
+        [HPFLogger err:@"<Gateway>: Could not handle invalid URL: %@", URL];
     }
 
     return NO;

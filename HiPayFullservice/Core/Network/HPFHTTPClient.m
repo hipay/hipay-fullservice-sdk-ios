@@ -198,7 +198,7 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
     [requests addObject:request];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
-    [[HPFLogger sharedLogger] debug:@"<HTTP>: Performs %@ %@", request.HTTPMethod, path];
+    [HPFLogger debug:@"<HTTP>: Performs %@ %@", request.HTTPMethod, path];
     
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 

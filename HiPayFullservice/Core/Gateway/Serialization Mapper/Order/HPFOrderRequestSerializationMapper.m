@@ -97,7 +97,7 @@
             dictionary[@"account_info"] = accountInfoMut;
             dictionary[@"account_info"][@"purchase"] = purchaseMut;
             
-            [[HPFLogger sharedLogger] debug:@"<Order> card_stored_24 attribute added to Order Request with value \"%d\"", numberOfCardSavedInLast24Hours];
+            [HPFLogger debug:@"<Order> card_stored_24 attribute added to Order Request with value \"%d\"", numberOfCardSavedInLast24Hours];
         }
     }
 }
@@ -134,7 +134,7 @@
                 dictionary[@"account_info"] = accountInfoMut;
                 dictionary[@"account_info"][@"payment"] = paymentMut;
                 
-                [[HPFLogger sharedLogger] debug:@"<Order> enrollment_date attribute added to Order Request with value \"%@\"", enrollmentDateString];
+                [HPFLogger debug:@"<Order> enrollment_date attribute added to Order Request with value \"%@\"", enrollmentDateString];
             }
         }
 
@@ -181,7 +181,7 @@
             dictionary[@"account_info"] = accountInfoMut;
             dictionary[@"account_info"][@"shipping"] = shippingMut;
             
-            [[HPFLogger sharedLogger] debug:@"<Order> name_indicator attribute added to Order Request with value \"%d\"", nameIndicator];
+            [HPFLogger debug:@"<Order> name_indicator attribute added to Order Request with value \"%d\"", nameIndicator];
         }
     }
 }

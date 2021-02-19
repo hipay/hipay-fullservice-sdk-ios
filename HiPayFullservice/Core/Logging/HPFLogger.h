@@ -10,15 +10,9 @@
 
 @interface HPFLogger : NSObject
 
-+ (instancetype)sharedLogger;
-
-- (void)emerg:(NSString *)message, ...;
-- (void)alert:(NSString *)message, ...;
-- (void)crit:(NSString *)message, ...;
-- (void)err:(NSString *)message, ...;
-- (void)warning:(NSString *)message, ...;
-- (void)notice:(NSString *)message, ...;
-- (void)info:(NSString *)message, ...;
-- (void)debug:(NSString *)message, ...;
++ (void)err:(NSString *)message, ...;
++ (void)info:(NSString *)message, ...;
++ (void)debug:(NSString *)message, ...;
++ (void)fault:(NSString *)message, ...;
 
 @end

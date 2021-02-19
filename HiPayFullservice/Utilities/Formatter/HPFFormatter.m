@@ -22,7 +22,7 @@
     NSError *underlyingError = error;
     do
     {
-        [[HPFLogger sharedLogger] debug:@"%@: %@", client, underlyingError.userInfo];
+        [HPFLogger debug:@"%@: %@", client, underlyingError.userInfo];
         underlyingError = underlyingError.userInfo[@"NSUnderlyingError"];
 
     } while (underlyingError.userInfo);

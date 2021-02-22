@@ -14,8 +14,6 @@
 
 "HPF_TAP_TO_DEFINE" = "Touch to define";
 
-"HPF_SCAN_PAYMENT_CARD" = "Scan your card";
-
 "HPF_CANCEL" = "Cancel";
 "HPF_YES" = "Yes";
 "HPF_NO" = "No";
@@ -103,9 +101,6 @@
 "HPF_CARD_STORE_TITLE" = "Payment card storing";
 "HPF_CARD_SWITCH_TOUCHID_TITLE" = "Secure with Touch ID";
 "HPF_CARD_SWITCH_TOUCHID_DESCRIPTION" = "Would you like to activate Touch ID for securing future payments with this card? A fingerprint recognition will be required for further use.";
-
-"HPF_CARD_SCAN" = "Scan card";
-"HPF_CARD_SCAN_PERMISSION" = "To scan your payment card, allow camera permission.";
 
 "HPF_CARD_STORED_SELECTION" = "Select a payment card";
 

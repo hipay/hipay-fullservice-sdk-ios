@@ -38,13 +38,12 @@
     amountRowIndex = 3;
     applePayRowIndex = 4;
     multiUseRowIndex = 5;
-    cardScanRowIndex = 6;
-    authRowIndex = 7;
-    colorRowIndex = 8;
-    productCategoryRowIndex = 9;
-    storeCardIndex = 10;
-    timeoutIndex = 11;
-    submitRowIndex = 12;
+    authRowIndex = 6;
+    colorRowIndex = 7;
+    productCategoryRowIndex = 8;
+    storeCardIndex = 9;
+    timeoutIndex = 10;
+    submitRowIndex = 11;
     
     
     // Error row indexes
@@ -115,7 +114,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == formSectionIndex) {
-        return 13;
+        return 12;
     }
     
     if (section == resultSectionIndex) {
@@ -179,7 +178,7 @@
             
             return cell;
         }
-        else if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex) || (indexPath.row == cardScanRowIndex)) {
+        else if ((indexPath.row == groupedPaymentCardRowIndex) || (indexPath.row == multiUseRowIndex)) {
             
             HPFSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
             [cell.switchControl addTarget:self action:@selector(controlValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -197,11 +196,6 @@
             else if (indexPath.row == multiUseRowIndex) {
                 cell.textLabel.text = NSLocalizedString(@"FORM_CARD_STORAGE", nil);
                 cell.switchControl.on = multiUse;
-            }
-            
-            else if (indexPath.row == cardScanRowIndex) {
-                cell.textLabel.text = NSLocalizedString(@"FORM_CARD_SCAN", nil);
-                cell.switchControl.on = cardScan;
             }
             
             [cell layoutSubviews];
@@ -582,9 +576,7 @@
     paymentPageRequest.shippingAddress.lastname = @"Doe";
     
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
-    
-    [HPFClientConfig.sharedClientConfig setPaymentCardScanEnabled:cardScan];
-    
+        
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
     
     NSString *parametersEnvironment = nil;
@@ -783,10 +775,6 @@
         multiUse = [sender isOn];
     }
     
-    else if (indexPath.row == cardScanRowIndex) {
-        cardScan = [sender isOn];
-    }
-    
     else if (indexPath.row == authRowIndex) {
         authenticationIndicatorSegmentIndex = [sender selectedSegmentIndex];
     }
@@ -873,9 +861,7 @@
 
 -(void) updateResultSection {
     multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
-    
-    cardScan = [HPFClientConfig.sharedClientConfig isPaymentCardScanEnabled];
-    
+        
     applePay = [HPFClientConfig.sharedClientConfig isApplePayEnabled];
     
     if (productCategoriesViewController != nil) {

@@ -36,7 +36,6 @@
     }
 
     [[HPFClientConfig sharedClientConfig] setPaymentCardStorageEnabled:YES withTouchID:YES];
-    [[HPFClientConfig sharedClientConfig] setPaymentCardScanEnabled:YES];
     
     return YES;
 }

@@ -134,8 +134,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // we will just override the paySection and keep the scan and form sections.
-
     if (indexPath.section == [self paySection])
     {
         HPFPaymentButtonTableViewCell *cell = [super dequeuePaymentButtonCell];
@@ -208,21 +206,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == self.formSection)
-    {
-        // set higher when there is no scan card.
-        if (self.scanSection == -1)
-        {
-            return 32.f;
-        } else {
-            return 0.f;
-        }
-    }
-
-    if (section == self.scanSection)
-    {
-        return 0.f;
-    }
+    return 32.f;
 
     return [super tableView:tableView heightForFooterInSection:section];
 }

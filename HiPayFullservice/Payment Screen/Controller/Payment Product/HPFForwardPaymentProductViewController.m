@@ -43,10 +43,6 @@
     return 0;
 }
 
-- (NSInteger) scanSection {
-    return -1;
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     
     if (section == (self.tableView.numberOfSections - 1)) {

@@ -44,8 +44,6 @@
 
 "FORM_CARD_STORAGE" = "Enregistrement de carte";
 
-"FORM_CARD_SCAN" = "Scan de carte";
-
 "FORM_APPLE_PAY" = "Apple Pay";
 
 "FORM_APPLE_PAY_INFOS" = "Un compte HiPay configuré avec Apple Pay est indispensable pour l'accès à cette fonctionalité.";

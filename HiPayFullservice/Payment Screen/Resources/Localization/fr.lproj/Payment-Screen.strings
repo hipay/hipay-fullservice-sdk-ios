@@ -14,8 +14,6 @@
 
 "HPF_TAP_TO_DEFINE" = "Touchez pour définir";
 
-"HPF_SCAN_PAYMENT_CARD" = "Scanner votre carte";
-
 "HPF_CANCEL" = "Annuler";
 "HPF_YES" = "Oui";
 "HPF_NO" = "Non";
@@ -104,9 +102,6 @@
 "HPF_CARD_STORE_TITLE" = "Enregistrer une carte";
 "HPF_CARD_SWITCH_TOUCHID_TITLE" = "Sécuriser avec Touch ID";
 "HPF_CARD_SWITCH_TOUCHID_DESCRIPTION" = "Souhaitez-vous activer Touch ID pour sécuriser les paiements futurs avec cette carte ? Une lecture d'empreinte digitale sera exigée lors de futures utilisations.";
-
-"HPF_CARD_SCAN" = "Scan de carte";
-"HPF_CARD_SCAN_PERMISSION" = "Pour scanner votre carte, activez la permission Appareil photo.";
 
 "HPF_CARD_STORED_SELECTION" = "Sélectionner une carte";
 

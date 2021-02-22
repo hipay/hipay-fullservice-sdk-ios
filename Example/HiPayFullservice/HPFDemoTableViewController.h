@@ -22,7 +22,6 @@
     NSUInteger amountRowIndex;
     NSUInteger applePayRowIndex;
     NSUInteger multiUseRowIndex;
-    NSUInteger cardScanRowIndex;
     NSUInteger authRowIndex;
     NSUInteger productCategoryRowIndex;
     NSUInteger submitRowIndex;
@@ -50,7 +49,6 @@
     BOOL groupedPaymentCard;
     BOOL applePay;
     BOOL multiUse;
-    BOOL cardScan;
     NSUInteger timeout;
 
     NSUInteger currencySegmentIndex;

@@ -158,7 +158,7 @@
     
     NSDictionary *HTTPParameters = @{
                                  @"request_id": requestID,
-                                 @"token": token,
+                                 @"card_token": token,
                                  @"card_expiry_month": month,
                                  @"card_expiry_year": year,
                                  @"card_holder": holder,

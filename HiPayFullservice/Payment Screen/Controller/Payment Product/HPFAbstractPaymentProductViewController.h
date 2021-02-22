@@ -65,6 +65,5 @@
 
 - (NSInteger) formSection;
 - (NSInteger) paySection;
-- (NSInteger) scanSection;
 
 @end

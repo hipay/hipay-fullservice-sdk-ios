@@ -71,8 +71,6 @@ typedef NS_ENUM(NSInteger, HPFEnvironment) {
 @property (nonatomic, getter=isPaymentCardStorageEnabled) BOOL paymentCardStorageEnabled;
 @property (nonatomic, getter=isTouchIDEnabled) BOOL touchIDEnabled;
 
-@property (nonatomic, getter=isPaymentCardScanEnabled) BOOL paymentCardScanEnabled;
-
 @property (nonatomic, readonly, getter=isApplePayEnabled) BOOL applePayEnabled;
 
 @property (nonatomic, readonly, nonnull) NSString *applePayPrivateKeyPassword;

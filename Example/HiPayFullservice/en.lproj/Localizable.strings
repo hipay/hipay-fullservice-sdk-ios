@@ -44,8 +44,6 @@
 
 "FORM_CARD_STORAGE" = "Payment cards storage";
 
-"FORM_CARD_SCAN" = "Payment cards scan";
-
 "FORM_APPLE_PAY" = "Apple Pay";
 
 "FORM_APPLE_PAY_INFOS" = "You need an HiPay Enterprise account configured with Apple Pay to get this functionality";

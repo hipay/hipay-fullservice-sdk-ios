@@ -13,7 +13,6 @@
 #import "HPFTransactionRequestResponseManager.h"
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardToken.h"
-#import "HPFScanCardTableViewCell.h"
 #import "HPFTransactionErrorResult.h"
 
 @interface HPFAbstractPaymentProductViewController ()
@@ -174,10 +173,6 @@
             ((HPFInputTableViewCell *)cell).enabled = !isLoading;
             [((HPFInputTableViewCell *)cell).textField resignFirstResponder];
         }
-
-        if ([cell isKindOfClass:[HPFScanCardTableViewCell class]]) {
-            ((HPFScanCardTableViewCell *)cell).enabled = !isLoading;
-        }
     }
 
     HPFPaymentCardSwitchTableHeaderView *headerView = (HPFPaymentCardSwitchTableHeaderView *)[self.tableView headerViewForSection:[self paySection]];
@@ -196,11 +191,6 @@
 
 - (NSInteger) paySection
 {
-    [self doesNotRecognizeSelector:_cmd];
-    return -1;
-}
-
-- (NSInteger) scanSection {
     [self doesNotRecognizeSelector:_cmd];
     return -1;
 }
@@ -475,15 +465,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
     if (section == 0) {
-
-        if (section == [self scanSection]) {
-
-            return @"";
-
-        } else {
-
-            return [NSString stringWithFormat:HPFLocalizedString(@"HPF_PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
-        }
+        return [NSString stringWithFormat:HPFLocalizedString(@"HPF_PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
     }
     
     return nil;

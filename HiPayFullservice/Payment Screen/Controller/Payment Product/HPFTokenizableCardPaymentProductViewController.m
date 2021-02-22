@@ -38,21 +38,11 @@
 {
     [super viewDidLoad];
 
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFScanCardTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ScanCard"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeTableViewFooterView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"SecurityCode"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentCardSwitchTableHeaderView" bundle:HPFPaymentScreenViewsBundle()] forHeaderFooterViewReuseIdentifier:@"PaymentCardSwitch"];
 
     self.switchOn = NO;
     self.touchIDOn = NO;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    if (self.isCameraScanDisplayed)
-    {
-        [CardIOUtilities preloadCardIO];
-    }
 }
 
 - (void)viewDidLayoutSubviews
@@ -390,53 +380,17 @@
     return NO;
 }
 
-- (BOOL)isScanConfigEnabled
-{
-    return [HPFClientConfig.sharedClientConfig isPaymentCardScanEnabled];
-}
-
-- (BOOL) canReadCardWithCamera
-{
-    return [CardIOUtilities canReadCardWithCamera];
-}
-
-- (BOOL) isCameraScanDisplayed {
-
-    NSString *mediaType = AVMediaTypeVideo;
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
-
-    BOOL canReadCard = YES;
-    if (self.canReadCardWithCamera == NO) {
-
-        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
-                && authStatus == AVAuthorizationStatusDenied) {
-
-            canReadCard = YES;
-
-        } else {
-
-            canReadCard = NO;
-        }
-    }
-    return self.isScanConfigEnabled && self.isCameraFeatureAllowed && canReadCard;
-}
-
 #pragma mark - Table View delegate and data source
 
 
 - (NSInteger) formSection
 {
-    return self.isCameraScanDisplayed ? 1 : 0;
+    return 0;
 }
 
 - (NSInteger) paySection
 {
-    return self.isCameraScanDisplayed ? 2 : 1;
-}
-
-- (NSInteger) scanSection
-{
-    return self.isCameraScanDisplayed ? 0 : -1;
+    return 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -455,14 +409,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    if (self.isCameraScanDisplayed) {
-        return 3;
-
-    } else {
-
-        return 2;
-    }
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -475,7 +422,6 @@
         }
     }
 
-    // pay section and scan section are 1 line
     return 1;
 }
 
@@ -547,11 +493,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.section == [self scanSection])
-    {
-        return [self dequeueScanCardCell];
-    }
-    else if (indexPath.section == [self paySection])
+    if (indexPath.section == [self paySection])
     {
         return [super dequeuePaymentButtonCell];
     }
@@ -601,63 +543,6 @@
     else {
         NSLog(@"Unexpected tableView error");
         abort();
-    }
-}
-
-- (HPFScanCardTableViewCell *)dequeueScanCardCell
-{
-    HPFScanCardTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ScanCard"];
-    cell.delegate = self;
-
-    return cell;
-}
-
-- (void)scanCardTableViewCellDidTouchButton:(HPFScanCardTableViewCell *)cell {
-
-    NSString *mediaType = AVMediaTypeVideo;
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
-
-    // this method checks if the user has the appropriate permission
-    if (!self.canReadCardWithCamera) {
-
-        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
-                && authStatus == AVAuthorizationStatusDenied) {
-
-            UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:HPFLocalizedString(@"HPF_CARD_SCAN")
-                                                                      message:HPFLocalizedString(@"HPF_CARD_SCAN_PERMISSION")
-                                                               preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* cancelButton = [UIAlertAction
-                                            actionWithTitle:HPFLocalizedString(@"HPF_CANCEL")
-                                            style:UIAlertActionStyleCancel
-                                            handler:^(UIAlertAction * action) {
-                                                
-                                            }];
-            
-            UIAlertAction* settingsButton = [UIAlertAction
-                                             actionWithTitle:HPFLocalizedString(@"HPF_SETTINGS")
-                                             style:UIAlertActionStyleDefault
-                                             handler:^(UIAlertAction * action) {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString: UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
-            }];
-            
-            [alertViewController addAction:cancelButton];
-            [alertViewController addAction:settingsButton];
-            
-            [self presentViewController:alertViewController animated:YES completion:nil];
-
-        } else {
-            // should not happen
-        }
-
-    } else {
-
-        CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
-
-        scanViewController.hideCardIOLogo = YES;
-        scanViewController.suppressScanConfirmation = YES;
-        scanViewController.disableManualEntryButtons = YES;
-
-        [self presentViewController:scanViewController animated:YES completion:nil];
     }
 }
 
@@ -764,43 +649,5 @@
 
     return 0.f;
 }
-
-- (void)userDidCancelPaymentViewController:(CardIOPaymentViewController *)scanViewController {
-    NSLog(@"User canceled payment info");
-    // Handle user cancellation here...
-    [scanViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)userDidProvideCreditCardInfo:(CardIOCreditCardInfo *)info inPaymentViewController:(CardIOPaymentViewController *)scanViewController {
-
-    HPFCardNumberTextField *cardNumberTextField = (HPFCardNumberTextField *) [self textFieldForIdentifier:@"number"];
-    cardNumberTextField.text = info.cardNumber;
-    [cardNumberTextField textFieldDidChange:nil];
-    [self textFieldDidChange:cardNumberTextField];
-
-    if (info.expiryMonth != 0 && info.expiryYear != 0) {
-        HPFExpiryDateTextField *expiryDateTextField = (HPFExpiryDateTextField *) [self textFieldForIdentifier:@"expiry_date"];
-
-        NSString *expiryYear = [NSString stringWithFormat:@"%lu", (unsigned long)info.expiryYear];
-
-        expiryYear = [NSString stringWithFormat:@"%02lu%@", (unsigned long)info.expiryMonth, [expiryYear substringFromIndex: [expiryYear length] - 2]];
-        NSAttributedString *expiryYearAttributed = [[HPFExpiryDateFormatter sharedFormatter] formattedDateWithPlainText:expiryYear];
-
-        expiryDateTextField.attributedText = expiryYearAttributed;
-
-        [self textFieldDidChange:expiryDateTextField];
-
-    }
-
-    if (info.cvv != nil && info.cvv.length > 0) {
-        HPFSecurityCodeTextField *securityCodeTextField = (HPFSecurityCodeTextField *) [self textFieldForIdentifier:@"security_code"];
-        securityCodeTextField.text = info.cvv;
-
-        [self textFieldDidChange:securityCodeTextField];
-    }
-
-    [scanViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
 
 @end

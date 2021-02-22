@@ -62,14 +62,8 @@ Pod::Spec.new do |s|
     s.dependency "HiPayFullservice/Core"
     s.dependency "HiPayFullservice/Utilities"
     s.weak_frameworks = "WebKit"
-    s.frameworks       = 'UIKit', 'Accelerate', 'AudioToolbox', 'AVFoundation', 'CoreLocation', 'CoreMedia', 'MessageUI', 'MobileCoreServices', 'SystemConfiguration'
-    s.vendored_libraries = ['HiPayFullservice/Payment Screen/CardIO/*.a']
+    s.frameworks       = 'UIKit', 'Accelerate', 'AudioToolbox', 'AVFoundation', 'CoreLocation', 'CoreMedia', 'MessageUI', 'CoreServices', 'SystemConfiguration'
     s.compiler_flags   = '-fmodules'
     s.xcconfig         = { 'OTHER_LDFLAGS' => '-lc++ -ObjC'}
   end
-
-  s.subspec 'CardIO' do |s|
-      s.dependency       'CardIO', '~> 5.4.1'
-  end
-
 end

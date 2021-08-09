@@ -66,7 +66,7 @@
 
 /* Tokenizable card */
 
-"HPF_CARD_HOLDER_LABEL" = "Proprietario della carta";
+"HPF_CARD_HOLDER_LABEL" = "Titolare carta";
 
 "HPF_CARD_HOLDER_PLACEHOLDER" = "Nome e cognome";
 

@@ -24,7 +24,7 @@
 
 "HPF_ALERT_TRANSACTION_LOADING_TITLE" = "Transazione in corso";
 
-"HPF_ALERT_TRANSACTION_LOADING_MESSAGE" = "La tua transazione è ancora in elaborazione. Sei sicuro di voler uscire da questa schermata?";
+"HPF_ALERT_TRANSACTION_LOADING_MESSAGE" = "La tua transazione è ancora in elaborazione. Sei sicuro di voler lasciare questa schermata?";
 
 "HPF_ALERT_TRANSACTION_LOADING_YES" = "Esci";
 
@@ -92,9 +92,9 @@
 
 "HPF_CARD_SECURITY_CODE_PLACEHOLDER_CID" = "1234";
 
-"HPF_CARD_SECURITY_CODE_DESCRIPTION_CVV" = "Il codice CVV è un numero di 3 cifre stampato sul retro della tua carta.";
+"HPF_CARD_SECURITY_CODE_DESCRIPTION_CVV" = "Il codice CVV è il numero di 3 cifre stampato sul retro della tua carta.";
 
-"HPF_CARD_SECURITY_CODE_DESCRIPTION_CID" = "Il codice CID è un numero di 4 cifre stampato sul fronte della tua carta American Express.";
+"HPF_CARD_SECURITY_CODE_DESCRIPTION_CID" = "Il codice CID è il numero di 4 cifre stampato sul fronte della tua carta American Express.";
 
 "HPF_CARD_SWITCH_STORE_DESCRIPTION" = "Memorizza questa carta per usi futuri";
 "HPF_CARD_STORE_DESCRIPTION" = "Memorizza questa carta per usi futuri";

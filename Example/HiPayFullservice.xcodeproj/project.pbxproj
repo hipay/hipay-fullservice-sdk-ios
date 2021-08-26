@@ -83,10 +83,8 @@
 		A5F605921BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F605911BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m */; };
 		A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F931BE91B9500F9604F /* InfoPlist.strings */; };
 		A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F951BE91B9500F9604F /* Localizable.strings */; };
-		A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F981BE91B9500F9604F /* Localizable.strings */; };
 		BA03A15521CB933300840C4D /* parameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA03A15321CB933300840C4D /* parameters.plist */; };
 		BA07A93221B544A5004A6B4C /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BA07A93121B544A5004A6B4C /* LICENSE.md */; };
-		BA16269025C0282400B138AE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BA16268E25C0282400B138AE /* InfoPlist.strings */; };
 		BA2CD18021B9583900BF278D /* HPFEnvironmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */; };
 		BA2CD18421B97CE600BF278D /* HPFTextInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD18221B97CE600BF278D /* HPFTextInputTableViewCell.m */; };
 		BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA2CD18321B97CE600BF278D /* HPFTextInputTableViewCell.xib */; };
@@ -203,18 +201,23 @@
 		A5F605911BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFHostedPaymentPageMapperTests.m; sourceTree = "<group>"; };
 		A5F98F941BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		A5F98F961BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
-		A5F98F991BE91B9500F9604F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Localizable.strings; sourceTree = "<group>"; };
 		B1F61A4069D7173400502AFC /* Pods-HiPayFullservice_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Example.debug.xcconfig"; path = "Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		B3B200311C6F66C1EB626335 /* Pods-HiPayFullservice_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.release.xcconfig"; path = "Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		B936D89B6AB94FC4D1FE6E95 /* HiPayFullservice.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayFullservice.podspec; path = ../HiPayFullservice.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		BA03A15321CB933300840C4D /* parameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = parameters.plist; sourceTree = "<group>"; };
 		BA07A93121B544A5004A6B4C /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
-		BA16268F25C0282400B138AE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = InfoPlist.strings; sourceTree = "<group>"; };
 		BA2CD17E21B9583900BF278D /* HPFEnvironmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFEnvironmentViewController.h; sourceTree = "<group>"; };
 		BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFEnvironmentViewController.m; sourceTree = "<group>"; };
 		BA2CD18121B97CE600BF278D /* HPFTextInputTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFTextInputTableViewCell.h; sourceTree = "<group>"; };
 		BA2CD18221B97CE600BF278D /* HPFTextInputTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFTextInputTableViewCell.m; sourceTree = "<group>"; };
 		BA2CD18321B97CE600BF278D /* HPFTextInputTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPFTextInputTableViewCell.xib; sourceTree = "<group>"; };
+		BA839C4E26D7D62D00260873 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = ../it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BA839C5026D7D63200260873 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BA839C5126D7D76F00260873 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = ../fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BA839C5226D7D77300260873 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = ../fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BA839C5326D7D7DE00260873 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ../en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BA839C5426D7D80000260873 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = ../it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BA839C5526D7D80B00260873 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ../en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BAF92BCA21D3D835004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFSepaDirectDebitPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		BAF92BCC21D3E104004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		E2C288BACFAFC7F253079DFC /* libPods-HiPayFullservice_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HiPayFullservice_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -613,31 +616,11 @@
 		A5F98F911BE91B8700F9604F /* Localization */ = {
 			isa = PBXGroup;
 			children = (
-				A5F98F921BE91B9500F9604F /* en.lproj */,
-				A5F98F971BE91B9500F9604F /* fr.lproj */,
+				A5F98F951BE91B9500F9604F /* Localizable.strings */,
+				A5F98F931BE91B9500F9604F /* InfoPlist.strings */,
 			);
 			name = Localization;
 			sourceTree = "<group>";
-		};
-		A5F98F921BE91B9500F9604F /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				A5F98F931BE91B9500F9604F /* InfoPlist.strings */,
-				A5F98F951BE91B9500F9604F /* Localizable.strings */,
-			);
-			name = en.lproj;
-			path = HiPayFullservice/en.lproj;
-			sourceTree = SOURCE_ROOT;
-		};
-		A5F98F971BE91B9500F9604F /* fr.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				A5F98F981BE91B9500F9604F /* Localizable.strings */,
-				BA16268E25C0282400B138AE /* InfoPlist.strings */,
-			);
-			name = fr.lproj;
-			path = HiPayFullservice/fr.lproj;
-			sourceTree = SOURCE_ROOT;
 		};
 		A5F98FA81BEB541200F9604F /* Utilities */ = {
 			isa = PBXGroup;
@@ -747,6 +730,7 @@
 				en,
 				Base,
 				fr,
+				it,
 			);
 			mainGroup = 6003F581195388D10070C39A;
 			productRefGroup = 6003F58B195388D20070C39A /* Products */;
@@ -765,13 +749,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
-				BA16269025C0282400B138AE /* InfoPlist.strings in Resources */,
 				BA07A93221B544A5004A6B4C /* LICENSE.md in Resources */,
 				A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */,
 				BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */,
 				BA03A15521CB933300840C4D /* parameters.plist in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
-				A5F98F9C1BE91B9500F9604F /* Localizable.strings in Resources */,
 				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
 				A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */,
 				4353367E1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib in Resources */,
@@ -978,6 +960,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6003F5B9195388D20070C39A /* en */,
+				BA839C5026D7D63200260873 /* it */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -986,6 +969,9 @@
 			isa = PBXVariantGroup;
 			children = (
 				A5F98F941BE91B9500F9604F /* en */,
+				BA839C4E26D7D62D00260873 /* it */,
+				BA839C5226D7D77300260873 /* fr */,
+				BA839C5526D7D80B00260873 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -994,24 +980,11 @@
 			isa = PBXVariantGroup;
 			children = (
 				A5F98F961BE91B9500F9604F /* en */,
+				BA839C5126D7D76F00260873 /* fr */,
+				BA839C5326D7D7DE00260873 /* en */,
+				BA839C5426D7D80000260873 /* it */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		A5F98F981BE91B9500F9604F /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A5F98F991BE91B9500F9604F /* fr */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		BA16268E25C0282400B138AE /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BA16268F25C0282400B138AE /* fr */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

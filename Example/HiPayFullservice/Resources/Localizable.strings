@@ -1,0 +1,111 @@
+/* Localized versions of Info.plist keys */
+
+"APP_TITLE" = "HiPay m-commerce demo";
+
+"CANCEL" = "Cancel";
+
+"OK" = "OK";
+
+"ENVIRONMENT_STAGE" = "Stage";
+
+"ENVIRONMENT_PRODUCTION" = "Production";
+
+"ENVIRONMENT_CUSTOM" = "Custom";
+
+"ENVIRONMENT_FORM_TITLE" = "Environment choice";
+
+"ENVIRONMENT_FORM_USERNAME" = "Username";
+
+"ENVIRONMENT_FORM_PASSWORD" = "Password";
+
+"ENVIRONMENT_FORM_URL" = "URL";
+
+"ENVIRONMENT_FORM_SIGNATURE_ENABLED" = "Local signature";
+
+"ENVIRONMENT_FORM_SIGNATURE_PASSPHRASE" = "Secret Passphrase";
+
+"ENVIRONMENT_ALERT_TITLE" = "⚠️ Warning ⚠️";
+
+"ENVIRONMENT_ALERT_MESSAGE_EMPTY" = "Username or password empty";
+
+"ENVIRONMENT_ALERT_MESSAGE_PASSPHRASE_EMPTY" = "Passphrase empty";
+
+"ENVIRONMENT_ALERT_MESSAGE_RESTART" = "Application will stop to save environment";
+
+"FORM_ENVIRONMENT" = "Environment";
+
+"FORM_TITLE" = "Generate a payment screen";
+
+"FORM_CURRENCY" = "Currency";
+
+"FORM_GROUP_PAYMENT_CARDS" = "Group cards";
+
+"FORM_AMOUNT" = "Amount";
+
+"FORM_CARD_STORAGE" = "Payment cards storage";
+
+"FORM_APPLE_PAY" = "Apple Pay";
+
+"FORM_APPLE_PAY_INFOS" = "You need an HiPay Enterprise account configured with Apple Pay to get this functionality";
+
+"FORM_COLOR" = "Color";
+
+"FORM_COLOR_DEFAULT" = "Default";
+
+"FORM_COLOR_RED" = "Red";
+
+"FORM_COLOR_PURPLE" = "Purple";
+
+"FORM_AUTH" = "3DS";
+
+"FORM_PAYMENT_PRODUCT_CATEGORIES" = "Payment product categories";
+
+"FORM_STORE_PAYMENT_CARD" = "Store payment card";
+
+"FORM_AUTH_IF_AVAILABLE" = "If avail.";
+
+"FORM_AUTH_MANDATORY" = "Oblig.";
+
+"FORM_AUTH_NONE" = "None";
+
+"FORM_AUTH_DEFAULT" = "Default";
+
+"FORM_SUBMIT" = "Generate payment screen";
+
+"FORM_PAYMENT_PRODUCTS_CREDIT_CARD" = "Credit card";
+
+"FORM_PAYMENT_PRODUCTS_DEBIT_CARD" = "Debit card";
+
+"FORM_PAYMENT_PRODUCTS_EWALLET" = "E-Wallet";
+
+"FORM_PAYMENT_PRODUCTS_REALTIME_BANKING" = "Real-time banking";
+
+"FORM_PAYMENT_PAGE_TIMEOUT" = "Timeout (seconds)";
+
+"RESULT_CANCEL" = "Cancelled by user";
+
+"RESULT_TITLE" = "Payment workflow result";
+
+"RESULT_ERROR" = "Error";
+
+"RESULT_FRAUD" = "Fraud screening";
+
+"RESULT_FRAUD_PENDING" = "Pending";
+
+"RESULT_FRAUD_ACCEPTED" = "Accepted";
+
+"RESULT_FRAUD_BLOCKED" = "Blocked";
+
+"RESULT_FRAUD_CHALLENGED" = "Challenged";
+
+"RESULT_STATE" = "Transaction state";
+
+"RESULT_STATE_ERROR" = "Error";
+
+"RESULT_STATE_COMPLETED" = "Completed";
+
+"RESULT_STATE_FORWARDING" = "Forwarding";
+
+"RESULT_STATE_PENDING" = "Pending";
+
+"RESULT_STATE_DECLINED" = "Declined";

@@ -88,7 +88,7 @@
         if (code != HPFErrorCodeAPIOther) {
 
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-            formatter.numberStyle = NSNumberFormatterRoundFloor;
+            formatter.roundingMode = NSNumberFormatterRoundFloor;
             NSNumber *codeNumber = [formatter numberFromString:stringCode];
             
             if (codeNumber != nil) {

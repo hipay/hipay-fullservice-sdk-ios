@@ -70,4 +70,8 @@
     return cardToken;
 }
 
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 @end

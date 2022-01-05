@@ -1,6 +1,17 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+2.1.0
+* Drop support iOS 11
+* Add Italian localization
+
+2.0.0
+-----
+* Drop support for iOS 9 & iOS 10
+* Remove CardIO library (no longer maintained)
+* Remove Datecs library (no utilization)
+* Add CVC parameter in updatePaymentCardWithToken function
+
 1.11.4
 -----
 * Add new parameter for Apple Pay

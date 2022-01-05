@@ -638,21 +638,21 @@
     } \
     """;
     
-    NSString *merchantRiskStatement = @""" \
-    { \
-    \"email_delivery_address\": \"jane.doe@test.com\", \
-    \"delivery_time_frame\": 1, \
-    \"purchase_indicator\": 1, \
-    \"pre_order_date\": 20190925, \
-    \"reorder_indicator\": 1, \
-    \"shipping_indicator\": 1, \
-    \"gift_card\": { \
-    \"amount\": 15.00, \
-    \"count\": 0, \
-    \"currency\": \"EUR\" \
-    } \
-    } \
-    """;
+//    NSString *merchantRiskStatement = @""" \
+//    { \
+//    \"email_delivery_address\": \"jane.doe@test.com\", \
+//    \"delivery_time_frame\": 1, \
+//    \"purchase_indicator\": 1, \
+//    \"pre_order_date\": 20190925, \
+//    \"reorder_indicator\": 1, \
+//    \"shipping_indicator\": 1, \
+//    \"gift_card\": { \
+//    \"amount\": 15.00, \
+//    \"count\": 0, \
+//    \"currency\": \"EUR\" \
+//    } \
+//    } \
+//    """;
     
     NSError *errorJSON;
     
@@ -667,14 +667,14 @@
                                                                          options:NSJSONReadingMutableContainers
                                                                            error:&errorJSON];
     
-    NSData *merchantRiskStatementData = [merchantRiskStatement dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *merchantRiskStatementDict = [NSJSONSerialization JSONObjectWithData:merchantRiskStatementData
-                                                                              options:NSJSONReadingMutableContainers
-                                                                                error:&errorJSON];
+//    NSData *merchantRiskStatementData = [merchantRiskStatement dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *merchantRiskStatementDict = [NSJSONSerialization JSONObjectWithData:merchantRiskStatementData
+//                                                                              options:NSJSONReadingMutableContainers
+//                                                                                error:&errorJSON];
     
     
     paymentPageRequest.accountInfo = accountInfoDict;
-    paymentPageRequest.merchantRiskStatement = merchantRiskStatementDict;
+//    paymentPageRequest.merchantRiskStatement = nil;
     paymentPageRequest.previousAuthInfo = previousAuthInfoDict;
 }
 

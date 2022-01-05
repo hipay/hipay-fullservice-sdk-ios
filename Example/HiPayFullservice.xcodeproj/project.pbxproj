@@ -88,6 +88,8 @@
 		BA2CD18021B9583900BF278D /* HPFEnvironmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */; };
 		BA2CD18421B97CE600BF278D /* HPFTextInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD18221B97CE600BF278D /* HPFTextInputTableViewCell.m */; };
 		BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA2CD18321B97CE600BF278D /* HPFTextInputTableViewCell.xib */; };
+		BA87CB14270AEE550048AC50 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F961BE91B9500F9604F /* Localizable.strings */; };
+		BA87CB15270AEE550048AC50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F941BE91B9500F9604F /* InfoPlist.strings */; };
 		BAF92BCB21D3D835004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BAF92BCA21D3D835004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestTests.m */; };
 		BAF92BCD21D3E104004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BAF92BCC21D3E104004E16E1 /* HPFSepaDirectDebitPaymentMethodRequestSerializationMapperTests.m */; };
 /* End PBXBuildFile section */
@@ -199,8 +201,8 @@
 		A5C91F431BE2CD6D00FD8421 /* HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFQiwiWalletPaymentMethodRequestSerializationMapperTests.m; sourceTree = "<group>"; };
 		A5C91F481BE2D22300FD8421 /* HPFQiwiWalletPaymentMethodRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFQiwiWalletPaymentMethodRequestTests.m; sourceTree = "<group>"; };
 		A5F605911BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFHostedPaymentPageMapperTests.m; sourceTree = "<group>"; };
-		A5F98F941BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
-		A5F98F961BE91B9500F9604F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		A5F98F941BE91B9500F9604F /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
+		A5F98F961BE91B9500F9604F /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		B1F61A4069D7173400502AFC /* Pods-HiPayFullservice_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Example.debug.xcconfig"; path = "Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		B3B200311C6F66C1EB626335 /* Pods-HiPayFullservice_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.release.xcconfig"; path = "Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		B936D89B6AB94FC4D1FE6E95 /* HiPayFullservice.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayFullservice.podspec; path = ../HiPayFullservice.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -616,7 +618,9 @@
 		A5F98F911BE91B8700F9604F /* Localization */ = {
 			isa = PBXGroup;
 			children = (
+				A5F98F961BE91B9500F9604F /* Localizable.strings */,
 				A5F98F951BE91B9500F9604F /* Localizable.strings */,
+				A5F98F941BE91B9500F9604F /* InfoPlist.strings */,
 				A5F98F931BE91B9500F9604F /* InfoPlist.strings */,
 			);
 			name = Localization;
@@ -698,7 +702,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = HPF;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = HiPay;
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
@@ -750,11 +754,13 @@
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				BA07A93221B544A5004A6B4C /* LICENSE.md in Resources */,
+				BA87CB14270AEE550048AC50 /* Localizable.strings in Resources */,
 				A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */,
 				BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */,
 				BA03A15521CB933300840C4D /* parameters.plist in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
+				BA87CB15270AEE550048AC50 /* InfoPlist.strings in Resources */,
 				A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */,
 				4353367E1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib in Resources */,
 				438DF0D11D6740A20003E24C /* HPFSubmitTableViewCell.xib in Resources */,
@@ -968,7 +974,6 @@
 		A5F98F931BE91B9500F9604F /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A5F98F941BE91B9500F9604F /* en */,
 				BA839C4E26D7D62D00260873 /* it */,
 				BA839C5226D7D77300260873 /* fr */,
 				BA839C5526D7D80B00260873 /* en */,
@@ -979,7 +984,6 @@
 		A5F98F951BE91B9500F9604F /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A5F98F961BE91B9500F9604F /* en */,
 				BA839C5126D7D76F00260873 /* fr */,
 				BA839C5326D7D7DE00260873 /* en */,
 				BA839C5426D7D80000260873 /* it */,
@@ -1040,7 +1044,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1090,7 +1094,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1115,7 +1119,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
 				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
@@ -1141,7 +1145,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
 				INFOPLIST_FILE = "HiPayFullservice/HiPayFullservice-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
@@ -1170,7 +1174,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HiPay Demo.app/HiPay Demo";
@@ -1193,7 +1197,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HiPay Demo.app/HiPay Demo";

@@ -32,6 +32,7 @@
 
 
 #import "FXKeychain.h"
+#import "HPFPaymentCardToken.h"
 
 
 #import <Availability.h>
@@ -206,7 +207,7 @@
         //property list encoding failed. try NSCoding
         if (!data)
         {
-            data = [NSKeyedArchiver archivedDataWithRootObject:object];
+            data = [NSKeyedArchiver archivedDataWithRootObject:object requiringSecureCoding:NO error:nil];
         }
         
 #endif
@@ -225,10 +226,8 @@
         
         update[(__bridge NSString *)kSecAttrAccessible] = @[(__bridge id)kSecAttrAccessibleWhenUnlocked,
                                                             (__bridge id)kSecAttrAccessibleAfterFirstUnlock,
-                                                            (__bridge id)kSecAttrAccessibleAlways,
                                                             (__bridge id)kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-                                                            (__bridge id)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
-                                                            (__bridge id)kSecAttrAccessibleAlwaysThisDeviceOnly][self.accessibility];
+                                                            (__bridge id)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly][self.accessibility];
 #endif
         
         //write data
@@ -307,16 +306,9 @@
             if ([object respondsToSelector:@selector(objectForKey:)] && [(NSDictionary *)object objectForKey:@"$archiver"])
             {
                 //data represents an NSCoded archive
-                
-    #if FXKEYCHAIN_USE_NSCODING
-                
-                //parse as archive
-                object = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    #else
-                //don't trust it
-                object = nil;
-    #endif
-                
+                object = [NSKeyedUnarchiver unarchivedObjectOfClasses:[NSSet setWithObjects:[NSArray class], [NSString class], [NSDate class], [NSNumber class], [HPFPaymentCardToken class], nil]
+                                                             fromData:data
+                                                                error:nil];
             }
         }
         if (!object || format != NSPropertyListBinaryFormat_v1_0)

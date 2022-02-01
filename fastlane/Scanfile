@@ -1,4 +1,4 @@
-devices(["iPhone 11"])
+devices(["iPhone 13"])
 clean(true)
 output_types("junit")
 workspace("Example/HiPayFullservice.xcworkspace")

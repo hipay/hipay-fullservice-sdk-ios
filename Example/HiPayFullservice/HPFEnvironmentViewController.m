@@ -24,8 +24,6 @@
 @property (nonatomic,assign) NSUInteger passwordRowIndex;
 @property (nonatomic,assign) NSUInteger urlRowIndex;
 
-@property (nonatomic, assign) NSUInteger credentialsSectionEnabled;
-
 @property (nonatomic, assign) BOOL isStageUrl;
 
 @property (nonatomic,assign) NSUInteger signatureSwitchRowIndex;
@@ -50,9 +48,7 @@
         self.usernameRowIndex = 0;
         self.passwordRowIndex = 1;
         self.urlRowIndex = 2;
-        
-        self.signatureSwitchRowIndex = 0;
-        self.signaturePasswordRowIndex = 1;
+        self.signaturePasswordRowIndex = 3;
         
         [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
         [self.tableView registerNib:[UINib nibWithNibName:@"HPFTextInputTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"Input"];
@@ -79,23 +75,18 @@
     else if ([HPFEnvironmentViewController isEnvironmentCustom]) {
         self.selectedEnvironment = self.customRowIndex;
     }
-    
-    self.isSignatureLocalActivated = [HPFEnvironmentViewController isLocalSignatureUserDefaults];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 3;
     }
-    else if (section == 1) {
-        return 3;
-    }
     else {
-        return 2;
+        return 4;
     }
 }
 
@@ -162,7 +153,7 @@
             
             return cell;
         }
-        else {
+        else if (indexPath.row == self.urlRowIndex) {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"url"];
             if (cell == nil) {
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"url"];
@@ -184,23 +175,20 @@
             
             return cell;
         }
-        
-    }
-    else if (indexPath.section == 2) {
-        if (indexPath.row == self.signatureSwitchRowIndex) {
-            HPFSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
-            [cell.switchControl addTarget:self action:@selector(controlValueChanged:) forControlEvents:UIControlEventValueChanged];
-            cell.textLabel.text = NSLocalizedString(@"ENVIRONMENT_FORM_SIGNATURE_ENABLED", nil);
-            cell.switchControl.on = self.isSignatureLocalActivated;
-            return cell;
-        }
         else {
             HPFTextInputTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Input" forIndexPath:indexPath];
             cell.title.text = NSLocalizedString(@"ENVIRONMENT_FORM_SIGNATURE_PASSPHRASE", nil);
-            cell.textfield.text = [HPFEnvironmentViewController passwordSignatureUserDefaults];
+            if (self.selectedEnvironment == self.stageRowIndex) {
+                cell.textfield.text = self.plistDictionary[@"hipayStage"][@"secretPassphrase"];
+            }
+            else if (self.selectedEnvironment == self.prodRowIndex) {
+                cell.textfield.text = self.plistDictionary[@"hipayProduction"][@"secretPassphrase"];
+            }
+            else {
+                cell.textfield.text = [HPFEnvironmentViewController passwordSignatureUserDefaults];
+            }
             return cell;
         }
-        
     }
     
     NSLog(@"Unexpected tableView error");
@@ -286,20 +274,19 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:HPFEnvironmentViewControllerKeyIsStageUrl];
 }
 
-+(void)updateUserDefaultsUsername:(NSString * _Nonnull)username password:(NSString * _Nonnull)password isStageUrl:(BOOL)isStageUrl {
++(void)updateUserDefaultsUsername:(NSString * _Nonnull)username
+                         password:(NSString * _Nonnull)password
+                       isStageUrl:(BOOL)isStageUrl
+                passwordSignature:(NSString * _Nonnull)passwordSignature {
     [[NSUserDefaults standardUserDefaults] setObject:username forKey:HPFEnvironmentViewControllerKeyUsername];
     [[NSUserDefaults standardUserDefaults] setObject:password forKey:HPFEnvironmentViewControllerKeyPassword];
     [[NSUserDefaults standardUserDefaults] setBool:isStageUrl forKey:HPFEnvironmentViewControllerKeyIsStageUrl];
+    [[NSUserDefaults standardUserDefaults] setObject:passwordSignature forKey:HPFEnvironmentViewControllerKeyPasswordSignature];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(BOOL)isLocalSignatureUserDefaults {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:HPFEnvironmentViewControllerKeyIsLocalSignature];
-}
-
-+(void)updateIsLocalSignatureUserDefaults:(BOOL)isLocalSignature {
-    [[NSUserDefaults standardUserDefaults] setBool:isLocalSignature forKey:HPFEnvironmentViewControllerKeyIsLocalSignature];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    return YES;
 }
 
 +(NSString *)passwordSignatureUserDefaults {
@@ -353,32 +340,26 @@
     [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
                                                 style:UIAlertActionStyleDestructive
                                               handler:^(UIAlertAction * _Nonnull action) {
-                                                  if (self.selectedEnvironment == self.prodRowIndex) {
-                                                      [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueProduction];
-                                                  }
-                                                  else if (self.selectedEnvironment == self.stageRowIndex) {
-                                                      [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueStage];
-                                                  }
-                                                  else if (self.selectedEnvironment == self.customRowIndex) {
-                                                      [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueCustom];
-                                                      [HPFEnvironmentViewController updateUserDefaultsUsername:username.textfield.text
-                                                                                                      password:password.textfield.text
-                                                                                                    isStageUrl:self.isStageUrl];
-                                                  }
-                                                  
-                                                  [HPFEnvironmentViewController updateIsLocalSignatureUserDefaults:self.isSignatureLocalActivated];
-                                                  [HPFEnvironmentViewController updatePasswordSignatureUserDefaults:signaturePassword.textfield.text];
-
-                                                  abort();
-                                              }]];
+        if (self.selectedEnvironment == self.prodRowIndex) {
+            [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueProduction];
+        }
+        else if (self.selectedEnvironment == self.stageRowIndex) {
+            [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueStage];
+        }
+        else if (self.selectedEnvironment == self.customRowIndex) {
+            [HPFEnvironmentViewController updateEnvironmentUserDefaults:HPFEnvironmentViewControllerValueCustom];
+            [HPFEnvironmentViewController updateUserDefaultsUsername:username.textfield.text
+                                                            password:password.textfield.text
+                                                          isStageUrl:self.isStageUrl
+                                                   passwordSignature:signaturePassword.textfield.text];
+        }
+        
+        abort();
+    }]];
     [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"CANCEL", nil)
                                                 style:UIAlertActionStyleCancel
                                               handler:nil]];
     [self.navigationController presentViewController:alertVC animated:YES completion:nil];
-}
-
-- (void)controlValueChanged:(UISwitch *)sender {
-    self.isSignatureLocalActivated = sender.on;
 }
 
 @end

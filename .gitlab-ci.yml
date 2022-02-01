@@ -1,0 +1,37 @@
+stages:
+  - Tests
+  - Build
+  - Deploy
+
+variables:
+  LC_ALL: "en_US.UTF-8"
+  LANG: "en_US.UTF-8"
+
+before_script:
+  - bundle check || bundle install
+  # Install CocoaPods
+  - bundle exec pod install --project-directory=Example/
+  
+unit-tests:
+  stage: Tests
+  script:
+      - bundle exec fastlane Test --verbose
+  tags:
+    - macOS
+
+build-demo:
+  stage: Build
+  script:
+      - bundle exec fastlane BuildDemo --verbose
+  artifacts:
+      paths:
+        - HiPay Demo.ipa
+  tags:
+    - macOS
+
+deploy-demo:
+  stage: Deploy
+  script:
+      - bundle exec fastlane DeployDemo --verbose
+  tags:
+    - macOS

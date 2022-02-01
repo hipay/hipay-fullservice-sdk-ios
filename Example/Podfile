@@ -14,5 +14,5 @@ target 'HiPayFullservice_Example' do
 end
 
 post_install do |installer|
-  system("python ../deployment/generate_parameters.py")
+  system("python3 deployment/generate_parameters.py")
 end

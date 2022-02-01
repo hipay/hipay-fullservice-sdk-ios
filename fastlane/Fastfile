@@ -1,10 +1,6 @@
 default_platform(:ios)
 
 platform :ios do
-  before_all do
-    setup_circle_ci
-  end
-
   desc "Set environment variables"
   lane :SetEnv do
     # Sed API Data
@@ -25,7 +21,7 @@ platform :ios do
     set_info_plist_value(
       path: "Example/HiPayFullservice/HiPayFullservice-Info.plist",
       key: "CFBundleVersion",
-      value: ENV['CIRCLE_BUILD_NUM']
+      value: ENV['CI_JOB_ID']
     )
 
     set_info_plist_value(

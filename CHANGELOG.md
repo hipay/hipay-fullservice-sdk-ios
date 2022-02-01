@@ -1,6 +1,9 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+2.1.1
+* Local runner 2
+
 2.1.0
 * Drop support iOS 11
 * Add Italian localization

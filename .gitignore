@@ -2,7 +2,7 @@
 .DS_Store
 
 # Xcode
-build/
+builds/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -43,3 +43,4 @@ Example/Pods/
 # Fastlane
 fastlane/README.md
 fastlane/test_output/report.junit
+fastlane/report.xml

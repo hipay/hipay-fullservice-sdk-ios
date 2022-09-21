@@ -1,0 +1,87 @@
+name: iOS Pipeline
+
+on: [push]
+
+jobs:
+  tests:
+    runs-on: macos-latest
+    environment: stage
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '3'
+
+      - name: Install Dependencies
+        run: gem install bundler && bundle install
+
+      - name: Install pods
+        run: bundle exec pod install --project-directory=Example/
+
+      - name: Tests
+        run: fastlane Test
+
+  build_demo:
+    needs: tests
+    runs-on: macos-latest
+    environment: stage
+    env:
+      KEYSTORE: ${{ secrets.KEYSTORE }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      USERNAME_API_HIPAY_STAGE: ${{ secrets.USERNAME_API_HIPAY_STAGE }}
+      PASSWORD_API_HIPAY_STAGE: ${{ secrets.PASSWORD_API_HIPAY_STAGE }}
+      USERNAME_API_HIPAY_PRODUCTION: ${{ secrets.USERNAME_API_HIPAY_PRODUCTION }}
+      PASSWORD_API_HIPAY_PRODUCTION: ${{ secrets.PASSWORD_API_HIPAY_PRODUCTION }}
+      API_DATA_URL_QA: ${{ secrets.API_DATA_URL_QA }}
+      API_DATA_URL_STAGE: ${{ secrets.API_DATA_URL_STAGE }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '3'
+
+      - name: Install Dependencies
+        run: gem install bundler && bundle install
+
+      - name: Build-demo
+        run: fastlane BuildDemo
+
+      - name: Save .ipa in artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: HiPay Demo.ipa
+          path: HiPay Demo.ipa
+
+  deploy_demo:
+    needs: build_demo
+    runs-on: macos-latest
+    environment: stage
+    env:
+      APPCENTER_TOKEN: ${{ secrets.APPCENTER_TOKEN }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '3'
+
+      - name: Install Dependencies
+        run: gem install bundler && bundle install
+
+      - name: Download APK from previous job
+        uses: actions/download-artifact@v3
+        with:
+          name: HiPay Demo.ipa
+
+      - name: Deploy-demo
+        run: fastlane DeployDemo

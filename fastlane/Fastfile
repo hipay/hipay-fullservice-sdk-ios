@@ -21,7 +21,7 @@ platform :ios do
     set_info_plist_value(
       path: "Example/HiPayFullservice/HiPayFullservice-Info.plist",
       key: "CFBundleVersion",
-      value: ENV['CI_JOB_ID']
+      value: ENV['GITHUB_RUN_ID']
     )
 
     set_info_plist_value(

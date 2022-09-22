@@ -3,29 +3,29 @@ name: iOS Pipeline
 on: [push]
 
 jobs:
-  tests:
-    runs-on: macos-latest
-    environment: stage
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
+  # tests:
+  #   runs-on: macos-latest
+  #   environment: stage
+  #   steps:
+  #     - name: Checkout Repo
+  #       uses: actions/checkout@v3
 
-      - name: Set up Ruby
-        uses: actions/setup-ruby@v1
-        with:
-          ruby-version: '3'
+  #     - name: Set up Ruby
+  #       uses: actions/setup-ruby@v1
+  #       with:
+  #         ruby-version: '3'
 
-      - name: Install Dependencies
-        run: gem install bundler && bundle install
+  #     - name: Install Dependencies
+  #       run: gem install bundler && bundle install
 
-      - name: Install pods
-        run: pod install --project-directory=Example/
+  #     - name: Install pods
+  #       run: pod install --project-directory=Example/
 
-      - name: Tests
-        run: fastlane Test
+  #     - name: Tests
+  #       run: fastlane Test
 
   build_demo:
-    needs: tests
+    # needs: tests
     runs-on: macos-latest
     environment: stage
     env:
@@ -56,6 +56,12 @@ jobs:
 
       - name: Install pods
         run: pod install --project-directory=Example/
+
+      - name: Install pods
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: |
+            ${{ secrets.CERTIFICATES_PRIVATE_KEY }}
 
       - name: Build-demo
         run: fastlane BuildDemo

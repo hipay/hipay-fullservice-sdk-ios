@@ -1,5 +1,10 @@
 name: iOS Pipeline
 
+on:
+  push:
+    branches:
+      - 'release/**'
+
 jobs:
   tests:
     runs-on: macos-latest

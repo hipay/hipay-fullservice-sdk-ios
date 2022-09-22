@@ -1,9 +1,6 @@
 name: iOS Pipeline
 
-on:
-  push:
-    branches:
-      - 'release/**'
+on: [push]
 
 jobs:
   tests:

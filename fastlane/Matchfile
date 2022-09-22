@@ -1,4 +1,4 @@
-git_url("git@github.com:hipay/hipay-fullservice-sdk-ios.git")
+git_url("git@github.com:hipay/hipay-sdk-ios-certificates.git")
 type("adhoc")
 app_identifier("com.hipay.fullservice.demo")
 username("pi-ecommerce@hipay.com")

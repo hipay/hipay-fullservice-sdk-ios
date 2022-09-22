@@ -10,17 +10,6 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3'
-
-      - name: Install Dependencies
-        run: gem install bundler && bundle install
-
-      - name: Install pods
-        run: pod install --project-directory=Example/
-
       - name: Tests
         run: fastlane Test
 
@@ -45,14 +34,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3'
-
-      - name: Install Dependencies
-        run: gem install bundler && bundle install
 
       - name: Install pods
         run: pod install --project-directory=Example/
@@ -81,14 +62,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3'
-
-      - name: Install Dependencies
-        run: gem install bundler && bundle install
 
       - name: Download .ipa from previous job
         uses: actions/download-artifact@v3

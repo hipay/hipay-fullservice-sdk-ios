@@ -10,6 +10,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
+      - name: Install pods
+        run: pod install --project-directory=Example/
+
       - name: Tests
         run: fastlane Test
 
@@ -38,7 +41,7 @@ jobs:
       - name: Install pods
         run: pod install --project-directory=Example/
 
-      - name: Install pods
+      - name: Add SSH Key for Certificates
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: |

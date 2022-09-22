@@ -1,7 +1,5 @@
 name: iOS Pipeline
 
-on: [push]
-
 jobs:
   tests:
     runs-on: macos-latest
@@ -19,7 +17,7 @@ jobs:
         run: gem install bundler && bundle install
 
       - name: Install pods
-        run: bundle exec pod install --project-directory=Example/
+        run: pod install --project-directory=Example/
 
       - name: Tests
         run: fastlane Test
@@ -29,16 +27,19 @@ jobs:
     runs-on: macos-latest
     environment: stage
     env:
-      KEYSTORE: ${{ secrets.KEYSTORE }}
-      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-      USERNAME_API_HIPAY_STAGE: ${{ secrets.USERNAME_API_HIPAY_STAGE }}
-      PASSWORD_API_HIPAY_STAGE: ${{ secrets.PASSWORD_API_HIPAY_STAGE }}
-      USERNAME_API_HIPAY_PRODUCTION: ${{ secrets.USERNAME_API_HIPAY_PRODUCTION }}
-      PASSWORD_API_HIPAY_PRODUCTION: ${{ secrets.PASSWORD_API_HIPAY_PRODUCTION }}
-      API_DATA_URL_QA: ${{ secrets.API_DATA_URL_QA }}
-      API_DATA_URL_STAGE: ${{ secrets.API_DATA_URL_STAGE }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      HIPAY_FULLSERVICE_API_PRODUCTION_PASSWORD: ${{ secrets.HIPAY_FULLSERVICE_API_PRODUCTION_PASSWORD }}
+      HIPAY_FULLSERVICE_API_PRODUCTION_USERNAME: ${{ secrets.HIPAY_FULLSERVICE_API_PRODUCTION_USERNAME }}
+      HIPAY_FULLSERVICE_API_STAGE_PASSWORD: ${{ secrets.HIPAY_FULLSERVICE_API_STAGE_PASSWORD }}
+      HIPAY_FULLSERVICE_API_STAGE_USERNAME: ${{ secrets.HIPAY_FULLSERVICE_API_STAGE_USERNAME }}
+      HIPAY_FULLSERVICE_PRODUCTION_SECRET_PASSPHRASE: ${{ secrets.HIPAY_FULLSERVICE_PRODUCTION_SECRET_PASSPHRASE }}
+      HIPAY_FULLSERVICE_STAGE_SECRET_PASSPHRASE: ${{ secrets.HIPAY_FULLSERVICE_STAGE_SECRET_PASSPHRASE }}
+      HIPAY_PRODUCTION_APPLE_PAY_MERCHANT_IDENTIFIER: ${{ secrets.HIPAY_PRODUCTION_APPLE_PAY_MERCHANT_IDENTIFIER }}
+      HIPAY_PRODUCTION_APPLE_PAY_PRIVATE_KEY_PASSWORD: ${{ secrets.HIPAY_PRODUCTION_APPLE_PAY_PRIVATE_KEY_PASSWORD }}
+      HIPAY_PRODUCTION_APPLE_PAY_USERNAME: ${{ secrets.HIPAY_PRODUCTION_APPLE_PAY_USERNAME }}
+      HIPAY_STAGE_APPLE_PAY_MERCHANT_IDENTIFIER: ${{ secrets.HIPAY_STAGE_APPLE_PAY_MERCHANT_IDENTIFIER }}
+      HIPAY_STAGE_APPLE_PAY_PRIVATE_KEY_PASSWORD: ${{ secrets.HIPAY_STAGE_APPLE_PAY_PRIVATE_KEY_PASSWORD }}
+      HIPAY_STAGE_APPLE_PAY_USERNAME: ${{ secrets.HIPAY_STAGE_APPLE_PAY_USERNAME }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -50,6 +51,9 @@ jobs:
 
       - name: Install Dependencies
         run: gem install bundler && bundle install
+
+      - name: Install pods
+        run: pod install --project-directory=Example/
 
       - name: Build-demo
         run: fastlane BuildDemo
@@ -78,7 +82,7 @@ jobs:
       - name: Install Dependencies
         run: gem install bundler && bundle install
 
-      - name: Download APK from previous job
+      - name: Download .ipa from previous job
         uses: actions/download-artifact@v3
         with:
           name: HiPay Demo.ipa

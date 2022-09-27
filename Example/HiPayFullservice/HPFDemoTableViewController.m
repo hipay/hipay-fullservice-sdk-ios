@@ -483,11 +483,15 @@
         
         NSString *orderID = [NSString stringWithFormat:@"TEST_%u",arc4random()];
         
+        NSDictionary *parameters =   [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
+        
+        NSString *passwordSignature = [HPFEnvironmentViewController isEnvironmentStage] ? parameters[@"hipayStage"][@"secretPassphrase"] : [HPFEnvironmentViewController isEnvironmentProduction] ? parameters[@"hipayProduction"][@"secretPassphrase"] : [HPFEnvironmentViewController passwordSignatureUserDefaults];
+        
         NSString *signature = [NSString stringWithFormat:@"%@%@%@%@",
                                orderID,
                                formattedAmount,
                                currencies[currencySegmentIndex],
-                               [HPFEnvironmentViewController passwordSignatureUserDefaults]];
+                               passwordSignature];
         
         NSString *signatureHashed = [self sha1:signature];
         
@@ -576,7 +580,7 @@
     paymentPageRequest.shippingAddress.lastname = @"Doe";
     
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
-        
+    
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
     
     NSString *parametersEnvironment = nil;
@@ -586,12 +590,12 @@
     else {
         parametersEnvironment = @"hipayProduction";
     }
-
+    
     [HPFClientConfig.sharedClientConfig setApplePayEnabled:applePay
                                           usernameApplePay:parameters[parametersEnvironment][@"applePayUsername"]
                                         privateKeyPassword:parameters[parametersEnvironment][@"applePayPrivateKeyPassword"]
                                         merchantIdentifier:parameters[parametersEnvironment][@"applePayMerchantIdentifier"]];
-        
+    
     paymentPageRequest.paymentProductCategoryList = selectedPaymentProducts.allObjects;
     
     switch (authenticationIndicatorSegmentIndex) {
@@ -638,21 +642,21 @@
     } \
     """;
     
-//    NSString *merchantRiskStatement = @""" \
-//    { \
-//    \"email_delivery_address\": \"jane.doe@test.com\", \
-//    \"delivery_time_frame\": 1, \
-//    \"purchase_indicator\": 1, \
-//    \"pre_order_date\": 20190925, \
-//    \"reorder_indicator\": 1, \
-//    \"shipping_indicator\": 1, \
-//    \"gift_card\": { \
-//    \"amount\": 15.00, \
-//    \"count\": 0, \
-//    \"currency\": \"EUR\" \
-//    } \
-//    } \
-//    """;
+    //    NSString *merchantRiskStatement = @""" \
+    //    { \
+    //    \"email_delivery_address\": \"jane.doe@test.com\", \
+    //    \"delivery_time_frame\": 1, \
+    //    \"purchase_indicator\": 1, \
+    //    \"pre_order_date\": 20190925, \
+    //    \"reorder_indicator\": 1, \
+    //    \"shipping_indicator\": 1, \
+    //    \"gift_card\": { \
+    //    \"amount\": 15.00, \
+    //    \"count\": 0, \
+    //    \"currency\": \"EUR\" \
+    //    } \
+    //    } \
+    //    """;
     
     NSError *errorJSON;
     
@@ -667,14 +671,14 @@
                                                                          options:NSJSONReadingMutableContainers
                                                                            error:&errorJSON];
     
-//    NSData *merchantRiskStatementData = [merchantRiskStatement dataUsingEncoding:NSUTF8StringEncoding];
-//    NSDictionary *merchantRiskStatementDict = [NSJSONSerialization JSONObjectWithData:merchantRiskStatementData
-//                                                                              options:NSJSONReadingMutableContainers
-//                                                                                error:&errorJSON];
+    //    NSData *merchantRiskStatementData = [merchantRiskStatement dataUsingEncoding:NSUTF8StringEncoding];
+    //    NSDictionary *merchantRiskStatementDict = [NSJSONSerialization JSONObjectWithData:merchantRiskStatementData
+    //                                                                              options:NSJSONReadingMutableContainers
+    //                                                                                error:&errorJSON];
     
     
     paymentPageRequest.accountInfo = accountInfoDict;
-//    paymentPageRequest.merchantRiskStatement = nil;
+    //    paymentPageRequest.merchantRiskStatement = nil;
     paymentPageRequest.previousAuthInfo = previousAuthInfoDict;
 }
 
@@ -861,7 +865,7 @@
 
 -(void) updateResultSection {
     multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
-        
+    
     applePay = [HPFClientConfig.sharedClientConfig isApplePayEnabled];
     
     if (productCategoriesViewController != nil) {
@@ -885,4 +889,4 @@
 }
 
 @end
-    
+

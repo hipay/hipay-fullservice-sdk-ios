@@ -1,6 +1,5 @@
 # HiPay SDK for iOS
 
-[![Build Status](https://circleci.com/gh/hipay/hipay-fullservice-sdk-ios/tree/master.svg?style=shield)](https://circleci.com/gh/hipay/hipay-fullservice-sdk-ios/tree/master)
 [![Version](https://img.shields.io/cocoapods/v/HiPayFullservice.svg?style=flat)](http://cocoapods.org/pods/HiPayFullservice)
 [![License](https://img.shields.io/cocoapods/l/HiPayFullservice.svg?style=flat)](http://cocoapods.org/pods/HiPayFullservice)
 [![Platform](https://img.shields.io/cocoapods/p/HiPayFullservice.svg?style=flat)](http://cocoapods.org/pods/HiPayFullservice)

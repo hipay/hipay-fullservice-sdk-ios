@@ -4,6 +4,7 @@ parameters = dict(
     hipayStage=dict(
         username = os.environ.get('HIPAY_FULLSERVICE_API_STAGE_USERNAME', 'xxxxxx'),
         password = os.environ.get('HIPAY_FULLSERVICE_API_STAGE_PASSWORD', 'xxxxxx'),
+        secretPassphrase = os.environ.get('HIPAY_FULLSERVICE_STAGE_SECRET_PASSPHRASE', 'xxxxxx'),
         applePayPrivateKeyPassword = os.environ.get('HIPAY_STAGE_APPLE_PAY_PRIVATE_KEY_PASSWORD', 'xxxxxx'),
         applePayMerchantIdentifier = os.environ.get('HIPAY_STAGE_APPLE_PAY_MERCHANT_IDENTIFIER', 'xxxxxx'),
         applePayUsername = os.environ.get('HIPAY_STAGE_APPLE_PAY_USERNAME', 'xxxxxx'),
@@ -11,6 +12,7 @@ parameters = dict(
     hipayProduction=dict(
         username = os.environ.get('HIPAY_FULLSERVICE_API_PRODUCTION_USERNAME', 'xxxxxx'),
         password = os.environ.get('HIPAY_FULLSERVICE_API_PRODUCTION_PASSWORD', 'xxxxxx'),
+        secretPassphrase = os.environ.get('HIPAY_FULLSERVICE_PRODUCTION_SECRET_PASSPHRASE', 'xxxxxx'),
         applePayPrivateKeyPassword = os.environ.get('HIPAY_PRODUCTION_APPLE_PAY_PRIVATE_KEY_PASSWORD', 'xxxxxx'),
         applePayMerchantIdentifier = os.environ.get('HIPAY_PRODUCTION_APPLE_PAY_MERCHANT_IDENTIFIER', 'xxxxxx'),
         applePayUsername = os.environ.get('HIPAY_PRODUCTION_APPLE_PAY_USERNAME', 'xxxxxx'),
@@ -19,17 +21,11 @@ parameters = dict(
 )
 
 filename = "parameters.plist"
-path = ""
-
-if os.environ.get('CI'):
-    path = "Example/HiPayFullservice/Resources/Parameters/" + filename
-else:
-    path = "../Example/HiPayFullservice/Resources/Parameters/" + filename
-
-print path
+path = "Example/HiPayFullservice/Resources/Parameters/" + filename
 
 # Save file
-plistlib.writePlist(parameters, path)
+with open(path, "wb") as f:
+    plistlib.dump(parameters, f)
 
 sys.stdout.write("\n\nA new parameters file was created at:\n")
 sys.stdout.write(filename + "\n")

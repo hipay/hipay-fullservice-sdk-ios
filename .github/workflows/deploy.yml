@@ -3,7 +3,7 @@ name: iOS Pipeline
 on:
   push:
     branches:
-      - 'releases/**'
+      - 'release/**'
 
 jobs:
   tests:

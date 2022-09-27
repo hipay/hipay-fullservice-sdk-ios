@@ -1,15 +1,21 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+2.2.0
+
+* Ready for Xcode 14 and iOS 16
+
 2.1.1
+
 * Local runner 2
 
 2.1.0
+
 * Drop support iOS 11
 * Add Italian localization
 
 2.0.0
------
+
 * Drop support for iOS 9 & iOS 10
 * Remove CardIO library (no longer maintained)
 * Remove Datecs library (no utilization)

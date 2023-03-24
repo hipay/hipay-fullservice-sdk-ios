@@ -345,6 +345,10 @@
 
     [self cancelBackgroundReload];
     [[HPFTransactionRequestResponseManager sharedManager] removeAlerts];
+    
+    if ([self.delegate respondsToSelector:@selector(paymentScreenViewControllerDidCancel:)]) {
+        [self.delegate paymentScreenViewControllerDidCancel:self];
+    }
 }
 
 #pragma mark - Ending payment

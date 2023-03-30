@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "HiPayFullservice"
-  s.version          = "2.2.0"
+  s.version          = "2.2.1"
   s.summary          = "HiPay SDK for iOS lets you accept payments in your iOS application."
   s.description      = <<-DESC
                        HiPay is a new generation of payment platform optimized for todays’ e-tailers.

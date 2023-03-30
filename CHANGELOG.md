@@ -1,6 +1,10 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+2.2.1
+
+* Send cancellation event for stored card screen
+
 2.2.0
 
 * Ready for Xcode 14 and iOS 16

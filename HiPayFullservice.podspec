@@ -62,7 +62,7 @@ Pod::Spec.new do |s|
     s.dependency "HiPayFullservice/Core"
     s.dependency "HiPayFullservice/Utilities"
     s.weak_frameworks = "WebKit"
-    s.frameworks       = 'UIKit', 'Accelerate', 'AudioToolbox', 'AVFoundation', 'CoreLocation', 'CoreMedia', 'MessageUI', 'CoreServices', 'SystemConfiguration'
+    s.frameworks       = 'UIKit', 'Accelerate', 'AudioToolbox', 'AVFoundation', 'CoreLocation', 'CoreMedia', 'MessageUI', 'SystemConfiguration'
     s.compiler_flags   = '-fmodules'
     s.xcconfig         = { 'OTHER_LDFLAGS' => '-lc++ -ObjC'}
   end

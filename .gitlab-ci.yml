@@ -7,5 +7,3 @@ include:
       project_id: $AI_REVIEW_GCP_PROJECT_ID
       gitlab_private_token: $AI_REVIEW_GITLAB_TOKEN
       vertex_ai_sa: $AI_REVIEW_SA
-      jira_user: $JIRA_API_EMAIL
-      jira_token: $JIRA_API_TOKEN

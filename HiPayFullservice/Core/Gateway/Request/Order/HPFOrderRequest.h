@@ -24,4 +24,5 @@
  */
 @property (nonatomic, nullable) HPFAbstractPaymentMethodRequest *paymentMethod;
 
+@property (nonatomic, assign) BOOL oneClick;
 @end

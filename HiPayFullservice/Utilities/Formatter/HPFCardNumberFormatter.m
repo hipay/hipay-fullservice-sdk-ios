@@ -167,33 +167,28 @@
     return lengthValid && BINValid && luhnCheck;
 }
 
-- (NSAttributedString *)formatPlainTextNumber:(NSString *)plainTextNumber forPaymentProductCode:(NSString *)paymentProductCode
+- (NSAttributedString *)formatPlainTextNumber:(NSString *)plainTextNumber
+                       forPaymentProductCode:(NSString *)paymentProductCode
 {
     NSString *digits = [self digitsOnlyFromPlainText:plainTextNumber];
-    
-    NSArray *groups = paymentProductsInfo[paymentProductCode][@"format"];
-    
-    if (groups != nil) {
-        
-        NSMutableAttributedString *formattedNumber = [[NSMutableAttributedString alloc] initWithString:digits attributes:@{NSKernAttributeName: @0}];
-        NSUInteger currentPosition = 0;
 
-        for (NSNumber *numberOfDigits in groups) {
-            
-            NSUInteger newPosition = (currentPosition + numberOfDigits.unsignedIntegerValue - 1);
-            if (formattedNumber.length > newPosition) {
-                [formattedNumber addAttribute:NSKernAttributeName value:@5.5 range:(NSRange){newPosition, 1}];
-                currentPosition = newPosition + 1;
-            } else {
-                break;
-            }
-        }
-        
-        return formattedNumber;
+    NSMutableAttributedString *formatted =
+        [[NSMutableAttributedString alloc]
+            initWithString:digits
+                attributes:@{NSKernAttributeName:@0}];
+
+    // Always group by 4
+    NSUInteger index = 3;
+    while (index < formatted.length) {
+        [formatted addAttribute:NSKernAttributeName
+                          value:@5.5
+                          range:NSMakeRange(index, 1)];
+        index += 4;
     }
-    
-    return [[NSAttributedString alloc] initWithString:digits attributes:@{NSKernAttributeName: @0}];
+
+    return formatted;
 }
+
 
 - (BOOL)plainTextNumber:(NSString *)plainTextNumber isInRangeForPaymentProductCode:(NSString *)paymentProductCode
 {

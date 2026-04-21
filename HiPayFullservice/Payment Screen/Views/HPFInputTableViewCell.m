@@ -61,7 +61,7 @@
     [super setIncorrectInput:incorrectInput];
     
     if (self.incorrectInput) {
-        self.contentView.backgroundColor = [UIColor colorWithRed:1. green:0. blue:0. alpha:.15];
+        self.contentView.backgroundColor = [UIColor colorWithRed:29. green:0. blue:0. alpha:.15];
         self.textField.textColor = [UIColor redColor];
     } else {
         self.contentView.backgroundColor = defaultBackgroundColor;

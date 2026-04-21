@@ -7,475 +7,595 @@
 //
 
 #import "HPFAbstractPaymentProductViewController.h"
-#import "HPFGatewayClient.h"
 #import "HPFAbstractPaymentProductViewController_Protected.h"
-#import "HPFPaymentScreenUtils.h"
-#import "HPFTransactionRequestResponseManager.h"
+#import "HPFErrors.h"
+#import "HPFGatewayClient.h"
 #import "HPFPaymentCardSwitchTableHeaderView.h"
 #import "HPFPaymentCardToken.h"
+#import "HPFPaymentScreenUtils.h"
 #import "HPFTransactionErrorResult.h"
+#import "HPFTransactionRequestResponseManager.h"
 
 @interface HPFAbstractPaymentProductViewController ()
 
-@property (nonatomic, strong) HPFPaymentCardToken *paymentCardToken;
+@property(nonatomic, strong) HPFPaymentCardToken *paymentCardToken;
 
 @end
 
 @implementation HPFAbstractPaymentProductViewController
 
-- (instancetype)initWithPaymentPageRequest:(HPFPaymentPageRequest *)paymentPageRequest signature:(NSString *)signature andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct
-{
-    self = [super initWithStyle:UITableViewStyleGrouped];
-    if (self) {
-        _paymentPageRequest = paymentPageRequest;
-        fieldIdentifiers = [NSMutableDictionary dictionary];
-        _paymentProduct = paymentProduct;
-        _signature = signature;
-    }
-    return self;
+- (instancetype)initWithPaymentPageRequest:
+                    (HPFPaymentPageRequest *)paymentPageRequest
+                                 signature:(NSString *)signature
+                 andSelectedPaymentProduct:(HPFPaymentProduct *)paymentProduct {
+  self = [super initWithStyle:UITableViewStyleGrouped];
+  if (self) {
+    _paymentPageRequest = paymentPageRequest;
+    fieldIdentifiers = [NSMutableDictionary dictionary];
+    _paymentProduct = paymentProduct;
+    _signature = signature;
+  }
+  return self;
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
 
-    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-    
-    // iOS 11 patch
-    self.tableView.estimatedRowHeight = 0;
-    self.tableView.estimatedSectionFooterHeight = 0;
-    self.tableView.estimatedSectionHeaderHeight = 0;
-    
-    if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
-        
-        self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
-    }
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFPaymentButtonTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"PaymentButton"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Input"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFCardNumberInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"CardNumberInput"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFExpiryDateInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ExpiryDateInput"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFSecurityCodeInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"SecurityCodeInput"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFLabelTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"Label"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFApplePayTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"ApplePay"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"HPFIBANInputTableViewCell" bundle:HPFPaymentScreenViewsBundle()] forCellReuseIdentifier:@"IBANInput"];
+  self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 
+  // iOS 11 patch
+  self.tableView.estimatedRowHeight = 0;
+  self.tableView.estimatedSectionFooterHeight = 0;
+  self.tableView.estimatedSectionHeaderHeight = 0;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
-    
+  if ([self.tableView respondsToSelector:@selector
+                      (setCellLayoutMarginsFollowReadableWidth:)]) {
+
+    self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+  }
+
+  [self.tableView
+                 registerNib:[UINib
+                                 nibWithNibName:@"HPFPaymentButtonTableViewCell"
+                                         bundle:HPFPaymentScreenViewsBundle()]
+      forCellReuseIdentifier:@"PaymentButton"];
+  [self.tableView registerNib:[UINib
+                                  nibWithNibName:@"HPFInputTableViewCell"
+                                          bundle:HPFPaymentScreenViewsBundle()]
+       forCellReuseIdentifier:@"Input"];
+  [self.tableView registerNib:
+                      [UINib nibWithNibName:@"HPFCardNumberInputTableViewCell"
+                                     bundle:HPFPaymentScreenViewsBundle()]
+       forCellReuseIdentifier:@"CardNumberInput"];
+  [self.tableView registerNib:
+                      [UINib nibWithNibName:@"HPFExpiryDateInputTableViewCell"
+                                     bundle:HPFPaymentScreenViewsBundle()]
+       forCellReuseIdentifier:@"ExpiryDateInput"];
+  [self.tableView registerNib:
+                      [UINib nibWithNibName:@"HPFSecurityCodeInputTableViewCell"
+                                     bundle:HPFPaymentScreenViewsBundle()]
+       forCellReuseIdentifier:@"SecurityCodeInput"];
+  [self.tableView registerNib:[UINib
+                                  nibWithNibName:@"HPFLabelTableViewCell"
+                                          bundle:HPFPaymentScreenViewsBundle()]
+       forCellReuseIdentifier:@"Label"];
+  [self.tableView registerNib:[UINib
+                                  nibWithNibName:@"HPFApplePayTableViewCell"
+                                          bundle:HPFPaymentScreenViewsBundle()]
+       forCellReuseIdentifier:@"ApplePay"];
+  [self.tableView registerNib:[UINib
+                                  nibWithNibName:@"HPFIBANInputTableViewCell"
+                                          bundle:HPFPaymentScreenViewsBundle()]
+       forCellReuseIdentifier:@"IBANInput"];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(keyboardWillShow:)
+             name:UIKeyboardWillShowNotification
+           object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(keyboardWillHide:)
+             name:UIKeyboardWillHideNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didRotate:)
+             name:UIDeviceOrientationDidChangeNotification
+           object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [self determineScrollingMode];
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+
+  [self determineScrollingMode];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
+  [super viewDidDisappear:animated];
 
-    UINavigationController *navigationController = self.navigationController;
-    NSArray *controllers = navigationController.viewControllers;
+  UINavigationController *navigationController = self.navigationController;
+  NSArray *controllers = navigationController.viewControllers;
 
-    if (navigationController == nil || controllers == nil) {
-        [self cancelRequests];
+  if (navigationController == nil || controllers == nil) {
+    [self cancelRequests];
 
-        [self.delegate cancelActivity];
-        self.delegate = nil;
-    }
-
+    [self.delegate cancelActivity];
+    self.delegate = nil;
+  }
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
-    [activeTextField resignFirstResponder];
-    
-    [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-        [self determineScrollingMode];
-    }];
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:
+           (id<UIViewControllerTransitionCoordinator>)coordinator {
+  [activeTextField resignFirstResponder];
+
+  [coordinator
+      animateAlongsideTransition:nil
+                      completion:^(
+                          id<UIViewControllerTransitionCoordinatorContext> _Nonnull context) {
+                        [self determineScrollingMode];
+                      }];
 }
 
-- (void)determineScrollingMode
-{
-    if ((self.tableView.contentSize.height <= self.tableView.frame.size.height) && ((activeTextField == nil) || (!activeTextField.editing) || !keyboardShown)) {
-        self.tableView.scrollEnabled = NO;
-    }
-    
-    else {
-        self.tableView.scrollEnabled = YES;
-    }
+- (void)determineScrollingMode {
+  if ((self.tableView.contentSize.height <= self.tableView.frame.size.height) &&
+      ((activeTextField == nil) || (!activeTextField.editing) ||
+       !keyboardShown)) {
+    self.tableView.scrollEnabled = NO;
+  }
+
+  else {
+    self.tableView.scrollEnabled = YES;
+  }
 }
 
-- (void)didRotate:(NSNotification *)notification
-{
-    [self determineScrollingMode];
+- (void)didRotate:(NSNotification *)notification {
+  [self determineScrollingMode];
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Keyboard related methods
 
-- (void)keyboardWillShow:(NSNotification *)notification
-{
-    NSTimeInterval animationDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    keyboardShown = YES;
-    
-    [UIView animateWithDuration:animationDuration animations:^{
+- (void)keyboardWillShow:(NSNotification *)notification {
+  NSTimeInterval animationDuration =
+      [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]
+          doubleValue];
+  keyboardShown = YES;
 
+  [UIView animateWithDuration:animationDuration
+      animations:^{
         if (self->activeTextField != nil) {
-            UITableViewCell *cell = [self cellWithTextField:self->activeTextField];
-            
-            if (cell != nil) {
-                NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+          UITableViewCell *cell =
+              [self cellWithTextField:self->activeTextField];
 
-                UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
-                
-                // Last row of section before payment button; scroll to top
-                if ((indexPath.section == (self.tableView.numberOfSections - 2)) && (indexPath.row == ([self.tableView numberOfRowsInSection:indexPath.section] - 1))) {
-                    
-                    position = UITableViewScrollPositionTop;
-                }
-                
-                if (indexPath != nil) {
-                    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:position animated:NO];
-                }
+          if (cell != nil) {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+
+            UITableViewScrollPosition position =
+                UITableViewScrollPositionMiddle;
+
+            // Last row of section before payment button; scroll to top
+            if ((indexPath.section == (self.tableView.numberOfSections - 2)) &&
+                (indexPath.row ==
+                 ([self.tableView numberOfRowsInSection:indexPath.section] -
+                  1))) {
+
+              position = UITableViewScrollPositionTop;
             }
+
+            if (indexPath != nil) {
+              [self.tableView scrollToRowAtIndexPath:indexPath
+                                    atScrollPosition:position
+                                            animated:NO];
+            }
+          }
         }
-    } completion:^(BOOL finished) {
+      }
+      completion:^(BOOL finished) {
         [self determineScrollingMode];
-    }];
+      }];
 }
 
-- (void)keyboardWillHide:(NSNotification *)notification
-{
-    keyboardShown = NO;
-    [self determineScrollingMode];
+- (void)keyboardWillHide:(NSNotification *)notification {
+  keyboardShown = NO;
+  [self determineScrollingMode];
 }
 
 #pragma mark - Form
 
-- (void)setPaymentButtonLoadingMode:(BOOL)isLoading
-{
-    loading = isLoading;
-    
-    for (UITableViewCell *cell in self.tableView.visibleCells) {
-        if ([cell isKindOfClass:[HPFPaymentButtonTableViewCell class]]) {
-            ((HPFPaymentButtonTableViewCell *)cell).loading = isLoading;
-        }
-        
-        if ([cell isKindOfClass:[HPFInputTableViewCell class]]) {
-            ((HPFInputTableViewCell *)cell).enabled = !isLoading;
-            [((HPFInputTableViewCell *)cell).textField resignFirstResponder];
-        }
+- (void)setPaymentButtonLoadingMode:(BOOL)isLoading {
+  loading = isLoading;
+
+  for (UITableViewCell *cell in self.tableView.visibleCells) {
+    if ([cell isKindOfClass:[HPFPaymentButtonTableViewCell class]]) {
+      ((HPFPaymentButtonTableViewCell *)cell).loading = isLoading;
     }
 
-    HPFPaymentCardSwitchTableHeaderView *headerView = (HPFPaymentCardSwitchTableHeaderView *)[self.tableView headerViewForSection:[self paySection]];
-    if (headerView != nil) {
-        headerView.enabled = !isLoading;
+    if ([cell isKindOfClass:[HPFInputTableViewCell class]]) {
+      ((HPFInputTableViewCell *)cell).enabled = !isLoading;
+      [((HPFInputTableViewCell *)cell).textField resignFirstResponder];
     }
+  }
 
-    [self.delegate paymentProductViewController:self isLoading:isLoading];
+  HPFPaymentCardSwitchTableHeaderView *headerView =
+      (HPFPaymentCardSwitchTableHeaderView *)[self.tableView
+          headerViewForSection:[self paySection]];
+  if (headerView != nil) {
+    headerView.enabled = !isLoading;
+  }
+
+  [self.delegate paymentProductViewController:self isLoading:isLoading];
 }
 
-- (NSInteger) formSection
-{
-    [self doesNotRecognizeSelector:_cmd];
-    return -1;
+- (NSInteger)formSection {
+  [self doesNotRecognizeSelector:_cmd];
+  return -1;
 }
 
-- (NSInteger) paySection
-{
-    [self doesNotRecognizeSelector:_cmd];
-    return -1;
+- (NSInteger)paySection {
+  [self doesNotRecognizeSelector:_cmd];
+  return -1;
 }
 
-- (void)editingDoneButtonTouched:(id)sender
-{
-    [activeTextField resignFirstResponder];
+- (void)editingDoneButtonTouched:(id)sender {
+  [activeTextField resignFirstResponder];
 }
 
-- (HPFInputTableViewCell *)cellWithTextField:(UITextField *)textField
-{
-    for (UITableViewCell *cell in self.tableView.visibleCells) {
-        if ([cell isKindOfClass:[HPFInputTableViewCell class]]) {
-            if (((HPFInputTableViewCell *)cell).textField == textField) {
-                return (HPFInputTableViewCell *) cell;
-            }
-        }
+- (HPFInputTableViewCell *)cellWithTextField:(UITextField *)textField {
+  for (UITableViewCell *cell in self.tableView.visibleCells) {
+    if ([cell isKindOfClass:[HPFInputTableViewCell class]]) {
+      if (((HPFInputTableViewCell *)cell).textField == textField) {
+        return (HPFInputTableViewCell *)cell;
+      }
     }
-    
-    return nil;
+  }
+
+  return nil;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    activeTextField = textField;
-    
-    [self determineScrollingMode];
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+  activeTextField = textField;
+
+  [self determineScrollingMode];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (activeTextField == textField) {
-        activeTextField = nil;
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+  if (activeTextField == textField) {
+    activeTextField = nil;
+  }
+  [self determineScrollingMode];
+}
+
+- (void)textFieldDidChange:(UITextField *)textField {
+  for (UITableViewCell *cell in self.tableView.visibleCells) {
+    if ([cell isKindOfClass:[HPFPaymentButtonTableViewCell class]]) {
+      ((HPFPaymentButtonTableViewCell *)cell).enabled =
+          [self submitButtonEnabled];
     }
-    [self determineScrollingMode];
-
+  }
 }
 
-- (void)textFieldDidChange:(UITextField *)textField
-{
-    for (UITableViewCell *cell in self.tableView.visibleCells) {
-        if ([cell isKindOfClass:[HPFPaymentButtonTableViewCell class]]) {
-            ((HPFPaymentButtonTableViewCell *)cell).enabled = [self submitButtonEnabled];
-        }
-    }
+- (NSString *)textForIdentifier:(NSString *)fieldIdentifier {
+  return [[fieldIdentifiers objectForKey:fieldIdentifier] text];
 }
 
-- (NSString *)textForIdentifier:(NSString *)fieldIdentifier
-{
-    return [[fieldIdentifiers objectForKey:fieldIdentifier] text];
+- (UITextField *)textFieldForIdentifier:(NSString *)fieldIdentifier {
+  return [fieldIdentifiers objectForKey:fieldIdentifier];
 }
 
-- (UITextField *)textFieldForIdentifier:(NSString *)fieldIdentifier
-{
-    return [fieldIdentifiers objectForKey:fieldIdentifier];
+- (BOOL)submitButtonEnabled {
+  return YES;
 }
 
-- (BOOL)submitButtonEnabled
-{
-    return YES;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+  [textField resignFirstResponder];
+  return YES;
 }
 
 #pragma mark - Dequeue helper
 
+- (HPFInputTableViewCell *)dequeueInputCellWithIdentifier:(NSString *)identifier
+                                          fieldIdentifier:
+                                              (NSString *)fieldIdentifier {
+  HPFInputTableViewCell *cell =
+      [self.tableView dequeueReusableCellWithIdentifier:identifier];
 
-- (HPFInputTableViewCell *)dequeueInputCellWithIdentifier:(NSString *)identifier fieldIdentifier:(NSString *)fieldIdentifier
-{
-    HPFInputTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier];
-    
-    cell.textField.delegate = self;
-    cell.textField.inputAccessoryView = nil;
-    cell.textField.enabled = !loading;
-    
-    cell.textField.text = [[fieldIdentifiers objectForKey:fieldIdentifier] text];
-    
-    [cell.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    
-    [fieldIdentifiers setObject:cell.textField forKey:fieldIdentifier];
-    
-    return cell;
+  cell.textField.delegate = self;
+  cell.textField.inputAccessoryView = nil;
+  cell.textField.enabled = !loading;
+
+  cell.textField.text = [[fieldIdentifiers objectForKey:fieldIdentifier] text];
+
+  [cell.textField addTarget:self
+                     action:@selector(textFieldDidChange:)
+           forControlEvents:UIControlEventEditingChanged];
+
+  [fieldIdentifiers setObject:cell.textField forKey:fieldIdentifier];
+
+  return cell;
 }
 
-- (HPFLabelTableViewCell *)dequeueLabelCell
-{
-    HPFLabelTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Label"];
-    
-    return cell;
+- (HPFLabelTableViewCell *)dequeueLabelCell {
+  HPFLabelTableViewCell *cell =
+      [self.tableView dequeueReusableCellWithIdentifier:@"Label"];
+
+  return cell;
 }
 
-- (HPFApplePayTableViewCell *)dequeueApplePayCell
-{
-    HPFApplePayTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ApplePay"];
+- (HPFApplePayTableViewCell *)dequeueApplePayCell {
+  HPFApplePayTableViewCell *cell =
+      [self.tableView dequeueReusableCellWithIdentifier:@"ApplePay"];
 
-    return cell;
+  return cell;
 }
 
-- (HPFPaymentButtonTableViewCell *)dequeuePaymentButtonCell
-{
-    HPFPaymentButtonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentButton"];
-    
-    cell.loading = loading;
-    cell.enabled = [self submitButtonEnabled];
-    cell.delegate = self;
-    
-    return cell;
+- (HPFPaymentButtonTableViewCell *)dequeuePaymentButtonCell {
+  HPFPaymentButtonTableViewCell *cell =
+      [self.tableView dequeueReusableCellWithIdentifier:@"PaymentButton"];
+
+  cell.loading = loading;
+  cell.enabled = [self submitButtonEnabled];
+  cell.delegate = self;
+
+  return cell;
 }
 
-- (void)resetForm
-{
-    defaultFormValuesDefined = NO;
-    [fieldIdentifiers removeAllObjects];
-    [self.tableView reloadData];
+- (void)resetForm {
+  defaultFormValuesDefined = NO;
+  [fieldIdentifiers removeAllObjects];
+  [self.tableView reloadData];
 }
 
-- (void) savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
-    //abstract method
-    [self doesNotRecognizeSelector:_cmd];
+- (void)savePaymentMethod:(HPFPaymentMethod *)paymentMethod {
+  // abstract method
+  [self doesNotRecognizeSelector:_cmd];
 }
 
 #pragma mark - Transaction results, errors
 
-- (void)checkTransactionStatus:(HPFTransaction *)theTransaction
-{
-    
-    [HPFTransactionRequestResponseManager sharedManager].delegate = self;
-    [[HPFTransactionRequestResponseManager sharedManager] manageTransaction:theTransaction withCompletionHandler:^(HPFTransactionErrorResult *result) {
-        
-        if(result.formAction == HPFFormActionQuit) {
-            HPFPaymentMethod *paymentMethod = theTransaction.paymentMethod;
-            if (paymentMethod != nil) {
-                [self savePaymentMethod:paymentMethod];
-            }
+- (void)checkTransactionStatus:(HPFTransaction *)theTransaction {
+
+  [HPFTransactionRequestResponseManager sharedManager].delegate = self;
+  [[HPFTransactionRequestResponseManager sharedManager]
+          manageTransaction:theTransaction
+      withCompletionHandler:^(HPFTransactionErrorResult *result) {
+        if (result.formAction == HPFFormActionQuit) {
+          HPFPaymentMethod *paymentMethod = theTransaction.paymentMethod;
+          if (paymentMethod != nil) {
+            [self savePaymentMethod:paymentMethod];
+          }
         }
-        
+
         [self checkRequestResultStatus:result];
-        
-        [self.delegate paymentProductViewController:self didEndWithTransaction:theTransaction];
-    }];
+
+        [self.delegate paymentProductViewController:self
+                              didEndWithTransaction:theTransaction];
+      }];
 }
 
-- (void)checkTransactionError:(NSError *)transactionError
-{   
-    [HPFTransactionRequestResponseManager sharedManager].delegate = self;
-    [[HPFTransactionRequestResponseManager sharedManager] manageError:transactionError withCompletionHandler:^(HPFTransactionErrorResult *result) {
+- (void)checkTransactionError:(NSError *)transactionError {
+  [HPFTransactionRequestResponseManager sharedManager].delegate = self;
+  [[HPFTransactionRequestResponseManager sharedManager]
+                manageError:transactionError
+      withCompletionHandler:^(HPFTransactionErrorResult *result) {
         [self checkRequestResultStatus:result];
-        
-        [self.delegate paymentProductViewController:self didFailWithError:transactionError];
-    }];
+
+        [self.delegate paymentProductViewController:self
+                                   didFailWithError:transactionError];
+      }];
 }
 
-- (void)checkRequestResultStatus:(HPFTransactionErrorResult *)result
-{
-    switch (result.formAction) {
-        case HPFFormActionReset:
-            [self resetForm];
-            break;
-            
-        case HPFFormActionFormReload:
-            [self submit];
-            break;
-            
-        case HPFFormActionBackgroundReload:
-            [self needsBackgroundTransactionOrOrderReload];
-            break;
-            
-        default:
-            break;
-    }
+- (void)checkRequestResultStatus:(HPFTransactionErrorResult *)result {
+  switch (result.formAction) {
+  case HPFFormActionReset:
+    [self resetForm];
+    break;
+
+  case HPFFormActionFormReload:
+    [self submit];
+    break;
+
+  case HPFFormActionBackgroundReload:
+    [self needsBackgroundTransactionOrOrderReload];
+    break;
+
+  default:
+    break;
+  }
 }
 
-- (void)needsBackgroundTransactionOrOrderReload
-{
-    if (transaction != nil) {
-        [self.delegate paymentProductViewController:self needsBackgroundReloadingOfTransaction:transaction];
-    }
-    
-    else {
-        [self.delegate paymentProductViewControllerNeedsBackgroundOrderReload:self];
-    }
+- (void)needsBackgroundTransactionOrOrderReload {
+  if (transaction != nil) {
+    [self.delegate paymentProductViewController:self
+          needsBackgroundReloadingOfTransaction:transaction];
+  }
+
+  else {
+    [self.delegate paymentProductViewControllerNeedsBackgroundOrderReload:self];
+  }
 }
 
 #pragma mark - Forward controller
 
-- (void)forwardViewControllerDidCancel:(HPFForwardViewController *)viewController
-{
-    [self needsBackgroundTransactionOrOrderReload];
+- (void)forwardViewControllerDidCancel:
+    (HPFForwardViewController *)viewController {
+  [self needsBackgroundTransactionOrOrderReload];
 }
 
-- (void)forwardViewController:(HPFForwardViewController *)viewController didEndWithTransaction:(HPFTransaction *)theTransaction
-{
-    [self checkTransactionStatus:theTransaction];
+- (void)forwardViewController:(HPFForwardViewController *)viewController
+        didEndWithTransaction:(HPFTransaction *)theTransaction {
+  [self checkTransactionStatus:theTransaction];
 }
 
-- (void)forwardViewController:(HPFForwardViewController *)viewController didFailWithError:(NSError *)error
-{
-    [self checkTransactionError:error];
+- (void)forwardViewController:(HPFForwardViewController *)viewController
+             didFailWithError:(NSError *)error {
+  [self checkTransactionError:error];
 }
 
 #pragma mark - Payment workflow
 
-- (HPFOrderRequest *)createOrderRequest
-{
-    HPFOrderRequest *orderRequest = [[HPFOrderRequest alloc] initWithOrderRelatedRequest:self.paymentPageRequest];
-    
-    orderRequest.paymentProductCode = self.paymentProduct.code;
-    
-    return orderRequest;
+- (HPFOrderRequest *)createOrderRequest {
+  HPFOrderRequest *orderRequest = [[HPFOrderRequest alloc]
+      initWithOrderRelatedRequest:self.paymentPageRequest];
+
+  orderRequest.paymentProductCode = self.paymentProduct.code;
+
+  return orderRequest;
 }
 
-- (void)paymentButtonTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell
-{
-    [self submit];
+- (void)paymentButtonTableViewCellDidTouchButton:
+    (HPFPaymentButtonTableViewCell *)cell {
+  [self submit];
 }
 
-- (void)submit
-{
+- (void)submit {
 
-    [self performOrderRequest:[self createOrderRequest] signature:self.signature];
+  [self performOrderRequest:[self createOrderRequest] signature:self.signature];
 }
 
-- (void)performOrderRequest:(HPFOrderRequest *)orderRequest signature:(NSString *)signature
-{
-    [self setPaymentButtonLoadingMode:YES];
-    
-    [self cancelRequests];
-    
-    transactionLoadingRequest = [[HPFGatewayClient sharedClient] requestNewOrder:orderRequest signature:signature withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
-        
+- (void)performOrderRequest:(HPFOrderRequest *)orderRequest
+                  signature:(NSString *)signature {
+  [self setPaymentButtonLoadingMode:YES];
+
+  [self cancelRequests];
+
+  transactionLoadingRequest = [[HPFGatewayClient sharedClient]
+            requestNewOrder:orderRequest
+                  signature:signature
+      withCompletionHandler:^(HPFTransaction *theTransaction, NSError *error) {
         self->transactionLoadingRequest = nil;
-        
+
+        // 1. Transaction Success (or specific state)
         if (theTransaction != nil) {
-            self->transaction = theTransaction;
-            
-            if (self->transaction.forwardUrl != nil) {
+          self->transaction = theTransaction;
 
-                UINavigationController *navigationController = self.navigationController;
-                NSArray *controllers = navigationController.viewControllers;
-                if (navigationController != nil && controllers != nil) {
-                    HPFForwardViewController *viewController = [HPFForwardViewController relevantForwardViewControllerWithTransaction:self->transaction signature:signature];
-                    viewController.delegate = self;
+          if (self->transaction.forwardUrl != nil) {
 
-                    [self presentViewController:viewController animated:YES completion:nil];
-                }
+            UINavigationController *navigationController =
+                self.navigationController;
+            NSArray *controllers = navigationController.viewControllers;
+            if (navigationController != nil && controllers != nil) {
+              HPFForwardViewController *viewController =
+                  [HPFForwardViewController
+                      relevantForwardViewControllerWithTransaction:
+                          self->transaction
+                                                         signature:signature];
+              viewController.delegate = self;
+
+              [self presentViewController:viewController
+                                 animated:YES
+                               completion:nil];
             }
-            
-            else {
-                [self checkTransactionStatus:self->transaction];
+          }
+
+          else {
+            // MODIFIED: Check for Decline/Error state and show alert before
+            // dismissing
+            if (self->transaction.state == HPFTransactionStateDeclined ||
+                self->transaction.state == HPFTransactionStateError) {
+
+              NSString *reason = self->transaction.reason;
+              // Fallback if reason is nil
+              if (!reason || reason.length == 0) {
+                reason =
+                    (self->transaction.state == HPFTransactionStateDeclined)
+                        ? HPFLocalizedString(@"HPF_TRANSACTION_ERROR_DECLINED_TITLE")
+                        : HPFLocalizedString(@"HPF_TRANSACTION_ERROR_OTHER_TITLE");
+              }
+
+              UIAlertController *alert = [UIAlertController
+                  alertControllerWithTitle:HPFLocalizedString(
+                                               @"HPF_ERROR_TITLE")
+                                   message:reason
+                            preferredStyle:UIAlertControllerStyleAlert];
+
+              [alert addAction:
+                         [UIAlertAction
+                             actionWithTitle:HPFLocalizedString(
+                                                 @"HPF_ERROR_BUTTON_DISMISS")
+                                       style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction *_Nonnull action) {
+                                       [self
+                                           checkTransactionStatus:self->
+                                                                  transaction];
+                                     }]];
+
+              [self presentViewController:alert animated:YES completion:nil];
+
+            } else {
+              [self checkTransactionStatus:self->transaction];
             }
+          }
         }
-        
+
+        // 2. Technical/Network Error
         else {
-            [self checkTransactionError:error];
+
+          // MODIFIED: Prefer backend message if available
+          NSString *errorMessage = error.localizedDescription;
+          if (error.userInfo[HPFErrorCodeAPIMessageKey] != nil) {
+            errorMessage = error.userInfo[HPFErrorCodeAPIMessageKey];
+          }
+          // Fallback: Check parsed response body for "message" (e.g. for 500
+          // errors)
+          else if (error.userInfo[HPFErrorCodeHTTPParsedResponseKey] != nil &&
+                   [error.userInfo[HPFErrorCodeHTTPParsedResponseKey]
+                       isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *parsedBody =
+                error.userInfo[HPFErrorCodeHTTPParsedResponseKey];
+            if (parsedBody[@"message"] != nil &&
+                [parsedBody[@"message"] isKindOfClass:[NSString class]]) {
+              errorMessage = parsedBody[@"message"];
+            }
+          }
+
+          UIAlertController *alert = [UIAlertController
+              alertControllerWithTitle:HPFLocalizedString(@"HPF_ERROR_TITLE")
+                               message:errorMessage
+                        preferredStyle:UIAlertControllerStyleAlert];
+
+          [alert
+              addAction:[UIAlertAction
+                            actionWithTitle:HPFLocalizedString(
+                                                @"HPF_ERROR_BUTTON_DISMISS")
+                                      style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *_Nonnull action) {
+                                      [self checkTransactionError:error];
+                                    }]];
+
+          [self presentViewController:alert animated:YES completion:nil];
         }
-        
+
         [self setPaymentButtonLoadingMode:NO];
-        
-    }];
+      }];
 }
 
-- (void)cancelRequests
-{
-    [transactionLoadingRequest cancel];
+- (void)cancelRequests {
+  [transactionLoadingRequest cancel];
 }
 
 #pragma mark - Table view data source
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView
+    titleForHeaderInSection:(NSInteger)section {
 
-    if (section == 0) {
-        return [NSString stringWithFormat:HPFLocalizedString(@"HPF_PAY_WITH_THIS_METHOD"), self.paymentProduct.paymentProductDescription];
-    }
-    
-    return nil;
+  if (section == 0) {
+    return [NSString
+        stringWithFormat:HPFLocalizedString(@"HPF_PAY_WITH_THIS_METHOD"),
+                         self.paymentProduct.paymentProductDescription];
+  }
+
+  return nil;
 }
 
 #pragma mark - HPFTransactionRequestResponseManagerDelegate
 
-- (void)showAlertView:(UIAlertController *)alert
-{
-    [self presentViewController:alert animated:YES completion:nil];
+- (void)showAlertView:(UIAlertController *)alert {
+  [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

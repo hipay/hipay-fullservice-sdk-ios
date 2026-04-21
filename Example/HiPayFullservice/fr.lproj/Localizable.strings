@@ -110,3 +110,5 @@
 
 "RESULT_STATE_DECLINED" = "Refusée";
 
+"HPF_ERROR_CARD_NOT_ALLOWED" = "Type de carte non autorisé";
+

@@ -10,9 +10,14 @@
 #import "HPFCardNumberFormatter.h"
 #import "HPFFormTableViewCell.h"
 #import "HPFFormattedTextField.h"
+#import "HPFCardNumberFormattable.h"
 
-@interface HPFCardNumberTextField : HPFFormattedTextField
+@interface HPFCardNumberTextField : HPFFormattedTextField <HPFCardNumberFormattable>
 
 @property (nonatomic, readonly) NSSet *paymentProductCodes;//
+@property (nonatomic, copy) NSString *rawCardNumber; // digits only
+
 - (void)textFieldDidChange:(id)sender;
+- (void)reapplyFormatting;
+
 @end

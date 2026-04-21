@@ -59,6 +59,8 @@
 
 "HPF_ERROR_NETWORK_OTHER_MESSAGE" = "Votre demande n'a pu aboutir.";
 
+"HPF_ERROR_TITLE" = "Erreur";
+
 "HPF_ERROR_BUTTON_CANCEL" = "Annuler";
 
 "HPF_ERROR_BUTTON_RETRY" = "Réessayer";

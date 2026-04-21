@@ -21,12 +21,10 @@
 }
 
 - (void)removeDependency {
-
     _dependencyConstraint.active = NO;
 }
 
 - (void)addDependency {
-
     _dependencyConstraint.active = YES;
 }
 

@@ -13,6 +13,7 @@
 @property (nonatomic) IBOutlet UIImageView *cardImageView;
 @property (nonatomic) IBOutlet UILabel *panLabel;
 @property (nonatomic) IBOutlet UILabel *bankLabel;
+@property (nonatomic) IBOutlet UILabel *expirationLabel;
 @property (nonatomic) IBOutlet NSLayoutConstraint *dependencyConstraint;
 
 - (void) removeDependency;

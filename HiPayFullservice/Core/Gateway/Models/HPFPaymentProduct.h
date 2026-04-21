@@ -147,4 +147,6 @@ extern NSString * _Nonnull const HPFPaymentProductCategoryCodeEWallet;
 
 - (instancetype _Nonnull)initWithApplePayProduct;
 
++ (NSString *_Nonnull)productCodeForAPIBrand:(NSString *_Nonnull)brand;
+
 @end

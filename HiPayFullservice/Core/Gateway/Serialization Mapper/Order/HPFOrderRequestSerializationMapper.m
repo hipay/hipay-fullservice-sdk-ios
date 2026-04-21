@@ -34,6 +34,12 @@
     NSString *paymentProductCode = [self getStringForKey:@"paymentProductCode"];
     [result setNullableObject:paymentProductCode forKey:@"payment_product"];
     
+    HPFOrderRequest *orderRequest = (HPFOrderRequest *)self.request;
+    if (orderRequest.oneClick) {
+        [result setObject:@(HPFECISecureECommerce) forKey:@"eci"];
+        [result setObject:@"1" forKey:@"one_click"];
+    }
+    
     if ([HPFPaymentProduct isDSP2CompatiblePaymentProductCode:paymentProductCode]) {
         [result setNullableObject:[self.request valueForKey:@"merchantRiskStatement"] forKey:@"merchant_risk_statement"];
         [result setNullableObject:[self.request valueForKey:@"previousAuthInfo"] forKey:@"previous_auth_info"];
@@ -44,17 +50,14 @@
         [self addCardStored24hIfNeeded:result];
         [self addNameIndicatorIfNeeded:result];
         
-        // if recurring payment, we add "enrollment_date" var in result
         NSNumber *eci = result[@"eci"];
-        if (eci && eci.intValue == HPFECIRecurringECommerce) {
+        if (eci && (eci.intValue == HPFECIRecurringECommerce || eci.intValue == HPFECISecureECommerce)) {
             [self addEnrollmentDateIfNeeded:result];
         }
-
     }
     
     return [self createImmutableDictionary:result];
 }
-
 - (NSDictionary *)paymentMethodSerializedRequest
 {
     HPFAbstractPaymentMethodRequest *paymentMethodRequest = [self.request valueForKey:@"paymentMethod"];

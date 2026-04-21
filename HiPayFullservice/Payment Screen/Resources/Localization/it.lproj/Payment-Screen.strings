@@ -58,6 +58,8 @@
 
 "HPF_ERROR_NETWORK_OTHER_MESSAGE" = "La tua richiesta non può essere completata.";
 
+"HPF_ERROR_TITLE" = "Errore";
+
 "HPF_ERROR_BUTTON_CANCEL" = "Annulla";
 
 "HPF_ERROR_BUTTON_RETRY" = "Riprova";

@@ -12,19 +12,66 @@
 
 - (void)textFieldDidChange:(id)sender
 {
-    _paymentProductCodes = [HPFCardNumberFormatter.sharedFormatter paymentProductCodesForPlainTextNumber:self.text];
-    
-    NSInteger offset = [self offsetFromPosition:self.beginningOfDocument toPosition:self.selectedTextRange.start];
-    
-    if (self.paymentProductCodes.count == 1) {
-        self.attributedText = [HPFCardNumberFormatter.sharedFormatter formatPlainTextNumber:self.text forPaymentProductCode:self.paymentProductCodes.anyObject];
-    }
+    UITextRange *selection = self.selectedTextRange;
+    NSInteger cursorOffset =
+        [self offsetFromPosition:self.beginningOfDocument
+                      toPosition:selection.start];
 
-    UITextPosition *newPosition = [self positionFromPosition:self.beginningOfDocument offset:offset];
-    UITextRange *selectedRange = [self textRangeFromPosition:newPosition toPosition:newPosition];
+    NSString *digits = [HPFCardNumberFormatter.sharedFormatter
+           digitsOnlyFromPlainText:self.text];
+
+       self.rawCardNumber = digits;
     
-    [self setSelectedTextRange:selectedRange];
+    _paymentProductCodes =
+        [HPFCardNumberFormatter.sharedFormatter
+            paymentProductCodesForPlainTextNumber:self.text];
+
+    if (self.paymentProductCodes.count == 1) {
+        NSString *code = self.paymentProductCodes.anyObject;
+
+        NSAttributedString *formatted =
+            [HPFCardNumberFormatter.sharedFormatter
+                formatPlainTextNumber:self.text
+                forPaymentProductCode:code];
+
+        self.attributedText = formatted;
+
+        NSInteger safeOffset =
+            MIN(formatted.string.length, cursorOffset);
+        UITextPosition *newPos =
+            [self positionFromPosition:self.beginningOfDocument
+                                offset:safeOffset];
+        if (newPos) {
+            self.selectedTextRange =
+                [self textRangeFromPosition:newPos toPosition:newPos];
+        }
+    }
 }
+
+- (void)reapplyFormatting
+{
+    NSString *digits = [HPFCardNumberFormatter.sharedFormatter
+                        digitsOnlyFromPlainText:self.text];
+
+    self.text = digits;
+
+    [self textFieldDidChange:self];
+}
+
+
+- (void)refreshFormattingForNetwork:(NSString *)productCode
+{
+    if (self.rawCardNumber.length == 0) { return; }
+
+    NSAttributedString *formatted =
+        [HPFCardNumberFormatter.sharedFormatter
+         formatPlainTextNumber:self.rawCardNumber
+         forPaymentProductCode:productCode];
+
+    self.attributedText = formatted;
+}
+
+
 
 - (BOOL)isValid
 {
@@ -38,6 +85,19 @@
     
     return (self.paymentProductCodes.count > 0) || (self.text.length == 0);
 }
+
+- (void)refreshFormatting
+{
+    if (self.rawCardNumber.length == 0) { return; }
+
+    NSAttributedString *formatted =
+        [HPFCardNumberFormatter.sharedFormatter
+            formatPlainTextNumber:self.rawCardNumber
+            forPaymentProductCode:nil];
+
+    self.attributedText = formatted;
+}
+
 
 - (BOOL)isCompleted
 {
@@ -58,5 +118,7 @@
     
     return YES;
 }
+
+
 
 @end

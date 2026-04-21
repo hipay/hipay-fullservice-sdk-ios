@@ -58,6 +58,8 @@
 
 "HPF_ERROR_NETWORK_OTHER_MESSAGE" = "Your request could not be completed.";
 
+"HPF_ERROR_TITLE" = "Error";
+
 "HPF_ERROR_BUTTON_CANCEL" = "Cancel";
 
 "HPF_ERROR_BUTTON_RETRY" = "Retry";

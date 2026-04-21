@@ -1,1 +1,2 @@
 /* Localized versions of Info.plist keys */
+NSFaceIDUsageDescription = "Questa app utilizza Face ID per autorizzare i pagamenti in modo sicuro.";

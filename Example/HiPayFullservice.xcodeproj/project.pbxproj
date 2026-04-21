@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2061F5F42F13F235009AD7E0 /* DemoTestCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2061F5F32F13F210009AD7E0 /* DemoTestCards.swift */; };
+		202CF7C62F0288A800478794 /* parameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = 202CF7C52F0288A800478794 /* parameters.plist */; };
 		3575E7924BC8647B176FCD6B /* libPods-HiPayFullservice_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2C288BACFAFC7F253079DFC /* libPods-HiPayFullservice_Example.a */; };
 		4353367D1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4353367B1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m */; };
 		4353367E1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4353367C1F30879A005CB999 /* HPFSwitchInfosTableViewCell.xib */; };
@@ -83,7 +85,6 @@
 		A5F605921BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F605911BCD5FC200921528 /* HPFHostedPaymentPageMapperTests.m */; };
 		A5F98F9A1BE91B9500F9604F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F931BE91B9500F9604F /* InfoPlist.strings */; };
 		A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F98F951BE91B9500F9604F /* Localizable.strings */; };
-		BA03A15521CB933300840C4D /* parameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA03A15321CB933300840C4D /* parameters.plist */; };
 		BA07A93221B544A5004A6B4C /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BA07A93121B544A5004A6B4C /* LICENSE.md */; };
 		BA2CD18021B9583900BF278D /* HPFEnvironmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */; };
 		BA2CD18421B97CE600BF278D /* HPFTextInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD18221B97CE600BF278D /* HPFTextInputTableViewCell.m */; };
@@ -105,6 +106,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		202CF7C52F0288A800478794 /* parameters.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = parameters.plist; sourceTree = "<group>"; };
 		39BEBD4EC0BC4099960FF4ED /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		4353367A1F30879A005CB999 /* HPFSwitchInfosTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPFSwitchInfosTableViewCell.h; sourceTree = "<group>"; };
 		4353367B1F30879A005CB999 /* HPFSwitchInfosTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFSwitchInfosTableViewCell.m; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 		6003F595195388D20070C39A /* HiPayFullservice-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HiPayFullservice-Info.plist"; sourceTree = "<group>"; };
 		6003F599195388D20070C39A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6003F59B195388D20070C39A /* HiPayFullservice-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HiPayFullservice-Prefix.pch"; sourceTree = "<group>"; };
+		2061F5F32F13F210009AD7E0 /* DemoTestCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTestCards.swift; sourceTree = "<group>"; };
 		6003F59C195388D20070C39A /* HPFAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFAppDelegate.h; sourceTree = "<group>"; };
 		6003F59D195388D20070C39A /* HPFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFAppDelegate.m; sourceTree = "<group>"; };
 		6003F5A5195388D20070C39A /* HPFViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFViewController.h; sourceTree = "<group>"; };
@@ -206,7 +209,6 @@
 		B1F61A4069D7173400502AFC /* Pods-HiPayFullservice_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Example.debug.xcconfig"; path = "Target Support Files/Pods-HiPayFullservice_Example/Pods-HiPayFullservice_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		B3B200311C6F66C1EB626335 /* Pods-HiPayFullservice_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HiPayFullservice_Tests.release.xcconfig"; path = "Target Support Files/Pods-HiPayFullservice_Tests/Pods-HiPayFullservice_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		B936D89B6AB94FC4D1FE6E95 /* HiPayFullservice.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HiPayFullservice.podspec; path = ../HiPayFullservice.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		BA03A15321CB933300840C4D /* parameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = parameters.plist; sourceTree = "<group>"; };
 		BA07A93121B544A5004A6B4C /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		BA2CD17E21B9583900BF278D /* HPFEnvironmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPFEnvironmentViewController.h; sourceTree = "<group>"; };
 		BA2CD17F21B9583900BF278D /* HPFEnvironmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPFEnvironmentViewController.m; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 		6003F593195388D20070C39A /* Example for HiPayFullservice */ = {
 			isa = PBXGroup;
 			children = (
+				2061F5F32F13F210009AD7E0 /* DemoTestCards.swift */,
 				6003F59C195388D20070C39A /* HPFAppDelegate.h */,
 				6003F59D195388D20070C39A /* HPFAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -648,7 +651,7 @@
 		BA03A15221CB933300840C4D /* Parameters */ = {
 			isa = PBXGroup;
 			children = (
-				BA03A15321CB933300840C4D /* parameters.plist */,
+				202CF7C52F0288A800478794 /* parameters.plist */,
 			);
 			path = Parameters;
 			sourceTree = "<group>";
@@ -707,7 +710,7 @@
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
 						DevelopmentTeam = 7RLJNKW437;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 1;
@@ -754,10 +757,10 @@
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				BA07A93221B544A5004A6B4C /* LICENSE.md in Resources */,
+				202CF7C62F0288A800478794 /* parameters.plist in Resources */,
 				BA87CB14270AEE550048AC50 /* Localizable.strings in Resources */,
 				A5F98F9B1BE91B9500F9604F /* Localizable.strings in Resources */,
 				BA2CD18521B97CE600BF278D /* HPFTextInputTableViewCell.xib in Resources */,
-				BA03A15521CB933300840C4D /* parameters.plist in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				A5A3755C1BD8E6A600CEA434 /* payment_products.json in Resources */,
 				BA87CB15270AEE550048AC50 /* InfoPlist.strings in Resources */,
@@ -889,6 +892,7 @@
 				A54AF92B1C0B771000B10F36 /* HPFMoreOptionsTableViewCell.m in Sources */,
 				BA2CD18021B9583900BF278D /* HPFEnvironmentViewController.m in Sources */,
 				6003F5A7195388D20070C39A /* HPFViewController.m in Sources */,
+				2061F5F42F13F235009AD7E0 /* DemoTestCards.swift in Sources */,
 				A54AF91C1C0B599C00B10F36 /* HPFSegmentedControlTableViewCell.m in Sources */,
 				A54AF9221C0B602700B10F36 /* HPFStepperTableViewCell.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
@@ -1109,12 +1113,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = "HiPay Demo.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7RLJNKW437;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7RLJNKW437;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1125,11 +1127,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.hipay.fullservice.demo";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.hipay.fullservice.demo";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1142,12 +1144,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = "HiPay Demo.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7RLJNKW437;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7RLJNKW437;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPayFullservice/HiPayFullservice-Prefix.pch";
@@ -1157,11 +1157,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hipay.fullservice.demo;
 				PRODUCT_NAME = "HiPay Demo";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.hipay.fullservice.demo";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.hipay.fullservice.demo";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

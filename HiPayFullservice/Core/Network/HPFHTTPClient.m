@@ -96,7 +96,7 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
             encodedValue = [self URLEncodeString:jsonString usingEncoding:NSUTF8StringEncoding];
         }
         else {
-            encodedValue = [self URLEncodeString:value usingEncoding:NSUTF8StringEncoding];
+            encodedValue = [self URLEncodeString:[NSString stringWithFormat:@"%@", value] usingEncoding:NSUTF8StringEncoding];
         }
         
         NSString *part = [NSString stringWithFormat: @"%@=%@", encodedKey, encodedValue];

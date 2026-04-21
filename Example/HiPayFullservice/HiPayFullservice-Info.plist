@@ -44,6 +44,8 @@
 		<key>NSExceptionRequiresForwardSecrecy</key>
 		<false/>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>This app uses Face ID to securely authorize your payments.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Main</string>
 	<key>UIMainStoryboardFile</key>

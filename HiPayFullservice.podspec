@@ -20,10 +20,15 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "12.0"
   s.requires_arc = true
 
-  s.pod_target_xcconfig = {"TARGETED_DEVICE_FAMILY" => "1,2"}
-
-  s.source_files     = "HiPayFullservice/*.{m,h}"
-
+  s.swift_version = '6.0'
+  
+  s.pod_target_xcconfig = {
+      "TARGETED_DEVICE_FAMILY" => "1,2",
+      "SWIFT_STRICT_CONCURRENCY" => "complete"
+    }
+  
+  s.source_files     = "HiPayFullservice/*.{m,h,swift}"
+  
   s.default_subspec = 'Core', 'Payment-Screen'
 
   s.public_header_files = "HiPayFullservice/*.h"
@@ -52,7 +57,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "Payment-Screen" do |s|
-    s.source_files  = ['HiPayFullservice/Payment Screen/**/*.{h,m}']
+    s.source_files  = ['HiPayFullservice/Payment Screen/**/*.{h,m,swift}']
     s.public_header_files = "HiPayFullservice/Payment Screen/**/*.h"
     s.resource_bundles = {
       "HPFPaymentScreenViews" => ["HiPayFullservice/Payment Screen/**/*.{xib,png,storyboard}"],

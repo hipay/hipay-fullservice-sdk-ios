@@ -144,6 +144,11 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     private var networkSelectorView: HPFCardNetworkRightView!
     private let networkErrorLabel = UILabel()
 
+    // MARK: CVC help
+
+    private let cvcInfoButton = UIButton(type: .system)
+    private let cvcHintLabel = UILabel()
+
     // MARK: Layout
 
     private let mainStackView = UIStackView()
@@ -284,6 +289,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     @objc public var expiryDateErrorMessage: String?
     @objc public var securityCodeErrorMessage: String?
     @objc public var cardTypeNotAllowedMessage: String?
+    @objc public var cvcHintMessage: String?
 
     // MARK: Placeholders
 
@@ -363,6 +369,7 @@ private extension HiPayCardFieldsView {
         wireUpFieldEvents()
         configureErrorLabels()
         configureNetworkSelector()
+        configureCVCHelp()
     }
 
     func configureCardholderField() {
@@ -429,6 +436,24 @@ private extension HiPayCardFieldsView {
         networkSelectorView = selector
     }
 
+    func configureCVCHelp() {
+        let image = UIImage(systemName: "info.circle")
+        cvcInfoButton.setImage(image, for: .normal)
+        cvcInfoButton.tintColor = .secondaryLabel
+        cvcInfoButton.frame = CGRect(x: 0, y: 0, width: 28, height: 22)
+        cvcInfoButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 8)
+        cvcInfoButton.accessibilityLabel = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_CVC_HELP")
+        cvcInfoButton.addTarget(self, action: #selector(toggleCVCHint), for: .touchUpInside)
+
+        securityCodeField.rightView = cvcInfoButton
+        securityCodeField.rightViewMode = .always
+
+        cvcHintLabel.font = UIFont.systemFont(ofSize: 12)
+        cvcHintLabel.textColor = .secondaryLabel
+        cvcHintLabel.numberOfLines = 0
+        cvcHintLabel.isHidden = true
+    }
+
     func setupLayout() {
         let cardholderGroup = makeFieldGroup(field: cardholderNameField, errorLabel: cardholderErrorLabel)
 
@@ -456,6 +481,7 @@ private extension HiPayCardFieldsView {
         mainStackView.addArrangedSubview(cardholderGroup)
         mainStackView.addArrangedSubview(cardNumberGroup)
         mainStackView.addArrangedSubview(bottomRowStack)
+        mainStackView.addArrangedSubview(cvcHintLabel)
 
         addSubview(mainStackView)
 
@@ -706,6 +732,52 @@ private extension HiPayCardFieldsView {
     }
 }
 
+// MARK: - CVC requirement & help
+
+private extension HiPayCardFieldsView {
+
+    enum CVCRequirement {
+        case required(maxLength: Int)
+        case notRequired
+    }
+
+    static func cvcRequirement(for network: String?) -> CVCRequirement {
+        guard let network, !network.isEmpty else { return .required(maxLength: 3) }
+        let normalized = network.lowercased()
+        if normalized == HPFPaymentProductCodeAmericanExpress.lowercased() {
+            return .required(maxLength: 4)
+        }
+        if normalized == HPFPaymentProductCodeBCMC.lowercased() {
+            return .notRequired
+        }
+        return .required(maxLength: 3)
+    }
+
+    func applyCVCRequirement() {
+        switch Self.cvcRequirement(for: selectedNetwork) {
+        case .notRequired:
+            securityCodeField.paymentProductCode = nil
+            securityCodeField.text = ""
+            securityCodeField.isEnabled = false
+            clearError(for: securityCodeField)
+        case .required(let maxLength):
+            securityCodeField.paymentProductCode = selectedNetwork
+            securityCodeField.isEnabled = true
+            if let text = securityCodeField.text, text.count > maxLength {
+                securityCodeField.text = String(text.prefix(maxLength))
+            }
+        }
+        notifyValidityChangeIfNeeded()
+    }
+
+    @objc func toggleCVCHint() {
+        if cvcHintLabel.text == nil || cvcHintLabel.text?.isEmpty == true {
+            cvcHintLabel.text = cvcHintMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_HINT_CVC_HELP")
+        }
+        cvcHintLabel.isHidden.toggle()
+    }
+}
+
 // MARK: - Network detection
 
 private extension HiPayCardFieldsView {
@@ -740,7 +812,7 @@ private extension HiPayCardFieldsView {
         lastLookupBin = nil
         binLookupToken = nil
         binLookupRequestId = nil
-        securityCodeField.paymentProductCode = nil
+        applyCVCRequirement()
     }
 
     func performBinLookup(for cleanNumber: String, cardNumber: String) {
@@ -784,7 +856,7 @@ private extension HiPayCardFieldsView {
         if sorted.isEmpty {
             availableNetworks = []
             selectedNetwork = nil
-            securityCodeField.paymentProductCode = nil
+            applyCVCRequirement()
             showNetworkError()
             return
         }
@@ -798,7 +870,7 @@ private extension HiPayCardFieldsView {
             selectedNetwork = sorted.first
         }
 
-        securityCodeField.paymentProductCode = selectedNetwork
+        applyCVCRequirement()
         updateNetworkSelectorUI()
 
         if let network = selectedNetwork {
@@ -810,7 +882,7 @@ private extension HiPayCardFieldsView {
         guard availableNetworks.contains(code) else { return }
         userPickedNetwork = true
         selectedNetwork = code
-        securityCodeField.paymentProductCode = code
+        applyCVCRequirement()
         updateNetworkSelectorUI()
         delegate?.cardFieldsView?(self, didSelectNetwork: code)
     }

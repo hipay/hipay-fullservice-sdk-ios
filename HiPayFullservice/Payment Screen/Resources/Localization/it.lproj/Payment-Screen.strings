@@ -147,6 +147,7 @@
 "HPF_CARD_FIELDS_ERROR_CARD_TYPE_NOT_ALLOWED" = "Questo tipo di carta non è consentito.";
 "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "I campi della carta sono incompleti o non validi.";
 "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "La tokenizzazione non ha restituito alcun token.";
+"HPF_CARD_FIELDS_HINT_CVC_HELP" = "Inserisci il CVV o il codice di sicurezza sulla tua carta";
 
 /* Card fields placeholders */
 
@@ -166,3 +167,4 @@
 "HPF_CARD_FIELDS_A11Y_NUMBER_HINT" = "Le cifre scritte sul davanti.";
 "HPF_CARD_FIELDS_A11Y_EXPIRY_HINT" = "Inserisci il mese e l'anno di scadenza.";
 "HPF_CARD_FIELDS_A11Y_CVC_HINT" = "Le 3 cifre scritte sul retro.";
+"HPF_CARD_FIELDS_A11Y_CVC_HELP" = "Aiuto CVV";

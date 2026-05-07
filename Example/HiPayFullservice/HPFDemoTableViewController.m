@@ -16,6 +16,7 @@
 #import "HPFTokenizableCardPaymentProductViewController.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "HPFTextInputTableViewCell.h"
+#import "HPFDemoCardFieldsViewController.h"
 
 @interface HPFDemoTableViewController ()
 
@@ -43,7 +44,8 @@
     productCategoryRowIndex = 8;
     storeCardIndex = 9;
     timeoutIndex = 10;
-    submitRowIndex = 11;
+    customCardFieldsIndex = 11;
+    submitRowIndex = 12;
     
     
     // Error row indexes
@@ -74,6 +76,7 @@
     [self.tableView registerClass:[HPFSegmentedControlTableViewCell class] forCellReuseIdentifier:@"SegmentedControlCell"];
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"OptionsCell"];
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"StoreCardCell"];
+    [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"CustomCardFieldsCell"];
     [self.tableView registerClass:[HPFInfoTableViewCell class] forCellReuseIdentifier:@"LabelCell"];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFTextInputTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"InputCell"];
@@ -114,7 +117,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == formSectionIndex) {
-        return 12;
+        return 13;
     }
     
     if (section == resultSectionIndex) {
@@ -299,6 +302,15 @@
             cell.textfield.text = @(timeout).stringValue;
             cell.textfield.keyboardType = UIKeyboardTypeNumberPad;
             
+            return cell;
+        }
+        
+        else if (indexPath.row == customCardFieldsIndex) {
+
+            HPFMoreOptionsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCardFieldsCell" forIndexPath:indexPath];
+
+            cell.textLabel.text = @"Test Custom Card Fields";
+
             return cell;
         }
         
@@ -702,6 +714,9 @@
             storevc.storeCardDelegate = self;
             
             [self.navigationController pushViewController:storevc animated:YES];
+        } else if (indexPath.row == customCardFieldsIndex) {
+            HPFDemoCardFieldsViewController *demoVC = [[HPFDemoCardFieldsViewController alloc] init];
+            [self.navigationController pushViewController:demoVC animated:YES];
         }
     }
 }
@@ -851,7 +866,7 @@
     [self insertResultSection];
 }
 
-- (void)paymentScreenViewControllerDidCancel:(HPFPaymentScreenViewController *)viewController
+- (void) paymentScreenViewControllerDidCancel:(HPFPaymentScreenViewController *)viewController
 {
     cancelRowIndex = 0;
     [self insertResultSection];

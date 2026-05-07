@@ -28,6 +28,7 @@
     NSUInteger colorRowIndex;
     NSUInteger timeoutIndex;
     NSUInteger storeCardIndex;
+    NSUInteger customCardFieldsIndex;
     
     // Error rows
     NSUInteger errorDescriptionRowIndex;

@@ -10,12 +10,24 @@
 
 @implementation HPFFormattedTextField
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    
+    [self commonInit];
+}
+
+- (void)commonInit
+{
     [super setDelegate:self];
-    
     [self addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 }
 

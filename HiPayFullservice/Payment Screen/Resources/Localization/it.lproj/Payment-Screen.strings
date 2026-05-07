@@ -137,3 +137,26 @@
 "HPF_SEPA_DIRECT_DEBIT_LASTNAME" = "Cognome";
 
 "HPF_SEPA_DIRECT_DEBIT_IBAN" = "IBAN";
+
+/* Card fields errors */
+
+"HPF_CARD_FIELDS_ERROR_CARDHOLDER" = "Il nome del titolare è obbligatorio";
+"HPF_CARD_FIELDS_ERROR_NUMBER" = "Numero di carta non valido";
+"HPF_CARD_FIELDS_ERROR_EXPIRY" = "Data di scadenza non valida";
+"HPF_CARD_FIELDS_ERROR_CVC" = "Codice di sicurezza non valido";
+"HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "I campi della carta sono incompleti o non validi.";
+"HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "La tokenizzazione non ha restituito alcun token.";
+
+/* Card fields placeholders */
+
+"HPF_CARD_FIELDS_PLACEHOLDER_CARDHOLDER" = "Nome del titolare";
+"HPF_CARD_FIELDS_PLACEHOLDER_NUMBER" = "Numero di carta";
+"HPF_CARD_FIELDS_PLACEHOLDER_EXPIRY" = "MM/AA";
+"HPF_CARD_FIELDS_PLACEHOLDER_CVC" = "CVC";
+
+/* Card fields accessibility */
+
+"HPF_CARD_FIELDS_A11Y_CARDHOLDER" = "Nome del titolare";
+"HPF_CARD_FIELDS_A11Y_NUMBER" = "Numero di carta";
+"HPF_CARD_FIELDS_A11Y_EXPIRY" = "Data di scadenza";
+"HPF_CARD_FIELDS_A11Y_CVC" = "Codice di sicurezza";

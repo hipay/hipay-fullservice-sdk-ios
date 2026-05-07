@@ -137,3 +137,26 @@
 "HPF_SEPA_DIRECT_DEBIT_LASTNAME" = "Lastname";
 
 "HPF_SEPA_DIRECT_DEBIT_IBAN" = "IBAN";
+
+/* Card fields errors */
+
+"HPF_CARD_FIELDS_ERROR_CARDHOLDER" = "Cardholder name is required";
+"HPF_CARD_FIELDS_ERROR_NUMBER" = "Invalid card number";
+"HPF_CARD_FIELDS_ERROR_EXPIRY" = "Invalid expiry date";
+"HPF_CARD_FIELDS_ERROR_CVC" = "Invalid security code";
+"HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "Card fields are incomplete or invalid.";
+"HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "Tokenization returned no token.";
+
+/* Card fields placeholders */
+
+"HPF_CARD_FIELDS_PLACEHOLDER_CARDHOLDER" = "Cardholder Name";
+"HPF_CARD_FIELDS_PLACEHOLDER_NUMBER" = "Card Number";
+"HPF_CARD_FIELDS_PLACEHOLDER_EXPIRY" = "MM/YY";
+"HPF_CARD_FIELDS_PLACEHOLDER_CVC" = "CVC";
+
+/* Card fields accessibility */
+
+"HPF_CARD_FIELDS_A11Y_CARDHOLDER" = "Cardholder name";
+"HPF_CARD_FIELDS_A11Y_NUMBER" = "Card number";
+"HPF_CARD_FIELDS_A11Y_EXPIRY" = "Expiry date";
+"HPF_CARD_FIELDS_A11Y_CVC" = "Security code";

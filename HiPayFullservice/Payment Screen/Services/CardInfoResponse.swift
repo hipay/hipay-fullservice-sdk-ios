@@ -12,12 +12,16 @@ import Foundation
     @objc public let domesticNetwork: String?
     @objc public let cardType: String?
     @objc public let issuer: String?
+    @objc public let token: String?
+    @objc public let requestId: String?
 
     enum CodingKeys: String, CodingKey {
         case brand
         case domesticNetwork = "domestic_network"
         case cardType = "card_type"
         case issuer
+        case token
+        case requestId = "request_id"
     }
 
     @objc public var allAvailableNetworks: [String] {

@@ -106,11 +106,11 @@ final class HPFCardNetworkRightView: UIView {
         container.layer.borderWidth = 1
         
         if isSelected {
-            container.layer.borderColor = UIColor.systemBlue.cgColor
+            container.layer.borderColor = UIColor.systemBlue.resolvedColor(with: container.traitCollection).cgColor
             container.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.1)
             container.alpha = 1.0
         } else {
-            container.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            container.layer.borderColor = UIColor.separator.resolvedColor(with: container.traitCollection).cgColor
             container.backgroundColor = .clear
             container.alpha = 0.5
         }

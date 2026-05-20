@@ -17,13 +17,16 @@ import UIKit
     case outlined
 }
 
-// MARK: - Style Application
-
 @MainActor private extension HiPayTextFieldStyle {
-    func apply(to field: UITextField, backgroundColor: UIColor, borderColor: UIColor, borderWidth: CGFloat, cornerRadius: CGFloat) {
+
+    func apply(
+        to field: UITextField,
+        backgroundColor: UIColor,
+        borderColor: UIColor,
+        borderWidth: CGFloat,
+        cornerRadius: CGFloat
+    ) {
         field.layer.sublayers?.removeAll { $0.name == "bottomLine" }
-        field.leftView = nil
-        field.leftViewMode = .never
         field.layer.maskedCorners = [
             .layerMinXMinYCorner, .layerMaxXMinYCorner,
             .layerMinXMaxYCorner, .layerMaxXMaxYCorner
@@ -45,12 +48,11 @@ import UIKit
 
         case .filled:
             field.borderStyle = .none
-            field.backgroundColor = backgroundColor != .clear ? backgroundColor : UIColor(white: 0.95, alpha: 1.0)
+            field.backgroundColor = backgroundColor != .clear ? backgroundColor : .secondarySystemBackground
             field.layer.cornerRadius = cornerRadius
             field.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             field.layer.borderWidth = 0
             addBottomLine(to: field, color: borderColor, width: borderWidth)
-            addLeftPadding(to: field)
 
         case .outlined:
             field.borderStyle = .none
@@ -58,7 +60,20 @@ import UIKit
             field.layer.borderColor = borderColor.cgColor
             field.layer.borderWidth = borderWidth
             field.layer.cornerRadius = cornerRadius
-            addLeftPadding(to: field)
+        }
+    }
+
+    var needsLeftPadding: Bool {
+        switch self {
+        case .filled, .outlined: return true
+        case .standard, .underlined: return false
+        }
+    }
+
+    var hasBottomLine: Bool {
+        switch self {
+        case .underlined, .filled: return true
+        case .standard, .outlined: return false
         }
     }
 
@@ -74,21 +89,16 @@ import UIKit
         )
         field.layer.addSublayer(line)
     }
-
-    private func addLeftPadding(to field: UITextField, paddingWidth: CGFloat = 12) {
-        let pad = UIView(frame: CGRect(x: 0, y: 0, width: paddingWidth, height: 1))
-        field.leftView = pad
-        field.leftViewMode = .always
-    }
 }
 
-// MARK: - Error
+// MARK: - Errors
 
 public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
 
 @objc public enum HiPayCardFieldsErrorCode: Int {
     case incompleteFields = 1000
     case tokenizationFailed = 1001
+    case cardTypeNotAllowed = 1002
 }
 
 // MARK: - Delegate
@@ -97,13 +107,17 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didChangeValidity isValid: Bool)
     @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didTokenize token: HPFPaymentCardToken)
     @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didFailWithError error: Error)
+    @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didDetectNetworks networks: [String])
+    @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didSelectNetwork network: String)
+    @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didCompleteTransaction transaction: HPFTransaction)
+    @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didFailPaymentWithError error: Error)
 }
 
 // MARK: - HiPayCardFieldsView
 
 @objc public final class HiPayCardFieldsView: UIView {
 
-    // MARK: - Private fields
+    // MARK: Fields
 
     private let cardholderNameField = UITextField()
     private let cardNumberField = HPFCardNumberTextField()
@@ -114,7 +128,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         [cardholderNameField, cardNumberField, expiryDateField, securityCodeField]
     }
 
-    // MARK: - Error Labels
+    // MARK: Error labels
 
     private let cardholderErrorLabel = UILabel()
     private let cardNumberErrorLabel = UILabel()
@@ -125,39 +139,43 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         [cardholderErrorLabel, cardNumberErrorLabel, expiryErrorLabel, securityCodeErrorLabel]
     }
 
-    private func errorLabel(for field: UITextField) -> UILabel {
-        if field === cardholderNameField { return cardholderErrorLabel }
-        if field === cardNumberField { return cardNumberErrorLabel }
-        if field === expiryDateField { return expiryErrorLabel }
-        return securityCodeErrorLabel
-    }
+    // MARK: Network selector
 
-    private func errorMessage(for field: UITextField) -> String {
-        if field === cardholderNameField {
-            return cardholderNameErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CARDHOLDER")
-        }
-        if field === cardNumberField {
-            return cardNumberErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_NUMBER")
-        }
-        if field === expiryDateField {
-            return expiryDateErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_EXPIRY")
-        }
-        return securityCodeErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CVC")
-    }
+    private var networkSelectorView: HPFCardNetworkRightView!
+    private let networkErrorLabel = UILabel()
 
-    // MARK: - Layout
+    // MARK: Layout
 
     private let mainStackView = UIStackView()
     private let bottomRowStack = UIStackView()
+    private var fieldHeightConstraints: [NSLayoutConstraint] = []
 
-    // MARK: - Delegate & Callbacks
+    // MARK: Delegate & callbacks
 
     @objc public weak var delegate: HiPayCardFieldsViewDelegate?
     @objc public var onValidityChange: ((Bool) -> Void)?
 
     var vaultClient: HPFSecureVaultClient = .shared()
 
-    // MARK: - State
+    // MARK: Network detection state
+
+    @objc public private(set) var selectedNetwork: String?
+    @objc public private(set) var detectedNetworks: [String] = []
+    private var availableNetworks: [String] = []
+    private var userPickedNetwork = false
+
+    @objc public var allowedPaymentProducts: [String] = []
+    private var didFetchAllowedPaymentProducts = false
+
+    private var lastLookupBin: String?
+    private var paymentProductsRequest: (any HPFRequest)?
+    private var paymentCompletion: ((HPFTransaction?, Error?) -> Void)?
+    private var binLookupToken: String?
+    private var binLookupRequestId: String?
+
+    // MARK: Validation state
+
+    private var previousValidityState = false
 
     @objc public var isValid: Bool {
         let nameValid = !isCardholderNameRequired
@@ -165,38 +183,39 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         return nameValid
             && cardNumberField.isCompleted
             && expiryDateField.isCompleted
+            && expiryDateField.isValid
             && securityCodeField.isCompleted
     }
 
-    // MARK: - Token Options
+    // MARK: Token options
 
     @objc public var cardholderName: String {
         get { cardholderNameField.text?.trimmingCharacters(in: .whitespaces) ?? "" }
         set { cardholderNameField.text = newValue }
     }
 
-    @objc public var isCardholderNameRequired: Bool = true
+    @objc public var isCardholderNameRequired: Bool = false
     @objc public var multiUse: Bool = false
 
-    // MARK: - Style
+    // MARK: Style
 
     @objc public var borderStyleType: HiPayTextFieldStyle = .outlined {
         didSet { applyStyle() }
     }
 
-    // MARK: - Colors
+    // MARK: Colors
 
-    @objc public var inputColor: UIColor = .darkText {
+    @objc public var inputColor: UIColor = .label {
         didSet { applyStyle() }
     }
 
-    @objc public var placeholderColor: UIColor = .lightGray {
+    @objc public var placeholderColor: UIColor = .placeholderText {
         didSet { applyStyle() }
     }
 
     @objc public var invalidColor: UIColor = .systemRed
 
-    // MARK: - Container Styling
+    // MARK: Container styling
 
     @objc public var containerBorderColor: UIColor = .clear {
         didSet { layer.borderColor = containerBorderColor.cgColor }
@@ -210,13 +229,13 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         didSet { layer.cornerRadius = containerCornerRadius }
     }
 
-    // MARK: - Field Styling
+    // MARK: Field styling
 
     @objc public var fieldBackgroundColor: UIColor = .clear {
         didSet { applyStyle() }
     }
 
-    @objc public var fieldBorderColor: UIColor = UIColor(white: 0.78, alpha: 1.0) {
+    @objc public var fieldBorderColor: UIColor = .separator {
         didSet { applyStyle() }
     }
 
@@ -228,7 +247,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         didSet { applyStyle() }
     }
 
-    // MARK: - Spacing
+    // MARK: Spacing
 
     @objc public var fieldHeight: CGFloat = 44.0 {
         didSet { updateFieldHeights() }
@@ -241,14 +260,32 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         }
     }
 
-    // MARK: - Typography
+    // MARK: Typography
 
     @objc public var fontFamily: String? { didSet { updateFont() } }
     @objc public var fontSize: CGFloat = 16.0 { didSet { updateFont() } }
     @objc public var fontWeight: String? { didSet { updateFont() } }
     @objc public var fontStyle: String? { didSet { updateFont() } }
 
-    // MARK: - Placeholders
+    // MARK: Left icons
+
+    @objc public var cardholderIcon: UIImage? { didSet { applyStyle() } }
+    @objc public var cardNumberIcon: UIImage? { didSet { applyStyle() } }
+    @objc public var expiryDateIcon: UIImage? { didSet { applyStyle() } }
+    @objc public var securityCodeIcon: UIImage? { didSet { applyStyle() } }
+
+    @objc public var iconTintColor: UIColor = .label { didSet { applyStyle() } }
+    @objc public var iconSize: CGSize = CGSize(width: 20, height: 20) { didSet { applyStyle() } }
+
+    // MARK: Error messages
+
+    @objc public var cardholderNameErrorMessage: String?
+    @objc public var cardNumberErrorMessage: String?
+    @objc public var expiryDateErrorMessage: String?
+    @objc public var securityCodeErrorMessage: String?
+    @objc public var cardTypeNotAllowedMessage: String?
+
+    // MARK: Placeholders
 
     @objc public lazy var cardholderNamePlaceholder: String = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_PLACEHOLDER_CARDHOLDER") {
         didSet { cardholderNameField.placeholder = cardholderNamePlaceholder; applyStyle() }
@@ -266,14 +303,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         didSet { securityCodeField.placeholder = securityCodePlaceholder; applyStyle() }
     }
 
-    // MARK: - Error messages
-
-    @objc public var cardholderNameErrorMessage: String?
-    @objc public var cardNumberErrorMessage: String?
-    @objc public var expiryDateErrorMessage: String?
-    @objc public var securityCodeErrorMessage: String?
-
-    // MARK: - Init
+    // MARK: Init
 
     @objc override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -285,8 +315,6 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         commonInit()
     }
 
-    private var fieldHeightConstraints: [NSLayoutConstraint] = []
-
     private func commonInit() {
         setupFields()
         setupLayout()
@@ -294,55 +322,122 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         updateFont()
     }
 
-    // MARK: - Setup
+    // MARK: Lifecycle
 
-    private func setupFields() {
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        guard borderStyleType.hasBottomLine else { return }
+        for field in allFields {
+            field.layer.sublayers?
+                .filter { $0.name == "bottomLine" }
+                .forEach { line in
+                    line.frame = CGRect(
+                        x: 0,
+                        y: field.bounds.height - fieldBorderWidth,
+                        width: field.bounds.width,
+                        height: fieldBorderWidth
+                    )
+                }
+        }
+    }
+
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+        applyStyle()
+        allErrorLabels.forEach { $0.textColor = invalidColor }
+        networkErrorLabel.textColor = invalidColor
+        networkSelectorView?.configure(availableCodes: availableNetworks, selectedCode: selectedNetwork)
+    }
+}
+
+// MARK: - Setup
+
+private extension HiPayCardFieldsView {
+
+    func setupFields() {
+        configureCardholderField()
+        configureCardNumberField()
+        configureExpiryField()
+        configureSecurityCodeField()
+        wireUpFieldEvents()
+        configureErrorLabels()
+        configureNetworkSelector()
+    }
+
+    func configureCardholderField() {
         cardholderNameField.placeholder = cardholderNamePlaceholder
         cardholderNameField.keyboardType = .default
         cardholderNameField.autocapitalizationType = .words
         cardholderNameField.autocorrectionType = .no
         cardholderNameField.returnKeyType = .next
-        cardholderNameField.accessibilityLabel = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_CARDHOLDER")
+        cardholderNameField.accessibilityLabel = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_CARDHOLDER_LABEL")
+        cardholderNameField.accessibilityHint = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_CARDHOLDER_HINT")
         cardholderNameField.delegate = self
+    }
 
+    func configureCardNumberField() {
         cardNumberField.placeholder = cardNumberPlaceholder
-        expiryDateField.placeholder = expiryDatePlaceholder
-        securityCodeField.placeholder = securityCodePlaceholder
-
+        cardNumberField.textContentType = .creditCardNumber
         cardNumberField.keyboardType = .asciiCapableNumberPad
+        cardNumberField.accessibilityLabel = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_NUMBER_LABEL")
+        cardNumberField.accessibilityHint = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_NUMBER_HINT")
+    }
+
+    func configureExpiryField() {
+        expiryDateField.placeholder = expiryDatePlaceholder
         expiryDateField.keyboardType = .asciiCapableNumberPad
+        expiryDateField.accessibilityLabel = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_EXPIRY_LABEL")
+        expiryDateField.accessibilityHint = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_EXPIRY_HINT")
+    }
+
+    func configureSecurityCodeField() {
+        securityCodeField.placeholder = securityCodePlaceholder
         securityCodeField.keyboardType = .asciiCapableNumberPad
+        securityCodeField.accessibilityLabel = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_CVC_LABEL")
+        securityCodeField.accessibilityHint = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_CVC_HINT")
+    }
 
-        cardNumberField.accessibilityLabel = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_NUMBER")
-        expiryDateField.accessibilityLabel = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_EXPIRY")
-        securityCodeField.accessibilityLabel = Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_A11Y_CVC")
-
+    func wireUpFieldEvents() {
         for field in allFields {
             field.addTarget(self, action: #selector(fieldDidChange(_:)), for: .editingChanged)
             field.addTarget(self, action: #selector(fieldDidBeginEditing(_:)), for: .editingDidBegin)
             field.addTarget(self, action: #selector(fieldDidEndEditing(_:)), for: .editingDidEnd)
         }
+    }
 
+    func configureErrorLabels() {
         for label in allErrorLabels {
             label.font = UIFont.systemFont(ofSize: 12)
             label.textColor = invalidColor
             label.isHidden = true
             label.numberOfLines = 1
         }
+        networkErrorLabel.font = UIFont.systemFont(ofSize: 12)
+        networkErrorLabel.textColor = invalidColor
+        networkErrorLabel.isHidden = true
+        networkErrorLabel.numberOfLines = 1
     }
 
-    private func makeFieldGroup(field: UITextField, errorLabel: UILabel) -> UIStackView {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 2
-        stack.addArrangedSubview(field)
-        stack.addArrangedSubview(errorLabel)
-        return stack
+    func configureNetworkSelector() {
+        let selector = HPFCardNetworkRightView(frame: CGRect(x: 0, y: 0, width: 100, height: 32))
+        selector.onSelect = { [weak self] code in
+            self?.userDidSelectNetwork(code)
+        }
+        cardNumberField.rightView = selector
+        cardNumberField.rightViewMode = .never
+        networkSelectorView = selector
     }
 
-    private func setupLayout() {
+    func setupLayout() {
         let cardholderGroup = makeFieldGroup(field: cardholderNameField, errorLabel: cardholderErrorLabel)
-        let cardNumberGroup = makeFieldGroup(field: cardNumberField, errorLabel: cardNumberErrorLabel)
+
+        let cardNumberGroup = UIStackView()
+        cardNumberGroup.axis = .vertical
+        cardNumberGroup.spacing = 2
+        cardNumberGroup.addArrangedSubview(cardNumberField)
+        cardNumberGroup.addArrangedSubview(cardNumberErrorLabel)
+        cardNumberGroup.addArrangedSubview(networkErrorLabel)
 
         let expiryGroup = makeFieldGroup(field: expiryDateField, errorLabel: expiryErrorLabel)
         let securityGroup = makeFieldGroup(field: securityCodeField, errorLabel: securityCodeErrorLabel)
@@ -350,6 +445,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         bottomRowStack.axis = .horizontal
         bottomRowStack.spacing = fieldsSpacing
         bottomRowStack.distribution = .fillEqually
+        bottomRowStack.alignment = .top
         bottomRowStack.addArrangedSubview(expiryGroup)
         bottomRowStack.addArrangedSubview(securityGroup)
 
@@ -376,32 +472,25 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         ])
     }
 
-    private func updateFieldHeights() {
+    func makeFieldGroup(field: UITextField, errorLabel: UILabel) -> UIStackView {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 2
+        stack.addArrangedSubview(field)
+        stack.addArrangedSubview(errorLabel)
+        return stack
+    }
+
+    func updateFieldHeights() {
         fieldHeightConstraints.forEach { $0.constant = fieldHeight }
     }
+}
 
-    // MARK: - Layout Updates
+// MARK: - Styling
 
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        guard borderStyleType == .underlined || borderStyleType == .filled else { return }
-        for field in allFields {
-            field.layer.sublayers?
-                .filter { $0.name == "bottomLine" }
-                .forEach { line in
-                    line.frame = CGRect(
-                        x: 0,
-                        y: field.bounds.height - fieldBorderWidth,
-                        width: field.bounds.width,
-                        height: fieldBorderWidth
-                    )
-                }
-        }
-    }
+private extension HiPayCardFieldsView {
 
-    // MARK: - Style
-
-    private func applyStyle() {
+    func applyStyle() {
         layer.borderColor = containerBorderColor.cgColor
         layer.borderWidth = containerBorderWidth
         layer.cornerRadius = containerCornerRadius
@@ -416,11 +505,58 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
                 borderWidth: fieldBorderWidth,
                 cornerRadius: fieldCornerRadius
             )
+            applyLeftView(to: field)
             applyPlaceholder(to: field)
+        }
+
+        if let networkSelectorView, cardNumberField.rightView !== networkSelectorView {
+            cardNumberField.rightView = networkSelectorView
         }
     }
 
-    private func applyPlaceholder(to field: UITextField) {
+    func icon(for field: UITextField) -> UIImage? {
+        if field === cardholderNameField { return cardholderIcon }
+        if field === cardNumberField { return cardNumberIcon }
+        if field === expiryDateField { return expiryDateIcon }
+        return securityCodeIcon
+    }
+
+    func applyLeftView(to field: UITextField) {
+        let needsPadding = borderStyleType.needsLeftPadding
+
+        guard let image = icon(for: field) else {
+            applyPaddingOnlyLeftView(to: field, padded: needsPadding)
+            return
+        }
+
+        let leadingPad: CGFloat = needsPadding ? 12 : 8
+        let trailingPad: CGFloat = 8
+        let totalWidth = leadingPad + iconSize.width + trailingPad
+        let totalHeight = max(iconSize.height, 1)
+
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: totalWidth, height: totalHeight))
+        let imageView = UIImageView(image: image.withRenderingMode(.alwaysTemplate))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = iconTintColor
+        imageView.frame = CGRect(x: leadingPad, y: 0, width: iconSize.width, height: iconSize.height)
+        container.addSubview(imageView)
+
+        field.leftView = container
+        field.leftViewMode = .always
+    }
+
+    func applyPaddingOnlyLeftView(to field: UITextField, padded: Bool) {
+        guard padded else {
+            field.leftView = nil
+            field.leftViewMode = .never
+            return
+        }
+        let pad = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1))
+        field.leftView = pad
+        field.leftViewMode = .always
+    }
+
+    func applyPlaceholder(to field: UITextField) {
         guard let text = field.placeholder else { return }
         field.attributedPlaceholder = NSAttributedString(
             string: text,
@@ -428,14 +564,12 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         )
     }
 
-    // MARK: - Font
-
-    private func updateFont() {
+    func updateFont() {
         let font = buildFont()
         allFields.forEach { $0.font = font }
     }
 
-    private func buildFont() -> UIFont {
+    func buildFont() -> UIFont {
         let size = fontSize > 0 ? fontSize : 16.0
         let weight = resolvedFontWeight()
 
@@ -454,7 +588,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         return font
     }
 
-    private func resolvedFontWeight() -> UIFont.Weight {
+    func resolvedFontWeight() -> UIFont.Weight {
         switch fontWeight?.lowercased() {
         case "100", "ultralight":  return .ultraLight
         case "200", "thin":        return .thin
@@ -468,27 +602,47 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         default:                   return .regular
         }
     }
+}
 
-    // MARK: - Field Events
+// MARK: - Editing & validation
 
-    private var previousValidityState = false
+private extension HiPayCardFieldsView {
 
-    @objc private func fieldDidChange(_ sender: UITextField) {
+    @objc func fieldDidChange(_ sender: UITextField) {
         if sender === cardNumberField {
-            if cardNumberField.paymentProductCodes.count == 1 {
-                securityCodeField.paymentProductCode = (cardNumberField.paymentProductCodes as NSSet).anyObject() as? String
-            } else {
-                securityCodeField.paymentProductCode = nil
-            }
+            handleCardNumberChange()
         }
 
+        notifyValidityChangeIfNeeded()
+        advanceFocusIfFieldComplete(sender)
+    }
+
+    @objc func fieldDidBeginEditing(_ sender: UITextField) {
+        clearError(for: sender)
+    }
+
+    @objc func fieldDidEndEditing(_ sender: UITextField) {
+        guard let text = sender.text, !text.isEmpty else {
+            clearError(for: sender)
+            return
+        }
+
+        if isFieldComplete(sender, text: text) {
+            clearError(for: sender)
+        } else {
+            showError(for: sender)
+        }
+    }
+
+    func notifyValidityChangeIfNeeded() {
         let current = isValid
-        if current != previousValidityState {
-            previousValidityState = current
-            delegate?.cardFieldsView?(self, didChangeValidity: current)
-            onValidityChange?(current)
-        }
+        guard current != previousValidityState else { return }
+        previousValidityState = current
+        delegate?.cardFieldsView?(self, didChangeValidity: current)
+        onValidityChange?(current)
+    }
 
+    func advanceFocusIfFieldComplete(_ sender: UITextField) {
         if sender === cardNumberField, cardNumberField.isCompleted {
             expiryDateField.becomeFirstResponder()
         } else if sender === expiryDateField, expiryDateField.isCompleted {
@@ -496,131 +650,466 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
         }
     }
 
-    @objc private func fieldDidBeginEditing(_ sender: UITextField) {
-        clearError(for: sender)
+    func isFieldComplete(_ field: UITextField, text: String) -> Bool {
+        if field === cardholderNameField {
+            return !isCardholderNameRequired || !text.trimmingCharacters(in: .whitespaces).isEmpty
+        }
+        if field === cardNumberField { return cardNumberField.isCompleted }
+        if field === expiryDateField { return expiryDateField.isCompleted && expiryDateField.isValid }
+        if field === securityCodeField { return securityCodeField.isCompleted }
+        return true
     }
 
-    @objc private func fieldDidEndEditing(_ sender: UITextField) {
-        guard let text = sender.text, !text.isEmpty else {
-            clearError(for: sender)
-            return
-        }
-
-        let complete: Bool
-        if sender === cardholderNameField {
-            complete = !isCardholderNameRequired || !text.trimmingCharacters(in: .whitespaces).isEmpty
-        } else if sender === cardNumberField {
-            complete = cardNumberField.isCompleted
-        } else if sender === expiryDateField {
-            complete = expiryDateField.isCompleted
-        } else if sender === securityCodeField {
-            complete = securityCodeField.isCompleted
-        } else {
-            return
-        }
-
-        if complete {
-            clearError(for: sender)
-        } else {
-            showError(for: sender)
-        }
-    }
-
-    private func showError(for field: UITextField) {
+    func showError(for field: UITextField) {
         field.textColor = invalidColor
         field.layer.borderColor = invalidColor.cgColor
-
-        if borderStyleType == .underlined || borderStyleType == .filled {
-            field.layer.sublayers?
-                .filter { $0.name == "bottomLine" }
-                .forEach { $0.backgroundColor = invalidColor.cgColor }
-        }
+        recolorBottomLine(for: field, with: invalidColor)
 
         let label = errorLabel(for: field)
         label.text = errorMessage(for: field)
+        UIAccessibility.post(notification: .announcement, argument: label.text)
         label.isHidden = false
     }
 
-    private func clearError(for field: UITextField) {
+    func clearError(for field: UITextField) {
         field.textColor = inputColor
         field.layer.borderColor = fieldBorderColor.cgColor
-
-        if borderStyleType == .underlined || borderStyleType == .filled {
-            field.layer.sublayers?
-                .filter { $0.name == "bottomLine" }
-                .forEach { $0.backgroundColor = fieldBorderColor.cgColor }
-        }
-
+        recolorBottomLine(for: field, with: fieldBorderColor)
         errorLabel(for: field).isHidden = true
     }
 
-    // MARK: - Public API
+    func recolorBottomLine(for field: UITextField, with color: UIColor) {
+        guard borderStyleType.hasBottomLine else { return }
+        field.layer.sublayers?
+            .filter { $0.name == "bottomLine" }
+            .forEach { $0.backgroundColor = color.cgColor }
+    }
 
-    @objc public func clear() {
+    func errorLabel(for field: UITextField) -> UILabel {
+        if field === cardholderNameField { return cardholderErrorLabel }
+        if field === cardNumberField { return cardNumberErrorLabel }
+        if field === expiryDateField { return expiryErrorLabel }
+        return securityCodeErrorLabel
+    }
+
+    func errorMessage(for field: UITextField) -> String {
+        if field === cardholderNameField {
+            return cardholderNameErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CARDHOLDER")
+        }
+        if field === cardNumberField {
+            return cardNumberErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_NUMBER")
+        }
+        if field === expiryDateField {
+            return expiryDateErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_EXPIRY")
+        }
+        return securityCodeErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CVC")
+    }
+}
+
+// MARK: - Network detection
+
+private extension HiPayCardFieldsView {
+
+    static let minDigitsForNetworkDetection = 2
+
+    func handleCardNumberChange() {
+        let cardNumber = cardNumberField.text ?? ""
+        let cleanNumber = cardNumber.replacingOccurrences(of: " ", with: "")
+
+        guard cleanNumber.count >= Self.minDigitsForNetworkDetection else {
+            resetForUnknownCard()
+            return
+        }
+
+        let rawDetected = Set(cardNumberField.paymentProductCodes.compactMap { $0 as? String })
+        let detected = filterDetectedByCurrentLength(rawDetected, plainText: cleanNumber)
+
+        guard !detected.isEmpty else {
+            resetForUnknownCard()
+            return
+        }
+
+        applyDetectedNetworks(detected, cardNumber: cardNumber)
+
+        guard cardNumberField.isCompleted, cleanNumber != lastLookupBin else { return }
+        performBinLookup(for: cleanNumber, cardNumber: cardNumber)
+    }
+
+    func resetForUnknownCard() {
+        resetNetworkSelection()
+        lastLookupBin = nil
+        binLookupToken = nil
+        binLookupRequestId = nil
+        securityCodeField.paymentProductCode = nil
+    }
+
+    func performBinLookup(for cleanNumber: String, cardNumber: String) {
+        lastLookupBin = cleanNumber
+
+        BinLookupService.shared.lookupWithBin(cleanNumber) { [weak self] (response: CardInfoResponse?, error: NSError?) in
+            guard let self else { return }
+            guard error == nil, let response else { return }
+
+            let binNetworks = Set(response.allAvailableNetworks)
+            DispatchQueue.main.async {
+                self.binLookupToken = response.token
+                self.binLookupRequestId = response.requestId
+                self.applyDetectedNetworks(binNetworks, cardNumber: cardNumber)
+            }
+        }
+    }
+
+    func filterDetectedByCurrentLength(_ detected: Set<String>, plainText: String) -> Set<String> {
+        guard let formatter = HPFCardNumberFormatter.shared() else { return detected }
+        return detected.filter { code in
+            let validLength = formatter.plainTextNumber(plainText, hasValidLengthForPaymentProductCode: code)
+            let reachedMax = formatter.plainTextNumber(plainText, reachesMaxLengthForPaymentProductCode: code)
+            return validLength || !reachedMax
+        }
+    }
+
+    func applyDetectedNetworks(_ detected: Set<String>, cardNumber: String) {
+        let allowed: Set<String>? = didFetchAllowedPaymentProducts
+            ? Set(allowedPaymentProducts)
+            : (allowedPaymentProducts.isEmpty ? nil : Set(allowedPaymentProducts))
+        let sorted = HPFCardSchemeCoordinator.shared.getAvailableNetworks(
+            forDetectedCodes: detected,
+            cardNumber: cardNumber,
+            allowedPaymentProductCodes: allowed
+        )
+
+        detectedNetworks = Array(detected)
+        delegate?.cardFieldsView?(self, didDetectNetworks: detectedNetworks)
+
+        if sorted.isEmpty {
+            availableNetworks = []
+            selectedNetwork = nil
+            securityCodeField.paymentProductCode = nil
+            showNetworkError()
+            return
+        }
+
+        clearNetworkError()
+        availableNetworks = sorted
+
+        let keepCurrent = userPickedNetwork
+            && selectedNetwork.map { sorted.contains($0) } == true
+        if !keepCurrent {
+            selectedNetwork = sorted.first
+        }
+
+        securityCodeField.paymentProductCode = selectedNetwork
+        updateNetworkSelectorUI()
+
+        if let network = selectedNetwork {
+            delegate?.cardFieldsView?(self, didSelectNetwork: network)
+        }
+    }
+
+    func userDidSelectNetwork(_ code: String) {
+        guard availableNetworks.contains(code) else { return }
+        userPickedNetwork = true
+        selectedNetwork = code
+        securityCodeField.paymentProductCode = code
+        updateNetworkSelectorUI()
+        delegate?.cardFieldsView?(self, didSelectNetwork: code)
+    }
+
+    func resetNetworkSelection() {
+        detectedNetworks = []
+        availableNetworks = []
+        selectedNetwork = nil
+        userPickedNetwork = false
+        lastLookupBin = nil
+        clearNetworkError()
+        hideNetworkSelector()
+    }
+
+    func hideNetworkSelector() {
+        guard let networkSelectorView else { return }
+        cardNumberField.rightViewMode = .never
+        networkSelectorView.configure(availableCodes: [], selectedCode: nil)
+    }
+
+    func updateNetworkSelectorUI() {
+        guard !availableNetworks.isEmpty else {
+            hideNetworkSelector()
+            return
+        }
+        cardNumberField.rightViewMode = .always
+        networkSelectorView.configure(availableCodes: availableNetworks, selectedCode: selectedNetwork)
+        networkSelectorView.invalidateIntrinsicContentSize()
+        cardNumberField.setNeedsLayout()
+    }
+
+    func showNetworkError() {
+        networkErrorLabel.text = cardTypeNotAllowedMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CARD_TYPE_NOT_ALLOWED")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            // 1 second delay to let customer hear the number before the error
+            UIAccessibility.post(notification: .announcement, argument: self.networkErrorLabel.text)
+        }
+        networkErrorLabel.isHidden = false
+        hideNetworkSelector()
+    }
+
+    func clearNetworkError() {
+        networkErrorLabel.isHidden = true
+    }
+}
+
+// MARK: - Public API
+
+public extension HiPayCardFieldsView {
+
+    @objc func fetchAvailablePaymentProducts(
+        currency: String,
+        completion: ((Error?) -> Void)? = nil
+    ) {
+        paymentProductsRequest?.cancel()
+        let request = HPFPaymentPageRequest()
+        request.amount = 0
+        request.currency = currency
+
+        let handler = { [weak self] (products: [HPFPaymentProduct], error: Error?) -> Void in
+            guard let self else { return }
+            if let error {
+                DispatchQueue.main.async { completion?(error) }
+                return
+            }
+
+            let knownCardCodes = Self.knownCardPaymentProductCodes()
+            let cardCodes = products.map { $0.code }.filter { knownCardCodes.contains($0) }
+
+            DispatchQueue.main.async {
+                self.allowedPaymentProducts = cardCodes
+                self.didFetchAllowedPaymentProducts = true
+                completion?(nil)
+            }
+        }
+        paymentProductsRequest = HPFGatewayClient.shared()
+            .getPaymentProducts(for: request, withCompletionHandler: handler)
+    }
+
+    @objc func clear() {
         allFields.forEach { $0.text = "" }
         previousValidityState = false
+        resetNetworkSelection()
         applyStyle()
     }
 
-    @objc public func generateToken(completion: @escaping (HPFPaymentCardToken?, Error?) -> Void) {
-        guard isValid else {
-            let error = NSError(
-                domain: HiPayCardFieldsErrorDomain,
-                code: HiPayCardFieldsErrorCode.incompleteFields.rawValue,
-                userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS")]
-            )
-            DispatchQueue.main.async { completion(nil, error) }
+    @objc func generateToken(completion: @escaping (HPFPaymentCardToken?, Error?) -> Void) {
+        guard isValid, let expiry = parsedExpiry() else {
+            DispatchQueue.main.async { completion(nil, Self.incompleteFieldsError()) }
             return
         }
 
         let cardNumber = cardNumberField.text?.replacingOccurrences(of: " ", with: "") ?? ""
 
-        var month = "", year = ""
-        if let expiry = expiryDateField.text, expiry.count >= 5 {
-            let parts = expiry.components(separatedBy: "/")
-            if parts.count == 2 {
-                month = parts[0].trimmingCharacters(in: .whitespaces)
-                year = String(format: "20%02d", Int(parts[1].trimmingCharacters(in: .whitespaces)) ?? 0)
-            }
-        }
-
-        guard !month.isEmpty, !year.isEmpty else {
-            let error = NSError(
-                domain: HiPayCardFieldsErrorDomain,
-                code: HiPayCardFieldsErrorCode.incompleteFields.rawValue,
-                userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS")]
-            )
-            DispatchQueue.main.async { completion(nil, error) }
-            return
-        }
-
         vaultClient.generateToken(
             withCardNumber: cardNumber,
-            cardExpiryMonth: month,
-            cardExpiryYear: year,
+            cardExpiryMonth: expiry.month,
+            cardExpiryYear: expiry.year,
             cardHolder: cardholderName,
             securityCode: securityCodeField.text ?? "",
             multiUse: multiUse
         ) { [weak self] token, error in
             DispatchQueue.main.async {
                 guard let self else { return }
-                if let error {
-                    self.delegate?.cardFieldsView?(self, didFailWithError: error)
-                    completion(nil, error)
-                } else if let token {
-                    self.delegate?.cardFieldsView?(self, didTokenize: token)
-                    completion(token, nil)
-                } else {
-                    let fallbackError = NSError(
-                        domain: HiPayCardFieldsErrorDomain,
-                        code: HiPayCardFieldsErrorCode.tokenizationFailed.rawValue,
-                        userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED")]
-                    )
-                    self.delegate?.cardFieldsView?(self, didFailWithError: fallbackError)
-                    completion(nil, fallbackError)
-                }
+                self.handleTokenResult(token: token, error: error, completion: completion)
             }
         }
+    }
+
+    @objc func pay(
+        orderRequest: HPFOrderRequest,
+        signature: String,
+        completion: ((HPFTransaction?, Error?) -> Void)? = nil
+    ) {
+        pay(
+            orderRequest: orderRequest,
+            signature: signature,
+            eci: .HPFECISecureECommerce,
+            authenticationIndicator: .ifAvailable,
+            completion: completion
+        )
+    }
+
+    @objc func pay(
+        orderRequest: HPFOrderRequest,
+        signature: String,
+        eci: HPFECI,
+        authenticationIndicator: HPFAuthenticationIndicator,
+        completion: ((HPFTransaction?, Error?) -> Void)? = nil
+    ) {
+        paymentCompletion = completion
+
+        acquirePaymentToken { [weak self] token, error in
+            guard let self else { return }
+
+            if let error {
+                self.finishPayment(transaction: nil, error: error)
+                return
+            }
+
+            guard let token else {
+                self.finishPayment(transaction: nil, error: Self.tokenizationFailedError())
+                return
+            }
+
+            self.submitOrder(
+                orderRequest: orderRequest,
+                signature: signature,
+                token: token,
+                eci: eci,
+                authenticationIndicator: authenticationIndicator
+            )
+        }
+    }
+}
+
+// MARK: - Tokenization & payment
+
+private extension HiPayCardFieldsView {
+
+    static func incompleteFieldsError() -> NSError {
+        NSError(
+            domain: HiPayCardFieldsErrorDomain,
+            code: HiPayCardFieldsErrorCode.incompleteFields.rawValue,
+            userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS")]
+        )
+    }
+
+    static func tokenizationFailedError() -> NSError {
+        NSError(
+            domain: HiPayCardFieldsErrorDomain,
+            code: HiPayCardFieldsErrorCode.tokenizationFailed.rawValue,
+            userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED")]
+        )
+    }
+
+    static func knownCardPaymentProductCodes() -> Set<String> {
+        guard
+            let formatter = HPFCardNumberFormatter.shared(),
+            let info = formatter.value(forKey: "paymentProductsInfo") as? [String: Any]
+        else {
+            return []
+        }
+        return Set(info.keys)
+    }
+
+    func parsedExpiry() -> (month: String, year: String)? {
+        guard let text = expiryDateField.text, text.count >= 5 else { return nil }
+        let parts = text.components(separatedBy: "/")
+        guard parts.count == 2 else { return nil }
+        let month = parts[0].trimmingCharacters(in: .whitespaces)
+        let year = String(format: "20%02d", Int(parts[1].trimmingCharacters(in: .whitespaces)) ?? 0)
+        guard !month.isEmpty else { return nil }
+        return (month, year)
+    }
+
+    func acquirePaymentToken(completion: @escaping (HPFPaymentCardToken?, Error?) -> Void) {
+        guard isValid, let expiry = parsedExpiry() else {
+            DispatchQueue.main.async { completion(nil, Self.incompleteFieldsError()) }
+            return
+        }
+
+        guard let token = binLookupToken, let requestId = binLookupRequestId else {
+            generateToken(completion: completion)
+            return
+        }
+
+        let cvc = securityCodeField.text ?? ""
+
+        vaultClient.updatePaymentCard(
+            withToken: token,
+            requestID: requestId,
+            setCardExpiryMonth: expiry.month,
+            cardExpiryYear: expiry.year,
+            cardHolder: cardholderName,
+            securityCode: cvc
+        ) { [weak self] updated, error in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.handleTokenResult(token: updated, error: error, completion: completion)
+            }
+        }
+    }
+
+    func handleTokenResult(
+        token: HPFPaymentCardToken?,
+        error: Error?,
+        completion: @escaping (HPFPaymentCardToken?, Error?) -> Void
+    ) {
+        if let error {
+            delegate?.cardFieldsView?(self, didFailWithError: error)
+            completion(nil, error)
+            return
+        }
+
+        if let token {
+            delegate?.cardFieldsView?(self, didTokenize: token)
+            completion(token, nil)
+            return
+        }
+
+        let fallbackError = Self.tokenizationFailedError()
+        delegate?.cardFieldsView?(self, didFailWithError: fallbackError)
+        completion(nil, fallbackError)
+    }
+
+    func submitOrder(
+        orderRequest: HPFOrderRequest,
+        signature: String,
+        token: HPFPaymentCardToken,
+        eci: HPFECI,
+        authenticationIndicator: HPFAuthenticationIndicator
+    ) {
+        orderRequest.paymentProductCode = resolvePaymentProductCode(for: token)
+        orderRequest.paymentMethod = HPFCardTokenPaymentMethodRequest(
+            token: token.token,
+            eci: eci,
+            authenticationIndicator: authenticationIndicator
+        )
+
+        if multiUse {
+            orderRequest.oneClick = true
+        }
+
+        HPFGatewayClient.shared().requestNewOrder(
+            orderRequest,
+            signature: signature
+        ) { [weak self] transaction, error in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.finishPayment(transaction: transaction, error: error)
+            }
+        }
+    }
+
+    func resolvePaymentProductCode(for token: HPFPaymentCardToken) -> String {
+        let raw: String
+        if let userSelected = selectedNetwork, !userSelected.isEmpty {
+            raw = userSelected
+        } else if let domestic = token.domesticNetwork, !domestic.isEmpty {
+            raw = domestic
+        } else {
+            raw = token.brand
+        }
+        return raw
+            .replacingOccurrences(of: " ", with: "-")
+            .lowercased()
+    }
+
+    func finishPayment(transaction: HPFTransaction?, error: Error?) {
+        let completion = paymentCompletion
+        paymentCompletion = nil
+
+        if let error {
+            delegate?.cardFieldsView?(self, didFailPaymentWithError: error)
+        } else if let transaction {
+            delegate?.cardFieldsView?(self, didCompleteTransaction: transaction)
+        }
+        completion?(transaction, error)
     }
 }
 

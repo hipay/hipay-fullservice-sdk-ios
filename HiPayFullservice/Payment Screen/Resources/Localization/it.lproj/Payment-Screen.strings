@@ -144,6 +144,7 @@
 "HPF_CARD_FIELDS_ERROR_NUMBER" = "Numero di carta non valido";
 "HPF_CARD_FIELDS_ERROR_EXPIRY" = "Data di scadenza non valida";
 "HPF_CARD_FIELDS_ERROR_CVC" = "Codice di sicurezza non valido";
+"HPF_CARD_FIELDS_ERROR_CARD_TYPE_NOT_ALLOWED" = "Questo tipo di carta non è consentito.";
 "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "I campi della carta sono incompleti o non validi.";
 "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "La tokenizzazione non ha restituito alcun token.";
 
@@ -156,7 +157,12 @@
 
 /* Card fields accessibility */
 
-"HPF_CARD_FIELDS_A11Y_CARDHOLDER" = "Nome del titolare";
-"HPF_CARD_FIELDS_A11Y_NUMBER" = "Numero di carta";
-"HPF_CARD_FIELDS_A11Y_EXPIRY" = "Data di scadenza";
-"HPF_CARD_FIELDS_A11Y_CVC" = "Codice di sicurezza";
+"HPF_CARD_FIELDS_A11Y_CARDHOLDER_LABEL" = "Nome completo";
+"HPF_CARD_FIELDS_A11Y_NUMBER_LABEL" = "Carta di credito";
+"HPF_CARD_FIELDS_A11Y_EXPIRY_LABEL" = "Scadenza";
+"HPF_CARD_FIELDS_A11Y_CVC_LABEL" = "Codice di sicurezza";
+
+"HPF_CARD_FIELDS_A11Y_CARDHOLDER_HINT" = "Inserisci il nome scritto sulla carta.";
+"HPF_CARD_FIELDS_A11Y_NUMBER_HINT" = "Le cifre scritte sul davanti.";
+"HPF_CARD_FIELDS_A11Y_EXPIRY_HINT" = "Inserisci il mese e l'anno di scadenza.";
+"HPF_CARD_FIELDS_A11Y_CVC_HINT" = "Le 3 cifre scritte sul retro.";

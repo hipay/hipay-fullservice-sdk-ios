@@ -144,6 +144,7 @@
 "HPF_CARD_FIELDS_ERROR_NUMBER" = "Invalid card number";
 "HPF_CARD_FIELDS_ERROR_EXPIRY" = "Invalid expiry date";
 "HPF_CARD_FIELDS_ERROR_CVC" = "Invalid security code";
+"HPF_CARD_FIELDS_ERROR_CARD_TYPE_NOT_ALLOWED" = "Card type is not allowed.";
 "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "Card fields are incomplete or invalid.";
 "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "Tokenization returned no token.";
 
@@ -156,7 +157,12 @@
 
 /* Card fields accessibility */
 
-"HPF_CARD_FIELDS_A11Y_CARDHOLDER" = "Cardholder name";
-"HPF_CARD_FIELDS_A11Y_NUMBER" = "Card number";
-"HPF_CARD_FIELDS_A11Y_EXPIRY" = "Expiry date";
-"HPF_CARD_FIELDS_A11Y_CVC" = "Security code";
+"HPF_CARD_FIELDS_A11Y_CARDHOLDER_LABEL" = "Full name";
+"HPF_CARD_FIELDS_A11Y_NUMBER_LABEL" = "Credit card";
+"HPF_CARD_FIELDS_A11Y_EXPIRY_LABEL" = "Expiry date";
+"HPF_CARD_FIELDS_A11Y_CVC_LABEL" = "Security code";
+
+"HPF_CARD_FIELDS_A11Y_CARDHOLDER_HINT" = "Enter the name written on the card.";
+"HPF_CARD_FIELDS_A11Y_NUMBER_HINT" = "The digits written on the front.";
+"HPF_CARD_FIELDS_A11Y_EXPIRY_HINT" = "Enter the month and year of expiry.";
+"HPF_CARD_FIELDS_A11Y_CVC_HINT" = "The 3 digits written on the back.";

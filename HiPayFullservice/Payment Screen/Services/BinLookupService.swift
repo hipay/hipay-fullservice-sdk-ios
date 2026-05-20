@@ -38,15 +38,13 @@ import Foundation
             "card_expiry_month": "12"
         ]
 
-        // The completion handler from performRequest retains `client` via the
-        // capture list, keeping it alive for the duration of the request.
         client.performRequest(
             with: .post,
             v2: true,
             path: "token",
             parameters: params
         ) { response, error in
-            _ = client // retain client until completion
+            _ = client
 
             if let error = error {
                 completion(nil, error as NSError)

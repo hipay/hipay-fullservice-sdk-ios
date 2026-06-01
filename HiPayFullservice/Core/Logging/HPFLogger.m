@@ -34,6 +34,24 @@ va_end(args);
     hipay_fullservice_log(OS_LOG_TYPE_FAULT, message)
 }
 
+// Swift bridge
++ (void)logErr:(NSString *)message {
+    [self logWithLevel:OS_LOG_TYPE_ERROR andMessage:message];
+}
+
++ (void)logInfo:(NSString *)message {
+    [self logWithLevel:OS_LOG_TYPE_INFO andMessage:message];
+}
+
++ (void)logDebug:(NSString *)message {
+    [self logWithLevel:OS_LOG_TYPE_DEBUG andMessage:message];
+}
+
++ (void)logFault:(NSString *)message {
+    [self logWithLevel:OS_LOG_TYPE_FAULT andMessage:message];
+}
+
+// Log format
 + (void)logWithLevel:(int)level andMessage:(NSString *)message {
     NSString *finalMessage = [NSString stringWithFormat:@"<HiPay>: %@", message];
     os_log_with_type(OS_LOG_DEFAULT, level, "%s", [finalMessage UTF8String]);

@@ -38,6 +38,7 @@
     self.cardFieldsView.translatesAutoresizingMaskIntoConstraints = NO;
     self.cardFieldsView.delegate = self;
     self.cardFieldsView.isOneClickEnabled = self.isOneClickEnabled;
+    self.cardFieldsView.authenticationIndicator = [self resolvedAuthenticationIndicator];
     [self reloadSavedCards];
 
     [self.cardFieldsView fetchAvailablePaymentProductsWithCurrency:self.currency completion:^(NSError * _Nullable error) {
@@ -169,17 +170,72 @@
     orderRequest.amount = @(self.amount);
     orderRequest.currency = self.currency;
     orderRequest.shortDescription = @"Custom Card Fields Checkout";
+    orderRequest.shippingAddress.firstname = @"John";
+    orderRequest.shippingAddress.lastname  = @"Doe";
+    
+    // Recommanded field for Console / tpp
+    orderRequest.customer.firstname = @"John";
+    orderRequest.customer.lastname = @"Doe";
+    orderRequest.customer.email = @"john.doe@unknown.com";
+    orderRequest.customer.streetAddress = @"Rue de la joie";
+    orderRequest.customer.streetAddress2 = @"appt 007";
+    orderRequest.customer.city = @"Paris";
+    orderRequest.customer.zipCode = @"75000";
+    orderRequest.customer.state = @"France";
+    orderRequest.customer.country = @"FR";
+
+
+
+    orderRequest.customData = @{ @"hello": @"world" };
+
+    [self setDSP2InformationOnOrder:orderRequest];
 
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
-  
+
     NSString *passwordSignature = parameters[@"hipayStage"][@"secretPassphrase"];
- 
+
     NSString *signaturePayload = [NSString stringWithFormat:@"%@%@%@%@", randomOrderId, amountString, self.currency, passwordSignature];
     NSString *clientSignature = [self sha1:signaturePayload];
 
     [self.cardFieldsView payWithOrderRequest:orderRequest
                                    signature:clientSignature
                                   completion:nil];
+}
+
+- (void)setDSP2InformationOnOrder:(HPFOrderRequest *)orderRequest {
+    NSString *accountInfo = @"{"
+        "\"customer\": {"
+            "\"account_change\": 20180507,"
+            "\"opening_account_date\": 20180507,"
+            "\"password_change\": 20180507"
+        "},"
+        "\"purchase\": {"
+            "\"count\": 2,"
+            "\"payment_attempts_24h\": 0,"
+            "\"payment_attempts_1y\": 0"
+        "},"
+        "\"shipping\": {"
+            "\"shipping_used_date\": 20180507,"
+            "\"address_usage_duration\": 1"
+        "}"
+    "}";
+
+    NSString *previousAuthInfo = @"{ \"previous_auth_info\": \"800000987283\" }";
+
+    NSError *errorJSON = nil;
+
+    NSDictionary *accountInfoDict = [NSJSONSerialization
+        JSONObjectWithData:[accountInfo dataUsingEncoding:NSUTF8StringEncoding]
+                   options:NSJSONReadingMutableContainers
+                     error:&errorJSON];
+
+    NSDictionary *previousAuthInfoDict = [NSJSONSerialization
+        JSONObjectWithData:[previousAuthInfo dataUsingEncoding:NSUTF8StringEncoding]
+                   options:NSJSONReadingMutableContainers
+                     error:&errorJSON];
+
+    if (accountInfoDict)     { orderRequest.accountInfo = accountInfoDict; }
+    if (previousAuthInfoDict){ orderRequest.previousAuthInfo = previousAuthInfoDict; }
 }
 
 - (NSString *)sha1:(NSString *)str {
@@ -253,6 +309,17 @@
 
 - (void)cardFieldsView:(HiPayCardFieldsView *)view didTokenize:(HPFPaymentCardToken *)token {
     self.pendingTokenToSave = token;
+}
+
+#pragma mark - 3DS
+
+- (HPFAuthenticationIndicator)resolvedAuthenticationIndicator {
+    switch (self.authenticationIndicatorSegmentIndex) {
+        case 1:  return HPFAuthenticationIndicatorIfAvailable;
+        case 2:  return HPFAuthenticationIndicatorMandatory;
+        case 3:  return HPFAuthenticationIndicatorBypass;
+        default: return HPFAuthenticationIndicatorDefault;
+    }
 }
 
 #pragma mark - Saved Cards

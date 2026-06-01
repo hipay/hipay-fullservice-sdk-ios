@@ -99,6 +99,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     case incompleteFields = 1000
     case tokenizationFailed = 1001
     case cardTypeNotAllowed = 1002
+    case threeDSPresentationFailed = 1003
 }
 
 // MARK: - Delegate
@@ -192,6 +193,8 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     private var lastLookupBin: String?
     private var paymentProductsRequest: (any HPFRequest)?
     private var paymentCompletion: ((HPFTransaction?, Error?) -> Void)?
+    private var paymentSignature: String?
+    private var forwardViewController: HPFForwardViewController?
     private var binLookupToken: String?
     private var binLookupRequestId: String?
 
@@ -218,6 +221,9 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     }
 
     @objc public var isCardholderNameRequired: Bool = false
+
+    @objc public var authenticationIndicator: HPFAuthenticationIndicator = .ifAvailable
+
     @objc public var multiUse: Bool = false {
         didSet {
             if saveCardSwitch.isOn != multiUse {
@@ -1281,7 +1287,7 @@ public extension HiPayCardFieldsView {
             orderRequest: orderRequest,
             signature: signature,
             eci: .HPFECISecureECommerce,
-            authenticationIndicator: .ifAvailable,
+            authenticationIndicator: authenticationIndicator,
             completion: completion
         )
     }
@@ -1294,9 +1300,15 @@ public extension HiPayCardFieldsView {
         completion: ((HPFTransaction?, Error?) -> Void)? = nil
     ) {
         paymentCompletion = completion
+        paymentSignature = signature
 
         if let alias = selectedAlias {
-            submitOrderForAlias(orderRequest: orderRequest, signature: signature, alias: alias)
+            submitOrderForAlias(
+                orderRequest: orderRequest,
+                signature: signature,
+                alias: alias,
+                authenticationIndicator: authenticationIndicator
+            )
             return
         }
 
@@ -1341,6 +1353,14 @@ private extension HiPayCardFieldsView {
             domain: HiPayCardFieldsErrorDomain,
             code: HiPayCardFieldsErrorCode.tokenizationFailed.rawValue,
             userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED")]
+        )
+    }
+
+    static func threeDSPresentationFailedError() -> NSError {
+        NSError(
+            domain: HiPayCardFieldsErrorDomain,
+            code: HiPayCardFieldsErrorCode.threeDSPresentationFailed.rawValue,
+            userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_3DS_PRESENTATION_FAILED")]
         )
     }
 
@@ -1438,7 +1458,8 @@ private extension HiPayCardFieldsView {
     func submitOrderForAlias(
         orderRequest: HPFOrderRequest,
         signature: String,
-        alias: HPFPaymentCardToken
+        alias: HPFPaymentCardToken,
+        authenticationIndicator: HPFAuthenticationIndicator
     ) {
         let brand = (alias.value(forKey: "brand") as? String) ?? ""
         guard !brand.isEmpty else {
@@ -1456,7 +1477,7 @@ private extension HiPayCardFieldsView {
         orderRequest.paymentMethod = HPFCardTokenPaymentMethodRequest(
             token: alias.token,
             eci: .HPFECISecureECommerce,
-            authenticationIndicator: .ifAvailable
+            authenticationIndicator: authenticationIndicator
         )
         orderRequest.oneClick = true
 
@@ -1465,7 +1486,7 @@ private extension HiPayCardFieldsView {
             signature: signature
         ) { [weak self] transaction, error in
             DispatchQueue.main.async {
-                self?.finishPayment(transaction: transaction, error: error)
+                self?.handleOrderResponse(transaction: transaction, error: error)
             }
         }
     }
@@ -1493,10 +1514,52 @@ private extension HiPayCardFieldsView {
             signature: signature
         ) { [weak self] transaction, error in
             DispatchQueue.main.async {
-                guard let self else { return }
-                self.finishPayment(transaction: transaction, error: error)
+                self?.handleOrderResponse(transaction: transaction, error: error)
             }
         }
+    }
+
+    func handleOrderResponse(transaction: HPFTransaction?, error: Error?) {
+        guard let transaction, transaction.forwardUrl != nil else {
+            finishPayment(transaction: transaction, error: error)
+            return
+        }
+        if let presentationError = presentForwardController(for: transaction) {
+            finishPayment(transaction: nil, error: presentationError)
+        }
+    }
+
+    func presentForwardController(for transaction: HPFTransaction) -> Error? {
+        guard let signature = paymentSignature else {
+            HPFLogger.debug("HiPayCardFieldsView: cannot present 3-D Secure — missing payment signature.")
+            return Self.threeDSPresentationFailedError()
+        }
+        guard let host = enclosingViewController() else {
+            HPFLogger.debug("HiPayCardFieldsView: cannot present 3-D Secure — view has no enclosing UIViewController.")
+            return Self.threeDSPresentationFailedError()
+        }
+        guard let controller = HPFForwardViewController.relevantForwardViewController(
+            with: transaction,
+            signature: signature
+        ) else {
+            HPFLogger.debug("HiPayCardFieldsView: cannot present 3-D Secure — HPFForwardViewController factory returned nil.")
+            return Self.threeDSPresentationFailedError()
+        }
+        controller.delegate = self
+        forwardViewController = controller
+        host.present(controller, animated: true, completion: nil)
+        return nil
+    }
+
+    func enclosingViewController() -> UIViewController? {
+        var responder: UIResponder? = self
+        while let next = responder?.next {
+            if let viewController = next as? UIViewController {
+                return viewController
+            }
+            responder = next
+        }
+        return nil
     }
 
     func resolvePaymentProductCode(for token: HPFPaymentCardToken) -> String {
@@ -1516,6 +1579,8 @@ private extension HiPayCardFieldsView {
     func finishPayment(transaction: HPFTransaction?, error: Error?) {
         let completion = paymentCompletion
         paymentCompletion = nil
+        paymentSignature = nil
+        forwardViewController = nil
 
         if let error {
             delegate?.cardFieldsView?(self, didFailPaymentWithError: error)
@@ -1523,6 +1588,35 @@ private extension HiPayCardFieldsView {
             delegate?.cardFieldsView?(self, didCompleteTransaction: transaction)
         }
         completion?(transaction, error)
+    }
+}
+
+// MARK: - HPFForwardViewControllerDelegate
+
+extension HiPayCardFieldsView: @preconcurrency HPFForwardViewControllerDelegate {
+
+    public func forwardViewController(
+        _ viewController: HPFForwardViewController,
+        didEndWith transaction: HPFTransaction
+    ) {
+        finishPayment(transaction: transaction, error: nil)
+    }
+
+    public func forwardViewController(
+        _ viewController: HPFForwardViewController,
+        didFailWithError error: Error
+    ) {
+        finishPayment(transaction: nil, error: error)
+    }
+
+    public func forwardViewControllerDidCancel(_ viewController: HPFForwardViewController) {
+        viewController.presentingViewController?.dismiss(animated: true, completion: nil)
+        let err = NSError(
+            domain: HiPayCardFieldsErrorDomain,
+            code: HiPayCardFieldsErrorCode.tokenizationFailed.rawValue,
+            userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_3DS_CANCELLED")]
+        )
+        finishPayment(transaction: nil, error: err)
     }
 }
 

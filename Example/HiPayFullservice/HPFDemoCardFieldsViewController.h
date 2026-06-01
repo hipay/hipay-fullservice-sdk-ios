@@ -12,4 +12,5 @@
     @property (nonatomic, assign) CGFloat amount;
     @property (nonatomic, copy) NSString *currency;
     @property (nonatomic, assign) BOOL isOneClickEnabled;
+    @property (nonatomic, assign) NSUInteger authenticationIndicatorSegmentIndex;
 @end

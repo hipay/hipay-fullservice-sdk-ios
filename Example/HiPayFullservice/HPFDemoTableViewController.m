@@ -488,6 +488,7 @@
             demoVC.amount = amount;
             demoVC.currency = currencies[currencySegmentIndex];
             demoVC.isOneClickEnabled = multiUse;
+            demoVC.authenticationIndicatorSegmentIndex = authenticationIndicatorSegmentIndex;
             [self.navigationController pushViewController:demoVC animated:YES];
             
     }
@@ -592,6 +593,7 @@
 - (HPFPaymentPageRequest *) buildPageRequestWithOrderId:(NSString *)orderId {
     
     HPFPaymentPageRequest *paymentPageRequest = [[HPFPaymentPageRequest alloc] init];
+    //Required field
     paymentPageRequest.orderId = orderId;
     paymentPageRequest.amount = @(amount);
     paymentPageRequest.currency = currencies[currencySegmentIndex];
@@ -605,6 +607,14 @@
     
     paymentPageRequest.shippingAddress.firstname = @"John";
     paymentPageRequest.shippingAddress.lastname = @"Doe";
+    
+    // Complementary fields for console / tpp
+    paymentPageRequest.customer.email = @"john.doe@unknown.com";
+    paymentPageRequest.customer.streetAddress = @"Rue de la joie";
+    paymentPageRequest.customer.streetAddress2 = @"appt 007";
+    paymentPageRequest.customer.city = @"Paris";
+    paymentPageRequest.customer.zipCode = @"75000";
+    paymentPageRequest.customer.state = @"Paris";
     
     [HPFClientConfig.sharedClientConfig setPaymentCardStorageEnabled:multiUse];
     

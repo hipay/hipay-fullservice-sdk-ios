@@ -149,6 +149,8 @@
 "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "Les champs de la carte sont incomplets ou invalides.";
 "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "La tokenisation n'a renvoyé aucun jeton.";
 "HPF_CARD_FIELDS_ERROR_ALIAS_MISSING_NETWORK" = "La carte enregistrée n'a pas de réseau. Veuillez la supprimer et l'ajouter à nouveau.";
+"HPF_CARD_FIELDS_ERROR_3DS_CANCELLED" = "L'authentification 3-D Secure a été annulée.";
+"HPF_CARD_FIELDS_ERROR_3DS_PRESENTATION_FAILED" = "Impossible d'afficher l'authentification 3-D Secure.";
 "HPF_CARD_FIELDS_HINT_CVC_HELP" = "Entrez le CVV ou code de sécurité sur votre carte";
 "HPF_CARD_FIELDS_PAY_WITH_REGISTERED_CARD" = "Payer avec une carte enregistrée";
 "HPF_CARD_FIELDS_PAY_WITH_NEW_CARD" = "Payer avec une nouvelle carte";

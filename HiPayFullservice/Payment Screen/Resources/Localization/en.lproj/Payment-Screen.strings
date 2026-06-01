@@ -148,6 +148,8 @@
 "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "Card fields are incomplete or invalid.";
 "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "Tokenization returned no token.";
 "HPF_CARD_FIELDS_ERROR_ALIAS_MISSING_NETWORK" = "Saved card is missing its network. Please remove it and add it again.";
+"HPF_CARD_FIELDS_ERROR_3DS_CANCELLED" = "3-D Secure authentication was cancelled.";
+"HPF_CARD_FIELDS_ERROR_3DS_PRESENTATION_FAILED" = "3-D Secure authentication could not be presented.";
 "HPF_CARD_FIELDS_HINT_CVC_HELP" = "Enter the CVV or security code on your card";
 "HPF_CARD_FIELDS_PAY_WITH_REGISTERED_CARD" = "Pay with a registered card";
 "HPF_CARD_FIELDS_PAY_WITH_NEW_CARD" = "Pay with a new card";

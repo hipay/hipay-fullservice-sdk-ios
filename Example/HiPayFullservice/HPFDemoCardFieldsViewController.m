@@ -22,7 +22,6 @@
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) UISegmentedControl *themeControl;
 @property (nonatomic, strong) UILabel *networkInfoLabel;
-@property (nonatomic, strong) HPFPaymentCardToken *pendingTokenToSave;
 
 @end
 
@@ -261,38 +260,25 @@
     self.networkInfoLabel.text = [NSString stringWithFormat:@"Selected: %@", network];
 }
 
+// Fires after the card is tokenized, just before the order is submitted to the gateway.
+// The SDK auto-persists multiUse tokens once the transaction is accepted, so no save action
+// is required here. Hook it for analytics or a custom UI signal around tokenization.
+- (void)cardFieldsView:(HiPayCardFieldsView *)view didTokenize:(HPFPaymentCardToken *)token {
+    NSLog(@"[CardFields] Tokenized: %@", token.brand);
+}
+
+// Fires once the gateway (and 3DS forwarding, if any) settles a transaction.
+// If multiUse was on and the state is accepted, the SDK has already saved the card and
+// refreshed view.availableAliases — your job here is just UI.
 - (void)cardFieldsView:(HiPayCardFieldsView *)view didCompleteTransaction:(HPFTransaction *)transaction {
-    BOOL paymentAccepted = [self isTransactionStateAcceptedForCardSaving:transaction.state];
-    if (paymentAccepted && view.multiUse && self.pendingTokenToSave) {
-        [self persistPendingToken];
-    } else {
-        self.pendingTokenToSave = nil;
-    }
     [self finishLoadingWithSuccess:YES
                            message:[NSString stringWithFormat:@"Transaction %@ completed. State: %ld",
                                     transaction.transactionReference, (long)transaction.state]];
 }
 
+// Payment failed (network error, declined, 3DS cancelled, etc.). Nothing has been persisted.
 - (void)cardFieldsView:(HiPayCardFieldsView *)view didFailPaymentWithError:(NSError *)error {
-    self.pendingTokenToSave = nil;
     [self finishLoadingWithSuccess:NO message:error.localizedDescription];
-}
-
-- (BOOL)isTransactionStateAcceptedForCardSaving:(HPFTransactionState)state {
-    return state == HPFTransactionStateCompleted
-        || state == HPFTransactionStatePending
-        || state == HPFTransactionStateForwarding;
-}
-
-- (void)persistPendingToken {
-    HPFPaymentCardToken *token = self.pendingTokenToSave;
-    self.pendingTokenToSave = nil;
-    if (!token) { return; }
-
-    NSString *currency = [self savedCardsCurrency];
-    [self deleteExistingTokenWithSamePAN:token forCurrency:currency];
-    [HPFPaymentCardTokenDatabase save:token forCurrency:currency withTouchID:NO];
-    [self reloadSavedCards];
 }
 
 - (void)cardFieldsView:(HiPayCardFieldsView *)view didSelectAlias:(HPFPaymentCardToken *)alias {
@@ -303,12 +289,10 @@
     NSLog(@"[CardFields] Deselected alias");
 }
 
+// The SDK has already removed the alias from view.availableAliases. Storage is yours —
+// delete it from wherever you saved it (this demo uses the keychain via HPFPaymentCardTokenDatabase).
 - (void)cardFieldsView:(HiPayCardFieldsView *)view didRequestDeleteAlias:(HPFPaymentCardToken *)alias {
     [HPFPaymentCardTokenDatabase delete:alias forCurrency:[self savedCardsCurrency]];
-}
-
-- (void)cardFieldsView:(HiPayCardFieldsView *)view didTokenize:(HPFPaymentCardToken *)token {
-    self.pendingTokenToSave = token;
 }
 
 #pragma mark - 3DS
@@ -331,23 +315,6 @@
 - (void)reloadSavedCards {
     NSArray<HPFPaymentCardToken *> *tokens = [HPFPaymentCardTokenDatabase paymentCardTokensForCurrency:[self savedCardsCurrency]];
     self.cardFieldsView.availableAliases = tokens ?: @[];
-}
-
-- (void)deleteExistingTokenWithSamePAN:(HPFPaymentCardToken *)newToken forCurrency:(NSString *)currency {
-    NSString *newDigits = [self digitsOnly:newToken.pan];
-    NSArray<HPFPaymentCardToken *> *existing = [HPFPaymentCardTokenDatabase paymentCardTokensForCurrency:currency];
-    for (HPFPaymentCardToken *token in existing) {
-        if ([[self digitsOnly:token.pan] isEqualToString:newDigits]) {
-            [HPFPaymentCardTokenDatabase delete:token forCurrency:currency];
-            return;
-        }
-    }
-}
-
-- (NSString *)digitsOnly:(NSString *)raw {
-    if (!raw) { return @""; }
-    NSCharacterSet *nonDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-    return [[raw componentsSeparatedByCharactersInSet:nonDigits] componentsJoinedByString:@""];
 }
 
 #pragma mark - UI Helpers

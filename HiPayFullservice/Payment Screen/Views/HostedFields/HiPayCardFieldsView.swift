@@ -197,6 +197,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     private var forwardViewController: HPFForwardViewController?
     private var binLookupToken: String?
     private var binLookupRequestId: String?
+    private var pendingPersistence: (token: HPFPaymentCardToken, currency: String)?
 
     // MARK: Validation state
 
@@ -1507,6 +1508,9 @@ private extension HiPayCardFieldsView {
 
         if multiUse {
             orderRequest.oneClick = true
+            if let currency = orderRequest.currency {
+                pendingPersistence = (token, currency)
+            }
         }
 
         HPFGatewayClient.shared().requestNewOrder(
@@ -1582,12 +1586,32 @@ private extension HiPayCardFieldsView {
         paymentSignature = nil
         forwardViewController = nil
 
+        let pending = pendingPersistence
+        pendingPersistence = nil
+
         if let error {
             delegate?.cardFieldsView?(self, didFailPaymentWithError: error)
         } else if let transaction {
+            if let pending, Self.isAcceptedForCardSaving(transaction.state) {
+                persistTokenizedCard(pending.token, currency: pending.currency)
+            }
             delegate?.cardFieldsView?(self, didCompleteTransaction: transaction)
         }
         completion?(transaction, error)
+    }
+
+    static func isAcceptedForCardSaving(_ state: HPFTransactionState) -> Bool {
+        state == .completed || state == .pending || state == .forwarding
+    }
+
+    func persistTokenizedCard(_ token: HPFPaymentCardToken, currency: String) {
+        let newDigits = token.pan.filter(\.isNumber)
+        let existing = HPFPaymentCardTokenDatabase.paymentCardTokens(forCurrency: currency) as? [HPFPaymentCardToken] ?? []
+        if let duplicate = existing.first(where: { $0.pan.filter(\.isNumber) == newDigits }) {
+            HPFPaymentCardTokenDatabase.delete(duplicate, forCurrency: currency)
+        }
+        HPFPaymentCardTokenDatabase.save(token, forCurrency: currency, withTouchID: false)
+        availableAliases = HPFPaymentCardTokenDatabase.paymentCardTokens(forCurrency: currency) as? [HPFPaymentCardToken] ?? []
     }
 }
 

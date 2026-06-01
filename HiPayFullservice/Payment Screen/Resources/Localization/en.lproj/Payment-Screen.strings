@@ -147,7 +147,11 @@
 "HPF_CARD_FIELDS_ERROR_CARD_TYPE_NOT_ALLOWED" = "Card type is not allowed.";
 "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "Card fields are incomplete or invalid.";
 "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "Tokenization returned no token.";
+"HPF_CARD_FIELDS_ERROR_ALIAS_MISSING_NETWORK" = "Saved card is missing its network. Please remove it and add it again.";
 "HPF_CARD_FIELDS_HINT_CVC_HELP" = "Enter the CVV or security code on your card";
+"HPF_CARD_FIELDS_PAY_WITH_REGISTERED_CARD" = "Pay with a registered card";
+"HPF_CARD_FIELDS_PAY_WITH_NEW_CARD" = "Pay with a new card";
+"HPF_CARD_FIELDS_SAVE_THIS_CARD" = "Save this card";
 
 /* Card fields placeholders */
 
@@ -168,3 +172,7 @@
 "HPF_CARD_FIELDS_A11Y_EXPIRY_HINT" = "Enter the month and year of expiry.";
 "HPF_CARD_FIELDS_A11Y_CVC_HINT" = "The 3 digits written on the back.";
 "HPF_CARD_FIELDS_A11Y_CVC_HELP" = "CVV help";
+"HPF_CARD_FIELDS_A11Y_SELECT_SAVED_CARD" = "Select saved card";
+"HPF_CARD_FIELDS_A11Y_DELETE_SAVED_CARD" = "Delete saved card";
+"HPF_CARD_FIELDS_A11Y_SELECTED" = "Selected";
+"HPF_CARD_FIELDS_A11Y_NOT_SELECTED" = "Not selected";

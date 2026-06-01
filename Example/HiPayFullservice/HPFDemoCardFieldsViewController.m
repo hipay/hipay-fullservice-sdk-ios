@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) UISegmentedControl *themeControl;
 @property (nonatomic, strong) UILabel *networkInfoLabel;
+@property (nonatomic, strong) HPFPaymentCardToken *pendingTokenToSave;
 
 @end
 
@@ -36,6 +37,8 @@
     self.cardFieldsView = [[HiPayCardFieldsView alloc] initWithFrame:CGRectZero];
     self.cardFieldsView.translatesAutoresizingMaskIntoConstraints = NO;
     self.cardFieldsView.delegate = self;
+    self.cardFieldsView.isOneClickEnabled = YES;
+    [self reloadSavedCards];
 
     [self.cardFieldsView fetchAvailablePaymentProductsWithCurrency:@"EUR" completion:^(NSError * _Nullable error) {
         if (error) {
@@ -204,13 +207,81 @@
 }
 
 - (void)cardFieldsView:(HiPayCardFieldsView *)view didCompleteTransaction:(HPFTransaction *)transaction {
+    BOOL paymentAccepted = [self isTransactionStateAcceptedForCardSaving:transaction.state];
+    if (paymentAccepted && view.multiUse && self.pendingTokenToSave) {
+        [self persistPendingToken];
+    } else {
+        self.pendingTokenToSave = nil;
+    }
     [self finishLoadingWithSuccess:YES
                            message:[NSString stringWithFormat:@"Transaction %@ completed. State: %ld",
                                     transaction.transactionReference, (long)transaction.state]];
 }
 
 - (void)cardFieldsView:(HiPayCardFieldsView *)view didFailPaymentWithError:(NSError *)error {
+    self.pendingTokenToSave = nil;
     [self finishLoadingWithSuccess:NO message:error.localizedDescription];
+}
+
+- (BOOL)isTransactionStateAcceptedForCardSaving:(HPFTransactionState)state {
+    return state == HPFTransactionStateCompleted
+        || state == HPFTransactionStatePending
+        || state == HPFTransactionStateForwarding;
+}
+
+- (void)persistPendingToken {
+    HPFPaymentCardToken *token = self.pendingTokenToSave;
+    self.pendingTokenToSave = nil;
+    if (!token) { return; }
+
+    NSString *currency = [self savedCardsCurrency];
+    [self deleteExistingTokenWithSamePAN:token forCurrency:currency];
+    [HPFPaymentCardTokenDatabase save:token forCurrency:currency withTouchID:NO];
+    [self reloadSavedCards];
+}
+
+- (void)cardFieldsView:(HiPayCardFieldsView *)view didSelectAlias:(HPFPaymentCardToken *)alias {
+    NSLog(@"[CardFields] Selected alias: %@ (%@)", alias.brand, alias.token);
+}
+
+- (void)cardFieldsViewDidDeselectAlias:(HiPayCardFieldsView *)view {
+    NSLog(@"[CardFields] Deselected alias");
+}
+
+- (void)cardFieldsView:(HiPayCardFieldsView *)view didRequestDeleteAlias:(HPFPaymentCardToken *)alias {
+    [HPFPaymentCardTokenDatabase delete:alias forCurrency:[self savedCardsCurrency]];
+}
+
+- (void)cardFieldsView:(HiPayCardFieldsView *)view didTokenize:(HPFPaymentCardToken *)token {
+    self.pendingTokenToSave = token;
+}
+
+#pragma mark - Saved Cards
+
+- (NSString *)savedCardsCurrency {
+    return @"EUR";
+}
+
+- (void)reloadSavedCards {
+    NSArray<HPFPaymentCardToken *> *tokens = [HPFPaymentCardTokenDatabase paymentCardTokensForCurrency:[self savedCardsCurrency]];
+    self.cardFieldsView.availableAliases = tokens ?: @[];
+}
+
+- (void)deleteExistingTokenWithSamePAN:(HPFPaymentCardToken *)newToken forCurrency:(NSString *)currency {
+    NSString *newDigits = [self digitsOnly:newToken.pan];
+    NSArray<HPFPaymentCardToken *> *existing = [HPFPaymentCardTokenDatabase paymentCardTokensForCurrency:currency];
+    for (HPFPaymentCardToken *token in existing) {
+        if ([[self digitsOnly:token.pan] isEqualToString:newDigits]) {
+            [HPFPaymentCardTokenDatabase delete:token forCurrency:currency];
+            return;
+        }
+    }
+}
+
+- (NSString *)digitsOnly:(NSString *)raw {
+    if (!raw) { return @""; }
+    NSCharacterSet *nonDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+    return [[raw componentsSeparatedByCharactersInSet:nonDigits] componentsJoinedByString:@""];
 }
 
 #pragma mark - UI Helpers

@@ -111,6 +111,9 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didSelectNetwork network: String)
     @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didCompleteTransaction transaction: HPFTransaction)
     @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didFailPaymentWithError error: Error)
+    @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didSelectAlias alias: HPFPaymentCardToken)
+    @objc optional func cardFieldsViewDidDeselectAlias(_ view: HiPayCardFieldsView)
+    @objc optional func cardFieldsView(_ view: HiPayCardFieldsView, didRequestDeleteAlias alias: HPFPaymentCardToken)
 }
 
 // MARK: - HiPayCardFieldsView
@@ -149,6 +152,20 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     private let cvcInfoButton = UIButton(type: .system)
     private let cvcHintLabel = UILabel()
 
+    // MARK: One-click
+
+    private let aliasSectionStack = UIStackView()
+    private let aliasHeaderLabel = UILabel()
+    private let aliasRowsStack = UIStackView()
+    private let payWithNewCardRow = UIStackView()
+    private let payWithNewCardLabel = UILabel()
+    private let payWithNewCardChevron = UIImageView()
+    private let formSectionStack = UIStackView()
+    private let saveCardRowStack = UIStackView()
+    private let saveCardLabel = UILabel()
+    private let saveCardSwitch = UISwitch()
+    private var manualEntryMode = false
+
     // MARK: Layout
 
     private let mainStackView = UIStackView()
@@ -183,6 +200,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     private var previousValidityState = false
 
     @objc public var isValid: Bool {
+        if selectedAlias != nil { return true }
         let nameValid = !isCardholderNameRequired
             || !(cardholderNameField.text?.trimmingCharacters(in: .whitespaces).isEmpty ?? true)
         return nameValid
@@ -200,7 +218,13 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     }
 
     @objc public var isCardholderNameRequired: Bool = false
-    @objc public var multiUse: Bool = false
+    @objc public var multiUse: Bool = false {
+        didSet {
+            if saveCardSwitch.isOn != multiUse {
+                saveCardSwitch.isOn = multiUse
+            }
+        }
+    }
 
     // MARK: Style
 
@@ -290,6 +314,21 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     @objc public var securityCodeErrorMessage: String?
     @objc public var cardTypeNotAllowedMessage: String?
     @objc public var cvcHintMessage: String?
+    @objc public var payWithRegisteredCardTitle: String?
+    @objc public var payWithNewCardTitle: String?
+    @objc public var saveCardTitle: String?
+
+    // MARK: One-click options
+
+    @objc public var isOneClickEnabled: Bool = false {
+        didSet { updateOneClickLayout() }
+    }
+
+    @objc public var availableAliases: [HPFPaymentCardToken] = [] {
+        didSet { rebuildAliasRows() }
+    }
+
+    @objc public private(set) var selectedAlias: HPFPaymentCardToken?
 
     // MARK: Placeholders
 
@@ -455,6 +494,37 @@ private extension HiPayCardFieldsView {
     }
 
     func setupLayout() {
+        buildFormSection()
+        buildAliasSection()
+        buildPayWithNewCardRow()
+        buildSaveCardRow()
+
+        mainStackView.axis = .vertical
+        mainStackView.spacing = fieldsSpacing
+        mainStackView.distribution = .fill
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        mainStackView.addArrangedSubview(aliasSectionStack)
+        mainStackView.addArrangedSubview(payWithNewCardRow)
+        mainStackView.addArrangedSubview(formSectionStack)
+        mainStackView.addArrangedSubview(saveCardRowStack)
+
+        addSubview(mainStackView)
+        updateOneClickLayout()
+
+        fieldHeightConstraints = allFields.map { field in
+            field.heightAnchor.constraint(equalToConstant: fieldHeight)
+        }
+
+        NSLayoutConstraint.activate(fieldHeightConstraints)
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+    }
+
+    func buildFormSection() {
         let cardholderGroup = makeFieldGroup(field: cardholderNameField, errorLabel: cardholderErrorLabel)
 
         let cardNumberGroup = UIStackView()
@@ -474,28 +544,73 @@ private extension HiPayCardFieldsView {
         bottomRowStack.addArrangedSubview(expiryGroup)
         bottomRowStack.addArrangedSubview(securityGroup)
 
-        mainStackView.axis = .vertical
-        mainStackView.spacing = fieldsSpacing
-        mainStackView.distribution = .fill
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        mainStackView.addArrangedSubview(cardholderGroup)
-        mainStackView.addArrangedSubview(cardNumberGroup)
-        mainStackView.addArrangedSubview(bottomRowStack)
-        mainStackView.addArrangedSubview(cvcHintLabel)
+        formSectionStack.axis = .vertical
+        formSectionStack.spacing = fieldsSpacing
+        formSectionStack.addArrangedSubview(cardholderGroup)
+        formSectionStack.addArrangedSubview(cardNumberGroup)
+        formSectionStack.addArrangedSubview(bottomRowStack)
+        formSectionStack.addArrangedSubview(cvcHintLabel)
+    }
 
-        addSubview(mainStackView)
+    func buildAliasSection() {
+        aliasHeaderLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        aliasHeaderLabel.textColor = .label
+        aliasHeaderLabel.text = aliasHeaderText()
 
-        fieldHeightConstraints = allFields.map { field in
-            field.heightAnchor.constraint(equalToConstant: fieldHeight)
-        }
+        aliasRowsStack.axis = .vertical
+        aliasRowsStack.spacing = 6
 
-        NSLayoutConstraint.activate(fieldHeightConstraints)
-        NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
+        aliasSectionStack.axis = .vertical
+        aliasSectionStack.spacing = 6
+        aliasSectionStack.addArrangedSubview(aliasHeaderLabel)
+        aliasSectionStack.addArrangedSubview(aliasRowsStack)
+        aliasSectionStack.isHidden = true
+    }
+
+    func buildPayWithNewCardRow() {
+        payWithNewCardLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        payWithNewCardLabel.textColor = .label
+        payWithNewCardLabel.text = payWithNewCardRowText()
+
+        payWithNewCardChevron.image = UIImage(systemName: "chevron.down")
+        payWithNewCardChevron.tintColor = .secondaryLabel
+        payWithNewCardChevron.contentMode = .scaleAspectFit
+        payWithNewCardChevron.setContentHuggingPriority(.required, for: .horizontal)
+
+        let spacer = UIView()
+        spacer.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+        payWithNewCardRow.axis = .horizontal
+        payWithNewCardRow.spacing = 6
+        payWithNewCardRow.alignment = .center
+        payWithNewCardRow.isUserInteractionEnabled = true
+        payWithNewCardRow.addArrangedSubview(payWithNewCardLabel)
+        payWithNewCardRow.addArrangedSubview(payWithNewCardChevron)
+        payWithNewCardRow.addArrangedSubview(spacer)
+        payWithNewCardRow.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(payWithNewCardTapped)))
+        payWithNewCardRow.isHidden = true
+    }
+
+    func buildSaveCardRow() {
+        saveCardLabel.font = UIFont.systemFont(ofSize: 14)
+        saveCardLabel.textColor = .label
+        saveCardLabel.text = saveCardRowText()
+
+        saveCardSwitch.isOn = multiUse
+        saveCardSwitch.addTarget(self, action: #selector(saveCardSwitchChanged), for: .valueChanged)
+
+        let spacer = UIView()
+        spacer.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+        saveCardRowStack.axis = .horizontal
+        saveCardRowStack.spacing = 8
+        saveCardRowStack.alignment = .center
+        saveCardRowStack.isLayoutMarginsRelativeArrangement = true
+        saveCardRowStack.layoutMargins = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
+        saveCardRowStack.addArrangedSubview(saveCardLabel)
+        saveCardRowStack.addArrangedSubview(spacer)
+        saveCardRowStack.addArrangedSubview(saveCardSwitch)
+        saveCardRowStack.isHidden = true
     }
 
     func makeFieldGroup(field: UITextField, errorLabel: UILabel) -> UIStackView {
@@ -673,6 +788,16 @@ private extension HiPayCardFieldsView {
             expiryDateField.becomeFirstResponder()
         } else if sender === expiryDateField, expiryDateField.isCompleted {
             securityCodeField.becomeFirstResponder()
+        } else if sender === securityCodeField, isCVCFieldFilled() {
+            securityCodeField.resignFirstResponder()
+        }
+    }
+
+    func isCVCFieldFilled() -> Bool {
+        let digits = (securityCodeField.text ?? "").filter { $0.isNumber }
+        switch Self.cvcRequirement(for: selectedNetwork) {
+        case .required(let maxLength): return digits.count >= maxLength
+        case .notRequired: return false
         }
     }
 
@@ -775,6 +900,156 @@ private extension HiPayCardFieldsView {
             cvcHintLabel.text = cvcHintMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_HINT_CVC_HELP")
         }
         cvcHintLabel.isHidden.toggle()
+    }
+}
+
+// MARK: - One-click & saved cards
+
+private extension HiPayCardFieldsView {
+
+    static let maxDisplayedAliases = 3
+
+    func validAliases() -> [HPFPaymentCardToken] {
+        let calendar = Calendar.current
+        let now = Date()
+        let currentMonth = calendar.component(.month, from: now)
+        let currentYear = calendar.component(.year, from: now)
+
+        let allowedSet: Set<String>? = didFetchAllowedPaymentProducts
+            ? Set(allowedPaymentProducts.map { Self.normalizedBrand($0) })
+            : nil
+
+        let dated = availableAliases.compactMap { alias -> (alias: HPFPaymentCardToken, month: Int, year: Int)? in
+            let m = (alias.value(forKey: "cardExpiryMonth") as? NSNumber)?.intValue ?? 0
+            let y = (alias.value(forKey: "cardExpiryYear") as? NSNumber)?.intValue ?? 0
+            guard m > 0, y > 0 else { return nil }
+            if let allowedSet {
+                let brand = Self.normalizedBrand((alias.value(forKey: "brand") as? String) ?? "")
+                guard !brand.isEmpty, allowedSet.contains(brand) else { return nil }
+            }
+            return (alias, m, y)
+        }
+
+        return dated
+            .filter { entry in
+                if entry.year > currentYear { return true }
+                if entry.year < currentYear { return false }
+                return entry.month >= currentMonth
+            }
+            .sorted { lhs, rhs in
+                if lhs.year != rhs.year { return lhs.year < rhs.year }
+                return lhs.month < rhs.month
+            }
+            .prefix(Self.maxDisplayedAliases)
+            .map { $0.alias }
+    }
+
+    static func normalizedBrand(_ raw: String) -> String {
+        raw.replacingOccurrences(of: " ", with: "-").lowercased()
+    }
+
+    func rebuildAliasRows() {
+        aliasRowsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        let valids = validAliases()
+
+        if let current = selectedAlias, !valids.contains(where: { $0.token == current.token }) {
+            selectedAlias = nil
+            delegate?.cardFieldsViewDidDeselectAlias?(self)
+        }
+
+        for alias in valids {
+            let row = HPFAliasRowView(alias: alias)
+            row.isSelected = (alias.token == selectedAlias?.token)
+            row.onSelect = { [weak self] in
+                self?.userDidSelectAlias(alias)
+            }
+            row.onDelete = { [weak self] in
+                self?.userDidDeleteAlias(alias)
+            }
+            aliasRowsStack.addArrangedSubview(row)
+        }
+
+        updateOneClickLayout()
+        notifyValidityChangeIfNeeded()
+    }
+
+    func updateOneClickLayout() {
+        let valids = validAliases()
+        let hasAliases = isOneClickEnabled && !valids.isEmpty
+
+        aliasSectionStack.isHidden = !hasAliases
+        payWithNewCardRow.isHidden = !hasAliases
+
+        let showForm: Bool
+        if !isOneClickEnabled {
+            showForm = true
+        } else if !hasAliases {
+            showForm = true
+        } else {
+            showForm = manualEntryMode
+        }
+
+        formSectionStack.isHidden = !showForm
+        saveCardRowStack.isHidden = !(isOneClickEnabled && showForm)
+
+        let chevron = manualEntryMode ? "chevron.up" : "chevron.down"
+        payWithNewCardChevron.image = UIImage(systemName: chevron)
+    }
+
+    func userDidSelectAlias(_ alias: HPFPaymentCardToken) {
+        if selectedAlias?.token == alias.token {
+            selectedAlias = nil
+            updateAliasRowSelection(selectedToken: nil)
+            delegate?.cardFieldsViewDidDeselectAlias?(self)
+            updateOneClickLayout()
+            notifyValidityChangeIfNeeded()
+            return
+        }
+        selectedAlias = alias
+        updateAliasRowSelection(selectedToken: alias.token)
+        manualEntryMode = false
+        updateOneClickLayout()
+        delegate?.cardFieldsView?(self, didSelectAlias: alias)
+        notifyValidityChangeIfNeeded()
+    }
+
+    func userDidDeleteAlias(_ alias: HPFPaymentCardToken) {
+        delegate?.cardFieldsView?(self, didRequestDeleteAlias: alias)
+        availableAliases = availableAliases.filter { $0.token != alias.token }
+    }
+
+    @objc func payWithNewCardTapped() {
+        manualEntryMode.toggle()
+        if manualEntryMode, selectedAlias != nil {
+            selectedAlias = nil
+            updateAliasRowSelection(selectedToken: nil)
+            delegate?.cardFieldsViewDidDeselectAlias?(self)
+        }
+        updateOneClickLayout()
+        notifyValidityChangeIfNeeded()
+    }
+
+    func updateAliasRowSelection(selectedToken: String?) {
+        aliasRowsStack.arrangedSubviews
+            .compactMap { $0 as? HPFAliasRowView }
+            .forEach { $0.isSelected = ($0.alias.token == selectedToken) }
+    }
+
+    @objc func saveCardSwitchChanged() {
+        multiUse = saveCardSwitch.isOn
+    }
+
+    func aliasHeaderText() -> String {
+        payWithRegisteredCardTitle ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_PAY_WITH_REGISTERED_CARD")
+    }
+
+    func payWithNewCardRowText() -> String {
+        payWithNewCardTitle ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_PAY_WITH_NEW_CARD")
+    }
+
+    func saveCardRowText() -> String {
+        saveCardTitle ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_SAVE_THIS_CARD")
     }
 }
 
@@ -955,6 +1230,8 @@ public extension HiPayCardFieldsView {
             DispatchQueue.main.async {
                 self.allowedPaymentProducts = cardCodes
                 self.didFetchAllowedPaymentProducts = true
+                self.rebuildAliasRows()
+                self.updateOneClickLayout()
                 completion?(nil)
             }
         }
@@ -966,6 +1243,9 @@ public extension HiPayCardFieldsView {
         allFields.forEach { $0.text = "" }
         previousValidityState = false
         resetNetworkSelection()
+        selectedAlias = nil
+        manualEntryMode = false
+        rebuildAliasRows()
         applyStyle()
     }
 
@@ -1014,6 +1294,11 @@ public extension HiPayCardFieldsView {
         completion: ((HPFTransaction?, Error?) -> Void)? = nil
     ) {
         paymentCompletion = completion
+
+        if let alias = selectedAlias {
+            submitOrderForAlias(orderRequest: orderRequest, signature: signature, alias: alias)
+            return
+        }
 
         acquirePaymentToken { [weak self] token, error in
             guard let self else { return }
@@ -1119,6 +1404,7 @@ private extension HiPayCardFieldsView {
         }
 
         if let token {
+            enrichTokenIfNeeded(token)
             delegate?.cardFieldsView?(self, didTokenize: token)
             completion(token, nil)
             return
@@ -1127,6 +1413,61 @@ private extension HiPayCardFieldsView {
         let fallbackError = Self.tokenizationFailedError()
         delegate?.cardFieldsView?(self, didFailWithError: fallbackError)
         completion(nil, fallbackError)
+    }
+
+    func enrichTokenIfNeeded(_ token: HPFPaymentCardToken) {
+        let currentBrand = (token.value(forKey: "brand") as? String) ?? ""
+        if currentBrand.isEmpty, let selected = selectedNetwork, !selected.isEmpty {
+            token.setValue(selected, forKey: "brand")
+        }
+
+        let currentPan = (token.value(forKey: "pan") as? String) ?? ""
+        let currentDigits = currentPan.filter { $0.isNumber }
+        if currentDigits.isEmpty {
+            let typed = (cardNumberField.text ?? "").filter { $0.isNumber }
+            if typed.count >= 4 {
+                let last4 = String(typed.suffix(4))
+                let firstSix = String(typed.prefix(min(6, typed.count - 4)))
+                let starsCount = max(typed.count - firstSix.count - last4.count, 6)
+                let masked = firstSix + String(repeating: "*", count: starsCount) + last4
+                token.setValue(masked, forKey: "pan")
+            }
+        }
+    }
+
+    func submitOrderForAlias(
+        orderRequest: HPFOrderRequest,
+        signature: String,
+        alias: HPFPaymentCardToken
+    ) {
+        let brand = (alias.value(forKey: "brand") as? String) ?? ""
+        guard !brand.isEmpty else {
+            let err = NSError(
+                domain: HiPayCardFieldsErrorDomain,
+                code: HiPayCardFieldsErrorCode.incompleteFields.rawValue,
+                userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_ALIAS_MISSING_NETWORK")]
+            )
+            finishPayment(transaction: nil, error: err)
+            return
+        }
+        orderRequest.paymentProductCode = brand
+            .replacingOccurrences(of: " ", with: "-")
+            .lowercased()
+        orderRequest.paymentMethod = HPFCardTokenPaymentMethodRequest(
+            token: alias.token,
+            eci: .HPFECISecureECommerce,
+            authenticationIndicator: .ifAvailable
+        )
+        orderRequest.oneClick = true
+
+        HPFGatewayClient.shared().requestNewOrder(
+            orderRequest,
+            signature: signature
+        ) { [weak self] transaction, error in
+            DispatchQueue.main.async {
+                self?.finishPayment(transaction: transaction, error: error)
+            }
+        }
     }
 
     func submitOrder(

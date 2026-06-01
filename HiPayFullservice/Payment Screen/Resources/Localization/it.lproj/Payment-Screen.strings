@@ -147,7 +147,11 @@
 "HPF_CARD_FIELDS_ERROR_CARD_TYPE_NOT_ALLOWED" = "Questo tipo di carta non è consentito.";
 "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "I campi della carta sono incompleti o non validi.";
 "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "La tokenizzazione non ha restituito alcun token.";
+"HPF_CARD_FIELDS_ERROR_ALIAS_MISSING_NETWORK" = "La carta salvata non ha un circuito. Rimuovila e aggiungila di nuovo.";
 "HPF_CARD_FIELDS_HINT_CVC_HELP" = "Inserisci il CVV o il codice di sicurezza sulla tua carta";
+"HPF_CARD_FIELDS_PAY_WITH_REGISTERED_CARD" = "Paga con una carta registrata";
+"HPF_CARD_FIELDS_PAY_WITH_NEW_CARD" = "Paga con una nuova carta";
+"HPF_CARD_FIELDS_SAVE_THIS_CARD" = "Salva questa carta";
 
 /* Card fields placeholders */
 
@@ -168,3 +172,7 @@
 "HPF_CARD_FIELDS_A11Y_EXPIRY_HINT" = "Inserisci il mese e l'anno di scadenza.";
 "HPF_CARD_FIELDS_A11Y_CVC_HINT" = "Le 3 cifre scritte sul retro.";
 "HPF_CARD_FIELDS_A11Y_CVC_HELP" = "Aiuto CVV";
+"HPF_CARD_FIELDS_A11Y_SELECT_SAVED_CARD" = "Seleziona carta salvata";
+"HPF_CARD_FIELDS_A11Y_DELETE_SAVED_CARD" = "Elimina carta salvata";
+"HPF_CARD_FIELDS_A11Y_SELECTED" = "Selezionata";
+"HPF_CARD_FIELDS_A11Y_NOT_SELECTED" = "Non selezionata";

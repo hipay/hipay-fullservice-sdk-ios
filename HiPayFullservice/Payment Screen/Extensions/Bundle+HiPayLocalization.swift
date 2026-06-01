@@ -22,6 +22,14 @@ extension Bundle {
         return hipayPaymentScreenFramework
     }()
 
+    static let hipayPaymentScreenViews: Bundle = {
+        if let path = hipayPaymentScreenFramework.path(forResource: "HPFPaymentScreenViews", ofType: "bundle"),
+           let bundle = Bundle(path: path) {
+            return bundle
+        }
+        return hipayPaymentScreenFramework
+    }()
+
     static func hipayPaymentScreenLocalizedString(forKey key: String) -> String {
         let mainBundleValue = Bundle.main.localizedString(forKey: key, value: key, table: nil)
         if mainBundleValue != key {

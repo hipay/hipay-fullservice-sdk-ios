@@ -1539,6 +1539,6 @@ extension HiPayCardFieldsView: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard textField === cardholderNameField else { return true }
         let updated = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string)
-        return updated.count <= 26
+        return updated.count <= 60
     }
 }

@@ -229,12 +229,14 @@
 
 - (NSURL *)getURLForKey:(NSString *)key
 {
-    id object = [self getStringForKey:key];
-    
-    if ((object != nil) && (![object isEqualToString:@""])) {
-        return [NSURL URLWithString:object];
+    NSString *keyString = [self getStringForKey:key];
+    if (keyString.length == 0) {
+        return nil;
     }
-    
+    NSURL *url = [NSURL URLWithString:keyString];
+    if (url.scheme && url.host) {
+        return url;
+    }
     return nil;
 }
 

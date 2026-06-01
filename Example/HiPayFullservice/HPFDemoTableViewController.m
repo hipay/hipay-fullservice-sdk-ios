@@ -16,7 +16,6 @@
 #import "HPFTokenizableCardPaymentProductViewController.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "HPFTextInputTableViewCell.h"
-#import "HPFDemoCardFieldsViewController.h"
 
 @interface HPFDemoTableViewController ()
 
@@ -70,6 +69,10 @@
                                HPFPaymentProductCategoryCodeEWallet, nil];
     timeout = 7*24*3600;
     
+    // Prepare switch state 
+    multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
+    applePay = [HPFClientConfig.sharedClientConfig isApplePayEnabled];
+    
     [self.tableView registerClass:[HPFMoreOptionsTableViewCell class] forCellReuseIdentifier:@"EnvironmentCell"];
     [self.tableView registerClass:[HPFSwitchTableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
     [self.tableView registerClass:[HPFStepperTableViewCell class] forCellReuseIdentifier:@"StepperCell"];
@@ -86,6 +89,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"HPFSwitchInfosTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SwitchInfosCell"];
     
     self.title = NSLocalizedString(@"APP_TITLE", nil);
+    
 }
 
 - (void)viewDidLoad {
@@ -306,11 +310,11 @@
         }
         
         else if (indexPath.row == customCardFieldsIndex) {
-
-            HPFMoreOptionsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCardFieldsCell" forIndexPath:indexPath];
-
-            cell.textLabel.text = @"Test Custom Card Fields";
-
+            
+            HPFSubmitTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SubmitCell"];
+            cell.tag = 1;
+            [cell.button setTitle:@"Card fields payment screen" forState:UIControlStateNormal];
+            cell.delegate = self;
 
             return cell;
         }
@@ -318,13 +322,10 @@
         else if (indexPath.row == submitRowIndex) {
             
             HPFSubmitTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SubmitCell"];
-            
+            cell.tag = 0;
             cell.loading = loading;
             cell.enabled = [self submitButtonEnabled];
             cell.delegate = self;
-            
-            //HPFSubmitTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SubmitCell" forIndexPath:indexPath];
-            //cell.textLabel.text = NSLocalizedString(@"FORM_SUBMIT", nil);
             
             return cell;
         }
@@ -465,19 +466,32 @@
 
 - (void)submitTableViewCellDidTouchButton:(HPFPaymentButtonTableViewCell *)cell
 {
-    [self requestSignature];
-    
-    if (resultSectionIndex != NSNotFound) {
-        errorDescriptionRowIndex = NSNotFound;
-        transactionStateRowIndex = NSNotFound;
-        fraudReviewRowIndex = NSNotFound;
-        cancelRowIndex = NSNotFound;
-        
-        resultSectionIndex = NSNotFound;
-        formSectionIndex = 0;
-        
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationRight];
+    switch(cell.tag) {
+        case 0:
+            // Fast integration
+            [self requestSignature];
+            
+            if (resultSectionIndex != NSNotFound) {
+                errorDescriptionRowIndex = NSNotFound;
+                transactionStateRowIndex = NSNotFound;
+                fraudReviewRowIndex = NSNotFound;
+                cancelRowIndex = NSNotFound;
+                
+                resultSectionIndex = NSNotFound;
+                formSectionIndex = 0;
+                
+                [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationRight];
+            }
+        case 1:
+            // Card fields
+            demoVC = [[HPFDemoCardFieldsViewController alloc] init];
+            demoVC.amount = amount;
+            demoVC.currency = currencies[currencySegmentIndex];
+            demoVC.isOneClickEnabled = multiUse;
+            [self.navigationController pushViewController:demoVC animated:YES];
+            
     }
+    
 }
 
 - (void) requestSignature {
@@ -715,9 +729,6 @@
             storevc.storeCardDelegate = self;
             
             [self.navigationController pushViewController:storevc animated:YES];
-        } else if (indexPath.row == customCardFieldsIndex) {
-            HPFDemoCardFieldsViewController *demoVC = [[HPFDemoCardFieldsViewController alloc] init];
-            [self.navigationController pushViewController:demoVC animated:YES];
         }
     }
 }
@@ -880,9 +891,7 @@
 }
 
 -(void) updateResultSection {
-    multiUse = [HPFClientConfig.sharedClientConfig isPaymentCardStorageEnabled];
-    
-    applePay = [HPFClientConfig.sharedClientConfig isApplePayEnabled];
+
     
     if (productCategoriesViewController != nil) {
         selectedPaymentProducts = productCategoriesViewController.selectedPaymentProducts;

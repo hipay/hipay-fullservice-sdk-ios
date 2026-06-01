@@ -12,6 +12,7 @@
 #import "HPFSubmitTableViewCell.h"
 #import "HPFStoreCardViewController.h"
 #import "HPFEnvironmentViewController.h"
+#import "HPFDemoCardFieldsViewController.h"
 
 @interface HPFDemoTableViewController : UITableViewController <HPFPaymentScreenViewControllerDelegate, HPFSubmitableViewCellDelegate, HPFStoreCardDelegate>
 {
@@ -61,6 +62,7 @@
     BOOL loading;
 
     HPFPaymentProductCategoriesTableViewController *productCategoriesViewController;
+    HPFDemoCardFieldsViewController *demoVC;
 }
 
 @end

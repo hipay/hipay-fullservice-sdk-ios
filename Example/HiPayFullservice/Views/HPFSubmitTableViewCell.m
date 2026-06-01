@@ -7,14 +7,13 @@
 //
 
 #import "HPFSubmitTableViewCell.h"
-//#import "HPFPaymentScreenUtils.h"
 
 @implementation HPFSubmitTableViewCell
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    [button setTitle:NSLocalizedString(@"FORM_SUBMIT", nil) forState:UIControlStateNormal];
+    [_button setTitle:NSLocalizedString(@"FORM_SUBMIT", nil) forState:UIControlStateNormal];
     
     if (@available(iOS 13.0, *)) {
         spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleMedium;
@@ -42,17 +41,17 @@
         [spinner stopAnimating];
     }
 
-    button.hidden = loading;
+    _button.hidden = loading;
 }
 
 - (BOOL)isEnabled
 {
-    return button.enabled;
+    return _button.enabled;
 }
 
 - (void)setEnabled:(BOOL)enabled
 {
-    button.enabled = enabled;
+    _button.enabled = enabled;
 }
 
 @end

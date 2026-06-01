@@ -21,6 +21,10 @@ post_install do |installer|
         target.build_configurations.each do |config|
             config.build_settings["DEVELOPMENT_TEAM"] = "7RLJNKW437"
             config.build_settings["CODE_SIGN_STYLE"] = "Manual"
+            # Raise pods below iOS 12 to avoid missing libarclite on Xcode 14.3+
+            if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 12.0
+              config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+            end
          end
     end
   end

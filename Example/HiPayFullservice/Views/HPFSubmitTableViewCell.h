@@ -21,10 +21,10 @@
 @interface HPFSubmitTableViewCell : UITableViewCell
 
 {
-    __weak IBOutlet UIButton *button;
     __weak IBOutlet UIActivityIndicatorView *spinner;
 }
 
+@property (nonatomic, weak) IBOutlet UIButton *button;
 @property (nonatomic, getter=isEnabled) BOOL enabled;
 @property (nonatomic, getter=isLoading) BOOL loading;
 @property (nonatomic, weak) id<HPFSubmitableViewCellDelegate> delegate;

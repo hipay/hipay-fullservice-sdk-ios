@@ -37,10 +37,10 @@
     self.cardFieldsView = [[HiPayCardFieldsView alloc] initWithFrame:CGRectZero];
     self.cardFieldsView.translatesAutoresizingMaskIntoConstraints = NO;
     self.cardFieldsView.delegate = self;
-    self.cardFieldsView.isOneClickEnabled = YES;
+    self.cardFieldsView.isOneClickEnabled = self.isOneClickEnabled;
     [self reloadSavedCards];
 
-    [self.cardFieldsView fetchAvailablePaymentProductsWithCurrency:@"EUR" completion:^(NSError * _Nullable error) {
+    [self.cardFieldsView fetchAvailablePaymentProductsWithCurrency:self.currency completion:^(NSError * _Nullable error) {
         if (error) {
             NSLog(@"[CardFields] Failed to fetch payment products: %@", error.localizedDescription);
         } else {
@@ -162,20 +162,19 @@
     self.payButton.enabled = NO;
 
     NSString *randomOrderId = [NSString stringWithFormat:@"TEST_%u", arc4random()];
-    NSString *amountString = @"15.00";
-    NSString *currencyString = @"EUR";
+    NSString *amountString = [NSString stringWithFormat:@"%.2f", self.amount];
 
     HPFOrderRequest *orderRequest = [[HPFOrderRequest alloc] init];
     orderRequest.orderId = randomOrderId;
-    orderRequest.amount = @(15.00);
-    orderRequest.currency = currencyString;
+    orderRequest.amount = @(self.amount);
+    orderRequest.currency = self.currency;
     orderRequest.shortDescription = @"Custom Card Fields Checkout";
 
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
   
     NSString *passwordSignature = parameters[@"hipayStage"][@"secretPassphrase"];
  
-    NSString *signaturePayload = [NSString stringWithFormat:@"%@%@%@%@", randomOrderId, amountString, currencyString, passwordSignature];
+    NSString *signaturePayload = [NSString stringWithFormat:@"%@%@%@%@", randomOrderId, amountString, self.currency, passwordSignature];
     NSString *clientSignature = [self sha1:signaturePayload];
 
     [self.cardFieldsView payWithOrderRequest:orderRequest
@@ -259,7 +258,7 @@
 #pragma mark - Saved Cards
 
 - (NSString *)savedCardsCurrency {
-    return @"EUR";
+    return self.currency ?: @"EUR";
 }
 
 - (void)reloadSavedCards {

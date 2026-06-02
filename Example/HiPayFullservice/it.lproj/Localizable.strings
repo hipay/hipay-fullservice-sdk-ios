@@ -2,110 +2,112 @@
 
 "APP_TITLE" = "HiPay m-commerce demo";
 
-"CANCEL" = "Cancel";
+"CANCEL" = "Annulla";
 
 "OK" = "OK";
 
 "ENVIRONMENT_STAGE" = "Stage";
 
-"ENVIRONMENT_PRODUCTION" = "Production";
+"ENVIRONMENT_PRODUCTION" = "Produzione";
 
-"ENVIRONMENT_CUSTOM" = "Custom";
+"ENVIRONMENT_CUSTOM" = "Personalizzato";
 
-"ENVIRONMENT_FORM_TITLE" = "Environment choice";
+"ENVIRONMENT_FORM_TITLE" = "Scelta dell'ambiente";
 
-"ENVIRONMENT_FORM_USERNAME" = "Username";
+"ENVIRONMENT_FORM_USERNAME" = "Nome utente";
 
 "ENVIRONMENT_FORM_PASSWORD" = "Password";
 
 "ENVIRONMENT_FORM_URL" = "URL";
 
-"ENVIRONMENT_FORM_SIGNATURE_ENABLED" = "Local signature";
+"ENVIRONMENT_FORM_SIGNATURE_ENABLED" = "Firma locale";
 
-"ENVIRONMENT_FORM_SIGNATURE_PASSPHRASE" = "Secret Passphrase";
+"ENVIRONMENT_FORM_SIGNATURE_PASSPHRASE" = "Passphrase segreta";
 
-"ENVIRONMENT_ALERT_TITLE" = "⚠️ Warning ⚠️";
+"ENVIRONMENT_ALERT_TITLE" = "⚠️ Attenzione ⚠️";
 
-"ENVIRONMENT_ALERT_MESSAGE_EMPTY" = "Username or password empty";
+"ENVIRONMENT_ALERT_MESSAGE_EMPTY" = "Nome utente o password vuoti";
 
-"ENVIRONMENT_ALERT_MESSAGE_PASSPHRASE_EMPTY" = "Passphrase empty";
+"ENVIRONMENT_ALERT_MESSAGE_PASSPHRASE_EMPTY" = "Passphrase vuota";
 
-"ENVIRONMENT_ALERT_MESSAGE_RESTART" = "Application will stop to save environment";
+"ENVIRONMENT_ALERT_MESSAGE_RESTART" = "L'applicazione si chiuderà per salvare l'ambiente";
 
-"FORM_ENVIRONMENT" = "Environment";
+"FORM_ENVIRONMENT" = "Ambiente";
 
-"FORM_TITLE" = "Generate a payment screen";
+"FORM_TITLE" = "Genera una schermata di pagamento";
 
-"FORM_CURRENCY" = "Currency";
+"FORM_CURRENCY" = "Valuta";
 
-"FORM_GROUP_PAYMENT_CARDS" = "Group cards";
+"FORM_GROUP_PAYMENT_CARDS" = "Raggruppa carte";
 
-"FORM_AMOUNT" = "Amount";
+"FORM_AMOUNT" = "Importo";
 
-"FORM_CARD_STORAGE" = "Payment cards storage";
+"FORM_CARD_STORAGE" = "Archiviazione carte di pagamento";
 
 "FORM_APPLE_PAY" = "Apple Pay";
 
-"FORM_APPLE_PAY_INFOS" = "You need an HiPay Enterprise account configured with Apple Pay to get this functionality";
+"FORM_APPLE_PAY_INFOS" = "È necessario un account HiPay Enterprise configurato con Apple Pay per utilizzare questa funzionalità";
 
-"FORM_COLOR" = "Color";
+"FORM_COLOR" = "Colore";
 
-"FORM_COLOR_DEFAULT" = "Default";
+"FORM_COLOR_DEFAULT" = "Predefinito";
 
-"FORM_COLOR_RED" = "Red";
+"FORM_COLOR_RED" = "Rosso";
 
-"FORM_COLOR_PURPLE" = "Purple";
+"FORM_COLOR_PURPLE" = "Viola";
 
 "FORM_AUTH" = "3DS";
 
-"FORM_PAYMENT_PRODUCT_CATEGORIES" = "Payment product categories";
+"FORM_PAYMENT_PRODUCT_CATEGORIES" = "Categorie di prodotti di pagamento";
 
-"FORM_STORE_PAYMENT_CARD" = "Store payment card";
+"FORM_STORE_PAYMENT_CARD" = "Salva carta di pagamento";
 
-"FORM_AUTH_IF_AVAILABLE" = "If avail.";
+"FORM_AUTH_IF_AVAILABLE" = "Se disp.";
 
-"FORM_AUTH_MANDATORY" = "Oblig.";
+"FORM_AUTH_MANDATORY" = "Obblig.";
 
-"FORM_AUTH_NONE" = "None";
+"FORM_AUTH_NONE" = "Nessuno";
 
-"FORM_AUTH_DEFAULT" = "Default";
+"FORM_AUTH_DEFAULT" = "Predefinito";
 
-"FORM_SUBMIT" = "Generate payment screen";
+"FORM_SUBMIT" = "Genera schermata di pagamento";
 
-"FORM_PAYMENT_PRODUCTS_CREDIT_CARD" = "Credit card";
+"FORM_PAYMENT_PRODUCTS_CREDIT_CARD" = "Carta di credito";
 
-"FORM_PAYMENT_PRODUCTS_DEBIT_CARD" = "Debit card";
+"FORM_PAYMENT_PRODUCTS_DEBIT_CARD" = "Carta di debito";
 
-"FORM_PAYMENT_PRODUCTS_EWALLET" = "E-Wallet";
+"FORM_PAYMENT_PRODUCTS_EWALLET" = "Portafoglio elettronico";
 
-"FORM_PAYMENT_PRODUCTS_REALTIME_BANKING" = "Real-time banking";
+"FORM_PAYMENT_PRODUCTS_REALTIME_BANKING" = "Bonifico in tempo reale";
 
-"FORM_PAYMENT_PAGE_TIMEOUT" = "Timeout (seconds)";
+"FORM_PAYMENT_PAGE_TIMEOUT" = "Timeout (secondi)";
 
-"RESULT_CANCEL" = "Cancelled by user";
+"RESULT_CANCEL" = "Annullato dall'utente";
 
-"RESULT_TITLE" = "Payment workflow result";
+"RESULT_TITLE" = "Risultato del processo di pagamento";
 
-"RESULT_ERROR" = "Error";
+"RESULT_ERROR" = "Errore";
 
-"RESULT_FRAUD" = "Fraud screening";
+"RESULT_FRAUD" = "Controllo antifrode";
 
-"RESULT_FRAUD_PENDING" = "Pending";
+"RESULT_FRAUD_PENDING" = "In attesa";
 
-"RESULT_FRAUD_ACCEPTED" = "Accepted";
+"RESULT_FRAUD_ACCEPTED" = "Accettato";
 
-"RESULT_FRAUD_BLOCKED" = "Blocked";
+"RESULT_FRAUD_BLOCKED" = "Bloccato";
 
-"RESULT_FRAUD_CHALLENGED" = "Challenged";
+"RESULT_FRAUD_CHALLENGED" = "In verifica";
 
-"RESULT_STATE" = "Transaction state";
+"RESULT_STATE" = "Stato della transazione";
 
-"RESULT_STATE_ERROR" = "Error";
+"RESULT_STATE_ERROR" = "Errore";
 
-"RESULT_STATE_COMPLETED" = "Completed";
+"RESULT_STATE_COMPLETED" = "Completato";
 
-"RESULT_STATE_FORWARDING" = "Forwarding";
+"RESULT_STATE_FORWARDING" = "In inoltro";
 
-"RESULT_STATE_PENDING" = "Pending";
+"RESULT_STATE_PENDING" = "In attesa";
 
-"RESULT_STATE_DECLINED" = "Declined";
+"RESULT_STATE_DECLINED" = "Rifiutato";
+
+"HPF_ERROR_CARD_NOT_ALLOWED" = "Tipo di carta non consentito";

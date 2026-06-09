@@ -172,6 +172,7 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     private let mainStackView = UIStackView()
     private let bottomRowStack = UIStackView()
     private var fieldHeightConstraints: [NSLayoutConstraint] = []
+    private var cardholderGroup: UIStackView?
 
     // MARK: Delegate & callbacks
 
@@ -205,10 +206,12 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
 
     @objc public var isValid: Bool {
         if selectedAlias != nil { return true }
-        let nameValid = !isCardholderNameRequired
+        let nameValid = !isCardholderNameEnabled
+            || !isCardholderNameRequired
             || !(cardholderNameField.text?.trimmingCharacters(in: .whitespaces).isEmpty ?? true)
         return nameValid
             && cardNumberField.isCompleted
+            && selectedNetwork != nil
             && expiryDateField.isCompleted
             && expiryDateField.isValid
             && securityCodeField.isCompleted
@@ -222,6 +225,13 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
     }
 
     @objc public var isCardholderNameRequired: Bool = false
+
+    @objc public var isCardholderNameEnabled: Bool = true {
+        didSet {
+            guard oldValue != isCardholderNameEnabled else { return }
+            updateCardholderVisibility()
+        }
+    }
 
     @objc public var authenticationIndicator: HPFAuthenticationIndicator = .ifAvailable
 
@@ -533,6 +543,8 @@ private extension HiPayCardFieldsView {
 
     func buildFormSection() {
         let cardholderGroup = makeFieldGroup(field: cardholderNameField, errorLabel: cardholderErrorLabel)
+        cardholderGroup.isHidden = !isCardholderNameEnabled
+        self.cardholderGroup = cardholderGroup
 
         let cardNumberGroup = UIStackView()
         cardNumberGroup.axis = .vertical
@@ -770,8 +782,12 @@ private extension HiPayCardFieldsView {
     }
 
     @objc func fieldDidEndEditing(_ sender: UITextField) {
-        guard let text = sender.text, !text.isEmpty else {
-            clearError(for: sender)
+        let text = sender.text ?? ""
+
+        if text.isEmpty {
+            if isFieldRequired(sender) {
+                showError(for: sender, message: requiredErrorMessage(for: sender))
+            }
             return
         }
 
@@ -780,6 +796,23 @@ private extension HiPayCardFieldsView {
         } else {
             showError(for: sender)
         }
+    }
+
+    func isFieldRequired(_ field: UITextField) -> Bool {
+        if field === cardholderNameField { return isCardholderNameRequired }
+        if field === securityCodeField {
+            if case .notRequired = Self.cvcRequirement(for: selectedNetwork) { return false }
+        }
+        return true
+    }
+
+    func updateCardholderVisibility() {
+        cardholderGroup?.isHidden = !isCardholderNameEnabled
+        if !isCardholderNameEnabled {
+            cardholderNameField.text = ""
+            clearError(for: cardholderNameField)
+        }
+        notifyValidityChangeIfNeeded()
     }
 
     func notifyValidityChangeIfNeeded() {
@@ -818,13 +851,13 @@ private extension HiPayCardFieldsView {
         return true
     }
 
-    func showError(for field: UITextField) {
+    func showError(for field: UITextField, message: String? = nil) {
         field.textColor = invalidColor
         field.layer.borderColor = invalidColor.cgColor
         recolorBottomLine(for: field, with: invalidColor)
 
         let label = errorLabel(for: field)
-        label.text = errorMessage(for: field)
+        label.text = message ?? errorMessage(for: field)
         UIAccessibility.post(notification: .announcement, argument: label.text)
         label.isHidden = false
     }
@@ -852,7 +885,7 @@ private extension HiPayCardFieldsView {
 
     func errorMessage(for field: UITextField) -> String {
         if field === cardholderNameField {
-            return cardholderNameErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CARDHOLDER")
+            return cardholderNameErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CARDHOLDER_REQUIRED")
         }
         if field === cardNumberField {
             return cardNumberErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_NUMBER")
@@ -861,6 +894,19 @@ private extension HiPayCardFieldsView {
             return expiryDateErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_EXPIRY")
         }
         return securityCodeErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CVC")
+    }
+
+    func requiredErrorMessage(for field: UITextField) -> String {
+        if field === cardholderNameField {
+            return cardholderNameErrorMessage ?? Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CARDHOLDER_REQUIRED")
+        }
+        if field === cardNumberField {
+            return Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_NUMBER_REQUIRED")
+        }
+        if field === expiryDateField {
+            return Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_EXPIRY_REQUIRED")
+        }
+        return Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_CVC_REQUIRED")
     }
 }
 
@@ -1219,9 +1265,18 @@ public extension HiPayCardFieldsView {
         currency: String,
         completion: ((Error?) -> Void)? = nil
     ) {
+        fetchAvailablePaymentProducts(currency: currency, amount: nil, completion: completion)
+    }
+
+    @objc(fetchAvailablePaymentProductsWithCurrency:amount:completion:)
+    func fetchAvailablePaymentProducts(
+        currency: String,
+        amount: NSDecimalNumber?,
+        completion: ((Error?) -> Void)?
+    ) {
         paymentProductsRequest?.cancel()
         let request = HPFPaymentPageRequest()
-        request.amount = 0
+        request.amount = amount ?? 0
         request.currency = currency
 
         let handler = { [weak self] (products: [HPFPaymentProduct], error: Error?) -> Void in
@@ -1239,6 +1294,7 @@ public extension HiPayCardFieldsView {
                 self.didFetchAllowedPaymentProducts = true
                 self.rebuildAliasRows()
                 self.updateOneClickLayout()
+                self.handleCardNumberChange()
                 completion?(nil)
             }
         }

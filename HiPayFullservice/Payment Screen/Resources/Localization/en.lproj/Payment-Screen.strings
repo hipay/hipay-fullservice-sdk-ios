@@ -140,10 +140,13 @@
 
 /* Card fields errors */
 
-"HPF_CARD_FIELDS_ERROR_CARDHOLDER" = "Cardholder name is required";
+"HPF_CARD_FIELDS_ERROR_CARDHOLDER_REQUIRED" = "Cardholder name is required";
 "HPF_CARD_FIELDS_ERROR_NUMBER" = "Invalid card number";
+"HPF_CARD_FIELDS_ERROR_NUMBER_REQUIRED" = "Card number is required";
 "HPF_CARD_FIELDS_ERROR_EXPIRY" = "Invalid expiry date";
+"HPF_CARD_FIELDS_ERROR_EXPIRY_REQUIRED" = "Expiry date is required";
 "HPF_CARD_FIELDS_ERROR_CVC" = "Invalid security code";
+"HPF_CARD_FIELDS_ERROR_CVC_REQUIRED" = "Security code is required";
 "HPF_CARD_FIELDS_ERROR_CARD_TYPE_NOT_ALLOWED" = "Card type is not allowed.";
 "HPF_CARD_FIELDS_ERROR_INCOMPLETE_FIELDS" = "Card fields are incomplete or invalid.";
 "HPF_CARD_FIELDS_ERROR_TOKENIZATION_FAILED" = "Tokenization returned no token.";

@@ -38,6 +38,11 @@
     self.cardFieldsView.delegate = self;
     self.cardFieldsView.isOneClickEnabled = self.isOneClickEnabled;
     self.cardFieldsView.authenticationIndicator = [self resolvedAuthenticationIndicator];
+
+    // Example of Cardholder name customization
+//   self.cardFieldsView.isCardholderNameEnabled = NO;   // hide the cardholder field entirely (default YES)
+//   self.cardFieldsView.isCardholderNameRequired = YES; // require it for validity when shown (default NO)
+
     [self reloadSavedCards];
 
     [self.cardFieldsView fetchAvailablePaymentProductsWithCurrency:self.currency completion:^(NSError * _Nullable error) {
@@ -71,7 +76,11 @@
     self.payButton.layer.cornerRadius = 8.0;
     self.payButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.payButton addTarget:self action:@selector(payButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    
+
+    // The fields start empty, so the form is invalid: disable the button until the
+    // didChangeValidity: callback tells us every required field is complete.
+    [self setPayButtonEnabled:self.cardFieldsView.isValid];
+
     [self.view addSubview:self.payButton];
     
     [NSLayoutConstraint activateConstraints:@[
@@ -191,10 +200,14 @@
 
     NSDictionary *parameters = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"parameters" ofType:@"plist"]];
 
+    // The signature must be fetched from the backend — never computed on device in production.
+    // Your backend hashes: SHA256(orderId + amount + currency + secretPassphrase).
+    // See "Building the order request" for the full algorithm.
     NSString *passwordSignature = parameters[@"hipayStage"][@"secretPassphrase"];
 
     NSString *signaturePayload = [NSString stringWithFormat:@"%@%@%@%@", randomOrderId, amountString, self.currency, passwordSignature];
     NSString *clientSignature = [self sha1:signaturePayload];
+    // End of signature generation
 
     [self.cardFieldsView payWithOrderRequest:orderRequest
                                    signature:clientSignature
@@ -250,6 +263,13 @@
 }
 
 #pragma mark - HiPayCardFieldsViewDelegate
+
+// Single source of truth for enabling the pay button. `isValid` already accounts for an
+// optional cardholder name, an optional/disabled CVC (e.g. BCMC), expiry validity, and a
+// selected saved-card alias — so we just mirror it onto the button.
+- (void)cardFieldsView:(HiPayCardFieldsView *)view didChangeValidity:(BOOL)isValid {
+    [self setPayButtonEnabled:isValid];
+}
 
 - (void)cardFieldsView:(HiPayCardFieldsView *)view didDetectNetworks:(NSArray<NSString *> *)networks {
     NSLog(@"[CardFields] Detected networks: %@", networks);
@@ -319,10 +339,15 @@
 
 #pragma mark - UI Helpers
 
+- (void)setPayButtonEnabled:(BOOL)enabled {
+    self.payButton.enabled = enabled;
+    self.payButton.alpha = enabled ? 1.0 : 0.5;
+}
+
 - (void)finishLoadingWithSuccess:(BOOL)success message:(NSString *)message {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.payButton setTitle:@"Pay Now" forState:UIControlStateNormal];
-        self.payButton.enabled = YES;
+        [self setPayButtonEnabled:self.cardFieldsView.isValid];
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:success ? @"Success" : @"Error" message:message preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];

@@ -45,7 +45,9 @@
 
     [self reloadSavedCards];
 
-    [self.cardFieldsView fetchAvailablePaymentProductsWithCurrency:self.currency completion:^(NSError * _Nullable error) {
+    [self.cardFieldsView fetchAvailablePaymentProductsWithCurrency:self.currency
+                                                           amount:@(self.amount)
+                                                       completion:^(NSError * _Nullable error) {
         if (error) {
             NSLog(@"[CardFields] Failed to fetch payment products: %@", error.localizedDescription);
         } else {

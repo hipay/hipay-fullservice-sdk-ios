@@ -190,8 +190,10 @@ public let HiPayCardFieldsErrorDomain = "com.hipay.sdk.cardfields"
 
     @objc public var allowedPaymentProducts: [String] = []
     private var didFetchAllowedPaymentProducts = false
+    private var isFetchingPaymentProducts = false
 
     private var lastLookupBin: String?
+    private var lastBinNetworks: Set<String>?
     private var paymentProductsRequest: (any HPFRequest)?
     private var paymentCompletion: ((HPFTransaction?, Error?) -> Void)?
     private var paymentSignature: String?
@@ -1122,7 +1124,12 @@ private extension HiPayCardFieldsView {
         }
 
         let rawDetected = Set(cardNumberField.paymentProductCodes.compactMap { $0 as? String })
-        let detected = filterDetectedByCurrentLength(rawDetected, plainText: cleanNumber)
+        var detected = filterDetectedByCurrentLength(rawDetected, plainText: cleanNumber)
+
+        // The BIN API can return co-branded networks (e.g. CB, Maestro)
+        if let binNetworks = lastBinNetworks, lastLookupBin == cleanNumber {
+            detected = detected.union(binNetworks)
+        }
 
         guard !detected.isEmpty else {
             resetForUnknownCard()
@@ -1154,6 +1161,7 @@ private extension HiPayCardFieldsView {
             DispatchQueue.main.async {
                 self.binLookupToken = response.token
                 self.binLookupRequestId = response.requestId
+                self.lastBinNetworks = binNetworks
                 self.applyDetectedNetworks(binNetworks, cardNumber: cardNumber)
             }
         }
@@ -1169,6 +1177,12 @@ private extension HiPayCardFieldsView {
     }
 
     func applyDetectedNetworks(_ detected: Set<String>, cardNumber: String) {
+        detectedNetworks = Array(detected)
+        delegate?.cardFieldsView?(self, didDetectNetworks: detectedNetworks)
+
+        // fetchAvailablePaymentProducts calls handleCardNumberChange() once the list is ready.
+        guard !isFetchingPaymentProducts else { return }
+
         let allowed: Set<String>? = didFetchAllowedPaymentProducts
             ? Set(allowedPaymentProducts)
             : (allowedPaymentProducts.isEmpty ? nil : Set(allowedPaymentProducts))
@@ -1177,9 +1191,6 @@ private extension HiPayCardFieldsView {
             cardNumber: cardNumber,
             allowedPaymentProductCodes: allowed
         )
-
-        detectedNetworks = Array(detected)
-        delegate?.cardFieldsView?(self, didDetectNetworks: detectedNetworks)
 
         if sorted.isEmpty {
             availableNetworks = []
@@ -1221,6 +1232,7 @@ private extension HiPayCardFieldsView {
         selectedNetwork = nil
         userPickedNetwork = false
         lastLookupBin = nil
+        lastBinNetworks = nil
         clearNetworkError()
         hideNetworkSelector()
     }
@@ -1275,6 +1287,9 @@ public extension HiPayCardFieldsView {
         completion: ((Error?) -> Void)?
     ) {
         paymentProductsRequest?.cancel()
+        isFetchingPaymentProducts = true
+        hideNetworkSelector()
+
         let request = HPFPaymentPageRequest()
         request.amount = amount ?? 0
         request.currency = currency
@@ -1282,14 +1297,19 @@ public extension HiPayCardFieldsView {
         let handler = { [weak self] (products: [HPFPaymentProduct], error: Error?) -> Void in
             guard let self else { return }
             if let error {
-                DispatchQueue.main.async { completion?(error) }
+                DispatchQueue.main.async {
+                    self.isFetchingPaymentProducts = false
+                    completion?(error)
+                }
                 return
             }
 
-            let knownCardCodes = Self.knownCardPaymentProductCodes()
-            let cardCodes = products.map { $0.code }.filter { knownCardCodes.contains($0) }
+            let cardCodes = products
+                .map { $0.code }
+                .filter { Self.supportedCardPaymentProductCodes.contains($0) }
 
             DispatchQueue.main.async {
+                self.isFetchingPaymentProducts = false
                 self.allowedPaymentProducts = cardCodes
                 self.didFetchAllowedPaymentProducts = true
                 self.rebuildAliasRows()
@@ -1301,6 +1321,19 @@ public extension HiPayCardFieldsView {
         paymentProductsRequest = HPFGatewayClient.shared()
             .getPaymentProducts(for: request, withCompletionHandler: handler)
     }
+
+    // Card product codes that HiPayCardFieldsView can detect, format, and display.
+    // Server response determines which are <authorized>, this set determines which are <supported>.
+    private static let supportedCardPaymentProductCodes: Set<String> = [
+        HPFPaymentProductCodeVisa,
+        HPFPaymentProductCodeMasterCard,
+        HPFPaymentProductCodeAmericanExpress,
+        HPFPaymentProductCodeMaestro,
+        HPFPaymentProductCodeBCMC,
+        HPFPaymentProductCodeCB,
+        HPFPaymentProductCodeDiners,
+        HPFPaymentProductCodeDiscover,
+    ]
 
     @objc func clear() {
         allFields.forEach { $0.text = "" }
@@ -1419,16 +1452,6 @@ private extension HiPayCardFieldsView {
             code: HiPayCardFieldsErrorCode.threeDSPresentationFailed.rawValue,
             userInfo: [NSLocalizedDescriptionKey: Bundle.hipayPaymentScreenLocalizedString(forKey: "HPF_CARD_FIELDS_ERROR_3DS_PRESENTATION_FAILED")]
         )
-    }
-
-    static func knownCardPaymentProductCodes() -> Set<String> {
-        guard
-            let formatter = HPFCardNumberFormatter.shared(),
-            let info = formatter.value(forKey: "paymentProductsInfo") as? [String: Any]
-        else {
-            return []
-        }
-        return Set(info.keys)
     }
 
     func parsedExpiry() -> (month: String, year: String)? {

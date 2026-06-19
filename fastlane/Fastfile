@@ -68,7 +68,7 @@ platform :ios do
     system "pod lib lint ../HiPayFullservice.podspec"
 
     # Deploy the Podspec to Trunk and make it publicly available
-#    system "pod trunk push --allow-warnings --skip-import-validation --skip-tests ../HiPayFullservice.podspec --verbose"
+    system "pod trunk push --allow-warnings --skip-import-validation --skip-tests ../HiPayFullservice.podspec --verbose"
 
   end
 end

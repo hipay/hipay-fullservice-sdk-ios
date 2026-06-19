@@ -1,6 +1,21 @@
 HiPay iOS SDK change log and release notes
 ================================================
 
+2.3.0
+
+* Card fields: cardholder name (optional/required), number, expiry, security code
+* Live card network detection (local + BIN lookup) with a selector for co-branded cards
+  (e.g. CB / Visa / Mastercard), and configurable allowed payment products
+* Per-network CVC rules (4 digits for Amex, none for BCMC, 3 otherwise)
+* One-click: display saved cards (aliases), select/deselect, delete, "save this card" switch
+* Tokenization, payment and 3-D Secure in one call (generateToken, pay)
+* Delegate (HiPayCardFieldsViewDelegate) + onValidityChange callback for validity,
+  tokenization, network, transaction and alias events
+* Theming: border styles (standard / underlined / filled / outlined), colors, typography,
+  field icons, spacing, localized placeholders and custom error messages
+* Accessibility: VoiceOver labels, hints and announcements
+* Objective-C compatible (@objc API)
+
 2.2.1
 
 * Send cancellation event for stored card screen

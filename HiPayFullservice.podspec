@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "HiPayFullservice"
-  s.version          = "2.2.1"
+  s.version          = "2.3.0"
   s.summary          = "HiPay SDK for iOS lets you accept payments in your iOS application."
   s.description      = <<-DESC
                        HiPay is a new generation of payment platform optimized for todays’ e-tailers.
@@ -53,12 +53,13 @@ Pod::Spec.new do |s|
 
   s.subspec "Device-Print" do |s|
       s.vendored_frameworks = "HiPayFullservice/Device Print/iovation.framework"
-    s.frameworks = "CoreTelephony", "SystemConfiguration", "ExternalAccessory"
+    s.frameworks = "UIKit", "CoreTelephony", "SystemConfiguration", "ExternalAccessory"
+    s.user_target_xcconfig = { "OTHER_LDFLAGS" => "-ld_classic" }
   end
 
   s.subspec "Payment-Screen" do |s|
-    s.source_files  = ['HiPayFullservice/Payment Screen/**/*.{h,m,swift}']
-    s.public_header_files = "HiPayFullservice/Payment Screen/**/*.h"
+    s.source_files  = ['HiPayFullservice/Payment Screen/**/*.{h,m,swift}', 'HiPayFullservice/HiPayFullservice.h']
+    s.public_header_files = "HiPayFullservice/Payment Screen/**/*.h", "HiPayFullservice/HiPayFullservice.h"
     s.resource_bundles = {
       "HPFPaymentScreenViews" => ["HiPayFullservice/Payment Screen/**/*.{xib,png,storyboard}"],
       "HPFPaymentScreenLocalization" => ["HiPayFullservice/Payment Screen/**/*.lproj"]

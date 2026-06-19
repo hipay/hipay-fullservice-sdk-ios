@@ -22,8 +22,7 @@ import UIKit
     
     @objc public func getAvailableNetworks(forDetectedCodes codes: Set<String>, cardNumber: String, allowedPaymentProductCodes: Set<String>? = nil) -> [String] {
         var networks = Set(codes)
-        let cleanedNumber = cardNumber.replacingOccurrences(of: " ", with: "")
-        
+
         if let allowed = allowedPaymentProductCodes, !allowed.isEmpty {
             networks = networks.intersection(allowed)
         }

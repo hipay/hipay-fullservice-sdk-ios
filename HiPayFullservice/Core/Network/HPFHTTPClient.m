@@ -196,18 +196,12 @@ NSString * _Nonnull const HPFGatewayClientSignature = @"HS_signature";
     NSURLRequest *request = [self createURLRequestWithMethod:method v2:isV2 isApplePay:isApplePay path:path parameters:parameters];
     
     [requests addObject:request];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
     [HPFLogger debug:@"<HTTP>: Performs %@ %@", request.HTTPMethod, path];
     
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 
-        // Network activity
         [requests removeObject:request];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = (requests.count > 0);
-        });
 
         // Request cancelled, no callback
         if ((error == nil) || ![error.domain isEqualToString:NSURLErrorDomain] || (error.code != NSURLErrorCancelled)) {

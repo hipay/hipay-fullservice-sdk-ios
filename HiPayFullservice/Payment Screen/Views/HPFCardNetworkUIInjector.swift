@@ -7,9 +7,10 @@
 
 import UIKit
 
+@MainActor
 @objc public final class HPFCardNetworkUIInjector: NSObject {
-    
-    @objc nonisolated(unsafe) public static let shared = HPFCardNetworkUIInjector()
+
+    @objc public static let shared = HPFCardNetworkUIInjector()
     
     private weak var handler: HPFCardNetworkSelectionHandling?
     private weak var textField: UITextField?

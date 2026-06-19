@@ -35,7 +35,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+  self.tableView.backgroundColor = [UIColor systemGroupedBackgroundColor];
   self.title = HPFLocalizedString(@"HPF_CARD_STORE_TITLE");
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
       initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
